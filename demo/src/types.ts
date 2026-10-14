@@ -118,3 +118,19 @@ export function crossCheck(captured: { result: DocumentResult }[]): { front: str
   const b = back.result.smart_id_barcode?.id_number.value ?? back.result.id_barcode?.value ?? null;
   return { front: f, back: b, match: f !== null && f === b };
 }
+
+/** A barcode or printed value with its label (see docscan/src/labels.rs). */
+export interface LabelledField {
+  label: string | null;
+  value: string;
+  kind: "imei" | "gtin" | "text";
+  source: "both" | "barcode" | "text";
+  check_digit_valid: boolean | null;
+  barcode_format: string | null;
+  bbox: [number, number, number, number];
+}
+
+export interface Labelled {
+  fields: LabelledField[];
+  dropped: Barcode[];
+}

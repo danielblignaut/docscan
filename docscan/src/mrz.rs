@@ -389,23 +389,20 @@ pub fn repair_names(m: &mut Mrz, vocab: &std::collections::HashSet<String>) {
     }
     let n = body.len();
     let words: Vec<Vec<char>> = vocab.iter().map(|w| w.chars().collect()).collect();
-    // A separator costs nothing when it is a real `<` and one substitution
-    // when it is a look-alike letter.
-    let sep_cost = |c: char| match c {
-        '<' => Some(0),
-        c if FILLER_LOOKALIKES.contains(&c) => Some(1),
-        _ => None,
-    };
     #[derive(Clone, Copy)]
     enum Step {
         Sep,
-        /// A vocabulary word, then a separator unless at the end.
-        Word(usize),
-        /// Unknown letters up to this index, then a separator unless at the end.
+        /// A vocabulary word, then (`true`) a separator in the text, or
+        /// (`false`) one the recogniser dropped, before the next word.
+        Word(usize, bool),
+        /// Unknown letters up to this index, then a real `<` unless at the end.
         Literal(usize),
     }
-    // best[i]: (letters inside vocabulary words, -substitutions) for
-    // body[i..], where a token starts at i.
+    // best[i]: (letters inside vocabulary words, -repairs) for body[i..],
+    // where a token starts at i. A repair (a look-alike letter read as `<`,
+    // or a `<` the recogniser dropped) is allowed only next to a vocabulary
+    // word: unknown letters are never split, so a real name the printed text
+    // misread is left alone.
     let mut best: Vec<((i32, i32), Step)> = vec![((0, 0), Step::Sep); n + 1];
     for i in (0..n).rev() {
         let mut choice: Option<((i32, i32), Step)> = None;
@@ -414,37 +411,57 @@ pub fn repair_names(m: &mut Mrz, vocab: &std::collections::HashSet<String>) {
                 choice = Some((score, step));
             }
         };
-        // Followed by a separator at `j` (or the end), then a new token.
-        let after = |j: usize| -> Option<(i32, i32)> {
-            if j == n {
-                return Some((0, 0));
+        let is_word = |j: usize| j < n && matches!(best[j].1, Step::Word(..));
+        // A real `<` (or a look-alike, after a word) at the field's start is
+        // impossible: names begin with a letter.
+        if i > 0 {
+            let prev_sep = matches!(body[i - 1], '<') || FILLER_LOOKALIKES.contains(&body[i - 1]);
+            let cost = match body[i] {
+                '<' => Some(0),
+                c if FILLER_LOOKALIKES.contains(&c) && prev_sep && is_word(i + 1) => Some(1),
+                _ => None,
+            };
+            if let Some(cost) = cost {
+                let rest = best[i + 1].0;
+                offer((rest.0, rest.1 - cost), Step::Sep);
             }
-            let cost = sep_cost(body[j])?;
-            let rest = best[j + 1].0;
-            Some((rest.0, rest.1 - cost))
-        };
-        if let Some(cost) = sep_cost(body[i]) {
-            let rest = best[i + 1].0;
-            offer((rest.0, rest.1 - cost), Step::Sep);
         }
         for (wi, w) in words.iter().enumerate() {
             let len = w.len();
-            if i + len <= n
-                && body[i..i + len] == w[..]
-                && let Some(rest) = after(i + len)
-            {
-                offer((rest.0 + len as i32, rest.1), Step::Word(wi));
+            if i + len > n {
+                continue;
+            }
+            // The printed text is read less reliably than the MRZ: a word of
+            // five letters or more may differ by one letter, at a point's cost.
+            let mismatches = body[i..i + len].iter().zip(w).filter(|(a, b)| a != b).count();
+            let gain = match mismatches {
+                0 => len as i32,
+                1 if len >= 5 => len as i32 - 1,
+                _ => continue,
+            };
+            let j = i + len;
+            if j == n {
+                offer((gain, 0), Step::Word(wi, true));
+                continue;
+            }
+            let c = body[j];
+            // A look-alike letter is a separator when another separator, a
+            // word, or the end of the names follows it.
+            let sep_next = j + 1 == n || is_word(j + 1) || matches!(best[j + 1].1, Step::Sep);
+            if c == '<' || (FILLER_LOOKALIKES.contains(&c) && sep_next) {
+                let rest = best[j + 1].0;
+                offer((rest.0 + gain, rest.1 - i32::from(c != '<')), Step::Word(wi, true));
+            }
+            if is_word(j) {
+                let rest = best[j].0;
+                offer((rest.0 + gain, rest.1 - 1), Step::Word(wi, false));
             }
         }
         if body[i] != '<' {
-            for j in i + 1..=n {
-                if j < n && body[j - 1] == '<' {
-                    break;
-                }
-                if let Some(rest) = after(j) {
-                    offer(rest, Step::Literal(j));
-                }
-            }
+            // Unknown letters run to the next real `<` (or the end).
+            let j = (i..n).find(|&k| body[k] == '<').unwrap_or(n);
+            let rest = if j == n { (0, 0) } else { best[j + 1].0 };
+            offer(rest, Step::Literal(j));
         }
         best[i] = choice.unwrap_or(((0, 0), Step::Literal(n)));
     }
@@ -456,25 +473,32 @@ pub fn repair_names(m: &mut Mrz, vocab: &std::collections::HashSet<String>) {
     let mut out = String::new();
     let mut i = 0;
     while i < n {
-        let next = match best[i].1 {
+        match best[i].1 {
             Step::Sep => {
                 out.push('<');
                 i += 1;
-                continue;
             }
-            Step::Word(wi) => {
-                out.extend(&words[wi]);
-                i + words[wi].len()
+            Step::Word(wi, consumed) => {
+                // Keep the MRZ's own letters: the vocabulary only places the separators.
+                let len = words[wi].len();
+                out.extend(&body[i..i + len]);
+                i += len;
+                if i < n {
+                    out.push('<');
+                    if consumed {
+                        i += 1;
+                    }
+                }
             }
             Step::Literal(j) => {
                 out.extend(&body[i..j]);
-                j
+                i = j;
+                if i < n {
+                    out.push('<');
+                    i += 1;
+                }
             }
-        };
-        if next < n {
-            out.push('<');
         }
-        i = next + 1;
     }
     let repaired: String = out.chars().chain(field[end..].iter().copied()).collect();
     let (surname, given) = names(&repaired);
@@ -543,7 +567,7 @@ mod tests {
     #[test]
     fn names_repaired_from_printed_words() {
         let mut m = parse_td3("PSGBRUKSSPECIMENSSANGELASZOE<<<<<<<<<<<<<<<<", "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06").unwrap();
-        let vocab = ["SPECIMEN", "ANGELA", "ZOE", "BRITISH", "CITIZEN"].iter().map(|s| s.to_string()).collect();
+        let vocab = ["UK", "SPECIMEN", "ANGELA", "ZOE", "BRITISH", "CITIZEN"].iter().map(|s| s.to_string()).collect();
         repair_names(&mut m, &vocab);
         assert_eq!(m.surname, "UK SPECIMEN");
         assert_eq!(m.given_names, "ANGELA ZOE");
@@ -573,6 +597,54 @@ mod tests {
         let mut m2 = parse_td3("P<GBRUK<SPECIMEN<ANGELA<ZOE<<<<<<<<<<<<<<<<<", "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06").unwrap();
         split_names_by_print(&mut m2, &["UK SPECIMEN".to_string()]);
         assert_eq!(m2.given_names, "");
+    }
+
+    fn vocab(words: &[&str]) -> std::collections::HashSet<String> {
+        words.iter().map(|s| s.to_string()).collect()
+    }
+
+    /// A `<` the recogniser dropped between two given names is put back.
+    #[test]
+    fn dropped_separator_is_restored() {
+        let mut m = parse_td3("PAZAFSPECIMEN<<JOHANNESPIETER<<<<<<<<<<<<<<<", "A098765432ZAF8807098M3201314880709932108<<26").unwrap();
+        repair_names(&mut m, &vocab(&["SPECIMEN", "JOHANNES", "PIETER", "SOUTH", "AFRICAN"]));
+        assert_eq!(m.surname, "SPECIMEN");
+        assert_eq!(m.given_names, "JOHANNES PIETER");
+    }
+
+    /// A correct name is never cut: a misread printed word (`ANGE` for
+    /// `LANGE`) must not turn the name's first letter into a separator.
+    #[test]
+    fn correct_name_survives_misread_print() {
+        let mut m = parse_td3("PAZAFLANGE<<THANDI<NOMSA<<<<<<<<<<<<<<<<<<<<", "A098765432ZAF8807098F3201314880709932108<<26").unwrap();
+        repair_names(&mut m, &vocab(&["ANGE", "THANDI", "NOMSA"]));
+        assert_eq!(m.surname, "LANGE");
+        assert_eq!(m.given_names, "THANDI NOMSA");
+    }
+
+    /// The printed name misread by a letter still places the separator, and
+    /// the MRZ's own spelling is kept.
+    #[test]
+    fn misread_print_still_segments() {
+        let mut m = parse_td3("PAZAFSPECIMEN<<JOHANNESPIETER<<<<<<<<<<<<<<<", "A098765432ZAF8807098M3201314880709932108<<26").unwrap();
+        repair_names(&mut m, &vocab(&["SPECIMEN", "JOHANNES", "PIETEP"]));
+        assert_eq!(m.given_names, "JOHANNES PIETER");
+    }
+
+    /// A trailing filler read as a letter after the last name is dropped.
+    #[test]
+    fn trailing_filler_lookalike() {
+        let mut m = parse_td3("P<ZAFSPECIMEN<NKOSI<<THABO<SIPHOK<<<<<<<<<<<", "A098765432ZAF8807098M3201314880709932108<<26").unwrap();
+        repair_names(&mut m, &vocab(&["SPECIMEN", "NKOSI", "THABO", "SIPHO"]));
+        assert_eq!(m.given_names, "THABO SIPHO");
+    }
+
+    /// A name with a vocabulary word as its prefix is not split.
+    #[test]
+    fn longer_name_is_not_split() {
+        let mut m = parse_td3("P<GBRSMITH<<DANIELLE<<<<<<<<<<<<<<<<<<<<<<<<", "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06").unwrap();
+        repair_names(&mut m, &vocab(&["SMITH", "DANIEL"]));
+        assert_eq!(m.given_names, "DANIELLE");
     }
 
     #[test]

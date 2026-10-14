@@ -29,3 +29,9 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .check.ok { background: #dcfce7; color: #14532d; }
 .check.mismatch { background: #fee2e2; color: #7f1d1d; }
 .codes li.pending { opacity: .45; }
+.fields { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; padding: 10px 14px; font-size: 15px; }
+.fields div { display: contents; }
+.fields dt { color: #9aa7b4; font-weight: 600; }
+.fields dd { margin: 0; }
+.fields code { color: #a5d6ff; font-size: 16px; }
+.fields small { color: #9aa7b4; }

@@ -9,6 +9,7 @@ export type WorkerRequest =
   | { id: number; kind: "document"; image: ImageData; runOcr: boolean; expected: string }
   | { id: number; kind: "barcodes"; image: ImageData; formats: string[] }
   | { id: number; kind: "text"; image: ImageData }
+  | { id: number; kind: "labelled"; image: ImageData }
   | { id: number; kind: "flatten"; image: ImageData; corners: number[]; width: number; height: number };
 
 /** The first message: how many threads the OCR may use (1: the single-threaded build). */
@@ -74,6 +75,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
     let result: unknown;
     if (req.kind === "document") result = scanner.document(bytes, width, height, req.runOcr, req.expected);
     else if (req.kind === "barcodes") result = scanner.barcodes(bytes, width, height, req.formats);
+    else if (req.kind === "labelled") result = scanner.labelled(bytes, width, height);
     else if (req.kind === "flatten") {
       const out = scanner.flatten(bytes, width, height, new Float32Array(req.corners), req.width, req.height);
       result = new ImageData(new Uint8ClampedArray(out), req.width, req.height);

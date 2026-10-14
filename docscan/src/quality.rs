@@ -139,3 +139,25 @@ mod tests {
         assert!((0.4..=0.6).contains(&g), "{g}");
     }
 }
+
+/// Bilinear rescale of an RGBA image by `k`.
+pub fn scale_rgba(rgba: &[u8], w: usize, h: usize, k: f32) -> (Vec<u8>, usize, usize) {
+    let (nw, nh) = (((w as f32) * k).round() as usize, ((h as f32) * k).round() as usize);
+    let mut out = vec![0u8; nw * nh * 4];
+    for y in 0..nh {
+        let sy = ((y as f32 + 0.5) / k - 0.5).clamp(0.0, (h - 1) as f32);
+        let (y0, fy) = (sy as usize, sy.fract());
+        let y1 = (y0 + 1).min(h - 1);
+        for x in 0..nw {
+            let sx = ((x as f32 + 0.5) / k - 0.5).clamp(0.0, (w - 1) as f32);
+            let (x0, fx) = (sx as usize, sx.fract());
+            let x1 = (x0 + 1).min(w - 1);
+            for c in 0..4 {
+                let p = |xx: usize, yy: usize| rgba[(yy * w + xx) * 4 + c] as f32;
+                let v = p(x0, y0) * (1.0 - fx) * (1.0 - fy) + p(x1, y0) * fx * (1.0 - fy) + p(x0, y1) * (1.0 - fx) * fy + p(x1, y1) * fx * fy;
+                out[(y * nw + x) * 4 + c] = v.round() as u8;
+            }
+        }
+    }
+    (out, nw, nh)
+}

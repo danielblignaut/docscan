@@ -6,11 +6,12 @@ import type { DocumentResult } from "./types";
 
 (window as unknown as { __docscan: { events: unknown[]; frames: unknown[]; ready?: unknown } }).__docscan = { events: [], frames: [] };
 
-type Mode = { kind: "menu" } | { kind: "id"; doc: DocType } | { kind: "multi" } | { kind: "done"; captured: Captured[] };
+type Mode = { kind: "menu" } | { kind: "id"; doc: DocType } | { kind: "multi"; labels: boolean } | { kind: "done"; captured: Captured[] };
 
 function initialMode(): Mode {
   const p = new URLSearchParams(location.search);
-  if (p.get("mode") === "multi") return { kind: "multi" };
+  if (p.get("mode") === "multi") return { kind: "multi", labels: false };
+  if (p.get("mode") === "labels") return { kind: "multi", labels: true };
   const doc = p.get("doc") as DocType | null;
   if (doc) return { kind: "id", doc };
   return { kind: "menu" };
@@ -66,14 +67,15 @@ export function App() {
           <button type="button" onClick={() => setMode({ kind: "id", doc: "passport" })}>Passport (SA, UK or other)</button>
           <button type="button" onClick={() => setMode({ kind: "id", doc: "auto" })}>Detect automatically</button>
           <h2>Barcodes</h2>
-          <button type="button" onClick={() => setMode({ kind: "multi" })}>Scan many barcodes at once</button>
+          <button type="button" onClick={() => setMode({ kind: "multi", labels: false })}>Scan many barcodes at once</button>
+          <button type="button" onClick={() => setMode({ kind: "multi", labels: true })}>Scan a device label (IMEI, S/N, EAN)</button>
           <h2>Test with a photo</h2>
           <input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && analysePhoto(e.target.files[0])} />
           {photo && <ResultView result={photo} />}
         </section>
       )}
       {mode.kind === "id" && <IdCapture client={client} docType={mode.doc} onDone={onDone} />}
-      {mode.kind === "multi" && <MultiBarcode client={client} />}
+      {mode.kind === "multi" && <MultiBarcode client={client} labels={mode.labels} />}
       {mode.kind === "done" && (
         <section className="done" data-testid="done">
           <CrossCheckView captured={mode.captured} />

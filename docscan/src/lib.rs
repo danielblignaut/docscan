@@ -10,6 +10,7 @@
 
 pub mod barcode;
 pub mod geometry;
+pub mod labels;
 pub mod mrz;
 pub mod quad;
 pub mod quality;
@@ -245,6 +246,14 @@ impl Scanner {
             .ok_or_else(|| JsError::new("degenerate corners"))
     }
 
+    /// Every barcode with the printed text around it, as named fields
+    /// (`IMEI1`, `SN`, an EAN-13 confirmed by its printed digits), each with
+    /// its check digit verified. Needs the OCR models.
+    pub fn labelled(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let out = self.labelled_native(rgba, width, height).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&out)
+    }
+
     /// Recognised text lines only, for general OCR use.
     pub fn text(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let lines = self
@@ -338,6 +347,73 @@ impl Scanner {
             }
         }
         Ok(OcrOutput { lines: za::rows_from_words(placed), mrz: mrz_texts, skew })
+    }
+
+    pub fn labelled_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
+        let luma = quality::rgba_to_luma(rgba);
+        let barcodes = barcode::read_all(&luma, width, height, None);
+        let lines = self.ocr_tiled(rgba, width as usize, height as usize)?;
+        Ok(labels::associate(&barcodes, &lines))
+    }
+
+    /// OCR of a whole frame in overlapping tiles about the detection model's
+    /// input size (600 × 800). The model squashes a larger image to fit, which
+    /// costs small print (a device label's digits) the detail it needs; tiles
+    /// keep every pixel, and are scaled up when the frame is small. Lines come
+    /// back in frame pixels, with duplicates from the overlaps removed.
+    pub fn ocr_tiled(&self, rgba: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<za::Line>> {
+        const TILE_W: usize = 600;
+        const TILE_H: usize = 800;
+        // Small frames: one tile, enlarged to the model's size.
+        let tiles = |len: usize, tile: usize| -> Vec<usize> {
+            if len <= tile {
+                return vec![0];
+            }
+            let n = len.div_ceil(tile * 3 / 4);
+            let step = (len - tile) as f32 / (n - 1).max(1) as f32;
+            (0..n).map(|i| (i as f32 * step).round() as usize).collect()
+        };
+        let (tw, th) = (TILE_W.min(w), TILE_H.min(h));
+        let mut all: Vec<za::Line> = Vec::new();
+        for &y0 in &tiles(h, th) {
+            for &x0 in &tiles(w, tw) {
+                let mut tile = Vec::with_capacity(tw * th * 4);
+                for y in y0..y0 + th {
+                    tile.extend_from_slice(&rgba[(y * w + x0) * 4..(y * w + x0 + tw) * 4]);
+                }
+                // Enlarge to fill the model's input, up to 2×.
+                let k = ((TILE_W as f32 / tw as f32).min(TILE_H as f32 / th as f32)).clamp(1.0, 2.0);
+                let (tile, sw, sh) = if k > 1.05 { quality::scale_rgba(&tile, tw, th, k) } else { (tile, tw, th) };
+                let ocr = self.ocr_lines(&tile, sw as u32, sh as u32)?;
+                for mut l in ocr.lines {
+                    if ocr.skew.abs() >= 1.0 {
+                        let c = [[l.x, l.y], [l.x + l.w, l.y], [l.x, l.y + l.h], [l.x + l.w, l.y + l.h]]
+                            .map(|p| geometry::rotated_to_source(p, sw, sh, ocr.skew));
+                        let (x0, x1) = c.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[0]), b.max(p[0])));
+                        let (y0, y1) = c.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[1]), b.max(p[1])));
+                        (l.x, l.y, l.w, l.h) = (x0, y0, x1 - x0, y1 - y0);
+                    }
+                    (l.x, l.y, l.w, l.h) = (l.x / k + x0 as f32, l.y / k + y0 as f32, l.w / k, l.h / k);
+                    all.push(l);
+                }
+            }
+        }
+        // A line read in two overlapping tiles: keep the longer reading (the
+        // other is usually cut by a tile edge).
+        all.sort_by(|a, b| b.text.chars().count().cmp(&a.text.chars().count()));
+        let mut kept: Vec<za::Line> = Vec::new();
+        for l in all {
+            let dup = kept.iter().any(|k| {
+                let ow = (k.x + k.w).min(l.x + l.w) - k.x.max(l.x);
+                let oh = (k.y + k.h).min(l.y + l.h) - k.y.max(l.y);
+                ow > 0.0 && oh > 0.0 && ow * oh > 0.5 * (l.w * l.h).min(k.w * k.h)
+            });
+            if !dup {
+                kept.push(l);
+            }
+        }
+        kept.sort_by(|a, b| a.y.total_cmp(&b.y).then(a.x.total_cmp(&b.x)));
+        Ok(kept)
     }
 
     pub fn analyse(

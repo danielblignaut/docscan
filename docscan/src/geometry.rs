@@ -54,6 +54,15 @@ pub fn rotate_quarters(img: &[u8], w: usize, h: usize, quarters: u8) -> (Vec<u8>
     }
 }
 
+/// Where a point of [`rotate`]'s output came from in its `w × h` source.
+pub fn rotated_to_source(p: [f32; 2], w: usize, h: usize, degrees: f32) -> [f32; 2] {
+    let (s, c) = degrees.to_radians().sin_cos();
+    let nw = (w as f32 * c.abs() + h as f32 * s.abs()).ceil();
+    let nh = (w as f32 * s.abs() + h as f32 * c.abs()).ceil();
+    let (dx, dy) = (p[0] - nw / 2.0, p[1] - nh / 2.0);
+    [c * dx - s * dy + w as f32 / 2.0, s * dx + c * dy + h as f32 / 2.0]
+}
+
 /// Rotates a greyscale image by `degrees` (counter-clockwise positive) about
 /// its centre, enlarging the canvas so nothing is cut off. Bilinear.
 pub fn rotate(luma: &[u8], w: usize, h: usize, degrees: f32) -> (Vec<u8>, usize, usize) {

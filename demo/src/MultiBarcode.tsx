@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { grab, openCamera } from "./camera";
 import type { ScannerClient } from "./scanner-client";
-import type { Barcode } from "./types";
+import type { Barcode, Labelled, LabelledField } from "./types";
 
 interface Seen {
   format: string;
@@ -19,8 +19,25 @@ const CONFIRM_FRAMES = 2;
 /** Analyse up to this width: small codes need every pixel the camera gives. */
 const MAX_WIDTH = 1920;
 
-/** Reads every barcode in the full frame, outlines each, and keeps a running list. */
-export function MultiBarcode({ client }: { client: ScannerClient }) {
+/** With labels on, every this many frames is an OCR pass that names the codes. */
+const LABEL_EVERY = 4;
+
+/**
+ * A labelled field is listed once seen with a passing check digit (or, for a
+ * value with none, in two OCR passes): a single misread digit fails the check.
+ */
+function fieldKey(f: LabelledField) {
+  return `${f.label ?? ""}|${f.value}`;
+}
+
+/**
+ * Reads every barcode in the full frame, outlines each, and keeps a running
+ * list. With `labels`, it also reads the printed text: each code takes its
+ * label (`IMEI1`, `SN`), printed values with no barcode are listed, and check
+ * digits are verified.
+ */
+export function MultiBarcode({ client, labels = false }: { client: ScannerClient; labels?: boolean }) {
+  const [fields, setFields] = useState<(LabelledField & { seen: number })[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const [seen, setSeen] = useState<Seen[]>([]);
@@ -31,6 +48,8 @@ export function MultiBarcode({ client }: { client: ScannerClient }) {
     let stream: MediaStream | null = null;
     let stopped = false;
     const all = new Map<string, Seen>();
+    const labelled = new Map<string, LabelledField & { seen: number }>();
+    let frame = 0;
 
     async function loop() {
       const video = videoRef.current;
@@ -43,6 +62,34 @@ export function MultiBarcode({ client }: { client: ScannerClient }) {
       const rect = { x: 0, y: 0, w: video.videoWidth, h: video.videoHeight };
       const image = grab(video, rect, MAX_WIDTH);
       const scale = image.width / video.videoWidth;
+      frame++;
+      if (labels && frame % LABEL_EVERY === 0) {
+        try {
+          const { result } = await client.run<Labelled>({ kind: "labelled", image });
+          if (stopped) return;
+          for (const f of result.fields) {
+            const key = fieldKey(f);
+            const prev = labelled.get(key);
+            labelled.set(key, { ...f, seen: (prev?.seen ?? 0) + 1 });
+          }
+          const listed = [...labelled.values()].filter((f) => f.check_digit_valid === true || (f.check_digit_valid === null && f.seen >= 2));
+          // A label (IMEI1) keeps only its best-supported value.
+          const byLabel = new Map<string, LabelledField & { seen: number }>();
+          for (const f of listed) {
+            const k = f.label ?? `${f.barcode_format}|${f.value}`;
+            const cur = byLabel.get(k);
+            if (!cur || f.seen > cur.seen) byLabel.set(k, f);
+          }
+          const shown = [...byLabel.values()].sort((a, b) => a.bbox[1] - b.bbox[1]);
+          setFields(shown);
+          window.dispatchEvent(new CustomEvent("docscan:labels", { detail: { fields: shown } }));
+          (window as unknown as { __docscan: { events: unknown[] } }).__docscan.events.push({ type: "labels", fields: shown });
+        } catch (e) {
+          setError(String(e));
+        }
+        requestAnimationFrame(loop);
+        return;
+      }
       try {
         const { result, ms } = await client.run<Barcode[]>({ kind: "barcodes", image, formats: [] });
         if (stopped) return;
@@ -82,7 +129,7 @@ export function MultiBarcode({ client }: { client: ScannerClient }) {
       stopped = true;
       for (const t of stream?.getTracks() ?? []) t.stop();
     };
-  }, [client]);
+  }, [client, labels]);
 
   return (
     <div className="capture">
@@ -91,6 +138,18 @@ export function MultiBarcode({ client }: { client: ScannerClient }) {
         <canvas ref={overlayRef} className="overlay" />
         <div className="hint">{error ?? `${rate.inFrame} in frame · ${rate.ms} ms per frame`}</div>
       </div>
+      {labels && (
+        <dl className="fields" data-testid="fields">
+          {fields.map((f) => (
+            <div key={`${f.label}|${f.value}`}>
+              <dt>{f.label ?? f.barcode_format?.toUpperCase() ?? "—"}</dt>
+              <dd>
+                <code>{f.value}</code> <small>{f.source === "both" ? "barcode + print" : f.source}{f.check_digit_valid ? " · check digit ✓" : ""}</small>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
       <ul className="codes" data-testid="codes">
         {seen.map((s) => (
           <li key={`${s.format}|${s.text}`} className={s.count < CONFIRM_FRAMES ? "pending" : undefined}>

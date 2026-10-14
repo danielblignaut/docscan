@@ -14,6 +14,11 @@ leaves the phone.
   read too.
 - **Many barcodes in one frame**: QR, Data Matrix, PDF417, Aztec, Code 128,
   Code 39, Code 93, Codabar, EAN-13/8, UPC-A/E and ITF, each outlined live.
+- **Device labels** (`?mode=labels`): each barcode paired with its printed
+  label (`IMEI1`, `IMEI2`, `SN`), printed values with no barcode read by OCR,
+  IMEIs Luhn-checked and EANs checksummed, and misreads dropped when the print
+  contradicts them. Small print is read in tiles at the OCR model's native
+  input size, so a phone photo of a box label keeps its detail.
 
 A React demo (Vite) drives the camera, draws a guide, outlines the document it
 finds and captures automatically once two frames agree, saving a flattened,
@@ -34,6 +39,7 @@ Everything is in `docscan/src/`:
 | `lib.rs` | OCR with [ocrs](https://github.com/robertknight/ocrs) on the flattened page, an orientation search (0°, 180°, 90°/270°), and classification. |
 | `mrz.rs` | TD3 and TD1 parsing; per-field correction of OCR look-alikes (`O`/`0`, `S`/`5`, …); check digits; and repair of the names (which check digits do not cover) against the printed words on the page. |
 | `za.rs` | SA identity numbers (date, sex, citizenship, Luhn), the smart ID PDF417 (pipe-separated text), and label/value extraction with per-field validators. |
+| `labels.rs` | Pairs barcodes with printed `LABEL: value` lines and the digits under an EAN; validates IMEI (Luhn) and GTIN checksums; drops decodes the print contradicts. |
 | `quality.rs`, `geometry.rs` | Sharpness, glare and exposure; skew estimation and rotation. |
 
 A document is **accepted** only when its reading checks out: MRZ check digits
@@ -75,6 +81,7 @@ scanner.load_ocr(detectionModelBytes, recognitionModelBytes); // optional: barco
 scanner.barcodes(rgba, width, height, []);          // every barcode, with positions
 scanner.document(rgba, width, height, true, "");    // quality, outline, barcodes, OCR, MRZ, kind, fields
 scanner.flatten(rgba, width, height, corners, w, h); // the document, cropped and squared up
+scanner.labelled(rgba, width, height);              // barcodes + printed labels as named, checked fields
 ```
 
 ### Hands-free capture and host events
@@ -175,6 +182,25 @@ and asks for it closer.
 Per frame, in headless Chrome with the multithreaded build: the fast pass
 (outline, quality, barcodes) takes about 40–110 ms, and an OCR pass about
 1.0–2.6 s.
+
+### On real documents
+
+Checked locally on real passports and a real device box (with their owners'
+consent; none of the images or values are in this repository, and the
+regression tests that came out of them use fictional data):
+
+- **Passports:** six images of four South African passports and one UK
+  passport (scans and phone photos, one sideways, some small on an A4 page):
+  all six read with every MRZ check digit passing and names, numbers and dates
+  correct. Three name-repair bugs found this way are fixed and covered by
+  tests (a dropped `<` between given names, a printed name misread by one
+  letter, a correct leading letter wrongly turned into a separator).
+- **Device box label** (a WhatsApp-compressed 720×1280 photo): IMEI1, IMEI2 and
+  the serial number read from print with valid Luhn digits; both EAN-13s
+  confirmed by bars and printed digits; two false decodes dropped. The IMEI
+  Code 128s themselves are too fine to decode in that photo (zxing-cpp fails on
+  them too), which is why the printed values and their check digits matter.
+- A UK visa page (an MRV-A two-line MRZ starting `V`) is not supported yet.
 
 ## Licence
 
