@@ -1,0 +1,24 @@
+# Build output
+target/
+docscan/pkg/
+demo/node_modules/
+demo/dist/
+demo/e2e/out/
+__pycache__/
+.venv/
+
+# ocrs models: fetched by scripts/fetch-models.sh
+models/*.rten
+demo/public/models/
+
+# Generated test data: rebuilt by testdata/synth.py, augment.py and make_videos.py
+testdata/synth/
+testdata/camera/
+testdata/video/
+testdata/verify_report.json
+testdata/verify_output.txt
+
+# Downloaded specimen images are not redistributed; see testdata/SOURCES.md
+testdata/specimens/*
+!testdata/specimens/specimens_truth.json
+docscan/pkg-threads/

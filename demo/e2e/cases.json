@@ -1,0 +1,230 @@
+[
+  {
+    "name": "smart-id-front",
+    "video": "za_smart_id_front.y4m",
+    "query": "?doc=smart_id",
+    "note": "the front step of the two-step flow; the back step needs a second video (see smart-id-front-then-back) The flow then waits for the back, so it must not complete and the camera stays on.",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "za_smart_id_front"
+      ],
+      "fields": [
+        [
+          0,
+          "printed.surname",
+          "TESTERSON"
+        ],
+        [
+          0,
+          "printed.names",
+          "ZANELE PRECIOUS"
+        ],
+        [
+          0,
+          "printed.id_number.value",
+          "9003141234083"
+        ]
+      ],
+      "complete": false
+    }
+  },
+  {
+    "name": "smart-id-front-then-back",
+    "video": "hd/smart-id-front-back.y4m",
+    "query": "?doc=smart_id",
+    "timeout": 90000,
+    "note": "testdata/make_front_back.py: an HD front clip followed by hd/za_smart_id_back.y4m",
+    "expect": {
+      "type": "captured",
+      "count": 2,
+      "kinds": [
+        "za_smart_id_front",
+        "za_smart_id_back"
+      ],
+      "crosscheck": true,
+      "fields": [
+        [
+          0,
+          "printed.id_number.value",
+          "9003141234083"
+        ],
+        [
+          1,
+          "smart_id_barcode.id_number.value",
+          "9003141234083"
+        ],
+        [
+          1,
+          "smart_id_barcode.surname",
+          "TESTERSON"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "smart-id-back",
+    "video": "hd/za_smart_id_back.y4m",
+    "query": "?doc=auto",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "za_smart_id_back"
+      ],
+      "fields": [
+        [
+          0,
+          "smart_id_barcode.surname",
+          "TESTERSON"
+        ],
+        [
+          0,
+          "smart_id_barcode.id_number.value",
+          "9003141234083"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "smart-id-back-sd",
+    "video": "za_smart_id_back.y4m",
+    "query": "?doc=auto",
+    "note": "at 960x540 neither the PDF417 nor the Code 39 resolves (about 1 px per module; zxing-cpp fails too, upsampled and sharpened), and the back prints no ID number: the page must recognise the back, capture nothing, and ask for it closer",
+    "expect": {
+      "type": "not_captured",
+      "waitMs": 25000,
+      "lastKind": "za_smart_id_back",
+      "hint": "closer"
+    }
+  },
+  {
+    "name": "green-book",
+    "video": "za_green_id_book.y4m",
+    "query": "?doc=green_book",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "za_green_book"
+      ],
+      "fields": [
+        [
+          0,
+          "printed.id_number.value",
+          "7511025731083"
+        ],
+        [
+          0,
+          "printed.surname",
+          "VAN DER SPECIMEN"
+        ],
+        [
+          0,
+          "printed.names",
+          "JOHANNES PIETER"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "za-passport",
+    "video": "za_passport.y4m",
+    "query": "?doc=passport",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "za_passport"
+      ],
+      "fields": [
+        [
+          0,
+          "mrz.document_number",
+          "A09876543"
+        ],
+        [
+          0,
+          "mrz.surname",
+          "SPECIMEN NKOSI"
+        ],
+        [
+          0,
+          "mrz.given_names",
+          "THABO SIPHO"
+        ],
+        [
+          0,
+          "mrz.optional_data",
+          "8807099321085"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "gb-passport",
+    "video": "gb_passport.y4m",
+    "query": "?doc=passport",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "gb_passport"
+      ],
+      "fields": [
+        [
+          0,
+          "mrz.document_number",
+          "925076473"
+        ],
+        [
+          0,
+          "mrz.surname",
+          "UK SPECIMEN"
+        ],
+        [
+          0,
+          "mrz.given_names",
+          "ANGELA ZOE"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "multi-barcode-hd",
+    "video": "hd/multi-barcode.y4m",
+    "query": "?mode=multi",
+    "expect": {
+      "type": "barcodes",
+      "exact": true,
+      "codes": [
+        "qrcode|https://example.test/id-scan-spike/qr?n=42",
+        "qrcode|SECOND QR: 900314123408",
+        "pdf417|PDF417 MULTI SHEET|ALPHA|BRAVO|1234567890",
+        "datamatrix|DM-SPIKE-2026-10-14",
+        "code128|DOCSCAN-TEST-0001",
+        "ean13|6001234567899",
+        "code39|SPIKE-39",
+        "code128|CARD-128-B"
+      ]
+    }
+  },
+  {
+    "name": "multi-barcode-sd",
+    "video": "multi-barcode.y4m",
+    "query": "?mode=multi",
+    "note": "at 960x540 the two Code 128s and the Code 39 are under 1 px per module and resolve with no decoder (see smart-id-back-sd); the five that do must all be found, and nothing else",
+    "expect": {
+      "type": "barcodes",
+      "exact": true,
+      "codes": [
+        "qrcode|https://example.test/id-scan-spike/qr?n=42",
+        "qrcode|SECOND QR: 900314123408",
+        "pdf417|PDF417 MULTI SHEET|ALPHA|BRAVO|1234567890",
+        "datamatrix|DM-SPIKE-2026-10-14",
+        "ean13|6001234567899"
+      ]
+    }
+  }
+]

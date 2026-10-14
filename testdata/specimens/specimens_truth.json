@@ -1,0 +1,40 @@
+{
+  "note": "MRZ text transcribed by eye from the specimen images and checked with synth.validate_td3 (all check digits valid). Luxembourg's MRZ line 2 is deliberately blurred in the source, so it has no truth - use it as a 'bad/occluded MRZ' frame.",
+  "td3-other-countries/Norwegian_Passport_Specimen.jpg": [
+    "P<NOROESTENBYEN<<AASAMUND<SPECIMEN<<<<<<<<<<",
+    "CCC0022514NOR5604230M3004157<<<<<<<<<<<<<<04"
+  ],
+  "td3-other-countries/Dutch_passport_specimen_issued_9_March_2014.jpg": [
+    "P<NLDDE<BRUIJN<<WILLEKE<LISELOTTE<<<<<<<<<<<",
+    "SPECI20142NLD6503101F2403096999999990<<<<<84"
+  ],
+  "td3-other-countries/Specimen_Personal_Information_Page_South_Korean_Passport.jpg": [
+    "PMKORLEE<<SUYEON<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+    "M706890985KOR8507022F24041522154710V17627884"
+  ],
+  "td3-other-countries/Turkey_Passport_Specimen.jpg": [
+    "P<TURORNEK<<MEHMET<<<<<<<<<<<<<<<<<<<<<<<<<<",
+    "U123456784TUR8408141M320915801234567890<<<76"
+  ],
+  "td3-other-countries/Ketty_Maus_specimen_passport_2026.jpg": null,
+  "za-smart-id/wikimedia_ZA_Smart_ID_Front.png": {
+    "printed": {
+      "Surname": "ABCDEFGHIJKLMNOPQRSTUVXZY",
+      "Names": "ABCDEFGHIJKLMNOPQRSTUVXZY",
+      "Sex": "M",
+      "Nationality": "RSA",
+      "Identity Number": "0123456789012",
+      "Date of Birth": "16 JUL 1969",
+      "Country of Birth": "RSA",
+      "Status": "CITIZEN"
+    },
+    "note": "288 px wide; placeholder ID number is not Luhn-valid."
+  },
+  "za-smart-id/wikimedia_ZA_Smart_ID_Reverse.png": {
+    "printed": {
+      "Date of Issue": "2013-08-30",
+      "card_number": "123456789"
+    },
+    "note": "288 px wide; barcodes are too small to decode (zxing-cpp finds nothing)."
+  }
+}

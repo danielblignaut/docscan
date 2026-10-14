@@ -1,0 +1,16 @@
+import { spawn } from "node:child_process";
+import { chromium } from "playwright-core";
+const server = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", "4173", "--strictPort"], { stdio: "pipe", detached: true, cwd: process.cwd() });
+await new Promise((r) => server.stdout.on("data", (d) => String(d).includes("4173") && r()));
+const browser = await chromium.launch({ executablePath: "/usr/bin/google-chrome", args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-video-capture=${process.argv[2]}`] });
+const page = await browser.newPage();
+page.on("console", (m) => console.log("console:", m.text().slice(0, 300)));
+page.on("pageerror", (e) => console.log("pageerror:", e.message));
+page.on("worker", (w) => { console.log("worker:", w.url()); w.on("close", () => console.log("worker closed", w.url())); });
+page.on("requestfailed", (r) => console.log("failed:", r.url(), r.failure()?.errorText));
+page.on("response", (r) => r.status() >= 400 && console.log("http", r.status(), r.url()));
+await page.goto(`http://localhost:4173/${process.argv[3] ?? "?doc=smart_id"}`);
+await page.waitForTimeout(Number(process.argv[4] ?? 8000));
+console.log("isolated:", await page.evaluate(() => crossOriginIsolated), "status:", await page.locator("[data-testid=status]").textContent());
+await browser.close();
+process.kill(-server.pid);
