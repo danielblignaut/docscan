@@ -1,0 +1,4289 @@
+# South African postal codes, places and provinces, from GeoNames (www.geonames.org, CC BY 4.0);
+# built by train/build_gazetteer.py. Columns: code, place, province.
+0002	Pretoria	Gauteng
+0003	Pretoria	Gauteng
+0004	Pretoria	Gauteng
+0005	Pretoria	Gauteng
+0006	Pretoria	Gauteng
+0007	Pretoria	Gauteng
+0008	Atteridgeville	Gauteng
+0008	Pretoria	Gauteng
+0009	Pretoria	Gauteng
+0010	Glenstantia	Gauteng
+0010	Pretoria	Gauteng
+0011	Pretoria	Gauteng
+0012	Pretoria	Gauteng
+0014	Centurion	Gauteng
+0014	Pretoria	Gauteng
+0016	Pretoria	Gauteng
+0017	Doornpoort	Gauteng
+0017	Pretoria	Gauteng
+0018	Pretoria	Gauteng
+0019	Pretoria	Gauteng
+0020	Pretoria	Gauteng
+0021	Pretoria	Gauteng
+0022	Eersterus	Gauteng
+0022	Pretoria	Gauteng
+0023	Pretoria	Gauteng
+0024	Pretoria	Gauteng
+0025	Pretoria	Gauteng
+0026	Pretoria	Gauteng
+0027	Pretoria	Gauteng
+0028	Pretoria	Gauteng
+0029	Philip Nel Park	Gauteng
+0029	Pretoria	Gauteng
+0030	Pretoria	Gauteng
+0031	Pretoria	Gauteng
+0032	Pretoria	Gauteng
+0033	Pretoria	Gauteng
+0035	Derdepoortpark	Gauteng
+0035	Pretoria	Gauteng
+0036	Pretoria	Gauteng
+0037	Laudium	Gauteng
+0037	Pretoria	Gauteng
+0039	Pretoria	Gauteng
+0040	Menlo Park	Gauteng
+0041	Pretoria	Gauteng
+0042	Garsfontein	Gauteng
+0042	Menlo Park	Gauteng
+0043	Faerie Glen	Gauteng
+0043	Pretoria	Gauteng
+0044	Moreletapark	Gauteng
+0044	Pretoria	Gauteng
+0045	Pretoria	Gauteng
+0046	Centurion	Gauteng
+0047	Pretoria	Gauteng
+0048	Pretoria	Gauteng
+0049	Pretoria	Gauteng
+0050	Pretoria	Gauteng
+0050	Wapadrand	Gauteng
+0051	Centurion	Gauteng
+0051	Lyttelton	Gauteng
+0052	Pretoria	Gauteng
+0053	Pretoria	Gauteng
+0054	Pretoria	Gauteng
+0055	Pretoria	Gauteng
+0056	Pretoria	Gauteng
+0057	Pretoria	Gauteng
+0058	Pretoria	Gauteng
+0059	Pretoria	Gauteng
+0060	Menlo Park	Gauteng
+0061	Pretoria	Gauteng
+0062	Pretoria	Gauteng
+0063	Pretoria	Gauteng
+0065	Pretoria	Gauteng
+0066	Pretoria North	Gauteng
+0068	Hercules	Gauteng
+0070	Pretoria West	Gauteng
+0071	Pretoria	Gauteng
+0072	Moreletapark	Gauteng
+0073	Pretoria	Gauteng
+0074	Pretoria	Gauteng
+0076	Kromdraai	Gauteng
+0078	Pretoria	Gauteng
+0079	Pretoria	Gauteng
+0080	Pretoria	Gauteng
+0081	Faerie Glen	Gauteng
+0081	Garsfontein	Gauteng
+0081	Kromdraai	Gauteng
+0081	Menlo Park	Gauteng
+0081	Moreletapark	Gauteng
+0081	Pretoria	Gauteng
+0081	Wapadrand	Gauteng
+0082	Hercules	Gauteng
+0082	Pretoria	Gauteng
+0083	Hatfield	Gauteng
+0083	Pretoria	Gauteng
+0084	Moot	Gauteng
+0084	Pretoria	Gauteng
+0101	Pretoria	Gauteng
+0103	Pretoria	Gauteng
+0105	Pretoria	Gauteng
+0109	Wierdapark	Gauteng
+0110	Pretoria	Gauteng
+0112	Mamelodi	Gauteng
+0112	Pretoria	Gauteng
+0116	Pretoria	Gauteng
+0117	Pretoria	Gauteng
+0118	Karenpark	Gauteng
+0118	Pretoria	Gauteng
+0120	Pretoria	Gauteng
+0120	Pyramid	Gauteng
+0121	Pretoria	Gauteng
+0122	Mamelodi	Gauteng
+0122	Pretoria	Gauteng
+0125	Pretoria	Gauteng
+0126	Pretoria	Gauteng
+0127	Pretoria	Gauteng
+0128	Pretoria	Gauteng
+0129	Pretoria	Gauteng
+0132	Pretoria	Gauteng
+0134	Pretoria	Gauteng
+0135	Pretoria	Gauteng
+0137	Pretoria	Gauteng
+0139	Pretoria	Gauteng
+0142	Pretoria	Gauteng
+0143	Pretoria	Gauteng
+0145	Pretoria	Gauteng
+0145	Waterkloof	Gauteng
+0146	Pretoria	Gauteng
+0148	Pretoria	Gauteng
+0149	Centurion	Gauteng
+0149	Pretoria	Gauteng
+0149	Wierdapark	Gauteng
+0150	Magalieskruin	Gauteng
+0150	Pretoria	Gauteng
+0151	Pretoria	Gauteng
+0152	Pretoria	Gauteng
+0152	Soshanguve	Gauteng
+0153	Pretoria	Gauteng
+0153	Wingate Park	Gauteng
+0154	Pretoria	Gauteng
+0154	Rooihuiskraal	Gauteng
+0155	Pretoria	Gauteng
+0155	Theresapark	Gauteng
+0156	Ninapark	Gauteng
+0156	Pretoria	Gauteng
+0157	Centurion	Gauteng
+0157	Highveld	Gauteng
+0157	Lyttelton	Gauteng
+0157	Pretoria	Gauteng
+0157	Rooihuiskraal	Gauteng
+0157	The Reeds	Gauteng
+0157	Wierdapark	Gauteng
+0158	Pretoria	Gauteng
+0158	The Reeds	Gauteng
+0159	Montanapark	Gauteng
+0159	Pretoria	Gauteng
+0160	Denneboom	Gauteng
+0160	Pretoria	Gauteng
+0161	Pretoria	Gauteng
+0162	Pretoria	Gauteng
+0163	Centurion	Gauteng
+0163	Lyttelton	Gauteng
+0163	Pretoria	Gauteng
+0164	Soshanguve	Gauteng
+0165	Pretoria	Gauteng
+0166	Pretoria	Gauteng
+0167	Pretoria	Gauteng
+0168	Pretoria	Gauteng
+0169	Highveld	Gauteng
+0169	Pretoria	Gauteng
+0170	Silverton	Gauteng
+0171	Centurion	Gauteng
+0172	Centurion	Gauteng
+0173	Wierdapark	Gauteng
+0174	Pretoria	Gauteng
+0177	Mamelodi	Gauteng
+0179	Pretoria	Gauteng
+0181	Glenstantia	Gauteng
+0181	Moreletapark	Gauteng
+0181	Pretoria	Gauteng
+0181	Waterkloof	Gauteng
+0181	Wingate Park	Gauteng
+0182	Boordfontein	Gauteng
+0182	Boordfontein West	Gauteng
+0182	Boordfontein-Wes	Gauteng
+0182	Karenpark	Gauteng
+0182	Magalieskruin	Gauteng
+0182	Montanapark	Gauteng
+0182	Ninapark	Gauteng
+0182	Pretoria	Gauteng
+0182	Pretoria North	Gauteng
+0182	Pretoria-Noord	Gauteng
+0182	Rosslyn	Gauteng
+0182	Theresapark	Gauteng
+0183	Philip Nel Park	Gauteng
+0183	Pretoria	Gauteng
+0183	Pretoria West	Gauteng
+0183	Pretoria-Wes	Gauteng
+0184	Pretoria	Gauteng
+0184	Silverton	Gauteng
+0185	Pretoria	Gauteng
+0185	Valhalla	Gauteng
+0186	Doornpoort	Gauteng
+0186	Lynn East	Gauteng
+0186	Pretoria	Gauteng
+0187	Pretoria	Gauteng
+0187	Voortrekkerhoogte	Gauteng
+0188	Pretoria	Gauteng
+0189	Brits	North West
+0190	Mabopane	Gauteng
+0190	Medunsa	North West
+0191	Mabopane	Gauteng
+0192	Mabopane	Gauteng
+0193	Mabopane	Gauteng
+0194	Mabopane	Gauteng
+0195	Mogwase	North West
+0197	Mabopane	Gauteng
+0198	Mabopane	Gauteng
+0199	Mabopane	Gauteng
+0200	Pretoria	Gauteng
+0200	Rosslyn	Gauteng
+0201	Boordfontein	Gauteng
+0201	Boordfontein West	Gauteng
+0201	Boordfontein-Wes	Gauteng
+0201	Karenpark	Gauteng
+0201	Pretoria	Gauteng
+0202	Rustenburg	North West
+0204	Medunsa	North West
+0204	Pretoria	Gauteng
+0207	Mabopane	Gauteng
+0208	Ga-Rankuwa	North West
+0210	Brits	North West
+0211	Mabopane	Gauteng
+0212	Mabopane	Gauteng
+0213	Mabopane	Gauteng
+0214	Mabopane	Gauteng
+0215	Mabopane	Gauteng
+0216	Hartbeespoort	North West
+0217	Brits	North West
+0218	Mabopane	Gauteng
+0219	Mabopane	Gauteng
+0220	Brits	North West
+0232	Brits	North West
+0240	Brits	North West
+0250	Brits	North West
+0251	Brits	North West
+0252	Brits	North West
+0253	Brits	North West
+0255	Brits	North West
+0257	Brits	North West
+0258	Brits	North West
+0259	Brits	North West
+0260	Brits	North West
+0261	Brits	North West
+0264	Brits	North West
+0264	Letlhabile	North West
+0265	Brits	North West
+0267	Brits	North West
+0268	Brits	North West
+0269	Brits	North West
+0270	Brits	North West
+0271	Brits	North West
+0273	Brits	North West
+0274	Brits	North West
+0275	Brits	North West
+0276	Brits	North West
+0277	Brits	North West
+0284	Marikana	North West
+0285	Marikana	North West
+0286	Marikana	North West
+0287	Rustenburg	North West
+0292	Rustenburg	North West
+0299	Rustenberg	North West
+0299	Rustenburg	North West
+0301	Rustenburg	North West
+0302	Rustenburg	North West
+0303	Rustenburg	North West
+0305	Rustenburg	North West
+0306	Rustenburg	North West
+0307	Rustenburg	North West
+0308	Boitekong	North West
+0308	Rustenburg	North West
+0309	Rustenburg	North West
+0310	Rustenburg	North West
+0311	Rustenburg	North West
+0312	Rustenburg	North West
+0313	Rustenburg	North West
+0314	Rustenburg	North West
+0315	Rustenburg	North West
+0316	Rustenburg	North West
+0317	Marikana	North West
+0318	Rustenburg	North West
+0318	Saulspoort	North West
+0319	Thabazimbi	Limpopo
+0320	Rustenburg	North West
+0322	Rustenburg	North West
+0324	Rustenburg	North West
+0328	Rustenburg	North West
+0330	Rustenburg	North West
+0331	Rustenburg	North West
+0332	Rustenburg	North West
+0333	Rustenburg	North West
+0334	Rustenburg	North West
+0335	Rustenburg	North West
+0336	Rustenburg	North West
+0337	Rustenburg	North West
+0338	Rustenburg	North West
+0340	Rustenburg	North West
+0341	Rustenburg	North West
+0342	Rustenburg	North West
+0344	Rustenburg	North West
+0345	Rustenburg	North West
+0346	Rustenburg	North West
+0347	Rustenburg	North West
+0348	Koster	North West
+0349	Rustenburg	North West
+0350	Rustenburg	North West
+0351	Swartklip	Limpopo
+0353	Rustenburg	North West
+0354	Rustenburg	North West
+0355	Rustenburg	North West
+0356	Rustenburg	North West
+0357	Mafikeng	North West
+0357	Mahikeng	North West
+0358	Rustenburg	North West
+0361	Thabazimbi	Limpopo
+0362	Chromite	Limpopo
+0362	Thabazimbi	Limpopo
+0363	Thabazimbi	Limpopo
+0364	Rustenburg	North West
+0365	Rustenburg	North West
+0366	Rustenburg	North West
+0367	Rustenburg	North West
+0369	Koster	North West
+0371	Mogwase	North West
+0372	Mogwase	North West
+0374	Saulspoort	North West
+0375	Swartklip	Limpopo
+0378	Rustenburg	North West
+0379	Mogwase	North West
+0380	Thabazimbi	Limpopo
+0381	Thabazimbi	Limpopo
+0382	Thabazimbi	Limpopo
+0383	Thabazimbi	Limpopo
+0384	Thabazimbi	Limpopo
+0385	Thabazimbi	Limpopo
+0386	Podiphatshwa	Limpopo
+0386	Thabazimbi	Limpopo
+0387	Regorogile	Limpopo
+0387	Thabazimbi	Limpopo
+0388	Mogwase	North West
+0390	Rustenburg	North West
+0393	Rustenberg	North West
+0394	Mogwase	North West
+0396	Mogwase	North West
+0397	Mogwase	North West
+0398	Mogwase	North West
+0399	Saulspoort	North West
+0400	Hammanskraal	North West
+0402	Hammanskraal	North West
+0404	Hammanskraal	North West
+0405	Rust De Winter	Limpopo
+0406	Bela-Bela	Limpopo
+0406	Warmbaths	Limpopo
+0407	Hammanskraal	North West
+0407	Temba	North West
+0408	Temba	North West
+0409	Temba	North West
+0410	Temba	North West
+0411	Temba	North West
+0412	Mphe-Batho	North West
+0413	Hammanskraal	North West
+0413	Mutlestad	North West
+0414	Hammanskraal	North West
+0415	Rantebeng	North West
+0415	Temba	North West
+0416	Temba	North West
+0417	Hammanskraal	North West
+0418	Swartbooistad	North West
+0418	Temba	North West
+0419	Temba	North West
+0419	Thulwe	North West
+0420	Bela-Bela	Limpopo
+0420	Warmbaths	Limpopo
+0426	Hammanskraal	North West
+0427	Hammanskraal	North West
+0428	Temba	North West
+0429	Hammanskraal	North West
+0430	Bela-Bela	Limpopo
+0430	Settlers	Limpopo
+0430	Warmbaths	Limpopo
+0431	Hammanskraal	North West
+0431	Skilpadfontein	Mpumalanga
+0432	Bamokgoko	Mpumalanga
+0432	Hammanskraal	North West
+0433	Modimolle	Limpopo
+0433	Nylstroom	Limpopo
+0434	Hammanskraal	North West
+0435	Hammanskraal	North West
+0436	Modimolle	Limpopo
+0436	Nylstroom	Limpopo
+0437	Modimolle	Limpopo
+0437	Nylstroom	Limpopo
+0438	Temba	North West
+0439	Temba	North West
+0440	Temba	North West
+0441	Temba	North West
+0442	Temba	North West
+0443	Temba	North West
+0444	Temba	North West
+0445	Temba	North West
+0447	Temba	North West
+0448	Temba	North West
+0449	Marble Hall	Mpumalanga
+0449	Mbibane	North West
+0450	Marble Hall	Mpumalanga
+0451	Marble Hall	Mpumalanga
+0452	Marble Hall	Mpumalanga
+0452	Xipame	Mpumalanga
+0453	Marble Hall	Mpumalanga
+0454	Marble Hall	Mpumalanga
+0455	Marble Hall	Mpumalanga
+0456	Marble Hall	Mpumalanga
+0457	Dibasabophelo	Mpumalanga
+0457	Marble Hall	Mpumalanga
+0458	Empumalanga	Mpumalanga
+0458	Marble Hall	Mpumalanga
+0459	Marble Hall	Mpumalanga
+0460	Marble Hall	Mpumalanga
+0462	Siyabuswa	Mpumalanga
+0464	Marble Hall	Mpumalanga
+0465	Marble Hall	Mpumalanga
+0466	Marble Hall	Mpumalanga
+0467	Marble Hall	Mpumalanga
+0468	Marble Hall	Mpumalanga
+0469	Siyabuswa	Mpumalanga
+0470	Groblersdal	Mpumalanga
+0472	Marble Hall	Mpumalanga
+0472	Siyabuswa	Mpumalanga
+0473	Groblersdal	Mpumalanga
+0474	Boleu	Mpumalanga
+0474	Groblersdal	Mpumalanga
+0475	Siyabuswa	Mpumalanga
+0477	Groblersdal	Mpumalanga
+0477	Siyabuswa	Mpumalanga
+0478	Marble Hall	Mpumalanga
+0479	Marble Hall	Mpumalanga
+0480	Bela-Bela	Limpopo
+0480	Northern Provice	Limpopo
+0480	Warmbad	Limpopo
+0480	Warmbaths	Limpopo
+0482	Warmbad	Limpopo
+0483	Bela-Bela	Limpopo
+0483	Warmbaths	Limpopo
+0484	Marble Hall	Mpumalanga
+0485	Groblersdal	Mpumalanga
+0486	Leeupoort	Limpopo
+0486	Thabazimbi	Limpopo
+0487	Thabazimbi	Limpopo
+0490	Groblersdal	Mpumalanga
+0491	Groblersdal	Mpumalanga
+0492	Bela-Bela	Limpopo
+0492	Warmbaths	Limpopo
+0493	Siyabuswa	Mpumalanga
+0494	Siyabuswa	Mpumalanga
+0495	Siyabuswa	Mpumalanga
+0498	Temba	North West
+0499	Temba	North West
+0500	Thabazimbi	Limpopo
+0501	Temba	Limpopo
+0502	Temba	Limpopo
+0503	Temba	Limpopo
+0504	Temba	Limpopo
+0505	Temba	Limpopo
+0506	Temba	Limpopo
+0507	Temba	Limpopo
+0508	Temba	Limpopo
+0510	Modimolle	Limpopo
+0510	Nylstroom	Limpopo
+0512	Modimolle	Limpopo
+0512	Nylstroom	Limpopo
+0513	Modimolle	Limpopo
+0513	Nylstroom	Limpopo
+0514	Modimolle	Limpopo
+0514	Nylstroom	Limpopo
+0515	Modimolle	Limpopo
+0515	Nylstroom	Limpopo
+0516	Modimolle	Limpopo
+0516	Nylstroom	Limpopo
+0517	Modimolle	Limpopo
+0517	Nylstroom	Limpopo
+0531	Ellisras	Limpopo
+0531	Lephalale	Limpopo
+0532	Ellisras	Limpopo
+0532	Lephalale	Limpopo
+0533	Ellisras	Limpopo
+0533	Lephalale	Limpopo
+0534	Ellisras	Limpopo
+0534	Lephalale	Limpopo
+0536	Ellisras	Limpopo
+0536	Lephalale	Limpopo
+0537	Vaalwater	Limpopo
+0539	Modimolle	Limpopo
+0539	Nylstroom	Limpopo
+0541	Mokopane	Limpopo
+0541	Potgietersrus	Limpopo
+0555	Ellisras	Limpopo
+0555	Lephalale	Limpopo
+0556	Ellisras	Limpopo
+0556	Lephalale	Limpopo
+0557	Ellisras	Limpopo
+0557	Lephalale	Limpopo
+0560	Naboomspruit	Limpopo
+0561	Naboomspruit	Limpopo
+0562	Naboomspruit	Limpopo
+0564	Naboomspruit	Limpopo
+0580	Naboomspruit	Limpopo
+0580	Roedtan	Limpopo
+0601	Mokopane	Limpopo
+0601	Potgietersrus	Limpopo
+0602	Mokopane	Limpopo
+0602	Potgietersrus	Limpopo
+0603	Mokopane	Limpopo
+0603	Potgietersrus	Limpopo
+0604	Mokopane	Limpopo
+0604	Potgietersrus	Limpopo
+0605	Mokopane	Limpopo
+0605	Potgietersrus	Limpopo
+0606	Mokopane	Limpopo
+0606	Potgietersrus	Limpopo
+0607	Mokopane	Limpopo
+0607	Potgietersrus	Limpopo
+0608	Mokopane	Limpopo
+0608	Potgietersrus	Limpopo
+0609	Mokopane	Limpopo
+0609	Potgietersrus	Limpopo
+0610	Mokopane	Limpopo
+0610	Potgietersrus	Limpopo
+0611	Mokopane	Limpopo
+0611	Potgietersrus	Limpopo
+0612	Mokopane	Limpopo
+0612	Potgietersrus	Limpopo
+0613	Mokopane	Limpopo
+0613	Potgietersrus	Limpopo
+0615	Mokopane	Limpopo
+0615	Potgietersrus	Limpopo
+0616	Mokopane	Limpopo
+0616	Nkwe	Limpopo
+0616	Potgietersrus	Limpopo
+0617	Mokopane	Limpopo
+0617	Potgietersrus	Limpopo
+0617	Rebone	Limpopo
+0618	Mokopane	Limpopo
+0618	Potgietersrus	Limpopo
+0619	Mokopane	Limpopo
+0619	Potgietersrus	Limpopo
+0620	Mokopane	Limpopo
+0620	Potgietersrus	Limpopo
+0621	Mokopane	Limpopo
+0621	Potgietersrus	Limpopo
+0622	Mokopane	Limpopo
+0622	Potgietersrus	Limpopo
+0623	Mokopane	Limpopo
+0623	Potgietersrus	Limpopo
+0624	Mokopane	Limpopo
+0624	Potgietersrus	Limpopo
+0626	Bochum	Limpopo
+0626	Mahwelereng	Limpopo
+0626	Mokopane	Limpopo
+0626	Potgietersrus	Limpopo
+0629	Mokopane	Limpopo
+0629	Potgietersrus	Limpopo
+0630	Mokopane	Limpopo
+0630	Potgietersrus	Limpopo
+0632	Pietersburg	Limpopo
+0632	Polokwane	Limpopo
+0633	Mokamole	Limpopo
+0633	Mokopane	Limpopo
+0633	Potgietersrus	Limpopo
+0634	Mokopane	Limpopo
+0634	Potgietersrus	Limpopo
+0635	Mokopane	Limpopo
+0635	Potgietersrus	Limpopo
+0636	Mokopane	Limpopo
+0636	Potgietersrus	Limpopo
+0637	Mokopane	Limpopo
+0637	Potgietersrus	Limpopo
+0638	Mokopane	Limpopo
+0638	Potgietersrus	Limpopo
+0639	Rebone	Limpopo
+0642	Rebone	Limpopo
+0643	Potgieterus	Limpopo
+0644	Potgieterus	Limpopo
+0645	Mokopane	Limpopo
+0645	Potgietersrus	Limpopo
+0646	Potgieterus	Limpopo
+0647	Potgieterus	Limpopo
+0648	Mokopane	Limpopo
+0648	Potgietersrus	Limpopo
+0649	Mokopane	Limpopo
+0649	Potgietersrus	Limpopo
+0650	Potgieterus	Limpopo
+0651	Potgieterus	Limpopo
+0652	Mokopane	Limpopo
+0652	Potgietersrus	Limpopo
+0654	Mokopane	Limpopo
+0654	Potgietersrus	Limpopo
+0656	Mokopane	Limpopo
+0656	Potgietersrus	Limpopo
+0657	Mokopane	Limpopo
+0657	Potgietersrus	Limpopo
+0658	Mokopane	Limpopo
+0658	Potgietersrus	Limpopo
+0659	Mokopane	Limpopo
+0659	Potgietersrus	Limpopo
+0690	Mokopane	Limpopo
+0690	Potgietersrus	Limpopo
+0699	Pietersburg	Limpopo
+0699	Polokwane	Limpopo
+0699	Seshego	Limpopo
+0700	Pietersburg	Limpopo
+0700	Polokwane	Limpopo
+0701	Pietersburg	Limpopo
+0701	Polokwane	Limpopo
+0702	Pietersburg	Limpopo
+0702	Polokwane	Limpopo
+0703	Pietersburg	Limpopo
+0703	Polokwane	Limpopo
+0704	Pietersburg	Limpopo
+0704	Polokwane	Limpopo
+0705	Ga-Maraba	Limpopo
+0705	Pietersburg	Limpopo
+0705	Polokwane	Limpopo
+0706	Pietersburg	Limpopo
+0706	Polokwane	Limpopo
+0707	Pietersburg	Limpopo
+0707	Polokwane	Limpopo
+0708	Pietersburg	Limpopo
+0708	Polokwane	Limpopo
+0709	Koloti	Limpopo
+0709	Pietersburg	Limpopo
+0709	Polokwane	Limpopo
+0710	Lonsdale	Limpopo
+0710	Pietersburg	Limpopo
+0710	Polokwane	Limpopo
+0711	Pietersburg	Limpopo
+0711	Polokwane	Limpopo
+0712	Pietersburg	Limpopo
+0712	Polokwane	Limpopo
+0713	Pietersburg	Limpopo
+0713	Polokwane	Limpopo
+0714	Neandertal	Limpopo
+0714	Pietersburg	Limpopo
+0714	Polokwane	Limpopo
+0716	Pietersburg	Limpopo
+0716	Polokwane	Limpopo
+0717	Pietersburg	Limpopo
+0717	Polokwane	Limpopo
+0718	Bochum	Limpopo
+0718	Pietersburg	Limpopo
+0718	Polokwane	Limpopo
+0718	Raditshaba	Limpopo
+0719	Pietersburg	Limpopo
+0719	Polokwane	Limpopo
+0720	Pietersburg	Limpopo
+0720	Polokwane	Limpopo
+0721	Dikgale	Limpopo
+0721	Pietersburg	Limpopo
+0721	Polokwane	Limpopo
+0722	Pietersburg	Limpopo
+0722	Polokwane	Limpopo
+0723	Pietersburg	Limpopo
+0723	Polokwane	Limpopo
+0724	Pietersburg	Limpopo
+0724	Polokwane	Limpopo
+0725	Pietersburg	Limpopo
+0725	Polokwane	Limpopo
+0726	Pietersburg	Limpopo
+0726	Polokwane	Limpopo
+0727	Boyne	Limpopo
+0727	Pietersburg	Limpopo
+0727	Polokwane	Limpopo
+0727	Sovenga	Limpopo
+0728	Boyne	Limpopo
+0728	Pietersburg	Limpopo
+0728	Polokwane	Limpopo
+0729	Lonsdale	Limpopo
+0730	Pietersburg	Limpopo
+0730	Polokwane	Limpopo
+0731	Pietersburg	Limpopo
+0731	Polokwane	Limpopo
+0732	Mphogodiba	Limpopo
+0732	Pietersburg	Limpopo
+0732	Polokwane	Limpopo
+0733	Pietersburg	Limpopo
+0733	Polokwane	Limpopo
+0734	Pietersburg	Limpopo
+0734	Polokwane	Limpopo
+0734	Tholongwe	Limpopo
+0735	Pietersburg	Limpopo
+0735	Polokwane	Limpopo
+0736	Mphahlele	Limpopo
+0736	Pietersburg	Limpopo
+0736	Polokwane	Limpopo
+0737	Pietersburg	Limpopo
+0737	Polokwane	Limpopo
+0738	Pietersburg	Limpopo
+0738	Polokwane	Limpopo
+0739	Pietersburg	Limpopo
+0739	Polokwane	Limpopo
+0740	Pietersburg	Limpopo
+0740	Polokwane	Limpopo
+0741	Pietersburg	Limpopo
+0741	Polokwane	Limpopo
+0742	Pietersburg	Limpopo
+0742	Polokwane	Limpopo
+0743	Mashashane	Limpopo
+0743	Pietersburg	Limpopo
+0743	Polokwane	Limpopo
+0744	Pietersburg	Limpopo
+0744	Polokwane	Limpopo
+0745	Chuenespoort	Limpopo
+0745	Pietersburg	Limpopo
+0745	Polokwane	Limpopo
+0746	Bakone	Limpopo
+0746	Pietersburg	Limpopo
+0746	Polokwane	Limpopo
+0747	Pietersburg	Limpopo
+0747	Polokwane	Limpopo
+0748	Juno	Limpopo
+0748	Pietersburg	Limpopo
+0748	Polokwane	Limpopo
+0749	Atok	Limpopo
+0749	Pietersburg	Limpopo
+0749	Polokwane	Limpopo
+0750	Pietersburg	Limpopo
+0750	Polokwane	Limpopo
+0751	Pietersburg	Limpopo
+0751	Polokwane	Limpopo
+0751	Seshego	Limpopo
+0752	Pietersburg	Limpopo
+0752	Polokwane	Limpopo
+0753	Manyama	Limpopo
+0753	Pietersburg	Limpopo
+0753	Polokwane	Limpopo
+0754	Pietersburg	Limpopo
+0754	Polokwane	Limpopo
+0755	Pietersburg	Limpopo
+0755	Polokwane	Limpopo
+0756	Pietersburg	Limpopo
+0756	Polokwane	Limpopo
+0757	Bakone	Limpopo
+0758	Juno	Limpopo
+0759	Pietersburg	Limpopo
+0759	Polokwane	Limpopo
+0760	Pietersburg	Limpopo
+0760	Polokwane	Limpopo
+0761	Mphahlele	Limpopo
+0762	Mphahlele	Limpopo
+0763	Sovenga	Limpopo
+0764	Boyne	Limpopo
+0765	Pietersburg	Limpopo
+0765	Polokwane	Limpopo
+0766	Boyne	Limpopo
+0767	Lonsdale	Limpopo
+0768	Pietersburg	Limpopo
+0768	Polokwane	Limpopo
+0769	Pietersburg	Limpopo
+0769	Polokwane	Limpopo
+0770	Pietersburg	Limpopo
+0770	Polokwane	Limpopo
+0771	Letsitele	Limpopo
+0772	Letsitele	Limpopo
+0773	Pietersburg	Limpopo
+0773	Polokwane	Limpopo
+0774	Pietersburg	Limpopo
+0774	Polokwane	Limpopo
+0775	Pietersburg	Limpopo
+0775	Polokwane	Limpopo
+0776	Pietersburg	Limpopo
+0776	Polokwane	Limpopo
+0778	Superbia	Limpopo
+0779	Superbia	Limpopo
+0780	Pietersburg	Limpopo
+0780	Polokwane	Limpopo
+0781	Pietersburg	Limpopo
+0781	Polokwane	Limpopo
+0782	Pietersburg	Limpopo
+0782	Polokwane	Limpopo
+0783	Pietersburg	Limpopo
+0783	Polokwane	Limpopo
+0784	Seshego	Limpopo
+0785	Mphahlele	Limpopo
+0786	Dendron	Limpopo
+0787	Pietersburg	Limpopo
+0787	Polokwane	Limpopo
+0788	Superbia	Limpopo
+0789	Pietersburg	Limpopo
+0789	Polokwane	Limpopo
+0790	Bochum	Limpopo
+0791	Pietersburg	Limpopo
+0791	Polokwane	Limpopo
+0792	Pietersburg	Limpopo
+0792	Polokwane	Limpopo
+0793	Pietersburg	Limpopo
+0793	Polokwane	Limpopo
+0794	Pietersburg	Limpopo
+0794	Polokwane	Limpopo
+0795	Seshego	Limpopo
+0796	Pietersburg	Limpopo
+0796	Polokwane	Limpopo
+0797	Pietersburg	Limpopo
+0797	Polokwane	Limpopo
+0798	Pietersburg	Limpopo
+0798	Polokwane	Limpopo
+0799	Pietersburg	Limpopo
+0799	Polokwane	Limpopo
+0800	Pietersburg	Limpopo
+0800	Polokwane	Limpopo
+0801	Pietersburg	Limpopo
+0801	Polokwane	Limpopo
+0802	Pietersburg	Limpopo
+0802	Polokwane	Limpopo
+0805	Pietersburg	Limpopo
+0805	Polokwane	Limpopo
+0806	Pietersburg	Limpopo
+0806	Polokwane	Limpopo
+0807	Bochum	Limpopo
+0808	Pietersburg	Limpopo
+0808	Polokwane	Limpopo
+0809	Pietersburg	Limpopo
+0809	Polokwane	Limpopo
+0810	Soekmekaar	Limpopo
+0811	Pietersburg	Limpopo
+0811	Polokwane	Limpopo
+0812	Dwars River	Limpopo
+0812	Pietersburg	Limpopo
+0812	Polokwane	Limpopo
+0813	Pietersburg	Limpopo
+0813	Polokwane	Limpopo
+0814	Pietersburg	Limpopo
+0814	Polokwane	Limpopo
+0815	Duiwelskloof	Limpopo
+0816	Malamulele	Limpopo
+0818	Pietersburg	Limpopo
+0818	Polokwane	Limpopo
+0819	Pietersburg	Limpopo
+0819	Polokwane	Limpopo
+0820	Pietersburg	Limpopo
+0820	Polokwane	Limpopo
+0821	Pietersburg	Limpopo
+0821	Polokwane	Limpopo
+0822	Pietersburg	Limpopo
+0822	Polokwane	Limpopo
+0823	Pietersburg	Limpopo
+0823	Polokwane	Limpopo
+0824	Pietersburg	Limpopo
+0824	Polokwane	Limpopo
+0825	Pietersburg	Limpopo
+0825	Polokwane	Limpopo
+0826	Giyani	Limpopo
+0827	Giyani	Limpopo
+0827	Molototsi	Limpopo
+0828	Bochum	Limpopo
+0829	Giyani	Limpopo
+0831	Malamulele	Limpopo
+0832	Giyani	Limpopo
+0833	Malamulele	Limpopo
+0834	Giyani	Limpopo
+0836	Juno	Limpopo
+0838	Gakgapane	Limpopo
+0839	Giyani	Limpopo
+0840	Giyani	Limpopo
+0841	Giyani	Limpopo
+0842	Giyani	Limpopo
+0843	Giyani	Limpopo
+0844	Giyani	Limpopo
+0845	Juno	Limpopo
+0846	Giyani	Limpopo
+0847	Gakgapane	Limpopo
+0848	Pietersburg	Limpopo
+0848	Polokwane	Limpopo
+0849	Bochum	Limpopo
+0850	Tzaneen	Limpopo
+0852	Tzaneen	Limpopo
+0854	Tzaneen	Limpopo
+0855	Pietersburg	Limpopo
+0855	Polokwane	Limpopo
+0857	Tzaneen	Limpopo
+0858	Giyani	Limpopo
+0859	Tzaneen	Limpopo
+0860	Tzaneen	Limpopo
+0861	Tzaneen	Limpopo
+0862	Gakgapane	Limpopo
+0863	Tzaneen	Limpopo
+0864	Pietersburg	Limpopo
+0864	Polokwane	Limpopo
+0865	Pietersburg	Limpopo
+0865	Polokwane	Limpopo
+0866	Pietersburg	Limpopo
+0866	Polokwane	Limpopo
+0867	Pietersburg	Limpopo
+0867	Polokwane	Limpopo
+0868	Tzaneen	Limpopo
+0870	Letaba	Limpopo
+0871	Tzaneen	Limpopo
+0872	Tzaneen	Limpopo
+0873	Shiluvane	Limpopo
+0873	Tzaneen	Limpopo
+0875	Tzaneen	Limpopo
+0876	Tzaneen	Limpopo
+0877	Letaba	Limpopo
+0878	Letaba	Limpopo
+0881	Pietersburg	Limpopo
+0881	Polokwane	Limpopo
+0883	Pietersburg	Limpopo
+0883	Polokwane	Limpopo
+0884	Pietersburg	Limpopo
+0884	Polokwane	Limpopo
+0885	Letsitele	Limpopo
+0886	Letsitele	Limpopo
+0889	Pietersburg	Limpopo
+0889	Polokwane	Limpopo
+0890	Letsitele	Limpopo
+0891	Trichardtsdal	Limpopo
+0893	Trichardtsdal	Limpopo
+0894	Pietersburg	Limpopo
+0894	Polokwane	Limpopo
+0896	Trichardtsdal	Limpopo
+0897	Gakgapane	Limpopo
+0898	Pietersburg	Limpopo
+0898	Polokwane	Limpopo
+0899	Pietersburg	Limpopo
+0899	Polokwane	Limpopo
+0900	Messina	Limpopo
+0900	Musina	Limpopo
+0901	Louis Trichardt	Limpopo
+0903	Pietersburg	Limpopo
+0903	Polokwane	Limpopo
+0905	Louis Trichardt	Limpopo
+0906	Sibasa	Limpopo
+0907	Sibasa	Limpopo
+0909	Louis Trichardt	Limpopo
+0910	Pietersburg	Limpopo
+0910	Polokwane	Limpopo
+0912	Pietersburg	Limpopo
+0912	Polokwane	Limpopo
+0913	Pietersburg	Limpopo
+0913	Polokwane	Limpopo
+0914	Pietersburg	Limpopo
+0914	Polokwane	Limpopo
+0915	Giyani	Limpopo
+0916	Juno	Limpopo
+0917	Louis Trichardt	Limpopo
+0920	Louis Trichardt	Limpopo
+0921	Louis Trichardt	Limpopo
+0922	Louis Trichardt	Limpopo
+0923	Louis Trichardt	Limpopo
+0924	Louis Trichardt	Limpopo
+0925	Louis Trichardt	Limpopo
+0926	Sibasa	Limpopo
+0927	Malamulele	Limpopo
+0928	Malamulele	Limpopo
+0929	Thohoyandou	Limpopo
+0930	Giyani	Limpopo
+0931	Giyani	Limpopo
+0932	Giyani	Limpopo
+0933	Giyani	Limpopo
+0934	Louis Trichardt	Limpopo
+0935	Louis Trichardt	Limpopo
+0937	Louis Trichardt	Limpopo
+0939	Louis Trichardt	Limpopo
+0940	Louis Trichardt	Limpopo
+0941	Giyani	Limpopo
+0942	Louis Trichardt	Limpopo
+0943	Louis Trichardt	Limpopo
+0944	Giyani	Limpopo
+0948	Louis Trichardt	Limpopo
+0948	Munzhedzi	Limpopo
+0949	Louis Trichardt	Limpopo
+0950	Pietersburg	Limpopo
+0950	Polokwane	Limpopo
+0952	Thohoyandou	Limpopo
+0953	Malamulele	Limpopo
+0954	Louis Trichardt	Limpopo
+0955	Dzanani	Limpopo
+0955	Sibasa	Limpopo
+0956	Mutale	Limpopo
+0957	Louis Trichardt	Limpopo
+0959	Thohoyandou	Limpopo
+0960	Louis Trichardt	Limpopo
+0964	Pietersburg	Limpopo
+0964	Polokwane	Limpopo
+0968	Sibasa	Limpopo
+0969	Sibasa	Limpopo
+0970	Sibasa	Limpopo
+0971	Sibasa	Limpopo
+0972	Sibasa	Limpopo
+0973	Sibasa	Limpopo
+0974	Sibasa	Limpopo
+0975	Sibasa	Limpopo
+0976	Muthathi	Limpopo
+0976	Sibasa	Limpopo
+0977	Sibasa	Limpopo
+0979	Sibasa	Limpopo
+0980	Sibasa	Limpopo
+0981	Malamulele	Limpopo
+0983	Giyani	Limpopo
+0984	Giyani	Limpopo
+0985	Giyani	Limpopo
+0986	Giyani	Limpopo
+0987	Giyani	Limpopo
+0988	Sibasa	Limpopo
+0989	Sibasa	Limpopo
+0990	Sibasa	Limpopo
+0992	Mungomani	Limpopo
+0993	Sibasa	Limpopo
+0994	Sibasa	Limpopo
+0995	Sibasa	Limpopo
+0996	Sibasa	Limpopo
+0997	Malamulele	Limpopo
+0998	Malamulele	Limpopo
+0999	Malamulele	Limpopo
+1002	Cullinan	Gauteng
+1003	Cullinan	Gauteng
+1004	Cullinan	Gauteng
+1005	Cullinan	Gauteng
+1007	Malamulele	Gauteng
+1008	Malamulele	Gauteng
+1020	Bronkhorstspruit	Gauteng
+1021	Bronkhorstspruit	Gauteng
+1021	Ekangala	Gauteng
+1022	Bronkhorstspruit	Gauteng
+1022	Kwamhlanga	Gauteng
+1023	Kwamhlanga	Gauteng
+1024	Bronkhorstspruit	Gauteng
+1025	Bronkhorstspruit	Gauteng
+1026	Bronkhorstspruit	Gauteng
+1027	Bronkhorstspruit	Gauteng
+1028	Bronkhorstspruit	Gauteng
+1030	Groblersdal	Mpumalanga
+1030	Siyabuswa	Mpumalanga
+1032	Witbank	Mpumalanga
+1032	eMalahleni	Mpumalanga
+1033	Coalville	Mpumalanga
+1033	Witbank	Mpumalanga
+1033	eMalahleni	Mpumalanga
+1034	Witbank	Mpumalanga
+1034	eMalahleni	Mpumalanga
+1035	Witbank	Mpumalanga
+1035	eMalahleni	Mpumalanga
+1036	Witbank	Mpumalanga
+1036	eMalahleni	Mpumalanga
+1037	Witbank	Mpumalanga
+1037	eMalahleni	Mpumalanga
+1038	Witbank	Mpumalanga
+1038	eMalahleni	Mpumalanga
+1039	Witbank	Mpumalanga
+1039	eMalahleni	Mpumalanga
+1040	Witbank	Mpumalanga
+1040	eMalahleni	Mpumalanga
+1042	Witbank	Mpumalanga
+1042	eMalahleni	Mpumalanga
+1043	Witbank	Mpumalanga
+1043	eMalahleni	Mpumalanga
+1044	Witbank	Mpumalanga
+1044	eMalahleni	Mpumalanga
+1045	Witbank	Mpumalanga
+1045	eMalahleni	Mpumalanga
+1046	Witbank	Mpumalanga
+1046	eMalahleni	Mpumalanga
+1047	Witbank	Mpumalanga
+1047	eMalahleni	Mpumalanga
+1048	Witbank	Mpumalanga
+1048	eMalahleni	Mpumalanga
+1049	Witbank	Mpumalanga
+1049	eMalahleni	Mpumalanga
+1050	Middelburg	Mpumalanga
+1050	Middleburg	Gauteng
+1050	Mpumalanga	Mpumalanga
+1051	Middelburg	Mpumalanga
+1052	Middelburg	Mpumalanga
+1052	Nasaret	Mpumalanga
+1053	Middelburg	Mpumalanga
+1054	Middelburg	Mpumalanga
+1055	Middelburg	Mpumalanga
+1055	Mpumalanga	Mpumalanga
+1056	Middelburg	Mpumalanga
+1057	Nebo	Mpumalanga
+1058	Sekhukhune	Gauteng
+1059	Nebo	Mpumalanga
+1059	Witbank	Mpumalanga
+1059	eMalahleni	Mpumalanga
+1060	Groblersdal	Mpumalanga
+1061	Groblersdal	Mpumalanga
+1062	Marble Hall	Mpumalanga
+1063	Sekhukhune	Mpumalanga
+1064	Groblersdal	Mpumalanga
+1064	Sekhukhune	Mpumalanga
+1065	Middelburg	Mpumalanga
+1066	Middelburg	Mpumalanga
+1068	Middelburg	Mpumalanga
+1069	Middelburg	Mpumalanga
+1070	Middelburg	Mpumalanga
+1071	Middelburg	Mpumalanga
+1072	Witbank	Mpumalanga
+1072	eMalahleni	Mpumalanga
+1073	Kwaguqa	Mpumalanga
+1073	Witbank	Mpumalanga
+1073	eMalahleni	Mpumalanga
+1074	Witbank	Mpumalanga
+1074	eMalahleni	Mpumalanga
+1075	Witbank	Mpumalanga
+1075	eMalahleni	Mpumalanga
+1076	Witbank	Mpumalanga
+1076	eMalahleni	Mpumalanga
+1077	Witbank	Mpumalanga
+1077	eMalahleni	Mpumalanga
+1078	Mpudulle	Mpumalanga
+1079	Middelburg	Mpumalanga
+1080	Witbank	Mpumalanga
+1080	eMalahleni	Mpumalanga
+1081	Witbank	Mpumalanga
+1081	eMalahleni	Mpumalanga
+1082	Witbank	Mpumalanga
+1082	eMalahleni	Mpumalanga
+1085	Burgersfort	Mpumalanga
+1090	Witbank	Mpumalanga
+1090	eMalahleni	Mpumalanga
+1097	Witbank	Mpumalanga
+1097	eMalahleni	Mpumalanga
+1098	Hendrina	Mpumalanga
+1098	Kwazamokuhle	Mpumalanga
+1100	Belfast	Mpumalanga
+1101	Belfast	Mpumalanga
+1102	Belfast	Mpumalanga
+1111	Middelburg	Mpumalanga
+1112	Witbank	Mpumalanga
+1112	eMalahleni	Mpumalanga
+1120	Lydenburg	Mpumalanga
+1121	Belfast	Mpumalanga
+1122	Lydenburg	Mpumalanga
+1123	Lydenburg	Mpumalanga
+1126	Lydenburg	Mpumalanga
+1127	Sekhukhune	Mpumalanga
+1128	Driekop	Mpumalanga
+1130	Belfast	Mpumalanga
+1131	Driekop	Mpumalanga
+1132	Mbombela	Mpumalanga
+1132	Nelspruit	Mpumalanga
+1151	Belfast	Mpumalanga
+1152	Belfast	Mpumalanga
+1153	Belfast	Mpumalanga
+1154	Penge	Mpumalanga
+1160	Burgersfort	Mpumalanga
+1185	Carolina	Mpumalanga
+1192	Belfast	Mpumalanga
+1193	Belfast	Mpumalanga
+1194	Belfast	Mpumalanga
+1200	Mbombela	Mpumalanga
+1200	Nelspruit	Mpumalanga
+1201	Mbombela	Mpumalanga
+1201	Nelspruit	Mpumalanga
+1202	Mbombela	Mpumalanga
+1202	Nelspruit	Mpumalanga
+1203	Mbombela	Mpumalanga
+1203	Nelspruit	Mpumalanga
+1204	Mbombela	Mpumalanga
+1204	Nelspruit	Mpumalanga
+1205	Mbombela	Mpumalanga
+1205	Nelspruit	Mpumalanga
+1206	Mbombela	Mpumalanga
+1206	Nelspruit	Mpumalanga
+1207	Mbombela	Mpumalanga
+1207	Nelspruit	Mpumalanga
+1208	Mbombela	Mpumalanga
+1208	Nelspruit	Mpumalanga
+1209	Mbombela	Mpumalanga
+1209	Nelspruit	Mpumalanga
+1211	Mbombela	Mpumalanga
+1211	Nelspruit	Mpumalanga
+1212	Mbombela	Mpumalanga
+1212	Nelspruit	Mpumalanga
+1213	Mbombela	Mpumalanga
+1213	Nelspruit	Mpumalanga
+1214	Kanyamazane	Mpumalanga
+1215	Kanyamazane	Mpumalanga
+1216	Kanyamazane	Mpumalanga
+1217	Kanyamazane	Mpumalanga
+1218	Mbombela	Mpumalanga
+1218	Nelspruit	Mpumalanga
+1220	Mbombela	Mpumalanga
+1220	Nelspruit	Mpumalanga
+1222	Mbombela	Mpumalanga
+1222	Nelspruit	Mpumalanga
+1223	Mbombela	Mpumalanga
+1223	Nelspruit	Mpumalanga
+1224	Mbombela	Mpumalanga
+1224	Nelspruit	Mpumalanga
+1227	Acornhoek	Mpumalanga
+1240	Hazyview	Mpumalanga
+1240	White River	Mpumalanga
+1240	Witrivier	Mpumalanga
+1241	Mbombela	Mpumalanga
+1241	Nelspruit	Mpumalanga
+1245	White River	Mpumalanga
+1246	Hazyview	Mpumalanga
+1246	Mkhuhlu	Mpumalanga
+1247	Kabokweni	Mpumalanga
+1248	Mbombela	Mpumalanga
+1248	Nelspruit	Mpumalanga
+1249	Mbombela	Mpumalanga
+1249	Nelspruit	Mpumalanga
+1250	Kabokweni	Mpumalanga
+1251	Kabokweni	Mpumalanga
+1252	Kabokweni	Mpumalanga
+1253	Hazyview	Mpumalanga
+1254	Whiteriver	Mpumalanga
+1255	Bushbuckridge	Mpumalanga
+1256	White River	Mpumalanga
+1260	Sabie	Mpumalanga
+1270	Graskop	Mpumalanga
+1271	Graskop	Mpumalanga
+1273	Graskop	Mpumalanga
+1274	Graskop	Mpumalanga
+1281	Mbombela	Mpumalanga
+1281	Nelspruit	Mpumalanga
+1281	Ximhungwe	Mpumalanga
+1282	Bushbuckridge	Mpumalanga
+1283	Bushbuckridge	Mpumalanga
+1284	Bushbuckridge	Mpumalanga
+1285	Bushbuckridge	Mpumalanga
+1286	Bosbokrand	Mpumalanga
+1287	Ximhungwe	Mpumalanga
+1288	Mbombela	Mpumalanga
+1288	Nelspruit	Mpumalanga
+1290	Sabie	Mpumalanga
+1295	Mbombela	Mpumalanga
+1295	Nelspruit	Mpumalanga
+1300	Barberton	Mpumalanga
+1301	Belfast	Mpumalanga
+1302	Mbombela	Mpumalanga
+1302	Nelspruit	Mpumalanga
+1303	Barberton	Mpumalanga
+1304	Mbombela	Mpumalanga
+1304	Nelspruit	Mpumalanga
+1307	Barberton	Mpumalanga
+1309	Barberton	Mpumalanga
+1331	Malelane	Mpumalanga
+1331	Shongwe Mission	Mpumalanga
+1332	Shongwe Mission	Mpumalanga
+1334	Mbombela	Mpumalanga
+1334	Nelspruit	Mpumalanga
+1335	Shongwe Mission	Mpumalanga
+1336	Shongwe Mission	Mpumalanga
+1337	Shongwe Mission	Mpumalanga
+1341	Komatipoort	Mpumalanga
+1342	Komatipoort	Mpumalanga
+1343	Komatipoort	Mpumalanga
+1344	Komatipoort	Mpumalanga
+1345	Komatipoort	Mpumalanga
+1347	Kwalugedlane	Mpumalanga
+1348	Kwalugedlane	Mpumalanga
+1349	Mbombela	Mpumalanga
+1349	Nelspruit	Mpumalanga
+1350	Mbombela	Mpumalanga
+1350	Nelspruit	Mpumalanga
+1351	Skukuza	Mpumalanga
+1352	Kwalugedlane	Mpumalanga
+1353	Skukuza	Mpumalanga
+1354	Skukuza	Mpumalanga
+1355	Mbombela	Mpumalanga
+1355	Nelspruit	Mpumalanga
+1356	Skukuza	Mpumalanga
+1360	Acornhoek	Mpumalanga
+1360	Mbombela	Mpumalanga
+1360	Nelspruit	Mpumalanga
+1361	Acornhoek	Mpumalanga
+1362	Hluvukani	Mpumalanga
+1363	Hluvukani	Mpumalanga
+1364	Hluvukani	Mpumalanga
+1365	Acornhoek	Mpumalanga
+1365	Thulamahashe	Mpumalanga
+1366	Thulamahashe	Mpumalanga
+1367	Acornhoek	Mpumalanga
+1368	Ximhungwe	Mpumalanga
+1369	Thulamahashe	Mpumalanga
+1370	Acornhoek	Mpumalanga
+1371	Hoedspruit	Mpumalanga
+1377	Kwalugedlane	Mpumalanga
+1378	Acornhoek	Mpumalanga
+1382	Hoedspruit	Mpumalanga
+1384	Hoedspruit	Mpumalanga
+1390	Phalaborwa	Mpumalanga
+1391	Phalaborwa	Mpumalanga
+1392	Phalaborwa	Mpumalanga
+1393	Phalaborwa	Mpumalanga
+1394	Phalaborwa	Mpumalanga
+1395	Phalaborwa	Mpumalanga
+1396	Phalaborwa	Mpumalanga
+1397	Namakgale	Mpumalanga
+1401	Delmore	Gauteng
+1401	Germiston	Gauteng
+1401	Primrose	Gauteng
+1402	Germiston	Gauteng
+1403	Germiston	Gauteng
+1404	Delmore	Gauteng
+1404	Germiston	Gauteng
+1405	Germiston	Gauteng
+1407	Germiston	Gauteng
+1408	Germiston	Gauteng
+1409	Elsburg	Gauteng
+1410	Germiston	Gauteng
+1411	Germiston	Gauteng
+1412	Germiston	Gauteng
+1413	Germiston	Gauteng
+1414	Germiston	Gauteng
+1415	Germiston	Gauteng
+1416	Germiston	Gauteng
+1417	Germiston	Gauteng
+1418	Germiston	Gauteng
+1419	Germiston	Gauteng
+1420	Germiston	Gauteng
+1421	Katlehong	Gauteng
+1422	Germiston	Gauteng
+1423	Germiston	Gauteng
+1424	Germiston	Gauteng
+1425	Katlehong	Gauteng
+1426	Katlehong	Gauteng
+1426	Tokoza	Gauteng
+1426	Tokoza Ext	Gauteng
+1427	Tokoza	Gauteng
+1427	Tokoza Ext	Gauteng
+1428	Alrode	Gauteng
+1428	Elsburg	Gauteng
+1428	Germiston	Gauteng
+1429	Elandsfontein	Gauteng
+1429	Germiston	Gauteng
+1430	Germiston	Gauteng
+1431	Katlehong	Gauteng
+1431	Katlehong Ext	Gauteng
+1434	Germiston	Gauteng
+1434	Katlehong	Gauteng
+1434	Katlehong Ext	Gauteng
+1434	Kwenzekile	Gauteng
+1435	Katlehong Ext	Gauteng
+1436	Katlehong Ext	Gauteng
+1437	Katlehong	Gauteng
+1438	Gauteng	Gauteng
+1439	Heidelberg	Gauteng
+1440	Heidelberg	Gauteng
+1441	Gauteng	Gauteng
+1441	Heidelberg	Gauteng
+1442	Heidelberg	Gauteng
+1443	Heidelberg	Gauteng
+1444	Heidelberg	Gauteng
+1445	Katlehong	Gauteng
+1446	Boksburg	Gauteng
+1447	Alberton	Gauteng
+1448	Alberton	Gauteng
+1449	Alberton	Gauteng
+1451	Alberton	Gauteng
+1451	Alrode	Gauteng
+1452	Alberton	Gauteng
+1453	Alberton	Gauteng
+1454	Alberton	Gauteng
+1455	Alberton	Gauteng
+1456	Alberton	Gauteng
+1457	Alberton	Gauteng
+1458	Alberton	Gauteng
+1459	Boksburg	Gauteng
+1460	Boksburg	Gauteng
+1461	Boksburg	Gauteng
+1462	Boksburg	Gauteng
+1463	Boksburg	Gauteng
+1464	Boksburg	Gauteng
+1465	Boksburg	Gauteng
+1466	Boksburg	Gauteng
+1467	Boksburg	Gauteng
+1469	Boksburg	Gauteng
+1470	Boksburg	Gauteng
+1471	Boksburg	Gauteng
+1472	Boksburg	Gauteng
+1473	Rusloo	Gauteng
+1474	Boksburg	Gauteng
+1475	Rusloo	Gauteng
+1477	Boksburg	Gauteng
+1478	Boksburg	Gauteng
+1479	Boksburg	Gauteng
+1481	Alberton	Gauteng
+1482	Boksburg	Gauteng
+1484	Alrode	Gauteng
+1485	Boksburg	Gauteng
+1486	Rusloo	Gauteng
+1490	Nigel	Gauteng
+1491	Nigel	Gauteng
+1492	Nigel	Gauteng
+1494	Duduza	Gauteng
+1494	Nigel	Gauteng
+1495	Nigel	Gauteng
+1496	Duduza	Gauteng
+1496	Dunnottar	Gauteng
+1496	Nigel	Gauteng
+1497	Germiston	Gauteng
+1501	Benoni	Gauteng
+1501	Petit	Gauteng
+1502	Benoni	Gauteng
+1503	Benoni	Gauteng
+1504	Benoni	Gauteng
+1505	Benoni	Gauteng
+1506	Benoni	Gauteng
+1507	Benoni	Gauteng
+1508	Benoni	Gauteng
+1509	Benoni	Gauteng
+1511	Benoni	Gauteng
+1512	Petit	Gauteng
+1513	Putfontein	Gauteng
+1514	Benoni	Gauteng
+1515	Benoni	Gauteng
+1516	Benoni	Gauteng
+1517	Benoni	Gauteng
+1518	Benoni	Gauteng
+1519	Daveyton	Gauteng
+1519	Ethwathwa West Uit 2	Gauteng
+1520	Benoni	Gauteng
+1520	Daveyton	Gauteng
+1521	Daveyton	Gauteng
+1522	Benoni	Gauteng
+1524	Benoni	Gauteng
+1525	Benoni	Gauteng
+1526	Benoni	Gauteng
+1527	Benoni	Gauteng
+1540	Brakpan	Gauteng
+1541	Brakpan	Gauteng
+1541	Brakpan North	Gauteng
+1541	Dalpark	Gauteng
+1541	Minnebron	Gauteng
+1542	Brakpan	Gauteng
+1543	Brakpan	Gauteng
+1544	Brakpan	Gauteng
+1545	Brakpan	Gauteng
+1545	Brakpan North	Gauteng
+1546	Brakpan	Gauteng
+1547	Brakpan	Gauteng
+1548	Brakpan	Gauteng
+1549	Brakpan	Gauteng
+1549	Minnebron	Gauteng
+1550	Brakpan	Gauteng
+1550	Tsakane	Gauteng
+1551	Tsakane	Gauteng
+1552	Brakpan	Gauteng
+1552	Dalpark	Gauteng
+1553	Brakpan	Gauteng
+1554	Brakpan	Gauteng
+1558	Springs	Gauteng
+1559	Springs	Gauteng
+1562	Springs	Gauteng
+1563	Springs	Gauteng
+1564	Springs	Gauteng
+1565	Springs	Gauteng
+1566	Springs	Gauteng
+1567	Springs	Gauteng
+1568	Springs	Gauteng
+1569	Springs	Gauteng
+1570	Springs	Gauteng
+1571	Springs	Gauteng
+1572	Springs	Gauteng
+1574	Springs	Gauteng
+1575	Kwathema	Gauteng
+1575	Springs	Gauteng
+1576	Kwathema	Gauteng
+1577	Springs	Gauteng
+1578	Springs	Gauteng
+1590	Nigel	Gauteng
+1609	Edenvale	Gauteng
+1609	Gauteng	Gauteng
+1609	Modderfontein	Gauteng
+1610	Gauteng	Gauteng
+1611	Edenvale	Gauteng
+1612	Edenvale	Gauteng
+1613	Edenvale	Gauteng
+1614	Edenvale	Gauteng
+1618	Kempton Park	Gauteng
+1619	Kempton Park	Gauteng
+1621	Kempton Park	Gauteng
+1622	Kempton Park	Gauteng
+1623	Kempton Park	Gauteng
+1624	Kempton Park	Gauteng
+1625	Kempton Park	Gauteng
+1626	Kempton Park	Gauteng
+1627	Kempton Park	Gauteng
+1628	Kempton Park	Gauteng
+1629	Kempton Park	Gauteng
+1630	Kempton Park	Gauteng
+1631	Kempton Park	Gauteng
+1632	Kempton Park	Gauteng
+1632	Rabie Ridge	Gauteng
+1632	Tembisa	Gauteng
+1632	Tembisa Ext	Gauteng
+1634	Kempton Park	Gauteng
+1635	Tembisa	Gauteng
+1635	Tembisa Ext	Gauteng
+1636	Tembisa	Gauteng
+1637	Tembisa	Gauteng
+1638	Kempton Park	Gauteng
+1639	Kempton Park	Gauteng
+1640	Tembisa	Gauteng
+1645	Edenvale	Gauteng
+1666	Olifantsfontein	Gauteng
+1667	Olifantsfontein	Gauteng
+1684	Halfway House	Gauteng
+1685	Halfway House	Gauteng
+1686	Halfway House	Gauteng
+1687	Halfway House	Gauteng
+1687	Noordwyk	Gauteng
+1688	Rabie Ridge	Gauteng
+1688	Tembisa	Gauteng
+1689	Halfway House	Gauteng
+1689	Ivory Park	Gauteng
+1689	Tembisa	Gauteng
+1690	Tembisa	Gauteng
+1691	Tembisa	Gauteng
+1692	Halfway House	Gauteng
+1693	Halfway House	Gauteng
+1693	Ivory Park	Gauteng
+1693	Tembisa	Gauteng
+1700	Florida	Gauteng
+1701	Florida	Gauteng
+1708	Florida	Gauteng
+1709	Allen'S Nek	Gauteng
+1709	Florida	Gauteng
+1711	Florida	Gauteng
+1712	Florida	Gauteng
+1714	Roodepoort	Gauteng
+1715	Florida	Gauteng
+1716	Florida	Gauteng
+1717	Roodepoort	Gauteng
+1718	Krugersdorp	Gauteng
+1723	Dobsonville	Gauteng
+1724	Florida	Gauteng
+1724	Roodepoort	Gauteng
+1724	Rooderpoort	Gauteng
+1724	Strubens Valley	Gauteng
+1724	Strubensvallei	Gauteng
+1725	Roodepoort	Gauteng
+1726	Roodepoort	Gauteng
+1728	Roodepoort	Gauteng
+1729	Roodepoort	Gauteng
+1730	Roodepoort	Gauteng
+1731	Roodepoort	Gauteng
+1732	Roodepoort	Gauteng
+1733	Roodepoort	Gauteng
+1734	Roodepoort	Gauteng
+1735	Roodepoort	Gauteng
+1735	Strubens Valley	Gauteng
+1735	Strubensvallei	Gauteng
+1736	Roodepoort	Gauteng
+1737	Allen'S Nek	Gauteng
+1739	Kagiso	Gauteng
+1739	Krugersdorp	Gauteng
+1739	Muldersdrif	Gauteng
+1741	Krugersdorp	Gauteng
+1742	Krugersdorp	Gauteng
+1743	Krugersdorp	Gauteng
+1744	Kagiso	Gauteng
+1744	Krugersdorp	Gauteng
+1745	Krugersdorp	Gauteng
+1746	Krugersdorp	Gauteng
+1747	Krugersdorp	Gauteng
+1747	Muldersdrif	Gauteng
+1748	Krugersdorp	Gauteng
+1749	Krugersdorp	Gauteng
+1751	Krugersdorp	Gauteng
+1752	Krugersdorp	Gauteng
+1753	Kagiso	Gauteng
+1754	Kagiso	Gauteng
+1754	Krugersdorp	Gauteng
+1756	Krugersdorp	Gauteng
+1759	Kocksvlei	Gauteng
+1759	Mohlakeng	Gauteng
+1759	Randfontein	Gauteng
+1760	Randfontein	Gauteng
+1763	Randfontein	Gauteng
+1764	Kocksvlei	Gauteng
+1764	Randfontein	Gauteng
+1765	Randfontein	Gauteng
+1766	Mohlakeng	Gauteng
+1766	Randfontein	Gauteng
+1767	Randfontein	Gauteng
+1771	Randfontein	Gauteng
+1772	Westonaria	Gauteng
+1773	Rooderpoort	Gauteng
+1774	Roodepoort	Gauteng
+1775	Krugersdorp	Gauteng
+1779	Bekkersdal	Gauteng
+1779	Westonaria	Gauteng
+1780	Westonaria	Gauteng
+1781	Westonaria	Gauteng
+1782	Bekkersdal	Gauteng
+1782	Westonaria	Gauteng
+1784	Westonaria	Gauteng
+1785	Westonaria	Gauteng
+1786	Westonaria	Gauteng
+1787	Westonaria	Gauteng
+1788	Westonaria	Gauteng
+1789	Westonaria	Gauteng
+1791	Krugersdorp	Gauteng
+1794	Roodepoort	Gauteng
+1801	Dube	Gauteng
+1801	Meadowlands	Gauteng
+1803	Meadowlands	Gauteng
+1803	Soweto	Gauteng
+1804	Diepkloof	Gauteng
+1804	Orlando	Gauteng
+1804	Soweto	Gauteng
+1805	Orange Farm	Gauteng
+1806	Orlando	Gauteng
+1807	Orlando	Gauteng
+1808	Orlando	Gauteng
+1808	Pimville	Gauteng
+1808	Soweto	Gauteng
+1809	Lenasia	Gauteng
+1809	Pimville	Gauteng
+1809	Soweto	Gauteng
+1811	Eldoradopark	Gauteng
+1811	Pimville	Gauteng
+1812	Eldoradopark	Gauteng
+1813	Eldoradopark	Gauteng
+1814	Tshiawelo	Gauteng
+1815	Tshiawelo	Gauteng
+1816	Tshiawelo	Gauteng
+1818	Protea Glen	Gauteng
+1818	Tshiawelo	Gauteng
+1819	Protea Glen	Gauteng
+1819	Tshiawelo	Gauteng
+1820	Gauteng	Gauteng
+1821	Eldoradopark	Gauteng
+1821	Lenasia	Gauteng
+1823	Lenasia	Gauteng
+1824	Ennerdale	Gauteng
+1825	Ennerdale	Gauteng
+1827	Gauteng	Gauteng
+1827	Lenasia	Gauteng
+1828	Lenasia	Gauteng
+1829	Lenasia	Gauteng
+1830	Ennerdale	Gauteng
+1830	Lenasia	Gauteng
+1830	Odin Park	Gauteng
+1831	Odin Park	Gauteng
+1832	Eldoradopark	Gauteng
+1833	Lenasia	Gauteng
+1834	Protea Glen	Gauteng
+1835	Lenasia	Gauteng
+1837	Pimville	Gauteng
+1838	Lenasia	Gauteng
+1841	Orange Farm	Gauteng
+1852	Meadowlands	Gauteng
+1853	Meadowlands	Gauteng
+1860	Tshiawelo	Gauteng
+1861	Naledi	Gauteng
+1862	Diepkloof	Gauteng
+1863	Dobsonville	Gauteng
+1863	Orlando	Gauteng
+1865	Dobsonville	Gauteng
+1865	Orlando	Gauteng
+1866	Kwaxuma	Gauteng
+1868	Kwaxuma	Gauteng
+1870	Orlando	Gauteng
+1871	Meyerton	Gauteng
+1872	Meyerton	Gauteng
+1873	Meyerton	Gauteng
+1873	Randvaal	Gauteng
+1874	Dobsonville	Gauteng
+1875	Dobsonville	Gauteng
+1876	Meyerton	Gauteng
+1876	Walkerville	Gauteng
+1884	De Deur	Gauteng
+1900	Vanderbijlpark	Gauteng
+1901	Vanderbijlpark	Gauteng
+1902	Vanderbijlpark	Gauteng
+1903	Vanderbijlpark	Gauteng
+1904	Vereeniging	Gauteng
+1905	Vanderbijlpark	Gauteng
+1906	Vanderbijlpark	Gauteng
+1907	Mafatsana	Gauteng
+1907	Sebokeng	Gauteng
+1908	Masoheng	Gauteng
+1908	Vanderbijlpark	Gauteng
+1910	Vanderbijlpark	Gauteng
+1911	Vanderbijlpark	Gauteng
+1912	Vanderbijlpark	Gauteng
+1913	Sharpeville	Gauteng
+1914	Palm Springs	Gauteng
+1914	Sebokeng	Gauteng
+1915	Vanderbijlpark	Gauteng
+1916	Vanderbijlpark	Gauteng
+1918	Meyerton	Gauteng
+1928	Krugersdorp	Gauteng
+1928	Sharpeville	Gauteng
+1928	Vereeniging	Gauteng
+1929	Vereeniging	Gauteng
+1932	Deneysville	Free State
+1933	Krugersdorp	Gauteng
+1933	Vereeniging	Gauteng
+1934	Vereeniging	Gauteng
+1935	Vereeniging	Gauteng
+1936	Roshnee	Gauteng
+1936	Vereeniging	Gauteng
+1937	Vereeniging	Gauteng
+1938	Meyerton	Gauteng
+1939	Vereeniging	Gauteng
+1940	Bedworth Park	Gauteng
+1940	Vereeniging	Gauteng
+1941	Vereeniging	Gauteng
+1942	Vereeniging	Gauteng
+1943	Vereeniging	Gauteng
+1944	Vereeniging	Gauteng
+1946	Kragbron	Free State
+1946	Sasolburg	Free State
+1947	Sasolburg	Free State
+1948	Sasolburg	Free State
+1949	Sasolburg	Free State
+1949	Zamdela	Free State
+1961	Meyerton	Gauteng
+1962	Meyerton	Gauteng
+1963	Meyerton	Gauteng
+1980	Mafatsana	Gauteng
+1980	Residensia	Gauteng
+1980	Sebokeng	Gauteng
+1981	Mafatsana	Gauteng
+1981	Sebokeng	Gauteng
+1983	Sebokeng	Gauteng
+1984	Mafatsana	Gauteng
+1984	Palm Springs	Gauteng
+1984	Residensia	Gauteng
+1984	Sebokeng	Gauteng
+1995	Oranjeville	Free State
+2000	Johannesburg	Gauteng
+2001	Johannesburg	Gauteng
+2003	Johannesburg	Gauteng
+2004	Johannesburg	Gauteng
+2005	Johannesburg	Gauteng
+2006	Johannesburg	Gauteng
+2007	Bedfordview	Gauteng
+2007	Johannesburg	Gauteng
+2008	Johannesburg	Gauteng
+2009	Johannesburg	Gauteng
+2010	Johannesburg	Gauteng
+2011	Johannesburg	Gauteng
+2012	Johannesburg	Gauteng
+2013	Johannesburg	Gauteng
+2014	Johannesburg	Gauteng
+2015	Johannesburg	Gauteng
+2016	Johannesburg	Gauteng
+2017	Johannesburg	Gauteng
+2018	Johannesburg	Gauteng
+2019	Johannesburg	Gauteng
+2020	Johannesburg	Gauteng
+2021	Bryanston	Gauteng
+2021	Johannesburg	Gauteng
+2022	Johannesburg	Gauteng
+2023	Johannesburg	Gauteng
+2024	Johannesburg	Gauteng
+2026	Johannesburg	Gauteng
+2028	Johannesburg	Gauteng
+2030	Johannesburg	Gauteng
+2031	Bryanston	Gauteng
+2031	Johannesburg	Gauteng
+2031	Strathavon	Gauteng
+2032	Randburg	Gauteng
+2033	Johannesburg	Gauteng
+2034	Johannesburg	Gauteng
+2035	Johannesburg	Gauteng
+2036	Johannesburg	Gauteng
+2037	Johannesburg	Gauteng
+2038	Johannesburg	Gauteng
+2040	Johannesburg	Gauteng
+2041	Johannesburg	Gauteng
+2042	Johannesburg	Gauteng
+2043	Johannesburg	Gauteng
+2044	Johannesburg	Gauteng
+2047	Johannesburg	Gauteng
+2048	Johannesburg	Gauteng
+2049	Johannesburg	Gauteng
+2050	Johannesburg	Gauteng
+2051	Johannesburg	Gauteng
+2052	Bryanston	Gauteng
+2053	Johannesburg	Gauteng
+2054	Bramley	Gauteng
+2054	Johannesburg	Gauteng
+2055	Bryanston	Gauteng
+2055	Four Ways	Gauteng
+2055	Johannesburg	Gauteng
+2056	Bryanston	Gauteng
+2056	Paulshof	Gauteng
+2057	Bryanston	Gauteng
+2058	Johannesburg	Gauteng
+2059	Johannesburg	Gauteng
+2060	Bryanston	Gauteng
+2060	Johannesburg	Gauteng
+2061	Johannesburg	Gauteng
+2062	Johannesburg	Gauteng
+2063	Johannesburg	Gauteng
+2063	Marlboro	Gauteng
+2064	Johannesburg	Gauteng
+2065	Johannesburg	Gauteng
+2066	Bramley	Gauteng
+2067	Magalies View	Gauteng
+2067	Magaliessig	Gauteng
+2068	Witkoppen	Gauteng
+2069	Bryanston	Gauteng
+2070	Hurlingham View	Gauteng
+2070	Johannesburg	Gauteng
+2072	Bryanston	Gauteng
+2073	Bramley	Gauteng
+2074	Johannesburg	Gauteng
+2076	Johannesburg	Gauteng
+2077	Bryanston	Gauteng
+2078	Johannesburg	Gauteng
+2081	Johannesburg	Gauteng
+2082	Johannesburg	Gauteng
+2090	Bramley	Gauteng
+2090	Johannesburg	Gauteng
+2090	Marlboro	Gauteng
+2091	Johannesburg	Gauteng
+2092	Johannesburg	Gauteng
+2093	Johannesburg	Gauteng
+2094	Jeppestown	Gauteng
+2094	Johannesburg	Gauteng
+2095	Johannesburg	Gauteng
+2100	Johannesburg	Gauteng
+2101	Johannesburg	Gauteng
+2102	Johannesburg	Gauteng
+2103	Johannesburg	Gauteng
+2104	Johannesburg	Gauteng
+2105	Johannesburg	Gauteng
+2106	Johannesburg	Gauteng
+2107	Johannesburg	Gauteng
+2108	Johannesburg	Gauteng
+2109	Johannesburg	Gauteng
+2110	Johannesburg	Gauteng
+2111	Marshalltown	Gauteng
+2112	Johannesburg	Gauteng
+2113	Johannesburg	Gauteng
+2114	Florida	Gauteng
+2114	Johannesburg	Gauteng
+2115	Johannesburg	Gauteng
+2116	Johannesburg	Gauteng
+2117	Johannesburg	Gauteng
+2118	Johannesburg	Gauteng
+2119	Johannesburg	Gauteng
+2120	Johannesburg	Gauteng
+2121	Johannesburg	Gauteng
+2122	Johannesburg	Gauteng
+2123	Johannesburg	Gauteng
+2124	Johannesburg	Gauteng
+2128	Bryanston	Gauteng
+2128	Johannesburg	Gauteng
+2128	Rivonia	Gauteng
+2129	Johannesburg	Gauteng
+2130	Johannesburg	Gauteng
+2131	Johannesburg	Gauteng
+2132	Johannesburg	Gauteng
+2134	Johannesburg	Gauteng
+2135	Johannesburg	Gauteng
+2136	Johannesburg	Gauteng
+2137	Johannesburg	Gauteng
+2139	Johannesburg	Gauteng
+2140	Johannesburg	Gauteng
+2141	Johannesburg	Gauteng
+2142	Johannesburg	Gauteng
+2143	Johannesburg	Gauteng
+2144	Bramley	Gauteng
+2145	Johannesburg	Gauteng
+2147	Johannesburg	Gauteng
+2148	Bramley	Gauteng
+2148	Johannesburg	Gauteng
+2149	Johannesburg	Gauteng
+2151	Johannesburg	Gauteng
+2152	Bryanston	Gauteng
+2152	Johannesburg	Gauteng
+2153	Johannesburg	Gauteng
+2153	Jukskeipark	Gauteng
+2154	Bromhof	Gauteng
+2154	Johannesburg	Gauteng
+2155	Johannesburg	Gauteng
+2155	Northwold	Gauteng
+2156	Johannesburg	Gauteng
+2156	Randpark Ridge	Gauteng
+2157	Johannesburg	Gauteng
+2158	Johannesburg	Gauteng
+2159	Johannesburg	Gauteng
+2160	Johannesburg	Gauteng
+2161	Johannesburg	Gauteng
+2162	North Riding	Gauteng
+2163	Johannesburg	Gauteng
+2164	Johannesburg	Gauteng
+2165	Bryanston	Gauteng
+2167	Randburg	Gauteng
+2169	Johannesburg	Gauteng
+2169	North Riding	Gauteng
+2169	Randpark Ridge	Gauteng
+2170	Johannesburg	Gauteng
+2170	Randburg	Gauteng
+2171	Johannesburg	Gauteng
+2172	Sandton	Gauteng
+2188	Bromhof	Gauteng
+2188	Johannesburg	Gauteng
+2188	Jukskeipark	Gauteng
+2188	Northwold	Gauteng
+2189	Bryanston	Gauteng
+2190	Johannesburg	Gauteng
+2190	Rosettenville	Gauteng
+2191	Bryanston	Gauteng
+2191	Four Ways	Gauteng
+2191	Johannesburg	Gauteng
+2191	Paulshof	Gauteng
+2191	Rivonia	Gauteng
+2191	Witkoppen	Gauteng
+2192	Johannesburg	Gauteng
+2192	Orange Grove	Gauteng
+2193	Johannesburg	Gauteng
+2194	Johannesburg	Gauteng
+2194	Randburg	Gauteng
+2195	Johannesburg	Gauteng
+2195	Roosevelt Park	Gauteng
+2196	Bryanston	Gauteng
+2196	Hurlingham View	Gauteng
+2196	Johannesburg	Gauteng
+2196	Sandton	Gauteng
+2196	Strathavon	Gauteng
+2197	Johannesburg	Gauteng
+2198	Johannesburg	Gauteng
+2200	Sundra	Mpumalanga
+2200	Witbank	Mpumalanga
+2200	eMalahleni	Mpumalanga
+2210	Delmas	Mpumalanga
+2210	Witbank	Mpumalanga
+2210	eMalahleni	Mpumalanga
+2211	Delmas	Mpumalanga
+2211	Sundra	Mpumalanga
+2213	Delmas	Mpumalanga
+2225	Witbank	Mpumalanga
+2225	eMalahleni	Mpumalanga
+2226	Witbank	Mpumalanga
+2226	eMalahleni	Mpumalanga
+2230	Witbank	Mpumalanga
+2230	eMalahleni	Mpumalanga
+2231	Kriel	Mpumalanga
+2232	Ogies	Mpumalanga
+2233	Ogies	Mpumalanga
+2245	Van Dyksdrif	Mpumalanga
+2250	Blinkpan	Mpumalanga
+2250	Witbank	Mpumalanga
+2250	eMalahleni	Mpumalanga
+2260	Devon	Mpumalanga
+2260	Evander	Mpumalanga
+2265	Leslie	Mpumalanga
+2266	Evander	Mpumalanga
+2270	Evander	Mpumalanga
+2271	Kriel	Mpumalanga
+2272	Kriel	Mpumalanga
+2275	Kriel	Mpumalanga
+2276	Kriel	Mpumalanga
+2284	Evander	Mpumalanga
+2285	Embalenhle	Mpumalanga
+2285	Evander	Mpumalanga
+2300	Secunda	Mpumalanga
+2301	Secunda	Mpumalanga
+2302	Secunda	Mpumalanga
+2309	Bethal	Mpumalanga
+2311	Bethal	Mpumalanga
+2312	Bethal	Mpumalanga
+2320	Bethal	Mpumalanga
+2330	Breyten	Mpumalanga
+2330	Ermelo	Mpumalanga
+2332	Ermelo	Mpumalanga
+2333	Ermelo	Mpumalanga
+2334	Ermelo	Mpumalanga
+2336	Dundonald	Mpumalanga
+2336	Ermelo	Mpumalanga
+2337	Ermelo	Mpumalanga
+2339	Ermelo	Mpumalanga
+2340	Ermelo	Mpumalanga
+2341	Ermelo	Mpumalanga
+2351	Ermelo	Mpumalanga
+2352	Ermelo	Mpumalanga
+2353	Ermelo	Mpumalanga
+2355	Ermelo	Mpumalanga
+2355	Nucam	Mpumalanga
+2356	Ermelo	Mpumalanga
+2357	Ermelo	Mpumalanga
+2370	Ermelo	Mpumalanga
+2375	Amsterdam	Mpumalanga
+2375	Mpumalanga	Mpumalanga
+2380	Piet Retief	Mpumalanga
+2382	Piet Retief	Mpumalanga
+2383	Piet Retief	Mpumalanga
+2384	Piet Retief	Mpumalanga
+2385	Piet Retief	Mpumalanga
+2386	Piet Retief	Mpumalanga
+2387	Piet Retief	Mpumalanga
+2388	Piet Retief	Mpumalanga
+2389	Piet Retief	Mpumalanga
+2410	Balfour	Mpumalanga
+2410	Mpumalanga	Mpumalanga
+2425	Standerton	Mpumalanga
+2429	Standerton	Mpumalanga
+2430	Standerton	Mpumalanga
+2431	Sakhile	Mpumalanga
+2431	Standerton	Mpumalanga
+2432	Standerton	Mpumalanga
+2433	Standerton	Mpumalanga
+2434	Standerton	Mpumalanga
+2435	Standerton	Mpumalanga
+2436	Standerton	Mpumalanga
+2465	Volksrust	Mpumalanga
+2470	Volksrust	Mpumalanga
+2471	Volksrust	Mpumalanga
+2480	Wakkerstroom	Mpumalanga
+2490	Amersfoort	Mpumalanga
+2491	Volksrust	Mpumalanga
+2495	Carletonville	Mpumalanga
+2496	Carletonville	Mpumalanga
+2499	Carletonville	Mpumalanga
+2500	Carletonville	North West
+2501	Carletonville	North West
+2502	Carletonville	North West
+2503	Carletonville	North West
+2504	Carletonville	North West
+2507	Carletonville	North West
+2508	Carletonville	North West
+2509	Carletonville	North West
+2511	Carletonville	North West
+2513	Carletonville	North West
+2515	Fochville	North West
+2515	Kokosi	North West
+2516	Carletonville	North West
+2517	Carletonville	North West
+2519	Carletonville	North West
+2520	Potchefstroom	North West
+2521	Potchefstroom	North West
+2522	Potchefstroom	North West
+2523	Potchefstroom	North West
+2524	Potchefstroom	North West
+2525	Potchefstroom	North West
+2526	Potchefstroom	North West
+2527	Potchefstroom	North West
+2528	Boskop	North West
+2528	Potchefstroom	North West
+2529	Potchefstroom	North West
+2530	Potchefstroom	North West
+2531	Potchefstroom	North West
+2532	Potchefstroom	North West
+2533	Potchefstroom	North West
+2534	Carltonville	North West
+2535	Potchefstroom	North West
+2538	Potchefstroom	North West
+2551	Stilfontein	North West
+2552	Stilfontein	North West
+2553	Stilfontein	North West
+2554	Stilfontein	North West
+2556	Stilfontein	North West
+2560	Stilfontein	North West
+2562	Stilfontein	North West
+2571	Klerksdorp	North West
+2572	Klerksdorp	North West
+2573	Klerksdorp	North West
+2574	Jouberton	North West
+2574	Klerksdorp	North West
+2574	Klerkskdorp	North West
+2575	Klerksdorp	North West
+2576	Klerksdorp	North West
+2577	Klerksdorp	North West
+2578	Klerksdorp	North West
+2600	Hartbeesfontein	North West
+2600	Klerksdorp	North West
+2610	Ottosdal	North West
+2619	Orkney	North West
+2620	Orkney	North West
+2621	Orkney	North West
+2622	Orkney	North West
+2624	Orkney	North West
+2625	Orkney	North West
+2626	Orkney	North West
+2627	Orkney	North West
+2630	Wolmaransstad	North West
+2640	Leeudoringstad	North West
+2650	Makwassie	North West
+2660	Bloemhof	North West
+2661	Bloemhof	North West
+2662	Bloemhof	North West
+2680	Christiana	North West
+2710	Ventersdorp	North West
+2712	Ventersdorp	North West
+2717	Itsoseng	North West
+2718	Delareyville	North West
+2725	Coligny	North West
+2726	Coligny	North West
+2727	Coligny	North West
+2730	Lichtenburg	North West
+2736	Madikwe	North West
+2738	Mafikeng	North West
+2738	Mahikeng	North West
+2738	Radithuso	North West
+2739	Radithuso	North West
+2740	Lichtenburg	North West
+2741	Lichtenburg	North West
+2742	Lichtenburg	North West
+2743	Lichtenburg	North West
+2744	Itsoseng	North West
+2744	Mafikeng	North West
+2744	Mahikeng	North West
+2745	Mafikeng	North West
+2745	Mahikeng	North West
+2746	Mafikeng	North West
+2746	Mahikeng	North West
+2747	Delareyville	North West
+2748	Delareyville	North West
+2749	Mafikeng	North West
+2749	Mahikeng	North West
+2750	Mafikeng	North West
+2750	Mahikeng	North West
+2751	Mafikeng	North West
+2751	Mahikeng	North West
+2752	Mafikeng	North West
+2752	Mahikeng	North West
+2753	Mafikeng	North West
+2753	Mahikeng	North West
+2754	Lichtenburg	North West
+2755	Lichtenburg	North West
+2760	Sannieshof	North West
+2762	Lichtenburg	North West
+2763	Mafikeng	North West
+2763	Mahikeng	North West
+2766	Mafikeng	North West
+2766	Mahikeng	North West
+2767	Mafikeng	North West
+2767	Mahikeng	North West
+2768	Mafikeng	North West
+2768	Mahikeng	North West
+2769	Mafikeng	North West
+2769	Mahikeng	North West
+2771	Delareyville	North West
+2772	Delareyville	North West
+2773	Madibogo	North West
+2774	Madibogo	North West
+2775	Schweizer-Reneke	North West
+2776	Delareyville	North West
+2777	Mmabatho	North West
+2778	Vyrburg	North West
+2779	Vyrburg	North West
+2780	Schweizer-Reneke	North West
+2781	Vyrburg	North West
+2782	Mafikeng	North West
+2782	Mahikeng	North West
+2783	Mafikeng	North West
+2783	Mahikeng	North West
+2784	Mafikeng	North West
+2784	Mahikeng	North West
+2786	Schweizer-Reneke	North West
+2835	Swartruggens	North West
+2836	Madikwe	North West
+2838	Madikwe	North West
+2839	Madikwe	North West
+2841	Madikwe	North West
+2842	Madikwe	North West
+2843	Madikwe	North West
+2844	Madikwe	North West
+2845	Madikwe	North West
+2846	Madikwe	North West
+2847	Madikwe	North West
+2848	Madikwe	North West
+2849	Madikwe	North West
+2851	Zeerust	North West
+2852	Madikwe	North West
+2854	Madikwe	North West
+2855	Mafikeng	North West
+2855	Mahikeng	North West
+2857	Mafikeng	North West
+2857	Mahikeng	North West
+2858	Mafikeng	North West
+2858	Mahikeng	North West
+2865	Zeerust	North West
+2866	Mafikeng	North West
+2866	Mahikeng	North West
+2867	Zeerust	North West
+2868	Dinokana	North West
+2868	Lerato	North West
+2870	Lerato	North West
+2873	Lerato	North West
+2874	Zeerust	North West
+2876	Zeerust	North West
+2880	Lerato	North West
+2881	Zeerust	North West
+2882	Zeerust	North West
+2883	Zeerust	North West
+2884	Zeerust	North West
+2885	Zeerust	North West
+2886	Zeerust	North West
+2887	Zeerust	North West
+2888	Zeerust	North West
+2889	Zeerust	North West
+2890	Zeerust	North West
+2891	Zeerust	North West
+2895	Zeerust	North West
+2900	Ladysmith	KwaZulu-Natal
+2920	Wasbank	KwaZulu-Natal
+2930	Glencoe	KwaZulu-Natal
+2940	Newcastle	KwaZulu-Natal
+2941	Newcastle	KwaZulu-Natal
+2942	Newcastle	KwaZulu-Natal
+2944	Newcastle	KwaZulu-Natal
+2945	Newcastle	KwaZulu-Natal
+2950	Newcastle	KwaZulu-Natal
+2951	Madadeni	KwaZulu-Natal
+2952	Osizweni	KwaZulu-Natal
+2953	Newcastle	KwaZulu-Natal
+2954	Newcastle	KwaZulu-Natal
+2956	Newcastle	KwaZulu-Natal
+2957	Madadeni	KwaZulu-Natal
+2958	Newcastle	KwaZulu-Natal
+2980	Utrecht	KwaZulu-Natal
+3000	Dundee	KwaZulu-Natal
+3002	Vryheid	KwaZulu-Natal
+3003	Dundee	KwaZulu-Natal
+3004	Dundee	KwaZulu-Natal
+3005	Nqutu	KwaZulu-Natal
+3006	Dundee	KwaZulu-Natal
+3007	Nqutu	KwaZulu-Natal
+3010	Tugela Ferry	KwaZulu-Natal
+3011	Pomeroy	KwaZulu-Natal
+3016	Dundee	KwaZulu-Natal
+3017	Dundee	KwaZulu-Natal
+3020	Pomeroy	KwaZulu-Natal
+3024	Blood River	KwaZulu-Natal
+3080	Dannhause	KwaZulu-Natal
+3080	Dannhauser	KwaZulu-Natal
+3081	Dundee	KwaZulu-Natal
+3082	Newcastle	KwaZulu-Natal
+3100	Vryheid	KwaZulu-Natal
+3101	Emondlo	KwaZulu-Natal
+3102	Vryheid	KwaZulu-Natal
+3103	Vryheid	KwaZulu-Natal
+3105	Vryheid	KwaZulu-Natal
+3106	Vryheid	KwaZulu-Natal
+3107	Vryheid	KwaZulu-Natal
+3111	Vryheid	KwaZulu-Natal
+3114	Vryheid	KwaZulu-Natal
+3115	Vryheid	KwaZulu-Natal
+3116	Vryheid	KwaZulu-Natal
+3120	Vryheid	KwaZulu-Natal
+3135	Nqutu	KwaZulu-Natal
+3137	Nqutu	KwaZulu-Natal
+3145	Hlobane	KwaZulu-Natal
+3145	Vryheid	KwaZulu-Natal
+3150	Vryheid	KwaZulu-Natal
+3160	Pongola	KwaZulu-Natal
+3170	Pongola	KwaZulu-Natal
+3171	Pongola	KwaZulu-Natal
+3180	Paulpietersburg	KwaZulu-Natal
+3183	Vryheid	KwaZulu-Natal
+3184	Vryheid	KwaZulu-Natal
+3185	Paulpietersburg	KwaZulu-Natal
+3200	Pietermaritzburg	KwaZulu-Natal
+3201	Edendale	KwaZulu-Natal
+3201	Pietermaritzburg	KwaZulu-Natal
+3202	Pietermaritzburg	KwaZulu-Natal
+3203	Pietermaritzburg	KwaZulu-Natal
+3204	Edendale	KwaZulu-Natal
+3204	Pietermaritzburg	KwaZulu-Natal
+3204	Scottsville	KwaZulu-Natal
+3205	Pietermaritzburg	KwaZulu-Natal
+3206	Pietermaritzburg	KwaZulu-Natal
+3207	Pietermaritzburg	KwaZulu-Natal
+3208	Pietermaritzburg	KwaZulu-Natal
+3209	Pietermaritzburg	KwaZulu-Natal
+3210	Pietermaritzburg	KwaZulu-Natal
+3211	Pietermaritzburg	KwaZulu-Natal
+3213	Pietermaritzburg	KwaZulu-Natal
+3214	Pietermaritzburg	KwaZulu-Natal
+3215	Pietermaritzburg	KwaZulu-Natal
+3216	Pietermaritzburg	KwaZulu-Natal
+3217	Edendale	KwaZulu-Natal
+3217	Pietermaritzburg	KwaZulu-Natal
+3218	Edendale	KwaZulu-Natal
+3219	Pietermaritzburg	KwaZulu-Natal
+3220	Pietermaritzburg	KwaZulu-Natal
+3221	Pietermaritzburg	KwaZulu-Natal
+3224	Howick	KwaZulu-Natal
+3225	Pietermaritzburg	KwaZulu-Natal
+3226	Elandskop	KwaZulu-Natal
+3226	Pietermaritzburg	KwaZulu-Natal
+3227	Impendle	KwaZulu-Natal
+3228	Howick	KwaZulu-Natal
+3228	Impendle	KwaZulu-Natal
+3230	Dalton	KwaZulu-Natal
+3231	Pietermaritzburg	KwaZulu-Natal
+3233	Greytown	KwaZulu-Natal
+3233	Wartburg	KwaZulu-Natal
+3234	Wartburg	KwaZulu-Natal
+3235	Pietermaritzburg	KwaZulu-Natal
+3236	Dalton	KwaZulu-Natal
+3236	Greytown	KwaZulu-Natal
+3237	Donnybrook	KwaZulu-Natal
+3237	Kokstad	KwaZulu-Natal
+3238	Dalton	KwaZulu-Natal
+3239	Umzimkulu	KwaZulu-Natal
+3241	Donnybrook	KwaZulu-Natal
+3242	Dalton	KwaZulu-Natal
+3242	Ozwatini	KwaZulu-Natal
+3244	Bulwer	KwaZulu-Natal
+3244	Howick	KwaZulu-Natal
+3245	Pietermaritzburg	KwaZulu-Natal
+3246	Howick	KwaZulu-Natal
+3247	Howick	KwaZulu-Natal
+3248	Howick	KwaZulu-Natal
+3249	Greytown	KwaZulu-Natal
+3250	Greytown	KwaZulu-Natal
+3250	Kwazulu/Natal	KwaZulu-Natal
+3251	Greytown	KwaZulu-Natal
+3252	Scottsville	KwaZulu-Natal
+3254	Pietermaritzburg	KwaZulu-Natal
+3255	Howick	KwaZulu-Natal
+3258	Greytown	KwaZulu-Natal
+3259	Dalton	KwaZulu-Natal
+3260	Howick	KwaZulu-Natal
+3261	Ozwatini	KwaZulu-Natal
+3262	Greytown	KwaZulu-Natal
+3263	Creighton	KwaZulu-Natal
+3263	Umzinto	KwaZulu-Natal
+3265	Howick	KwaZulu-Natal
+3266	Umzinto	KwaZulu-Natal
+3267	Howick	KwaZulu-Natal
+3268	Greytown	KwaZulu-Natal
+3268	Kranskop	KwaZulu-Natal
+3269	Kranskop	KwaZulu-Natal
+3270	Howick	KwaZulu-Natal
+3271	Kranskop	KwaZulu-Natal
+3272	Kranskop	KwaZulu-Natal
+3273	Kranskop	KwaZulu-Natal
+3274	Kranskop	KwaZulu-Natal
+3275	Howick	KwaZulu-Natal
+3276	Pietermaritzburg	KwaZulu-Natal
+3277	Kranskop	KwaZulu-Natal
+3279	Amanzimtoti	KwaZulu-Natal
+3280	Estcourt	KwaZulu-Natal
+3282	Kranskop	KwaZulu-Natal
+3286	Kranskop	KwaZulu-Natal
+3287	Kranskop	KwaZulu-Natal
+3290	Howick	KwaZulu-Natal
+3290	Merrivale	KwaZulu-Natal
+3291	Howick	KwaZulu-Natal
+3291	Merrivale	KwaZulu-Natal
+3292	Pietermaritzburg	KwaZulu-Natal
+3293	Pietermaritzburg	KwaZulu-Natal
+3294	Pietermaritzburg	KwaZulu-Natal
+3295	Pietermaritzburg	KwaZulu-Natal
+3296	Pietermaritzburg	KwaZulu-Natal
+3298	Umzimkulu	KwaZulu-Natal
+3299	Howick	KwaZulu-Natal
+3300	Estcourt	KwaZulu-Natal
+3300	Mooi River	KwaZulu-Natal
+3301	Estcourt	KwaZulu-Natal
+3302	Howick	KwaZulu-Natal
+3303	Howick	KwaZulu-Natal
+3304	Umzimkulu	KwaZulu-Natal
+3305	Highflats	KwaZulu-Natal
+3306	Highflats	KwaZulu-Natal
+3307	Umzimkulu	KwaZulu-Natal
+3308	Merrivale	KwaZulu-Natal
+3310	Estcourt	KwaZulu-Natal
+3312	Estcourt	KwaZulu-Natal
+3313	Estcourt	KwaZulu-Natal
+3325	Estcourt	KwaZulu-Natal
+3330	Estcourt	KwaZulu-Natal
+3331	Winterton	KwaZulu-Natal
+3340	Winterton	KwaZulu-Natal
+3341	Winterton	KwaZulu-Natal
+3342	Winterton	KwaZulu-Natal
+3350	Bergville	KwaZulu-Natal
+3351	Bergville	KwaZulu-Natal
+3352	Bergville	KwaZulu-Natal
+3354	Bergville	KwaZulu-Natal
+3360	Colenso	KwaZulu-Natal
+3360	Ladysmith	KwaZulu-Natal
+3370	Ladysmith	KwaZulu-Natal
+3371	Ladysmith	KwaZulu-Natal
+3372	Harrismith	KwaZulu-Natal
+3373	Ladysmith	KwaZulu-Natal
+3373	Steadville	KwaZulu-Natal
+3374	Ladysmith	KwaZulu-Natal
+3375	Ladysmith	KwaZulu-Natal
+3377	Ladysmith	KwaZulu-Natal
+3378	Ladysmith	KwaZulu-Natal
+3380	Ladysmith	KwaZulu-Natal
+3381	Ezakheni	KwaZulu-Natal
+3382	Ladysmith	KwaZulu-Natal
+3384	Ladysmith	KwaZulu-Natal
+3500	Greytown	KwaZulu-Natal
+3600	Pinetown	KwaZulu-Natal
+3602	Pinetown	KwaZulu-Natal
+3603	Pinetown	KwaZulu-Natal
+3604	Chatsworth	KwaZulu-Natal
+3604	Nagina	KwaZulu-Natal
+3604	Pinetown	KwaZulu-Natal
+3605	Pinetown	KwaZulu-Natal
+3607	Pinetown	KwaZulu-Natal
+3608	Pinetown	KwaZulu-Natal
+3609	Pinetown	KwaZulu-Natal
+3609	St Wendolins	KwaZulu-Natal
+3610	Chatsworth	KwaZulu-Natal
+3610	Clernaville	KwaZulu-Natal
+3610	Gillitts	KwaZulu-Natal
+3610	Hillcrest	KwaZulu-Natal
+3610	Kloof	KwaZulu-Natal
+3610	Link Hills	KwaZulu-Natal
+3610	New Germany	KwaZulu-Natal
+3610	Pinetown	KwaZulu-Natal
+3611	Durban	KwaZulu-Natal
+3612	New Germany	KwaZulu-Natal
+3613	Pinetown	KwaZulu-Natal
+3614	Nagina	KwaZulu-Natal
+3615	Pinetown	KwaZulu-Natal
+3616	Pinetown	KwaZulu-Natal
+3617	Pinetown	KwaZulu-Natal
+3620	Pinetown	KwaZulu-Natal
+3621	Pinetown	KwaZulu-Natal
+3624	Hillcrest	KwaZulu-Natal
+3624	Pinetown	KwaZulu-Natal
+3625	Pinetown	KwaZulu-Natal
+3626	Hillcrest	KwaZulu-Natal
+3626	Pinetown	KwaZulu-Natal
+3629	Durban	KwaZulu-Natal
+3629	Westville	KwaZulu-Natal
+3630	Durban	KwaZulu-Natal
+3631	Westville	KwaZulu-Natal
+3634	Westville	KwaZulu-Natal
+3635	Westville	KwaZulu-Natal
+3640	Kloof	KwaZulu-Natal
+3650	Hillcrest	KwaZulu-Natal
+3650	Pinetown	KwaZulu-Natal
+3651	Pinetown	KwaZulu-Natal
+3652	Pinetown	KwaZulu-Natal
+3655	Link Hills	KwaZulu-Natal
+3660	Botha'S Hill	KwaZulu-Natal
+3660	Hillcrest	KwaZulu-Natal
+3670	Hammarsdale	KwaZulu-Natal
+3680	Cato Ridge	KwaZulu-Natal
+3680	Hammarsdale	KwaZulu-Natal
+3690	Hammarsdale	KwaZulu-Natal
+3699	Hammarsdale	KwaZulu-Natal
+3700	Hammarsdale	KwaZulu-Natal
+3701	Hammarsdale	KwaZulu-Natal
+3705	Hammarsdale	KwaZulu-Natal
+3710	Hammarsdale	KwaZulu-Natal
+3720	Hammarsdale	KwaZulu-Natal
+3730	Hammarsdale	KwaZulu-Natal
+3750	Mid Illovo	KwaZulu-Natal
+3760	Scottsville	KwaZulu-Natal
+3770	Scottsville	KwaZulu-Natal
+3780	Richmond	KwaZulu-Natal
+3781	Richmond	KwaZulu-Natal
+3782	Richmond	KwaZulu-Natal
+3800	Gingindlovu	KwaZulu-Natal
+3802	Mandeni	KwaZulu-Natal
+3803	Gingindlovu	KwaZulu-Natal
+3804	Gingindlovu	KwaZulu-Natal
+3806	Gingindlovu	KwaZulu-Natal
+3814	Eshowe	KwaZulu-Natal
+3815	Eshowe	KwaZulu-Natal
+3815	Stanger	KwaZulu-Natal
+3816	Eshowe	KwaZulu-Natal
+3817	Eshowe	KwaZulu-Natal
+3818	Gingindlovu	KwaZulu-Natal
+3820	Eshowe	KwaZulu-Natal
+3830	Eshowe	KwaZulu-Natal
+3835	Melmoth	KwaZulu-Natal
+3836	Nongoma	KwaZulu-Natal
+3837	Melmoth	KwaZulu-Natal
+3838	Ulundi	KwaZulu-Natal
+3850	Eshowe	KwaZulu-Natal
+3850	Melmoth	KwaZulu-Natal
+3855	Nkandla	KwaZulu-Natal
+3856	Mahlabatini	KwaZulu-Natal
+3856	Nkandla	KwaZulu-Natal
+3857	Melmoth	KwaZulu-Natal
+3858	Nkandla	KwaZulu-Natal
+3859	Nkandla	KwaZulu-Natal
+3865	Mahlabatini	KwaZulu-Natal
+3866	Nongoma	KwaZulu-Natal
+3867	Mtunzini	KwaZulu-Natal
+3871	Ceza	KwaZulu-Natal
+3875	Empangeni	KwaZulu-Natal
+3879	Empangeni	KwaZulu-Natal
+3880	Empangeni	KwaZulu-Natal
+3881	Empangeni	KwaZulu-Natal
+3882	Empangeni	KwaZulu-Natal
+3884	Empangeni	KwaZulu-Natal
+3886	Kwadlangezwa	KwaZulu-Natal
+3887	Esikhawini	KwaZulu-Natal
+3900	Empangeni	KwaZulu-Natal
+3900	Richards Bay	KwaZulu-Natal
+3900	Richardsbaai	KwaZulu-Natal
+3902	Richards Bay	KwaZulu-Natal
+3903	Richards Bay	KwaZulu-Natal
+3904	Richards Bay	KwaZulu-Natal
+3910	Empangeni	KwaZulu-Natal
+3915	Kwambonambi	KwaZulu-Natal
+3920	Empangeni	KwaZulu-Natal
+3925	Mtubatuba	KwaZulu-Natal
+3930	Mtubatuba	KwaZulu-Natal
+3934	Nongoma	KwaZulu-Natal
+3935	Mtubatuba	KwaZulu-Natal
+3936	Mtubatuba	KwaZulu-Natal
+3936	St Lucia Estuary	KwaZulu-Natal
+3937	Hlabisa	KwaZulu-Natal
+3938	Nongoma	KwaZulu-Natal
+3940	Mtubatuba	KwaZulu-Natal
+3950	Hluhluwe	KwaZulu-Natal
+3950	Nongoma	KwaZulu-Natal
+3960	Hluhluwe	KwaZulu-Natal
+3964	Ingwavuma	KwaZulu-Natal
+3965	Empangeni	KwaZulu-Natal
+3965	Mkuze	KwaZulu-Natal
+3966	Mkuze	KwaZulu-Natal
+3967	Mkuze	KwaZulu-Natal
+3968	Ingwavuma	KwaZulu-Natal
+3970	Empangeni	KwaZulu-Natal
+3970	Ubombo	KwaZulu-Natal
+3972	Mkuze	KwaZulu-Natal
+3974	Mbazwana	KwaZulu-Natal
+3974	Mkuze	KwaZulu-Natal
+3975	Mkuze	KwaZulu-Natal
+3976	Mkuze	KwaZulu-Natal
+3977	Ingwavuma	KwaZulu-Natal
+3978	Kwangkwanase	KwaZulu-Natal
+3979	Mkuze	KwaZulu-Natal
+3980	Mkuze	KwaZulu-Natal
+3982	Jozini	KwaZulu-Natal
+3983	Jozini	KwaZulu-Natal
+3984	Jozini	KwaZulu-Natal
+3985	Jozini	KwaZulu-Natal
+3986	Jozini	KwaZulu-Natal
+3987	Jozini	KwaZulu-Natal
+3988	Mbazwana	KwaZulu-Natal
+3989	Jozini	KwaZulu-Natal
+4000	Durban	KwaZulu-Natal
+4001	Durban	KwaZulu-Natal
+4004	Durban	KwaZulu-Natal
+4004	Yellowwood Park	KwaZulu-Natal
+4005	Durban	KwaZulu-Natal
+4006	Durban	KwaZulu-Natal
+4007	Durban	KwaZulu-Natal
+4008	Durban	KwaZulu-Natal
+4011	Durban	KwaZulu-Natal
+4013	Durban	KwaZulu-Natal
+4014	Durban	KwaZulu-Natal
+4015	Durban	KwaZulu-Natal
+4016	Durban	KwaZulu-Natal
+4017	Durban	KwaZulu-Natal
+4018	Durban	KwaZulu-Natal
+4019	Durban North	KwaZulu-Natal
+4021	Umhlanga Rocks	KwaZulu-Natal
+4022	Durban	KwaZulu-Natal
+4023	Durban	KwaZulu-Natal
+4024	Durban	KwaZulu-Natal
+4025	Durban	KwaZulu-Natal
+4026	Durban	KwaZulu-Natal
+4027	Durban	KwaZulu-Natal
+4027	Lamontville	KwaZulu-Natal
+4028	Durban	KwaZulu-Natal
+4029	Durban	KwaZulu-Natal
+4030	Chatsworth	KwaZulu-Natal
+4031	Umlazi	KwaZulu-Natal
+4032	Inanda	KwaZulu-Natal
+4032	Kwa-Mashu	KwaZulu-Natal
+4032	Kwazimele	KwaZulu-Natal
+4034	Durban	KwaZulu-Natal
+4035	Durban	KwaZulu-Natal
+4035	Marble Ray	KwaZulu-Natal
+4036	Durban	KwaZulu-Natal
+4037	Durban	KwaZulu-Natal
+4037	Marble Ray	KwaZulu-Natal
+4038	Durban	KwaZulu-Natal
+4039	Marble Ray	KwaZulu-Natal
+4050	Mobeni	KwaZulu-Natal
+4051	Durban	KwaZulu-Natal
+4051	Durban North	KwaZulu-Natal
+4051	Durban-Noord	KwaZulu-Natal
+4052	Bluff	KwaZulu-Natal
+4052	Durban	KwaZulu-Natal
+4053	Durban	KwaZulu-Natal
+4054	Chatsworth	KwaZulu-Natal
+4056	Durban	KwaZulu-Natal
+4057	Durban	KwaZulu-Natal
+4058	Durban	KwaZulu-Natal
+4059	Durban	KwaZulu-Natal
+4060	Durban	KwaZulu-Natal
+4061	Durban	KwaZulu-Natal
+4062	Durban	KwaZulu-Natal
+4063	Durban	KwaZulu-Natal
+4064	Durban	KwaZulu-Natal
+4065	Durban	KwaZulu-Natal
+4066	Isipingo	KwaZulu-Natal
+4066	Ntokozweni	KwaZulu-Natal
+4066	Umlazi	KwaZulu-Natal
+4067	Durban	KwaZulu-Natal
+4068	Durban	KwaZulu-Natal
+4068	Mount Edgecombe	KwaZulu-Natal
+4068	Phoenix	KwaZulu-Natal
+4069	Durban	KwaZulu-Natal
+4070	Durban	KwaZulu-Natal
+4071	Durban	KwaZulu-Natal
+4072	Rossburgh	KwaZulu-Natal
+4074	Durban	KwaZulu-Natal
+4075	Durban	KwaZulu-Natal
+4078	Durban	KwaZulu-Natal
+4079	Queensburgh	KwaZulu-Natal
+4080	Durban	KwaZulu-Natal
+4080	Phoenix	KwaZulu-Natal
+4082	Mayville	KwaZulu-Natal
+4083	Durban	KwaZulu-Natal
+4084	Chatsworth	KwaZulu-Natal
+4085	Durban	KwaZulu-Natal
+4087	Chatsworth	KwaZulu-Natal
+4088	Mobeni	KwaZulu-Natal
+4089	Ntokozweni	KwaZulu-Natal
+4089	Umlazi	KwaZulu-Natal
+4090	Durban	KwaZulu-Natal
+4091	Dormerton	KwaZulu-Natal
+4091	Durban	KwaZulu-Natal
+4091	Mayville	KwaZulu-Natal
+4092	Chatsworth	KwaZulu-Natal
+4092	Durban	KwaZulu-Natal
+4092	Marianhill	KwaZulu-Natal
+4092	Mobeni	KwaZulu-Natal
+4093	Durban	KwaZulu-Natal
+4093	Northdene	KwaZulu-Natal
+4093	Pinetown	KwaZulu-Natal
+4093	Queensburgh	KwaZulu-Natal
+4093	Shallcross	KwaZulu-Natal
+4094	Durban	KwaZulu-Natal
+4094	Rossburgh	KwaZulu-Natal
+4098	Durban North	KwaZulu-Natal
+4099	Phoenix	KwaZulu-Natal
+4100	Amanzimtoti	KwaZulu-Natal
+4101	Durban	KwaZulu-Natal
+4104	Durban	KwaZulu-Natal
+4105	Umbumbulu	KwaZulu-Natal
+4106	Umbumbulu	KwaZulu-Natal
+4109	Jacobs	KwaZulu-Natal
+4110	Isipingo	KwaZulu-Natal
+4111	Isipingo	KwaZulu-Natal
+4113	Isipingo	KwaZulu-Natal
+4115	Isipingo Beach	KwaZulu-Natal
+4120	Amanzimtoti	KwaZulu-Natal
+4125	Amanzimtoti	KwaZulu-Natal
+4126	Amanzimtoti	KwaZulu-Natal
+4126	Doonside	KwaZulu-Natal
+4126	Illovo Beach	KwaZulu-Natal
+4126	Umbogintwini	KwaZulu-Natal
+4126	Winklespruit	KwaZulu-Natal
+4132	Chatsworth	KwaZulu-Natal
+4133	Isipingo	KwaZulu-Natal
+4133	Isipingo Beach	KwaZulu-Natal
+4135	Amanzimtoti	KwaZulu-Natal
+4136	Amanzimtoti	KwaZulu-Natal
+4137	Durban	KwaZulu-Natal
+4138	Dormerton	KwaZulu-Natal
+4138	Mayville	KwaZulu-Natal
+4139	Bluff	KwaZulu-Natal
+4140	Amanzimtoti	KwaZulu-Natal
+4142	Chatsworth	KwaZulu-Natal
+4142	Marianhill	KwaZulu-Natal
+4144	Umlazi	KwaZulu-Natal
+4145	Amanzimtoti	KwaZulu-Natal
+4145	Winklespruit	KwaZulu-Natal
+4146	Malvern	KwaZulu-Natal
+4146	Rossburgh	KwaZulu-Natal
+4147	Chatsworth	KwaZulu-Natal
+4147	Malvern	KwaZulu-Natal
+4147	Northdene	KwaZulu-Natal
+4147	Pinetown	KwaZulu-Natal
+4147	Queensburgh	KwaZulu-Natal
+4148	Umlazi	KwaZulu-Natal
+4150	Amanzimtoti	KwaZulu-Natal
+4153	Isipingo	KwaZulu-Natal
+4155	Amanzimtoti	KwaZulu-Natal
+4156	Mount Edgecombe	KwaZulu-Natal
+4156	Phoenix	KwaZulu-Natal
+4157	Phoenix	KwaZulu-Natal
+4158	Phoenix	KwaZulu-Natal
+4160	Amanzimtoti	KwaZulu-Natal
+4162	Durban	KwaZulu-Natal
+4162	Yellowwood Park	KwaZulu-Natal
+4163	Yellowwood Park	KwaZulu-Natal
+4170	Umkomaas	KwaZulu-Natal
+4171	Umkomaas	KwaZulu-Natal
+4180	Scottburgh	KwaZulu-Natal
+4181	Scottburgh	KwaZulu-Natal
+4182	Scottburgh	KwaZulu-Natal
+4183	Scottburgh	KwaZulu-Natal
+4184	Pennington	KwaZulu-Natal
+4184	Scottburgh	KwaZulu-Natal
+4185	Ifafa Beach	KwaZulu-Natal
+4185	Scottburgh	KwaZulu-Natal
+4186	Scottburgh	KwaZulu-Natal
+4200	Hibberdene	KwaZulu-Natal
+4200	Umzinto	KwaZulu-Natal
+4201	Umzinto	KwaZulu-Natal
+4202	Umzinto	KwaZulu-Natal
+4204	Umzinto	KwaZulu-Natal
+4207	Umzinto	KwaZulu-Natal
+4215	Sezela	KwaZulu-Natal
+4220	Hibberdene	KwaZulu-Natal
+4221	Hibberdene	KwaZulu-Natal
+4225	Umzumbe	KwaZulu-Natal
+4226	Port Shepstone	KwaZulu-Natal
+4227	Umzumbe	KwaZulu-Natal
+4230	Anerley	KwaZulu-Natal
+4235	Umtentweni	KwaZulu-Natal
+4240	Port Shepstone	KwaZulu-Natal
+4240	Shelly Beach	KwaZulu-Natal
+4241	Port Shepstone	KwaZulu-Natal
+4242	Ndwedwe	KwaZulu-Natal
+4242	Port Shepstone	KwaZulu-Natal
+4243	Port Shepstone	KwaZulu-Natal
+4246	Mehlomnyama	KwaZulu-Natal
+4246	Port Shepstone	KwaZulu-Natal
+4247	Port Shepstone	KwaZulu-Natal
+4249	Port Shepstone	KwaZulu-Natal
+4250	Port Shepstone	KwaZulu-Natal
+4251	Port Shepstone	KwaZulu-Natal
+4260	Izingolweni	KwaZulu-Natal
+4261	Izingolweni	KwaZulu-Natal
+4265	Shelly Beach	KwaZulu-Natal
+4270	Uvongo	KwaZulu-Natal
+4275	Margate	KwaZulu-Natal
+4276	Manaba Beach	KwaZulu-Natal
+4276	Margate	KwaZulu-Natal
+4277	Margate	KwaZulu-Natal
+4278	Margate	KwaZulu-Natal
+4278	Munster	KwaZulu-Natal
+4280	Margate	KwaZulu-Natal
+4281	Margate	KwaZulu-Natal
+4295	Port Edward	KwaZulu-Natal
+4300	Phoenix	KwaZulu-Natal
+4301	Mount Edgecombe	KwaZulu-Natal
+4302	Phoenix	KwaZulu-Natal
+4309	Durban	KwaZulu-Natal
+4309	Inanda	KwaZulu-Natal
+4309	Phoenix	KwaZulu-Natal
+4310	Durban	KwaZulu-Natal
+4310	Inanda	KwaZulu-Natal
+4319	Umhlanga Rocks	KwaZulu-Natal
+4319	Verulam	KwaZulu-Natal
+4321	Umhlanga Rocks	KwaZulu-Natal
+4339	Verulam	KwaZulu-Natal
+4340	Verulam	KwaZulu-Natal
+4341	Ndwedwe	KwaZulu-Natal
+4342	Ndwedwe	KwaZulu-Natal
+4343	Verulam	KwaZulu-Natal
+4344	Verulam	KwaZulu-Natal
+4345	Verulam	KwaZulu-Natal
+4350	Umhlanga Rocks	KwaZulu-Natal
+4359	Durban	KwaZulu-Natal
+4359	Kwa-Mashu	KwaZulu-Natal
+4359	Kwamashu	KwaZulu-Natal
+4360	Durban	KwaZulu-Natal
+4360	Kwa-Mashu	KwaZulu-Natal
+4360	Kwamashu	KwaZulu-Natal
+4361	Kwa-Mashu	KwaZulu-Natal
+4362	Durban	KwaZulu-Natal
+4364	Kwa-Mashu	KwaZulu-Natal
+4380	Maidstone	KwaZulu-Natal
+4380	Tongaat	KwaZulu-Natal
+4390	Tongaat	KwaZulu-Natal
+4391	Umhlali	KwaZulu-Natal
+4399	Desainagar	KwaZulu-Natal
+4399	Hambanathi Heights	KwaZulu-Natal
+4399	Maidstone	KwaZulu-Natal
+4399	Ndwedwe	KwaZulu-Natal
+4399	Tongaat	KwaZulu-Natal
+4400	Hambanathi Heights	KwaZulu-Natal
+4400	Tongaat	KwaZulu-Natal
+4401	Tongaat	KwaZulu-Natal
+4402	Tongaat	KwaZulu-Natal
+4403	Tongaat	KwaZulu-Natal
+4404	Tongaat	KwaZulu-Natal
+4405	Desainagar	KwaZulu-Natal
+4405	Tongaat	KwaZulu-Natal
+4406	Maidstone	KwaZulu-Natal
+4406	Tongaat	KwaZulu-Natal
+4420	Tongaat	KwaZulu-Natal
+4420	Umhlali	KwaZulu-Natal
+4430	Shakaskraal	KwaZulu-Natal
+4449	Stanger	KwaZulu-Natal
+4450	Stanger	KwaZulu-Natal
+4451	Stanger	KwaZulu-Natal
+4452	Stanger	KwaZulu-Natal
+4453	Stanger	KwaZulu-Natal
+4454	Stanger	KwaZulu-Natal
+4455	Stanger	KwaZulu-Natal
+4456	Stanger	KwaZulu-Natal
+4457	Stanger	KwaZulu-Natal
+4470	Mapumulo	KwaZulu-Natal
+4470	Stanger	KwaZulu-Natal
+4480	Darnall	KwaZulu-Natal
+4490	Mandeni	KwaZulu-Natal
+4490	Stanger	KwaZulu-Natal
+4491	Mandeni	KwaZulu-Natal
+4492	Mandeni	KwaZulu-Natal
+4642	Port Shepstone	KwaZulu-Natal
+4643	Harding	KwaZulu-Natal
+4680	Harding	KwaZulu-Natal
+4681	Harding	KwaZulu-Natal
+4682	Nqabeni	KwaZulu-Natal
+4682	Port Shepstone	KwaZulu-Natal
+4683	Harding	KwaZulu-Natal
+4684	Harding	KwaZulu-Natal
+4685	Kokstad	KwaZulu-Natal
+4687	Harding	KwaZulu-Natal
+4688	Harding	KwaZulu-Natal
+4689	Harding	KwaZulu-Natal
+4693	Kokstad	KwaZulu-Natal
+4700	Kokstad	KwaZulu-Natal
+4706	Kokstad	KwaZulu-Natal
+4710	Kokstad	KwaZulu-Natal
+4730	Matatiele	Eastern Cape
+4731	Matatiele	Eastern Cape
+4735	Mount Ayliff	Eastern Cape
+4736	Mount Ayliff	Eastern Cape
+4737	Mount Ayliff	Eastern Cape
+4738	Mount Ayliff	Eastern Cape
+4740	Maluti	Eastern Cape
+4740	Mthatha	Eastern Cape
+4740	Umtata	Eastern Cape
+4742	Maluti	Eastern Cape
+4743	Queen'S Mercy	Eastern Cape
+4743	Queens Mercy	Eastern Cape
+4751	Magadla	Eastern Cape
+4752	Magadla	Eastern Cape
+4753	Magadla	Eastern Cape
+4770	Mount Fletcher	Eastern Cape
+4771	Mount Fletcher	Eastern Cape
+4772	Mount Fletcher	Eastern Cape
+4773	Mount Fletcher	Eastern Cape
+4774	Mount Fletcher	Eastern Cape
+4776	Mount Fletcher	Eastern Cape
+4777	Mount Fletcher	Eastern Cape
+4778	Mount Fletcher	Eastern Cape
+4780	Mount Fletcher	Eastern Cape
+4781	Mount Fletcher	Eastern Cape
+4786	Mount Fletcher	Eastern Cape
+4788	Queen'S Mercy	Eastern Cape
+4789	Mount Fletcher	Eastern Cape
+4790	Mount Fletcher	Eastern Cape
+4800	Bizana	Eastern Cape
+4802	Bizana	Eastern Cape
+4803	Bizana	Eastern Cape
+4804	Bizana	Eastern Cape
+4810	Flagstaff	Eastern Cape
+4811	Flagstaff	Eastern Cape
+4812	Flagstaff	Eastern Cape
+4813	Flagstaff	Eastern Cape
+4814	Flagstaff	Eastern Cape
+4820	Lusikisiki	Eastern Cape
+4821	Flagstaff	Eastern Cape
+4822	Lusikisiki	Eastern Cape
+4824	Lusikisiki	Eastern Cape
+4825	Lusikisiki	Eastern Cape
+4828	Lusikisiki	Eastern Cape
+4930	Stutterheim	Eastern Cape
+4931	King William'S Town	Eastern Cape
+4934	Stutterheim	Eastern Cape
+4935	Stutterheim	Eastern Cape
+4950	Komga	Eastern Cape
+4960	Butterworth	Eastern Cape
+4961	Butterworth	Eastern Cape
+4961	Msobomvu	Eastern Cape
+4963	Butterworth	Eastern Cape
+4964	Ndabakazi	Eastern Cape
+4968	Butterworth	Eastern Cape
+4980	Kentani	Eastern Cape
+4982	Kentani	Eastern Cape
+4990	Nqamakwe	Eastern Cape
+4991	Nqamakwe	Eastern Cape
+4992	Nqamakwe	Eastern Cape
+5000	Idutywa	Eastern Cape
+5002	Idutywa	Eastern Cape
+5003	Idutywa	Eastern Cape
+5004	Idutywa	Eastern Cape
+5005	Idutywa	Eastern Cape
+5006	Idutywa	Eastern Cape
+5007	Idutywa	Eastern Cape
+5010	Idutywa	Eastern Cape
+5011	Idutywa	Eastern Cape
+5012	Idutywa	Eastern Cape
+5013	Butterworth	Eastern Cape
+5014	Idutywa	Eastern Cape
+5015	Idutywa	Eastern Cape
+5016	Idutywa	Eastern Cape
+5017	Idutywa	Eastern Cape
+5018	Idutywa	Eastern Cape
+5019	Idutywa	Eastern Cape
+5021	Idutywa	Eastern Cape
+5024	Clarkebury	Eastern Cape
+5026	Clarkebury	Eastern Cape
+5035	Mthatha	Eastern Cape
+5035	Umtata	Eastern Cape
+5040	Willowvale	Eastern Cape
+5041	Willowvale	Eastern Cape
+5042	Willowvale	Eastern Cape
+5043	Willowvale	Eastern Cape
+5050	Engcobo	Eastern Cape
+5051	Engcobo	Eastern Cape
+5052	Engcobo	Eastern Cape
+5054	Engcobo	Eastern Cape
+5055	Engcobo	Eastern Cape
+5056	Engcobo	Eastern Cape
+5057	Engcobo	Eastern Cape
+5058	Engcobo	Eastern Cape
+5070	Elliotdale	Eastern Cape
+5072	Elliotdale	Eastern Cape
+5073	Elliotdale	Eastern Cape
+5075	Elliotdale	Eastern Cape
+5079	Mqanduli	Eastern Cape
+5080	Mqanduli	Eastern Cape
+5081	Mqanduli	Eastern Cape
+5082	Mqanduli	Eastern Cape
+5083	Mqanduli	Eastern Cape
+5084	Mqanduli	Eastern Cape
+5085	Mqanduli	Eastern Cape
+5086	Mount Frere	Eastern Cape
+5087	Mount Frere	Eastern Cape
+5088	Mount Frere	Eastern Cape
+5089	Mount Frere	Eastern Cape
+5090	Mount Frere	Eastern Cape
+5091	Mount Frere	Eastern Cape
+5092	Mount Frere	Eastern Cape
+5093	Mount Frere	Eastern Cape
+5094	Mount Frere	Eastern Cape
+5095	Mount Frere	Eastern Cape
+5096	Mount Frere	Eastern Cape
+5097	Mount Frere	Eastern Cape
+5100	Mthatha	Eastern Cape
+5100	Umtata	Eastern Cape
+5101	Mthatha	Eastern Cape
+5101	Umtata	Eastern Cape
+5102	Mthatha	Eastern Cape
+5102	Umtata	Eastern Cape
+5103	Mthatha	Eastern Cape
+5103	Umtata	Eastern Cape
+5104	Mthatha	Eastern Cape
+5104	Umtata	Eastern Cape
+5105	Mthatha	Eastern Cape
+5105	Umtata	Eastern Cape
+5106	Mthatha	Eastern Cape
+5106	Umtata	Eastern Cape
+5107	Mthatha	Eastern Cape
+5107	Umtata	Eastern Cape
+5108	Mthatha	Eastern Cape
+5108	Umtata	Eastern Cape
+5109	Mthatha	Eastern Cape
+5109	Umtata	Eastern Cape
+5111	Mthatha	Eastern Cape
+5111	Umtata	Eastern Cape
+5113	Mthatha	Eastern Cape
+5113	Umtata	Eastern Cape
+5114	Mthatha	Eastern Cape
+5114	Umtata	Eastern Cape
+5115	Mthatha	Eastern Cape
+5115	Umtata	Eastern Cape
+5116	Mthatha	Eastern Cape
+5116	Umtata	Eastern Cape
+5117	Mthatha	Eastern Cape
+5117	Umtata	Eastern Cape
+5118	Elliotdale	Eastern Cape
+5120	Port St Johns	Eastern Cape
+5121	Port St Johns	Eastern Cape
+5122	Port St Johns	Eastern Cape
+5127	Mthatha	Eastern Cape
+5127	Umtata	Eastern Cape
+5129	Mqanduli	Eastern Cape
+5130	Tabankulu	Eastern Cape
+5131	Tabankulu	Eastern Cape
+5132	Tabankulu	Eastern Cape
+5134	Tabankulu	Eastern Cape
+5135	Tabankulu	Eastern Cape
+5136	Tabankulu	Eastern Cape
+5140	Ngqeleni	Eastern Cape
+5141	Ngqeleni	Eastern Cape
+5150	Ngqeleni	Eastern Cape
+5160	Libode	Eastern Cape
+5161	Libode	Eastern Cape
+5162	Libode	Eastern Cape
+5163	Libode	Eastern Cape
+5170	Tsolo	Eastern Cape
+5171	Tsolo	Eastern Cape
+5174	Tsolo	Eastern Cape
+5180	Mthatha	Eastern Cape
+5180	Qumbu	Eastern Cape
+5180	Umtata	Eastern Cape
+5181	Qumbu	Eastern Cape
+5182	Qumbu	Eastern Cape
+5183	Qumbu	Eastern Cape
+5184	Qumbu	Eastern Cape
+5185	Qumbu	Eastern Cape
+5186	Qumbu	Eastern Cape
+5187	Qumbu	Eastern Cape
+5188	Qumbu	Eastern Cape
+5189	Qumbu	Eastern Cape
+5190	Qumbu	Eastern Cape
+5201	East London	Eastern Cape
+5201	Oos-Londen	Eastern Cape
+5204	East London	Eastern Cape
+5205	East London	Eastern Cape
+5205	Oos-Londen	Eastern Cape
+5206	East London	Eastern Cape
+5207	East London	Eastern Cape
+5207	Oos-Londen	Eastern Cape
+5208	East London	Eastern Cape
+5209	East London	Eastern Cape
+5209	Oos-Londen	Eastern Cape
+5209	Pefferville	Eastern Cape
+5210	East London	Eastern Cape
+5211	East London	Eastern Cape
+5212	East London	Eastern Cape
+5213	East London	Eastern Cape
+5214	East London	Eastern Cape
+5216	East London	Eastern Cape
+5217	East London	Eastern Cape
+5218	East London	Eastern Cape
+5219	East London	Eastern Cape
+5220	East London	Eastern Cape
+5221	Mdantsane	Eastern Cape
+5241	East London	Eastern Cape
+5241	Nahoon	Eastern Cape
+5241	Oos-Londen	Eastern Cape
+5247	Cambridge	Eastern Cape
+5247	East London	Eastern Cape
+5247	Oos-Londen	Eastern Cape
+5252	East London	Eastern Cape
+5253	East London	Eastern Cape
+5257	Gonubie	Eastern Cape
+5258	Gonubie	Eastern Cape
+5259	East London	Eastern Cape
+5260	East London	Eastern Cape
+5264	East London	Eastern Cape
+5265	East London	Eastern Cape
+5272	East London	Eastern Cape
+5275	East London	Eastern Cape
+5275	Oos-Londen	Eastern Cape
+5284	East London	Eastern Cape
+5288	East London	Eastern Cape
+5292	East London	Eastern Cape
+5292	Oos-Londen	Eastern Cape
+5310	Cathcart	Eastern Cape
+5319	Komani	Eastern Cape
+5319	Queenstown	Eastern Cape
+5320	Komani	Eastern Cape
+5320	Queenstown	Eastern Cape
+5321	Komani	Eastern Cape
+5321	Queenstown	Eastern Cape
+5322	Komani	Eastern Cape
+5322	Queenstown	Eastern Cape
+5328	Komani	Eastern Cape
+5328	Queenstown	Eastern Cape
+5329	Cofimvaba	Eastern Cape
+5330	Komani	Eastern Cape
+5330	Queenstown	Eastern Cape
+5331	Cofimvaba	Eastern Cape
+5341	Lady Frere	Eastern Cape
+5360	Whittlesea	Eastern Cape
+5362	Whittlesea	Eastern Cape
+5364	Whittlesea	Eastern Cape
+5365	Cradock	Eastern Cape
+5370	Tarkastad	Eastern Cape
+5375	Cofimvaba	Eastern Cape
+5376	Cofimvaba	Eastern Cape
+5377	Cofimvaba	Eastern Cape
+5380	Cofimvaba	Eastern Cape
+5381	Cofimvaba	Eastern Cape
+5382	Cofimvaba	Eastern Cape
+5400	Tsomo	Eastern Cape
+5401	Tsomo	Eastern Cape
+5402	Tsomo	Eastern Cape
+5404	Tsomo	Eastern Cape
+5405	Tsomo	Eastern Cape
+5410	Lady Frere	Eastern Cape
+5411	Lady Frere	Eastern Cape
+5412	Lady Frere	Eastern Cape
+5414	Lady Frere	Eastern Cape
+5415	Lady Frere	Eastern Cape
+5416	Lady Frere	Eastern Cape
+5417	Lady Frere	Eastern Cape
+5418	Lady Frere	Eastern Cape
+5419	Lady Frere	Eastern Cape
+5420	Dordrecht	Eastern Cape
+5425	Sterkstroom	Eastern Cape
+5435	Dordrecht	Eastern Cape
+5436	Dordrecht	Eastern Cape
+5445	Indwe	Eastern Cape
+5455	Cala	Eastern Cape
+5460	Elliot	Eastern Cape
+5480	Maclear	Eastern Cape
+5481	Maclear	Eastern Cape
+5483	Maclear	Eastern Cape
+5500	Molteno	Eastern Cape
+5600	King William'S Town	Eastern Cape
+5601	King William'S Town	Eastern Cape
+5601	King Williams Town	Eastern Cape
+5605	Bisho	Eastern Cape
+5606	Bisho	Eastern Cape
+5607	King William'S Town	Eastern Cape
+5608	Bisho	Eastern Cape
+5609	King William'S Town	Eastern Cape
+5610	King William'S Town	Eastern Cape
+5611	King Williams Town	Eastern Cape
+5612	Peddie	Eastern Cape
+5614	King Williams Town	Eastern Cape
+5620	Bisho	Eastern Cape
+5630	Whittlesea	Eastern Cape
+5643	Peddie	Eastern Cape
+5644	Peddie	Eastern Cape
+5645	Peddie	Eastern Cape
+5671	Bisho	Eastern Cape
+5680	Keiskammahoek	Eastern Cape
+5686	Middledrift	Eastern Cape
+5688	East London	Eastern Cape
+5700	Alice	Eastern Cape
+5701	Alice	Eastern Cape
+5702	Alice	Eastern Cape
+5703	Alice	Eastern Cape
+5705	Alice	Eastern Cape
+5706	Alice	Eastern Cape
+5708	Alice	Eastern Cape
+5720	Fort Beaufort	Eastern Cape
+5730	Fort Beaufort	Eastern Cape
+5740	Eastern Cape	Eastern Cape
+5760	Adelaide	Eastern Cape
+5780	Bedford	Eastern Cape
+5805	Grahamstad	Eastern Cape
+5805	Grahamstown	Eastern Cape
+5805	Makhanda	Eastern Cape
+5820	Cookhouse	Eastern Cape
+5821	Cookhouse	Eastern Cape
+5824	Cookhouse	Eastern Cape
+5830	Cookhouse	Eastern Cape
+5850	Somerset East	Eastern Cape
+5860	Pearston	Eastern Cape
+5870	Cradock	Eastern Cape
+5880	Cradock	Eastern Cape
+5881	Cradock	Eastern Cape
+5882	Cradock	Eastern Cape
+5883	Cradock	Eastern Cape
+5884	Cradock	Eastern Cape
+5900	Eastern Cape	Eastern Cape
+5900	Middelburg	Eastern Cape
+5920	Steynsburg	Eastern Cape
+5930	Hofmeyr	Eastern Cape
+5950	Noupoort	Eastern Cape
+6000	Gqeberha	Eastern Cape
+6000	Port Elizabeth	Eastern Cape
+6001	Gqeberha	Eastern Cape
+6001	Port Elizabeth	Eastern Cape
+6003	Gqeberha	Eastern Cape
+6003	Port Elizabeth	Eastern Cape
+6004	Zwide	Eastern Cape
+6005	Gqeberha	Eastern Cape
+6005	Port Elizabeth	Eastern Cape
+6006	Gqeberha	Eastern Cape
+6006	Port Elizabeth	Eastern Cape
+6008	Gqeberha	Eastern Cape
+6008	Port Elizabeth	Eastern Cape
+6011	Emerald Hill	Eastern Cape
+6011	Gqeberha	Eastern Cape
+6011	Port Elizabeth	Eastern Cape
+6012	Estadeal	Eastern Cape
+6012	Gqeberha	Eastern Cape
+6012	Port Elizabeth	Eastern Cape
+6013	Gqeberha	Eastern Cape
+6013	Port Elizabeth	Eastern Cape
+6014	Gqeberha	Eastern Cape
+6014	Port Elizabeth	Eastern Cape
+6015	Gqeberha	Eastern Cape
+6015	Port Elizabeth	Eastern Cape
+6016	Gqeberha	Eastern Cape
+6016	Port Elizabeth	Eastern Cape
+6017	Gqeberha	Eastern Cape
+6017	Hunter'S Retreat	Eastern Cape
+6017	Port Elizabeth	Eastern Cape
+6018	Gqeberha	Eastern Cape
+6018	Port Elizabeth	Eastern Cape
+6019	Gqeberha	Eastern Cape
+6019	Port Elizabeth	Eastern Cape
+6020	Gelvandale	Eastern Cape
+6020	Gqeberha	Eastern Cape
+6020	Port Elizabeth	Eastern Cape
+6021	Uitenhage	Eastern Cape
+6025	Gqeberha	Eastern Cape
+6025	Linton Grange	Eastern Cape
+6025	Port Elizabeth	Eastern Cape
+6026	Gqeberha	Eastern Cape
+6026	Port Elizabeth	Eastern Cape
+6027	Gqeberha	Eastern Cape
+6027	Port Elizabeth	Eastern Cape
+6028	Bethelsdorp	Eastern Cape
+6031	Gqeberha	Eastern Cape
+6031	Port Elizabeth	Eastern Cape
+6032	Gqeberha	Eastern Cape
+6032	Port Elizabeth	Eastern Cape
+6033	Gqeberha	Eastern Cape
+6033	Port Elizabeth	Eastern Cape
+6045	Gqeberha	Eastern Cape
+6045	Newton Park	Eastern Cape
+6045	Port Elizabeth	Eastern Cape
+6055	Gqeberha	Eastern Cape
+6055	Port Elizabeth	Eastern Cape
+6056	Gqeberha	Eastern Cape
+6056	Port Elizabeth	Eastern Cape
+6057	Gqeberha	Eastern Cape
+6057	Port Elizabeth	Eastern Cape
+6058	Gqeberha	Eastern Cape
+6058	Port Elizabeth	Eastern Cape
+6059	Gqeberha	Eastern Cape
+6059	Port Elizabeth	Eastern Cape
+6059	Saltville	Eastern Cape
+6060	Gqeberha	Eastern Cape
+6060	Port Elizabeth	Eastern Cape
+6061	Gqeberha	Eastern Cape
+6061	Port Elizabeth	Eastern Cape
+6062	Gqeberha	Eastern Cape
+6062	Port Elizabeth	Eastern Cape
+6065	Gqeberha	Eastern Cape
+6065	Port Elizabeth	Eastern Cape
+6070	Emerald Hill	Eastern Cape
+6070	Gqeberha	Eastern Cape
+6070	Port Elizabeth	Eastern Cape
+6070	Walmer	Eastern Cape
+6105	Addo	Eastern Cape
+6107	Addo	Eastern Cape
+6109	Addo	Eastern Cape
+6115	Addo	Eastern Cape
+6120	Kirkwood	Eastern Cape
+6121	Kirkwood	Eastern Cape
+6125	Kirkwood	Eastern Cape
+6130	Paterson	Eastern Cape
+6131	Paterson	Eastern Cape
+6135	Alicedale	Eastern Cape
+6139	Grahamstad	Eastern Cape
+6139	Grahamstown	Eastern Cape
+6139	Makhanda	Eastern Cape
+6139	Peddie	Eastern Cape
+6140	Grahamstown	Eastern Cape
+6140	Makhanda	Eastern Cape
+6141	Grahamstad	Eastern Cape
+6141	Grahamstown	Eastern Cape
+6141	Makhanda	Eastern Cape
+6142	Grahamstown	Eastern Cape
+6142	Makhanda	Eastern Cape
+6143	Grahamstown	Eastern Cape
+6143	Makhanda	Eastern Cape
+6145	Grahamstown	Eastern Cape
+6145	Makhanda	Eastern Cape
+6146	Grahamstown	Eastern Cape
+6146	Makhanda	Eastern Cape
+6150	Grahamstown	Eastern Cape
+6150	Makhanda	Eastern Cape
+6166	Bathurst	Eastern Cape
+6170	Port Alfred	Eastern Cape
+6171	Port Alfred	Eastern Cape
+6172	Port Alfred	Eastern Cape
+6172	Southseas	Eastern Cape
+6173	Port Alfred	Eastern Cape
+6175	Colchester	Eastern Cape
+6175	Gqeberha	Eastern Cape
+6175	Port Elizabeth	Eastern Cape
+6180	Gqeberha	Eastern Cape
+6180	Port Elizabeth	Eastern Cape
+6185	Alexandria	Eastern Cape
+6186	Alexandria	Eastern Cape
+6187	Alexandria	Eastern Cape
+6188	Gqeberha	Eastern Cape
+6188	Port Elizabeth	Eastern Cape
+6189	Alexandria	Eastern Cape
+6191	Kenton On Sea	Eastern Cape
+6200	Gqeberha	Eastern Cape
+6200	New Brighton	Eastern Cape
+6200	Port Elizabeth	Eastern Cape
+6201	Gqeberha	Eastern Cape
+6201	New Brighton	Eastern Cape
+6201	Port Elizabeth	Eastern Cape
+6201	Zwide	Eastern Cape
+6202	New Brighton	Eastern Cape
+6204	Gqeberha	Eastern Cape
+6204	Port Elizabeth	Eastern Cape
+6205	Gqeberha	Eastern Cape
+6205	Kwazakhele	Eastern Cape
+6205	Port Elizabeth	Eastern Cape
+6209	Gqeberha	Eastern Cape
+6209	Port Elizabeth	Eastern Cape
+6210	Gqeberha	Eastern Cape
+6210	Port Elizabeth	Eastern Cape
+6210	Swartkops	Eastern Cape
+6211	Gqeberha	Eastern Cape
+6211	Motherwell	Eastern Cape
+6211	Port Elizabeth	Eastern Cape
+6212	Gqeberha	Eastern Cape
+6212	Port Elizabeth	Eastern Cape
+6213	Gqeberha	Eastern Cape
+6213	Port Elizabeth	Eastern Cape
+6215	Gqeberha	Eastern Cape
+6215	Port Elizabeth	Eastern Cape
+6220	Despatch	Eastern Cape
+6220	Gqeberha	Eastern Cape
+6220	Port Elizabeth	Eastern Cape
+6229	Uitenhage	Eastern Cape
+6230	Uitenhage	Eastern Cape
+6231	Uitenhage	Eastern Cape
+6232	Uitenhage	Eastern Cape
+6234	Uitenhage	Eastern Cape
+6237	Gqeberha	Eastern Cape
+6237	Port Elizabeth	Eastern Cape
+6238	Uitenhage	Eastern Cape
+6241	Gambleville	Eastern Cape
+6241	Gqeberha	Eastern Cape
+6241	Port Elizabeth	Eastern Cape
+6242	Kwanobuhle	Eastern Cape
+6242	Uitenhage	Eastern Cape
+6250	Steytlerville	Eastern Cape
+6255	Klipplaat	Eastern Cape
+6265	Jansenville	Eastern Cape
+6270	Aberdeen	Eastern Cape
+6280	Graaff-Reinet	Eastern Cape
+6281	Graaff-Reinet	Eastern Cape
+6282	Adendorp	Eastern Cape
+6286	Graaff-Reinet	Eastern Cape
+6300	Humansdorp	Eastern Cape
+6302	Humansdorp	Eastern Cape
+6303	Humansdorp	Eastern Cape
+6304	Humansdorp	Eastern Cape
+6306	Humansdorp	Eastern Cape
+6307	Humansdorp	Eastern Cape
+6310	Humansdorp	Eastern Cape
+6311	Humansdorp	Eastern Cape
+6313	Humansdorp	Eastern Cape
+6330	Jeffreys Bay	Eastern Cape
+6331	Jeffreys Bay	Eastern Cape
+6332	Jeffreys Bay	Eastern Cape
+6332	Jeffreysbaai	Eastern Cape
+6335	Patensie	Eastern Cape
+6350	Hankey	Eastern Cape
+6351	Hackney	Eastern Cape
+6360	Gqeberha	Eastern Cape
+6360	Port Elizabeth	Eastern Cape
+6365	Gqeberha	Eastern Cape
+6365	Port Elizabeth	Eastern Cape
+6375	Humansdorp	Eastern Cape
+6385	Gqeberha	Eastern Cape
+6385	Port Elizabeth	Eastern Cape
+6390	Gqeberha	Eastern Cape
+6390	Port Elizabeth	Eastern Cape
+6400	Kareedouw	Eastern Cape
+6410	Joubertina	Eastern Cape
+6446	Willowmore	Eastern Cape
+6447	Willowmore	Eastern Cape
+6451	Willowmore	Eastern Cape
+6452	Willowmore	Eastern Cape
+6454	Willowmore	Eastern Cape
+6460	Uniondale	Eastern Cape
+6462	Uniondale	Eastern Cape
+6463	Uniondale	Eastern Cape
+6466	Uniondale	Eastern Cape
+6467	Uniondale	Eastern Cape
+6480	Uniondale	Eastern Cape
+6490	Uniondale	Eastern Cape
+6501	Mossel Bay	Western Cape
+6503	Mossel Bay	Western Cape
+6503	Mosselbaai	Western Cape
+6504	Mossel Bay	Western Cape
+6505	Mossel Bay	Western Cape
+6506	Kwanonqaba	Western Cape
+6506	Mossel Bay	Western Cape
+6506	Mosselbaai	Western Cape
+6506	Mosselbay	Western Cape
+6507	Mossel Bay	Western Cape
+6510	Mossel Bay	Western Cape
+6510	Mosselbaai	Western Cape
+6511	Mossel Bay	Western Cape
+6520	Hartenbos	Western Cape
+6525	Great Brak River	Western Cape
+6525	Groot-Brakrivier	Western Cape
+6526	Great Brak River	Western Cape
+6529	George	Western Cape
+6529	George East	Western Cape
+6529	Pacaltsdorp	Western Cape
+6531	George	Western Cape
+6534	George	Western Cape
+6535	George	Western Cape
+6536	George	Western Cape
+6537	George	Western Cape
+6538	George	Western Cape
+6539	George	Western Cape
+6541	George	Western Cape
+6544	George	Western Cape
+6560	George	Western Cape
+6570	Knysna	Western Cape
+6571	Knysna	Western Cape
+6573	Sedgefield	Western Cape
+6576	Knysna	Western Cape
+6580	Knysna	Western Cape
+6583	Knysna	Western Cape
+6600	Plettenberg Bay	Western Cape
+6600	Plettenbergbaai	Western Cape
+6602	Plettenberg Bay	Western Cape
+6603	Plettenberg Bay	Western Cape
+6604	Plettenberg Bay	Western Cape
+6605	Plettenberg Bay	Western Cape
+6606	Plettenberg Bay	Western Cape
+6615	George	Western Cape
+6623	Oudtshoorn	Western Cape
+6624	Oudtshoorn	Western Cape
+6625	Oudshoorn	Western Cape
+6625	Oudtshoorn	Western Cape
+6628	Oudtshoorn	Western Cape
+6631	Oudtshoorn	Western Cape
+6632	Oudtshoorn	Western Cape
+6633	Oudtshoorn	Western Cape
+6634	Oudtshoorn	Western Cape
+6650	Oudtshoorn	Western Cape
+6651	Oudtshoorn	Western Cape
+6655	Ladismith	Western Cape
+6655	Western Cape	Western Cape
+6656	Ladismith	Western Cape
+6660	Calitzdorp	Western Cape
+6665	Heidelberg Wc	Western Cape
+6665	Western Cape	Western Cape
+6666	Heidelberg Wc	Western Cape
+6667	Heidelberg Wc	Western Cape
+6670	Riversdale	Western Cape
+6671	Riversdale	Western Cape
+6674	Stilbaai	Western Cape
+6674	Still Bay	Western Cape
+6675	Still Bay	Western Cape
+6676	Still Bay	Western Cape
+6690	Ladismith	Western Cape
+6695	Albertina	Western Cape
+6695	Albertinia	Western Cape
+6696	Albertina	Western Cape
+6705	Robertson	Western Cape
+6707	Robertson	Western Cape
+6715	Ashton	Western Cape
+6720	Montagu	Western Cape
+6730	Bonnievale	Western Cape
+6740	Swellendam	Western Cape
+6741	Bonnievale	Western Cape
+6742	Swellendam	Western Cape
+6743	Swellendam	Western Cape
+6810	Porterville	Western Cape
+6811	Porterville	Western Cape
+6812	Porterville	Western Cape
+6820	Tulbagh	Western Cape
+6820	Western Cape	Western Cape
+6821	Tulbagh	Western Cape
+6830	Wolseley	Western Cape
+6835	Ceres	Western Cape
+6835	Prince Alfred Hamlet	Western Cape
+6836	Ceres	Western Cape
+6837	Ceres	Western Cape
+6838	Ceres	Western Cape
+6840	Ceres	Western Cape
+6840	Prince Alfred Hamlet	Western Cape
+6845	Worcester	Western Cape
+6850	Worcester	Western Cape
+6851	Worcester	Western Cape
+6852	Worcester	Western Cape
+6853	Worcester	Western Cape
+6854	Worcester	Western Cape
+6855	Worcester	Western Cape
+6856	Worcester	Western Cape
+6857	Worcester	Western Cape
+6858	Worcester	Western Cape
+6859	Worcester	Western Cape
+6861	Worcester	Western Cape
+6862	Worcester	Western Cape
+6863	Worcester	Western Cape
+6870	Worcester	Western Cape
+6880	Touws River	Western Cape
+6880	Touwsrivier	Western Cape
+6901	Laingsburg	Western Cape
+6920	Sutherland	Western Cape
+6932	Prince Albert	Western Cape
+6940	Beaufort West	Western Cape
+6950	Beaufort West	Western Cape
+6960	Fraserburg	Western Cape
+6970	Beaufort Wes	Western Cape
+6970	Beaufort West	Western Cape
+6970	Beaufort-Wes	Western Cape
+6973	Beaufort West	Western Cape
+7000	De Aar	Western Cape
+7005	Hanover	Western Cape
+7070	Victoria West	Western Cape
+7071	Victoria West	Western Cape
+7090	Northern Cape	Western Cape
+7090	Richmond	Western Cape
+7100	Cape Town	Western Cape
+7100	Delft	Western Cape
+7100	Eerste River	Western Cape
+7100	Eerste Rivier	Western Cape
+7100	Eersterivier	Western Cape
+7100	Kaapstad	Western Cape
+7101	Eerste River	Western Cape
+7102	Eerste River	Western Cape
+7103	Cape Town	Western Cape
+7103	Kaapstad	Western Cape
+7105	Eerste River	Western Cape
+7110	Somerset West	Western Cape
+7130	Firgrove	Western Cape
+7130	Macassar	Western Cape
+7130	Somerset West	Western Cape
+7130	Somerset-Wes	Western Cape
+7131	Somerset West	Western Cape
+7133	Somerset West	Western Cape
+7134	Somerset West	Western Cape
+7135	Somerset West	Western Cape
+7140	Gordon'S Bay	Western Cape
+7140	Strand	Western Cape
+7141	Kleinmond	Western Cape
+7144	Strand	Western Cape
+7151	Strand	Western Cape
+7160	Grabouw	Western Cape
+7171	Grabouw	Western Cape
+7180	Grabouw	Western Cape
+7185	Caledon	Western Cape
+7195	Kleinmond	Western Cape
+7196	Kleinmond	Western Cape
+7200	Hermanus	Western Cape
+7201	Hermanus	Western Cape
+7201	Onrus River	Western Cape
+7202	Hermanus	Western Cape
+7210	Hermanus	Western Cape
+7220	Gans Bay	Western Cape
+7221	Gans Bay	Western Cape
+7230	Caledon	Western Cape
+7232	Caledon	Western Cape
+7250	Caledon	Western Cape
+7250	Riviersonderend	Western Cape
+7252	Riviersonderend	Western Cape
+7271	Gans Bay	Western Cape
+7281	Bredasdorp	Western Cape
+7282	Bredasdorp	Western Cape
+7282	Saldanha	Western Cape
+7283	Bredasdorp	Western Cape
+7285	Bredasdorp	Western Cape
+7287	Bredasdorp	Western Cape
+7300	Malmesbury	Western Cape
+7302	Malmesbury	Western Cape
+7303	Malmesbury	Western Cape
+7304	Atlantis	Western Cape
+7305	Malmesbury	Western Cape
+7306	Malmesbury	Western Cape
+7307	Malmesbury	Western Cape
+7308	Malmesbury	Western Cape
+7310	Moorreesburg	Western Cape
+7312	Moorreesburg	Western Cape
+7320	Piketberg	Western Cape
+7321	Piketberg	Western Cape
+7322	Piketberg	Western Cape
+7323	Piketberg	Western Cape
+7325	Piketberg	Western Cape
+7335	Piketberg	Western Cape
+7340	Citrusdal	Western Cape
+7345	Darling	Western Cape
+7347	Dassenberg	Western Cape
+7348	Atlantis	Western Cape
+7349	Atlantis	Western Cape
+7349	Dassenberg	Western Cape
+7349	Kaapstad	Western Cape
+7350	Atlantis	Western Cape
+7351	Darling	Western Cape
+7352	Dassenberg	Western Cape
+7353	Atlantis	Western Cape
+7354	Atlantis	Western Cape
+7355	Hopefield	Western Cape
+7357	Langebaan	Western Cape
+7358	Atlantis	Western Cape
+7365	Velddrif	Western Cape
+7375	Vredenburg	Western Cape
+7380	Vredenburg	Western Cape
+7381	Vredenburg	Western Cape
+7382	Saldanha	Western Cape
+7382	Vredenburg	Western Cape
+7390	Vredenburg	Western Cape
+7395	Saldanha	Western Cape
+7400	Cape Town	Western Cape
+7400	Kaapstad	Western Cape
+7404	Cape Town	Western Cape
+7405	Cape Town	Western Cape
+7405	Kaapstad	Western Cape
+7405	Maitland	Western Cape
+7405	Paarden Island	Western Cape
+7405	Rugby	Western Cape
+7405	Ysterplaat	Western Cape
+7406	Cape Town	Western Cape
+7407	Cape Town	Western Cape
+7420	Cape Town	Western Cape
+7420	Kaapstad	Western Cape
+7425	Cape Town	Western Cape
+7430	Cape Town	Western Cape
+7435	Cape Town	Western Cape
+7435	Milnerton	Western Cape
+7436	Milnerton	Western Cape
+7437	Cape Town	Western Cape
+7439	Cape Town	Western Cape
+7440	Melkbosstrand	Western Cape
+7441	Bloubergrant	Western Cape
+7441	Bloubergstrand	Western Cape
+7441	Cape Town	Western Cape
+7441	Melkbosstrand	Western Cape
+7441	Milnerton	Western Cape
+7441	Table View	Western Cape
+7442	Milnerton	Western Cape
+7443	Milnerton	Western Cape
+7444	Bloubergrant	Western Cape
+7446	Milnerton	Western Cape
+7447	Milnerton	Western Cape
+7449	Bloubergrant	Western Cape
+7449	Milnerton	Western Cape
+7450	Pinelands	Western Cape
+7451	Maitland	Western Cape
+7455	Cape Town	Western Cape
+7455	Langa	Western Cape
+7456	Cape Town	Western Cape
+7460	Cape Town	Western Cape
+7460	Goodwood	Western Cape
+7460	Monte Vista	Western Cape
+7463	Cape Town	Western Cape
+7463	Goodwood	Western Cape
+7465	Matroosfontein	Western Cape
+7475	Goodwood	Western Cape
+7480	Matroosfontein	Western Cape
+7485	Goodwood	Western Cape
+7489	Cape Town	Western Cape
+7490	Cape Town	Western Cape
+7490	Elsies River	Western Cape
+7490	Elsiesrivier	Western Cape
+7490	Lavistown	Western Cape
+7490	Matroosfontein	Western Cape
+7491	Matroosfontein	Western Cape
+7493	Belhar	Western Cape
+7493	Cape Town	Western Cape
+7493	Kaapstad	Western Cape
+7493	Matroosfontein	Western Cape
+7493	Ravensmead	Western Cape
+7499	Cape Town	Western Cape
+7500	Cape Town	Western Cape
+7500	Parow	Western Cape
+7501	Parow	Western Cape
+7503	Parow	Western Cape
+7504	Belhar	Western Cape
+7505	Parow	Western Cape
+7506	Parow	Western Cape
+7507	Cape Town	Western Cape
+7525	Cape Town	Western Cape
+7525	Kaapstad	Western Cape
+7530	Bellville	Western Cape
+7530	Cape Town	Western Cape
+7532	Bellville	Western Cape
+7533	Bellville	Western Cape
+7535	Cape Town	Western Cape
+7536	Bellville	Western Cape
+7537	Bellville	Western Cape
+7538	Bellville	Western Cape
+7539	Bellville	Western Cape
+7540	Bellville	Western Cape
+7550	Cape Town	Western Cape
+7550	Durbanville	Western Cape
+7551	Cape Town	Western Cape
+7560	Brackenfell	Western Cape
+7560	Cape Town	Western Cape
+7561	Cape Town	Western Cape
+7570	Kraaifontein	Western Cape
+7571	Kraaifontein	Western Cape
+7572	Kraaifontein North	Western Cape
+7579	Kuilsrivier	Western Cape
+7580	Blackheath	Western Cape
+7580	Kuils River	Western Cape
+7580	Kuilsriver	Western Cape
+7580	Kuilsrivier	Western Cape
+7581	Kuils River	Western Cape
+7582	Kuils River	Western Cape
+7583	Kuilsrivier	Western Cape
+7600	Stellenbosch	Western Cape
+7601	Stellenbosch	Western Cape
+7602	Stellenbosch	Western Cape
+7603	Stellenbosch	Western Cape
+7604	Stellenbosch	Western Cape
+7605	Stellenbosch	Western Cape
+7607	Stellenbosch	Western Cape
+7608	Stellenbosch	Western Cape
+7611	Stellenbosch	Western Cape
+7612	Stellenbosch	Western Cape
+7613	Stellenbosch	Western Cape
+7614	Stellenbosch	Western Cape
+7615	Stellenbosch	Western Cape
+7622	Paarl	Western Cape
+7623	Paarl	Western Cape
+7624	Paarl	Western Cape
+7625	Paarl	Western Cape
+7626	Paarl	Western Cape
+7627	Huguenot	Western Cape
+7628	Nederburg	Western Cape
+7630	Paarl	Western Cape
+7645	Nederburg	Western Cape
+7646	Huguenot	Western Cape
+7646	Nederburg	Western Cape
+7646	Paarl	Western Cape
+7655	Mbekweni	Western Cape
+7655	Paarl	Western Cape
+7655	Wellington	Western Cape
+7656	Wellington	Western Cape
+7670	Paarl	Western Cape
+7680	Paarl	Western Cape
+7681	Paarl	Western Cape
+7690	Franschhoek	Western Cape
+7691	Franschhoek	Western Cape
+7700	Cape Town	Western Cape
+7700	Kaapstad	Western Cape
+7700	Lansdowne	Western Cape
+7700	Mowbray	Western Cape
+7700	Newlands	Western Cape
+7700	Rondebosch	Western Cape
+7702	Rondebosch	Western Cape
+7705	Cape Town	Western Cape
+7707	Rondebosch	Western Cape
+7708	Cape Town	Western Cape
+7708	Claremont	Western Cape
+7708	Nuweland	Western Cape
+7725	Cape Town	Western Cape
+7725	Kaapstad	Western Cape
+7735	Cape Town	Western Cape
+7740	Claremont	Western Cape
+7745	Cape Town	Western Cape
+7750	Cape Town	Western Cape
+7750	Gugulethu	Western Cape
+7750	Guguletu	Western Cape
+7750	Khayalitsha	Western Cape
+7750	Nyanga	Western Cape
+7750	Ottery	Western Cape
+7751	Cape Town	Western Cape
+7752	Guguletu	Western Cape
+7755	Cape Town	Western Cape
+7756	Guguletu	Western Cape
+7760	Cape Town	Western Cape
+7762	Gatesville	Western Cape
+7763	Gatesville	Western Cape
+7764	Athlone	Western Cape
+7764	Cape Town	Western Cape
+7764	Crawford	Western Cape
+7764	Elspark	Western Cape
+7764	Gatesville	Western Cape
+7764	Lansdowne	Western Cape
+7764	Manenberg	Western Cape
+7766	Cape Town	Western Cape
+7767	Gatesville	Western Cape
+7769	Gatesville	Western Cape
+7770	Lansdowne	Western Cape
+7779	Cape Town	Western Cape
+7780	Cape Town	Western Cape
+7780	Gatesville	Western Cape
+7780	Kenwyn	Western Cape
+7780	Landsdowne	Western Cape
+7780	Lansdowne	Western Cape
+7780	Ottery	Western Cape
+7782	Cape Town	Western Cape
+7783	Cape Town	Western Cape
+7784	Cape Town	Western Cape
+7784	Khayalitsha	Western Cape
+7784	Khayelitsha	Western Cape
+7784	Mitchells Plain	Western Cape
+7785	Cape Town	Western Cape
+7785	Kaapstad	Western Cape
+7785	Mitchells Plain	Western Cape
+7785	Mitchells Plein	Western Cape
+7785	Mitchellsplain	Western Cape
+7785	Mithchells Plain	Western Cape
+7786	Mitchells Plain	Western Cape
+7787	Mitchells Plain	Western Cape
+7788	Mitchells Plain	Western Cape
+7789	Cape Town	Western Cape
+7789	Kaapstad	Western Cape
+7790	Lansdowne	Western Cape
+7791	Khayelitsha	Western Cape
+7793	Khayelitsha	Western Cape
+7794	Khayelitsha	Western Cape
+7798	Mitchells Plain	Western Cape
+7798	Strandfontein	Western Cape
+7800	Cape Town	Western Cape
+7800	Diep River	Western Cape
+7800	Ottery	Western Cape
+7800	Plumstead	Western Cape
+7800	Southfield	Western Cape
+7800	Wynberg	Western Cape
+7801	Cape Town	Western Cape
+7802	Mitchells Plain	Western Cape
+7805	Grassy Park	Western Cape
+7806	Cape Town	Western Cape
+7806	Constantia	Western Cape
+7806	Hout Bay	Western Cape
+7806	Houtbaai	Western Cape
+7806	Kaapstad	Western Cape
+7808	Cape Town	Western Cape
+7824	Cape Town	Western Cape
+7848	Cape Town	Western Cape
+7864	Cape Town	Western Cape
+7872	Cape Town	Western Cape
+7872	Kaapstad	Western Cape
+7880	Cape Town	Western Cape
+7888	Cape Town	Western Cape
+7915	Cape Town	Western Cape
+7925	Cape Town	Western Cape
+7925	Kaapstad	Western Cape
+7925	Woodstock	Western Cape
+7935	Cape Town	Western Cape
+7937	Cape Town	Western Cape
+7941	Cape Town	Western Cape
+7941	Grassy Park	Western Cape
+7941	Ottery	Western Cape
+7945	Bergvliet	Western Cape
+7945	Cape Town	Western Cape
+7945	Diep River	Western Cape
+7945	Heathfield	Western Cape
+7945	Lakeside	Western Cape
+7945	Lavender Hill	Western Cape
+7945	Muizenberg	Western Cape
+7945	Retreat	Western Cape
+7945	Steenberg	Western Cape
+7945	Tokai	Western Cape
+7946	Muizenberg	Western Cape
+7947	Retreat	Western Cape
+7950	Cape Town	Western Cape
+7965	Cape Town	Western Cape
+7966	Cape Town	Western Cape
+7974	Cape Town	Western Cape
+7974	Kaapstad	Western Cape
+7975	Cape Town	Western Cape
+7975	Fish Hoek	Western Cape
+7975	Fishhoek	Western Cape
+7975	Kaapstad	Western Cape
+7975	Simon'S Town	Western Cape
+7975	Simonstad	Western Cape
+7975	Vishoek	Western Cape
+7976	Fish Hoek	Western Cape
+7977	Fish Hoek	Western Cape
+7978	Fish Hoek	Western Cape
+7979	Fish Hoek	Western Cape
+7985	Fish Hoek	Western Cape
+7990	Fish Hoek	Western Cape
+7990	Vishoek	Western Cape
+7995	Fish Hoek	Western Cape
+7995	Simon'S Town	Western Cape
+7995	Vishoek	Western Cape
+8000	Cape Town	Western Cape
+8000	Kaapstad	Western Cape
+8001	Cape Town	Western Cape
+8001	Kaapstad	Western Cape
+8002	Cape Town	Western Cape
+8003	Cape Town	Western Cape
+8005	Cape Town	Western Cape
+8005	Kaapstad	Western Cape
+8007	Cape Town	Western Cape
+8008	Cape Town	Western Cape
+8008	Kaapstad	Western Cape
+8010	Cape Town	Western Cape
+8012	Cape Town	Western Cape
+8012	Kaapstad	Western Cape
+8017	Cape Town	Western Cape
+8018	Cape Town	Western Cape
+8020	Cape Town	Western Cape
+8040	Cape Town	Western Cape
+8040	Kaapstad	Western Cape
+8050	Cape Town	Western Cape
+8051	Cape Town	Western Cape
+8051	Kaapstad	Western Cape
+8060	Cape Town	Western Cape
+8060	Kaapstad	Western Cape
+8100	Piketberg	Western Cape
+8105	Piketberg	Western Cape
+8110	Piketberg	Western Cape
+8115	Piketberg	Western Cape
+8120	Clanwilliam	Western Cape
+8121	Graafwater	Western Cape
+8122	Graafwater	Western Cape
+8130	Lambertsbaai	Western Cape
+8138	Clanwilliam	Western Cape
+8145	Klawer	Western Cape
+8146	Vredendal	Western Cape
+8147	Klawer	Western Cape
+8149	Lutzville	Western Cape
+8151	Vredendal	Western Cape
+8160	Cape Town	Western Cape
+8160	Kaapstad	Western Cape
+8170	Vanrhynsdorp	Western Cape
+8185	Loeriesfontein	Northern Cape
+8190	Calvinia	Northern Cape
+8191	Calvinia	Northern Cape
+8193	Calvinia	Northern Cape
+8201	Bitterfontein	Western Cape
+8202	Bitterfontein	Western Cape
+8204	Bitterfontein	Western Cape
+8205	Bitterfontein	Western Cape
+8207	Vredendal	Western Cape
+8221	Garies	Northern Cape
+8223	Garies	Northern Cape
+8240	Springbok	Northern Cape
+8241	Springbok	Northern Cape
+8242	Springbok	Northern Cape
+8245	Kotzeshoop	Northern Cape
+8246	Vioolsdrif	Northern Cape
+8247	Springbok	Northern Cape
+8249	Kleinsee	Northern Cape
+8251	Springbok	Northern Cape
+8252	Kamieskroon	Northern Cape
+8253	Kamieskroon	Northern Cape
+8257	Kamieskroon	Northern Cape
+8261	Kamieskroon	Northern Cape
+8271	Okiep	Northern Cape
+8280	Port Nolloth	Northern Cape
+8282	Springbok	Northern Cape
+8283	Port Nolloth	Northern Cape
+8284	Port Nolloth	Northern Cape
+8290	Alexander Bay	Northern Cape
+8292	Alexander Bay	Northern Cape
+8294	Alexander Bay	Northern Cape
+8300	Kimberley	Northern Cape
+8301	Kimberley	Northern Cape
+8303	Kimberley	Northern Cape
+8306	Kimberley	Northern Cape
+8309	Pescodia	Northern Cape
+8315	Beaconsfield	Northern Cape
+8315	Kimberley	Northern Cape
+8320	Kimberley	Northern Cape
+8325	Kimberley	Northern Cape
+8330	Galeshewe	Northern Cape
+8330	Kimberley	Northern Cape
+8335	Kimberley	Northern Cape
+8340	Boshof	Northern Cape
+8345	Kimberley	Northern Cape
+8345	Mankurwane	Northern Cape
+8350	Kimberley	Northern Cape
+8360	Kimberley	Northern Cape
+8365	Griquatown	Northern Cape
+8375	Barkly West	Northern Cape
+8376	Barkly West	Northern Cape
+8377	Barkly West	Northern Cape
+8377	Delportshoop	Northern Cape
+8391	Kimberley	Northern Cape
+8405	Danielskuil	Northern Cape
+8420	Postmasburg	Northern Cape
+8423	Mancorp Mine	Northern Cape
+8423	Postmasburg	Northern Cape
+8426	Postmasburg	Northern Cape
+8445	Postmasburg	Northern Cape
+8450	Olifantshoek	Northern Cape
+8460	Kuruman	Northern Cape
+8461	Kuruman	Northern Cape
+8466	Kuruman	Northern Cape
+8467	Hotazel	Northern Cape
+8468	Kuruman	Northern Cape
+8470	Kuruman	Northern Cape
+8474	Vryburg	Northern Cape
+8476	Vryburg	Northern Cape
+8477	Mothibistad	Northern Cape
+8478	Vryburg	Northern Cape
+8479	Vryburg	Northern Cape
+8480	Vryburg	Northern Cape
+8481	Mothibistad	Northern Cape
+8482	Mothibistad	Northern Cape
+8484	Vryburg	Northern Cape
+8505	Kimberley	Northern Cape
+8510	Windsorton	Northern Cape
+8530	Northern Cape	Northern Cape
+8530	Warrenton	Northern Cape
+8532	Warrenton	Northern Cape
+8534	Jan Kempdorp	North West
+8535	Jan Kempdorp	North West
+8537	Taung Station	Northern Cape
+8550	Jan Kempdorp	North West
+8553	Jan Kempdorp	North West
+8560	Jan Kempdorp	North West
+8570	Hartswater	Northern Cape
+8575	Magogong	North West
+8576	Taung	North West
+8576	Taung Sta	North West
+8577	Taung Station	North West
+8582	Ganyesa	North West
+8583	Taung Sta	North West
+8585	Taung Sta	North West
+8586	Taung Sta	North West
+8587	Ganyesa	North West
+8588	Taung Sta	North West
+8589	Taung Sta	North West
+8590	Taung Sta	North West
+8591	Taung Sta	North West
+8592	Taung Sta	North West
+8593	Taung Sta	North West
+8594	Taung Sta	North West
+8596	Taung Sta	North West
+8597	Taung Station	North West
+8599	Taung Station	North West
+8601	Vryburg	North West
+8602	Vryburg	North West
+8603	Vryburg	North West
+8604	Ganyesa	North West
+8605	Taung Station	North West
+8606	Taung Station	North West
+8607	Taung Station	North West
+8608	Taung Station	North West
+8609	Taung	North West
+8610	Vryburg	North West
+8611	Pomfret	North West
+8611	Vryburg	North West
+8612	Pomfret	North West
+8614	Pomfret	North West
+8615	Vryburg	North West
+8616	Vryburg	North West
+8617	Pomfret	North West
+8618	Pomfret	North West
+8620	Pomfret	North West
+8621	Vryburg	North West
+8622	Vryburg	North West
+8623	Ganyesa	North West
+8624	Vryburg	North West
+8625	Pomfret	North West
+8626	Pomfret	North West
+8655	Madibogo	North West
+8680	Vryburg	North West
+8700	Kimberley	Northern Cape
+8701	Ritchie	Northern Cape
+8710	Jacobsdal	Northern Cape
+8730	Douglas	Northern Cape
+8731	Kimberley	Northern Cape
+8735	Douglas	Northern Cape
+8745	Kimberley	Northern Cape
+8750	Hopetown	Northern Cape
+8751	Hopetown	Northern Cape
+8760	Hopetown	Northern Cape
+8765	Strydenburg	Northern Cape
+8770	Petrusville	Northern Cape
+8771	Vanderkloof	Northern Cape
+8780	De Aar	Northern Cape
+8782	Britstown	Northern Cape
+8795	Philipstown	Northern Cape
+8801	Upington	Northern Cape
+8805	Upington	Northern Cape
+8806	Upington	Northern Cape
+8807	Upington	Northern Cape
+8808	Upington	Northern Cape
+8809	Upington	Northern Cape
+8810	Upington	Northern Cape
+8813	Upington	Northern Cape
+8815	Upington	Northern Cape
+8816	Upington	Northern Cape
+8818	Upington	Northern Cape
+8820	Upington	Northern Cape
+8822	Grootdrink	Northern Cape
+8824	Upington	Northern Cape
+8826	Groblershoop	Northern Cape
+8851	Groblershoop	Northern Cape
+8860	Keimoes	Northern Cape
+8861	Keimoes	Northern Cape
+8870	Kakamas	Northern Cape
+8873	Kakamas	Northern Cape
+8874	Kakamas	Northern Cape
+8892	Pofadder	Northern Cape
+8893	Springbok	Northern Cape
+8922	Carnarvon	Northern Cape
+8925	Carnarvon	Northern Cape
+8930	Niekerkshoop	Northern Cape
+8930	Prieska	Northern Cape
+8940	Prieska	Northern Cape
+8943	Groblershoop	Northern Cape
+9300	Bloemfontein	Free State
+9301	Bloemfontein	Free State
+9302	Bloemfontein	Free State
+9303	Bloemfontein	Free State
+9305	Bloemfontein	Free State
+9306	Bloemfontein	Free State
+9307	Bloemfontein	Free State
+9307	Mangaung	Free State
+9309	Bloemfontein	Free State
+9309	Kagisanong	Free State
+9310	Bloemfontein	Free State
+9311	Bloemfontein	Free State
+9312	Bloemfontein	Free State
+9313	Bloemfontein	Free State
+9315	Bloemfontein	Free State
+9317	Bloemfontein	Free State
+9320	Bloemfontein	Free State
+9321	Bloemfontein	Free State
+9322	Bloemfontein	Free State
+9323	Bloemfontein	Free State
+9323	Ga-Sehunelo	Free State
+9323	Gasehunelo	Free State
+9323	Kagisanong	Free State
+9324	Bloemfontein	Free State
+9325	Bloemfontein	Free State
+9326	Bloemfontein	Free State
+9327	Bloemfontein	Free State
+9328	Kagisanong	Free State
+9330	Bloemfontein	Free State
+9332	Bloemfontein	Free State
+9334	Bloemfontein	Free State
+9348	Dealesville	Free State
+9356	Bloemfontein	Free State
+9358	Bloemfontein	Free State
+9360	Bloemfontein	Free State
+9364	Bloemfontein	Free State
+9364	Bloemspruit	Free State
+9380	Bloemfontein	Free State
+9400	Brandfort	Free State
+9410	Theunissen	Free State
+9414	Theunissen	Free State
+9420	Winburg	Free State
+9421	Winburg	Free State
+9430	Free State	Free State
+9430	Virginia	Free State
+9431	Free State	Free State
+9431	Virginia	Free State
+9432	Virginia	Free State
+9433	Virginia	Free State
+9435	Virginia	Free State
+9437	Virginia	Free State
+9438	Welkom	Free State
+9439	Virginia	Free State
+9450	Ventersburg	Free State
+9459	Welkom	Free State
+9460	Welkom	Free State
+9462	Welkom	Free State
+9463	Motsethabong	Free State
+9463	Welkom	Free State
+9465	Welkom	Free State
+9466	Welkom	Free State
+9467	Welkom	Free State
+9468	Geduldpan	Free State
+9468	Welkom	Free State
+9469	Welkom	Free State
+9470	Welkom	Free State
+9471	Welkom	Free State
+9473	Welkom	Free State
+9475	Motsethabong	Free State
+9476	Odendaalsrus	Free State
+9477	Welkom	Free State
+9478	Motsethabong	Free State
+9480	Odendaalsrus	Free State
+9482	Hertzogville	Free State
+9483	Merafong	Free State
+9483	Odendaalsrus	Free State
+9484	Virginia	Free State
+9485	Senekal	Free State
+9487	Motsethabang	Free State
+9488	Welkom	Free State
+9490	Allanridge	Free State
+9492	Allanridge	Free State
+9499	Kroonstad	Free State
+9501	Kroonstad	Free State
+9503	Kroonstad	Free State
+9503	Lengau	Free State
+9505	Kroonstad	Free State
+9520	Viljoenskroon	Free State
+9521	Viljoenskroon	Free State
+9535	Edenville	Free State
+9535	Free State	Free State
+9540	Koppies	Free State
+9580	Sasolburg	Free State
+9585	Parys	Free State
+9595	Vredefort	Free State
+9600	Senekal	Free State
+9602	Arlington	Free State
+9610	Marquard	Free State
+9630	Lindley	Free State
+9640	Petrus Steyn	Free State
+9650	Heilbron	Free State
+9660	Bothaville	Free State
+9661	Bothaville	Free State
+9663	Bothaville	Free State
+9670	Bultfontein	Free State
+9680	Wesselsbron	Free State
+9682	Wesselsbron	Free State
+9700	Bethlehem	Free State
+9701	Bethlehem	Free State
+9701	Theronville	Free State
+9702	Bethlehem	Free State
+9702	Bohlokong	Free State
+9702	Theronville	Free State
+9703	Bethlehem	Free State
+9704	Bethlehem	Free State
+9705	Bethlehem	Free State
+9706	Bethlehem	Free State
+9707	Clarens	Free State
+9720	Rosendal	Free State
+9725	Fouriesburg	Free State
+9730	Ficksburg	Free State
+9732	Ficksburg	Free State
+9735	Clocolan	Free State
+9740	Hobhouse	Free State
+9742	Jamestown	Eastern Cape
+9744	Burgersdorp	Eastern Cape
+9745	Ladybrand	Free State
+9746	Ladybrand	Free State
+9748	Ladybrand	Free State
+9750	Aliwal North	Eastern Cape
+9750	Aliwal-Noord	Eastern Cape
+9752	Aliwal North	Eastern Cape
+9754	Aliwal North	Eastern Cape
+9755	Lady Grey	Eastern Cape
+9756	Herschel	Eastern Cape
+9760	Excelsior	Free State
+9762	Sterkspruit	Eastern Cape
+9775	Ga-Rapulana	Free State
+9775	Garapulana	Free State
+9780	Ga-Rapulana	Free State
+9781	Bloemfontein	Free State
+9781	Botshabelo	Free State
+9782	Botshabelo	Free State
+9783	Ga-Rapulana	Free State
+9783	Selosesha	Free State
+9783	Thaba Nchu	Free State
+9784	Thaba Nchu	Free State
+9785	Botshabelo	Free State
+9786	Barkly East	Eastern Cape
+9787	Barkly East	Eastern Cape
+9788	Botshabelo	Free State
+9789	Botshabelo	Free State
+9790	Thaba Nchu	Free State
+9795	Colesberg	Northern Cape
+9797	Colesberg	Northern Cape
+9798	Venterstad	Eastern Cape
+9800	Paul Roux	Free State
+9810	Reitz	Free State
+9820	Tweeling	Free State
+9830	Frankfort	Free State
+9835	Vrede	Free State
+9840	Villiers	Free State
+9850	Cornelia	Free State
+9850	Vrede	Free State
+9860	Kestell	Free State
+9866	Phuthaditjhaba	Free State
+9868	Witsieshoek	Free State
+9869	Mokodumela	Free State
+9869	Phuthaditjhaba	Free State
+9869	Witsieshoek	Free State
+9870	Witsieshoek	Free State
+9873	Dikgakeng	Free State
+9875	Witsieshoek	Free State
+9877	Witsieshoek	Free State
+9878	Witsieshoek	Free State
+9880	Harrismith	Free State
+9882	Harrismith	Free State
+9883	Harrismith	Free State
+9885	Harrismith	Free State
+9890	Warden	Free State
+9904	Reddersburg	Free State
+9908	Edenburg	Free State
+9913	Trompsburg	Free State
+9917	Springfontein	Free State
+9922	Colesberg	Northern Cape
+9928	Bloemfontein	Free State
+9932	Petrusburg	Free State
+9936	Petrusburg	Free State
+9940	Dewetsdorp	Free State
+9944	Wepener	Free State
+9945	Zastron	Free State
+9950	Zastron	Free State
+9951	Zastron	Free State
+9958	Free State	Free State
+9958	Rouxville	Free State
+9966	Smithfield	Free State
+9970	Philippolis	Free State
+9974	Jagersfontein	Free State
+9978	Fauresmith	Free State
+9982	Luckhoff	Free State
+9986	Koffiefontein	Free State
+9986	Luckhoff	Free State
+9987	Koffiefontein	Free State
+9992	Bethulie	Northern Cape
