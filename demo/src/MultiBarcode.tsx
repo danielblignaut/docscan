@@ -14,8 +14,13 @@ export const CONFIRM_FRAMES = 2;
 /** Analyse up to this width: small codes need every pixel the camera gives. */
 const MAX_WIDTH = 1920;
 
-/** With labels on, every this many frames is an OCR pass that names the codes. */
+/**
+ * Every this many frames is an OCR pass that names the codes: often in
+ * device-label mode, where the printed values are the point, and less often
+ * in barcodes mode, where OCR mostly adds names and should not slow decoding.
+ */
 const LABEL_EVERY = 4;
+const LABEL_EVERY_BARCODES = 6;
 
 /**
  * The scan finishes on its own once at least one code is confirmed and no new
@@ -125,7 +130,9 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
     function finishReason(now: number): string | null {
       if (finishNow.current) return "finished by hand";
       if (labels && stablePasses >= STABLE_PASSES) return `labels stable for ${STABLE_PASSES} OCR passes, check digits valid`;
-      const started = labels ? hasChecked() : confirmed().length > 0;
+      // Barcodes mode starts its quiet clock on a confirmed code or on a
+      // printed field with a valid check digit (bars too fine to decode).
+      const started = labels ? hasChecked() : confirmed().length > 0 || hasChecked();
       if (started && now - lastNewAt >= QUIET_MS) return `nothing new for ${QUIET_MS / 1000} s`;
       return null;
     }
@@ -143,7 +150,10 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       snapshot(video, frameNow);
       const scale = image.width / video.videoWidth;
       frame++;
-      if (labels && frame % LABEL_EVERY === 0) {
+      // Both modes read the printed labels, so a code is named IMEI1 or SN
+      // (above, below or left of it) and a value whose bars will not decode
+      // still comes through from print.
+      if (frame % (labels ? LABEL_EVERY : LABEL_EVERY_BARCODES) === 0) {
         try {
           const { result, ms } = await client.run<Labelled>({ kind: "labelled", image });
           if (stopped) return;
@@ -161,7 +171,11 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
             const cur = byLabel.get(k);
             if (!cur || f.seen > cur.seen) byLabel.set(k, f);
           }
-          shown = [...byLabel.values()].sort((a, b) => a.bbox[1] - b.bbox[1]);
+          // Number unlabelled codes in reading order across the whole capture.
+          let n = 0;
+          shown = [...byLabel.values()]
+            .sort((a, b) => a.bbox[1] - b.bbox[1] || a.bbox[0] - b.bbox[0])
+            .map((f) => ({ ...f, name: f.label ?? `Barcode ${++n}` }));
           const now = performance.now();
           const signature = shown.map(fieldKey).sort().join("\n");
           // Clean: something with a check digit is listed, and nothing this pass read failed its check.
@@ -213,7 +227,7 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
         draw(video, overlay, result, scale, OUTLINE_COLOUR[outline.get()]);
         setSeen([...all.values()]);
         setRate({ ms: Math.round(ms), inFrame: result.length });
-        const started = labels ? hasChecked() : confirmed().length > 0;
+        const started = labels ? hasChecked() : confirmed().length > 0 || hasChecked();
         setQuietLeft(started ? Math.max(0, QUIET_MS - (now - lastNewAt)) : null);
         const why = finishReason(now);
         if (why) return void finish(video, why);
@@ -262,11 +276,11 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
         <div className="capture-foot">
           {(confirmedCount > 0 || fields.length > 0) && (
             <div className="sheet">
-              {labels && fields.length > 0 && (
+              {fields.length > 0 && (
                 <dl className="live-fields" data-testid="fields">
                   {fields.map((f) => (
-                    <div key={`${f.label}|${f.value}`}>
-                      <dt>{f.label ?? f.barcode_format?.toUpperCase() ?? "—"}</dt>
+                    <div key={`${f.name}|${f.value}`}>
+                      <dt>{f.name}</dt>
                       <dd>
                         <code>{f.value}</code> {f.check_digit_valid ? <small className="ok">✓</small> : null}
                       </dd>

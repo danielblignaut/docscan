@@ -33,15 +33,12 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     // The same analysis width as the camera flow.
     const image = await pixels(file, 1920);
     const imageUrl = URL.createObjectURL(file);
-    if (scanner === "barcodes") {
-      const { result } = await client.run<Barcode[]>({ kind: "barcodes", image, formats: [] });
-      const barcodes = result.map((b) => ({ format: b.format, text: b.text, count: 1 }));
-      return { kind: "barcodes", labels: false, barcodes, fields: [], imageUrl, finishedBy: "one photo", meta: meta(1) };
-    }
+    // Both modes read the printed labels too (IMEI1, SN, …), so values whose
+    // bars are too fine to decode still come through from print.
     const { result } = await client.run<Labelled>({ kind: "labelled", image });
     const fields = result.fields.filter((f) => f.check_digit_valid !== false);
     const barcodes = fields.filter((f) => f.barcode_format).map((f) => ({ format: f.barcode_format!, text: f.value, count: 1 }));
-    return { kind: "barcodes", labels: true, barcodes, fields, imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
+    return { kind: "barcodes", labels: scanner === "labels", barcodes, fields, imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
   }
 
   if (scanner === "address") {

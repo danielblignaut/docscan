@@ -379,7 +379,8 @@ function AddressResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: 
 // ---------------------------------------------------------------------------
 
 function fieldNote(f: LabelledField): [Status | undefined, string] {
-  const source = f.source === "both" ? "barcode + print" : f.source === "barcode" ? "barcode" : "print (OCR)";
+  const source =
+    f.source === "both" ? "barcode + print" : f.source === "barcode" ? "barcode" : f.barcode_unread ? "print (OCR) · bars present but unreadable" : "print (OCR)";
   const fmt = f.barcode_format ? ` · ${f.barcode_format}` : "";
   if (f.check_digit_valid === true) return ["ok", `${source}${fmt} · check digit ✓`];
   if (f.check_digit_valid === false) return ["bad", `${source}${fmt} · check digit ✗`];
@@ -394,12 +395,12 @@ function BarcodeResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: 
         captured
       </Verdict>
       {outcome.imageUrl && <img className="captured" src={outcome.imageUrl} alt="the frame the set was captured from" />}
-      {outcome.labels && (
-        <Group title="Device label" testid="label-fields">
+      {(outcome.labels || outcome.fields.length > 0) && (
+        <Group title={outcome.labels ? "Device label" : "Labelled values"} testid="label-fields">
           {outcome.fields.length === 0 && <p className="empty">No labelled fields were read.</p>}
           {outcome.fields.map((f) => {
             const [status, note] = fieldNote(f);
-            return <Field key={`${f.label}|${f.value}`} label={f.label ?? f.barcode_format?.toUpperCase() ?? f.kind.toUpperCase()} value={f.value} status={status} note={note} />;
+            return <Field key={`${f.name}|${f.value}`} label={f.name} value={f.value} status={status} note={note} />;
           })}
         </Group>
       )}

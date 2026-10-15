@@ -47,6 +47,12 @@ pub struct Field {
     /// The printed label, normalised (`IMEI1`, `SN`), or `None` for an
     /// unlabelled code.
     pub label: Option<String>,
+    /// What to call the field: its label, or `Barcode 1`, `Barcode 2`, … in
+    /// reading order for codes printed without one.
+    pub name: String,
+    /// Bars were found where this printed value's barcode should be, but they
+    /// could not be decoded (too fine or blurred): the value comes from print.
+    pub barcode_unread: bool,
     pub value: String,
     pub kind: ValueKind,
     pub source: Source,
@@ -199,75 +205,123 @@ fn kind_of_barcode(b: &Barcode) -> (ValueKind, Option<bool>) {
     (ValueKind::Text, None)
 }
 
-/// Pairs barcodes with printed labels and values. `lines` must be in the
-/// same pixel coordinates as the barcodes' points.
-pub fn associate(barcodes: &[Barcode], lines: &[Line]) -> Labelled {
+/// Pairs barcodes with printed labels and values. `regions` are patches
+/// that look like linear barcodes (`barcode::linear_regions`), decoded or
+/// not; `lines` are OCR lines. Everything is in the same frame pixels.
+///
+/// A label can sit above a code, below it, or to its left. A code with no
+/// label is named `Barcode n` in reading order. Bars that would not decode
+/// still claim the labelled value printed beside them, so the field says
+/// where its value came from.
+pub fn associate(barcodes: &[Barcode], regions: &[[f32; 4]], lines: &[Line]) -> Labelled {
     let printed: Vec<Printed> = merge_digit_groups(lines).iter().filter_map(parse_line).collect();
     let mut used = vec![false; printed.len()];
-    let norm = |s: &str| alnum_upper(s);
 
-    // Barcodes whose value is printed somewhere: confirmed.
-    let mut confirmed: Vec<(usize, Option<usize>)> = Vec::new();
-    for (bi, b) in barcodes.iter().enumerate() {
-        let hit = printed.iter().position(|p| norm(&p.value) == norm(&b.text));
-        if let Some(pi) = hit {
-            used[pi] = true;
-        }
-        confirmed.push((bi, hit));
-    }
-    let confirmed_boxes: Vec<[f32; 4]> =
-        confirmed.iter().filter(|(_, p)| p.is_some()).map(|(bi, _)| barcode_box(&barcodes[*bi])).collect();
+    // A decoded linear code reports only its scan line; the bar region it
+    // lies in gives its real extent, which placing labels needs.
+    let boxes: Vec<[f32; 4]> = barcodes
+        .iter()
+        .map(|b| {
+            let scan = barcode_box(b);
+            let (cx, cy) = (scan[0] + scan[2] / 2.0, scan[1] + scan[3] / 2.0);
+            regions
+                .iter()
+                .find(|r| cx >= r[0] && cx <= r[0] + r[2] && cy >= r[1] && cy <= r[1] + r[3])
+                .copied()
+                .unwrap_or(scan)
+        })
+        .collect();
+
+    // Decoded codes whose value is printed (exactly, or within two OCR slips).
+    let hits: Vec<Option<usize>> = barcodes
+        .iter()
+        .map(|b| {
+            let want = alnum_upper(&b.text);
+            let hit = printed.iter().enumerate().filter(|(i, _)| !used[*i]).find(|(_, p)| same_value(&alnum_upper(&p.value), &want)).map(|(i, _)| i);
+            if let Some(i) = hit {
+                used[i] = true;
+            }
+            hit
+        })
+        .collect();
+    let confirmed: Vec<[f32; 4]> = hits.iter().zip(&boxes).filter(|(h, _)| h.is_some()).map(|(_, b)| *b).collect();
 
     let mut fields = Vec::new();
     let mut dropped = Vec::new();
-    for (bi, hit) in confirmed {
-        let b = &barcodes[bi];
-        let bbox = barcode_box(b);
+    for (bi, b) in barcodes.iter().enumerate() {
+        let bbox = boxes[bi];
         let (kind, check) = kind_of_barcode(b);
-        if let Some(pi) = hit {
-            let p = &printed[pi];
-            let label = p.label.clone().or_else(|| label_above(&printed, &used, bbox).map(|(l, _)| l));
-            fields.push(Field {
-                label,
-                value: b.text.clone(),
-                kind: if p.kind != ValueKind::Text { p.kind } else { kind },
-                source: Source::Both,
-                check_digit_valid: check.or(p.check),
-                barcode_format: Some(b.format.clone()),
-                bbox,
-            });
-            continue;
-        }
-        // Unsupported decodes: drop a misread overlapping a confirmed code,
-        // a code that sits on text, or one whose own checksum fails.
-        let on_confirmed = confirmed_boxes.iter().any(|c| overlap(*c, bbox) > 0.3);
-        let on_text = matches!(b.format.as_str(), "upce" | "ean8" | "codabar" | "itf")
-            && lines.iter().any(|l| overlap([l.x, l.y, l.w, l.h], bbox) > 0.3);
-        if on_confirmed || on_text || check == Some(false) {
-            dropped.push(b.clone());
-            continue;
-        }
-        let label = label_above(&printed, &used, bbox).map(|(l, pi)| {
-            used[pi] = true;
-            l
-        });
-        fields.push(Field {
-            label,
+        let mut field = Field {
+            label: None,
+            name: String::new(),
+            barcode_unread: false,
             value: b.text.clone(),
             kind,
             source: Source::Barcode,
             check_digit_valid: check,
             barcode_format: Some(b.format.clone()),
             bbox,
+        };
+        if let Some(pi) = hits[bi] {
+            let p = &printed[pi];
+            field.source = Source::Both;
+            field.label = p.label.clone();
+            if p.kind != ValueKind::Text {
+                field.kind = p.kind;
+            }
+            field.check_digit_valid = check.or(p.check);
+        } else {
+            // Unsupported decodes: a misread overlapping a confirmed code, a
+            // short code sitting on text, or one failing its own checksum.
+            let on_confirmed = confirmed.iter().any(|c| overlap(*c, bbox) > 0.3);
+            let on_text = matches!(b.format.as_str(), "upce" | "ean8" | "codabar" | "itf")
+                && lines.iter().any(|l| overlap([l.x, l.y, l.w, l.h], bbox) > 0.3);
+            if on_confirmed || on_text || check == Some(false) {
+                dropped.push(b.clone());
+                continue;
+            }
+        }
+        fields.push(field);
+    }
+    // Bare labels beside decoded codes that have none yet.
+    let unlabelled: Vec<usize> = (0..fields.len()).filter(|&i| fields[i].label.is_none()).collect();
+    let targets: Vec<[f32; 4]> = unlabelled.iter().map(|&i| fields[i].bbox).collect();
+    for (k, hit) in match_labels(&printed, &used, &targets, true).into_iter().enumerate() {
+        if let Some(pi) = hit {
+            used[pi] = true;
+            fields[unlabelled[k]].label = printed[pi].label.clone();
+        }
+    }
+
+    // Bars that would not decode: they take the labelled value printed next
+    // to them (`IMEI1: 8620…` above a Code 128 too fine to read).
+    let unread: Vec<[f32; 4]> = regions.iter().copied().filter(|r| !boxes.iter().any(|d| overlap(*d, *r) > 0.3)).collect();
+    for (ri, hit) in match_labels(&printed, &used, &unread, false).into_iter().enumerate() {
+        let Some(pi) = hit else { continue };
+        used[pi] = true;
+        let p = &printed[pi];
+        fields.push(Field {
+            label: p.label.clone(),
+            name: String::new(),
+            barcode_unread: true,
+            value: p.value.clone(),
+            kind: p.kind,
+            source: Source::Text,
+            check_digit_valid: p.check,
+            barcode_format: None,
+            bbox: unread[ri],
         });
     }
-    // Printed fields with no barcode.
+
+    // Printed fields with no barcode at all.
     for (pi, p) in printed.iter().enumerate() {
         if used[pi] || p.label.is_none() || p.value.is_empty() {
             continue;
         }
         fields.push(Field {
             label: p.label.clone(),
+            name: String::new(),
+            barcode_unread: false,
             value: p.value.clone(),
             kind: p.kind,
             source: Source::Text,
@@ -277,7 +331,29 @@ pub fn associate(barcodes: &[Barcode], lines: &[Line]) -> Labelled {
         });
     }
     fields.sort_by(|a, b| a.bbox[1].total_cmp(&b.bbox[1]).then(a.bbox[0].total_cmp(&b.bbox[0])));
+    let mut n = 0;
+    for f in &mut fields {
+        f.name = match &f.label {
+            Some(l) => l.clone(),
+            None => {
+                n += 1;
+                format!("Barcode {n}")
+            }
+        };
+    }
     Labelled { fields, dropped }
+}
+
+/// Equal, or the same length within two characters: a printed value the OCR
+/// misread slightly still confirms the code (whose decoded value stands).
+fn same_value(printed: &str, decoded: &str) -> bool {
+    if printed.is_empty() || decoded.is_empty() {
+        return false;
+    }
+    printed == decoded
+        || (printed.len() == decoded.len()
+            && printed.len() >= 8
+            && printed.chars().zip(decoded.chars()).filter(|(a, b)| a != b).count() <= 2)
 }
 
 /// Joins runs of digit groups on one row (`6`, `932204`, `520951`: an EAN's
@@ -325,23 +401,51 @@ fn merge_digit_groups(lines: &[Line]) -> Vec<Line> {
     out
 }
 
-/// The nearest unused label line just above a barcode and overlapping it
-/// horizontally, within about two line heights.
-fn label_above(printed: &[Printed], used: &[bool], bbox: [f32; 4]) -> Option<(String, usize)> {
-    printed
-        .iter()
-        .enumerate()
-        // A label line printing its own (different) value is a field of its
-        // own; only a bare label names the code below it.
-        .filter(|(i, p)| !used[*i] && p.label.is_some() && p.value.is_empty())
-        .filter(|(_, p)| {
-            let l = &p.line;
-            let gap = bbox[1] - (l.y + l.h);
-            let overlaps_x = l.x < bbox[0] + bbox[2] && l.x + l.w > bbox[0];
-            overlaps_x && gap > -l.h * 0.5 && gap < l.h * 2.5
-        })
-        .min_by(|a, b| (bbox[1] - a.1.line.y).total_cmp(&(bbox[1] - b.1.line.y)))
-        .map(|(i, p)| (p.label.clone().unwrap(), i))
+/// Pairs label lines with codes across the whole frame. A label belongs to
+/// the code it sits above first (the usual layout: `IMEI2:` printed between
+/// IMEI1's bars and its own sits closer to IMEI1's, but labels it own), then
+/// to a code on its right, then to one it sits below. Candidates are taken in
+/// that priority, nearest first, and each label and each code is used once.
+///
+/// With `bare_only`, only labels printing no value of their own qualify (a
+/// labelled value is a field in its own right); without it (bars that did not
+/// decode) only labels that print a value qualify, since the value is what
+/// those bars hold.
+fn match_labels(printed: &[Printed], used: &[bool], targets: &[[f32; 4]], bare_only: bool) -> Vec<Option<usize>> {
+    let mut candidates: Vec<(u8, f32, usize, usize)> = Vec::new();
+    for (pi, p) in printed.iter().enumerate() {
+        if used[pi] || p.label.is_none() || bare_only != p.value.is_empty() {
+            continue;
+        }
+        let l = &p.line;
+        let (lx0, ly0, lx1, ly1) = (l.x, l.y, l.x + l.w, l.y + l.h);
+        let reach = 2.5 * l.h;
+        for (ti, t) in targets.iter().enumerate() {
+            let (bx0, by0, bx1, by1) = (t[0], t[1], t[0] + t[2], t[1] + t[3]);
+            let x_overlap = lx0 < bx1 && lx1 > bx0;
+            let y_overlap = (ly1.min(by1) - ly0.max(by0)) > 0.5 * l.h.min(t[3]);
+            let above = by0 - ly1; // label above the code
+            let left = bx0 - lx1; // label left of the code
+            let below = ly0 - by1; // label below the code
+            if x_overlap && above > -0.5 * l.h && above < reach {
+                candidates.push((0, above.max(0.0), pi, ti));
+            } else if y_overlap && left > -l.h && left < 6.0 * l.h {
+                candidates.push((1, left.max(0.0), pi, ti));
+            } else if x_overlap && below > -0.5 * l.h && below < reach {
+                candidates.push((2, below.max(0.0), pi, ti));
+            }
+        }
+    }
+    candidates.sort_by(|a, b| a.0.cmp(&b.0).then(a.1.total_cmp(&b.1)));
+    let mut out = vec![None; targets.len()];
+    let mut taken = vec![false; printed.len()];
+    for (_, _, pi, ti) in candidates {
+        if out[ti].is_none() && !taken[pi] {
+            out[ti] = Some(pi);
+            taken[pi] = true;
+        }
+    }
+    out
 }
 
 #[cfg(test)]
@@ -365,6 +469,53 @@ mod tests {
         assert!(!luhn_valid("351204123456786"));
     }
 
+    /// A label printed between two codes belongs to the one below it.
+    #[test]
+    fn label_between_two_codes_belongs_below() {
+        let lines = vec![
+            line("IMEI1: 351204123456785", 400.0, 426.0, 265.0),
+            line("IMEI2: 351204123456793", 399.0, 501.0, 262.0),
+        ];
+        let regions = [[400.0, 464.0, 312.0, 40.0], [392.0, 536.0, 312.0, 40.0]];
+        let out = associate(&[], &regions, &lines);
+        let got: Vec<(&str, bool, f32)> = out.fields.iter().map(|f| (f.name.as_str(), f.barcode_unread, f.bbox[1])).collect();
+        assert_eq!(got, vec![("IMEI1", true, 464.0), ("IMEI2", true, 536.0)]);
+    }
+
+    /// Bars that would not decode take the labelled value above them, a code
+    /// with a label on its left or below it takes that label, and codes with
+    /// none are numbered.
+    #[test]
+    fn labels_above_left_below_and_numbering() {
+        let lines = vec![
+            line("IMEI1: 351204123456785", 400.0, 100.0, 290.0),
+            line("Order:", 20.0, 310.0, 70.0),
+            line("Lot:", 400.0, 470.0, 50.0),
+        ];
+        // An unreadable Code 128 under the IMEI line.
+        let regions = [[400.0, 120.0, 290.0, 50.0], [100.0, 300.0, 300.0, 40.0], [400.0, 420.0, 280.0, 45.0]];
+        let barcodes = vec![
+            bar("code128", "ORD-778", 110.0, 390.0, 320.0),
+            bar("code128", "LOT-5521", 410.0, 670.0, 440.0),
+            bar("qrcode", "https://example.test/a", 50.0, 90.0, 600.0),
+            bar("qrcode", "https://example.test/b", 50.0, 90.0, 700.0),
+        ];
+        let out = associate(&barcodes, &regions, &lines);
+        let names: Vec<(&str, &str)> = out.fields.iter().map(|f| (f.name.as_str(), f.value.as_str())).collect();
+        assert_eq!(
+            names,
+            vec![
+                ("IMEI1", "351204123456785"),
+                ("ORDER", "ORD-778"),
+                ("LOT", "LOT-5521"),
+                ("Barcode 1", "https://example.test/a"),
+                ("Barcode 2", "https://example.test/b"),
+            ]
+        );
+        let imei = &out.fields[0];
+        assert!(imei.barcode_unread && imei.source == Source::Text && imei.check_digit_valid == Some(true));
+    }
+
     /// The device-box layout: two IMEIs whose barcodes are too fine to
     /// decode, a serial number with no barcode, and the box's EAN-13 with its
     /// digits printed under it, plus a misread EAN overlapping it.
@@ -380,7 +531,7 @@ mod tests {
             bar("ean13", "3954117520951", 422.0, 703.0, 645.0),
             bar("ean13", "6932204520951", 422.0, 703.0, 655.0),
         ];
-        let out = associate(&barcodes, &lines);
+        let out = associate(&barcodes, &[], &lines);
         let get = |l: &str| out.fields.iter().find(|f| f.label.as_deref() == Some(l)).unwrap();
         assert_eq!(get("IMEI1").value, "351204123456785");
         assert_eq!(get("IMEI1").check_digit_valid, Some(true));
@@ -398,7 +549,7 @@ mod tests {
     fn split_digit_groups_confirm_ean() {
         let lines = vec![line("6", 395.0, 665.0, 12.0), line("932204", 450.0, 665.0, 90.0), line("520951", 600.0, 665.0, 90.0)];
         let barcodes = vec![bar("ean13", "3954117520951", 422.0, 703.0, 645.0), bar("ean13", "6932204520951", 422.0, 703.0, 655.0)];
-        let out = associate(&barcodes, &lines);
+        let out = associate(&barcodes, &[], &lines);
         assert_eq!(out.fields.len(), 1);
         assert_eq!((out.fields[0].value.as_str(), out.fields[0].source), ("6932204520951", Source::Both));
         assert_eq!(out.dropped.len(), 1);
@@ -424,7 +575,7 @@ mod tests {
     fn barcode_takes_bare_label_above() {
         let lines = vec![line("IMEI1:", 400.0, 440.0, 60.0)];
         let barcodes = vec![bar("code128", "351204123456785", 405.0, 690.0, 470.0)];
-        let out = associate(&barcodes, &lines);
+        let out = associate(&barcodes, &[], &lines);
         assert_eq!(out.fields.len(), 1);
         let f = &out.fields[0];
         assert_eq!((f.label.as_deref(), f.source, f.kind), (Some("IMEI1"), Source::Barcode, ValueKind::Imei));
@@ -434,7 +585,7 @@ mod tests {
     fn barcode_takes_label_above() {
         let lines = vec![line("IMEI1: 3512O4123456785", 400.0, 440.0, 290.0)];
         let barcodes = vec![bar("code128", "351204123456785", 405.0, 690.0, 470.0)];
-        let out = associate(&barcodes, &lines);
+        let out = associate(&barcodes, &[], &lines);
         assert_eq!(out.fields.len(), 1);
         let f = &out.fields[0];
         assert_eq!((f.label.as_deref(), f.source, f.kind), (Some("IMEI1"), Source::Both, ValueKind::Imei));

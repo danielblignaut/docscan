@@ -14,7 +14,12 @@ leaves the phone.
   read too.
 - **Many barcodes in one frame**: QR, Data Matrix, PDF417, Aztec, Code 128,
   Code 39, Code 93, Codabar, EAN-13/8, UPC-A/E and ITF, each outlined live.
-- **Device labels** (`?mode=labels`): each barcode paired with its printed
+- **Labelled barcodes** (both barcode modes; `?mode=labels` finishes once the
+  check digits are stable): each barcode paired with its printed label, whether
+  the label sits above, below or to the left of it (codes with none are named
+  `Barcode 1`, `Barcode 2`, … in reading order); bars too fine to decode still
+  claim the labelled value printed beside them, flagged as read from print;
+- **Device labels**: each barcode paired with its printed
   label (`IMEI1`, `IMEI2`, `SN`), printed values with no barcode read by OCR,
   IMEIs Luhn-checked and EANs checksummed, and misreads dropped when the print
   contradicts them. Small print is read in tiles at the OCR model's native

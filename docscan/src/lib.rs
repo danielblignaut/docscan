@@ -691,8 +691,14 @@ impl Scanner {
     pub fn labelled_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
         let luma = quality::rgba_to_luma(rgba);
         let barcodes = barcode::read_all(&luma, width, height, None);
+        // Bar patches, read or not: they give decoded codes their extent and
+        // let unreadable bars claim the value printed beside them.
+        let regions: Vec<[f32; 4]> = barcode::linear_regions(&luma, width as usize, height as usize)
+            .into_iter()
+            .map(|r| [r.x0 as f32, r.y0 as f32, (r.x1 - r.x0) as f32, (r.y1 - r.y0) as f32])
+            .collect();
         let lines = self.ocr_tiled(rgba, width as usize, height as usize)?;
-        Ok(labels::associate(&barcodes, &lines))
+        Ok(labels::associate(&barcodes, &regions, &lines))
     }
 
     /// OCR of a whole frame in overlapping tiles about the detection model's

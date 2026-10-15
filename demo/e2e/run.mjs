@@ -155,7 +155,7 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       );
     }
     // Barcodes now finish by themselves: wait for the set to be handed on.
-    if (want.type === "barcodes") await page.locator("[data-testid=results]").waitFor({ timeout: 15000 });
+    if (want.type === "barcodes") await page.locator("[data-testid=results]").waitFor({ timeout: 60000 });
     const doneMs = Date.now() - t0;
     // The page renders the result screen after the last capture.
     if (want.type === "captured") await page.waitForTimeout(500);

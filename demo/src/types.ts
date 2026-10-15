@@ -122,6 +122,10 @@ export function crossCheck(captured: { result: DocumentResult }[]): { front: str
 /** A barcode or printed value with its label (see docscan/src/labels.rs). */
 export interface LabelledField {
   label: string | null;
+  /** The label, or `Barcode n` in reading order for an unlabelled code. */
+  name: string;
+  /** Bars were found here but would not decode: the value is from print. */
+  barcode_unread: boolean;
   value: string;
   kind: "imei" | "gtin" | "text";
   source: "both" | "barcode" | "text";
