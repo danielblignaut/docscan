@@ -19,7 +19,7 @@ use super::{AddressResult, Fields, Period};
 pub const RULES_DATE_VOTE: f32 = 0.3;
 
 /// The most frames worth reading for one capture.
-pub const MAX_FRAMES: usize = 3;
+pub const MAX_FRAMES: usize = 4;
 
 #[cfg(test)]
 mod tests {

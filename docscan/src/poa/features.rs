@@ -70,27 +70,6 @@ pub fn reading_order(words: &[Line]) -> Vec<Word> {
     out
 }
 
-/// Characters per word for the character encoder (longer words are cut).
-pub const MAX_CHARS: usize = 20;
-/// Character ids: 0 padding, then a–z, A–Z, 0–9, a little punctuation, other.
-pub const CHAR_VOCAB: usize = 76;
-
-/// A word's characters as ids for the tagger's character encoder (see
-/// [`CHAR_VOCAB`]); `train/train_tagger.py` mirrors this mapping.
-pub fn char_ids(text: &str) -> [i32; MAX_CHARS] {
-    const PUNCT: &str = ".,:;-/&'()#@";
-    let mut out = [0i32; MAX_CHARS];
-    for (k, c) in text.chars().take(MAX_CHARS).enumerate() {
-        out[k] = match c {
-            'a'..='z' => 1 + (c as i32 - 'a' as i32),
-            'A'..='Z' => 27 + (c as i32 - 'A' as i32),
-            '0'..='9' => 53 + (c as i32 - '0' as i32),
-            _ => PUNCT.find(c).map_or(75, |i| 63 + i as i32),
-        };
-    }
-    out
-}
-
 /// FNV-1a, 32-bit.
 pub fn fnv1a(bytes: &[u8]) -> u32 {
     let mut h: u32 = 0x811c9dc5;
@@ -311,12 +290,6 @@ mod tests {
         let (ids, num) = features(&r, 1000.0, 1400.0);
         assert_eq!(ids.len(), 4);
         assert_eq!(num[0][10], 1.0); // first in its line
-    }
-
-    #[test]
-    fn char_ids_are_stable() {
-        let c = char_ids("Ab9,é");
-        assert_eq!(&c[..6], &[27, 2, 62, 64, 75, 0]);
     }
 
     #[test]
