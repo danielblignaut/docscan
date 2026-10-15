@@ -386,7 +386,10 @@ fn match_names(lines: &[Line], words: &[Word], c: &Customer) -> Vec<NameMatch> {
                             || l.upper.contains(" AND ");
                         break;
                     }
-                    if LABELS.contains(&t.as_str()) || CONNECTORS.contains(&t.as_str()) || before.len() >= 3 || words[w].text.ends_with(':') {
+                    // A word in lower case is the sentence the name sits in
+                    // ("We confirm that CRAIG F DESAI is ..."), not a given name.
+                    let sentence_word = words[w].text.chars().next().is_some_and(char::is_lowercase);
+                    if LABELS.contains(&t.as_str()) || CONNECTORS.contains(&t.as_str()) || before.len() >= 3 || words[w].text.ends_with(':') || sentence_word {
                         break;
                     }
                     before.push(words[w].text.as_str());
@@ -394,10 +397,15 @@ fn match_names(lines: &[Line], words: &[Word], c: &Customer) -> Vec<NameMatch> {
                 before.reverse();
                 let mut items = given_items(&before);
                 if items.is_empty() && i + len < n {
-                    let after: Vec<&str> = l.token_word[i + len..].iter().take(2).map(|&w| words[w].text.as_str()).collect();
-                    // Only after a comma: "Nkosi, SJ".
+                    let after: Vec<&str> = l.token_word[i + len..]
+                        .iter()
+                        .take(2)
+                        .map(|&w| words[w].text.as_str())
+                        .take_while(|t| !t.chars().next().is_some_and(char::is_lowercase))
+                        .collect();
+                    // Only after a comma: "Nkosi, SJ" (which OCR often reads as "Nkosi. SJ").
                     let last_word = l.token_word[i + len - 1];
-                    if words[last_word].text.ends_with(',') {
+                    if words[last_word].text.ends_with(',') || words[last_word].text.ends_with('.') {
                         items = given_items(&after);
                     }
                 }
@@ -699,6 +707,22 @@ mod tests {
         assert!(!r.accepted);
         let r = check(&bill(), &[], &customer("SIPHO NKOSI", "45 Market St", "Johannesburg", "2001"), Some(RECENT), TODAY);
         assert!(!r.accepted && r.reasons[0].contains("issuer"), "{:?}", r.reasons);
+    }
+
+    #[test]
+    fn a_name_inside_a_sentence() {
+        let words = page(&[
+            ("We hereby confirm that CRAIG F DESAI is the holder of an account and", 60.0, 200.0),
+            ("that the residential address on record is:", 60.0, 224.0),
+            ("778 Ixia Close", 120.0, 248.0),
+            ("Ladysmith 3370", 120.0, 272.0),
+        ]);
+        let c = customer("CRAIG FARAI DESAI", "778 Ixia Cl", "Ladysmith", "3370");
+        let r = check(&words, &[], &c, Some(RECENT), TODAY);
+        assert!(r.accepted, "{:?}", r.reasons);
+        // A comma OCR read as a full stop.
+        let words = page(&[("GXOWA. ST is the holder", 60.0, 200.0), ("3 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+        assert!(check(&words, &[], &customer("SIPHO THABO GXOWA", "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
     }
 
     #[test]

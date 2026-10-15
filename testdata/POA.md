@@ -8,6 +8,10 @@ of South African proof-of-address (PoA) documents. Three scripts:
 | `poa_synth.py` | clean pages `<id>.png` + truth `<id>.json` in `/tmp/docscan-poa/synth`; `--debug` adds `<id>_boxes.png` |
 | `poa_augment.py` | phone photos `<id>_cam<k>.jpg` + `<id>_cam<k>.json` in `/tmp/docscan-poa/camera` |
 | `make_poa_videos.py` | fake-webcam clips `video/poa/<id>.y4m` + `<id>.json` (via `make_videos.make`) |
+| `poa_capture.py` | captures: a burst of frames per document, `<id>_f<k>.jpg` + one `<id>.json` (frames, corners, pose, focus) |
+| `poa_dev_claims.py` | the DEV set: held-out-layout documents with a known customer and a verification case each |
+| `poa_lockbox.py` | the lockbox: four layout families, fonts, people, issuers, streets and places of its own, with cases (`eval/LOCKBOX.md`) |
+| `fetch_poa_fonts.sh` | the extra OFL fonts (`poa_synth.py --extra-fonts`, and the lockbox's own) into `/tmp/docscan-poa/fonts` |
 
 ```sh
 .venv/bin/python poa_synth.py --count 2000 --jobs 10      # ids poa_00000..poa_01999
@@ -17,6 +21,23 @@ of South African proof-of-address (PoA) documents. Three scripts:
 .venv/bin/python poa_synth.py --procedural --count 700 --start-index 3000 --jobs 6 --out /tmp/docscan-poa/proc
 .venv/bin/python poa_augment.py --synth /tmp/docscan-poa/proc --out /tmp/docscan-poa/proc_camera --per-doc 1 --jobs 6
 ```
+
+`--extra-fonts` (procedural pages only) also draws in Lato, PT Sans, PT
+Serif, Fira Sans, Barlow, Ubuntu, Crimson Text and IBM Plex Mono; without it
+the output is byte-identical to before.
+
+## Verification cases and captures
+
+`poa_dev_claims.py` and `poa_lockbox.py` add to each truth JSON `case`
+(`genuine`, `wrong_person`, `wrong_address`, `old`, `issuer_decoy`),
+`expect_accept`, `customer` (`{name, address: {street, suburb, city,
+province, postal_code}}`: the ID name, forenames then surname in capitals,
+and the address as typed, suffixes abbreviated or not, the suburb or
+province sometimes left out) and `person` (first, middle, surname, printed
+style). `poa_capture.py` photographs each document as a burst (four frames
+by default) with one base pose, background, light and glare, and small
+per-frame changes of pose (1.5° tilt, 1° in-plane, 2% scale), focus, glare
+and noise, and a 15% chance of motion blur.
 
 Document `i` uses layout `LAYOUTS[i % len(LAYOUTS)]` and an RNG seeded from
 `(seed, i)`, so a document is reproducible on its own and runs over index

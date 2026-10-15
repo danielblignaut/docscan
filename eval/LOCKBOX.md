@@ -65,4 +65,19 @@ of name, street, city, postal code and date right, over all 200).
 
 ## Runs
 
-Recorded at the end of the work (see the README's proof-of-address section).
+The pipeline was frozen at commit `6feeb0a` (tagger md5
+`80c9c593f0ec543953675993724d860d`) before the first run. Every frame was
+OCR'd once (`poa_capture_eval.py ocr`); both runs score that cache.
+
+| Run | Pipeline | Genuine accepted | Wrong person / address / old / issuer's address rejected | Blind key fields (per capture / single frame) |
+| --- | --- | --- | --- | --- |
+| 1 | `6feeb0a` | 76.0% (79/104) | 100% / 100% / 100% / 100% (24 each) | 24.0% / 15.5% |
+| 2 | + the bug fix below | **90.4%** (94/104) | **100% / 100% / 100% / 100%** (24 each) | 24.0% / 15.5% |
+
+The fix between the runs (a bug, found by reading run 1's failures, not a
+tuned threshold): a holder named inside a sentence (`We hereby confirm
+that CRAIG F DESAI is ...`) had the sentence's words taken for given names,
+contradicting the customer's; and `Nkosi, SJ` was missed when OCR read the
+comma as a full stop. Words in lower case now end the given names, and
+either mark is accepted. DEV was unchanged by it (99% genuine accepted, 100%
+rejected, 89.0% key fields). No further runs.
