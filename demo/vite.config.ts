@@ -15,6 +15,8 @@ const isolation = {
 };
 
 export default defineConfig({
+  // GitHub Pages serves the demo under /<repo>/ (set by .github/workflows/pages.yml).
+  base: process.env.DOCSCAN_BASE ?? "/",
   plugins: [react()],
   worker: { format: "es" },
   resolve: { alias: { "docscan-threads": existsSync(threads) ? threads : single } },

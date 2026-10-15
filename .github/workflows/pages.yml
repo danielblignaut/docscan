@@ -1,0 +1,69 @@
+# Builds the wasm scanner and the demo, and publishes the demo to GitHub Pages
+# on every push to main. Pages cannot send COOP/COEP headers, so the published
+# demo runs the single-threaded wasm build.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: docscan
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+      - name: Build the scanner (wasm)
+        working-directory: docscan
+        env:
+          RUSTFLAGS: -C target-feature=+simd128
+        run: wasm-pack build --release --target web --out-dir pkg
+      - name: Fetch the OCR models
+        run: scripts/fetch-models.sh
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: demo/pnpm-lock.yaml
+      - name: Build the demo
+        working-directory: demo
+        env:
+          DOCSCAN_BASE: /${{ github.event.repository.name }}/
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec tsc -p .
+          pnpm exec vite build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
