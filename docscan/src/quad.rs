@@ -303,7 +303,7 @@ fn page_likeness(planes: &[Vec<u8>], w: usize, h: usize, c: &[[f32; 2]; 4]) -> f
     let r = width.min(height) / width.max(height).max(1.0);
     let a4 = (1.0 - (r - 210.0 / 297.0).abs() / 0.1).max(0.0);
     let third = (1.0 - (r - 99.0 / 210.0).abs() / 0.08).max(0.0);
-    0.7 * paper + 1.2 * weakest + 0.4 * a4 + 0.1 * third
+    0.7 * paper + 1.2 * weakest + 1.0 * a4 + 0.25 * third
 }
 
 fn find(rgba: &[u8], w: usize, h: usize, page: bool) -> Option<Quad> {

@@ -15,6 +15,9 @@ use super::customer::{self, Customer, CustomerCheck};
 use super::verify::{self, Date};
 use super::{AddressResult, Fields, Period};
 
+/// The weight of the rules' labelled date against one frame's tagged date.
+pub const RULES_DATE_VOTE: f32 = 0.3;
+
 /// The most frames worth reading for one capture.
 pub const MAX_FRAMES: usize = 3;
 
@@ -212,7 +215,27 @@ pub fn combine_checks(checks: &[&CustomerCheck], date: Option<Date>, today: Date
 /// Reads one capture from per-frame readings (each with its words, for the
 /// customer check).
 pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], customer_: Option<&Customer>, today: Date) -> CaptureResult {
-    let (fields, votes) = vote_fields(readings);
+    let (mut fields, votes) = vote_fields(readings);
+    // The document date: the tagger's reading of each frame, with the
+    // rules' labelled date ("Statement date: ...") of each frame as half a vote.
+    let mut tally: Vec<(String, f32)> = Vec::new();
+    let mut add = |d: Option<String>, w: f32| {
+        if let Some(d) = d {
+            match tally.iter_mut().find(|t| t.0 == d) {
+                Some(t) => t.1 += w,
+                None => tally.push((d, w)),
+            }
+        }
+    };
+    for (r, w) in readings.iter().zip(words) {
+        add(r.fields.document_date.clone(), 1.0);
+        add(super::rules::extract(w, r.page_size[1] as f32, &r.text, today).0.document_date, RULES_DATE_VOTE);
+    }
+    if let Some((d, wgt)) = tally.iter().cloned().max_by(|a, b| a.1.total_cmp(&b.1))
+        && fields.document_date.as_ref().is_none_or(|cur| tally.iter().find(|t| &t.0 == cur).map_or(0.0, |t| t.1) < wgt)
+    {
+        fields.document_date = Some(d);
+    }
     let date = doc_date(&fields);
     let customer = customer_.map(|c| {
         let checks: Vec<CustomerCheck> =
@@ -225,7 +248,7 @@ pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], 
 
 /// Whether another frame should be read: fewer than two read, or the two
 /// (or more) read so far disagree on a key field (name, street, city, postal
-/// code, date) or on the decision about the customer, and fewer than
+/// code, date), and fewer than
 /// [`MAX_FRAMES`] have been read.
 pub fn next_frame_needed(result: &CaptureResult) -> bool {
     if result.frames_read >= MAX_FRAMES {
