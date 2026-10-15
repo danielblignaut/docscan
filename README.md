@@ -376,7 +376,11 @@ API, and the page asks for persistent storage.
 The host page gets `docscan:captured` (the flattened colour JPEG) at capture,
 then `docscan:address` (the whole result: fields, per-field checks, age,
 postal check, the page's OCR text) and `docscan:complete`; the camera is
-released as soon as the frame is captured, before the page is read.
+released as soon as the frame is captured, before the page is read. Given
+`?customer=<JSON>` (`{name, surname, address: {...}}`), the demo also
+verifies the page against that customer and adds the decision and its
+evidence to the result as `customer`; it still reads the one captured frame
+(the multi-frame `capture_*` API is not wired into the demo yet).
 
 ```js
 scanner.page(rgba, width, height);                  // outline, shape, in view, quality, accepted, reasons
