@@ -9,8 +9,10 @@
 // tagger or the rules, then the checks).
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import { cropToScreen, grab, grabFull, guideInVideo, openCamera, toJpeg } from "./camera";
-import { chooseExtractor } from "./models";
+import { cropToScreen, grab, grabFull, guideInVideo, openCamera, snapshot, toJpeg } from "./camera";
+import { chooseExtractor, type Extractor } from "./models";
+import { drawPolygon, OUTLINE_COLOUR, type OutlineState, outlineState } from "./outline";
+import { type CaptureMeta, median } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { AddressResult, PageAnalysis } from "./types";
 
@@ -32,6 +34,8 @@ export interface AddressCaptured {
   blob: Blob;
   captureMs: number;
   readMs: number;
+  /** The extractor asked for ("auto": the device's choice, see chooseExtractor). */
+  asked: Extractor | "auto";
 }
 
 type Docscan = { events: unknown[]; frames: unknown[] };
@@ -64,7 +68,16 @@ function similar(a: PageAnalysis, b: PageAnalysis): boolean {
   return a.outline.corners.every(([x, y], i) => Math.hypot(x - b.outline!.corners[i][0], y - b.outline!.corners[i][1]) < tol);
 }
 
-export function AddressCapture({ client, onDone }: { client: ScannerClient; onDone: (c: AddressCaptured) => void }) {
+export function AddressCapture({
+  client,
+  method = "auto",
+  onDone,
+}: {
+  client: ScannerClient;
+  /** The extractor chosen on the home screen. */
+  method?: Extractor | "auto";
+  onDone: (c: AddressCaptured, meta: CaptureMeta) => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const guideRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
@@ -72,14 +85,19 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
   const [stage, setStage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fps, setFps] = useState(0);
+  const [outlineUi, setOutlineUi] = useState<OutlineState>("grey");
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let stopped = false;
     let previous: PageAnalysis | null = null;
     let repeats = 0;
+    const outline = outlineState(setOutlineUi);
+    /** The analysed frame, for the saved page. */
+    const frame = document.createElement("canvas");
     let frames = 0;
     let since = performance.now();
+    const pageMs: number[] = [];
     const t0 = performance.now();
     const release = () => {
       for (const t of stream?.getTracks() ?? []) t.stop();
@@ -89,32 +107,25 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
       stopped = true;
       const captureMs = performance.now() - t0;
       setStage("Flattening the page…");
-      const full = grabFull(video, rect);
+      const full = grabFull(frame, rect);
       // The camera is no longer needed: release it before the slow part.
       release();
-      const k = full.width / analysedWidth;
-      const corners = page.outline!.corners.flatMap(([x, y]) => [x * k, y * k]);
-      const [pw, ph] = page.size!;
-      const scale = Math.min(k, FLAT_MAX_LONG / Math.max(pw, ph));
-      const [w, h] = [Math.round(pw * scale), Math.round(ph * scale)];
-      const flat = await client.run<ImageData>({ kind: "flatten", image: full, corners, width: w, height: h });
-      // A smaller colour copy to keep and show (before the page is handed to the worker).
-      const blob = await toJpeg(downscale(flat.result, COLOUR_LONG));
-      const imageUrl = URL.createObjectURL(blob);
+      const { flat, blob, imageUrl } = await flattenPage(client, full, full.width / analysedWidth, page);
       window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { step: "proof of address", imageUrl, blob, page } }));
       docscan().events.push({ type: "page_captured", sinceStartMs: Math.round(captureMs), page });
 
       setStage("Reading the page (OCR)…");
       const tRead = performance.now();
-      const method = chooseExtractor((await client.ready).tagger);
-      const { result, memoryBytes } = await client.run<AddressResult>({ kind: "address", image: flat.result, today: today(), method });
+      const extractor = chooseExtractor((await client.ready).tagger, method);
+      const { result, memoryBytes } = await client.run<AddressResult>({ kind: "address", image: flat, today: today(), method: extractor });
       const readMs = performance.now() - tRead;
-      const entry: AddressCaptured = { result, imageUrl, blob, captureMs, readMs };
+      const entry: AddressCaptured = { result, imageUrl, blob, captureMs, readMs, asked: method };
       docscan().events.push({ type: "captured", kind: "proof_of_address", stepMs: Math.round(captureMs), sinceStartMs: Math.round(performance.now() - t0), readMs: Math.round(readMs), wasmMemoryMb: Math.round(memoryBytes / 2 ** 20), result });
       // For a host page: the whole reading, then completion (the camera is already off).
       window.dispatchEvent(new CustomEvent("docscan:address", { detail: entry }));
       window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { captured: [entry] } }));
-      onDone(entry);
+      outline.set("done");
+      onDone(entry, { source: "camera", captureMs, frames: pageMs.length, fastMs: median(pageMs) });
     }
 
     async function loop() {
@@ -129,11 +140,13 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
       // low or high it should still be found whole.
       const rect = guideInVideo(video, guide, GUIDE_MARGIN);
       const image = grab(video, rect);
+      snapshot(video, frame);
       try {
         const { result, ms } = await client.run<PageAnalysis>({ kind: "page", image });
         if (stopped) return;
         docscan().frames.push({ ms, size: [image.width, image.height], accepted: result.accepted, reasons: result.reasons, shape: result.shape, quality: result.quality });
         frames++;
+        pageMs.push(ms);
         const now = performance.now();
         if (now - since > 1000) {
           setFps(Math.round((frames * 1000) / (now - since)));
@@ -141,9 +154,15 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
           since = now;
         }
         setLast(result);
-        drawOutline(overlayRef.current, video, rect, image.width, result);
+        const wasRunning = repeats > 0;
         if (result.accepted && previous?.accepted && similar(result, previous)) repeats++;
         else repeats = result.accepted ? 1 : 0;
+        // Green from the first accepted frame; grey when the run breaks (a
+        // rejected frame, or the page moved), until a run starts again.
+        if (repeats > 1 || (repeats === 1 && !wasRunning)) outline.set("green");
+        else outline.set("grey", { why: repeats ? "page moved" : (result.reasons[0] ?? "rejected") });
+        const pts = result.outline ? result.outline.corners.map((c) => cropToScreen(video, rect, image.width, c)) : null;
+        drawPolygon(overlayRef.current, video, pts, OUTLINE_COLOUR[outline.get()]);
         previous = result;
         if (repeats >= STABLE_READS) {
           await capture(video, rect, image.width, result);
@@ -161,6 +180,8 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
     openCamera(window.innerHeight > window.innerWidth)
       .then((s) => {
         stream = s;
+        // Left before the camera opened (Back to home): release it at once.
+        if (stopped) return release();
         if (videoRef.current) {
           videoRef.current.srcObject = s;
           void videoRef.current.play();
@@ -172,29 +193,47 @@ export function AddressCapture({ client, onDone }: { client: ScannerClient; onDo
       stopped = true;
       release();
     };
-  }, [client, onDone]);
+  }, [client, method, onDone]);
 
   return (
     <div className="capture">
       <div className="viewport">
         <video ref={videoRef} playsInline muted />
         <canvas ref={overlayRef} className="overlay outline" />
-        <div ref={guideRef} className={`guide ${last?.accepted ? "guide-found" : ""}`} style={{ "--aspect": String(A4) } as React.CSSProperties} />
-        <div className="step-label">Proof of address — a bill, statement or lease</div>
-        <div className="hint" data-testid="hint">
-          {error ?? stage ?? hint(last)}
+        <div ref={guideRef} className={`guide ${outlineUi !== "grey" ? "guide-found" : ""}`} style={{ "--aspect": String(A4) } as React.CSSProperties} />
+        <div className="step-label" data-testid="step">Proof of address</div>
+        <div className="capture-foot">
+          <div className={`hint ${stage ? "hint-busy" : ""}`} data-testid="hint">
+            {error ?? stage ?? hint(last)}
+          </div>
+          <div className="stats">
+            {fps} analyses/s · sharp {last?.quality.sharpness.toFixed(0) ?? "–"} · glare {((last?.quality.glare ?? 0) * 100).toFixed(1)}% ·{" "}
+            {last?.shape ?? "no page"}
+            {last?.size ? ` ${last.size[0]}×${last.size[1]}` : ""}
+          </div>
         </div>
-      </div>
-      <div className="stats">
-        {fps} analyses/s · sharp {last?.quality.sharpness.toFixed(0)} · glare {((last?.quality.glare ?? 0) * 100).toFixed(1)}% · {last?.shape ?? "no page"}
-        {last?.size ? ` ${last.size[0]}×${last.size[1]}` : ""}
       </div>
     </div>
   );
 }
 
+/**
+ * The page cut out of `full` (the frame `page` was found in, `k` times the
+ * analysed size) and squared up, for OCR; and a smaller colour JPEG of it to
+ * keep and show, made before the page is handed to the worker.
+ */
+export async function flattenPage(client: ScannerClient, full: ImageData, k: number, page: PageAnalysis) {
+  const corners = page.outline!.corners.flatMap(([x, y]) => [x * k, y * k]);
+  const [pw, ph] = page.size!;
+  const scale = Math.min(k, FLAT_MAX_LONG / Math.max(pw, ph));
+  const [w, h] = [Math.round(pw * scale), Math.round(ph * scale)];
+  const { result: flat } = await client.run<ImageData>({ kind: "flatten", image: full, corners, width: w, height: h });
+  const blob = await toJpeg(downscale(flat, COLOUR_LONG));
+  return { flat, blob, imageUrl: URL.createObjectURL(blob) };
+}
+
 /** An image scaled so its long side is at most `long`. */
-function downscale(image: ImageData, long: number): ImageData {
+export function downscale(image: ImageData, long: number): ImageData {
   const k = Math.min(1, long / Math.max(image.width, image.height));
   if (k === 1) return image;
   const src = new OffscreenCanvas(image.width, image.height);
@@ -206,102 +245,3 @@ function downscale(image: ImageData, long: number): ImageData {
   return ctx.getImageData(0, 0, dst.width, dst.height);
 }
 
-function drawOutline(canvas: HTMLCanvasElement | null, video: HTMLVideoElement, rect: ReturnType<typeof guideInVideo>, analysedWidth: number, p: PageAnalysis) {
-  if (!canvas) return;
-  const box = video.getBoundingClientRect();
-  canvas.width = box.width * devicePixelRatio;
-  canvas.height = box.height * devicePixelRatio;
-  const ctx = canvas.getContext("2d")!;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  if (!p.outline) return;
-  const pts = p.outline.corners.map((c) => cropToScreen(video, rect, analysedWidth, c));
-  ctx.strokeStyle = p.accepted ? "#22c55e" : "#facc15";
-  ctx.lineWidth = 4;
-  ctx.lineJoin = "round";
-  ctx.beginPath();
-  pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-  ctx.closePath();
-  ctx.stroke();
-}
-
-const LABELS: [string, string][] = [
-  ["holder_name", "Holder"],
-  ["street", "Street"],
-  ["suburb", "Suburb"],
-  ["city", "City"],
-  ["province", "Province"],
-  ["postal_code", "Postal code"],
-  ["document_date", "Document date"],
-  ["period_from", "Period from"],
-  ["period_to", "Period to"],
-  ["issuer", "Issuer"],
-  ["account_number", "Account number"],
-];
-
-/** The fields, each with whether it was found printed on the page; the age; the OCR text. */
-export function AddressView({ captured }: { captured: AddressCaptured }) {
-  const r = captured.result;
-  const f = r.fields;
-  const values: Record<string, string | null> = {
-    holder_name: f.holder_name,
-    street: f.address.street,
-    suburb: f.address.suburb,
-    city: f.address.city,
-    province: f.address.province,
-    postal_code: f.address.postal_code,
-    document_date: f.document_date,
-    period_from: f.statement_period?.from ?? null,
-    period_to: f.statement_period?.to ?? null,
-    issuer: f.issuer,
-    account_number: f.account_number,
-  };
-  const check = (k: string) => r.verification.fields.find((c) => c.field === k);
-  const age = r.verification.age;
-  return (
-    <section className="done" data-testid="address">
-      <p className={r.verification.accepted ? "check ok" : "check mismatch"} data-testid="address-verdict">
-        {r.verification.accepted ? "Accepted as proof of address" : `Not accepted: ${r.verification.reasons.join("; ")}`}
-      </p>
-      <img src={captured.imageUrl} alt="captured page" />
-      <dl className="fields">
-        {LABELS.map(([k, label]) => {
-          const v = values[k];
-          const c = check(k);
-          let status = "—";
-          if (v && k === "province" && f.province_inferred) status = "inferred from the postal code";
-          else if (v && c) status = c.found ? "✓ on the page" : `✗ not found on the page (${Math.round(c.match_score * 100)}%)`;
-          return (
-            <div key={k} data-field={k}>
-              <dt>{label}</dt>
-              <dd>
-                {v ?? <small>not found</small>} {v ? <small data-status={c?.found ? "found" : "missing"}>{status}</small> : null}
-              </dd>
-            </div>
-          );
-        })}
-        <div>
-          <dt>Document type</dt>
-          <dd>{f.document_type.replaceAll("_", " ")}</dd>
-        </div>
-        <div>
-          <dt>Postal code ↔ province</dt>
-          <dd>{r.verification.postal_code}</dd>
-        </div>
-        <div>
-          <dt>Age</dt>
-          <dd data-testid="age">
-            {age ? `${age.age_days} days (${age.recent ? "within three months" : age.future ? "dated in the future" : "older than three months"})` : "no date"}
-          </dd>
-        </div>
-      </dl>
-      <p className="stats">
-        Read by the {r.method === "tagger" ? "trained tagger" : "rules"} · {r.words} words · OCR {Math.round(r.timings_ms.ocr)} ms · extract{" "}
-        {Math.round(r.timings_ms.extract)} ms · captured after {(captured.captureMs / 1000).toFixed(1)} s
-      </p>
-      <details>
-        <summary>Page text (OCR)</summary>
-        <pre>{r.text}</pre>
-      </details>
-    </section>
-  );
-}

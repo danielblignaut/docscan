@@ -203,12 +203,15 @@
         "qrcode|SECOND QR: 900314123408",
         "pdf417|PDF417 MULTI SHEET|ALPHA|BRAVO|1234567890",
         "datamatrix|DM-SPIKE-2026-10-14",
-        "code128|DOCSCAN-TEST-0001",
         "ean13|6001234567899",
-        "code39|SPIKE-39",
+        "code39|SPIKE-39"
+      ],
+      "optional": [
+        "code128|DOCSCAN-TEST-0001",
         "code128|CARD-128-B"
       ]
-    }
+    },
+    "note": "The scan finishes by itself 2.5 s after the last new code (MultiBarcode.tsx, QUIET_MS). The clip holds the sheet still for only 2.2 s before looping. The six other codes confirm within that hold every time; the two small Code 128s confirm in it only some of the time (otherwise on a later loop, 4-14 s after the others, which the old wait-for-everything test relied on), so they are optional. Finishing early also ends the scan before the rare single-loop misreads (an EAN-8 or UPC-E inside a dense symbol) that used to appear 15-18 s in."
   },
   {
     "name": "multi-barcode-sd",
@@ -354,6 +357,34 @@
           0,
           "verification.accepted",
           "false"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "back-from-capture",
+    "video": "za_smart_id_back.y4m",
+    "query": "",
+    "note": "from the home screen, tap Any ID document; this clip never captures (see smart-id-back-sd), so the only way out is the overlaid Back to home, which must return to the menu and release the camera",
+    "expect": {
+      "type": "abandon",
+      "scanner": "auto",
+      "waitMs": 3000
+    }
+  },
+  {
+    "name": "device-label-sheet",
+    "video": "hd/multi-barcode.y4m",
+    "query": "?mode=labels",
+    "timeout": 90000,
+    "note": "no device-label clip exists: the barcode sheet's EAN-13 is a checked GTIN field, so the label scan must finish by itself (stable OCR passes or the quiet rule) and list it",
+    "expect": {
+      "type": "labels",
+      "fields": [
+        [
+          null,
+          "6001234567899",
+          true
         ]
       ]
     }

@@ -27,9 +27,11 @@ leaves the phone.
   and the document's age against three months. See
   [Proof of address](#proof-of-address-modeaddress).
 
-A React demo (Vite) drives the camera, draws a guide, outlines the document it
-finds and captures automatically once two frames agree, saving a flattened,
-cropped image of the document.
+A React demo (Vite), designed for staff phones, opens on a menu with a card per
+scanner. Tapping one opens the camera full screen: it draws a guide, outlines
+the document (or the barcodes) it finds, and captures automatically, saving a
+flattened, cropped image of the document. The results screen shows everything
+read as a read-only form with copy buttons, plus the capture's metadata.
 
 > This is a spike. Every accuracy figure below was measured on **synthetic**
 > documents (see [Test data](#test-data)); measure on real photos before
@@ -69,9 +71,14 @@ pnpm install
 pnpm dev                                # https needed on a phone: the camera requires a secure context
 ```
 
-Open `/?doc=smart_id`, `?doc=green_book`, `?doc=passport`, `?doc=auto`,
-`?mode=multi` or `?mode=address`, or use the menu. The menu also accepts a photo for a one-off
-reading.
+Open the menu at `/`, or deep-link straight to a scanner's camera:
+`?doc=smart_id`, `?doc=green_book`, `?doc=passport`, `?doc=auto`,
+`?mode=multi`, `?mode=labels` or `?mode=address` (`&method=tagger|rules` picks
+the proof-of-address extractor, which the menu also offers). The camera screen's
+**Back to home** button, always shown top left, stops the camera and returns to
+the menu. Each card also has a small **Test with a photo** action that runs the
+same scanner on an uploaded image and shows the same results screen (for the
+smart ID, pick the front and the back photos together).
 
 `docscan/build-threads.sh` makes an optional multithreaded build (nightly,
 `-Z build-std`, [wasm-bindgen-rayon](https://github.com/RReverser/wasm-bindgen-rayon));
@@ -97,7 +104,24 @@ There is no shutter button. The demo analyses the live feed in a Web Worker
 and captures on its own once two frames give the same accepted reading with
 the whole document in view. A multi-step flow (the smart ID's front, then its
 back) moves to the next step by itself. After the last step the camera is
-released. It tells the host page through two `window` events:
+released and the results screen opens.
+
+The barcode scanners finish on their own too (`demo/src/MultiBarcode.tsx`):
+
+- **Barcodes:** once at least one code is confirmed (read in two frames) and no
+  new one has been confirmed for 2.5 s, the set and a still of the frame are
+  captured. Staff can also tap **Finish now**.
+- **Device label:** when two consecutive OCR passes list the same fields and
+  every value with a check digit in them is valid; or by the same 2.5 s quiet
+  rule once at least one field with a valid check digit is listed.
+
+The outlines drawn over the camera are grey while it is looking, turn green on
+the first frame that counts towards a capture and stay green through
+flattening and OCR until the flow moves on; they go back to grey when the run
+breaks (a different reading, or none for too long) and at the start of the
+next step (`demo/src/outline.ts`).
+
+It tells the host page through `window` events:
 
 ```js
 addEventListener("docscan:captured", (e) => {
@@ -107,8 +131,11 @@ addEventListener("docscan:captured", (e) => {
 addEventListener("docscan:complete", (e) => {
   // The flow is finished and the camera is off: e.detail.captured (every
   // side) and e.detail.crossCheck (smart ID: does the front's printed ID
-  // number match the back's barcode?).
+  // number match the back's barcode?). For barcodes and device labels:
+  // e.detail.barcodes, e.detail.fields, e.detail.blob (the still).
 });
+addEventListener("docscan:labels", (e) => {}); // device labels: the fields listed so far, after each OCR pass
+addEventListener("docscan:address", (e) => {}); // proof of address: the whole reading, before docscan:complete
 ```
 
 The browser tests assert both events and that every camera track has ended.
@@ -172,7 +199,10 @@ refuses it because the whole outline must be in view.
 `demo/e2e/run.mjs` runs the built demo in headless Chrome with a fake camera
 playing each clip (960×540, or 1280×720 for the `-hd` clips; the document
 slides in, tilted and blurred, then holds still), and checks the captured
-fields.
+fields. Every flow that finishes must reach the results screen, whose Back to
+home must return to the menu; a flow left waiting is left by the camera
+screen's Back to home, which must release the camera. The outline colour
+sequence (grey → green → done) is checked too.
 
 | Case | Result | Time to capture ¹ |
 | --- | --- | --- |
@@ -183,13 +213,20 @@ fields.
 | Green ID book (photographed sideways) | ✅ | 12.1 s |
 | SA passport | ✅ | 13.0 s |
 | UK passport | ✅ | 8.0 s |
-| Eight mixed barcodes, 1280×720 | ✅ all 8 | 8.6 s |
-| Eight mixed barcodes, 960×540 | ✅ all 8 | 5.0 s |
+| Eight mixed barcodes, 1280×720 | ✅ 6–8 ³ | 7.3 s |
+| Eight mixed barcodes, 960×540 | ✅ the 5 that resolve | 8.3 s |
+| Device label mode on the barcode sheet (EAN-13 checksum) | ✅ | 7.2 s |
+| Back to home from a camera that never captures | ✅ camera released | — |
 
 ¹ From the start of the clip, which begins with the document out of frame.
 ² By design nothing is captured: at 960×540 the back's PDF417 and Code 39
 modules are about a pixel wide and unreadable, so the page recognises the back
 and asks for it closer.
+³ The barcode scan now finishes by itself 2.5 s after the last new code. The
+clip holds the sheet still for only 2.2 s; six codes confirm within that every
+time, the two small Code 128s only sometimes (otherwise on a later loop of the
+clip), so the case treats those two as optional. The barcode times include the
+2.5 s wait.
 
 Per frame, in headless Chrome with the multithreaded build: the fast pass
 (outline, quality, barcodes) takes about 40–110 ms, and an OCR pass about

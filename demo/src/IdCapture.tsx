@@ -1,6 +1,8 @@
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import { cropToScreen, grab, grabFull, guideInVideo, openCamera, toJpeg } from "./camera";
+import { cropToScreen, grab, grabFull, guideInVideo, openCamera, snapshot, toJpeg } from "./camera";
+import { drawPolygon, OUTLINE_COLOUR, type OutlineState, outlineState } from "./outline";
+import { type CaptureMeta, median } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import { crossCheck, type DocumentKind, type DocumentResult, readingKey } from "./types";
 
@@ -75,6 +77,9 @@ export interface Captured {
   imageUrl: string;
   /** Read from the smart ID back's Code 39 alone: the PDF417 never read. */
   fallback: boolean;
+  /** Time on this step before it was captured, and the frames analysed in it. */
+  stepMs?: number;
+  frames?: number;
 }
 
 export { crossCheck };
@@ -102,7 +107,15 @@ function hint(r: DocumentResult | null, step: Step): string {
   return "Reading…";
 }
 
-export function IdCapture({ client, docType, onDone }: { client: ScannerClient; docType: DocType; onDone: (c: Captured[]) => void }) {
+export function IdCapture({
+  client,
+  docType,
+  onDone,
+}: {
+  client: ScannerClient;
+  docType: DocType;
+  onDone: (c: Captured[], meta: CaptureMeta) => void;
+}) {
   const steps = FLOWS[docType];
   const videoRef = useRef<HTMLVideoElement>(null);
   const guideRef = useRef<HTMLDivElement>(null);
@@ -111,6 +124,7 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
   const [last, setLast] = useState<DocumentResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fps, setFps] = useState({ fast: 0, ocrMs: 0 });
+  const [outlineUi, setOutlineUi] = useState<OutlineState>("grey");
   const captured = useRef<Captured[]>([]);
   const step = steps[stepIndex];
 
@@ -125,7 +139,14 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
     let since = performance.now();
     let current = 0;
     let stepStart = performance.now();
+    let stepFrames = 0;
+    const fastMs: number[] = [];
+    const ocrMs: number[] = [];
     const t0 = performance.now();
+    const outline = outlineState(setOutlineUi);
+    /** The last outline drawn, kept on screen through a frame that finds none while capturing. */
+    let lastPts: [number, number][] | null = null;
+    const frame = document.createElement("canvas");
 
     async function loop() {
       const video = videoRef.current;
@@ -138,6 +159,8 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
       const s = steps[current];
       const rect = guideInVideo(video, guide);
       const image = grab(video, rect);
+      // The analysed frame, for the saved image.
+      snapshot(video, frame);
       const runOcr = s.ocr && wantOcr;
       try {
         const { result, ms } = await client.run<DocumentResult>({ kind: "document", image, runOcr, expected: s.expect });
@@ -157,6 +180,8 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
           timings: result.timings_ms,
         });
         frames++;
+        stepFrames++;
+        (runOcr ? ocrMs : fastMs).push(ms);
         const now = performance.now();
         if (now - since > 1000) {
           // Computed now: the updater runs later, after the counters reset.
@@ -170,7 +195,6 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
           setFps((f) => ({ ...f, ocrMs }));
         }
         setLast(result);
-        drawOutline(overlayRef.current, video, rect, image.width, result);
         const q = result.quality;
         // Only spend an OCR pass on a frame worth reading: sharp, and the
         // whole document in view (nothing is captured without it).
@@ -185,16 +209,30 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
           result.id_barcode !== null;
         const readable = s.accepts.includes(result.kind) && result.document;
         const key = readable ? (fallback ? `back39:${result.id_barcode!.value}` : readingKey(result)) : null;
+        const live = lastKey !== null && now - lastKeyAt < STABLE_WINDOW_MS;
         if (key) {
-          if (key === lastKey && now - lastKeyAt < STABLE_WINDOW_MS) repeats++;
+          const sameRun = live && key === lastKey;
+          if (sameRun) repeats++;
           else repeats = 1;
+          // Green from the first frame that counts; a different reading
+          // breaks the run (grey) until it is itself read again.
+          if (sameRun || !live) outline.set("green", { step: current });
+          else outline.set("grey", { step: current, why: "different reading" });
           lastKey = key;
           lastKeyAt = now;
+        } else if (lastKey !== null && !live) {
+          outline.set("grey", { step: current, why: "no reading for too long" });
+          lastKey = null;
+          repeats = 0;
         }
+        const green = outline.get() !== "grey";
+        const pts = result.document ? result.document.corners.map((p) => cropToScreen(video, rect, image.width, p)) : green ? lastPts : null;
+        lastPts = pts;
+        drawPolygon(overlayRef.current, video, pts, OUTLINE_COLOUR[outline.get()]);
         if (key && repeats >= STABLE_READS) {
           // The saved image is the document itself: flattened from the
           // full-resolution frame with the outline the scanner found.
-          const full = grabFull(video, rect);
+          const full = grabFull(frame, rect);
           const k = full.width / image.width;
           const corners = result.document!.corners.flatMap(([x, y]) => [x * k, y * k]);
           const [aw, ah] = result.analysed_size;
@@ -202,9 +240,9 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
           const outH = Math.round((outW * ah) / aw);
           const flat = await client.run<ImageData>({ kind: "flatten", image: full, corners, width: outW, height: outH });
           const blob = await toJpeg(flat.result);
-          const entry = { step: s.label, result, imageUrl: URL.createObjectURL(blob), fallback };
-          captured.current.push(entry);
           const at = performance.now();
+          const entry: Captured = { step: s.label, result, imageUrl: URL.createObjectURL(blob), fallback, stepMs: at - stepStart, frames: stepFrames };
+          captured.current.push(entry);
           docscan().events.push({
             type: "captured",
             step: s.label,
@@ -218,19 +256,30 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
           // the flattened JPEG (`blob`, and `imageUrl` for an <img>).
           window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { ...entry, blob } }));
           stepStart = at;
+          stepFrames = 0;
           lastKey = null;
           repeats = 0;
           wantOcr = false;
           if (current + 1 < steps.length) {
             current++;
             setStepIndex(current);
+            // The next step starts looking again.
+            outline.set("grey", { step: current });
           } else {
             stopped = true;
+            outline.set("done");
             const check = crossCheck(captured.current);
             if (check) docscan().events.push({ type: "crosscheck", ...check });
             // The flow is finished: the camera stops when this view unmounts.
             window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { captured: captured.current, crossCheck: check } }));
-            onDone(captured.current);
+            onDone(captured.current, {
+              source: "camera",
+              captureMs: at - t0,
+              frames: fastMs.length + ocrMs.length,
+              ocrFrames: ocrMs.length,
+              fastMs: median(fastMs),
+              ocrMs: median(ocrMs),
+            });
             return;
           }
         }
@@ -243,6 +292,11 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
     openCamera()
       .then((s) => {
         stream = s;
+        // Left before the camera opened (Back to home): release it at once.
+        if (stopped) {
+          for (const t of s.getTracks()) t.stop();
+          return;
+        }
         if (videoRef.current) {
           videoRef.current.srcObject = s;
           void videoRef.current.play();
@@ -263,42 +317,25 @@ export function IdCapture({ client, docType, onDone }: { client: ScannerClient; 
         <canvas ref={overlayRef} className="overlay outline" />
         <div
           ref={guideRef}
-          className={`guide ${last && step.accepts.includes(last.kind) ? "guide-found" : ""}`}
+          className={`guide ${outlineUi !== "grey" ? "guide-found" : ""}`}
           style={{ "--aspect": String(step.aspect) } as React.CSSProperties}
         >
           {docType === "passport" ? <div className="mrz-band" /> : null}
         </div>
-        <div className="step-label">
+        <div className="step-label" data-testid="step">
           {step.label}
-          {steps.length > 1 ? ` (${stepIndex + 1}/${steps.length})` : ""}
+          {steps.length > 1 ? <span className="step-count">{` ${stepIndex + 1} of ${steps.length}`}</span> : null}
         </div>
-        <div className="hint" data-testid="hint">
-          {error ?? hint(last, step)}
+        <div className="capture-foot">
+          <div className="hint" data-testid="hint">
+            {error ?? hint(last, step)}
+          </div>
+          <div className="stats">
+            {fps.fast} analyses/s · last OCR {fps.ocrMs} ms · sharp {last?.quality.sharpness.toFixed(0) ?? "–"} · glare{" "}
+            {((last?.quality.glare ?? 0) * 100).toFixed(1)}% · {last?.kind.replaceAll("_", " ") ?? "–"}
+          </div>
         </div>
-      </div>
-      <div className="stats">
-        {fps.fast} analyses/s · last OCR {fps.ocrMs} ms · sharp {last?.quality.sharpness.toFixed(0)} · glare{" "}
-        {((last?.quality.glare ?? 0) * 100).toFixed(1)}% · {last?.kind}
       </div>
     </div>
   );
-}
-
-/** Outlines the document the scanner found, over the live video. */
-function drawOutline(canvas: HTMLCanvasElement | null, video: HTMLVideoElement, rect: ReturnType<typeof guideInVideo>, analysedWidth: number, r: DocumentResult) {
-  if (!canvas) return;
-  const box = video.getBoundingClientRect();
-  canvas.width = box.width * devicePixelRatio;
-  canvas.height = box.height * devicePixelRatio;
-  const ctx = canvas.getContext("2d")!;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  if (!r.document) return;
-  const pts = r.document.corners.map((p) => cropToScreen(video, rect, analysedWidth, p));
-  ctx.strokeStyle = r.accepted ? "#22c55e" : "#facc15";
-  ctx.lineWidth = 4;
-  ctx.lineJoin = "round";
-  ctx.beginPath();
-  pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-  ctx.closePath();
-  ctx.stroke();
 }

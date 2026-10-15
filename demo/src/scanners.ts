@@ -1,0 +1,89 @@
+// The scanners the demo offers, each one card on the home screen and one
+// deep link (`?doc=…` or `?mode=…`), so the e2e suite can open any of them
+// directly.
+import type { DocType } from "./IdCapture";
+import type { Extractor } from "./models";
+
+export type ScannerId = "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address";
+
+export interface ScannerInfo {
+  id: ScannerId;
+  icon: string;
+  title: string;
+  description: string;
+  /** The query parameter that opens it. */
+  param: ["doc", DocType] | ["mode", "multi" | "labels" | "address"];
+  /** Which models it needs: none (barcodes alone), OCR, or OCR plus the extractor. */
+  needs: "none" | "ocr" | "address";
+}
+
+export const SCANNERS: ScannerInfo[] = [
+  {
+    id: "barcodes",
+    icon: "▦",
+    title: "Barcodes",
+    description: "Many at once: QR, Data Matrix, PDF417, EAN, Code 128 and more",
+    param: ["mode", "multi"],
+    needs: "none",
+  },
+  {
+    id: "labels",
+    icon: "📱",
+    title: "Device label",
+    description: "IMEI, serial number and EAN from a box label, check digits verified",
+    param: ["mode", "labels"],
+    needs: "ocr",
+  },
+  { id: "smart_id", icon: "🪪", title: "SA smart ID card", description: "The front, then the back; both sides cross-checked", param: ["doc", "smart_id"], needs: "ocr" },
+  { id: "green_book", icon: "📗", title: "SA green ID book", description: "The barcoded photo page, upright or sideways", param: ["doc", "green_book"], needs: "ocr" },
+  { id: "passport", icon: "🛂", title: "Passport", description: "SA, UK or any other: the MRZ with its check digits", param: ["doc", "passport"], needs: "ocr" },
+  { id: "auto", icon: "🔎", title: "Any ID document", description: "Detects the card, book or passport by itself", param: ["doc", "auto"], needs: "ocr" },
+  {
+    id: "address",
+    icon: "🏠",
+    title: "Proof of address",
+    description: "A bill, bank statement or lease: holder, address, date and issuer",
+    param: ["mode", "address"],
+    needs: "address",
+  },
+];
+
+export const scannerById = (id: ScannerId) => SCANNERS.find((s) => s.id === id)!;
+
+const DOCS: DocType[] = ["smart_id", "green_book", "passport", "auto"];
+
+/** The scanner the URL opens, if any. */
+export function scannerFromUrl(search = location.search): ScannerId | null {
+  const p = new URLSearchParams(search);
+  const mode = p.get("mode");
+  if (mode === "multi") return "barcodes";
+  if (mode === "labels") return "labels";
+  if (mode === "address") return "address";
+  const doc = p.get("doc") as DocType | null;
+  if (doc && DOCS.includes(doc)) return doc;
+  return null;
+}
+
+/** The extractor asked for by `?method=`, or "auto". */
+export function methodFromUrl(search = location.search): Extractor | "auto" {
+  const m = new URLSearchParams(search).get("method");
+  return m === "tagger" || m === "rules" ? m : "auto";
+}
+
+/**
+ * The URL for a scanner (or home, `null`), keeping every other parameter
+ * (`threads`, `today`, …) so a test's settings survive navigation.
+ */
+export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto"): string {
+  const p = new URLSearchParams(location.search);
+  p.delete("doc");
+  p.delete("mode");
+  p.delete("method");
+  if (id) {
+    const [k, v] = scannerById(id).param;
+    p.set(k, v);
+    if (id === "address" && method !== "auto") p.set("method", method);
+  }
+  const q = p.toString();
+  return `${location.pathname}${q ? `?${q}` : ""}`;
+}

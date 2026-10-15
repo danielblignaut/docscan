@@ -41,15 +41,17 @@ export const CATALOGUE: CatalogueEntry[] = [
 export type Extractor = "tagger" | "rules";
 
 /**
- * Which extractor reads the page: `?method=` when given; otherwise the tagger
- * when it loaded, and the rules when it did not or when the device reports
- * under 1 GB of memory (`navigator.deviceMemory`, Chromium only; Safari does
- * not report it, and gets the tagger, which adds ~10 MB to OCR's ~220 MB).
+ * Which extractor reads the page: the one chosen on the home screen (or by
+ * `?method=`) when it is not "auto"; otherwise the tagger when it loaded, and
+ * the rules when it did not or when the device reports under 1 GB of memory
+ * (`navigator.deviceMemory`, Chromium only; Safari does not report it, and
+ * gets the tagger, which adds ~10 MB to OCR's ~220 MB).
  */
-export function chooseExtractor(taggerLoaded: boolean): Extractor {
-  const asked = new URLSearchParams(location.search).get("method");
-  if (asked === "rules" || asked === "tagger") return asked;
+export function chooseExtractor(taggerLoaded: boolean, asked: Extractor | "auto" = "auto"): Extractor {
+  if (asked === "rules" || (asked === "tagger" && taggerLoaded)) return asked;
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
   if (!taggerLoaded || (memory !== undefined && memory < 1)) return "rules";
   return "tagger";
 }
+
+export const catalogueEntry = (id: string) => CATALOGUE.find((e) => e.id === id)!;

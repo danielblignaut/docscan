@@ -109,3 +109,18 @@ export async function still(source: CanvasImageSource, rect: Rect): Promise<Blob
     c.toBlob((b) => (b ? resolve(b) : reject(new Error("encode failed"))), "image/jpeg", 0.92),
   );
 }
+
+/**
+ * A copy of the video's current frame, kept so the image saved at capture is
+ * the frame that was analysed, not a later one: an OCR pass takes a second or
+ * more, and by then the document may have moved. Drawing into a canvas is
+ * cheap; `grabFull(canvas, rect)` reads it at capture time.
+ */
+export function snapshot(video: HTMLVideoElement, canvas: HTMLCanvasElement): HTMLCanvasElement {
+  if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+  }
+  canvas.getContext("2d")!.drawImage(video, 0, 0);
+  return canvas;
+}
