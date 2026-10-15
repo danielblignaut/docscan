@@ -14,9 +14,11 @@
 //!   folded), the street name by similarity, the suffix normalised (`St` =
 //!   `Street`, `Rd` = `Road`, ...), and the suburb, city or postal code in
 //!   the lines that follow. The occurrence must be the holder's: linked to a
-//!   printed holder name above it (or in the sentence before it), or tagged
-//!   as the holder's street by the tagger, and not in a block of the
-//!   issuer's own contact details (head office, PO Box, Tel, VAT ...).
+//!   printed holder name above it (or in the sentence before it), and not in
+//!   a block of the issuer's own contact details (head office, PO Box, Tel,
+//!   VAT ...). Linking it through the tagger's STREET spans instead added
+//!   nothing on the DEV set and once linked an issuer's address, so the
+//!   decision rests on the printed text alone.
 //! - **Date**: the document date the extractor read (voted across frames),
 //!   within three calendar months.
 //!
@@ -79,7 +81,7 @@ pub struct AddressMatch {
     pub postal_code: Option<bool>,
     pub city: Option<bool>,
     pub suburb: Option<bool>,
-    /// Linked to the holder: a holder name above it, or tagged as the holder's street.
+    /// Linked to the holder: the customer's name printed above it (or in the sentence before it).
     pub holder_linked: bool,
     /// Inside a block of the issuer's contact details.
     pub issuer_block: bool,
@@ -530,10 +532,9 @@ fn window_match(tokens: &[String], want: &str) -> bool {
     false
 }
 
-fn address_matches(lines: &[Line], words: &[Word], spans: &[Span], names: &[NameMatch], c: &Customer) -> Vec<AddressMatch> {
+fn address_matches(lines: &[Line], words: &[Word], names: &[NameMatch], c: &Customer) -> Vec<AddressMatch> {
     let Some(street) = c.address.street.as_deref() else { return Vec::new() };
     let Some(sp) = street_parts(street) else { return Vec::new() };
-    let street_words: Vec<usize> = spans.iter().filter(|s| s.entity == "STREET").flat_map(|s| s.words.iter().copied()).collect();
     let holder_lines: Vec<usize> = names.iter().filter(|n| n.score >= NAME_MIN).map(|n| n.line_index).collect();
     let mut out = Vec::new();
     for hit in find_streets(lines, &sp) {
@@ -570,7 +571,6 @@ fn address_matches(lines: &[Line], words: &[Word], spans: &[Span], names: &[Name
         // Linked to the holder: a holder-name line above it in its column,
         // on the same line before it, or the sentence just before it.
         let near_name = holder_lines.iter().any(|&h| h == hit.line || above_lines.contains(&h) || (h < hit.line && hit.line - h <= 3 && lines[h].y1 <= l.y0 + 1.0 && lines[h].x0 <= l.x1 && lines[h].x1 >= l.x0));
-        let tagged = l.token_word.iter().any(|w| street_words.contains(w));
         let block: Vec<usize> = std::iter::once(hit.line).chain(above_lines.iter().copied().take(2)).chain(below_lines.iter().copied()).collect();
         let issuer = block.iter().any(|&b| has_issuer_cue(&lines[b]));
         let mut shown: Vec<String> = above_lines.iter().take(1).rev().map(|&i| lines[i].text.clone()).collect();
@@ -585,7 +585,7 @@ fn address_matches(lines: &[Line], words: &[Word], spans: &[Span], names: &[Name
             postal_code: postal,
             city,
             suburb,
-            holder_linked: near_name || (tagged && !issuer),
+            holder_linked: near_name,
             issuer_block: issuer && !near_name,
             lines: shown,
         });
@@ -603,7 +603,8 @@ fn address_ok(a: &AddressMatch) -> bool {
 pub fn check(words: &[Word], spans: &[Span], customer: &Customer, date: Option<Date>, today: Date) -> CustomerCheck {
     let lines = build_lines(words);
     let names = match_names(&lines, words, customer);
-    let addrs = address_matches(&lines, words, spans, &names, customer);
+    let _ = spans; // the decision rests on the printed text alone (see the module docs)
+    let addrs = address_matches(&lines, words, &names, customer);
     let address = addrs.iter().find(|a| address_ok(a)).cloned();
     let address_elsewhere = if address.is_none() { addrs.first().cloned() } else { None };
     decide(names.into_iter().next(), address, address_elsewhere, date.map(|d| verify::age(d, today)))

@@ -231,6 +231,16 @@ pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], 
         add(r.fields.document_date.clone(), 1.0);
         add(super::rules::extract(w, r.page_size[1] as f32, &r.text, today).0.document_date, RULES_DATE_VOTE);
     }
+    // Between readings that disagree, a date within the last thirteen months
+    // (a misread year is the usual slip: 2020 for 2026) is the likelier.
+    for t in tally.iter_mut() {
+        if let Some(d) = Date::parse_iso(&t.0) {
+            let age = today.days() - d.days();
+            if (-10..=400).contains(&age) {
+                t.1 += 0.2;
+            }
+        }
+    }
     if let Some((d, wgt)) = tally.iter().cloned().max_by(|a, b| a.1.total_cmp(&b.1))
         && fields.document_date.as_ref().is_none_or(|cur| tally.iter().find(|t| &t.0 == cur).map_or(0.0, |t| t.1) < wgt)
     {
