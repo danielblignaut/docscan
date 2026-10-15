@@ -12,7 +12,7 @@ export type WorkerRequest =
   | { id: number; kind: "labelled"; image: ImageData }
   | { id: number; kind: "flatten"; image: ImageData; corners: number[]; width: number; height: number }
   | { id: number; kind: "page"; image: ImageData }
-  | { id: number; kind: "address"; image: ImageData; today: string; method: "" | "rules" | "tagger" };
+  | { id: number; kind: "address"; image: ImageData; today: string; method: "" | "rules" | "tagger"; customer?: unknown };
 
 /** The first message: how many threads the OCR may use (1: the single-threaded build). */
 export type WorkerInit = { kind: "init"; threads: number };
@@ -134,7 +134,13 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
       result = new ImageData(new Uint8ClampedArray(out), req.width, req.height);
     }
     else if (req.kind === "page") result = scanner.page(bytes, width, height);
-    else if (req.kind === "address") result = scanner.address(bytes, width, height, req.today, req.method);
+    else if (req.kind === "address") {
+      // With the known customer, the page is also verified against them (`customer` in the result).
+      if (req.customer) {
+        const out = scanner.verify_address(bytes, width, height, req.today, req.customer) as { result: object; customer: unknown };
+        result = { ...out.result, customer: out.customer };
+      } else result = scanner.address(bytes, width, height, req.today, req.method);
+    }
     else result = scanner.text(bytes, width, height);
     post({ kind: "result", id: req.id, request: req.kind, ms: performance.now() - t0, result, memoryBytes: memory?.buffer.byteLength ?? 0 });
   } catch (e) {

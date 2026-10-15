@@ -117,7 +117,7 @@ export function AddressCapture({
       setStage("Reading the page (OCR)…");
       const tRead = performance.now();
       const extractor = chooseExtractor((await client.ready).tagger, method);
-      const { result, memoryBytes } = await client.run<AddressResult>({ kind: "address", image: flat, today: today(), method: extractor });
+      const { result, memoryBytes } = await client.run<AddressResult>({ kind: "address", image: flat, today: today(), method: extractor, customer: knownCustomer() });
       const readMs = performance.now() - tRead;
       const entry: AddressCaptured = { result, imageUrl, blob, captureMs, readMs, asked: method };
       docscan().events.push({ type: "captured", kind: "proof_of_address", stepMs: Math.round(captureMs), sinceStartMs: Math.round(performance.now() - t0), readMs: Math.round(readMs), wasmMemoryMb: Math.round(memoryBytes / 2 ** 20), result });
@@ -245,3 +245,17 @@ export function downscale(image: ImageData, long: number): ImageData {
   return ctx.getImageData(0, 0, dst.width, dst.height);
 }
 
+/**
+ * The known customer to verify the page against, from `?customer=` (JSON:
+ * `{name, surname?, address: {street, suburb, city, province, postal_code}}`),
+ * or undefined.
+ */
+function knownCustomer(): unknown {
+  const raw = new URLSearchParams(location.search).get("customer");
+  if (!raw) return undefined;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+}
