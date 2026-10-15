@@ -213,6 +213,25 @@ fn year(s: &str) -> Option<i32> {
 
 fn number(s: &str, max: u32) -> Option<u32> {
     let t = s.trim_matches(|c: char| !c.is_alphanumeric());
+    // A day OCR read with look-alike letters ("OS" for 05, "OL" for 01, "1O").
+    let lookalike = |c: char| matches!(c, 'O' | 'o' | 'D' | 'S' | 's' | 'I' | 'l' | 'L' | 'B' | 'Z' | '0'..='9');
+    let folded: String;
+    let t = if t.len() == 2 && t.chars().all(lookalike) && t.chars().any(|c| c.is_ascii_digit() || c == 'O') {
+        folded = t
+            .chars()
+            .map(|c| match c {
+                'O' | 'o' | 'D' => '0',
+                'S' | 's' => '5',
+                'I' | 'l' | 'L' => '1',
+                'B' => '8',
+                'Z' => '2',
+                c => c,
+            })
+            .collect();
+        folded.as_str()
+    } else {
+        t
+    };
     let t = t.trim_end_matches(|c: char| c.is_alphabetic()); // 15th, 1st
     (!t.is_empty() && t.len() <= 2 && t.chars().all(|c| c.is_ascii_digit())).then(|| t.parse().ok()).flatten().filter(|&n| n >= 1 && n <= max)
 }
@@ -403,6 +422,9 @@ mod tests {
         assert_eq!(parse_date("March 16,2026"), Some(Date::new(2026, 3, 16).unwrap()));
         assert_eq!(parse_date("05 Octeber 2026"), Some(Date::new(2026, 10, 5).unwrap()));
         assert_eq!(parse_date("08 OCT2026"), Some(Date::new(2026, 10, 8).unwrap()));
+        // OCR look-alikes in the day.
+        assert_eq!(parse_date("OS Sep 2026"), Some(Date::new(2026, 9, 5).unwrap()));
+        assert_eq!(parse_date("OL Aug 2026"), Some(Date::new(2026, 8, 1).unwrap()));
     }
 
     #[test]

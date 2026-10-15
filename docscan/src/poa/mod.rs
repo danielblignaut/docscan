@@ -10,7 +10,10 @@
 //! Either way, [`verify`] then checks every value against the page's text,
 //! the postal code against the province, and the document's age.
 
+pub mod capture;
+pub mod customer;
 pub mod features;
+pub mod gazetteer;
 pub mod rules;
 pub mod tagger;
 pub mod verify;
@@ -195,16 +198,22 @@ pub fn fields_from_spans(words: &[Word], spans: &[Span], text: &str) -> (Fields,
         f.address.postal_code = Some(clean(&p.text).chars().filter(|c| c.is_ascii_digit()).collect());
         confidence.push(("postal_code", p.score));
     }
+    f.address.street = best("STREET", anchor).map(|s| {
+        confidence.push(("street", s.score));
+        clean(&repair_street(words, s))
+    });
+    f.holder_name = best("HOLDER_NAME", anchor).map(|s| {
+        confidence.push(("holder_name", s.score));
+        clean_name(&repair_name(words, s))
+    });
     let mut take = |entity: &'static str, field: &'static str, near: Option<(f32, f32)>| -> Option<String> {
         let s = best(entity, near)?;
         confidence.push((field, s.score));
         Some(clean(&s.text))
     };
-    f.address.street = take("STREET", "street", anchor);
     f.address.suburb = take("SUBURB", "suburb", anchor);
     f.address.city = take("CITY", "city", anchor);
     f.address.province = take("PROVINCE", "province", anchor).and_then(|p| verify::province(&p).map(String::from));
-    f.holder_name = take("HOLDER_NAME", "holder_name", anchor).map(|n| clean_name(&n));
     f.issuer = take("ISSUER", "issuer", None).map(|i| clean_issuer(&i));
     f.account_number = take("ACCOUNT_NO", "account_number", None);
     let date_of = |entity: &str| -> Option<String> { best(entity, None).and_then(|s| span_date(words, s)).map(|d| d.iso()) };
@@ -226,6 +235,90 @@ pub fn fields_from_spans(words: &[Word], spans: &[Span], text: &str) -> (Fields,
     f.document_type = document_type(text);
     infer_province(&mut f);
     (f, confidence)
+}
+
+fn line_of(words: &[Word], i: usize) -> Vec<usize> {
+    (0..words.len()).filter(|&k| words[k].line == words[i].line).collect()
+}
+
+fn numberish(t: &str) -> bool {
+    let t = t.trim_matches(|c: char| !c.is_alphanumeric());
+    !t.is_empty() && t.len() <= 5 && t.chars().next().is_some_and(|c| c.is_ascii_digit())
+}
+
+fn postal_like(t: &str) -> bool {
+    let t = t.trim_matches(|c: char| !c.is_alphanumeric());
+    t.len() == 4 && t.chars().all(|c| c.is_ascii_digit())
+}
+
+fn is_suffix(t: &str) -> bool {
+    let n: String = t.chars().filter(|c| c.is_alphanumeric()).flat_map(char::to_uppercase).collect();
+    customer::suffix(&n).is_some()
+}
+
+/// A street span made whole from its line: the house number the tagger left
+/// out before it, the street name after a lone number, the suffix after it,
+/// and no postal code run on at its end.
+pub fn repair_street(words: &[Word], s: &Span) -> String {
+    let line = line_of(words, s.words[0]);
+    if s.words.iter().any(|&i| words[i].line != words[s.words[0]].line) {
+        return s.text.clone();
+    }
+    let Some(p0) = line.iter().position(|&i| i == s.words[0]) else { return s.text.clone() };
+    let mut p1 = line.iter().position(|&i| i == *s.words.last().unwrap()).unwrap_or(p0);
+    let mut p0 = p0;
+    if !words[line[p0]].text.chars().any(|c| c.is_ascii_digit()) && p0 > 0 && numberish(&words[line[p0 - 1]].text) && !words[line[p0 - 1]].text.ends_with(',') {
+        p0 -= 1;
+    }
+    if p0 == p1 && numberish(&words[line[p0]].text) {
+        while p1 + 1 < line.len() && p1 - p0 < 5 {
+            let t = &words[line[p1 + 1]].text;
+            if postal_like(t) || words[line[p1]].text.ends_with(',') {
+                break;
+            }
+            p1 += 1;
+            if is_suffix(t) {
+                break;
+            }
+        }
+    } else if !is_suffix(&words[line[p1]].text) && p1 + 1 < line.len() && is_suffix(&words[line[p1 + 1]].text) && !words[line[p1]].text.ends_with(',') {
+        p1 += 1;
+    }
+    while p1 > p0 && postal_like(&words[line[p1]].text) {
+        p1 -= 1;
+    }
+    line[p0..=p1].iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" ")
+}
+
+const NAME_LINE_LABELS: &[&str] = &[
+    "account", "holder", "name", "customer", "client", "owner", "tenant", "lessee", "policyholder", "member", "attention", "attn",
+    "addressee", "insured", "consumer", "bill", "billed", "to", "deliver", "details", "of",
+];
+
+/// A holder-name span made whole from its line, when the line holds nothing
+/// but a name (a label in front aside): the tagger sometimes tags only the
+/// title or only the surname.
+pub fn repair_name(words: &[Word], s: &Span) -> String {
+    if s.words.iter().any(|&i| words[i].line != words[s.words[0]].line) {
+        return s.text.clone();
+    }
+    let line = line_of(words, s.words[0]);
+    let mut start = 0;
+    while start < line.len() {
+        let t = words[line[start]].text.as_str();
+        let l = t.trim_end_matches(':').to_lowercase();
+        if t.ends_with(':') || NAME_LINE_LABELS.contains(&l.as_str()) || l.chars().all(|c| !c.is_alphanumeric()) {
+            start += 1;
+        } else {
+            break;
+        }
+    }
+    let rest = &line[start..];
+    let name_like = |t: &str| t.chars().all(|c| c.is_alphabetic() || matches!(c, '.' | '&' | ',' | '-' | '\''));
+    if rest.is_empty() || rest.len() > 6 || rest.len() < s.words.len() || !s.words.iter().all(|i| rest.contains(i)) || !rest.iter().all(|&i| name_like(&words[i].text)) {
+        return s.text.clone();
+    }
+    rest.iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" ")
 }
 
 /// An issuer's name as read from a header: without the logo's initials in
@@ -268,7 +361,7 @@ pub fn clean_issuer(s: &str) -> String {
 pub fn clean_name(s: &str) -> String {
     let s = clean(s);
     let lower = s.to_lowercase();
-    for label in ["account holder", "account name", "customer name", "name", "customer", "client", "tenant", "lessee", "policyholder", "member", "dear", "attention", "attn"] {
+    for label in ["account holder", "account name", "customer name", "name", "customer", "client", "owner", "tenant", "lessee", "policyholder", "member", "dear", "attention", "attn"] {
         if let Some(rest) = lower.strip_prefix(label)
             && (rest.starts_with(' ') || rest.starts_with(':'))
         {

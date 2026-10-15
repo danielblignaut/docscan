@@ -169,6 +169,11 @@ pub struct Scanner {
     last_turn: std::cell::Cell<Option<u8>>,
     /// The proof-of-address field tagger, when loaded.
     tagger: Option<poa::tagger::Tagger>,
+    /// Proof of address: leave the city, suburb and postal code as read,
+    /// without the gazetteer's correction.
+    no_gazetteer: bool,
+    /// Proof of address: the frames of the capture in progress, as read.
+    capture: std::cell::RefCell<Vec<(poa::AddressResult, Vec<poa::features::Word>)>>,
 }
 
 #[wasm_bindgen]
@@ -302,6 +307,60 @@ impl Scanner {
         to_js(&r.0)
     }
 
+    /// Reads a captured page and checks it against a known customer
+    /// (`{name, surname?, address: {street, suburb, city, province,
+    /// postal_code}}`): `{result, customer}`, where `customer` holds the
+    /// decision (`accepted`, `reasons`) and its evidence (the name and
+    /// address matches with their scores and printed lines, the date's age).
+    pub fn verify_address(&self, rgba: &[u8], width: u32, height: u32, today: &str, customer: JsValue) -> Result<JsValue, JsError> {
+        let today = poa::verify::Date::parse_iso(today).ok_or_else(|| JsError::new("today must be YYYY-MM-DD"))?;
+        let customer: poa::customer::Customer = serde_wasm_bindgen::from_value(customer).map_err(|e| JsError::new(&e.to_string()))?;
+        let (r, words) = self.address_native(rgba, width as usize, height as usize, today, None).map_err(|e| JsError::new(&e.to_string()))?;
+        let check = poa::customer::check(&words, &r.spans, &customer, poa::capture::doc_date(&r.fields), today);
+        #[derive(Serialize)]
+        struct Out<'a> {
+            result: &'a poa::AddressResult,
+            customer: poa::customer::CustomerCheck,
+        }
+        to_js(&Out { result: &r, customer: check })
+    }
+
+    /// Starts a new multi-frame capture (forgets the frames read so far).
+    pub fn capture_reset(&self) {
+        self.capture.borrow_mut().clear();
+    }
+
+    /// Reads one more frame's flattened page into the capture in progress
+    /// and returns its own reading (as [`Scanner::address`]).
+    pub fn capture_add(&self, rgba: &[u8], width: u32, height: u32, today: &str) -> Result<JsValue, JsError> {
+        let today = poa::verify::Date::parse_iso(today).ok_or_else(|| JsError::new("today must be YYYY-MM-DD"))?;
+        let (r, words) = self.address_native(rgba, width as usize, height as usize, today, None).map_err(|e| JsError::new(&e.to_string()))?;
+        let out = to_js(&r);
+        self.capture.borrow_mut().push((r, words));
+        out
+    }
+
+    /// The capture so far: fields voted across its frames, the decision about
+    /// the customer when one is given (`null` for none), and `more`: whether
+    /// another frame should be read (the frames disagree on a key field and
+    /// fewer than three have been read). `{result, more}`.
+    pub fn capture_result(&self, today: &str, customer: JsValue) -> Result<JsValue, JsError> {
+        let today = poa::verify::Date::parse_iso(today).ok_or_else(|| JsError::new("today must be YYYY-MM-DD"))?;
+        let customer: Option<poa::customer::Customer> =
+            if customer.is_null() || customer.is_undefined() { None } else { Some(serde_wasm_bindgen::from_value(customer).map_err(|e| JsError::new(&e.to_string()))?) };
+        let frames = self.capture.borrow();
+        let rs: Vec<&poa::AddressResult> = frames.iter().map(|f| &f.0).collect();
+        let ws: Vec<&[poa::features::Word]> = frames.iter().map(|f| f.1.as_slice()).collect();
+        let r = poa::capture::combine(&rs, &ws, customer.as_ref(), today);
+        #[derive(Serialize)]
+        struct Out {
+            result: poa::capture::CaptureResult,
+            more: bool,
+        }
+        let more = poa::capture::next_frame_needed(&r);
+        to_js(&Out { result: r, more })
+    }
+
     /// Recognised text lines only, for general OCR use.
     pub fn text(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let lines = self
@@ -433,6 +492,11 @@ impl Scanner {
         Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew })
     }
 
+    /// Proof of address: whether to correct place names and postal codes with the gazetteer (on by default).
+    pub fn set_gazetteer(&mut self, on: bool) {
+        self.no_gazetteer = !on;
+    }
+
     pub fn load_tagger_native(&mut self, model: Vec<u8>) -> anyhow::Result<()> {
         self.tagger = Some(poa::tagger::Tagger::load(model)?);
         Ok(())
@@ -500,18 +564,54 @@ impl Scanner {
         }
         let input = ocr.prepare_input(ImageSource::from_bytes(grey, (w as u32, h as u32))?)?;
         let lines = ocr.find_text_lines(&input, &words);
+        // A "line" of word boxes far apart (two stray words found again in a
+        // line that already has them) is recognised as one crop spanning the
+        // gap, which reads every word in between a second time: split lines
+        // at wide gaps.
+        let mut split: Vec<Vec<RotatedRect>> = Vec::new();
+        for line in lines {
+            let mut cur: Vec<RotatedRect> = Vec::new();
+            for r in line {
+                if let Some(prev) = cur.last() {
+                    let (pb, b) = (prev.bounding_rect(), r.bounding_rect());
+                    let h = pb.height().max(b.height()).max(1.0);
+                    if b.left() - pb.right() > 3.0 * h {
+                        split.push(std::mem::take(&mut cur));
+                    }
+                }
+                cur.push(r);
+            }
+            if !cur.is_empty() {
+                split.push(cur);
+            }
+        }
         // In batches: recognising a page's hundred-odd lines at once holds
         // every line image (and the model's activations for all of them) in
         // memory together, which in wasm grows the heap for good.
-        let mut texts = Vec::with_capacity(lines.len());
-        for batch in lines.chunks(16) {
+        let mut texts = Vec::with_capacity(split.len());
+        for batch in split.chunks(16) {
             texts.extend(ocr.recognize_text(&input, batch)?);
         }
-        let mut out = Vec::new();
-        for text in texts.into_iter().flatten() {
+        // Words read twice (by two overlapping line crops): keep the reading
+        // from the line with more words, whose crop fits the text best.
+        let mut read: Vec<(usize, za::Line)> = Vec::new();
+        for (li, text) in texts.into_iter().enumerate() {
+            let Some(text) = text else { continue };
             for word in text.words() {
                 let r = word.bounding_rect();
-                out.push(za::Line { text: word.to_string(), x: r.left() as f32, y: r.top() as f32, w: r.width() as f32, h: r.height() as f32 });
+                read.push((split[li].len(), za::Line { text: word.to_string(), x: r.left() as f32, y: r.top() as f32, w: r.width() as f32, h: r.height() as f32 }));
+            }
+        }
+        read.sort_by(|a, b| b.0.cmp(&a.0));
+        let mut out: Vec<za::Line> = Vec::new();
+        for (_, l) in read {
+            let dup = out.iter().any(|k| {
+                let ow = (k.x + k.w).min(l.x + l.w) - k.x.max(l.x);
+                let oh = (k.y + k.h).min(l.y + l.h) - k.y.max(l.y);
+                ow > 0.0 && oh > 0.0 && ow * oh > 0.5 * (l.w * l.h).min(k.w * k.h)
+            });
+            if !dup {
+                out.push(l);
             }
         }
         Ok(out)
@@ -554,7 +654,15 @@ impl Scanner {
                 let tagger = self.tagger.as_ref().ok_or_else(|| anyhow::anyhow!("the tagger is not loaded"))?;
                 let probs = tagger.probabilities(words, pw as f32, ph as f32)?;
                 let spans = poa::tagger::spans(words, &probs);
-                let (f, c) = poa::fields_from_spans(words, &spans, &text);
+                let (mut f, mut c) = poa::fields_from_spans(words, &spans, &text);
+                // No date tagged: the rules' labelled document date, if any.
+                if f.document_date.is_none() && f.statement_period.is_none() {
+                    let (rf, _) = poa::rules::extract(words, ph as f32, &text, today);
+                    if let Some(d) = rf.document_date {
+                        f.document_date = Some(d);
+                        c.push(("document_date", 0.3));
+                    }
+                }
                 (f, c, spans)
             }
             poa::Method::Rules => {
@@ -562,6 +670,11 @@ impl Scanner {
                 (f, c, Vec::new())
             }
         };
+        let mut fields = fields;
+        if !self.no_gazetteer {
+            poa::gazetteer::correct(&mut fields);
+            poa::infer_province(&mut fields);
+        }
         let verification = poa::verify_fields(&fields, &text, &confidence, today);
         Ok(poa::AddressResult {
             method,

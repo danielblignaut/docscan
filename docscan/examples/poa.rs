@@ -53,11 +53,14 @@ fn main() -> anyhow::Result<()> {
             let (small, sw, sh) = if k < 1.0 { docscan::quality::scale_rgba(img.as_raw(), w, h, k) } else { (img.as_raw().clone(), w, h) };
             let analysis = page::analyse(&small, sw, sh);
             out["page"] = serde_json::to_value(&analysis)?;
-            let Some(q) = analysis.outline else {
+            // No outline: the guide's rectangle, when it is filled with paper (flagged).
+            let fallback = analysis.outline.is_none() && analysis.guide.is_some() && !args.iter().any(|a| a == "--no-fallback");
+            let Some(q) = analysis.outline.clone().or(if fallback { analysis.guide.clone() } else { None }) else {
                 out["error"] = "no outline".into();
                 println!("{out}");
                 continue;
             };
+            out["fallback"] = fallback.into();
             let corners = q.corners.map(|p| [p[0] / k, p[1] / k]);
             let full = quad::Quad { corners, support: q.support };
             let (ow, oh) = quad::output_size(&full, 4000);

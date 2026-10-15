@@ -65,7 +65,55 @@ pub struct PageAnalysis {
     pub accepted: bool,
     /// Why not, when not accepted (the first reason is the one to show).
     pub reasons: Vec<String>,
+    /// No page outline was found, but the guide is filled with paper: the
+    /// guide's own rectangle ([`guide_quad`]), for a capture to fall back on
+    /// (flagged as such) when no frame gives an outline.
+    #[serde(default)]
+    pub guide: Option<quad::Quad>,
     pub ms: f64,
+}
+
+/// Share of the guide's samples that must look like paper for the guide-crop fallback.
+pub const GUIDE_PAPER_MIN: f32 = 0.6;
+
+/// The capture guide in a frame: the largest centred A4 rectangle (upright
+/// in a portrait frame, on its side in a landscape one) covering 94% of the
+/// frame along its binding side, as the page is framed when held to fill it.
+pub fn guide_quad(w: usize, h: usize) -> quad::Quad {
+    let (fw, fh) = (w as f32, h as f32);
+    let ratio = if h >= w { A4_RATIO } else { 1.0 / A4_RATIO }; // width / height
+    let (mut gw, mut gh) = (0.94 * fw, 0.94 * fw / ratio);
+    if gh > 0.94 * fh {
+        gh = 0.94 * fh;
+        gw = gh * ratio;
+    }
+    let (x0, y0) = ((fw - gw) / 2.0, (fh - gh) / 2.0);
+    quad::Quad { corners: [[x0, y0], [x0 + gw, y0], [x0 + gw, y0 + gh], [x0, y0 + gh]], support: 0.0 }
+}
+
+/// Share of pale, unsaturated (paper-like) samples inside a quadrilateral.
+pub fn paper_share(rgba: &[u8], w: usize, h: usize, q: &quad::Quad) -> f32 {
+    let c = &q.corners;
+    let (mut paper, mut n) = (0, 0);
+    for j in 0..20 {
+        for i in 0..14 {
+            let (u, v) = ((i as f32 + 0.5) / 14.0, (j as f32 + 0.5) / 20.0);
+            let top = [c[0][0] + (c[1][0] - c[0][0]) * u, c[0][1] + (c[1][1] - c[0][1]) * u];
+            let bot = [c[3][0] + (c[2][0] - c[3][0]) * u, c[3][1] + (c[2][1] - c[3][1]) * u];
+            let (x, y) = ((top[0] + (bot[0] - top[0]) * v) as usize, (top[1] + (bot[1] - top[1]) * v) as usize);
+            if x >= w || y >= h {
+                continue;
+            }
+            let p = &rgba[(y * w + x) * 4..(y * w + x) * 4 + 3];
+            let (mx, mn) = (p[0].max(p[1]).max(p[2]) as i32, p[0].min(p[1]).min(p[2]) as i32);
+            let l = (p[0] as i32 * 77 + p[1] as i32 * 150 + p[2] as i32 * 29) / 256;
+            n += 1;
+            if l > 140 && mx - mn < 45 {
+                paper += 1;
+            }
+        }
+    }
+    if n == 0 { 0.0 } else { paper as f32 / n as f32 }
 }
 
 /// One frame's page analysis: the outline, its shape, whether it is wholly
@@ -112,7 +160,14 @@ pub fn analyse(rgba: &[u8], w: usize, h: usize) -> PageAnalysis {
     if quality.glare > GLARE_MAX {
         reasons.push("glare".into());
     }
+    let guide = if outline.is_none() || shape == Some(PageShape::Other) {
+        let g = guide_quad(w, h);
+        (paper_share(rgba, w, h, &g) >= GUIDE_PAPER_MIN).then_some(g)
+    } else {
+        None
+    };
     PageAnalysis {
+        guide,
         outline,
         shape,
         size,
