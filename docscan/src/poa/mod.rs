@@ -211,8 +211,8 @@ pub fn fields_from_spans(words: &[Word], spans: &[Span], text: &str) -> (Fields,
         confidence.push((field, s.score));
         Some(clean(&s.text))
     };
-    f.address.suburb = take("SUBURB", "suburb", anchor);
-    f.address.city = take("CITY", "city", anchor);
+    f.address.suburb = take("SUBURB", "suburb", anchor).map(|v| best("SUBURB", anchor).map_or(v.clone(), |s| clean(&repair_place(words, s))));
+    f.address.city = take("CITY", "city", anchor).map(|v| best("CITY", anchor).map_or(v.clone(), |s| clean(&repair_place(words, s))));
     f.address.province = take("PROVINCE", "province", anchor).and_then(|p| verify::province(&p).map(String::from));
     f.issuer = take("ISSUER", "issuer", None).map(|i| clean_issuer(&i));
     f.account_number = take("ACCOUNT_NO", "account_number", None);
@@ -260,15 +260,35 @@ fn is_suffix(t: &str) -> bool {
 /// out before it, the street name after a lone number, the suffix after it,
 /// and no postal code run on at its end.
 pub fn repair_street(words: &[Word], s: &Span) -> String {
+    // A word before the house number (the name's, joined from the line
+    // above) is not part of the street.
+    if let Some(k) = s.words.iter().position(|&i| numberish(&words[i].text))
+        && k > 0
+    {
+        let rest = Span { words: s.words[k..].to_vec(), text: s.words[k..].iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" "), ..s.clone() };
+        return repair_street(words, &rest);
+    }
     let line = line_of(words, s.words[0]);
     if s.words.iter().any(|&i| words[i].line != words[s.words[0]].line) {
-        return s.text.clone();
+        // Run on to the next line: keep the first line's words (a postal
+        // code or the suburb below is not the street).
+        let first: Vec<usize> = s.words.iter().copied().filter(|&i| words[i].line == words[s.words[0]].line).collect();
+        let rest = Span { text: first.iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" "), words: first, ..s.clone() };
+        return repair_street(words, &rest);
     }
     let Some(p0) = line.iter().position(|&i| i == s.words[0]) else { return s.text.clone() };
     let mut p1 = line.iter().position(|&i| i == *s.words.last().unwrap()).unwrap_or(p0);
     let mut p0 = p0;
-    if !words[line[p0]].text.chars().any(|c| c.is_ascii_digit()) && p0 > 0 && numberish(&words[line[p0 - 1]].text) && !words[line[p0 - 1]].text.ends_with(',') {
-        p0 -= 1;
+    // No number in the span: the house number a few words before it.
+    if !s.words.iter().any(|&i| numberish(&words[i].text)) {
+        let mut k = p0;
+        while k > 0 && p0 - k < 4 && !words[line[k - 1]].text.ends_with(',') && !words[line[k - 1]].text.ends_with(':') {
+            k -= 1;
+            if numberish(&words[line[k]].text) {
+                p0 = k;
+                break;
+            }
+        }
     }
     if p0 == p1 && numberish(&words[line[p0]].text) {
         while p1 + 1 < line.len() && p1 - p0 < 5 {
@@ -288,6 +308,28 @@ pub fn repair_street(words: &[Word], s: &Span) -> String {
         p1 -= 1;
     }
     line[p0..=p1].iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" ")
+}
+
+/// A place span the tagger cut short ("Kempton" of "Kempton Park", "LONDON"
+/// of "EAST LONDON"), completed with the word beside it on its line when
+/// that makes a place the gazetteer knows and the span alone is not one.
+pub fn repair_place(words: &[Word], s: &Span) -> String {
+    let g = gazetteer::gazetteer();
+    if g.knows_place(&clean(&s.text)) || s.words.iter().any(|&i| words[i].line != words[s.words[0]].line) {
+        return s.text.clone();
+    }
+    let line = line_of(words, s.words[0]);
+    let (Some(p0), Some(p1)) = (line.iter().position(|&i| i == s.words[0]), line.iter().position(|&i| i == *s.words.last().unwrap())) else {
+        return s.text.clone();
+    };
+    let text = |a: usize, b: usize| line[a..=b].iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" ");
+    if p1 + 1 < line.len() && !words[line[p1]].text.ends_with(',') && g.knows_place(&clean(&text(p0, p1 + 1))) {
+        return text(p0, p1 + 1);
+    }
+    if p0 > 0 && !words[line[p0 - 1]].text.ends_with(',') && g.knows_place(&clean(&text(p0 - 1, p1))) {
+        return text(p0 - 1, p1);
+    }
+    s.text.clone()
 }
 
 const NAME_LINE_LABELS: &[&str] = &[
@@ -314,11 +356,42 @@ pub fn repair_name(words: &[Word], s: &Span) -> String {
         }
     }
     let rest = &line[start..];
-    let name_like = |t: &str| t.chars().all(|c| c.is_alphabetic() || matches!(c, '.' | '&' | ',' | '-' | '\''));
+    let name_like = |t: &str| t.chars().all(|c| c.is_alphabetic() || matches!(c, '.' | '&' | ',' | '-' | '\'')) || initial_digit(t).is_some();
     if rest.is_empty() || rest.len() > 6 || rest.len() < s.words.len() || !s.words.iter().all(|i| rest.contains(i)) || !rest.iter().all(|&i| name_like(&words[i].text)) {
         return s.text.clone();
     }
-    rest.iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" ")
+    rest.iter()
+        .enumerate()
+        .map(|(k, &i)| {
+            let t = words[i].text.as_str();
+            // A lone digit between name words is an initial OCR misread ("Liezel 3 Petersen").
+            match initial_digit(t) {
+                Some(c) if k > 0 && k + 1 < rest.len() => c.to_string(),
+                _ => t.to_string(),
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+/// The initial a lone digit stands for in a name (OCR's look-alikes).
+pub(crate) fn initial_digit(t: &str) -> Option<char> {
+    let t = t.trim_end_matches('.');
+    let mut cs = t.chars();
+    let c = cs.next()?;
+    if cs.next().is_some() {
+        return None;
+    }
+    Some(match c {
+        '0' => 'O',
+        '1' => 'I',
+        '2' => 'Z',
+        '3' => 'J',
+        '5' => 'S',
+        '6' => 'G',
+        '8' => 'B',
+        _ => return None,
+    })
 }
 
 /// An issuer's name as read from a header: without the logo's initials in

@@ -311,7 +311,9 @@ fn given_items(words: &[&str]) -> Vec<Given> {
             continue;
         }
         let raw_upper = w.chars().filter(|c| c.is_alphabetic()).all(|c| c.is_uppercase());
-        if t.len() == 1 {
+        if let Some(c) = super::initial_digit(w) {
+            out.push(Given::Initial(c));
+        } else if t.len() == 1 {
             out.push(Given::Initial(t.chars().next().unwrap()));
         } else if t.len() <= 3 && raw_upper && t.chars().all(|c| c.is_alphabetic()) && (w.len() <= 3 || w.contains('.')) {
             // "SJ", "S.J."

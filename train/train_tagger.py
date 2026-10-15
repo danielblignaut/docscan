@@ -31,6 +31,28 @@ import torch.nn.functional as F
 BUCKETS = 16384
 MAX_IDS = 24
 NUM_FEATURES = 32
+MAX_CHARS = 20
+CHAR_VOCAB = 76
+PUNCT = ".,:;-/&'()#@"
+
+
+def char_ids(text: str) -> list[int]:
+    """docscan/src/poa/features.rs char_ids, mirrored (checked by test_char_ids)."""
+    out = [0] * MAX_CHARS
+    for k, c in enumerate(text[:MAX_CHARS]):
+        if "a" <= c <= "z":
+            out[k] = 1 + ord(c) - ord("a")
+        elif "A" <= c <= "Z":
+            out[k] = 27 + ord(c) - ord("A")
+        elif "0" <= c <= "9":
+            out[k] = 53 + ord(c) - ord("0")
+        else:
+            out[k] = 63 + PUNCT.index(c) if c in PUNCT else 75
+    return out
+
+
+assert char_ids("Ab9,é")[:6] == [27, 2, 62, 64, 75, 0]
+
 ENTITIES = ["HOLDER_NAME", "STREET", "SUBURB", "CITY", "PROVINCE", "POSTAL_CODE", "DOC_DATE", "PERIOD_FROM", "PERIOD_TO", "ISSUER", "ACCOUNT_NO"]
 CLASSES = 1 + 2 * len(ENTITIES)
 
@@ -65,23 +87,44 @@ class Block(nn.Module):
         return x + self.drop(self.ff(self.n2(x)))
 
 
+class CharEncoder(nn.Module):
+    """Each word's characters: embedded, two 1-D convolutions, max over the word."""
+
+    def __init__(self, out: int = 64, emb: int = 24):
+        super().__init__()
+        self.emb = nn.Embedding(CHAR_VOCAB, emb, padding_idx=0)
+        self.c1 = nn.Conv1d(emb, out, 3, padding=1)
+        self.c2 = nn.Conv1d(out, out, 3, padding=1)
+
+    def forward(self, chars):
+        b, n, k = chars.shape
+        x = self.emb(chars.long().reshape(b * n, k)).transpose(1, 2)  # [BN, E, K]
+        x = torch.relu(self.c1(x))
+        x = torch.relu(self.c2(x))
+        mask = (chars.reshape(b * n, 1, k) > 0).to(x.dtype)
+        x = x * mask - (1.0 - mask) * 1e4
+        return torch.amax(x, dim=2).clamp(min=0.0).reshape(b, n, -1)
+
+
 class Tagger(nn.Module):
-    def __init__(self, d: int = 128, emb: int = 64, layers: int = 3, heads: int = 4, ff: int = 256, dropout: float = 0.1):
+    def __init__(self, d: int = 128, emb: int = 64, layers: int = 3, heads: int = 4, ff: int = 256, dropout: float = 0.1, chars: int = 0):
         super().__init__()
         self.emb = nn.Embedding(BUCKETS, emb, padding_idx=0)
-        self.inp = nn.Sequential(nn.Linear(emb + NUM_FEATURES, d), nn.ReLU(), nn.Linear(d, d))
+        self.chars = CharEncoder(chars) if chars else None
+        self.inp = nn.Sequential(nn.Linear(emb + NUM_FEATURES + chars, d), nn.ReLU(), nn.Linear(d, d))
         # Box geometry gets its own projection too: 2-D position, the layout signal.
         self.pos = nn.Sequential(nn.Linear(6, d), nn.ReLU(), nn.Linear(d, d))
         self.blocks = nn.ModuleList(Block(d, heads, ff, dropout) for _ in range(layers))
         self.norm = nn.LayerNorm(d)
         self.head = nn.Linear(d, CLASSES)
 
-    def forward(self, ids, feats, key_mask=None):
-        """ids [B, N, K] int, feats [B, N, F]; key_mask [B, N] true for real words."""
+    def forward(self, ids, feats, chars=None, key_mask=None):
+        """ids [B, N, K] int, feats [B, N, F], chars [B, N, MAX_CHARS] int; key_mask [B, N] true for real words."""
         e = self.emb(ids.long())  # [B, N, K, E]
         m = (ids > 0).to(e.dtype).unsqueeze(-1)
         e = (e * m).sum(2) / m.sum(2).clamp(min=1.0)
-        x = self.inp(torch.cat([e, feats], -1)) + self.pos(feats[..., :6])
+        parts = [e, feats] + ([self.chars(chars)] if self.chars is not None else [])
+        x = self.inp(torch.cat(parts, -1)) + self.pos(feats[..., :6])
         bias = None
         if key_mask is not None:
             bias = torch.zeros(key_mask.shape, dtype=x.dtype).masked_fill(~key_mask, -1e9)[:, None, None, :]
@@ -100,6 +143,7 @@ def load(paths: list[str]) -> list[dict]:
             pages.append({
                 "id": r["id"], "layout": r["layout"], "kind": r["kind"],
                 "ids": np.array(r["ids"], np.int32), "num": np.array(r["num"], np.float32), "labels": np.array(r["labels"], np.int64),
+                "chars": np.array([char_ids(w["text"]) for w in r["words"]], np.int32).reshape(-1, MAX_CHARS),
             })
     return pages
 
@@ -115,10 +159,11 @@ def batches(pages, size, shuffle, rng):
         num = np.zeros((len(chunk), n, NUM_FEATURES), np.float32)
         lab = np.full((len(chunk), n), -100, np.int64)
         mask = np.zeros((len(chunk), n), bool)
+        chars = np.zeros((len(chunk), n, MAX_CHARS), np.int32)
         for k, p in enumerate(chunk):
             m = len(p["labels"])
-            ids[k, :m], num[k, :m], lab[k, :m], mask[k, :m] = p["ids"], p["num"], p["labels"], True
-        yield torch.from_numpy(ids), torch.from_numpy(num), torch.from_numpy(lab), torch.from_numpy(mask)
+            ids[k, :m], num[k, :m], lab[k, :m], mask[k, :m], chars[k, :m] = p["ids"], p["num"], p["labels"], True, p["chars"]
+        yield torch.from_numpy(ids), torch.from_numpy(num), torch.from_numpy(lab), torch.from_numpy(mask), torch.from_numpy(chars)
 
 
 def word_metrics(model, pages) -> dict:
@@ -126,8 +171,8 @@ def word_metrics(model, pages) -> dict:
     model.eval()
     tp = np.zeros(len(ENTITIES)); fp = np.zeros(len(ENTITIES)); fn = np.zeros(len(ENTITIES))
     with torch.no_grad():
-        for ids, num, lab, mask in batches(pages, 16, False, None):
-            pred = model(ids, num, mask).argmax(-1)
+        for ids, num, lab, mask, chars in batches(pages, 16, False, None):
+            pred = model(ids, num, chars, mask).argmax(-1)
             for p, t in zip(pred[mask].numpy(), lab[mask].numpy()):
                 pe, te = (p - 1) // 2 if p else -1, (t - 1) // 2 if t else -1
                 if pe == te and pe >= 0:
@@ -172,6 +217,19 @@ class Export(nn.Module):
         return self.m(ids, feats)
 
 
+class ExportChars(Export):
+    def forward(self, ids, feats, chars):
+        return self.m(ids, feats, chars)
+
+
+def char_noise(chars: torch.Tensor, p: float) -> torch.Tensor:
+    """OCR-like slips: a character replaced by a random one, with probability p each."""
+    if p <= 0:
+        return chars
+    hit = (torch.rand(chars.shape) < p) & (chars > 0)
+    return torch.where(hit, torch.randint(1, CHAR_VOCAB, chars.shape, dtype=chars.dtype), chars)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", nargs="+", required=True)
@@ -184,6 +242,9 @@ def main() -> None:
     ap.add_argument("--layers", type=int, default=3)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--threads", type=int, default=12)
+    ap.add_argument("--chars", type=int, default=0, help="width of the character encoder (0: none)")
+    ap.add_argument("--char-noise", type=float, default=0.03)
+    ap.add_argument("--weights", help="per-file repeat counts, comma-separated, matching the expanded --data files in order (default 1)")
     ap.add_argument("--layout-aug", action=argparse.BooleanOptionalAction, default=True, help="randomise absolute positions in training")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
@@ -191,7 +252,9 @@ def main() -> None:
     rng = random.Random(args.seed)
 
     paths = [p for pat in args.data for p in sorted(glob.glob(pat))]
-    pages = load(paths)
+    weights = [int(w) for w in args.weights.split(",")] if args.weights else [1] * len(paths)
+    assert len(weights) == len(paths), "one --weights entry per data file"
+    pages = [p for path, w in zip(paths, weights) for p in load([path]) * w]
     held = set(filter(None, args.test_layouts.split(",")))
     train = [p for p in pages if p["layout"] not in held]
     # A validation slice of the training layouts (whole documents: both renders of a doc stay together).
@@ -203,7 +266,7 @@ def main() -> None:
     test = [p for p in pages if p["layout"] in held]
     print(f"train {len(train)} pages, val {len(val)}, held-out layouts {sorted(held)}: {len(test)}")
 
-    model = Tagger(d=args.d, layers=args.layers)
+    model = Tagger(d=args.d, layers=args.layers, chars=args.chars)
     params = sum(p.numel() for p in model.parameters())
     print(f"{params:,} parameters")
     # O dominates the words; weigh it down so entities are not ignored.
@@ -217,13 +280,14 @@ def main() -> None:
     for epoch in range(args.epochs):
         model.train()
         total = 0.0
-        for ids_t, num_t, lab_t, mask_t in batches(train, args.batch, True, rng):
+        for ids_t, num_t, lab_t, mask_t, chars_t in batches(train, args.batch, True, rng):
             # Word dropout on the text features: OCR misreads words.
             drop = torch.rand(ids_t.shape[:2]) < 0.05
             ids_t = ids_t.masked_fill(drop.unsqueeze(-1), 0)
             if args.layout_aug:
                 num_t = layout_augment(num_t)
-            logits = model(ids_t, num_t, mask_t)
+            chars_t = char_noise(chars_t, args.char_noise) if args.chars else chars_t
+            logits = model(ids_t, num_t, chars_t, mask_t)
             loss = F.cross_entropy(logits.reshape(-1, CLASSES), lab_t.reshape(-1), weight=weight, ignore_index=-100, label_smoothing=0.05)
             opt.zero_grad()
             loss.backward()
@@ -244,13 +308,19 @@ def main() -> None:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     torch.save(model.state_dict(), out / "poa-tagger.pt")
-    ex = Export(model).eval()
     n = 50
-    torch.onnx.export(
-        ex, (torch.ones(1, n, MAX_IDS, dtype=torch.int32), torch.zeros(1, n, NUM_FEATURES)), str(out / "poa-tagger.onnx"),
-        input_names=["ids", "feats"], output_names=["logits"], dynamic_axes={"ids": {1: "n"}, "feats": {1: "n"}, "logits": {1: "n"}},
-        opset_version=17, dynamo=False,
-    )
+    if args.chars:
+        torch.onnx.export(
+            ExportChars(model).eval(), (torch.ones(1, n, MAX_IDS, dtype=torch.int32), torch.zeros(1, n, NUM_FEATURES), torch.ones(1, n, MAX_CHARS, dtype=torch.int32)),
+            str(out / "poa-tagger.onnx"), input_names=["ids", "feats", "chars"], output_names=["logits"],
+            dynamic_axes={"ids": {1: "n"}, "feats": {1: "n"}, "chars": {1: "n"}, "logits": {1: "n"}}, opset_version=17, dynamo=False,
+        )
+    else:
+        torch.onnx.export(
+            Export(model).eval(), (torch.ones(1, n, MAX_IDS, dtype=torch.int32), torch.zeros(1, n, NUM_FEATURES)), str(out / "poa-tagger.onnx"),
+            input_names=["ids", "feats"], output_names=["logits"], dynamic_axes={"ids": {1: "n"}, "feats": {1: "n"}, "logits": {1: "n"}},
+            opset_version=17, dynamo=False,
+        )
     (out / "metrics.json").write_text(json.dumps(metrics, indent=2))
     print(json.dumps({k: metrics[k] for k in ("params", "train_seconds", "val", "test_held_out_layouts")}, indent=1))
 

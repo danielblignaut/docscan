@@ -29,7 +29,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-BIN = ROOT / "docscan" / "target" / "release" / "examples"
+BIN = Path(os.environ.get("DOCSCAN_EXAMPLES", ROOT / "docscan" / "target" / "release" / "examples"))
 sys.path.insert(0, str(ROOT / "eval"))
 from poa_eval import FIELDS, KEY, correct, flatten  # noqa: E402
 

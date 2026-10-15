@@ -39,7 +39,12 @@ fn main() -> anyhow::Result<()> {
             let (w, h) = (size[0].as_u64().unwrap_or(1) as usize, size[1].as_u64().unwrap_or(1) as usize);
             let r = scanner.address_from_words(&words, w, h, today, Some(Method::Tagger))?;
             let check = cust.as_ref().map(|c| customer::check(&words, &r.spans, c, capture::doc_date(&r.fields), today));
-            single.push(json!({"fields": r.fields, "verify": check}));
+            let rules = if args.iter().any(|a| a == "--with-rules") {
+                Some(scanner.address_from_words(&words, w, h, today, Some(Method::Rules))?.fields)
+            } else {
+                None
+            };
+            single.push(json!({"fields": r.fields, "verify": check, "rules": rules}));
             readings.push(Some((r, words)));
         }
         // The live pipeline's order: accepted frames first, in order; then the sharpest of the rest.

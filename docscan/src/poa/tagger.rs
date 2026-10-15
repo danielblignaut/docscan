@@ -9,7 +9,7 @@ use rten_tensor::prelude::*;
 use rten_tensor::{NdTensor, NdTensorView};
 use serde::Serialize;
 
-use super::features::{self, MAX_IDS, NUM_FEATURES, Word};
+use super::features::{self, MAX_CHARS, MAX_IDS, NUM_FEATURES, Word};
 
 /// The entities, in the order of the model's classes (`B-x` is `1 + 2i`,
 /// `I-x` is `2 + 2i`, and class 0 is `O`).
@@ -62,7 +62,13 @@ impl Tagger {
         let ids_node = self.model.node_id("ids")?;
         let feats_node = self.model.node_id("feats")?;
         let out_node = self.model.node_id("logits")?;
-        let [logits] = self.model.run_n(vec![(ids_node, ids.into()), (feats_node, num.into())], [out_node], None)?;
+        let mut inputs = vec![(ids_node, ids.into()), (feats_node, num.into())];
+        // Models with a character encoder take each word's characters too.
+        if let Ok(chars_node) = self.model.node_id("chars") {
+            let chars: Vec<i32> = words.iter().flat_map(|w| features::char_ids(&w.text)).collect();
+            inputs.push((chars_node, NdTensor::from_data([1, n, MAX_CHARS], chars).into()));
+        }
+        let [logits] = self.model.run_n(inputs, [out_node], None)?;
         let logits: NdTensor<f32, 3> = logits.try_into()?;
         let logits: NdTensorView<f32, 3> = logits.view();
         let mut out = Vec::with_capacity(n);

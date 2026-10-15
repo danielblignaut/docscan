@@ -2651,6 +2651,22 @@ def lay_proc(p: Page, doc: dict) -> str:
 PERIOD_P["proc"] = 0.75
 LAYOUT_DATE_STYLES["proc"] = DATE_STYLES[:-1]
 LAYOUT_FONTS["proc"] = list(FONTS)
+
+# --extra-fonts: more faces for procedural training pages (SIL OFL / Ubuntu Font
+# Licence, fetched by fetch_poa_fonts.sh). Never the lockbox's own fonts.
+EXTRA_FONT_DIR = Path("/tmp/docscan-poa/fonts")
+EXTRA_FONTS = {
+    "lato": ("Lato-Regular.ttf", "Lato-Bold.ttf"), "ptsans": ("PT_Sans-Web-Regular.ttf", "PT_Sans-Web-Bold.ttf"),
+    "ptserif": ("PT_Serif-Web-Regular.ttf", "PT_Serif-Web-Bold.ttf"), "fira": ("FiraSans-Regular.ttf", "FiraSans-Bold.ttf"),
+    "barlow": ("Barlow-Regular.ttf", "Barlow-Bold.ttf"), "ubuntu": ("Ubuntu-Regular.ttf", "Ubuntu-Bold.ttf"),
+    "crimson": ("CrimsonText-Regular.ttf", "CrimsonText-Bold.ttf"), "plexmono": ("IBMPlexMono-Regular.ttf", "IBMPlexMono-Bold.ttf"),
+}
+
+
+def use_extra_fonts() -> None:
+    for k, (r, b) in EXTRA_FONTS.items():
+        FONTS[k] = (str(EXTRA_FONT_DIR / r), str(EXTRA_FONT_DIR / b))
+    LAYOUT_FONTS["proc"] = list(FONTS)
 LAYOUT_FN["proc"] = lay_proc
 
 
@@ -2768,7 +2784,10 @@ def main() -> None:
     ap.add_argument("--debug", action="store_true")
     ap.add_argument("--procedural", action="store_true",
                     help="compose every page procedurally (layout ids proc_<holder>_<details>_<style>_<header>)")
+    ap.add_argument("--extra-fonts", action="store_true", help="procedural pages also in the fonts of EXTRA_FONTS (fetch_poa_fonts.sh)")
     args = ap.parse_args()
+    if args.extra_fonts:
+        use_extra_fonts()
     layouts = ["proc"] if args.procedural else [x.strip() for x in args.layouts.split(",") if x.strip()]
     for x in layouts:
         assert x in LAYOUT_FN, f"unknown layout {x}; choose from {LAYOUTS}"

@@ -18,6 +18,20 @@ use super::{AddressResult, Fields, Period};
 /// The most frames worth reading for one capture.
 pub const MAX_FRAMES: usize = 3;
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fuller_names() {
+        assert!(fuller_name("J. MBATHA", "MBATHA"));
+        assert!(fuller_name("Liezel J Petersen", "Liezel Petersen"));
+        assert!(fuller_name("Nkosi, SZ", "Nkosi,"));
+        assert!(!fuller_name("Mpho Visser P", "Mpho Visser"));
+        assert!(!fuller_name("Thabo Ntuli", "Thabo Ntull"));
+    }
+}
+
 #[derive(Debug, Clone, Serialize)]
 pub struct FieldVote {
     pub field: &'static str,
@@ -44,6 +58,51 @@ fn confidence(r: &AddressResult, field: &str) -> f32 {
     r.verification.fields.iter().find(|c| c.field == field).map_or(0.0, |c| c.confidence)
 }
 
+/// Whether name `a` is name `b` with initials `b` lacks: the extra words are
+/// initials, and they come before the last word or after a comma.
+fn fuller_name(a: &str, b: &str) -> bool {
+    let (wa, wb): (Vec<String>, Vec<String>) = (a.split_whitespace().map(key).collect(), b.split_whitespace().map(key).collect());
+    if wa.len() <= wb.len() || wb.is_empty() {
+        return false;
+    }
+    // b must be a subsequence of a.
+    let mut j = 0;
+    let mut extra = Vec::new();
+    for (i, w) in wa.iter().enumerate() {
+        if j < wb.len() && *w == wb[j] {
+            j += 1;
+        } else {
+            extra.push(i);
+        }
+    }
+    let raw: Vec<&str> = a.split_whitespace().collect();
+    j == wb.len()
+        && extra.iter().all(|&i| {
+            wa[i].len() <= 2 && wa[i].chars().all(char::is_alphabetic) && (i + 1 < wa.len() || raw.get(i.wrapping_sub(1)).is_some_and(|p| p.ends_with(',')))
+        })
+}
+
+/// How plausible a value is for its field, 0–1, from its form alone: a
+/// street with a number and a suffix, a place or code the gazetteer knows.
+fn plausibility(field: &str, v: &str) -> f32 {
+    let words: Vec<&str> = v.split_whitespace().collect();
+    let g = super::gazetteer::gazetteer();
+    match field {
+        "street" => {
+            let num = words.first().is_some_and(|w| w.chars().next().is_some_and(|c| c.is_ascii_digit()));
+            let sfx = words.last().is_some_and(|w| super::customer::suffix(&key(w)).is_some());
+            0.5 * num as u8 as f32 + 0.5 * sfx as u8 as f32
+        }
+        "city" | "suburb" => g.knows_place(v) as u8 as f32,
+        "postal_code" => {
+            let k = key(v);
+            0.5 * (k.len() == 4 && k.chars().all(|c| c.is_ascii_digit())) as u8 as f32 + 0.5 * g.knows_code(&k) as u8 as f32
+        }
+        "holder_name" => (words.len() >= 2 && words.len() <= 6 && !v.chars().any(|c| c.is_ascii_digit())) as u8 as f32,
+        _ => 0.0,
+    }
+}
+
 /// The value most frames agree on (ties: the more confident), with the count.
 fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) -> Option<String>) -> FieldVote {
     let mut groups: HashMap<String, (usize, f32, String)> = HashMap::new();
@@ -62,7 +121,27 @@ fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) 
             _ => none += 1,
         }
     }
-    let best = groups.into_values().max_by(|a, b| a.0.cmp(&b.0).then(a.1.total_cmp(&b.1)));
+    // Ties (frames that each read it differently) go to the value that is
+    // more plausible for the field, then to the one closest to the others
+    // (the median reading), then to the more confident.
+    let keys: Vec<String> = groups.keys().cloned().collect();
+    let score = |k: &String, g: &(usize, f32, String)| -> f32 {
+        let others: Vec<&String> = keys.iter().filter(|o| *o != k).collect();
+        let spread = if others.is_empty() {
+            0.0
+        } else {
+            others.iter().map(|o| 1.0 - verify::similarity(k, o)).sum::<f32>() / others.len() as f32
+        };
+        // A name read with an initial that another frame missed ("J. MBATHA"
+        // and "MBATHA") is supported by that frame too.
+        let absorbed: usize = if field == "holder_name" {
+            groups.iter().filter(|(o, _)| *o != k).filter(|(_, og)| fuller_name(&g.2, &og.2)).map(|(_, og)| og.0).sum()
+        } else {
+            0
+        };
+        (g.0 + absorbed) as f32 + 0.45 * plausibility(field, &g.2) - 0.3 * spread + 0.05 * g.1.min(3.0)
+    };
+    let best = groups.iter().max_by(|a, b| score(a.0, a.1).total_cmp(&score(b.0, b.1))).map(|(_, g)| g.clone());
     // A field the page may well not print (a suburb, the province, a
     // period) is left empty when most frames found none; any other field a
     // frame did read beats frames that read none (a frame misses a field far
