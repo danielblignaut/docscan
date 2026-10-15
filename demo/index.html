@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Everything (the wasm, the OCR models, the tagger) is served from this origin: nothing else may be fetched. -->
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self'" />
     <title>docscan</title>
   </head>
   <body>

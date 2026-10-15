@@ -57,11 +57,16 @@ def video_name(kind: str) -> str:
     return "multi-barcode" if kind == "multi_barcode" else kind
 
 
-def make(kind: str, size: tuple[int, int], seconds: float, hold: float, fps: int, seed: int) -> dict:
+def make(kind: str, size: tuple[int, int], seconds: float, hold: float, fps: int, seed: int, *,
+         doc_path: Path | None = None, source: str | None = None, out_dir: Path | None = None,
+         rotate_portrait: bool = True, held_width: float = 0.86, max_tilt: tuple[float, float, float] = (6, 6, 5)) -> dict:
+    """Write one clip. The keyword arguments let other generators (make_poa_videos.py) supply
+    their own page image, output directory, held size and tilt; the defaults are this script's own."""
     W, H = size
+    out_dir = out_dir or VIDEO
     rng = np.random.default_rng(seed)
-    doc = cv2.imread(str(SYNTH / f"{kind}.png"), cv2.IMREAD_COLOR)
-    if doc.shape[0] > doc.shape[1]:
+    doc = cv2.imread(str(doc_path or SYNTH / f"{kind}.png"), cv2.IMREAD_COLOR)
+    if rotate_portrait and doc.shape[0] > doc.shape[1]:
         doc = cv2.rotate(doc, cv2.ROTATE_90_COUNTERCLOCKWISE)
         rotated = True
     else:
@@ -79,8 +84,9 @@ def make(kind: str, size: tuple[int, int], seconds: float, hold: float, fps: int
     n = int(round(seconds * fps))
     t_arrive = seconds - hold  # pose is final from here on
     t_start = 0.35 * t_arrive  # out of frame until here
-    final = {"rx": float(rng.uniform(-6, 6)), "ry": float(rng.uniform(-6, 6)), "rz": float(rng.uniform(-5, 5)),
-             "width_frac": 0.86, "cx": 0.5 + float(rng.uniform(-0.02, 0.02)), "cy": 0.5 + float(rng.uniform(-0.02, 0.02))}
+    tx, ty, tz = max_tilt
+    final = {"rx": float(rng.uniform(-tx, tx)), "ry": float(rng.uniform(-ty, ty)), "rz": float(rng.uniform(-tz, tz)),
+             "width_frac": held_width, "cx": 0.5 + float(rng.uniform(-0.02, 0.02)), "cy": 0.5 + float(rng.uniform(-0.02, 0.02))}
     # Fill the frame as far as possible while keeping the whole document (2% margin) in view.
     while True:
         c = project_corners(dw, dh, frame_w=W, frame_h=H, **final)
@@ -93,7 +99,8 @@ def make(kind: str, size: tuple[int, int], seconds: float, hold: float, fps: int
 
     # Write YUV4MPEG2 directly (the Playwright ffmpeg build has no rawvideo demuxer):
     # header, then "FRAME\n" + I420 planes (Y, U, V) per frame. Same layout ffmpeg emits for yuv420p.
-    out = (VIDEO / f"{video_name(kind)}.y4m").open("wb")
+    out_path = out_dir / f"{video_name(kind)}.y4m"
+    out = out_path.open("wb")
     out.write(f"YUV4MPEG2 W{W} H{H} F{fps}:1 Ip A1:1 C420jpeg XYSCSS=420JPEG\n".encode())
     frames = []
     prev = None
@@ -122,12 +129,13 @@ def make(kind: str, size: tuple[int, int], seconds: float, hold: float, fps: int
         frames.append({"t": round(t, 3), "corners_tl_tr_br_bl": corners.round(1).tolist(), "focus_sigma": round(focus, 2)})
     out.close()
     meta = {
-        "kind": kind, "source": f"synth/{kind}.json", "video": str((VIDEO / f"{video_name(kind)}.y4m").relative_to(ROOT)), "size": [W, H], "fps": fps,
+        "kind": kind, "source": source or f"synth/{kind}.json",
+        "video": str(out_path.relative_to(ROOT)) if out_path.is_relative_to(ROOT) else str(out_path), "size": [W, H], "fps": fps,
         "frames": n, "background": bg_kind, "document_rotated_90": rotated,
         "timeline_s": {"out_of_frame_until": round(t_start, 2), "arrives": round(t_arrive, 2), "holds_until": seconds},
         "final_pose_deg": final, "per_frame": frames,
     }
-    (VIDEO / f"{video_name(kind)}.json").write_text(json.dumps(meta) + "\n")
+    (out_dir / f"{video_name(kind)}.json").write_text(json.dumps(meta) + "\n")
     return meta
 
 

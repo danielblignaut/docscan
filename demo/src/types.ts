@@ -134,3 +134,64 @@ export interface Labelled {
   fields: LabelledField[];
   dropped: Barcode[];
 }
+
+// --------------------------------------------------------------------------
+// Proof of address (docscan/src/page.rs, docscan/src/poa/)
+// --------------------------------------------------------------------------
+
+export type PageShape = "portrait" | "landscape" | "third" | "other";
+
+export interface PageAnalysis {
+  outline: { corners: [number, number][]; support: number } | null;
+  shape: PageShape | null;
+  size: [number, number] | null;
+  in_view: boolean;
+  quality: Quality;
+  accepted: boolean;
+  reasons: string[];
+  ms: number;
+}
+
+export type Province =
+  | "Eastern Cape" | "Free State" | "Gauteng" | "KwaZulu-Natal" | "Limpopo"
+  | "Mpumalanga" | "North West" | "Northern Cape" | "Western Cape";
+
+export type PoaDocumentType =
+  | "utility_bill" | "bank_statement" | "municipal_account" | "cellphone_account"
+  | "lease_agreement" | "insurance_statement" | "other";
+
+export interface AddressFields {
+  holder_name: string | null;
+  address: { street: string | null; suburb: string | null; city: string | null; province: Province | null; postal_code: string | null };
+  document_date: string | null;
+  statement_period: { from: string | null; to: string | null } | null;
+  issuer: string | null;
+  account_number: string | null;
+  document_type: PoaDocumentType;
+  province_inferred: boolean;
+}
+
+export interface FieldCheck {
+  field: string;
+  value: string;
+  found: boolean;
+  match_score: number;
+  confidence: number;
+}
+
+export interface AddressResult {
+  method: "tagger" | "rules";
+  fields: AddressFields;
+  verification: {
+    fields: FieldCheck[];
+    postal_code: "consistent" | "inconsistent" | "unknown";
+    age: { date: string; age_days: number; recent: boolean; future: boolean } | null;
+    accepted: boolean;
+    reasons: string[];
+  };
+  text: string;
+  words: number;
+  spans: { entity: string; words: number[]; text: string; score: number }[];
+  page_size: [number, number];
+  timings_ms: { enhance: number; ocr: number; extract: number; total: number };
+}

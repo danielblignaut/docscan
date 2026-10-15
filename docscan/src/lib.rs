@@ -12,6 +12,8 @@ pub mod barcode;
 pub mod geometry;
 pub mod labels;
 pub mod mrz;
+pub mod page;
+pub mod poa;
 pub mod quad;
 pub mod quality;
 pub mod za;
@@ -121,6 +123,9 @@ pub struct DocumentResult {
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct OcrOutput {
     pub lines: Vec<za::Line>,
+    /// The words the lines were built from, in the levelled image.
+    #[serde(skip)]
+    pub words: Vec<za::Line>,
     pub mrz: Vec<String>,
     pub skew: f32,
 }
@@ -140,7 +145,7 @@ extern "C" {
     fn perf_now() -> f64;
 }
 
-fn now() -> f64 {
+pub(crate) fn now() -> f64 {
     #[cfg(target_arch = "wasm32")]
     {
         perf_now()
@@ -162,6 +167,8 @@ pub struct Scanner {
     /// The quarter turn that last read as a document: the holder tends to
     /// keep the book the same way round, so it is tried first next time.
     last_turn: std::cell::Cell<Option<u8>>,
+    /// The proof-of-address field tagger, when loaded.
+    tagger: Option<poa::tagger::Tagger>,
 }
 
 #[wasm_bindgen]
@@ -254,12 +261,89 @@ impl Scanner {
         to_js(&out)
     }
 
+    /// Loads the proof-of-address field tagger (`poa-tagger.onnx` or `.rten`).
+    pub fn load_tagger(&mut self, model: Vec<u8>) -> Result<(), JsError> {
+        self.tagger = Some(poa::tagger::Tagger::load(model).map_err(|e| JsError::new(&e.to_string()))?);
+        Ok(())
+    }
+
+    pub fn has_tagger(&self) -> bool {
+        self.tagger.is_some()
+    }
+
+    /// One frame's page analysis for the proof-of-address flow: the outline,
+    /// its shape, whether it is wholly in view, sharpness and glare.
+    pub fn page(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        to_js(&page::analyse(rgba, width as usize, height as usize))
+    }
+
+    /// The flattened page as OCR sees it (greyscale RGBA, possibly a little
+    /// larger when levelled): `{width, height, data}`.
+    pub fn enhance_page(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let (img, w, h) = prepare_page(rgba, width as usize, height as usize);
+        let out = js_sys_object(w, h, page::grey_to_rgba(&img));
+        Ok(out)
+    }
+
+    /// Reads a captured, flattened page (RGBA): OCR, then the fields by the
+    /// tagger (`method` "tagger", or "" when it is loaded) or by rules
+    /// ("rules"), then the checks, with `today` (`YYYY-MM-DD`, the device's
+    /// date) for the document's age.
+    pub fn address(&self, rgba: &[u8], width: u32, height: u32, today: &str, method: &str) -> Result<JsValue, JsError> {
+        let today = poa::verify::Date::parse_iso(today).ok_or_else(|| JsError::new("today must be YYYY-MM-DD"))?;
+        let method = match method {
+            "rules" => Some(poa::Method::Rules),
+            "tagger" => Some(poa::Method::Tagger),
+            _ => None,
+        };
+        let r = self
+            .address_native(rgba, width as usize, height as usize, today, method)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&r.0)
+    }
+
     /// Recognised text lines only, for general OCR use.
     pub fn text(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let lines = self
             .ocr_lines(rgba, width, height)
             .map_err(|e| JsError::new(&e.to_string()))?;
         to_js(&lines)
+    }
+}
+
+/// `{width, height, data}` for an image handed back to JavaScript.
+fn js_sys_object(width: usize, height: usize, data: Vec<u8>) -> JsValue {
+    #[derive(Serialize)]
+    struct Img {
+        width: usize,
+        height: usize,
+        #[serde(with = "serde_bytes_compat")]
+        data: Vec<u8>,
+    }
+    let img = Img { width, height, data };
+    img.serialize(&serde_wasm_bindgen::Serializer::new()).unwrap_or(JsValue::NULL)
+}
+
+/// Serialises bytes as a byte array (a `Uint8Array` through serde-wasm-bindgen).
+mod serde_bytes_compat {
+    pub fn serialize<S: serde::Serializer>(v: &[u8], s: S) -> Result<S::Ok, S::Error> {
+        s.serialize_bytes(v)
+    }
+}
+
+/// The longest side a page is read at: A4 at 150 dpi. Captures are scaled to
+/// it, down or (a phone's ~1000 px wide page) up: at 120 dpi ocrs already
+/// runs words together and reads commas as full stops.
+pub const PAGE_LONG: usize = 1754;
+
+/// Scales a flattened colour page to [`PAGE_LONG`] and enhances it.
+pub fn prepare_page(rgba: &[u8], w: usize, h: usize) -> (Vec<u8>, usize, usize) {
+    let k = (PAGE_LONG as f32 / w.max(h) as f32).min(2.0);
+    if (k - 1.0).abs() > 0.02 {
+        let (scaled, sw, sh) = quality::scale_rgba(rgba, w, h, k);
+        page::enhance(&scaled, sw, sh, page::Plane::Luma)
+    } else {
+        page::enhance(rgba, w, h, page::Plane::Luma)
     }
 }
 
@@ -346,7 +430,149 @@ impl Scanner {
                 }
             }
         }
-        Ok(OcrOutput { lines: za::rows_from_words(placed), mrz: mrz_texts, skew })
+        Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew })
+    }
+
+    pub fn load_tagger_native(&mut self, model: Vec<u8>) -> anyhow::Result<()> {
+        self.tagger = Some(poa::tagger::Tagger::load(model)?);
+        Ok(())
+    }
+
+    /// OCR words of an enhanced (greyscale) page, in reading order.
+    pub fn page_words(&self, grey: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<poa::features::Word>> {
+        // DOCSCAN_PAGE_OCR=tiles: the older per-tile recognition, for comparison.
+        let tiles = cfg!(not(target_arch = "wasm32")) && std::env::var("DOCSCAN_PAGE_OCR").is_ok_and(|v| v == "tiles");
+        let words = if tiles { self.ocr_tiled_words(&page::grey_to_rgba(grey), w, h)? } else { self.ocr_page(grey, w, h)? };
+        Ok(poa::features::reading_order(&words))
+    }
+
+    /// OCR of a whole page, word by word: words are detected tile by tile at
+    /// the detection model's native input size (as [`Scanner::ocr_tiled`]
+    /// does, so small print keeps its detail), the detections from
+    /// overlapping tiles merged, and then every line recognised once, on the
+    /// whole page. Recognising per tile reads the overlaps two to four times
+    /// over, and recognition is most of OCR's cost. The page is expected to
+    /// be level already ([`page::enhance`] deskews it).
+    pub fn ocr_page(&self, grey: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<za::Line>> {
+        use rten_imageproc::{BoundingRect, Point, RotatedRect};
+        let ocr = self.ocr.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
+        const TILE_W: usize = 600;
+        const TILE_H: usize = 800;
+        let starts = |len: usize, tile: usize| -> Vec<usize> {
+            if len <= tile {
+                return vec![0];
+            }
+            let n = (len - tile).div_ceil(tile * 3 / 4) + 1;
+            let step = (len - tile) as f32 / (n - 1) as f32;
+            (0..n).map(|i| (i as f32 * step).round() as usize).collect()
+        };
+        let (tw, th) = (TILE_W.min(w), TILE_H.min(h));
+        let mut found: Vec<RotatedRect> = Vec::new();
+        for &y0 in &starts(h, th) {
+            for &x0 in &starts(w, tw) {
+                let mut tile = Vec::with_capacity(tw * th);
+                for y in y0..y0 + th {
+                    tile.extend_from_slice(&grey[y * w + x0..y * w + x0 + tw]);
+                }
+                let input = ocr.prepare_input(ImageSource::from_bytes(&tile, (tw as u32, th as u32))?)?;
+                for r in ocr.detect_words(&input)? {
+                    let c = r.center();
+                    found.push(RotatedRect::new(Point::from_yx(c.y + y0 as f32, c.x + x0 as f32), r.up_axis(), r.width(), r.height()));
+                }
+            }
+        }
+        // A word seen in two tiles: keep the larger detection (the other is
+        // usually cut by a tile edge).
+        let area = |r: &RotatedRect| r.width() * r.height();
+        found.sort_by(|a, b| area(b).total_cmp(&area(a)));
+        let mut words: Vec<RotatedRect> = Vec::new();
+        for r in found {
+            let b = r.bounding_rect();
+            let dup = words.iter().any(|k| {
+                let kb = k.bounding_rect();
+                let ow = kb.right().min(b.right()) - kb.left().max(b.left());
+                let oh = kb.bottom().min(b.bottom()) - kb.top().max(b.top());
+                ow > 0.0 && oh > 0.0 && ow * oh > 0.5 * (b.width() * b.height()).min(kb.width() * kb.height())
+            });
+            if !dup {
+                words.push(r);
+            }
+        }
+        let input = ocr.prepare_input(ImageSource::from_bytes(grey, (w as u32, h as u32))?)?;
+        let lines = ocr.find_text_lines(&input, &words);
+        // In batches: recognising a page's hundred-odd lines at once holds
+        // every line image (and the model's activations for all of them) in
+        // memory together, which in wasm grows the heap for good.
+        let mut texts = Vec::with_capacity(lines.len());
+        for batch in lines.chunks(16) {
+            texts.extend(ocr.recognize_text(&input, batch)?);
+        }
+        let mut out = Vec::new();
+        for text in texts.into_iter().flatten() {
+            for word in text.words() {
+                let r = word.bounding_rect();
+                out.push(za::Line { text: word.to_string(), x: r.left() as f32, y: r.top() as f32, w: r.width() as f32, h: r.height() as f32 });
+            }
+        }
+        Ok(out)
+    }
+
+    /// [`Scanner::address`]: also returns the page's words.
+    pub fn address_native(
+        &self,
+        rgba: &[u8],
+        w: usize,
+        h: usize,
+        today: poa::verify::Date,
+        method: Option<poa::Method>,
+    ) -> anyhow::Result<(poa::AddressResult, Vec<poa::features::Word>)> {
+        let t0 = now();
+        let (grey, pw, ph) = prepare_page(rgba, w, h);
+        let t1 = now();
+        let words = self.page_words(&grey, pw, ph)?;
+        let t2 = now();
+        let r = self.address_from_words(&words, pw, ph, today, method)?;
+        let t3 = now();
+        let mut r = r;
+        r.timings_ms = poa::AddressTimings { enhance: t1 - t0, ocr: t2 - t1, extract: t3 - t2, total: t3 - t0 };
+        Ok((r, words))
+    }
+
+    /// The fields from a page's OCR words, by the tagger or by rules.
+    pub fn address_from_words(
+        &self,
+        words: &[poa::features::Word],
+        pw: usize,
+        ph: usize,
+        today: poa::verify::Date,
+        method: Option<poa::Method>,
+    ) -> anyhow::Result<poa::AddressResult> {
+        let text = poa::page_text(words);
+        let method = method.unwrap_or(if self.tagger.is_some() { poa::Method::Tagger } else { poa::Method::Rules });
+        let (fields, confidence, spans) = match method {
+            poa::Method::Tagger => {
+                let tagger = self.tagger.as_ref().ok_or_else(|| anyhow::anyhow!("the tagger is not loaded"))?;
+                let probs = tagger.probabilities(words, pw as f32, ph as f32)?;
+                let spans = poa::tagger::spans(words, &probs);
+                let (f, c) = poa::fields_from_spans(words, &spans, &text);
+                (f, c, spans)
+            }
+            poa::Method::Rules => {
+                let (f, c) = poa::rules::extract(words, ph as f32, &text, today);
+                (f, c, Vec::new())
+            }
+        };
+        let verification = poa::verify_fields(&fields, &text, &confidence, today);
+        Ok(poa::AddressResult {
+            method,
+            fields,
+            verification,
+            text,
+            words: words.len(),
+            spans,
+            page_size: [pw as u32, ph as u32],
+            timings_ms: Default::default(),
+        })
     }
 
     pub fn labelled_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
@@ -362,6 +588,18 @@ impl Scanner {
     /// keep every pixel, and are scaled up when the frame is small. Lines come
     /// back in frame pixels, with duplicates from the overlaps removed.
     pub fn ocr_tiled(&self, rgba: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<za::Line>> {
+        self.tiled(rgba, w, h, false, |o| o.lines)
+    }
+
+    /// [`Scanner::ocr_tiled`], word by word rather than line by line.
+    pub fn ocr_tiled_words(&self, rgba: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<za::Line>> {
+        self.tiled(rgba, w, h, true, |o| o.words)
+    }
+
+    /// `sparse`: overlap neighbouring tiles by at least a quarter rather than
+    /// spacing them a quarter apart, which saves a row or column of tiles on
+    /// a page whose lines of print are short against the tile.
+    fn tiled(&self, rgba: &[u8], w: usize, h: usize, sparse: bool, pick: impl Fn(OcrOutput) -> Vec<za::Line>) -> anyhow::Result<Vec<za::Line>> {
         const TILE_W: usize = 600;
         const TILE_H: usize = 800;
         // Small frames: one tile, enlarged to the model's size.
@@ -369,7 +607,7 @@ impl Scanner {
             if len <= tile {
                 return vec![0];
             }
-            let n = len.div_ceil(tile * 3 / 4);
+            let n = if sparse { (len - tile).div_ceil(tile * 3 / 4) + 1 } else { len.div_ceil(tile * 3 / 4) };
             let step = (len - tile) as f32 / (n - 1).max(1) as f32;
             (0..n).map(|i| (i as f32 * step).round() as usize).collect()
         };
@@ -385,10 +623,11 @@ impl Scanner {
                 let k = ((TILE_W as f32 / tw as f32).min(TILE_H as f32 / th as f32)).clamp(1.0, 2.0);
                 let (tile, sw, sh) = if k > 1.05 { quality::scale_rgba(&tile, tw, th, k) } else { (tile, tw, th) };
                 let ocr = self.ocr_lines(&tile, sw as u32, sh as u32)?;
-                for mut l in ocr.lines {
-                    if ocr.skew.abs() >= 1.0 {
+                let skew = ocr.skew;
+                for mut l in pick(ocr) {
+                    if skew.abs() >= 1.0 {
                         let c = [[l.x, l.y], [l.x + l.w, l.y], [l.x, l.y + l.h], [l.x + l.w, l.y + l.h]]
-                            .map(|p| geometry::rotated_to_source(p, sw, sh, ocr.skew));
+                            .map(|p| geometry::rotated_to_source(p, sw, sh, skew));
                         let (x0, x1) = c.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[0]), b.max(p[0])));
                         let (y0, y1) = c.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[1]), b.max(p[1])));
                         (l.x, l.y, l.w, l.h) = (x0, y0, x1 - x0, y1 - y0);

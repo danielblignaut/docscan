@@ -216,6 +216,97 @@ fn colour_planes(rgba: &[u8], w: usize, h: usize, factor: usize) -> (Vec<Vec<u8>
 /// Finds the document's outline in an RGBA frame. `None` when no
 /// convincing quadrilateral covers a reasonable share of the frame.
 pub fn find_document(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
+    find(rgba, w, h, false)
+}
+
+/// Finds a sheet of paper (a bill, a statement): as [`find_document`], but
+/// among the candidate outlines the one that looks most like a page wins:
+/// pale, unsaturated paper inside, a step in brightness across its sides,
+/// and a page's proportions. A wood-grain desk or the lines of a table
+/// otherwise offer long straight edges that outscore the page's own.
+pub fn find_page(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
+    find(rgba, w, h, true)
+}
+
+/// Bilinear point in a quad: `(u, v)` in the unit square, TL-TR-BR-BL.
+fn quad_point(c: &[[f32; 2]; 4], u: f32, v: f32) -> [f32; 2] {
+    let top = [c[0][0] + (c[1][0] - c[0][0]) * u, c[0][1] + (c[1][1] - c[0][1]) * u];
+    let bottom = [c[3][0] + (c[2][0] - c[3][0]) * u, c[3][1] + (c[2][1] - c[3][1]) * u];
+    [top[0] + (bottom[0] - top[0]) * v, top[1] + (bottom[1] - top[1]) * v]
+}
+
+/// How page-like a candidate is, roughly 0–2.3: the share of paper-coloured
+/// samples inside it, the brightness step across its weakest side, and how
+/// close its proportions are to A4 (or a third of one).
+fn page_likeness(planes: &[Vec<u8>], w: usize, h: usize, c: &[[f32; 2]; 4]) -> f32 {
+    let px = |p: [f32; 2]| -> Option<(f32, f32)> {
+        let (x, y) = (p[0].round() as isize, p[1].round() as isize);
+        if x < 0 || y < 0 || x >= w as isize || y >= h as isize {
+            return None;
+        }
+        let i = y as usize * w + x as usize;
+        let (r, g, b) = (planes[0][i] as f32, planes[1][i] as f32, planes[2][i] as f32);
+        Some(((r * 77.0 + g * 150.0 + b * 29.0) / 256.0, r.max(g).max(b) - r.min(g).min(b)))
+    };
+    let rgb = |p: [f32; 2]| -> Option<[f32; 3]> {
+        let (x, y) = (p[0].round() as isize, p[1].round() as isize);
+        if x < 0 || y < 0 || x >= w as isize || y >= h as isize {
+            return None;
+        }
+        let i = y as usize * w + x as usize;
+        Some([planes[0][i] as f32, planes[1][i] as f32, planes[2][i] as f32])
+    };
+    let (mut paper, mut n) = (0, 0);
+    for j in 0..14 {
+        for i in 0..10 {
+            if let Some((l, sat)) = px(quad_point(c, (i as f32 + 0.5) / 10.0, (j as f32 + 0.5) / 14.0)) {
+                n += 1;
+                if l > 140.0 && sat < 45.0 {
+                    paper += 1;
+                }
+            }
+        }
+    }
+    let paper = if n > 0 { paper as f32 / n as f32 } else { 0.0 };
+    // The brightness step across each side, from just outside to just
+    // inside: a page's edge separates paper (or its coloured header) from
+    // the desk on every side, while an inner rectangle (a header band, a
+    // table) has paper on both sides of at least one, and a desk-grain line
+    // has desk on both. The weakest side counts.
+    let mut weakest = f32::MAX;
+    for side in 0..4 {
+        let (mut sum, mut m) = ([0f32; 3], 0);
+        for k in 0..24 {
+            let t = (k as f32 + 0.5) / 24.0;
+            let (inner, outer) = match side {
+                0 => ((t, 0.03), (t, -0.03)),
+                1 => ((t, 0.97), (t, 1.03)),
+                2 => ((0.03, t), (-0.03, t)),
+                _ => ((0.97, t), (1.03, t)),
+            };
+            if let (Some(a), Some(b)) = (rgb(quad_point(c, inner.0, inner.1)), rgb(quad_point(c, outer.0, outer.1))) {
+                for ch in 0..3 {
+                    sum[ch] += a[ch] - b[ch];
+                }
+                m += 1;
+            }
+        }
+        // The mean colour difference across the side (a colour step counts:
+        // white paper on a beige desk differs more in hue than brightness).
+        // A side mostly outside the frame cannot show its step.
+        let d = (sum.iter().map(|v| (v / m.max(1) as f32).powi(2)).sum::<f32>()).sqrt();
+        let contrast = if m >= 12 { d / 40.0 } else { 0.0 };
+        weakest = weakest.min(contrast.min(1.0));
+    }
+    let width = (dist(c[0], c[1]) + dist(c[3], c[2])) / 2.0;
+    let height = (dist(c[0], c[3]) + dist(c[1], c[2])) / 2.0;
+    let r = width.min(height) / width.max(height).max(1.0);
+    let a4 = (1.0 - (r - 210.0 / 297.0).abs() / 0.1).max(0.0);
+    let third = (1.0 - (r - 99.0 / 210.0).abs() / 0.08).max(0.0);
+    0.7 * paper + 1.2 * weakest + 0.4 * a4 + 0.1 * third
+}
+
+fn find(rgba: &[u8], w: usize, h: usize, page: bool) -> Option<Quad> {
     let factor = (w / WORK_WIDTH).max(1);
     let (planes, sw, sh) = colour_planes(rgba, w, h, factor);
     if sw < 32 || sh < 32 {
@@ -242,6 +333,8 @@ pub fn find_document(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
 
     let frame = (sw * sh) as f32;
     let mut best: Option<(f32, Quad)> = None;
+    // Page mode: every acceptable candidate, (likeness, area, quad).
+    let mut pages: Vec<(f32, f32, Quad)> = Vec::new();
     for (i, &h1) in horizontal.iter().enumerate() {
         for &h2 in &horizontal[i + 1..] {
             for (j, &v1) in vertical.iter().enumerate() {
@@ -278,15 +371,43 @@ pub fn find_document(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
                     // Among well-supported outlines the largest wins: inner
                     // rectangles (the photo, a barcode panel, the MRZ band)
                     // also have strong straight edges, but lie inside.
+                    let scale = factor as f32;
+                    let corners = pts.map(|p| [p[0] * scale + scale / 2.0, p[1] * scale + scale / 2.0]);
+                    if page {
+                        pages.push((page_likeness(&planes, sw, sh, &pts) + 0.3 * mean + 0.2 * a, a, Quad { corners, support: mean }));
+                        continue;
+                    }
                     let score = 0.6 * mean + 0.2 * weakest + 0.8 * a;
                     if best.as_ref().is_none_or(|(s, _)| score > *s) {
-                        let scale = factor as f32;
-                        let corners = pts.map(|p| [p[0] * scale + scale / 2.0, p[1] * scale + scale / 2.0]);
                         best = Some((score, Quad { corners, support: mean }));
                     }
                 }
             }
         }
+    }
+    if page {
+        // The best, unless a larger candidate around it is nearly as good:
+        // a page's header band or table is as straight-edged as the page and
+        // lies inside it.
+        let best = pages.iter().max_by(|a, b| a.0.total_cmp(&b.0))?;
+        let (cx, cy) = (best.2.corners.iter().map(|p| p[0]).sum::<f32>() / 4.0, best.2.corners.iter().map(|p| p[1]).sum::<f32>() / 4.0);
+        let around = |q: &Quad| {
+            let sx = factor as f32;
+            let inside = |p: [f32; 2]| {
+                let pts = q.corners.map(|c| [c[0] / sx, c[1] / sx]);
+                (0..4).all(|i| {
+                    let (a, b) = (pts[i], pts[(i + 1) % 4]);
+                    (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0]) >= -2.0
+                })
+            };
+            best.2.corners.iter().all(|p| inside([p[0] / sx, p[1] / sx])) && inside([cx / sx, cy / sx])
+        };
+        return pages
+            .iter()
+            .filter(|p| p.0 >= 0.8 * best.0 && p.1 > best.1 * 1.15 && around(&p.2))
+            .max_by(|a, b| a.1.total_cmp(&b.1))
+            .or(Some(best))
+            .map(|p| p.2);
     }
     best.map(|(_, q)| q)
 }

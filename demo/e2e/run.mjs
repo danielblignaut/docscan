@@ -5,6 +5,8 @@
 // A case's `video` is relative to testdata/video/ (see the README to build
 // the clips), or absolute. Expectations:
 // - `captured`: `count` captures of `kinds`, with `fields` [index, path, value];
+//   `address: true` also wants one `docscan:address` event (?mode=address); a
+//   field's optional fourth element "~" lets one character differ (`near`);
 //   `crosscheck: true` also wants the front/back identity numbers to agree.
 // - `barcodes`: every code in `codes` confirmed; `exact` forbids any other.
 // - `not_captured`: nothing is captured within `waitMs`, the last reading is
@@ -41,6 +43,16 @@ await new Promise((resolve, reject) => {
 // Never leave the preview server behind, whatever happens.
 process.on("exit", stopServer);
 for (const sig of ["SIGINT", "SIGTERM"]) process.on(sig, () => process.exit(130));
+
+function levenshtein(a, b) {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) cur.push(Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)));
+    prev = cur;
+  }
+  return prev[b.length];
+}
 
 const median = (xs) => {
   if (!xs.length) return null;
@@ -91,8 +103,9 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
   // Record the page's own window events and every camera track it opens, to
   // check the host-facing contract: events fire, and the camera is released.
   await page.addInitScript(() => {
-    window.__host = { captured: 0, complete: 0, tracks: [] };
+    window.__host = { captured: 0, complete: 0, address: 0, tracks: [] };
     addEventListener("docscan:captured", () => window.__host.captured++);
+    addEventListener("docscan:address", () => window.__host.address++);
     addEventListener("docscan:complete", () => window.__host.complete++);
     const open = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
     navigator.mediaDevices.getUserMedia = async (c) => {
@@ -128,17 +141,25 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
     const { events, frames } = await page.evaluate(() => window.__docscan);
     const captured = events.filter((e) => e.type === "captured");
     const problems = [];
+    const near = [];
     if (want.type === "captured") {
-      for (const [i, path, value] of want.fields ?? []) {
+      for (const [i, path, value, tolerance] of want.fields ?? []) {
         const got = path.split(".").reduce((o, k) => o?.[k], captured[i]?.result);
-        if (String(got).toUpperCase() !== String(value).toUpperCase()) problems.push(`${i}.${path}: want ${value}, got ${got}`);
+        const [a, b] = [String(got).toUpperCase(), String(value).toUpperCase()];
+        if (a === b) continue;
+        // "~": one character's OCR slip is allowed (small print read from a
+        // 1080-pixel-wide video frame), and reported as `near`.
+        if (tolerance === "~" && levenshtein(a, b) <= 1) near.push(`${i}.${path}: want ${value}, got ${got}`);
+        else problems.push(`${i}.${path}: want ${value}, got ${got}`);
       }
       const host = await page.evaluate(() => ({
         captured: window.__host.captured,
         complete: window.__host.complete,
+        address: window.__host.address,
         live: window.__host.tracks.filter((t) => t.readyState !== "ended").length,
       }));
       if (host.captured !== want.count) problems.push(`docscan:captured fired ${host.captured}×, want ${want.count}`);
+      if (want.address && host.address !== 1) problems.push(`docscan:address fired ${host.address}×`);
       if (want.complete === false) {
         // A flow left waiting on a later step: no completion, camera still on.
         if (host.complete !== 0) problems.push(`docscan:complete fired ${host.complete}× mid-flow`);
@@ -174,8 +195,9 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       threads,
       readyMs: ready,
       doneMs,
-      captures: captured.map((e) => ({ kind: e.kind, stepMs: e.stepMs, sinceStartMs: e.sinceStartMs, fallback: e.fallback })),
+      captures: captured.map((e) => ({ kind: e.kind, stepMs: e.stepMs, sinceStartMs: e.sinceStartMs, fallback: e.fallback, readMs: e.readMs, method: e.result?.method, wasmMemoryMb: e.wasmMemoryMb, ocrMs: e.result?.timings_ms?.ocr })),
       problems,
+      ...(near.length ? { near } : {}),
       timings: timings(frames),
     };
   } catch (e) {

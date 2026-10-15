@@ -22,3 +22,10 @@ testdata/verify_output.txt
 testdata/specimens/*
 !testdata/specimens/specimens_truth.json
 docscan/pkg-threads/
+
+# Proof of address: the VLM benchmark's node_modules (a symlink into /tmp) and its downloads
+eval/node_modules
+eval/vlm/node_modules
+# Training runs write their datasets and checkpoints under /tmp; never commit real bills
+*.pt
+demo/tsconfig.tsbuildinfo

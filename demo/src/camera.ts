@@ -1,7 +1,12 @@
 // Camera helpers: open the rear camera at a document-friendly resolution, and
 // crop the part of the frame under the on-screen guide.
 
-export async function openCamera(): Promise<MediaStream> {
+/**
+ * `portrait`: ask for a portrait stream (1080 × 1920). A page is taller than
+ * wide, and a phone held upright films it that way; asked for 1920 × 1080, a
+ * browser may crop a portrait camera to landscape (Chrome's fake camera does).
+ */
+export async function openCamera(portrait = false): Promise<MediaStream> {
   if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
     throw new Error("The camera needs https or localhost.");
   }
@@ -9,8 +14,8 @@ export async function openCamera(): Promise<MediaStream> {
     audio: false,
     video: {
       facingMode: { ideal: "environment" },
-      width: { ideal: 1920 },
-      height: { ideal: 1080 },
+      width: { ideal: portrait ? 1080 : 1920 },
+      height: { ideal: portrait ? 1920 : 1080 },
     },
   });
   const [track] = stream.getVideoTracks();

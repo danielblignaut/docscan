@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { type AddressCaptured, AddressCapture, AddressView } from "./AddressCapture";
 import { type Captured, crossCheck, type DocType, IdCapture } from "./IdCapture";
 import { MultiBarcode } from "./MultiBarcode";
 import { ScannerClient } from "./scanner-client";
@@ -6,12 +7,19 @@ import type { DocumentResult } from "./types";
 
 (window as unknown as { __docscan: { events: unknown[]; frames: unknown[]; ready?: unknown } }).__docscan = { events: [], frames: [] };
 
-type Mode = { kind: "menu" } | { kind: "id"; doc: DocType } | { kind: "multi"; labels: boolean } | { kind: "done"; captured: Captured[] };
+type Mode =
+  | { kind: "menu" }
+  | { kind: "id"; doc: DocType }
+  | { kind: "multi"; labels: boolean }
+  | { kind: "done"; captured: Captured[] }
+  | { kind: "address" }
+  | { kind: "address-done"; captured: AddressCaptured };
 
 function initialMode(): Mode {
   const p = new URLSearchParams(location.search);
   if (p.get("mode") === "multi") return { kind: "multi", labels: false };
   if (p.get("mode") === "labels") return { kind: "multi", labels: true };
+  if (p.get("mode") === "address") return { kind: "address" };
   const doc = p.get("doc") as DocType | null;
   if (doc) return { kind: "id", doc };
   return { kind: "menu" };
@@ -32,13 +40,22 @@ export function App() {
   useEffect(() => {
     client.ready
       .then((r) => {
-        setStatus(`Scanner ready in ${Math.round(r.loadMs)} ms · ${r.threads} thread${r.threads > 1 ? "s" : ""}`);
+        setStatus(`Scanner ready in ${Math.round(r.loadMs)} ms · ${r.threads} thread${r.threads > 1 ? "s" : ""}${r.tagger ? " · tagger" : ""}`);
         (window as unknown as { __docscan: { ready?: unknown } }).__docscan.ready = r;
       })
       .catch((e) => setStatus(`Scanner failed: ${e}`));
   }, [client]);
 
   const onDone = useCallback((captured: Captured[]) => setMode({ kind: "done", captured }), []);
+  const onAddress = useCallback((captured: AddressCaptured) => setMode({ kind: "address-done", captured }), []);
+
+  // Model download progress, and a request that the browser keep the cached models.
+  useEffect(() => {
+    client.onProgress = (p) => {
+      if (!p.cached && p.total) setStatus(`Downloading ${p.file}: ${Math.round((100 * p.loaded) / p.total)}%`);
+    };
+    void navigator.storage?.persist?.().catch(() => false);
+  }, [client]);
 
   async function analysePhoto(file: File) {
     const bmp = await createImageBitmap(file);
@@ -69,6 +86,8 @@ export function App() {
           <h2>Barcodes</h2>
           <button type="button" onClick={() => setMode({ kind: "multi", labels: false })}>Scan many barcodes at once</button>
           <button type="button" onClick={() => setMode({ kind: "multi", labels: true })}>Scan a device label (IMEI, S/N, EAN)</button>
+          <h2>Proof of address</h2>
+          <button type="button" onClick={() => setMode({ kind: "address" })}>A bill, bank statement or lease</button>
           <h2>Test with a photo</h2>
           <input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && analysePhoto(e.target.files[0])} />
           {photo && <ResultView result={photo} />}
@@ -76,6 +95,8 @@ export function App() {
       )}
       {mode.kind === "id" && <IdCapture client={client} docType={mode.doc} onDone={onDone} />}
       {mode.kind === "multi" && <MultiBarcode client={client} labels={mode.labels} />}
+      {mode.kind === "address" && <AddressCapture client={client} onDone={onAddress} />}
+      {mode.kind === "address-done" && <AddressView captured={mode.captured} />}
       {mode.kind === "done" && (
         <section className="done" data-testid="done">
           <CrossCheckView captured={mode.captured} />

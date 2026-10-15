@@ -226,5 +226,136 @@
         "ean13|6001234567899"
       ]
     }
+  },
+  {
+    "name": "poa-bank-recent",
+    "video": "poa/poa_00003.y4m",
+    "query": "?mode=address&today=2026-10-15",
+    "timeout": 240000,
+    "viewport": {
+      "width": 540,
+      "height": 960
+    },
+    "note": "testdata/make_poa_videos.py: a fictional bank statement (bank_classic) with the bank's branch and head-office addresses as decoys; dated 56 days before ?today",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "proof_of_address"
+      ],
+      "address": true,
+      "fields": [
+        [
+          0,
+          "fields.holder_name",
+          "MRS S MKHIZE"
+        ],
+        [
+          0,
+          "fields.address.street",
+          "159 Loop Street"
+        ],
+        [
+          0,
+          "fields.address.city",
+          "Benoni"
+        ],
+        [
+          0,
+          "fields.address.postal_code",
+          "1501"
+        ],
+        [
+          0,
+          "fields.address.province",
+          "Gauteng"
+        ],
+        [
+          0,
+          "fields.document_date",
+          "2026-08-20"
+        ],
+        [
+          0,
+          "verification.age.recent",
+          "true"
+        ],
+        [
+          0,
+          "verification.postal_code",
+          "consistent"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "poa-municipal-old",
+    "video": "poa/poa_00005.y4m",
+    "query": "?mode=address&today=2026-10-15",
+    "timeout": 240000,
+    "viewport": {
+      "width": 540,
+      "height": 960
+    },
+    "note": "a fictional municipal account (muni_rates) dated 388 days before ?today: read correctly, and refused as older than three months; its holder block is in small print, so the name and address lines may differ by one OCR'd character (\"~\")",
+    "expect": {
+      "type": "captured",
+      "count": 1,
+      "kinds": [
+        "proof_of_address"
+      ],
+      "address": true,
+      "fields": [
+        [
+          0,
+          "fields.holder_name",
+          "MR TS JACOBS",
+          "~"
+        ],
+        [
+          0,
+          "fields.address.street",
+          "476 Hill St",
+          "~"
+        ],
+        [
+          0,
+          "fields.address.suburb",
+          "Walmer",
+          "~"
+        ],
+        [
+          0,
+          "fields.address.city",
+          "Gqeberha",
+          "~"
+        ],
+        [
+          0,
+          "fields.address.postal_code",
+          "6070"
+        ],
+        [
+          0,
+          "fields.address.province",
+          "Eastern Cape"
+        ],
+        [
+          0,
+          "fields.document_date",
+          "2025-09-22"
+        ],
+        [
+          0,
+          "verification.age.recent",
+          "false"
+        ],
+        [
+          0,
+          "verification.accepted",
+          "false"
+        ]
+      ]
+    }
   }
 ]
