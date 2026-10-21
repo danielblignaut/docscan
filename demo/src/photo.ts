@@ -8,6 +8,10 @@ import { chooseExtractor, type Extractor } from "./models";
 import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { ScannerId } from "./scanners";
+import type { FaceClient } from "./face-client";
+import { documentMatch, matchEnrolments } from "./FaceFlow";
+import { listEnrolments } from "./face-store";
+import type { PhotoFace } from "./face-types";
 import type { AddressResult, Barcode, DocumentResult, Labelled, PageAnalysis } from "./types";
 
 async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<ImageData> {
@@ -24,9 +28,47 @@ async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<
  * `files`: one photo per step, in order (a smart ID's front, then its back);
  * extra photos are read as the last step.
  */
-export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto"): Promise<Outcome> {
+export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient): Promise<Outcome> {
   const t0 = performance.now();
   const meta = (frames: number, ocrFrames = 0) => ({ source: "photo" as const, captureMs: performance.now() - t0, frames, ocrFrames });
+
+  if (scanner === "liveness" || scanner === "faceid" || scanner === "facedoc") {
+    // A still cannot show liveness: these read the face's quality, the passive
+    // anti-spoofing score and the template, and compare where there are two.
+    const fc = face();
+    const ready = await fc.ready;
+    const read = async (file: File, label: string) => {
+      const imageUrl = URL.createObjectURL(file);
+      const { result } = await fc.run<PhotoFace>({ kind: "photo", image: await pixels(file, 1600) });
+      return { label, imageUrl, face: result };
+    };
+    if (scanner === "facedoc") {
+      if (files.length < 2) throw new Error("choose two photos: the identity document, then the selfie");
+      // The document flattened first when its outline is found, as the camera flow does.
+      const docFile = files[0];
+      const image = await pixels(docFile, 1280);
+      const { result: doc } = await client.run<DocumentResult>({ kind: "document", image, runOcr: false, expected: "" });
+      let docPhoto = await read(docFile, "Identity document");
+      if (doc.document) {
+        const full = await pixels(docFile);
+        const k = full.width / image.width;
+        const corners = doc.document.corners.flatMap(([x, y]) => [x * k, y * k]);
+        const [aw, ah] = doc.analysed_size;
+        const outW = Math.min(2000, Math.round(aw * k));
+        const outH = Math.round((outW * ah) / aw);
+        const flat = await client.run<ImageData>({ kind: "flatten", image: full, corners, width: outW, height: outH });
+        const flatUrl = URL.createObjectURL(await toJpeg(flat.result));
+        const { result } = await fc.run<PhotoFace>({ kind: "photo", image: flat.result });
+        if (result.found) docPhoto = { label: "Identity document (flattened)", imageUrl: flatUrl, face: result };
+      }
+      const selfie = await read(files[1], "Selfie");
+      const match = selfie.face.found ? documentMatch(selfie.face.template, docPhoto.face) : null;
+      return { kind: "face", flow: "facedoc", liveness: null, match, photos: [docPhoto, selfie], meta: meta(2) };
+    }
+    const photo = await read(files[0], "Photo");
+    const match = scanner === "faceid" && photo.face.found ? matchEnrolments(photo.face.template, await listEnrolments(), ready.threshold) : null;
+    return { kind: "face", flow: scanner, liveness: null, match, photos: [photo], meta: meta(1) };
+  }
 
   if (scanner === "barcodes" || scanner === "labels") {
     const file = files[0];
@@ -71,7 +113,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     };
   }
 
-  const steps = FLOWS[scanner];
+  const steps = FLOWS[scanner as keyof typeof FLOWS];
   const captured: Captured[] = [];
   for (const [i, file] of files.entries()) {
     const step = steps[Math.min(i, steps.length - 1)];

@@ -9,6 +9,7 @@
 //! - [`Scanner::quality`]: sharpness, glare and exposure only, for every frame.
 
 pub mod barcode;
+pub mod face;
 pub mod geometry;
 pub mod labels;
 pub mod mrz;

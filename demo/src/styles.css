@@ -142,3 +142,21 @@ details[open].sub, details[open].metadata { padding-bottom: 12px; }
 .primary { min-height: 52px; border-radius: 12px; border: 0; background: var(--accent); color: #fff; font-weight: 650; font-size: 17px; cursor: pointer; }
 .primary:active { filter: brightness(.9); }
 .home-button { width: 100%; margin-top: 8px; }
+
+/* ------------------------------------------------------- face liveness */
+.viewport video.mirrored { transform: scaleX(-1); }
+.face-guide { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(66vw, 46dvh); aspect-ratio: 3 / 4;
+  border-radius: 50%; border: 3px solid rgba(214, 219, 225, 0.85); box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.45); transition: border-color .2s; }
+.face-guide.guide-found { border-color: var(--ok); }
+.face-guide .ring { position: absolute; inset: -9%; width: 118%; height: 118%; overflow: visible; }
+.face-guide .seg { fill: none; stroke: rgba(214, 219, 225, 0.55); stroke-width: 3.2; stroke-linecap: round; vector-effect: non-scaling-stroke; transition: stroke .15s; }
+.face-guide .seg { stroke-width: 9px; }
+.face-guide .seg.pointing { stroke: rgba(255, 255, 255, 0.95); }
+.face-guide .seg.on { stroke: var(--ok); }
+.face-phase { font-size: 13px; font-weight: 500; margin-top: 4px; }
+.face-empty { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; color: #eee; }
+.face-images { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 10px 0; }
+.face-images img.captured { max-width: min(100%, 360px); }
+.face-portrait { max-height: 320px; border-radius: 12px; }
+.face-crop { width: 112px; height: 112px; border-radius: 8px; image-rendering: auto; }
+.enrol { margin-top: 8px; }

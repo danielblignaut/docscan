@@ -388,5 +388,64 @@
         ]
       ]
     }
+  },
+  {
+    "name": "face-liveness-bona-fide",
+    "video": "face/bona-fide.y4m",
+    "query": "?mode=liveness&allowVirtualCamera=1",
+    "viewport": {
+      "width": 480,
+      "height": 860
+    },
+    "timeout": 120000,
+    "note": "face/synth/clips.py --e2e: a synthetic head (no real person) centres, turns round the ring and looks straight again; Chrome's fake camera is a test camera, allowed by allowVirtualCamera=1",
+    "expect": {
+      "type": "liveness",
+      "passed": true,
+      "segments": 12
+    }
+  },
+  {
+    "name": "face-liveness-photo-attack",
+    "video": "face/photo-attack.y4m",
+    "query": "?mode=liveness&allowVirtualCamera=1&timeout=20",
+    "viewport": {
+      "width": 480,
+      "height": 860
+    },
+    "timeout": 60000,
+    "note": "a flat printed photo of a synthetic head tilted round the ring: it must not pass (timeout=20 ends the session sooner than the default 60 s)",
+    "expect": {
+      "type": "liveness",
+      "passed": false
+    }
+  },
+  {
+    "name": "face-id-enrol-then-verify",
+    "video": "face/bona-fide.y4m",
+    "query": "?mode=liveness&allowVirtualCamera=1",
+    "viewport": {
+      "width": 480,
+      "height": 860
+    },
+    "timeout": 120000,
+    "note": "the full ring, Enrol (IndexedDB, this browser), then Face ID's quicker ring on the same (looping) clip must match",
+    "expect": {
+      "type": "faceid"
+    }
+  },
+  {
+    "name": "face-abandon",
+    "video": "face/bona-fide.y4m",
+    "query": "?allowVirtualCamera=1",
+    "viewport": {
+      "width": 480,
+      "height": 860
+    },
+    "expect": {
+      "type": "abandon",
+      "scanner": "liveness",
+      "waitMs": 6000
+    }
   }
 ]

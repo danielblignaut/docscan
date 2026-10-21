@@ -1,6 +1,7 @@
 // The home screen: one large card per scanner, with whether it is ready and
 // the model it uses, a model choice for proof of address, and on each card a
 // small "Test with a photo" action that runs the same scanner on an image.
+import { FACE_DOWNLOAD_MB } from "./face-models";
 import { catalogueEntry, chooseExtractor, type Extractor } from "./models";
 import type { ReadyInfo } from "./outcome";
 import { SCANNERS, type ScannerId, type ScannerInfo } from "./scanners";
@@ -21,6 +22,7 @@ interface Props {
 function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto"): string {
   const ocr = `ocrs OCR · ${catalogueEntry("ocrs").downloadMb} MB`;
   if (s.needs === "none") return "Barcode decoder · no model";
+  if (s.needs === "face") return s.id === "facedoc" ? `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB + ${ocr}` : `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB, loaded when opened`;
   if (s.needs === "ocr") return s.id === "labels" ? `Barcodes + tiled ${ocr}` : ocr;
   if (!ready) return `${ocr} + extractor`;
   const used = chooseExtractor(ready.tagger, method);
@@ -71,11 +73,17 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
                 </label>
               )}
               <label className={`photo-action ${busy === s.id ? "busy" : ""}`}>
-                {busy === s.id ? "Reading the photo…" : s.id === "smart_id" ? "Test with photos (front, back)" : "Test with a photo"}
+                {busy === s.id
+                  ? "Reading the photo…"
+                  : s.id === "smart_id"
+                    ? "Test with photos (front, back)"
+                    : s.id === "facedoc"
+                      ? "Test with photos (ID document, selfie)"
+                      : "Test with a photo"}
                 <input
                   type="file"
                   accept="image/*"
-                  multiple={s.id === "smart_id"}
+                  multiple={s.id === "smart_id" || s.id === "facedoc"}
                   disabled={busy !== null || !ready}
                   data-photo={s.id}
                   onChange={(e) => {

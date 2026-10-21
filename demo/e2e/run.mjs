@@ -14,6 +14,13 @@
 //   `lastKind` and the hint contains `hint`.
 // - `labels` (?mode=labels): the scan finishes by itself with every field in
 //   `fields` ([label or null, value, check_digit_valid]) listed.
+// - `liveness` (?mode=liveness): the session ends by itself (`docscan:liveness`
+//   once, then `docscan:complete`), `passed` as expected; a pass must light
+//   all `segments` of the ring; the results screen shows the verdict.
+// - `faceid`: a liveness session (as `liveness`, passing), Enrol on its
+//   results, Back to home, then the Face ID card: a second, quicker session
+//   that must pass and match the enrolled template (same browser, so the
+//   same IndexedDB); the match is shown on the results.
 // - `abandon`: open the home screen, tap the `scanner` card, wait `waitMs`,
 //   then the overlaid Back to home: the menu returns, the camera is released
 //   and nothing more is analysed.
@@ -115,7 +122,11 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
   // Record the page's own window events and every camera track it opens, to
   // check the host-facing contract: events fire, and the camera is released.
   await page.addInitScript(() => {
-    window.__host = { captured: 0, complete: 0, address: 0, tracks: [] };
+    window.__host = { captured: 0, complete: 0, address: 0, liveness: 0, livenessDetail: null, tracks: [] };
+    addEventListener("docscan:liveness", (e) => {
+      window.__host.liveness++;
+      window.__host.livenessDetail = { passed: e.detail.passed, templateLength: e.detail.template?.length ?? 0, model: e.detail.model };
+    });
     addEventListener("docscan:captured", () => window.__host.captured++);
     addEventListener("docscan:address", () => window.__host.address++);
     addEventListener("docscan:complete", () => window.__host.complete++);
@@ -142,6 +153,15 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       await page.waitForTimeout(want.waitMs);
     } else if (want.type === "labels") {
       await page.locator("[data-testid=results]").waitFor({ timeout: c.timeout ?? 90000 });
+    } else if (want.type === "liveness") {
+      await page.waitForFunction(() => window.__docscan.events.some((e) => e.type === "liveness"), null, { timeout: c.timeout ?? 120000, polling: 250 });
+    } else if (want.type === "faceid") {
+      await page.waitForFunction(() => window.__docscan.events.some((e) => e.type === "liveness"), null, { timeout: c.timeout ?? 120000, polling: 250 });
+      await page.locator("[data-testid=enrol-button]").click();
+      await page.locator("[data-testid=enrol] .field-note", { hasText: "Enrolled" }).waitFor({ timeout: 5000 });
+      await page.locator("[data-testid=results-home]").click();
+      await page.locator("[data-scanner=faceid]").click();
+      await page.waitForFunction(() => window.__docscan.events.filter((e) => e.type === "liveness").length >= 2, null, { timeout: c.timeout ?? 120000, polling: 250 });
     } else {
       await page.waitForFunction(
         ({ want }) => {
@@ -169,9 +189,12 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
         complete: window.__host.complete,
         address: window.__host.address,
         live: window.__host.tracks.filter((t) => t.readyState !== "ended").length,
+        liveness: window.__host.liveness,
+        livenessDetail: window.__host.livenessDetail,
       }));
     const finish = events.find((e) => e.type === "complete");
-    const finishes = want.type === "barcodes" || want.type === "labels" || (want.type === "captured" && want.complete !== false);
+    const finishes = want.type === "barcodes" || want.type === "labels" || want.type === "liveness" || want.type === "faceid" || (want.type === "captured" && want.complete !== false);
+    const live = events.find((e) => e.type === "liveness");
     if (want.type === "captured") {
       for (const [i, path, value, tolerance] of want.fields ?? []) {
         const got = path.split(".").reduce((o, k) => o?.[k], captured[i]?.result);
@@ -221,6 +244,33 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       const h = await host();
       if (h.complete !== 1) problems.push(`docscan:complete fired ${h.complete}×`);
       if (h.live) problems.push(`${h.live} camera track(s) still live after finishing`);
+    } else if (want.type === "liveness") {
+      if (!live) problems.push("no liveness outcome");
+      else {
+        if (live.passed !== want.passed) problems.push(`liveness ${live.passed ? "passed" : "failed"}, want ${want.passed ? "pass" : "fail"}: ${JSON.stringify(live.checks.filter((k) => k.required && !k.passed).map((k) => [k.name, k.score]))}`);
+        const lit = new Set(events.filter((e) => e.type === "segment").map((e) => e.index));
+        if (want.passed && lit.size < want.segments) problems.push(`${lit.size} of ${want.segments} ring segments lit`);
+        if (want.passed && !live.segments.every(Boolean)) problems.push("the session's ring is not complete");
+      }
+      const h = await host();
+      if (h.liveness !== 1) problems.push(`docscan:liveness fired ${h.liveness}×`);
+      if (h.complete !== 1) problems.push(`docscan:complete fired ${h.complete}×`);
+      if (h.live) problems.push(`${h.live} camera track(s) still live after the session`);
+      if (want.passed && !(h.livenessDetail?.templateLength > 0)) problems.push("no face template in docscan:liveness");
+      const verdict = await page.locator("[data-testid=liveness-verdict]").getAttribute("class").catch(() => null);
+      if (!verdict?.includes(want.passed ? "ok" : "bad")) problems.push(`results verdict ${verdict}`);
+    } else if (want.type === "faceid") {
+      const sessions = events.filter((e) => e.type === "liveness");
+      if (sessions.length !== 2 || !sessions.every((e) => e.passed)) problems.push(`sessions ${JSON.stringify(sessions.map((e) => e.passed))}`);
+      const id = events.find((e) => e.type === "faceid");
+      if (!id?.match?.matched) problems.push(`Face ID did not match: ${JSON.stringify(id?.match)}`);
+      const shown = await page.locator("[data-testid=face-match]").getAttribute("class").catch(() => null);
+      if (!shown?.includes("ok")) problems.push(`match verdict ${shown}`);
+      const h = await host();
+      if (h.liveness !== 2) problems.push(`docscan:liveness fired ${h.liveness}×`);
+      if (h.complete !== 2) problems.push(`docscan:complete fired ${h.complete}×`);
+      if (h.live) problems.push(`${h.live} camera track(s) still live`);
+      var faceMatch = id?.match ?? null;
     } else if (want.type === "abandon") {
       const before = await page.evaluate(() => window.__docscan.frames.length);
       await page.locator("[data-testid=capture-home]").click();
@@ -250,8 +300,10 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
     const outline = events.filter((e) => e.type === "outline").map((e) => e.state);
     if (outline[0] !== "grey") problems.push(`outline starts ${outline[0]}`);
     if (finishes) {
-      if (outline.at(-1) !== "done" || outline.at(-2) !== "green") problems.push(`outline ends ${outline.slice(-3).join(" → ")}, want green → done`);
-      if (outline.filter((s) => s === "done").length !== 1) problems.push(`outline done ${outline.filter((s) => s === "done").length}×`);
+      const lastOk = outline.at(-1) === "done" && (outline.at(-2) === "green" || (want.type === "liveness" && !want.passed));
+      if (!lastOk) problems.push(`outline ends ${outline.slice(-3).join(" → ")}, want green → done`);
+      const dones = want.type === "faceid" ? 2 : 1;
+      if (outline.filter((s) => s === "done").length !== dones) problems.push(`outline done ${outline.filter((s) => s === "done").length}×`);
       if (want.type === "captured" && want.count > 1) {
         // grey → green for each step, then done.
         const greens = outline.filter((s, i) => s === "green" && outline[i - 1] === "grey").length;
@@ -287,6 +339,8 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       problems,
       ...(near.length ? { near } : {}),
       ...(finish ? { finishedBy: finish.finishedBy, finishMs: finish.sinceStartMs } : {}),
+      ...(typeof faceMatch !== "undefined" && faceMatch ? { match: { similarity: Math.round(faceMatch.similarity * 1000) / 1000, threshold: faceMatch.threshold } } : {}),
+      ...(live ? { liveness: { passed: live.passed, completed: live.completed, sessionMs: live.durationMs, doneMs: live.sinceStartMs, frames: live.frames, msPerFrame: live.msPerFrame, wasmMemoryMb: live.wasmMemoryMb, checks: Object.fromEntries(live.checks.map((k) => [k.name, Math.round(k.score * 1000) / 1000])) } } : {}),
       outline: outline.join(" → "),
       timings: timings(frames),
     };

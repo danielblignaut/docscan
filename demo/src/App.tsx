@@ -1,9 +1,11 @@
 // Three screens: home (a card per scanner), the full-screen camera, and the
 // results form. The URL names the scanner (`?doc=…`, `?mode=…`), so a deep
 // link opens its camera directly; Back to home always returns to the menu.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { AddressCaptured } from "./AddressCapture";
 import { AddressCapture } from "./AddressCapture";
+import { FaceClient } from "./face-client";
+import { type FaceFlowId, FaceFlow } from "./FaceFlow";
 import { Home } from "./Home";
 import { type Captured, type DocType, IdCapture } from "./IdCapture";
 import { MultiBarcode } from "./MultiBarcode";
@@ -34,6 +36,12 @@ const PUSHED = "docscan";
 
 export function App() {
   const client = useMemo(() => new ScannerClient(threadCount()), []);
+  // The face models (~18 MB) load only once a face scanner is opened.
+  const faceRef = useRef<FaceClient | null>(null);
+  const faceClient = useCallback(() => {
+    faceRef.current ??= new FaceClient(threadCount());
+    return faceRef.current;
+  }, []);
   const [status, setStatus] = useState("Loading the scanner…");
   const [ready, setReady] = useState<ReadyInfo | null>(null);
   const [failed, setFailed] = useState(false);
@@ -104,7 +112,7 @@ export function App() {
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos(client, id, files, method);
+      const outcome = await analysePhotos(client, id, files, method, faceClient);
       history.pushState(PUSHED, "", urlFor(id, method));
       setScreen({ kind: "results", outcome });
     } catch (e) {
@@ -114,13 +122,15 @@ export function App() {
     }
   }
 
-  if (screen.kind === "results") return <Results outcome={screen.outcome} ready={ready} onHome={goHome} />;
+  if (screen.kind === "results") return <Results outcome={screen.outcome} ready={ready} onHome={goHome} face={faceRef.current} />;
 
   if (screen.kind === "capture") {
     const s = screen.scanner;
     return (
       <div className="capture-screen" data-testid="capture" data-scanner={s}>
-        {s === "barcodes" || s === "labels" ? (
+        {s === "liveness" || s === "faceid" || s === "facedoc" ? (
+          <FaceFlow flow={s as FaceFlowId} face={faceClient()} scanner={client} onDone={onOutcome} />
+        ) : s === "barcodes" || s === "labels" ? (
           <MultiBarcode client={client} labels={s === "labels"} onDone={onOutcome} />
         ) : s === "address" ? (
           <AddressCapture client={client} method={method} onDone={onAddress} />

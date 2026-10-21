@@ -3,6 +3,10 @@
 // the captured images, a collapsible Metadata section and, for proof of
 // address, the page's OCR text.
 import { type ReactNode, useState } from "react";
+import type { FaceClient } from "./face-client";
+import { DOC_THRESHOLD, FACE_DOWNLOAD_MB, FACE_LICENCES, RECOGNISER } from "./face-models";
+import { saveEnrolment } from "./face-store";
+import type { FaceQuality, PhotoFace } from "./face-types";
 import { crossCheck } from "./IdCapture";
 import { catalogueEntry } from "./models";
 import type { CaptureMeta, Outcome, ReadyInfo } from "./outcome";
@@ -427,9 +431,182 @@ function BarcodeResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: 
   );
 }
 
-export function Results({ outcome, ready, onHome }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void }) {
+
+// ---------------------------------------------------------------------------
+// Face liveness, Face ID and face vs document
+// ---------------------------------------------------------------------------
+
+const CHECK_LABELS: Record<string, string> = {
+  coverage: "Ring coverage",
+  "3d_motion": "3-D head motion (parallax)",
+  antispoof: "Passive anti-spoofing",
+  continuity: "Continuity (no splice, gap or second face)",
+  identity: "Same face before and after",
+  blink: "Blink",
+  capture_integrity: "Capture integrity (camera, frame timing)",
+};
+
+function templateBase64(t: number[]): string {
+  const bytes = new Uint8Array(new Float32Array(t).buffer);
+  let s = "";
+  for (const b of bytes) s += String.fromCharCode(b);
+  return btoa(s);
+}
+
+function qualityFields(q: FaceQuality, prefix: string) {
+  return (
+    <>
+      <Field name={`${prefix}quality`} label="Quality score (0–1)" value={q.score.toFixed(2)} status={q.score >= 0.5 ? "ok" : "warn"} note={q.problems.length ? q.problems.join(", ") : "no problems found"} />
+      <Field label="Eye distance (px)" value={q.interocular_px.toFixed(0)} />
+      <Field label="Sharpness" value={q.sharpness.toFixed(0)} />
+      <Field label="Brightness" value={q.brightness.toFixed(0)} />
+      <Field label="Evenness of light" value={q.evenness.toFixed(2)} />
+      <Field label="Eyes open (aspect ratio)" value={q.eyes_open.toFixed(2)} />
+      <Field label="Degrees off frontal" value={q.off_frontal.toFixed(0)} />
+    </>
+  );
+}
+
+function photoFields(p: PhotoFace, prefix: string) {
+  if (!p.found) return <Verdict ok={false}>No face found</Verdict>;
+  return (
+    <>
+      {qualityFields(p.quality, prefix)}
+      {p.antispoof ? (
+        <Field label="Passive anti-spoofing: live probability" value={p.antispoof.real.toFixed(2)} status={p.antispoof.real >= 0.5 ? "ok" : "bad"} note="a single still cannot show liveness; this is the passive model alone" />
+      ) : null}
+    </>
+  );
+}
+
+function EnrolButton({ template, model }: { template: number[]; model: string }) {
+  const [label, setLabel] = useState("Me");
+  const [saved, setSaved] = useState<string | null>(null);
+  return (
+    <div className="enrol" data-testid="enrol">
+      <label className="field">
+        <span className="field-label">Enrol for Face ID as</span>
+        <span className="field-row">
+          <input value={label} onChange={(e) => setLabel(e.target.value)} />
+          <button
+            type="button"
+            className="copy"
+            data-testid="enrol-button"
+            onClick={() => {
+              const id = `${Date.now()}`;
+              void saveEnrolment({ id, label: label || "Me", template, model, createdAt: new Date().toISOString() }).then(
+                () => setSaved(label || "Me"),
+                (e) => setSaved(`failed: ${e}`),
+              );
+            }}
+          >
+            Enrol
+          </button>
+        </span>
+        <span className="field-note">
+          {saved ? `Enrolled as “${saved}”. ` : ""}Demo storage: the template stays in this browser's IndexedDB, is never sent anywhere, and is biometric data (POPIA s.26).
+        </span>
+      </label>
+    </div>
+  );
+}
+
+function FaceResults({ outcome, face }: { outcome: Extract<Outcome, { kind: "face" }>; face: FaceClient | null }) {
+  const l = outcome.liveness;
+  const checks = l ? [...l.result.checks, l.integrity.check] : [];
+  const m = outcome.match;
+  void face;
+  return (
+    <section className="step" data-testid="face" data-flow={outcome.flow}>
+      {l ? (
+        <Verdict ok={l.passed} testid="liveness-verdict">
+          {l.passed ? "Live face: every liveness check passed" : `Not live: ${[...l.result.reasons, ...(l.integrity.check.passed ? [] : ["capture integrity failed"])].join("; ") || "failed"}`}
+        </Verdict>
+      ) : (
+        <Verdict ok={false} testid="liveness-verdict">
+          From a photo: liveness cannot be shown from a still image
+        </Verdict>
+      )}
+      {m !== undefined ? (
+        m ? (
+          <Verdict ok={m.matched} testid="face-match">
+            {m.matched ? `Same person as ${m.against}` : `Not the same person as ${m.against}`}: similarity {m.similarity.toFixed(3)} (threshold {m.threshold.toFixed(3)})
+          </Verdict>
+        ) : (
+          <Verdict ok={false} testid="face-match">
+            {l && !l.passed ? "Not compared: the liveness check failed" : "Not compared: no face to compare with"}
+          </Verdict>
+        )
+      ) : null}
+      <div className="face-images">
+        {l?.bestFrameUrl ? <img className="captured face-portrait" src={l.bestFrameUrl} alt="Best frontal frame" data-testid="best-frame" /> : null}
+        {outcome.document ? <img className="captured" src={outcome.document.imageUrl} alt="Identity document" /> : null}
+        {outcome.document?.alignedUrl ? <img className="face-crop" src={outcome.document.alignedUrl} alt="The document's face, aligned" /> : null}
+        {outcome.photos?.map((p) => (
+          <img key={p.label} className="captured face-portrait" src={p.imageUrl} alt={p.label} />
+        ))}
+      </div>
+      {l ? (
+        <Group title="Liveness checks" testid="liveness-checks">
+          {checks.map((c) => (
+            <Field
+              key={c.name}
+              name={`check-${c.name}`}
+              label={`${CHECK_LABELS[c.name] ?? c.name}${c.required ? "" : " (not required)"}`}
+              value={c.score.toFixed(3)}
+              status={c.passed ? "ok" : c.required ? "bad" : "warn"}
+              note={`${c.passed ? "passed" : "failed"} · threshold ${c.threshold} · ${c.detail}`}
+            />
+          ))}
+        </Group>
+      ) : null}
+      {l?.result.quality ? <Group title="Best frame quality">{qualityFields(l.result.quality, "")}</Group> : null}
+      {outcome.document ? <Group title="The document's face">{photoFields(outcome.document.face, "doc-")}</Group> : null}
+      {outcome.photos?.map((p) => (
+        <Group key={p.label} title={p.label}>
+          {photoFields(p.face, p.label)}
+        </Group>
+      ))}
+      {l && l.result.template.length ? (
+        <Group title="Face template" testid="template">
+          <Field name="template-model" label="Model" value={l.result.model} />
+          <Field name="template" label={`Template (${l.result.template.length} float32, base64)`} value={templateBase64(l.result.template)} />
+          {outcome.flow === "liveness" && l.passed ? <EnrolButton template={l.result.template} model={l.result.model} /> : null}
+        </Group>
+      ) : null}
+      <details className="metadata" data-testid="metadata">
+        <summary>Metadata</summary>
+        <Facts
+          rows={[
+            ["Source", outcome.meta.source],
+            ["Time to complete", l ? secs(l.captureMs) : secs(outcome.meta.captureMs)],
+            ["Session (centred to done)", l ? secs(l.result.duration_ms) : null],
+            ["Frames analysed", l ? `${l.frames} (${l.result.frames_with_face} with a face)` : outcome.meta.frames],
+            ["Analysis rate", l ? `${l.fps.toFixed(1)} frames/s` : null],
+            ["Per frame (median)", l?.msPerFrame ? ms(l.msPerFrame) : null],
+            ["Camera", l ? `${l.integrity.cameraLabel || "unnamed"}${l.integrity.frameRate ? ` · ${Math.round(l.integrity.frameRate)} fps` : ""}` : null],
+            ["Ring", l ? `${l.result.segments.filter(Boolean).length} of ${l.result.segments.length} segments` : null],
+            ["Wasm memory", l ? `${Math.round(l.memoryBytes / 1048576)} MB` : null],
+            ["Recognition model", `${RECOGNISER.name}; live-to-live threshold from the LFW DEV split, document threshold ${DOC_THRESHOLD}`],
+            ["Models", `${FACE_DOWNLOAD_MB.toFixed(1)} MB: ${FACE_LICENCES.join("; ")}`],
+          ]}
+        />
+      </details>
+    </section>
+  );
+}
+
+export function Results({ outcome, ready, onHome, face = null }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null }) {
   const title =
-    outcome.kind === "id" ? scannerById(outcome.scanner).title : outcome.kind === "address" ? "Proof of address" : outcome.labels ? "Device label" : "Barcodes";
+    outcome.kind === "id"
+      ? scannerById(outcome.scanner).title
+      : outcome.kind === "face"
+        ? scannerById(outcome.flow).title
+        : outcome.kind === "address"
+          ? "Proof of address"
+          : outcome.labels
+            ? "Device label"
+            : "Barcodes";
   return (
     <main className="results" data-testid="results" data-kind={outcome.kind}>
       <header className="results-head">
@@ -440,6 +617,7 @@ export function Results({ outcome, ready, onHome }: { outcome: Outcome; ready: R
         {outcome.kind === "id" && <IdResults outcome={outcome} ready={ready} />}
         {outcome.kind === "address" && <AddressResults outcome={outcome} ready={ready} />}
         {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} />}
+        {outcome.kind === "face" && <FaceResults outcome={outcome} face={face} />}
       </form>
       <button type="button" className="primary home-button" data-testid="results-home" onClick={onHome}>
         Back to home

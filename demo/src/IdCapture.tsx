@@ -6,7 +6,7 @@ import { type CaptureMeta, median } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import { crossCheck, type DocumentKind, type DocumentResult, readingKey } from "./types";
 
-export type DocType = "auto" | "smart_id" | "green_book" | "passport";
+export type DocType = "auto" | "smart_id" | "green_book" | "passport" | "photo_page";
 
 interface Step {
   label: string;
@@ -29,6 +29,16 @@ const PASSPORTS: DocumentKind[] = ["za_passport", "gb_passport", "other_passport
 const CODE39_FALLBACK_MS = 8000;
 
 export const FLOWS: Record<DocType, Step[]> = {
+  // The face-vs-document flow: any document that carries the holder's photo.
+  photo_page: [
+    {
+      label: "The ID's photo page: passport, smart ID front or ID book",
+      accepts: ["za_smart_id_front", "za_green_book", ...PASSPORTS, "other_id_card"],
+      aspect: 1.5,
+      ocr: true,
+      expect: "",
+    },
+  ],
   auto: [
     {
       label: "Any identity document",

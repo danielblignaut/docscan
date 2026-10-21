@@ -1,6 +1,9 @@
 // What a finished scan hands to the results screen: the captured data, and
 // how it was captured (for the Metadata section).
 import type { AddressCaptured } from "./AddressCapture";
+import type { DocumentFace, FaceFlowId, FaceMatch } from "./FaceFlow";
+import type { LivenessOutcome } from "./FaceLiveness";
+import type { PhotoFace } from "./face-types";
 import type { Captured } from "./IdCapture";
 import type { ScannerId } from "./scanners";
 import type { LabelledField } from "./types";
@@ -34,6 +37,17 @@ export interface SeenCode {
 
 export type Outcome =
   | { kind: "id"; scanner: ScannerId; captured: Captured[]; meta: CaptureMeta }
+  | {
+      kind: "face";
+      flow: FaceFlowId;
+      /** The live capture; null for "Test with a photo", which cannot show liveness. */
+      liveness: LivenessOutcome | null;
+      match?: FaceMatch | null;
+      document?: DocumentFace;
+      /** "Test with a photo": the photos' faces. */
+      photos?: { label: string; imageUrl: string; face: PhotoFace }[];
+      meta: CaptureMeta;
+    }
   | { kind: "address"; captured: AddressCaptured; meta: CaptureMeta }
   | {
       kind: "barcodes";

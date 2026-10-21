@@ -4,7 +4,7 @@
 import type { DocType } from "./IdCapture";
 import type { Extractor } from "./models";
 
-export type ScannerId = "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address";
+export type ScannerId = "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
 
 export interface ScannerInfo {
   id: ScannerId;
@@ -12,9 +12,9 @@ export interface ScannerInfo {
   title: string;
   description: string;
   /** The query parameter that opens it. */
-  param: ["doc", DocType] | ["mode", "multi" | "labels" | "address"];
-  /** Which models it needs: none (barcodes alone), OCR, or OCR plus the extractor. */
-  needs: "none" | "ocr" | "address";
+  param: ["doc", DocType] | ["mode", "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
+  /** Which models it needs: none (barcodes alone), OCR, OCR plus the extractor, or the face models. */
+  needs: "none" | "ocr" | "address" | "face";
 }
 
 export const SCANNERS: ScannerInfo[] = [
@@ -46,6 +46,30 @@ export const SCANNERS: ScannerInfo[] = [
     param: ["mode", "address"],
     needs: "address",
   },
+  {
+    id: "liveness",
+    icon: "🙂",
+    title: "Face liveness",
+    description: "Turn your head round the ring: a live 3-D face, not a photo or a screen",
+    param: ["mode", "liveness"],
+    needs: "face",
+  },
+  {
+    id: "faceid",
+    icon: "🔓",
+    title: "Face ID (returning user)",
+    description: "A quick liveness ring, then matched against the face enrolled on this device",
+    param: ["mode", "faceid"],
+    needs: "face",
+  },
+  {
+    id: "facedoc",
+    icon: "🪪",
+    title: "Face vs ID document",
+    description: "A live face, then the passport or smart ID photo: are they the same person?",
+    param: ["mode", "facedoc"],
+    needs: "face",
+  },
 ];
 
 export const scannerById = (id: ScannerId) => SCANNERS.find((s) => s.id === id)!;
@@ -59,8 +83,9 @@ export function scannerFromUrl(search = location.search): ScannerId | null {
   if (mode === "multi") return "barcodes";
   if (mode === "labels") return "labels";
   if (mode === "address") return "address";
+  if (mode === "liveness" || mode === "faceid" || mode === "facedoc") return mode;
   const doc = p.get("doc") as DocType | null;
-  if (doc && DOCS.includes(doc)) return doc;
+  if (doc && DOCS.includes(doc)) return doc as ScannerId;
   return null;
 }
 

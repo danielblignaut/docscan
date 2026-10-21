@@ -32,6 +32,11 @@ leaves the phone.
   and the document's age against three months; or, given the known customer,
   verified against their name and address over a burst of frames. See
   [Proof of address](#proof-of-address-modeaddress).
+- **Face liveness and verification** (`?mode=liveness`, `faceid`, `facedoc`):
+  an active head-turn ring with 3-D motion, passive anti-spoofing,
+  continuity and identity checks; a face template for "Face ID" on return;
+  and a live face matched to the photo on a passport or smart ID. See
+  [Face liveness and verification](#face-liveness-and-verification-modeliveness-faceid-facedoc).
 
 A React demo (Vite), designed for staff phones, opens on a menu with a card per
 scanner. Tapping one opens the camera full screen: it draws a guide, outlines
@@ -68,7 +73,7 @@ Requirements: Rust (stable) with the `wasm32-unknown-unknown` target,
 [wasm-pack](https://rustwasm.github.io/wasm-pack/), Node 20+ and pnpm.
 
 ```sh
-scripts/fetch-models.sh                 # the ocrs models (~12 MB) into models/, and those and models/poa-tagger.onnx into demo/public/models/
+scripts/fetch-models.sh                 # the ocrs models (~12 MB) into models/, and those, models/poa-tagger.onnx and models/face/ into demo/public/models/
 cd docscan
 cargo test --release --lib              # unit tests
 RUSTFLAGS="-C target-feature=+simd128" wasm-pack build --release --target web --out-dir pkg
@@ -79,7 +84,8 @@ pnpm dev                                # https needed on a phone: the camera re
 
 Open the menu at `/`, or deep-link straight to a scanner's camera:
 `?doc=smart_id`, `?doc=green_book`, `?doc=passport`, `?doc=auto`,
-`?mode=multi`, `?mode=labels` or `?mode=address` (`&method=tagger|rules` picks
+`?mode=multi`, `?mode=labels`, `?mode=address`, `?mode=liveness`,
+`?mode=faceid` or `?mode=facedoc` (`&method=tagger|rules` picks
 the proof-of-address extractor, which the menu also offers). The camera screen's
 **Back to home** button, always shown top left, stops the camera and returns to
 the menu. Each card also has a small **Test with a photo** action that runs the
@@ -732,6 +738,103 @@ times were taken under heavy load from other users), the model sizes. Not
 measured: anything on a phone, iOS Safari's actual limit for this page, the
 browser's time for a multi-frame capture (estimated from the per-page
 figures), and real documents.
+
+## Face liveness and verification (`?mode=liveness`, `faceid`, `facedoc`)
+
+Three more scanners, all on the device (the same wasm, a second Web Worker,
+models served from the app's own origin; no image or template leaves the
+phone):
+
+- **Face liveness** (`?mode=liveness`): the front camera, mirrored, an oval and
+  a ring of 12 segments around it. Centre your face; then turn your head round
+  the circle, and each segment you point at turns green; then look straight
+  again. Pass or fail with a score per check, the best frontal frame, its
+  quality, and a 128-d face template. The results screen can **enrol** the
+  template for Face ID (IndexedDB in this browser only, labelled demo storage).
+- **Face ID** (`?mode=faceid`): a quicker 8-segment ring, then the template
+  matched against the enrolled ones: similarity, threshold, decision.
+- **Face vs ID document** (`?mode=facedoc`): the quick ring, then the
+  document's photo page captured hands-free with the rear camera (passport,
+  smart ID front or ID book, by the document scanner), the face found on the
+  flattened page, its quality, and the two compared.
+
+Each card's **Test with a photo** runs the photo path instead (one selfie:
+quality, passive anti-spoofing, template; for Face vs ID document, the
+document photo then the selfie); a still cannot show liveness, and the result
+says so.
+
+`face/` holds the research (`RESEARCH.md`: the chosen pipeline and why),
+the models and their licences (`MODELS.md`), the datasets and their terms
+(`DATASETS.md`), and every measurement with its DEV/TEST protocol and the
+iteration log (`RESULTS.md`).
+
+### Pipeline (`docscan/src/face/`)
+
+| Module | What it does |
+| --- | --- |
+| `detect.rs` | MediaPipe BlazeFace short-range (128 × 128, Apache-2.0), letterboxed or in tiles for small faces, weighted NMS. |
+| `mesh.rs` | MediaPipe Face Mesh V2 (478 points with irises, Apache-2.0) on an eye-levelled crop; each frame's crop from the last frame's landmarks, the detector only when the face is lost (and every 6th frame, to count faces). |
+| `pose.rs` | Yaw, pitch, roll: a similarity fit (Horn) of MediaPipe's canonical face to the 3-D points. |
+| `quality.rs` | Size, exposure, evenness of light, saturation, sharpness, eyes open, pose: OFIQ-style individual measures, turned into hints. Absolute brightness is not held against dark skin. |
+| `parallax.rs` | 3-D motion from the pixels: rigid points re-found in each turned frame by texture (NCC of a reference patch warped by the local homography, twice), and how far they depart from one homography. A flat print or screen fits one; a head does not. The landmarks alone were not enough (their face prior bends a tilted print's points towards a turning head's). |
+| `antispoof.rs` | Minivision's MiniFASNetV2 + V1SE (Apache-2.0) on 2.7× and 4.0× crops. |
+| `recognise.rs` | ArcFace five-point alignment from the mesh, OpenCV's SFace (Apache-2.0 weights, stored as int8), cosine similarity. |
+| `liveness.rs` | The session: centre → sweep → finish, and the checks: ring coverage, 3-D motion (≥ 6% of the eye distance), anti-spoofing (the weakest sampled near-frontal frame ≥ 0.5), continuity (no jump a head cannot make, no long gap, no second face, timestamps in order), identity (the face after the sweep is the face before it), blinks (counted; required only if configured). |
+
+The page adds capture integrity: a camera whose name is a virtual camera's
+(OBS, ManyCam, v4l2loopback, …) fails unless `?allowVirtualCamera=1` (the e2e
+suite's fake camera), and so do frames that stall for over 1.5 s or arrive out
+of order (`requestVideoFrameCallback`). These are client-side checks; a
+deployment needs server-side challenges and re-verification (`face/RESEARCH.md`).
+
+### The face API
+
+```js
+import init, { FaceScanner } from "docscan";
+await init();
+const face = new FaceScanner();
+face.load_tracker(detectorOnnx, meshOnnx);            // face_detector.onnx, face_landmarks_detector.onnx
+face.load_antispoof(minifasnetOnnx);                  // minifasnet.onnx
+face.load_recogniser(sfaceOnnx, "sface_int8", "sface"); // name (picks the threshold), input convention
+face.track(rgba, width, height);                      // found, box, pose, quality, outline (no session)
+face.liveness_start({ segments: 12, coverage: 1, mirrored: true, guide: [cx, cy, r] }); // every field optional
+face.liveness_frame(rgba, width, height, timestampMs); // phase, hint, segments, pointing, pose, quality
+face.liveness_result();                               // passed, checks[], quality, best_frame, aligned, template
+face.photo(rgba, width, height);                      // a still: found, quality, aligned face, template, anti-spoofing
+face.compare(templateA, templateB);                   // cosine similarity
+face.threshold();                                     // the loaded model's threshold (LFW DEV, FAR 1e-3)
+```
+
+The page gets `docscan:liveness` (`detail`: `passed`, the result with every
+check, `template`, `model`, `bestFrameUrl`) and then `docscan:complete`
+(with `match` for Face ID and Face vs ID document); the camera is released
+before the results screen opens.
+
+Natively, `examples/face.rs` runs the same code for evaluation: `photo`,
+`embed` (templates for a list of images), `liveness` (a session over a `.y4m`
+clip) and `antispoof`; `face/eval/*.py` drive it, and `face/synth/` renders
+the synthetic clips (procedural heads: no real person) for the liveness
+benchmark and the e2e suite (`python face/synth/clips.py --e2e`).
+
+### Results (details and protocol in `face/RESULTS.md`)
+
+| Benchmark | Shipped setting | DEV | TEST |
+| --- | --- | --- | --- |
+| LFW, raw images through the on-device pipeline (SFace int8) | threshold 0.366 (FAR 1e-3 on DEV) | TAR 99.41% @ FAR 1e-3 | **99.52 ± 0.33%** 10-fold; TAR 99.03% @ FAR 1e-3; at the DEV threshold FAR 0.07%, FRR 1.0% |
+| LFW, standard pre-aligned crops (lfw.bin) | | | 99.63%; CALFW 94.8%, CPLFW 90.9% |
+| Passive anti-spoofing, CelebA-Spoof (cross-dataset) | | AUC 0.908 | AUC 0.858, ACER 23.2% |
+| Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
+| Document photo vs live face (synthetic ID renders of LFW pairs) | threshold 0.356 | TAR 98.5% @ FAR 1e-3 | TAR 98.2% @ FAR 1e-3; FAR 0.03%, FRR 2.1% at the DEV threshold |
+
+Browser (headless Chrome, this machine): a liveness frame takes ~100 ms in the
+single-threaded wasm and ~75 ms multithreaded; a session from centred to done
+takes about 6–10 s; 18.7 MB of face models; ~90–100 MB of wasm heap. The
+recogniser reaches the 99.5% LFW bar of compact on-device models; the passive
+anti-spoofing model is far from state of the art on public data (only
+non-commercial data exists to improve it); the liveness figures are on
+synthetic clips only and support no published-style claim. **The shipped
+recogniser's weights are Apache-2.0 but its training data is undocumented**:
+see `face/MODELS.md` before any commercial use.
 
 ## Licence
 
