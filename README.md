@@ -836,20 +836,58 @@ synthetic clips only and support no published-style claim. **The shipped
 recogniser's weights are Apache-2.0 but its training data is undocumented**:
 see `face/MODELS.md` before any commercial use.
 
-## Licence
+## Licence and attribution
 
-Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or
-[MIT licence](LICENSE-MIT) at your option.
+This repository's code is licensed under either of
+[Apache License, Version 2.0](LICENSE-APACHE) or [MIT licence](LICENSE-MIT) at
+your option. The models and data below are **not** covered by that licence:
+each is distributed under its own terms, credited here, in [`NOTICE`](NOTICE)
+and on the demo's home screen. A permissive licence on code or weights does not
+settle the training data's terms; see the provenance column and
+[`face/MODELS.md`](face/MODELS.md).
 
-The proof-of-address gazetteer (`docscan/src/poa/za_places.tsv`) is built
-from [GeoNames](https://www.geonames.org) data, licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The extra fonts
-the generators use (`testdata/fetch_poa_fonts.sh`) are under the SIL Open
-Font License or the Ubuntu Font Licence and are not redistributed.
+### Models shipped or served by the demo
 
-The ocrs models are downloaded separately and carry their own terms; see
-[ocrs-models](https://github.com/robertknight/ocrs-models). The
-proof-of-address tagger (`models/poa-tagger.onnx`) was trained here on
-synthetic data only and is under the same licence as the code. The VLMs
-benchmarked (Qwen3.5-0.8B, SmolVLM-256M-Instruct) are Apache-2.0 and are not
-redistributed.
+| Model | Used for | Author | Licence | Provenance notes |
+| --- | --- | --- | --- | --- |
+| ocrs text detection and text recognition (`text-detection.rten`, `text-recognition.rten`; fetched by `scripts/fetch-models.sh`) | all OCR: ID documents, labels, proof of address | Robert Knight, [ocrs-models](https://github.com/robertknight/ocrs-models) ([model card](https://huggingface.co/robertknight/ocrs)) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Trained on Google's [HierText](https://github.com/google-research-datasets/hiertext) (CC BY-SA 4.0) and synthetic data. Commercial use allowed with attribution; **a modified version (fine-tuned, quantised, retrained) must be released under CC BY-SA 4.0**. |
+| Proof-of-address field tagger (`models/poa-tagger.onnx`) | proof of address | this repository | MIT OR Apache-2.0 | Trained here on synthetic documents only. |
+| MediaPipe BlazeFace short-range (`face_detector.onnx`) | face detection | Google, [MediaPipe](https://github.com/google-ai-edge/mediapipe) | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) | Converted from the published `.tflite`; training data not published. |
+| MediaPipe Face Mesh V2 (`face_landmarks_detector.onnx`) and the canonical face mesh (`docscan/src/face/canonical.rs`) | face landmarks, head pose | Google, MediaPipe | Apache-2.0 | Converted from the published model and `canonical_face_model.obj`; training data not published. |
+| MiniFASNetV2 and MiniFASNetV1SE (`minifasnet.onnx`) | passive face anti-spoofing | Minivision, [Silent-Face-Anti-Spoofing](https://github.com/minivision-ai/Silent-Face-Anti-Spoofing) | Apache-2.0 | Exported as one graph; training data not published. |
+| SFace (`sface_int8.onnx`) | face templates and matching | OpenCV, [opencv_zoo](https://github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface) | Apache-2.0 | Weights re-stored as int8. **Training data undocumented** ([opencv_zoo#313](https://github.com/opencv/opencv_zoo/issues/313)); the SFace paper's datasets are research-only. Treat commercial use as unresolved. |
+
+### Libraries compiled into the wasm
+
+| Library | Author | Licence |
+| --- | --- | --- |
+| [rxing](https://github.com/rxing-core/rxing), a Rust port of [ZXing](https://github.com/zxing/zxing) | rxing contributors; ZXing authors | Apache-2.0 |
+| [ocrs](https://github.com/robertknight/ocrs) and [rten](https://github.com/robertknight/rten) | Robert Knight | MIT OR Apache-2.0 |
+| [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen), serde, anyhow and the other crates in `docscan/Cargo.lock` | their authors | MIT and/or Apache-2.0 (see each crate) |
+| [React](https://react.dev) (the demo) | Meta Platforms, Inc. and affiliates | MIT |
+
+### Data and fonts
+
+- **Gazetteer** (`docscan/src/poa/za_places.tsv`): built by `train/build_gazetteer.py`
+  from [GeoNames](https://www.geonames.org) data, licensed under
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes: filtered to
+  South African populated places and reformatted.
+- **OCR-B font** (`testdata/fonts/OCRB.otf`): Matthew Skala's public-domain
+  conversion of OCR-B ([tsukurimashou.org/ocr.php](https://tsukurimashou.org/ocr.php.en)),
+  used only by the test-data generators.
+- **Other fonts** used by the generators (`testdata/fetch_poa_fonts.sh`): SIL
+  Open Font License or Ubuntu Font Licence; downloaded, not redistributed.
+- **Evaluation-only datasets** (LFW, CelebA-Spoof and the others in
+  [`face/DATASETS.md`](face/DATASETS.md) and `bench/manifests`): used locally to
+  measure, under their own terms; never committed, redistributed or used to
+  train a shipped model.
+- **Benchmarked, not shipped:** Qwen3.5-0.8B and SmolVLM-256M-Instruct
+  (Apache-2.0), and the research-only face models listed in `face/MODELS.md`.
+
+### Not a licence: patents and personal data
+
+Open-source licences do not grant freedom from patents. Face liveness in
+particular is a heavily patented field. Get a freedom-to-operate review before
+using the face scanners commercially. Face images and templates are biometric
+special personal information under South Africa's POPIA (s.26), whatever the
+licence.

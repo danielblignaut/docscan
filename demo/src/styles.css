@@ -163,3 +163,8 @@ details[open].sub, details[open].metadata { padding-bottom: 12px; }
 .face-portrait { max-height: 320px; border-radius: 12px; }
 .face-crop { width: 112px; height: 112px; border-radius: 8px; image-rendering: auto; }
 .enrol { margin-top: 8px; }
+
+/* Attribution footer on the home screen. */
+.home-foot { margin: 28px 4px 12px; font-size: 12px; line-height: 1.5; color: var(--muted, #9aa7b4); }
+.home-foot p { margin: 0 0 6px; }
+.home-foot a { color: inherit; text-decoration: underline; }

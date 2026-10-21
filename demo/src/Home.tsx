@@ -98,6 +98,24 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
           </li>
         ))}
       </ul>
+      <footer className="home-foot" data-testid="credits">
+        <p>
+          Code: MIT or Apache-2.0. Models and data are under their own terms:
+          OCR models © Robert Knight (<a href="https://huggingface.co/robertknight/ocrs">ocrs</a>,{" "}
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, trained on HierText);
+          BlazeFace and Face Mesh © Google (<a href="https://github.com/google-ai-edge/mediapipe">MediaPipe</a>, Apache-2.0);
+          MiniFASNet © <a href="https://github.com/minivision-ai/Silent-Face-Anti-Spoofing">Minivision</a> (Apache-2.0);
+          SFace © <a href="https://github.com/opencv/opencv_zoo">OpenCV</a> (Apache-2.0);
+          barcodes by <a href="https://github.com/rxing-core/rxing">rxing</a>, a port of ZXing (Apache-2.0);
+          place names from <a href="https://www.geonames.org">GeoNames</a>{" "}
+          (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>).
+        </p>
+        <p>
+          <a href="https://github.com/danielblignaut/docscan#licence-and-attribution">Full attribution and licences</a>
+          {" · "}
+          <a href="https://github.com/danielblignaut/docscan/blob/main/NOTICE">NOTICE</a>
+        </p>
+      </footer>
     </main>
   );
 }

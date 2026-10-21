@@ -1,0 +1,47 @@
+docscan
+Copyright (c) 2026 Daniel Blignaut
+Licensed under the MIT licence or the Apache License, Version 2.0, at your option.
+
+This product includes or downloads third-party models, libraries and data that
+are NOT covered by that licence. Each is used under its own terms:
+
+ocrs OCR models (text-detection.rten, text-recognition.rten)
+  Copyright Robert Knight. https://github.com/robertknight/ocrs-models
+  Licensed under CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+  Trained on HierText (Google, CC BY-SA 4.0) and synthetic data.
+  Modified versions of these models must be shared under CC BY-SA 4.0.
+
+MediaPipe BlazeFace short-range and Face Mesh V2 models; canonical face mesh
+  Copyright Google LLC. https://github.com/google-ai-edge/mediapipe
+  Licensed under the Apache License, Version 2.0. Converted to ONNX.
+
+MiniFASNetV2 and MiniFASNetV1SE anti-spoofing models
+  Copyright Minivision. https://github.com/minivision-ai/Silent-Face-Anti-Spoofing
+  Licensed under the Apache License, Version 2.0. Exported to ONNX.
+
+SFace face recognition model
+  Copyright OpenCV. https://github.com/opencv/opencv_zoo
+  Licensed under the Apache License, Version 2.0. Weights re-stored as int8.
+  Its training data is undocumented; see face/MODELS.md before commercial use.
+
+rxing, a Rust port of ZXing
+  Copyright rxing contributors and the ZXing authors.
+  https://github.com/rxing-core/rxing  https://github.com/zxing/zxing
+  Licensed under the Apache License, Version 2.0.
+
+ocrs and rten
+  Copyright Robert Knight. https://github.com/robertknight/ocrs
+  Licensed under the MIT licence or the Apache License, Version 2.0.
+
+GeoNames data (docscan/src/poa/za_places.tsv)
+  https://www.geonames.org. Licensed under CC BY 4.0:
+  https://creativecommons.org/licenses/by/4.0/
+  Filtered to South African populated places and reformatted.
+
+OCR-B font (testdata/fonts/OCRB.otf, test-data generation only)
+  Matthew Skala's conversion, public domain. https://tsukurimashou.org/ocr.php.en
+
+Other Rust crates and npm packages: see docscan/Cargo.lock and
+demo/pnpm-lock.yaml; each is under its own (MIT and/or Apache-2.0) licence.
+
+Licences do not grant patent rights. Face liveness is a heavily patented field.
