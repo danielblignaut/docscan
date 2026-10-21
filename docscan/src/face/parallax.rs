@@ -20,9 +20,13 @@ use serde::Serialize;
 use super::image::Frame;
 use super::linalg::{apply_homography, fit_homography};
 
-/// A grey image at analysis scale.
+/// A grey image at analysis scale: the window `[x0, x0 + w) × [y0, y0 + h)`
+/// of the whole frame's analysis grid (positions are in that whole grid;
+/// outside the window the edge repeats, as outside the frame).
 #[derive(Clone)]
 pub struct Grey {
+    pub x0: usize,
+    pub y0: usize,
     pub w: usize,
     pub h: usize,
     pub data: Vec<f32>,
@@ -31,13 +35,30 @@ pub struct Grey {
 impl Grey {
     /// The frame's luma scaled by `scale` (≤ 1: box-averaged).
     pub fn from_frame(frame: &Frame, scale: f32) -> Grey {
-        let w = ((frame.width as f32 * scale).round() as usize).max(1);
-        let h = ((frame.height as f32 * scale).round() as usize).max(1);
+        Grey::from_frame_window(frame, scale, None)
+    }
+
+    /// The same, computed only inside `window` (`[x0, y0, x1, y1]`, analysis
+    /// pixels): every pixel inside has the value the whole-frame grid has.
+    pub fn from_frame_window(frame: &Frame, scale: f32, window: Option<[f32; 4]>) -> Grey {
+        let fw = ((frame.width as f32 * scale).round() as usize).max(1);
+        let fh = ((frame.height as f32 * scale).round() as usize).max(1);
+        let (x0, y0, x1, y1) = match window {
+            Some([a, b, c, d]) => {
+                let x0 = (a.floor().max(0.0) as usize).min(fw - 1);
+                let y0 = (b.floor().max(0.0) as usize).min(fh - 1);
+                let x1 = ((c.ceil().max(0.0) as usize) + 1).clamp(x0 + 1, fw);
+                let y1 = ((d.ceil().max(0.0) as usize) + 1).clamp(y0 + 1, fh);
+                (x0, y0, x1, y1)
+            }
+            None => (0, 0, fw, fh),
+        };
+        let (w, h) = (x1 - x0, y1 - y0);
         let inv = 1.0 / scale;
         let n = (inv.ceil() as usize).clamp(1, 6);
         let mut data = vec![0f32; w * h];
-        for y in 0..h {
-            for x in 0..w {
+        for y in y0..y1 {
+            for x in x0..x1 {
                 let mut acc = 0f32;
                 for sy in 0..n {
                     for sx in 0..n {
@@ -46,16 +67,16 @@ impl Grey {
                         acc += frame.luma_at(fx.min(frame.width - 1), fy.min(frame.height - 1));
                     }
                 }
-                data[y * w + x] = acc / (n * n) as f32;
+                data[(y - y0) * w + (x - x0)] = acc / (n * n) as f32;
             }
         }
-        Grey { w, h, data }
+        Grey { x0, y0, w, h, data }
     }
 
     #[inline]
     fn at(&self, x: f32, y: f32) -> f32 {
-        let x = x.clamp(0.0, (self.w - 1) as f32);
-        let y = y.clamp(0.0, (self.h - 1) as f32);
+        let x = (x - self.x0 as f32).clamp(0.0, (self.w - 1) as f32);
+        let y = (y - self.y0 as f32).clamp(0.0, (self.h - 1) as f32);
         let x0 = x.floor() as usize;
         let y0 = y.floor() as usize;
         let x1 = (x0 + 1).min(self.w - 1);
@@ -69,6 +90,19 @@ impl Grey {
         let top = a + (b - a) * fx;
         top + (c + (d - c) * fx - top) * fy
     }
+}
+
+/// The analysis-pixel window a set of points (analysis pixels) needs: their
+/// extent grown by `margin`.
+fn window_of(points: impl Iterator<Item = [f32; 2]>, margin: f32) -> [f32; 4] {
+    let (mut x0, mut y0, mut x1, mut y1) = (f32::MAX, f32::MAX, f32::MIN, f32::MIN);
+    for p in points {
+        x0 = x0.min(p[0]);
+        y0 = y0.min(p[1]);
+        x1 = x1.max(p[0]);
+        y1 = y1.max(p[1]);
+    }
+    [x0 - margin, y0 - margin, x1 + margin, y1 + margin]
 }
 
 /// Patch half-size (pixels at analysis scale) and the interocular distance
@@ -127,7 +161,8 @@ impl Reference {
     /// `points`: the rigid landmarks (frame pixels); `iod`: interocular distance (frame pixels).
     pub fn new(frame: &Frame, points: &[[f32; 2]], iod: f32) -> Reference {
         let scale = (TARGET_IOD / iod.max(1.0)).min(1.0);
-        let grey = Grey::from_frame(frame, scale);
+        let window = window_of(points.iter().map(|p| [p[0] * scale, p[1] * scale]), (HALF + 2) as f32);
+        let grey = Grey::from_frame_window(frame, scale, Some(window));
         let mut pts = Vec::new();
         let mut patches = Vec::new();
         for (i, p) in points.iter().enumerate() {
@@ -141,6 +176,24 @@ impl Reference {
         Reference { scale, points: pts, patches }
     }
 
+    /// The analysis-pixel window `search(h, radius)` samples from.
+    fn window(&self, h: &[f64; 9], radius: i32) -> Option<[f32; 4]> {
+        let mut out = [f32::MAX, f32::MAX, f32::MIN, f32::MIN];
+        for (_, p) in &self.points {
+            let p64 = [p[0] as f64, p[1] as f64];
+            let q0 = apply_homography(h, p64);
+            let qx = apply_homography(h, [p64[0] + 1.0, p64[1]]);
+            let qy = apply_homography(h, [p64[0], p64[1] + 1.0]);
+            let reach = ((qx[0] - q0[0]).abs() + (qy[0] - q0[0]).abs()).max((qx[1] - q0[1]).abs() + (qy[1] - q0[1]).abs()) * HALF as f64;
+            let m = (radius as f64 + reach + 2.0) as f32;
+            if !(q0[0].is_finite() && q0[1].is_finite() && m.is_finite()) {
+                return None;
+            }
+            out = [out[0].min(q0[0] as f32 - m), out[1].min(q0[1] as f32 - m), out[2].max(q0[0] as f32 + m), out[3].max(q0[1] as f32 + m)];
+        }
+        Some(out)
+    }
+
     pub fn usable(&self) -> usize {
         self.points.len()
     }
@@ -148,24 +201,51 @@ impl Reference {
     /// Matches every reference point around where `h` predicts it, within
     /// `radius` analysis pixels: (reference, match, NCC).
     fn search(&self, grey: &Grey, h: &[f64; 9], radius: i32) -> Vec<([f64; 2], [f64; 2], f32)> {
+        const N: usize = ((2 * HALF + 1) * (2 * HALF + 1)) as usize;
         let mut matched = Vec::new();
+        let side = (2 * radius + 1) as usize;
+        let mut scores = vec![f32::MIN; side * side];
+        let mut offs = [[0f32; 2]; N];
+        let mut cur = [0f32; N];
         for ((_, p), refp) in self.points.iter().zip(&self.patches) {
             let p64 = [p[0] as f64, p[1] as f64];
             let q0 = apply_homography(h, p64);
             let qx = apply_homography(h, [p64[0] + 1.0, p64[1]]);
             let qy = apply_homography(h, [p64[0], p64[1] + 1.0]);
             let jac = [(qx[0] - q0[0]) as f32, (qy[0] - q0[0]) as f32, (qx[1] - q0[1]) as f32, (qy[1] - q0[1]) as f32];
-            let side = (2 * radius + 1) as usize;
-            let mut scores = vec![f32::MIN; side * side];
+            // The patch's sample offsets, the same for every candidate.
+            let mut k = 0;
+            for dy in -HALF..=HALF {
+                for dx in -HALF..=HALF {
+                    let (dx, dy) = (dx as f32, dy as f32);
+                    offs[k] = [jac[0] * dx + jac[1] * dy, jac[2] * dx + jac[3] * dy];
+                    k += 1;
+                }
+            }
+            scores.iter_mut().for_each(|v| *v = f32::MIN);
             let mut best = (f32::MIN, 0i32, 0i32);
             for oy in -radius..=radius {
                 for ox in -radius..=radius {
                     let c = [q0[0] as f32 + ox as f32, q0[1] as f32 + oy as f32];
-                    let mut cur = patch(grey, c, jac);
-                    if normalise(&mut cur) < 1.0 {
+                    let mut sum = 0f32;
+                    for (v, o) in cur.iter_mut().zip(&offs) {
+                        *v = grey.at(c[0] + o[0], c[1] + o[1]);
+                        sum += *v;
+                    }
+                    // Normalised cross-correlation with the (zero-mean, unit
+                    // variance) reference patch.
+                    let mean = sum / N as f32;
+                    let (mut var, mut dot) = (0f32, 0f32);
+                    for (v, r) in cur.iter().zip(refp) {
+                        let d = v - mean;
+                        var += d * d;
+                        dot += d * r;
+                    }
+                    let sd = (var / N as f32).sqrt();
+                    if sd < 1.0 {
                         continue;
                     }
-                    let ncc = cur.iter().zip(refp).map(|(a, b)| a * b).sum::<f32>() / cur.len() as f32;
+                    let ncc = dot / (sd * N as f32);
                     scores[((oy + radius) as usize) * side + (ox + radius) as usize] = ncc;
                     if ncc > best.0 {
                         best = (ncc, ox, oy);
@@ -204,17 +284,26 @@ impl Reference {
     /// parallax); and measures how far the matches depart from one homography.
     pub fn measure(&self, frame: &Frame, model_ref: &[[f32; 2]], model_cur: &[[f32; 2]], iod_cur: f32) -> Option<Parallax> {
         let s = self.scale;
-        let grey = Grey::from_frame(frame, s);
         let src: Vec<[f64; 2]> = model_ref.iter().map(|p| [(p[0] * s) as f64, (p[1] * s) as f64]).collect();
         let dst: Vec<[f64; 2]> = model_cur.iter().map(|p| [(p[0] * s) as f64, (p[1] * s) as f64]).collect();
         let h0 = fit_homography(&src, &dst)?;
         let iod = (iod_cur * s).max(4.0) as f64;
-        let first = self.search(&grey, &h0, (SEARCH as f64 * iod).ceil() as i32);
+        let r1 = (SEARCH as f64 * iod).ceil() as i32;
+        let r2 = (0.12 * iod).ceil() as i32;
+        // Only the face's part of the frame is converted: the window holds
+        // every sample either search can take, so the result is the one the
+        // whole frame would give.
+        let mut grey = Grey::from_frame_window(frame, s, Some(self.window(&h0, r1)?));
+        let first = self.search(&grey, &h0, r1);
         if first.len() < 8 {
             return None;
         }
         let (h1, _) = ransac(&first, 0.03 * iod)?;
-        let matched = self.search(&grey, &h1, (0.12 * iod).ceil() as i32);
+        let w2 = self.window(&h1, r2)?;
+        if w2[0] < grey.x0 as f32 || w2[1] < grey.y0 as f32 || w2[2] > (grey.x0 + grey.w - 1) as f32 || w2[3] > (grey.y0 + grey.h - 1) as f32 {
+            grey = Grey::from_frame_window(frame, s, Some(w2));
+        }
+        let matched = self.search(&grey, &h1, r2);
         if matched.len() < 8 {
             return None;
         }
