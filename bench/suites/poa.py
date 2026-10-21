@@ -37,7 +37,7 @@ MODELS = [ROOT / "models" / "text-detection.rten", ROOT / "models" / "text-recog
 TAGGER = ROOT / "models" / "poa-tagger.onnx"
 TODAY = "2026-10-15"
 CASES = ["genuine", "wrong_person", "wrong_address", "old", "issuer_decoy"]
-KEEP = ("page", "error", "fallback", "corners", "words", "page_size", "ms")
+KEEP = ("page", "error", "fallback", "corners", "words", "page_size", "ms", "timeout", "crash")
 
 
 def captures(set_name: str, quick: bool) -> tuple[Path, list[dict], dict]:

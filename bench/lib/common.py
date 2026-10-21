@@ -274,6 +274,13 @@ def _run_shard(cmd: list[str], shard: list[str], env: dict, list_arg: str | None
             log(f"  TIMEOUT: {rest[0]} printed nothing for {item_timeout:.0f} s; recorded as a timeout")
             out.append({"path": rest[0], "timeout": True})
             todo = rest[1:]
+        elif proc.returncode and rest:
+            # The process died on the first item it did not report (a panic in
+            # the scanner or a dependency): recorded as a crash, the rest carry on.
+            msg = "".join(err).strip().splitlines()
+            log(f"  CRASH: {rest[0]} (exit {proc.returncode}): {' | '.join(msg[-2:])[:300]}; recorded as a crash")
+            out.append({"path": rest[0], "crash": True, "error": " | ".join(msg[-3:])[:500]})
+            todo = rest[1:]
         elif proc.returncode:
             raise RuntimeError(f"{' '.join(map(str, cmd[:3]))} failed: {''.join(err)[-2000:]}")
         else:
@@ -286,7 +293,8 @@ def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: d
     """Runs `cmd + items` split over `jobs` processes (each single-threaded),
     and returns one JSON line per item (each carrying `path`), in item order.
     `list_arg="@"` passes a shard as `@file` (one path per line); None passes
-    the paths as arguments. An item that hangs becomes {"path", "timeout": true}.
+    the paths as arguments. An item that hangs becomes {"path", "timeout": true};
+    one that kills its process (a panic) {"path", "crash": true, "error"}.
 
     A tool that keeps state from one item to the next (Scanner::analyse
     remembers the last page orientation, for a live feed) must not see its

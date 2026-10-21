@@ -153,8 +153,8 @@ def scan(items: list[dict], ctx, expect: str = "", sequence: bool = False) -> di
                                  ordered=[todo] if sequence else None)
         for r in runs:
             r.pop("lines", None)
-            if r.get("timeout"):  # a hang: nothing read, nothing accepted
-                r.update(kind="timeout", accepted=False)
+            if r.get("timeout") or r.get("crash"):  # a hang or a panic: nothing read, nothing accepted
+                r.update(kind="timeout" if r.get("timeout") else "crash", accepted=False)
             cache.put(shas[r["path"]], r)
         cache.save()
     return {x["image"]: cache.get(shas[x["image"]]) for x in items}
