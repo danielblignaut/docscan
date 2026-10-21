@@ -13,19 +13,30 @@
 // then each call is timed `repeats` times after one warm-up; the per-image
 // median is reported. --quick measures the single-threaded build only.
 import { createServer } from "node:http";
-import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { cpus } from "node:os";
 import { extname, join, normalize } from "node:path";
 
-const ROOT = new URL("../../", import.meta.url).pathname;
+const REPO = new URL("../../", import.meta.url).pathname;
 const DATA = process.env.BENCH_DATA ?? "/tmp/docscan-bench";
 const args = process.argv.slice(2);
 const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
 const OUT = opt("--out", `${DATA}/wasm-result.json`);
 const INPUTS = JSON.parse(readFileSync(opt("--inputs", `${DATA}/wasm-inputs.json`)));
-const TIMEOUT_MS = Number(opt("--timeout", 900000));
-const require = createRequire(join(ROOT, "demo", "package.json"));
+const TIMEOUT_MS = Number(opt("--timeout", 600000));
+const require = createRequire(join(REPO, "demo", "package.json"));
+// A private snapshot of what is served (the wasm builds, the models, the
+// worker), so a concurrent rebuild in this worktree (wasm-pack empties pkg/
+// first) cannot pull a file from under the measurement; and the server
+// listens on a port the OS picks, so concurrent runs never clash.
+mkdirSync(join(DATA, "tmp"), { recursive: true });
+const ROOT = mkdtempSync(join(DATA, "tmp", "wasm-serve-")) + "/";
+for (const rel of ["docscan/pkg", "docscan/pkg-threads", "models", "bench/wasm/worker.mjs"]) {
+  if (existsSync(join(REPO, rel))) cpSync(join(REPO, rel), join(ROOT, rel), { recursive: true, dereference: true });
+}
+const cleanup = () => rmSync(ROOT, { recursive: true, force: true });
+process.on("exit", cleanup);
 const { chromium } = require("playwright-core");
 
 const MIME = { ".js": "text/javascript", ".mjs": "text/javascript", ".wasm": "application/wasm", ".html": "text/html", ".json": "application/json",
@@ -70,6 +81,7 @@ for (const [name, pkg, threads] of builds) {
   const logs = [];
   page.on("console", (m) => logs.push(m.text()));
   page.on("pageerror", (e) => logs.push(`pageerror: ${e.message}`));
+  page.on("response", (r) => r.status() >= 400 && logs.push(`HTTP ${r.status()} ${r.url().replace(base, "")}`));
   await page.goto(`${base}/`);
   result.info[`${name}_cross_origin_isolated`] = await page.evaluate(() => crossOriginIsolated);
   try {
@@ -82,7 +94,7 @@ for (const [name, pkg, threads] of builds) {
     const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error(`timed out after ${TIMEOUT_MS} ms`)), TIMEOUT_MS));
     result.builds[name] = await Promise.race([run, timeout]);
   } catch (e) {
-    result.info[`${name}_error`] = `${String(e).split("\n")[0]} ${logs.slice(-3).join(" | ")}`;
+    result.info[`${name}_error`] = `${String(e).split("\n")[0]} ${logs.slice(-4).join(" | ")}`;
     console.error(name, result.info[`${name}_error`]);
   }
   await page.close();

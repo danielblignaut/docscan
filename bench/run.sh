@@ -42,6 +42,11 @@ if [ ! -x "$VENV/bin/python" ] || [ "$(cat "$STAMP" 2>/dev/null)" != "$WANT" ]; 
 fi
 PY="$VENV/bin/python"
 
+# Builds in this worktree are serialised: two runs at once must not both run
+# wasm-pack, which empties pkg/ before writing it.
+exec 9>"$ROOT/docscan/.bench-build.lock"
+flock 9
+
 # 2. Models and native binaries (cargo rebuilds only what changed).
 [ -s "$ROOT/models/text-detection.rten" ] || "$ROOT/scripts/fetch-models.sh"
 echo "== native build (release examples)" >&2
@@ -62,6 +67,8 @@ if [ -n "$WASM" ]; then
     (cd "$ROOT/docscan" && ./build-threads.sh >&2) || echo "multithreaded wasm build failed; measuring the single-threaded build only" >&2
   fi
 fi
+
+flock -u 9
 
 # 4. Datasets: present and matching their manifests, or regenerated.
 if [ -n "$PREPARE" ]; then
