@@ -61,7 +61,12 @@ const docscan = () => (window as unknown as { __docscan: Docscan }).__docscan;
 
 async function openFrontCamera(): Promise<MediaStream> {
   if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw new Error("The camera needs https or localhost.");
-  return navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: "user" }, width: { ideal: 720 }, height: { ideal: 960 } } });
+  // The sensor's own 4:3 mode, uncropped. Asking for a portrait 720 × 960
+  // frame made the browser crop the middle of the (landscape) sensor image,
+  // which looked like a 2× zoom; `resizeMode: "none"` keeps native modes only,
+  // so the field of view is the phone camera's own.
+  const video = { facingMode: { ideal: "user" }, width: { ideal: 1280 }, height: { ideal: 960 }, resizeMode: "none" } as MediaTrackConstraints;
+  return navigator.mediaDevices.getUserMedia({ audio: false, video });
 }
 
 const work = document.createElement("canvas");
@@ -76,11 +81,16 @@ function grabFrame(video: HTMLVideoElement): ImageData {
   return workCtx.getImageData(0, 0, work.width, work.height);
 }
 
-/** The oval's centre and half-width in the analysed frame, as fractions (mirrored preview, `object-fit: cover`). */
+/**
+ * The oval's centre and half-width in the analysed frame, as fractions. The
+ * preview is mirrored and letterboxed (`object-fit: contain`, the camera's
+ * whole field of view, as its own app shows it): the offsets below come out
+ * negative for the bars, which the same arithmetic handles.
+ */
 function guideFraction(video: HTMLVideoElement, guide: HTMLElement): [number, number, number] {
   const box = video.getBoundingClientRect();
   const g = guide.getBoundingClientRect();
-  const scale = Math.max(box.width / video.videoWidth, box.height / video.videoHeight);
+  const scale = Math.min(box.width / video.videoWidth, box.height / video.videoHeight);
   const offX = (video.videoWidth * scale - box.width) / 2;
   const offY = (video.videoHeight * scale - box.height) / 2;
   const cxScreen = g.left + g.width / 2 - box.left;
@@ -303,7 +313,7 @@ export function FaceLiveness({
   return (
     <div className="capture face-capture">
       <div className="viewport">
-        <video ref={videoRef} playsInline muted className="mirrored" />
+        <video ref={videoRef} playsInline muted className="mirrored whole" />
         <div className="face-mask" />
         <div ref={guideRef} className={`face-guide ${outlineUi !== "grey" ? "guide-found" : ""}`} data-testid="face-guide" style={{ "--n": String(n) } as React.CSSProperties}>
           <Ring segments={segments} pointing={progress?.pointing ?? null} />

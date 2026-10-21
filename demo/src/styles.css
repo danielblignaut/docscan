@@ -145,6 +145,9 @@ details[open].sub, details[open].metadata { padding-bottom: 12px; }
 
 /* ------------------------------------------------------- face liveness */
 .viewport video.mirrored { transform: scaleX(-1); }
+/* The face camera shows its whole field of view, like the phone's own camera
+   app, rather than filling (and so cropping into) a tall screen. */
+.viewport video.whole { object-fit: contain; }
 .face-guide { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(66vw, 46dvh); aspect-ratio: 3 / 4;
   border-radius: 50%; border: 3px solid rgba(214, 219, 225, 0.85); box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.45); transition: border-color .2s; }
 .face-guide.guide-found { border-color: var(--ok); }
