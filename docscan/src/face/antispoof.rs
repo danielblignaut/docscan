@@ -6,6 +6,15 @@
 //! The crops reproduce the original `CropImage`: the face box scaled about
 //! its centre (the scale clamped so the crop fits the frame), shifted back
 //! inside the frame, axis-aligned, resized to 80 × 80.
+//!
+//! Two choices were made on the CelebA-Spoof DEV split (`face/RESULTS.md`,
+//! `docs/improvements-face.md`): the mesh's face box is shrunk to
+//! [`BOX_SCALE`] of itself before the 2.7 × and 4.0 × crops (the models were
+//! trained on a tighter detector box than the mesh's extent: AUC 0.858 →
+//! 0.910), and the live probability is calibrated so that 0.5 is the DEV
+//! equal-error point (raw [`RAW_EER`]), so every caller's 0.5 decision is the
+//! balanced one. CelebA-Spoof is non-commercial research data: it chose
+//! these two constants and trained nothing.
 
 use anyhow::Context;
 use rten::Model;
@@ -17,19 +26,41 @@ use super::image::{Affine, Frame, hwc_to_chw, warp_hwc};
 
 const SIZE: usize = 80;
 
+/// The mesh's face box is scaled by this before cropping.
+pub const BOX_SCALE: f32 = 0.55;
+/// The raw live probability (the two models' mean) at the DEV equal-error
+/// point; it maps to 0.5.
+pub const RAW_EER: f32 = 0.78;
+
 pub struct AntiSpoof {
     model: Model,
     /// The face box from the mesh is scaled by this before cropping, to match
-    /// the RetinaFace boxes the models were trained with (tuned on DEV).
+    /// the boxes the models were trained with ([`BOX_SCALE`]).
     pub box_scale: f32,
+    /// The raw live probability that maps to 0.5 ([`RAW_EER`]; 0.5: none).
+    pub raw_eer: f32,
+}
+
+fn logit(p: f32) -> f32 {
+    let p = p.clamp(1e-6, 1.0 - 1e-6);
+    (p / (1.0 - p)).ln()
+}
+
+/// The calibrated live probability: the raw one shifted in log-odds so that
+/// `raw_eer` becomes 0.5.
+pub fn calibrate(raw: f32, raw_eer: f32) -> f32 {
+    1.0 / (1.0 + (-(logit(raw) - logit(raw_eer))).exp())
 }
 
 #[derive(Debug, Clone, Copy, Serialize)]
 pub struct SpoofScore {
-    /// Probability of a live face (the mean of the two models).
+    /// Calibrated probability of a live face (0.5 is the balanced decision).
     pub real: f32,
+    /// The two spoof classes' share of the rest.
     pub print: f32,
     pub replay: f32,
+    /// The uncalibrated live probability (the mean of the two models).
+    pub raw_real: f32,
 }
 
 /// The original crop rectangle `[x0, y0, x1, y1]` for a box and scale.
@@ -60,7 +91,7 @@ fn crop_box(w: f32, h: f32, bbox: [f32; 4], scale: f32) -> [f32; 4] {
 
 impl AntiSpoof {
     pub fn load(bytes: Vec<u8>) -> anyhow::Result<AntiSpoof> {
-        Ok(AntiSpoof { model: Model::load(bytes).context("loading the anti-spoofing model")?, box_scale: 1.0 })
+        Ok(AntiSpoof { model: Model::load(bytes).context("loading the anti-spoofing model")?, box_scale: BOX_SCALE, raw_eer: RAW_EER })
     }
 
     fn crop(&self, frame: &Frame, bbox: [f32; 4], scale: f32) -> Vec<f32> {
@@ -85,6 +116,20 @@ impl AntiSpoof {
         let [p] = self.model.run_n(vec![(ia, a.into()), (ic, c.into())], [out], None)?;
         let p: rten_tensor::Tensor<f32> = p.try_into()?;
         let p = p.to_vec();
-        Ok(SpoofScore { print: p[0], real: p[1], replay: p[2] })
+        let real = calibrate(p[1], self.raw_eer);
+        let spoof = (p[0] + p[2]).max(1e-12);
+        Ok(SpoofScore { print: (1.0 - real) * p[0] / spoof, real, replay: (1.0 - real) * p[2] / spoof, raw_real: p[1] })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn calibration_moves_the_eer_to_one_half() {
+        assert!((calibrate(RAW_EER, RAW_EER) - 0.5).abs() < 1e-6);
+        assert!((calibrate(0.3, 0.5) - 0.3).abs() < 1e-5);
+        assert!(calibrate(0.9, RAW_EER) > 0.5 && calibrate(0.7, RAW_EER) < 0.5);
     }
 }

@@ -73,9 +73,12 @@ export interface LivenessResult {
 }
 
 export interface SpoofScore {
+  /** Calibrated live probability: 0.5 is the balanced decision. */
   real: number;
   print: number;
   replay: number;
+  /** The models' uncalibrated live probability. */
+  raw_real: number;
 }
 
 export interface PhotoFace {

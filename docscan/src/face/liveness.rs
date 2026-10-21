@@ -68,6 +68,8 @@ pub struct Config {
     pub min_identity: f32,
     /// Run anti-spoofing at most this often (ms).
     pub antispoof_every_ms: f64,
+    /// Measure texture parallax on every this-many-th turned frame.
+    pub parallax_every: usize,
 }
 
 impl Default for Config {
@@ -86,6 +88,7 @@ impl Default for Config {
             min_antispoof: 0.5,
             min_identity: 0.5,
             antispoof_every_ms: 250.0,
+            parallax_every: 2,
         }
     }
 }
@@ -240,6 +243,8 @@ pub struct Session {
     /// Per measured turned frame: texture parallax (share of the interocular
     /// distance) and the angle off neutral.
     parallax: Vec<(f32, f32)>,
+    /// The screen direction (degrees right, up of neutral) of each of them.
+    parallax_dirs: Vec<[f32; 2]>,
     outliers: Vec<f32>,
     turned: usize,
 }
@@ -292,6 +297,7 @@ impl Session {
             parallax_ref: None,
             parallax_ref_points: Vec::new(),
             parallax: Vec::new(),
+            parallax_dirs: Vec::new(),
             outliers: Vec::new(),
             turned: 0,
         }
@@ -422,16 +428,17 @@ impl Session {
             }
         }
 
-        // Texture parallax on turned frames (every other one, to bound the cost).
+        // Texture parallax on turned frames (every `parallax_every`-th, to bound the cost).
         if matches!(self.phase, Phase::Sweep | Phase::Finish) {
             let mag = (dir[0].powi(2) + dir[1].powi(2)).sqrt();
             if mag >= self.config.min_angle * 0.7 {
                 self.turned += 1;
-                if self.turned % 2 == 1 {
+                if (self.turned - 1) % self.config.parallax_every.max(1) == 0 {
                     if let Some(r) = &self.parallax_ref {
                         let cur: Vec<[f32; 2]> = PARALLAX_POINTS.iter().map(|&i| [obs.points[i][0], obs.points[i][1]]).collect();
                         if let Some(p) = r.measure(frame, &self.parallax_ref_points, &cur, iod) {
                             self.parallax.push((p.residual, mag));
+                            self.parallax_dirs.push(dir);
                             self.outliers.push(p.outliers);
                         }
                     }
@@ -585,6 +592,11 @@ impl Session {
 
     pub fn parallax_samples(&self) -> &[(f32, f32)] {
         &self.parallax
+    }
+
+    /// The screen direction of each parallax sample (degrees right, up).
+    pub fn parallax_directions(&self) -> &[[f32; 2]] {
+        &self.parallax_dirs
     }
 
     /// The passive live probability of each sampled frame.
