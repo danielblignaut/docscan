@@ -268,7 +268,8 @@ class Cache:
         self.new: list = []
 
     def get(self, k):
-        return self.data.get(k) if self.enabled else None
+        # Disabled: nothing was loaded from disk, so only this run's results are here.
+        return self.data.get(k)
 
     def put(self, k, v):
         self.data[k] = v
