@@ -64,8 +64,9 @@ def run_scan(rows: list[dict], ctx, mode: str) -> dict[str, dict]:
     todo = sorted({r["path"] for r in rows if cache.get(shas[r["path"]]) is None})
     if todo:
         log(f"  barcode: {mode} on {len(todo)} frames ({len(rows) - len(todo)} cached)")
-        for out in run_jsonl_sharded([str(binary("scan")), flag], todo, ctx.jobs, env1(SCAN_MAX_WIDTH="100000"), list_arg=None):
-            cache.put(shas[out["path"]], {k: out.get(k) for k in ("barcodes", "fields", "ms")})
+        for out in run_jsonl_sharded([str(binary("scan")), flag], todo, ctx.jobs, env1(SCAN_MAX_WIDTH="100000"), list_arg=None,
+                                     item_timeout=30 if mode == "barcodes" else 180):
+            cache.put(shas[out["path"]], {k: out.get(k) for k in ("barcodes", "fields", "ms", "timeout")})
         cache.save()
     return {r["path"]: cache.get(shas[r["path"]]) for r in rows}
 
@@ -78,8 +79,11 @@ def score(tag: str, rows: list[dict], res: dict[str, dict]) -> dict:
     all_ids, all_ok = [], []
     dec_ids, dec_ok = [], []
     by_tag: dict = {}
+    to_ids, to_ok = [], []
     for r in rows:
-        got = {canon(b["format"], b["text"]) for b in (res[r["path"]]["barcodes"] or [])}
+        to_ids.append(r["id"])
+        to_ok.append(bool(res[r["path"]].get("timeout")))
+        got = {canon(b["format"], b["text"]) for b in (res[r["path"]].get("barcodes") or [])}
         truth = {canon(c["format"], c["text"]) for c in r["codes"]}
         decodable = [c for c in r["codes"] if c.get("decodable", True)]
         for k, c in enumerate(decodable):
@@ -110,6 +114,7 @@ def score(tag: str, rows: list[dict], res: dict[str, dict]) -> dict:
         f"{p}.recall": m_rate(rec_ids, rec_ok, desc="decodable truth codes read (symbology and text exact)"),
         f"{p}.all_codes": m_rate(all_ids, all_ok, desc="frames whose every decodable code was read"),
         f"{p}.false_decode_frames": m_rate(fd_ids, fd_ok, desc="frames with a decode matching no truth code", better="lower"),
+        f"{p}.timeouts": m_rate(to_ids, to_ok, desc="frames on which the decoder hung (no result within the item timeout; counted as nothing read)", better="lower"),
         f"{p}.precision": m_rate(dec_ids, dec_ok, desc="decodes that match a truth code (items vary with the decoder: judged unpaired)"),
     }
     if neg_ids:
@@ -125,7 +130,7 @@ def score_labelled(tag: str, rows: list[dict], res: dict[str, dict]) -> dict:
     p = f"barcode.{tag}.labelled"
     v_ids, v_ok, lv_ok, u_ids, u_ok = [], [], [], [], []
     for r in rows:
-        fields = res[r["path"]]["fields"] or []
+        fields = res[r["path"]].get("fields") or []
         for k, f in enumerate(r["fields"]):
             want_v, want_l = norm(f["value"]), (f.get("label") or None)
             vals = [g for g in fields if norm(g.get("value")) == want_v]

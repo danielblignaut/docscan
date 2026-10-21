@@ -135,6 +135,8 @@ def scan(items: list[dict], ctx, expect: str = "") -> dict[str, dict]:
         cmd = [str(binary("scan"))] + ([f"--expect={expect}"] if expect else [])
         for r in run_jsonl_sharded(cmd, todo, ctx.jobs, env1(SCAN_MAX_WIDTH="1280"), list_arg=None):
             r.pop("lines", None)
+            if r.get("timeout"):  # a hang: nothing read, nothing accepted
+                r.update(kind="timeout", accepted=False)
             cache.put(shas[r["path"]], r)
         cache.save()
     return {x["image"]: cache.get(shas[x["image"]]) for x in items}

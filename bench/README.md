@@ -92,6 +92,9 @@ subsets; compare.py pairs them on shared items, but their intervals are wide.
   not match, and regenerates it from the repo's own generators and seeds.
 - The shipped configuration is read from the source (the face recogniser,
   thresholds), so changing it is measured, never assumed.
+- A hang cannot stall the referee: an item that prints nothing within its
+  timeout (30 s for a barcode frame, 120-180 s for an OCR pass) is killed,
+  recorded as read-nothing, and the rest of its shard carries on.
 - Per-item outcomes are cached only by the bytes of the binary, the models and
   the item: any code change that changes a binary is re-measured in full.
 
@@ -143,6 +146,9 @@ barcodes) and `speed.ocr_ms` (the OCR pass).
 `--labelled`): `recall` and `recall.<symbology>` (decodable truth codes read,
 symbology and text exact), `all_codes` (frames with every decodable code
 read), `false_decode_frames` (frames with a decode matching no truth),
+`timeouts` (frames on which the decoder hung: no result within 30 s, counted
+as nothing read; the baseline has one, a real zxing-cpp sample that sends
+rxing into an endless loop, which would freeze the browser's worker),
 `precision` (judged unpaired: its items depend on the decoder),
 `negatives_with_decode`, `labelled.value` / `labelled.label_value` /
 `labelled.unread` (printed fields listed with the right value, and label;

@@ -8,9 +8,11 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import queue
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -215,36 +217,74 @@ def binary_key(*names: str, models: list[Path] = ()) -> str:
     return sha256_json([sha256_file(binary(n)) for n in names] + [sha256_file(m) for m in models] + [THREAD_ENV])[:20]
 
 
-def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: dict | None = None, list_arg: str = "@") -> list[dict]:
+ITEM_TIMEOUT_S = float(os.environ.get("BENCH_ITEM_TIMEOUT", 120))
+
+
+def _run_shard(cmd: list[str], shard: list[str], env: dict, list_arg: str | None, item_timeout: float) -> list[dict]:
+    """One process over a shard, one JSON line (with `path`) expected per item,
+    in order. An item that prints nothing for `item_timeout` seconds is a hang:
+    the process is killed, the item recorded as {"path", "timeout": true}, and
+    the rest of the shard run in a new process."""
+    out: list[dict] = []
+    todo = list(shard)
+    while todo:
+        if list_arg == "@":
+            with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as f:
+                f.write("\n".join(todo))
+            args = cmd + [f"@{f.name}"]
+        else:
+            args = cmd + todo
+        proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env)
+        lines: queue.Queue = queue.Queue()
+        threading.Thread(target=lambda: ([lines.put(l) for l in proc.stdout], lines.put(None)), daemon=True).start()
+        err: list[str] = []
+        threading.Thread(target=lambda: err.extend(proc.stderr), daemon=True).start()
+        done = set()
+        hung = False
+        while True:
+            try:
+                line = lines.get(timeout=item_timeout)
+            except queue.Empty:
+                hung = True
+                break
+            if line is None:
+                break
+            if line.strip().startswith("{"):
+                r = json.loads(line)
+                out.append(r)
+                done.add(r.get("path"))
+        if hung:
+            proc.kill()
+        proc.wait()
+        if list_arg == "@":
+            os.unlink(f.name)
+        rest = [p for p in todo if p not in done]
+        if hung:
+            log(f"  TIMEOUT: {rest[0]} printed nothing for {item_timeout:.0f} s; recorded as a timeout")
+            out.append({"path": rest[0], "timeout": True})
+            todo = rest[1:]
+        elif proc.returncode:
+            raise RuntimeError(f"{' '.join(map(str, cmd[:3]))} failed: {''.join(err)[-2000:]}")
+        else:
+            todo = []
+    return out
+
+
+def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: dict | None = None, list_arg: str | None = "@",
+                      item_timeout: float = ITEM_TIMEOUT_S) -> list[dict]:
     """Runs `cmd + items` split over `jobs` processes (each single-threaded),
-    and returns the JSON lines they print, in item order when each line has
-    `path`. `list_arg="@"` passes the shard as `@file` (one path per line);
-    None passes the paths as arguments."""
+    and returns one JSON line per item (each carrying `path`), in item order.
+    `list_arg="@"` passes a shard as `@file` (one path per line); None passes
+    the paths as arguments. An item that hangs becomes {"path", "timeout": true}."""
     if not items:
         return []
     jobs = max(1, min(jobs, len(items)))
     shards = [items[i::jobs] for i in range(jobs)]
-
-    def one(shard):
-        if list_arg == "@":
-            with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as f:
-                f.write("\n".join(shard))
-            args = cmd + [f"@{f.name}"]
-        else:
-            args = cmd + shard
-        r = subprocess.run(args, capture_output=True, text=True, env=env or env1())
-        if list_arg == "@":
-            os.unlink(f.name)
-        if r.returncode:
-            raise RuntimeError(f"{' '.join(map(str, cmd[:3]))} failed: {r.stderr[-2000:]}")
-        return [json.loads(x) for x in r.stdout.splitlines() if x.strip().startswith("{")]
-
     with ThreadPoolExecutor(jobs) as ex:
-        parts = list(ex.map(one, shards))
+        parts = list(ex.map(lambda sh: _run_shard(cmd, sh, env or env1(), list_arg, item_timeout), shards))
     out = [x for p in parts for x in p]
-    if out and "path" in out[0]:
-        pos = {p: i for i, p in enumerate(items)}
-        out.sort(key=lambda r: pos.get(r["path"], 1 << 30))
+    pos = {p: i for i, p in enumerate(items)}
+    out.sort(key=lambda r: pos.get(r.get("path"), 1 << 30))
     return out
 
 
