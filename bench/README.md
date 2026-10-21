@@ -95,6 +95,14 @@ subsets; compare.py pairs them on shared items, but their intervals are wide.
 - A hang cannot stall the referee: an item that prints nothing within its
   timeout (30 s for a barcode frame, 120-180 s for an OCR pass) is killed,
   recorded as read-nothing, and the rest of its shard carries on.
+- Results do not depend on `--jobs` or on which items share a process:
+  Scanner::analyse remembers the orientation that last read (right for a live
+  feed, wrong for a set of stills), so every ID still is scanned in a process
+  of its own, and each clip's frames in order in one process. Two runs of the
+  same binary give identical accuracy (bench/noise.json).
+- Several harness runs may share `$BENCH_DATA` (one per worktree): caches are
+  appended under a file lock and keyed by the binary's own bytes, so two
+  binaries' results never mix, and temporary files are per process.
 - Per-item outcomes are cached only by the bytes of the binary, the models and
   the item: any code change that changes a binary is re-measured in full.
 

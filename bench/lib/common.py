@@ -5,6 +5,7 @@ build on it.
 """
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 import os
@@ -54,10 +55,20 @@ def _hcache() -> dict:
 
 
 def save_hash_cache():
-    if _HCACHE is not None:
-        _HCACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-        tmp = _HCACHE_PATH.with_suffix(".tmp")
-        tmp.write_text(json.dumps(_HCACHE))
+    """Merges this process's hashes into the shared file (several harness runs
+    may share $BENCH_DATA), under a lock, through a per-process temp file."""
+    if _HCACHE is None:
+        return
+    _HCACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(_HCACHE_PATH.with_suffix(".lock"), "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        try:
+            merged = json.loads(_HCACHE_PATH.read_text())
+        except (OSError, ValueError):
+            merged = {}
+        merged.update(_HCACHE)
+        tmp = _HCACHE_PATH.with_suffix(f".{os.getpid()}.tmp")
+        tmp.write_text(json.dumps(merged))
         tmp.replace(_HCACHE_PATH)
 
 
@@ -271,15 +282,28 @@ def _run_shard(cmd: list[str], shard: list[str], env: dict, list_arg: str | None
 
 
 def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: dict | None = None, list_arg: str | None = "@",
-                      item_timeout: float = ITEM_TIMEOUT_S) -> list[dict]:
+                      item_timeout: float = ITEM_TIMEOUT_S, per_item: bool = False, ordered: list[list[str]] | None = None) -> list[dict]:
     """Runs `cmd + items` split over `jobs` processes (each single-threaded),
     and returns one JSON line per item (each carrying `path`), in item order.
     `list_arg="@"` passes a shard as `@file` (one path per line); None passes
-    the paths as arguments. An item that hangs becomes {"path", "timeout": true}."""
-    if not items:
+    the paths as arguments. An item that hangs becomes {"path", "timeout": true}.
+
+    A tool that keeps state from one item to the next (Scanner::analyse
+    remembers the last page orientation, for a live feed) must not see its
+    items in an order that depends on --jobs: `per_item=True` runs each item in
+    its own process (model loading costs ~0.05 s), and `ordered` gives explicit
+    sequences, each run in order in one process (a clip's frames)."""
+    if not items and not ordered:
         return []
-    jobs = max(1, min(jobs, len(items)))
-    shards = [items[i::jobs] for i in range(jobs)]
+    if ordered is not None:
+        shards = [list(o) for o in ordered if o]
+        items = [p for o in shards for p in o]
+    elif per_item:
+        shards = [[p] for p in items]
+    else:
+        jobs = max(1, min(jobs, len(items)))
+        shards = [items[i::jobs] for i in range(jobs)]
+    jobs = max(1, min(jobs, len(shards)))
     with ThreadPoolExecutor(jobs) as ex:
         parts = list(ex.map(lambda sh: _run_shard(cmd, sh, env or env1(), list_arg, item_timeout), shards))
     out = [x for p in parts for x in p]
@@ -289,9 +313,12 @@ def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: d
 
 
 class Cache:
-    """Per-item results of a deterministic tool, keyed by the tool's bytes and
-    arguments: `get(item)` / `put(item, value)`; stored as JSON lines under
-    $BENCH_DATA/cache/<tool>/<key>.jsonl. Disabled by --no-cache."""
+    """Per-item results of a deterministic tool: `get(item)` / `put(item, value)`,
+    stored as JSON lines under $BENCH_DATA/cache/<tool>/<key>.jsonl, where the
+    key is `binary_key(...)`: the sha256 of the binary's own bytes, the model
+    files' bytes and the thread settings, so results of different binaries (any
+    other commit whose build differs) can never mix, and the item key is the
+    sha256 of the input's bytes. Disabled (nothing read from disk) by --no-cache."""
 
     enabled = True
 
@@ -316,12 +343,16 @@ class Cache:
         self.new.append((k, v))
 
     def save(self):
+        """Appends this run's results under an exclusive lock (other harness runs
+        may append to the same file when their binary is byte-identical)."""
         if not self.new:
             return
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.path, "a") as f:
-            for k, v in self.new:
-                f.write(json.dumps([k, v], separators=(",", ":")) + "\n")
+            fcntl.flock(f, fcntl.LOCK_EX)
+            f.write("".join(json.dumps([k, v], separators=(",", ":")) + "\n" for k, v in self.new))
+            f.flush()
+            fcntl.flock(f, fcntl.LOCK_UN)
         self.new = []
 
 
@@ -369,8 +400,7 @@ def calibrate(cpu: int | None) -> float:
     moment. compare.py divides latency ratios by its ratio, so a run on a busier
     machine is not mistaken for a slower scanner."""
     if not CALIB.exists():
-        CALIB.parent.mkdir(parents=True, exist_ok=True)
-        CALIB.write_bytes(np.random.default_rng(0).bytes(64 << 20))
+        write_atomic(CALIB, np.random.default_rng(0).bytes(64 << 20))
     t = time.perf_counter()
     subprocess.run((taskset(cpu) if cpu is not None else []) + ["sha256sum", str(CALIB)], stdout=subprocess.DEVNULL, check=True)
     return (time.perf_counter() - t) * 1000
@@ -433,3 +463,12 @@ def m_latency(t: dict, *, desc: str, unit: str = "ms") -> dict:
 
 def m_info(value, *, desc: str, unit: str = "") -> dict:
     return {"kind": "info", "value": value, "unit": unit, "desc": desc}
+
+
+def write_atomic(path: Path, data: bytes):
+    """Writes through a per-process temp file and a rename, so a concurrent
+    reader never sees half a file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp.write_bytes(data)
+    tmp.replace(path)

@@ -160,16 +160,21 @@ def wasm_inputs(ctx) -> dict:
         for k in range(30, 130 if not ctx.quick else 70, 10):
             p = out / f"bona_fide_1000_{k:03d}.png"
             if not p.exists():
+                import io
+
                 import cv2
                 yuv = np.frombuffer(rest[k * fl + 6 : k * fl + 6 + size], np.uint8).reshape(h * 3 // 2, w)
-                Image.fromarray(cv2.cvtColor(yuv, cv2.COLOR_YUV2RGB_I420)).save(p)
+                buf = io.BytesIO()
+                Image.fromarray(cv2.cvtColor(yuv, cv2.COLOR_YUV2RGB_I420)).save(buf, format="PNG")
+                common.write_atomic(p, buf.getvalue())
             inp["face"].append(str(p))
     return inp
 
 
 def wasm(ctx) -> dict:
-    out_json = common.DATA / "wasm-result.json"
-    in_json = common.DATA / "wasm-inputs.json"
+    out_json = common.DATA / "tmp" / f"wasm-result-{os.getpid()}.json"
+    in_json = common.DATA / "tmp" / f"wasm-inputs-{os.getpid()}.json"
+    in_json.parent.mkdir(parents=True, exist_ok=True)
     in_json.write_text(json.dumps(wasm_inputs(ctx)))
     out_json.unlink(missing_ok=True)
     load0 = loadavg()

@@ -28,14 +28,16 @@ are about a pixel wide); every other clip must capture the right reading.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
 
 from lib.common import (CACHE, DATA, MANIFESTS, ROOT, Cache, binary, binary_key, env1, log, m_info, m_latency, m_rate, manifest_root,
-                        manifest, run_jsonl_sharded, sha256_file, taskset, timed_runs)
+                        manifest, run_jsonl_sharded, sha256_file, taskset, timed_runs, write_atomic)
 
 MODELS = [ROOT / "models" / "text-detection.rten", ROOT / "models" / "text-recognition.rten"]
 KIND = {"za_green_id_book": "za_green_book"}
@@ -93,10 +95,11 @@ def guide_crop(src: Path, meta: dict, out: Path) -> Path:
     c = img.crop(box)
     if c.width > 1280:
         c = c.resize((1280, round(c.height * 1280 / c.width)), Image.BILINEAR)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    tmp = out.with_suffix(".tmp.png")
-    c.save(tmp)
-    tmp.replace(out)
+    import io
+
+    buf = io.BytesIO()
+    c.save(buf, format="PNG")
+    write_atomic(out, buf.getvalue())
     return out
 
 
@@ -124,16 +127,31 @@ def items_of(set_name: str, quick: bool) -> list[dict]:
     return out
 
 
-def scan(items: list[dict], ctx, expect: str = "") -> dict[str, dict]:
-    """`examples/scan` on every image, cached by (binary, models, image bytes)."""
+def scan(items: list[dict], ctx, expect: str = "", sequence: bool = False) -> dict[str, dict]:
+    """`examples/scan` on every image, cached by (binary, models, image bytes).
+
+    Scanner::analyse remembers the orientation that last read (for a live
+    feed), so a still's reading would depend on whichever still its process
+    read before it, and so on --jobs: every still gets a process of its own.
+    `sequence`: the items are one clip's frames, read in order by one process,
+    as the live feed reads them."""
     key = binary_key("scan", models=MODELS) + (f"-{expect}" if expect else "")
-    cache = Cache("id_scan", key)
+    cache = Cache("id_scan_v2", key)  # v2: one process per still (v1 shared processes, so orientation memory leaked between stills)
     shas = {x["image"]: sha256_file(Path(x["image"])) for x in items}
+    if sequence:  # a frame's reading depends on the frames before it: key it by the clip's prefix
+        acc = hashlib.sha256()
+        for x in items:
+            acc.update(shas[x["image"]].encode())
+            shas[x["image"]] = acc.hexdigest()
     todo = sorted({x["image"] for x in items if cache.get(shas[x["image"]]) is None})
     if todo:
         log(f"  id: scanning {len(todo)} frames ({len(items) - len(todo)} cached)")
         cmd = [str(binary("scan"))] + ([f"--expect={expect}"] if expect else [])
-        for r in run_jsonl_sharded(cmd, todo, ctx.jobs, env1(SCAN_MAX_WIDTH="1280"), list_arg=None):
+        if sequence:
+            todo = [x["image"] for x in items]  # the whole clip, in order, every time
+        runs = run_jsonl_sharded(cmd, todo, ctx.jobs, env1(SCAN_MAX_WIDTH="1280"), list_arg=None, per_item=not sequence,
+                                 ordered=[todo] if sequence else None)
+        for r in runs:
             r.pop("lines", None)
             if r.get("timeout"):  # a hang: nothing read, nothing accepted
                 r.update(kind="timeout", accepted=False)
@@ -238,7 +256,7 @@ def clip_frames(path: Path, step_s: float) -> list[tuple[float, Path]]:
             d.mkdir(parents=True, exist_ok=True)
             off = k * frame_len + len(b"FRAME\n")
             yuv = np.frombuffer(rest[off : off + size], np.uint8).reshape(h * 3 // 2, w)
-            cv2.imwrite(str(p), cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_I420))
+            write_atomic(p, cv2.imencode(".png", cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_I420))[1].tobytes())
         out.append((round(t, 3), p))
         t += step_s
     return out
@@ -267,14 +285,15 @@ def clips(ctx) -> dict:
     stills = root / "synth"
     ids, ok, ttc_ids, ttc = [], [], [], []
     detail = {}
-    for rel, expect, should in CLIPS:
-        if ctx.quick and "hd" in rel:
-            continue
+    todo = [(rel, expect, should) for rel, expect, should in CLIPS if not (ctx.quick and "hd" in rel)]
+    frames_of = {rel: clip_frames(root / rel, 1 / SAMPLE_FPS) for rel, _, _ in todo}
+    with ThreadPoolExecutor(max(1, min(ctx.jobs, len(todo)))) as ex:  # one process per clip, its frames in order
+        results = dict(zip([t[0] for t in todo], ex.map(lambda t: scan([{"image": str(p)} for _, p in frames_of[t[0]]], ctx, t[1], sequence=True), todo)))
+    for rel, expect, should in todo:
         clip = root / rel
         meta = json.loads(clip.with_suffix(".json").read_text())
-        frames = clip_frames(clip, 1 / SAMPLE_FPS)
-        items = [{"image": str(p)} for _, p in frames]
-        res = scan(items, ctx, expect)
+        frames = frames_of[rel]
+        res = results[rel]
         truth = json.loads((stills / Path(meta["source"]).name).read_text())
         prev, at, got = None, None, None
         for t, p in frames:
@@ -316,9 +335,12 @@ def speed(ctx) -> dict:
     holders = [0] if ctx.quick else [0, 1, 2]
     imgs = [str(root / "frames" / f"{k}_{h:02d}_base.png") for k in ("za_smart_id_front", "za_smart_id_back", "za_green_id_book", "za_passport", "gb_passport") for h in holders]
     def once(cpu):
-        r = subprocess.run(taskset(cpu) + [str(binary("scan")), *imgs], capture_output=True, text=True, env=env1(SCAN_MAX_WIDTH="1280"), check=True)
+        lines = []
+        for img in imgs:  # a process per image: no orientation memory from the previous one
+            r = subprocess.run(taskset(cpu) + [str(binary("scan")), img], capture_output=True, text=True, env=env1(SCAN_MAX_WIDTH="1280"), check=True)
+            lines += r.stdout.splitlines()
         out_f, out_o = {}, {}
-        for line in r.stdout.splitlines():
+        for line in lines:
             d = json.loads(line)
             t = d["timings_ms"]
             name = Path(d["path"]).stem
