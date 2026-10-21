@@ -1,0 +1,13 @@
+numpy==2.5.4
+opencv-python-headless==5.0.0.93
+pillow==12.3.0
+pdf417gen==0.8.1
+python-barcode==0.16.1
+qrcode==8.2
+segno==1.6.6
+zxing-cpp==3.1.1
+pylibdmtx==0.1.10
+mrz==0.6.2
+pandas==3.0.6
+pyarrow==26.0.0
+huggingface_hub==2.2.0

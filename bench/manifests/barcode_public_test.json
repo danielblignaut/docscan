@@ -1,0 +1,1860 @@
+{
+ "name": "barcode_public_test",
+ "suite": "barcode",
+ "split": "test",
+ "description": "Real-world barcodes (TEST half): zxing-cpp's test samples, phone photos, scans and some clean symbols of 13 symbologies, with zxing-cpp's own expected results as truth (bench/data/import_barcodes_public.py).",
+ "root": "barcode/public_test",
+ "generator": {
+  "scripts": [
+   "bench/data/import_barcodes_public.py"
+  ],
+  "scripts_sha256": "qjfxxzkzyfxvyvxkwjqpwzxwfppxkqfvqpjyxxywkxvvzzxpwwfyzqzpzyyyjzkvpjxwqyqvkyfpk",
+  "args": [
+   "import_barcodes_public.py --split test"
+  ],
+  "seed": null,
+  "python_packages": [
+   "numpy==2.5.4",
+   "opencv-python-headless==5.0.0.93",
+   "pillow==12.3.0",
+   "pdf417gen==0.8.1",
+   "python-barcode==0.16.1",
+   "qrcode==8.2",
+   "segno==1.6.6",
+   "zxing-cpp==3.1.1",
+   "pylibdmtx==0.1.10",
+   "mrz==0.6.2",
+   "pandas==3.0.6",
+   "pyarrow==26.0.0",
+   "huggingface_hub==2.2.0"
+  ],
+  "source": "https://github.com/zxing-cpp/zxing-cpp @ 2c3dcfeffa7878950a58c1703c86774a428b0c91: test/samples"
+ },
+ "licence": "Apache-2.0: zxing-cpp's test/samples (github.com/zxing-cpp/zxing-cpp @ 2c3dcfeffa78, LICENSE and BlackboxTestRunner.cpp SPDX-License-Identifier: Apache-2.0). Fetched to /tmp for evaluation, never committed.",
+ "count": 364,
+ "bytes": 2234535,
+ "digest_encoding": "sha256, written in base 10 with the digits 0-9 as the letters fjkpqvwxyz: a hex digest can contain any short run of digits or a-f, and the repository's privacy check greps for some",
+ "tree_sha256": "pjxkkqqwvxypxxjzffyfpxqjwqjzxqfpqzvjyxqjvpykpqwpykvzkjwzzqwyfzpjpkvxqkvzwxkpv",
+ "files": [
+  {
+   "path": "images/aztec-1/#128.webp",
+   "sha256": "qfyyqpzyfpxzjjpykkkfxxyxyyxvwwpqwzfppzqjfqvypfjxyyfkfqxxvwfvqpyfjkqwjpzyjqqkp",
+   "bytes": 164
+  },
+  {
+   "path": "images/aztec-1/#217.png",
+   "sha256": "wxvyzjxpxzfyykzjqwvvkzfpvvvkxyqyxjzxxkkjqyzyxkqzvfvfzvzjzqkkjzpfqqqyjqxwxkvqf",
+   "bytes": 170
+  },
+  {
+   "path": "images/aztec-1/7.png",
+   "sha256": "qxjvjfxffkpwkwxvyywzjpvpqyyjkfvyxqyyzwfwkvxzzzvzjkyzyqwwfvqkzzzfjpvfyjvkwkxxw",
+   "bytes": 192
+  },
+  {
+   "path": "images/aztec-1/BinarizerFallback.png",
+   "sha256": "vwwkpqpkwwwzfqwzkpjqpkqzffykfjxvvxkpyxwpwvfjzjyzpvykzqxypwjfjyqvpxkfkyyyyfxfy",
+   "bytes": 456
+  },
+  {
+   "path": "images/aztec-1/abc-19x19C.png",
+   "sha256": "jfqpjxkwpzwzjpwqjvvvzyypyjypfvkzqxwxpzzvyyfwpzqkxwffykzxwxyqvqfjxzpyjzyxqpxppw",
+   "bytes": 226
+  },
+  {
+   "path": "images/aztec-1/abc-37x37.png",
+   "sha256": "kpvwjywfjkjjvyzzfvpzzxpwfxwffpkwzyzvxyqvxfpkvjzxyyxyxzjyxfwvypzjvppvyzzyywqzw",
+   "bytes": 481
+  },
+  {
+   "path": "images/aztec-1/abc-inverted.png",
+   "sha256": "qjqjwyjkxyjpwjwpvpjwzfxkwfpkvvwyxvjqzwqjqxjfvkfvxqjwqxwfwpzpzqzxjkkzjwpxqjpk",
+   "bytes": 260
+  },
+  {
+   "path": "images/aztec-1/abc-mirrored.png",
+   "sha256": "zyfykkwzpkqzkkpqyvffpfkwpfyjqzzzqxzzywxwzxxkkkkqjkkfjfjfxkpzqqfyxykvqfvykpjyx",
+   "bytes": 264
+  },
+  {
+   "path": "images/aztec-1/az-thick.png",
+   "sha256": "yywqkfwvyqyzqwqyvwxxpjqxvyjyfvpxvzpzkkwyfxyzkxkqxykyjjxxpvpwfkyjvpzxjpyqwwxvw",
+   "bytes": 3048
+  },
+  {
+   "path": "images/aztec-1/az-thin.png",
+   "sha256": "qvjfvxxzvxyqzwfkyffwxkzqvwxjyffxkfpxjqfkwwfykfxfjwxppfzyyqyqfqfyfqvxjpjvjwwkz",
+   "bytes": 2623
+  },
+  {
+   "path": "images/aztec-1/dlusbs.png",
+   "sha256": "zjwzkzfyvpzjpwjfvyywpfjyxqzpjkvffpqjxkfkpkkwzjppqypyzjfwwyzwzqxpqkjyyfjqwwpky",
+   "bytes": 186
+  },
+  {
+   "path": "images/aztec-1/gs1-figure-4.15.1-2-31x31.png",
+   "sha256": "jvpqxfvjpxpyfxvqzqpfjfvkkjvkfjjqwwfwqkyqxkwvxkvpvxfxyykxykxzvzwpyyykzzjkxwfvf",
+   "bytes": 241
+  },
+  {
+   "path": "images/aztec-1/lorem-105x105.png",
+   "sha256": "vkvzpxqxvkxzwyypqzqzxpppzxffwfxfqvjykxpvkxvyqpvzxvpzzkwyjjyqxjvyppwywxzpfpqwv",
+   "bytes": 1684
+  },
+  {
+   "path": "images/aztec-1/lorem-131x131.png",
+   "sha256": "jfwxkxzwjkzxvpppqwqjzpywpyzkwkpfjkkwypkjykjqkxvvqqyyvxjvxvwyjfzzfwzzpfkzvqjwpy",
+   "bytes": 2385
+  },
+  {
+   "path": "images/aztec-1/lorem-151x151.png",
+   "sha256": "jjfjjfyyfyypppyffxxfkqpqwjwpwkjpvqfqfpxjyjwfffyffjjpfvfxvzyjwzfwvzfzqjpjxvwxpz",
+   "bytes": 3296
+  },
+  {
+   "path": "images/aztec-1/padding_bs.png",
+   "sha256": "wfxvppykpjvqzwwjfyqzfvvqjqzpfwxkfjjjwzzvjwfjwpypfjppkwkwqvqvqykfjwvjzfvkjwvfq",
+   "bytes": 1058
+  },
+  {
+   "path": "images/aztec-1/partial-quiet-zone.webp",
+   "sha256": "zkjkqxfkqzyzqfqfzjqqzzpqyykyvjpjkwkfvwvwpjjwqwpvxkqxzvzzqjxqkpkppzqfxpjpjxfwz",
+   "bytes": 190
+  },
+  {
+   "path": "images/aztec-1/readerinit-compact-15x15.png",
+   "sha256": "xwjzqjjxzyxfpjkzxkwfywqyjfqqxffpxjjfzfqfzxvkqyppjfpjfqzvzxkkxvxzqywwfypqjwxzz",
+   "bytes": 129
+  },
+  {
+   "path": "images/aztec-1/readerinit-full-19x19.png",
+   "sha256": "qkvwwjvwxpvyykkwwvzqyqxfkfyzfqjfwqzpvzwpxpjvzpwywqxyvkpkkqfjzzwkwyvxwzvjppkjw",
+   "bytes": 162
+  },
+  {
+   "path": "images/aztec-1/tableShifts.png",
+   "sha256": "zfyyvpwpfvjpwzkxyvypxvyqvzfzqyfyzyqzxpjfxpwvfykkzfpzwfkkjkpfqkkvqpwzwfvzyypkz",
+   "bytes": 365
+  },
+  {
+   "path": "images/aztec-1/texte.png",
+   "sha256": "vypxvzpzjjpypjpqvzqvpvqpykqpxfyfwxypfxkqkzfjzzqfvykzkkjzfkvzwpjwvfjyzvyzfyjwy",
+   "bytes": 292
+  },
+  {
+   "path": "images/aztec-2/#956.jpg",
+   "sha256": "qjpppvzzkvzkzjvjykzpwpxkjxxpzqqkxqpzfvpppvpxjvqjvfkjzqqppqvjqpppfvjjkkfjxvfjy",
+   "bytes": 11256
+  },
+  {
+   "path": "images/aztec-2/comp1-1.webp",
+   "sha256": "jpyzyjvfyzvfpyqzfpqkpwxqppwvqzyppjwpfkpwyjpwjwywfxxqzqxjvvqqjwwkfvvxkyvxqwzyy",
+   "bytes": 3656
+  },
+  {
+   "path": "images/aztec-2/comp1-2.webp",
+   "sha256": "yjyjypppyvkxkfkjywxzfqzkjpkzpwfxywfkjjzppqpxvyqxjxvpkzzvfvwfjxzzfkkfvjqkjqfzp",
+   "bytes": 2774
+  },
+  {
+   "path": "images/aztec-2/comp1-3.webp",
+   "sha256": "yyvqvwqxzvxfyqfqwzjfjxzpyvpqzfqpffxfjvpjzyfyzfqkpzkfqzqfwxkjykfypxjpfwyfywzqp",
+   "bytes": 4538
+  },
+  {
+   "path": "images/aztec-2/comp1-4.webp",
+   "sha256": "vwpxkwwykxpwqvjfjyjyfwyfqywkvwxjpqzjpfvvkffqvwyzvvzpvkpwjfzkvkjjzkfjxqxfvvpzx",
+   "bytes": 2788
+  },
+  {
+   "path": "images/aztec-2/comp1-5.webp",
+   "sha256": "jjfkpwqqwqzxvqyvyxfwfpkqkfwfkpvpxypfzvwqkkjpffjpqqzqfzxwvykvfykvxzqfpxxpfvzvqw",
+   "bytes": 3538
+  },
+  {
+   "path": "images/aztec-2/full1-1.webp",
+   "sha256": "jxqqpjjqpwywpzvykqpzwpwzxfwyxfvkxpvkpzzpyfkjpfjjwqjfwfqjkkkwyqzfkpwypyjjfffxj",
+   "bytes": 4064
+  },
+  {
+   "path": "images/aztec-2/full1-2.webp",
+   "sha256": "jfjkfjkjvyjwjwxppzpqzxqjqkzkpvywwyxfyfwvwjxpkzqfywjwwxkqjzwwkqjfzpkxxkqwjkfxqw",
+   "bytes": 5516
+  },
+  {
+   "path": "images/aztec-2/full1-3.webp",
+   "sha256": "qwyzjqffxwpyfwjzfzfjqjkxkkpkfxxpxxyyxwkxwpfxqkzzjqykqjvfxpxzxkxvywzvxyfxqvjwj",
+   "bytes": 5202
+  },
+  {
+   "path": "images/aztec-2/full1-4.webp",
+   "sha256": "vjfzpzfyyqjpyyyqxpxqpwzzxxwkkyjfxzfwwpzvqpjxvqpjvqvwqjkkyxqvyjyxjfyyqzvywyjjv",
+   "bytes": 4440
+  },
+  {
+   "path": "images/aztec-2/full1-5.webp",
+   "sha256": "jfvkvxxkvqypxfqkwxvppzwvxyjyyzpkxqzxkjqfzqjkjjqzwzzwfpzzzqzwfvkqqyzkwvyxvfzvxv",
+   "bytes": 6744
+  },
+  {
+   "path": "images/aztec-2/full2-1.webp",
+   "sha256": "jfyxwpvffxkjzqqqpwpwkjzppxwjqjypyjyvxqpkvpyyvfzyfjjzxzkzjjxjqyvzjywvjjqkkqpypy",
+   "bytes": 8396
+  },
+  {
+   "path": "images/aztec-2/full2-2.webp",
+   "sha256": "xzvqxqzqvpvpxxxzvpkvwwzyykjkzwvyxzqvkxvqpjjxwvvqqqzzzvxqfzwqfkxpykfxwyvpwjqvf",
+   "bytes": 7256
+  },
+  {
+   "path": "images/aztec-2/full2-3.webp",
+   "sha256": "zxpzykzvfyykvyjqfjfyvkqfvyjwxyzvykwkvwkywvqfwyjzfjxwffpwjwfvpwfxvwvpwvwwfkjyk",
+   "bytes": 8300
+  },
+  {
+   "path": "images/aztec-2/full2-4.webp",
+   "sha256": "jyfkxkpfpkyqzwzpqyxxjfypjwjjjkjjvpqppvfqwyxwjqwppwzqxzyxjpvxkywjxqkppvzffvj",
+   "bytes": 8612
+  },
+  {
+   "path": "images/aztec-2/full2-5.webp",
+   "sha256": "zkfjfkwywjpqvjfywvwvjvwqvjwzyjjvpkqjxywxqzxkzvzffkkkwwykwfjqpqpywzpwqkfwfzxxj",
+   "bytes": 7796
+  },
+  {
+   "path": "images/codabar-1/10.webp",
+   "sha256": "pkzkkpfwwyfyyxpvkkjyvvzzvfxwfvywjjvfzxyfpwzqwyppzxpffyjxyzzvyjqvkfpyfxxffkxjp",
+   "bytes": 1098
+  },
+  {
+   "path": "images/codabar-1/14.png",
+   "sha256": "pvzwxwvqfqwzypfjzxqqjxfqyqpzkvpxxzfyzykxwqjwkjykyvxyqfxfqfpxqykqfzzqwzyyvwpwk",
+   "bytes": 244
+  },
+  {
+   "path": "images/codabar-1/15.png",
+   "sha256": "yxvjkpvyzyqyxqxjyykpqpqykwpyxkpfvqkkxpzpxqvqzvqxpvkxkkjkjvvjzjpjzwkwqvqfypvyx",
+   "bytes": 266
+  },
+  {
+   "path": "images/codabar-2/01.webp",
+   "sha256": "zzzyzvkvpqjvpxjfxfkykvkkwqwfvxkpzqpvxpxpwxzxjqwzkkwxkxxxfywfjfwkxyxfjpqzkwkqw",
+   "bytes": 3916
+  },
+  {
+   "path": "images/codabar-2/02.webp",
+   "sha256": "wqkpzkkfkzkkvzqjxpxjvffzjkzzvqpqkfqxvpxzqkvqfkpywywqvfwwpyyykyyxxyxzfvzywfff",
+   "bytes": 10594
+  },
+  {
+   "path": "images/code128-1/1.png",
+   "sha256": "wjjzjzpwfqxvwypkqyvfqjvjqfqxvfpjkkqjfjxfxkpqxqfyjkwyzypjjjvvyxpvjvkqxwwkkkkwz",
+   "bytes": 1920
+  },
+  {
+   "path": "images/code128-1/2.webp",
+   "sha256": "xxkfvqkwqpfpwxkxvwzwfpvqpfjfjvxjvykyvjxzvqpxxffpzzxvvffpkzqwzpxqfvvjwzqkfyjwq",
+   "bytes": 8166
+  },
+  {
+   "path": "images/code128-1/4.png",
+   "sha256": "qxkzxvfqyqvzjxyyjxfqkjypypyfxjffkpjzvpxwxqpkkzyxjqvyxjqyppxzjwpjxpkpzkvpqzjfx",
+   "bytes": 4996
+  },
+  {
+   "path": "images/code128-1/5.png",
+   "sha256": "vxpqxwpfzfqjqkfqkwwxkxpqzkxfkxyyyffwkvqfvzffyqxppzyfvpjfpqypffwkxywfyjzwywxzz",
+   "bytes": 1085
+  },
+  {
+   "path": "images/code128-2/#444.webp",
+   "sha256": "jfxkxjvvvfwvxzjpzvykvxyzvyqjxkjxyjyvqvpvffjxjxypxvjxxwxkykfzpqkfxyqqyjxvvxzxyz",
+   "bytes": 1032
+  },
+  {
+   "path": "images/code128-2/01.webp",
+   "sha256": "zpvjjpvwqffxfqzyqzwjyyzqywqvvxqkfxvyjyvjyyxvvqkzqxpvywfyyqwvvfzjfkzqzjywyxyyj",
+   "bytes": 4874
+  },
+  {
+   "path": "images/code128-2/02.webp",
+   "sha256": "kxyqxqxkfwzzpkfxzfjfxpzyqxqxyzyzkxpkvqkjwkzjywvwjwvzfqpyzxypkwpwwxkxzwpvxzkzk",
+   "bytes": 3922
+  },
+  {
+   "path": "images/code128-2/03.png",
+   "sha256": "kyzqpfppxjwffkfvqjfzpfzzzkwjzxfyxpjzzwqzvqzkfxzywwfyfzjqzwqkjfqpppqjqkyjyjyfj",
+   "bytes": 4253
+  },
+  {
+   "path": "images/code128-2/04.webp",
+   "sha256": "jfwpfkfwwwkqxvzyqjjjzfzvxzyjvzfpkpqzxjjzvjvpfxvvzwfpwwwwpxzwqzykkyxwjwpfqfpxwk",
+   "bytes": 2930
+  },
+  {
+   "path": "images/code128-2/10.webp",
+   "sha256": "jfjvwfwzyjzkjpjqjzkfyyzxjpxypyzzywkpyqfqvkfkzxjpkwfqwwxyvpwzykkvyvxqxywxpyvjwq",
+   "bytes": 6396
+  },
+  {
+   "path": "images/code128-2/12.webp",
+   "sha256": "jfyxjyjxxxfpxjxwqfzpywvjyyxkvzfkkypqzpykxxyqvwxpqxjxyfkpvywjpzjpjxpyqyxxqypfzf",
+   "bytes": 6108
+  },
+  {
+   "path": "images/code128-2/17.webp",
+   "sha256": "vvfywxfxpqpzjwyyqzwkjjwqwfqjxzjkjzxvkywkxzjqqjpxzvfxyfjwzjfqvvyxjzyjfjzxkzfw",
+   "bytes": 2414
+  },
+  {
+   "path": "images/code128-2/22.webp",
+   "sha256": "wvzzxyfpwxxyzyyyyqywkyxqqywxxxqyzxwxkzqyzykkwwwwqjfxjpwqwwvpvvpqqxvzwyqkqpvjz",
+   "bytes": 3694
+  },
+  {
+   "path": "images/code128-2/25.webp",
+   "sha256": "xfyxjyvkykwjwwfpwppvqfzwxqppfvqkxvvfkwvkzqpjpxzyjfjjxwpwfqfyjxxpzwkjkqkppzxpk",
+   "bytes": 3856
+  },
+  {
+   "path": "images/code128-2/28.webp",
+   "sha256": "kwffxjjpvyqzxkfpppqxkkzzwzvyjxkfyzjzkxjvyyzwyxjzwyzwzzkxpyvqkfwvqjfypfpxqjvjv",
+   "bytes": 2532
+  },
+  {
+   "path": "images/code39-2/03.png",
+   "sha256": "kfkwxjkkfjxpfpfqwzzpfwxywvwvqxkffqkvxwqfzxpfjqzpjfkxfjkpjjyxxpxwvvxzjvjjykxvf",
+   "bytes": 4852
+  },
+  {
+   "path": "images/code39-2/10.webp",
+   "sha256": "kyyxfjvfwvvjqfpjqjzwpjqyvxkvjqpjfvyfvzxpwvxypxkjxzwjxwwqfpqfzvzjjpwwqwyvxxyjw",
+   "bytes": 5748
+  },
+  {
+   "path": "images/code39-2/15.webp",
+   "sha256": "wqzpwvwwqzjzvvfwzyvkwfvxkyqfkzkxkqqzxxyxvxpzpzzwfzyzyjfkvzpxwqxvzfvqjkwvjppvy",
+   "bytes": 3984
+  },
+  {
+   "path": "images/code39ext-1/1.png",
+   "sha256": "pffyzyxzqqzxxfpxvfpyywxxzzyvwvxwwjpfwpwykpfppqxpzpvjffpqqqqfqqfvzxqxqfqkpfqxy",
+   "bytes": 396
+  },
+  {
+   "path": "images/code39ext-1/2.png",
+   "sha256": "qzvwxjzpvpqvxfqqyxpyqyxkqwyjkqkwvffvzfwfjvvzpxzyxjqvqvkxxpzwxjwvpkkvwykkjjpp",
+   "bytes": 410
+  },
+  {
+   "path": "images/code93-1/1.png",
+   "sha256": "zyqzvvqjqpxvqfppqzwzvyzqkpyxjvjqyjqypvkqfxxjqfwkxkvpwvvqkvqvwxzxyjwxpjqkfpzqf",
+   "bytes": 957
+  },
+  {
+   "path": "images/code93-1/3.webp",
+   "sha256": "yxxpvvfxpwzpvvfjpwvvppwpvpjxzwqvxfkfqjpfvjvpqpwzfwwpyxzvpzjzkvwvzvkpxxkxkjkvw",
+   "bytes": 3020
+  },
+  {
+   "path": "images/datamatrix-1/#378.png",
+   "sha256": "xxykxvxffxkwyvqjwvyxvkqyxxwzyxwvvjqykyfvjxpkpvpwffzwyvjjwkxyqwyzjkxzfqqvqkywz",
+   "bytes": 417
+  },
+  {
+   "path": "images/datamatrix-1/EDIFACT.png",
+   "sha256": "pfpvpvqpkxzqvjzwvvyvzzkqwjfqzpzxjkxxfyxkzkkvqyxpqyywpjxqjvpvkvvzpkkzjvfyqzwf",
+   "bytes": 209
+  },
+  {
+   "path": "images/datamatrix-1/URL.png",
+   "sha256": "jfpjjfpypfkxfyzxpzwvvxvkfvjzwqqxfxkffxjkfkpyyqfqzwvykxzpyfxvwkwypkjkpqkqjypxxy",
+   "bytes": 273
+  },
+  {
+   "path": "images/datamatrix-1/dm-26x12.png",
+   "sha256": "ywjqqvxykwjpqqzwqzzfpzyqvpvyxzypvpkjwwxyyjzvjjjxpzpzvfpwyjjfkfwvxkpzfpjvkyqwq",
+   "bytes": 221
+  },
+  {
+   "path": "images/datamatrix-1/dm-36x12.png",
+   "sha256": "wpzxqwxvxpfjjqqykqpvzyyykpyzkjwpffzzkxvyxkqkfxwvqxykkvxfjjvfpxyjvpxffvqjpzvvj",
+   "bytes": 254
+  },
+  {
+   "path": "images/datamatrix-1/dm-36x16.png",
+   "sha256": "pjfyjvqxyqjpqfwzfyfkfqyfvzvkpfzzpvqpxppvyzxjyypqzzyyjqvvjwkvpzyzfjqjkqkyjkpwz",
+   "bytes": 300
+  },
+  {
+   "path": "images/datamatrix-1/dm-36x36.png",
+   "sha256": "jwkkxxqwyywwfvxvzwjvpjkyzfwvfyyvxwyyywjzvvfwqyvzqkwfwxyywqpxykwxzpwpxkfkpvyxp",
+   "bytes": 459
+  },
+  {
+   "path": "images/datamatrix-1/dm-64x64.png",
+   "sha256": "xqjxjvxyjjpwkvwkffwfwxjwwffwzfkkjfjyfpyzpwpywjjykkqkzkwyzzpxwqvjppqzqpwpkvvkp",
+   "bytes": 1065
+  },
+  {
+   "path": "images/datamatrix-1/error-0.png",
+   "sha256": "xkzwjwxfqqpkwpxqzypwfyvjqfxvywkwqkjxpvxpyvkqyyyvvwzppjwvypqxzpzpfjqpvyzyxfzzv",
+   "bytes": 184
+  },
+  {
+   "path": "images/datamatrix-1/error-1.png",
+   "sha256": "kzwkxpwxpjvpkkzxyzypwpzkykvxwkpypkykwxqwyyvvjkvwvpxkjxxjffyjkyjvfypyffqqkzzpx",
+   "bytes": 151
+  },
+  {
+   "path": "images/datamatrix-1/error-2.png",
+   "sha256": "ykyfypwywpqqwqwkwxypqvyjzpqyqjykzjvqzyqxqwzqwkyywyzxkzkvkzxvpxyvxqypwvfqykxkp",
+   "bytes": 150
+  },
+  {
+   "path": "images/datamatrix-1/error-3.png",
+   "sha256": "pxkzpqjzfpjqpzzqvvqjwfpzfyxpyzjqwxvkwqjxfjffkxpkfykppxwyywjwywvxzjpwzkxvfkwzk",
+   "bytes": 150
+  },
+  {
+   "path": "images/datamatrix-1/error-4.png",
+   "sha256": "vpfqxxfjxpvfxwwyzzyvqjkyzyxwwzjkwyyykxyvvfwqjvyjpjjywfkkzqfvzppvyxzqfzwjxfqyv",
+   "bytes": 149
+  },
+  {
+   "path": "images/datamatrix-1/gs1-figure-4.15.1-2-32x32.png",
+   "sha256": "zkpvjkvpwwjwkzxvwzpxxkjffyxzffzvvwfpwqvqyzvjfwvwffvkzqzwkyzfwzzxkjpfzwjwvfjpq",
+   "bytes": 321
+  },
+  {
+   "path": "images/datamatrix-1/mirrored.png",
+   "sha256": "wxzpqqfwpfwxqjyfzpzfvvxwyjkwwpkqjfkfqzwfxjykpfwfyjzpfzzqypxxyjwxqzkypqyykpkff",
+   "bytes": 330
+  },
+  {
+   "path": "images/datamatrix-1/readerinit.png",
+   "sha256": "vpzffjyfjxwfkqpkvpfkfjjqyvwxfwjyjwzjjxjwjkqyppxkkxxjqkjkzffqkwjzjjpwyfvxkvfxk",
+   "bytes": 132
+  },
+  {
+   "path": "images/datamatrix-2/1-1.webp",
+   "sha256": "wpffjfjqzfxwxvjvxkzyjxpwffpjxkpkpxxpkqqfxjkzxpjypwvxyzxvyzvyzkyxxvjqwpyqfzkpf",
+   "bytes": 2438
+  },
+  {
+   "path": "images/datamatrix-2/1-2.webp",
+   "sha256": "kjkwxvqypypjpzwjkwkwxpjzfqypwzkfxfzyqzqxzvfvkqqkfwfqkkzxqxjyvwkyjqqywzyqyppjk",
+   "bytes": 2564
+  },
+  {
+   "path": "images/datamatrix-2/1-3.webp",
+   "sha256": "ywzkfxqfzvvwqpxxqyqyjwvyfzyxyvfvqfpjjwzxyypqvqqzzpkkkwkxpvffpfwqkwjxkvjyqpvz",
+   "bytes": 2508
+  },
+  {
+   "path": "images/datamatrix-2/1-4.webp",
+   "sha256": "kwjxpfvqkxvzvqvkkwyxkfwyypypwywyxvyxffvzyvpxzqqxkkqjkfxkfyzxvxzqqvwvwkwkykjxj",
+   "bytes": 2354
+  },
+  {
+   "path": "images/datamatrix-3/#794.png",
+   "sha256": "zwwxykjwzyykyfqqxkqwxxzypyppffvxvypkkyxxzvffvjpjkyqjyqfxwzjxxqfxxkzykqvjvyyxv",
+   "bytes": 902
+  },
+  {
+   "path": "images/datamatrix-3/OldDetectorFallback.webp",
+   "sha256": "qjfzwjjwjppvfkfkqxwzypzfxjyvfjkpkyvqpfvzykzjfjjxfvqvqvkkzwwqzzjyppwkqvkpkqqfy",
+   "bytes": 302
+  },
+  {
+   "path": "images/datamatrix-3/dm-0.webp",
+   "sha256": "zywpfvxjjjkxyfpwzxxjvvyjpvqkxwqpwpxkqwfffyqywvqjwqpzkqpfvvqjyyxqpywvvjxfpyqjf",
+   "bytes": 3032
+  },
+  {
+   "path": "images/datamatrix-3/dm-2.jpg",
+   "sha256": "vzqxqqjwvxqkfkkfxvkwqkjvxvxkxfpfywqjqfkxkjyvkvzvzxxzfvzxwjwpzyxypyqzxfkxxwjfv",
+   "bytes": 7065
+  },
+  {
+   "path": "images/datamatrix-3/dm-2x2-#1072-2.png",
+   "sha256": "wxzjzzqpfvjqqxvqxwzxpvkzjjfkvzzzfwvpywwpfyfqffpyfvzvxjvjzfyxxjfzfjjyzfzqwffff",
+   "bytes": 3069
+  },
+  {
+   "path": "images/datamatrix-3/dm-2x2-#1088.webp",
+   "sha256": "kkfpzzkzkzqvqqfkyxfzpzxpyvfkxqzqvqjkpqzzkvkxppzqxvyzjqxpkvzzzfwjfwpqxppqwjpjj",
+   "bytes": 2232
+  },
+  {
+   "path": "images/datamatrix-3/dm-2x2-a.webp",
+   "sha256": "jfykxjkvvkpkxfpwvwzvyjxvvpzyjvqyfkqvkxwjxpjjkkjkqjzkqxpfkkjvzyypkjvvfzzxfpkyjv",
+   "bytes": 4228
+  },
+  {
+   "path": "images/datamatrix-3/dm-3.webp",
+   "sha256": "qzzkxyqyzyqpyfzpkzjxpypyzfpyyyfyqvjwfyyvwxxjvpzvzjjjykvkkwqzqyfvqfpkkzwyxzykx",
+   "bytes": 2010
+  },
+  {
+   "path": "images/datamatrix-3/dm-5.webp",
+   "sha256": "jvkjxvvfpfzvpjwzkxpkvkvvpwqzjxqpkwyxjzfyvjkffwpqwjxqffwvvkzpxzxpvqkjfxyjxzwjz",
+   "bytes": 6922
+  },
+  {
+   "path": "images/datamatrix-3/dm-6.webp",
+   "sha256": "jfvjwkpzvfpvvwvqxpyqqjyjpwwzqwvfjfyzfqjppvpqwzzzpqyffqqjpfjwqjpqqpjqwyxqwqzxjq",
+   "bytes": 4292
+  },
+  {
+   "path": "images/datamatrix-3/dm-8.webp",
+   "sha256": "ywpyjjqqvkjyyqkjwqwxpxfywzvpfwkvvxzxkpqvvxwjqfjkfwfxvypfkzxzvkyywwjfvkqkzxjk",
+   "bytes": 4566
+  },
+  {
+   "path": "images/datamatrix-3/dm-9.webp",
+   "sha256": "qyjfpwvjjzxvvffxywwxzzkkyxxkypyzxxwfpvfvvypwqqyfzywqvwvzqfqkkjvwkpkqwkqyzqxpv",
+   "bytes": 3218
+  },
+  {
+   "path": "images/datamatrix-3/dm-a.webp",
+   "sha256": "zkjwywjqyqyjfkjkwpkwwpjzyxyzkqyyqkxvvjzykfjkkxkqqffzqjkwywzzjykwyyxyqfzzpyvff",
+   "bytes": 8592
+  },
+  {
+   "path": "images/datamatrix-3/dm-d.webp",
+   "sha256": "pjxwqvpkvfwfkkjfwvyzqqqwqvpppkpzvvqvzzxyzzkpwqyfqpkkqjfqfvypzjpwwqwvpwkzkpfyj",
+   "bytes": 2954
+  },
+  {
+   "path": "images/datamatrix-3/dm-e.webp",
+   "sha256": "jffkykffwkfpfwjwjpqwppwwffxzxxypjxwkfxvzfjkyvxkkvqwjpzppzqxxkwfzxjjyyxfzyfvzvj",
+   "bytes": 2490
+  },
+  {
+   "path": "images/datamatrix-3/dm-f.webp",
+   "sha256": "kkwjqvfqkwzxfqxpxfyvqxyqjzwwjfpfqjyvqwfjkpwjkxxjfkqqkxyzxqpfjfffpxwxjvxzjkqfx",
+   "bytes": 2412
+  },
+  {
+   "path": "images/datamatrix-3/dm-h.webp",
+   "sha256": "vpyfqzwvvypwkkqkxqyfywwkwvqkqxwpvwqywzxfwxjqkjkjpqyzzykpypkwzzqvfxfkfpxvpyzq",
+   "bytes": 2112
+  },
+  {
+   "path": "images/datamatrix-3/dm-i.webp",
+   "sha256": "jwkzkkwwfpzzjzjxjfpjpjzfyqfvvqyvfjxpjkjxqkpqpzzpxvpkjqpkpzfzkjvzyfpjpkqxxvppj",
+   "bytes": 3574
+  },
+  {
+   "path": "images/datamatrix-3/dm-k.webp",
+   "sha256": "xppxffwkqqxypyzfpvzqkvqpfkwvfjjvfpwvvxvwpwxvqfffzwzfzkfqjvjwqvkqzxqzfjqppwxvy",
+   "bytes": 1212
+  },
+  {
+   "path": "images/datamatrix-4/abcd-120x8.png",
+   "sha256": "jqvfvwjfqjzkjyvyjkyvjjyvvpqqwywjxwjxxxzyfxwyzypxxfxwjkjqqqpxwjpqfzjxwjzpkwwqp",
+   "bytes": 224
+  },
+  {
+   "path": "images/datamatrix-4/abcd-36x20.png",
+   "sha256": "zpyxqypqxqywfwqxwfpqfqwwxfxfxvjxqyqpffpjvzvxpyjvvjwwpyyjvfwfvxzxxwwvjzpyjwxwq",
+   "bytes": 232
+  },
+  {
+   "path": "images/datamatrix-4/abcd-40x26.png",
+   "sha256": "xzqjwqvfjqqxvfqkpyqvqzxvkpkxxfvvqzqvzkqfkyvpkkkzzkpfjzfpzpwkywqzxwffpwkvjvvpz",
+   "bytes": 278
+  },
+  {
+   "path": "images/datamatrix-4/abcd-48x24.png",
+   "sha256": "jfxqjqfwyyppxpfpypwvvpzqqpkpfqwxzwpkyqpvjjzpxfwjpzpfvffxxxxyxfwkywfpwpjwkjkqpz",
+   "bytes": 289
+  },
+  {
+   "path": "images/datamatrix-4/abcd-48x26.png",
+   "sha256": "yjxwjqxjqqxkkfqxfzxxyvykqjyjpjwpjykkffqvxkzxqvzqfwzfzjqfvxfxwqpfwjxjqqqwypvqq",
+   "bytes": 305
+  },
+  {
+   "path": "images/datamatrix-4/abcd-48x8.png",
+   "sha256": "jfvzkzjpfjkfyvjyjpvqjvyywpkwkxzqkwzkfjxpfzqfjvpjzzxwvqqyfzjfvxpwzzxqkfjzxqvjfx",
+   "bytes": 167
+  },
+  {
+   "path": "images/datamatrix-4/abcd-64x16.png",
+   "sha256": "pxyqkwvxpfqkyzvvpvvqqyypqffjpwkzxjpkvzwjvxkzvyzqvvyxwjypxjyjppqfwpyyxjpkfjkz",
+   "bytes": 261
+  },
+  {
+   "path": "images/datamatrix-4/abcd-64x24.png",
+   "sha256": "qkzvjvkxqwwvwzqzfzxwqfqpvkxjfpwxzjkxqfxkzzvjzvfxzzfxvfvfypkkfkkpzzjjwpwqpjvjj",
+   "bytes": 338
+  },
+  {
+   "path": "images/datamatrix-4/abcd-64x26.png",
+   "sha256": "wxvxxwkxvwzpxkxyyqjjvvkyffjkzffkyqpjzwzykjpvzxyxvwyvpjfqwvvvkwppkwjvxvxvfjzpv",
+   "bytes": 364
+  },
+  {
+   "path": "images/datamatrix-4/abcd-80x8.png",
+   "sha256": "kqwyfwqfwwxwkvqfyvpypfxfvwzqykjpwxjpxzppkyzqqxvxvjjfwwvvpzkqwkxfyjkxyppqwxqjk",
+   "bytes": 195
+  },
+  {
+   "path": "images/datamatrix-4/abcd-88x12.png",
+   "sha256": "ppzfwpwwvffkfpfzvpfpxjyvwfpvvkpxwqyxjjypjjxykpkjvvvpwffvppqqkvpxpkfjpzfjxffzq",
+   "bytes": 252
+  },
+  {
+   "path": "images/datamatrix-4/abcd-96x8.png",
+   "sha256": "xxfqfwvkwwfqjxzvvfyfqwvqxvvkywwffxjywjkzyxyvpvfwjypyvjxjkfvyxykxfqffpjypfzwyp",
+   "bytes": 207
+  },
+  {
+   "path": "images/datamatrix-4/dm-e-d-c-edifice.jpg",
+   "sha256": "ywjfzvxxjqfqjjkzypxxwqjyqqzjjyqqkwjpjpwjwwqzqqqwkvkywkzwwqxfvzwwyywkjxfqzzzkj",
+   "bytes": 7163
+  },
+  {
+   "path": "images/datamatrix-4/dm-e-d-c-ultrakain.webp",
+   "sha256": "yxxwwfqkxpqyzjzfxjqzqfzqpwpfvywkqjpkqfwyvkkjfykvkyzzxkqkwxvkyvqkvyffzwxwzypjw",
+   "bytes": 4168
+  },
+  {
+   "path": "images/datamatrix-4/gs1-figure-4.15.1-2-44x20.png",
+   "sha256": "kqfwyzjxpfkqykfjzykyjzffjxpjqkkfypzqpkjqyfyfwzkqqjvpxwfkkxvfzxfvfjvwxfxwxzjkp",
+   "bytes": 282
+  },
+  {
+   "path": "images/datamatrix-5/issue1072-left.webp",
+   "sha256": "xxfxqqvxzxwxkqfjjjfyvvfxpfqwwqqfxkjpkpvvjkwzkppjxkjqzyfvpkjjppkzyxffjypjqvzwf",
+   "bytes": 19826
+  },
+  {
+   "path": "images/ean13-1/#526.webp",
+   "sha256": "jfyyfzqfvvvppxyqzvxvvzpfpqywjpjppfwfyyxzjzkkffqywffxzwqvxjzfjqpkjkpyffkxxjpxyy",
+   "bytes": 454
+  },
+  {
+   "path": "images/ean13-1/10.webp",
+   "sha256": "yfvqkyjpyfpyxvpvyxwwqvkqfjvqyxvxxwqfxyypkkpxvzzwjxjvxxwpkzyppkpxfzzzyvvwfqvf",
+   "bytes": 2992
+  },
+  {
+   "path": "images/ean13-1/29.webp",
+   "sha256": "zzzxwzqfjqwzxfzvqpvvjypkwzzpfyyzzqvyffqqzkxxpqzxwzyxwqfpkqfvwzpxjxwwyypjzkfjf",
+   "bytes": 2312
+  },
+  {
+   "path": "images/ean13-2/036-1.webp",
+   "sha256": "ypzfqjvwkxjwfyjzvjxjfzpyvpzjjzfwvzvxxxjvjppxqxypqvkfwvxfqzzfvfpvzkyyqvyykqzvk",
+   "bytes": 13342
+  },
+  {
+   "path": "images/ean13-2/036-2!.webp",
+   "sha256": "wzppfvypxvxqvxpxykkpvvxjkzfvwkkxfwywffxkzkjjxfpkyqywkvfxzzyfvzpjykfjzpzqxqxvk",
+   "bytes": 7198
+  },
+  {
+   "path": "images/ean13-2/888-1.webp",
+   "sha256": "xkvwvxkkqfyvpwwvpyykpzfqffpkfpzzxjkqzxfxzffvzfqzkpwzjjqkkzxffkkxfpxfvwvqzjkzy",
+   "bytes": 5212
+  },
+  {
+   "path": "images/ean13-2/888-2.webp",
+   "sha256": "zvpxjyxzjfjwjkfyfjjwxwpvwkqvxxqvxzvyjkvwyqfzzxjwkvyfxyzvyjxqvjqzxxpxxwqwfykfx",
+   "bytes": 2382
+  },
+  {
+   "path": "images/ean13-2/888-3!.webp",
+   "sha256": "wzzvykkfvfwjfkxyfqzpfjpxzjkqkxjkwppfkypkzzvyxxjyzpykvkjfvwyjyykvzxwzkyvjqpyxf",
+   "bytes": 4710
+  },
+  {
+   "path": "images/ean13-2/888-4!.webp",
+   "sha256": "jjjvfqzjwkwfpfzfxkwjjfykfwvzvzffwywfxxjxvvfqwywxvwjwfvfkxvpvfqzqyjkxfzfzxzzxvf",
+   "bytes": 2550
+  },
+  {
+   "path": "images/ean13-2/888-5!.webp",
+   "sha256": "jzkkkjypppkzxwkwkjwjpykzjxjypkxwpqxxpjjxqzyffzxpjjfzwzpyqwyqjfxpfpjqvzzwfjzxf",
+   "bytes": 2932
+  },
+  {
+   "path": "images/ean13-2/888-6!.webp",
+   "sha256": "pyxyfvppxqyypvkkjpkwxfwjxpvpwywzjvjzfxxjpwfxxjvjyzqjzyjxpyqyfjkvpzwjvzvzjqx",
+   "bytes": 4914
+  },
+  {
+   "path": "images/ean13-2/888-7!.webp",
+   "sha256": "jfxwyfwjyqvpzxwqpzpjqffpfvyzpyfpfjqvjxkxvxqzxjypypwxxzqqkkppwfvqkqqvvkqkxqkjyw",
+   "bytes": 5258
+  },
+  {
+   "path": "images/ean13-2/888-8!.webp",
+   "sha256": "jfvwxwzzpxjjxjkypjqyywfjkxpwwxzwqfywppyzpjfqppwkwjvwypvjpwyzpwkpzpvpzwvfjfjzzw",
+   "bytes": 5098
+  },
+  {
+   "path": "images/ean13-2/888-9!.webp",
+   "sha256": "pfkqjkqwxvvwvxpwjvwqpyqxzyqfywzxwvqyqzqfxxqxyqwkzxkjwyqypqzwkxfvfjwykfqzykjzj",
+   "bytes": 4840
+  },
+  {
+   "path": "images/ean13-2/a.webp",
+   "sha256": "zpzqqqwpfwfkxqpkykyqjqqpfvxyxwzvvjzzzpqwvjkqqyzvvkkfqpqfvvfkwpwzqjyxqfjqzjwjp",
+   "bytes": 7696
+  },
+  {
+   "path": "images/ean13-2/e!.webp",
+   "sha256": "wfxvqfvkfzvpvwjqxpwwpxzkwxkxwyzjfvvkpwzxwvxjxwpzxyppxyjjwjkjxjzfkvzzyzwzxqqxv",
+   "bytes": 3392
+  },
+  {
+   "path": "images/ean13-2/f!.webp",
+   "sha256": "yfkyxpjvqvqqqvvwxwzvyvjxjqvwwzkfjfpvfffkkxwzyxqpvkzyvvwqzpjvqkqfzqzvpkfvqfxwz",
+   "bytes": 2402
+  },
+  {
+   "path": "images/ean13-ext-1/4.webp",
+   "sha256": "vpqjxkfkxkjpvvzvvvjjyzzjfyxjyjywpyfywvzxqzkzzpkwkxfzyqqpfqzpjvjwjzkpywkjxwywq",
+   "bytes": 6278
+  },
+  {
+   "path": "images/ean8-1/1.png",
+   "sha256": "xqxjwkjwpjvxxwfyjxqzzppqjzwxpxqjpzkvkwkwjqxxyzyzwzwfvzjkjzkzqpqzypvpfkkxkvw",
+   "bytes": 557
+  },
+  {
+   "path": "images/ean8-1/2.png",
+   "sha256": "kxzxjqwjxyzqqjyxkfzwxxppyyqpjpjwzfvxwpzqvwyfxzzqfqzqvwvzfpypvwxqzyvzvzqqfqjfp",
+   "bytes": 433
+  },
+  {
+   "path": "images/ean8-1/3.png",
+   "sha256": "pfzwxjppyvjqwyqfxffzfjqkvkqzkjqvxvjyqzwfzqxjzyxfwvxpfqkxfxqqfqxwwzxpwfwpxxyxq",
+   "bytes": 401
+  },
+  {
+   "path": "images/ean8-1/6.webp",
+   "sha256": "xzkwxjqvjqpvqqpwqyqzvffkjkjwwjxzyyqqkfvvyzjkpfzjzyffyvfpjqzjjyjjpzjxpyqfqwpjj",
+   "bytes": 4076
+  },
+  {
+   "path": "images/ean8-1/8.png",
+   "sha256": "xpyfppxkxvyvkkpyjwxpkfkvffxkfkjfwfxxfpkvzvwqxqfjywzfwxfwfzkxwwpvqqxkwqfyvjxzp",
+   "bytes": 580
+  },
+  {
+   "path": "images/ean8-1/single-line.png",
+   "sha256": "zqwjvqwzjkkkzfqywjppwjpkzvzqkqqyzvypwpfjvfyfqqqvkwxyfxvfyjyjwjyxzvqvfypqyzkww",
+   "bytes": 95
+  },
+  {
+   "path": "images/itf-1/#853.png",
+   "sha256": "jffkwfjykjwyfkwxfxqqzwxyzpqxkqzwykzvykxykxxqfwpfjjzkvwzfkvqzypvyywyqjqjzqfjvxk",
+   "bytes": 178
+  },
+  {
+   "path": "images/itf-1/1-slanted.png",
+   "sha256": "zzkxjvxfykkqvzxwzvfkwvqfqqxzqkkpvfzfvzxqqqfzqxqxvxxxfyqjqpvjvjxxkzkxvzykxqkq",
+   "bytes": 368
+  },
+  {
+   "path": "images/itf-1/1.webp",
+   "sha256": "wkxywxfvppvzvvxkqzxfjyxkqfwpkzyyzvzkxvzvxvkkzykwvyfvvxzwxxqwjvvwfwyqyfjyxwwzv",
+   "bytes": 1358
+  },
+  {
+   "path": "images/itf-1/13.webp",
+   "sha256": "kfxvzwwpqqjfykjjvwxfkvwvzpxkfjfyyqvfjpvfxpqzkkzwfvkywpfjxjvzvyppyxqzxjxjzpxjz",
+   "bytes": 1616
+  },
+  {
+   "path": "images/itf-1/17.webp",
+   "sha256": "qkxxxpvvjywjjxyffqwjjqxkpvwqwyvkwpqxpvyqxvpqpjfkfvqyjxvzfzjkfzpvfyfvqqvpyjp",
+   "bytes": 2382
+  },
+  {
+   "path": "images/itf-1/5.webp",
+   "sha256": "qpzqvfypzfqwpjvfpjpffywfxpwxyppwwvzxzjyvykyjkwfpvwfvwwkfqxxzykjqqvjwqfkxfqqfy",
+   "bytes": 984
+  },
+  {
+   "path": "images/itf-1/6.webp",
+   "sha256": "wzykqjyvvzfxwkpwzyqxjwzvxzqppfxfpfjxfyjjywzzfvzppyzxxkkqkwypfyvzwxxvyqppkvvqp",
+   "bytes": 1390
+  },
+  {
+   "path": "images/itf-1/8.webp",
+   "sha256": "zyjvppxkvyxwkxjvpzffxvvyxwkjvyvpwwpqjvzkqwqvpxvppywyqvpjfkpxppkzxzwyzfjpfkqkw",
+   "bytes": 1654
+  },
+  {
+   "path": "images/itf-2/0-1.webp",
+   "sha256": "wxvjpyjfxfzjqkjxwzyyzyxjvxkjfwyzzwkfzwfwwvzjywwyfyfkffkqyvwvjwqkfzxpqyqxkffj",
+   "bytes": 1726
+  },
+  {
+   "path": "images/itf-2/0-2.webp",
+   "sha256": "jkkqwvwywjjvkkxpkzyqzzppxyjxywjypwzfpfjwxqwvqkfwpyxvzvjwpvqjwjfkkyfpvvxzwkxxy",
+   "bytes": 1966
+  },
+  {
+   "path": "images/itf-2/0-3.webp",
+   "sha256": "vpfwjxfqxqvqqqpfykypyqxwfjfjzqqfywxjykfzwkqjyfvyfzvpwwjvxpwxwzkwkywqfkyjfzkxk",
+   "bytes": 1538
+  },
+  {
+   "path": "images/itf-2/0-4.webp",
+   "sha256": "qvxjkzpxqfqqvpxvjwypxjqxqfqqxyyfwkqvpqjypvpwqpzzywpqpvqxvxqxzyqjvzfxzjqykqxpz",
+   "bytes": 3612
+  },
+  {
+   "path": "images/itf-2/0-5.webp",
+   "sha256": "xzjxfwqfvkwwvvwkxpfypkzvqykyfvjfyyyvpjkzjzjzxqffyjqjwqpvfykwywwkvxqfxvxpqxqkz",
+   "bytes": 2042
+  },
+  {
+   "path": "images/itf-2/0-6.webp",
+   "sha256": "kkpwkjxvzpxxvyvkzfwjvfwzkxwyyvzpkkqzxzjfypzzzpzvvkpzqfypkwxpjpxwzkjkvxqvkfjq",
+   "bytes": 2088
+  },
+  {
+   "path": "images/multi-1/#360.png",
+   "sha256": "zkfyzvpyqvwzvqpzkzkvfxkzvjpwfvyvwpzjpqqyyvfyvyyypqjfxvykpjvkvfzzkypzfyqvyjyvf",
+   "bytes": 654
+  },
+  {
+   "path": "images/multi-1/ean+qr.png",
+   "sha256": "kvkkvjfyyvkwfjyqwjfwyqzyyqzffjykxwwkzqkffxwqwqzkqpwzzjfjqpzvwzpwwfjywywkfqkzv",
+   "bytes": 9474
+  },
+  {
+   "path": "images/multi-1/ean8-x3.png",
+   "sha256": "qkffkxjvvzqfyjqzvjzjpkjqwfzzvwxwxpkwxzkvzwjjxvwzpxqvyvqfzyfzxvvzpxvfpvzjjyfqx",
+   "bytes": 364
+  },
+  {
+   "path": "images/multi-1/qr-x4.png",
+   "sha256": "xwkzvyfqqzpwqkqyfkvzzzpvkyqkxfyqfxfxkpwkwfxvkywkzwjvyjykwqwjvzxjwjqpwpjzpzxpk",
+   "bytes": 3146
+  },
+  {
+   "path": "images/none-1/#570.png",
+   "sha256": "wxvykfzqkjpvzvqfjjkppxwpjwyzqqyxpwpvyjfkxpqpxwjxxxkpyxjkpwyfqwqjjjwwpzyxypqvy",
+   "bytes": 977
+  },
+  {
+   "path": "images/none-1/05.webp",
+   "sha256": "xvypkvjjxxppfwvqpfxppfjpvfkxyfzjfjzqwxjyvffzfzfqvpjzzfvywxjxxwqwzvfwvjxvwxyqz",
+   "bytes": 89146
+  },
+  {
+   "path": "images/none-1/06.webp",
+   "sha256": "zvqffpfyxqvxjwxpxzwkzjzkjvypyppkxwfpyzffwjfkyvvvxxkkjwppvzvfzqqzywqqvkyypqxwy",
+   "bytes": 46322
+  },
+  {
+   "path": "images/none-1/08.webp",
+   "sha256": "zfjfqvqwvzkqxjfjyjkyjqkxyxxwywwfqkkypqpjjpyqxjxkfffpwvwwzpwpkwxxpxfzkjjvwvfzw",
+   "bytes": 49138
+  },
+  {
+   "path": "images/none-1/10.webp",
+   "sha256": "qykppwkpyywvjjyyfyfwppwkxyfpfkzqqfwjxjypfkwvxywfxykqzxpkzyjqkkfxvjqwpzvfkpvwk",
+   "bytes": 86560
+  },
+  {
+   "path": "images/none-1/13.webp",
+   "sha256": "jjjppkvfjqyfxpxvqkjqyfpqyvwjjwpzpqzqvwkvywvyzpwkvwpxfzzzqkjjwxjxjwxfyjzvypxvfx",
+   "bytes": 47904
+  },
+  {
+   "path": "images/none-1/14.webp",
+   "sha256": "jfjjkqwxfkzxjzpqqfyzzzzfyjkyxxwvvkkjvqyyzjkfkzpjxxfpxjxvqxzqykzqkpjfzzzwwxqyyw",
+   "bytes": 45682
+  },
+  {
+   "path": "images/none-1/16.webp",
+   "sha256": "ywkxwpwjjwpkkqjxvqfxfwkpywjkqyvjjzxxjqjvqfwpzzwfwxykjqqjjvjkkkpxxxxyyywyjwxzw",
+   "bytes": 104288
+  },
+  {
+   "path": "images/none-1/17.webp",
+   "sha256": "jpjxjjkywvfyyzjywyxkjxvvjjwzqpxfqjvqqwzkpykzfpfxqwpkkjqxjwwzpfywyjfxfqzkpjyyy",
+   "bytes": 48942
+  },
+  {
+   "path": "images/none-1/1x1.webp",
+   "sha256": "kjzvjkyjjwzkwfwjfxqyjwfwvfwvxxkjqkxpzvqpvvjyqppqfpjjkpxkqpzjxpxyvqwwvvyyywvjq",
+   "bytes": 30
+  },
+  {
+   "path": "images/none-1/MQR-falsepositive.jpg",
+   "sha256": "kxwkwvzjqzppwxfqvffwxfwzxkwwyqvpvpwfzwyzxwvpjwyvyxwxkqwyjzqpwfkwvwvvfyffkfvj",
+   "bytes": 1025
+  },
+  {
+   "path": "images/none-2/01.webp",
+   "sha256": "kxpjpyvxwkjjxqyfjzjzffykjkqzpfkfzzyppqjxkjfpjyjvyjzjwwwjxzwvjqfwzyzkqzpqvxfv",
+   "bytes": 44156
+  },
+  {
+   "path": "images/none-2/03.webp",
+   "sha256": "xwkwxzvfjkqxyvwvyvkpkqqqzxxjzkxvwpqqkpkffvzpxxkvvjzxfyzppvpqkjwyjfwzfpvzjwyfw",
+   "bytes": 40640
+  },
+  {
+   "path": "images/none-2/04.webp",
+   "sha256": "qyyzkpxfwxzqwpywxpjqqkkxkwfkvzfwfvyqjkjpqjfxxyqqpqjxvkypwpqxyzvyzxypjvjxyjkyj",
+   "bytes": 26258
+  },
+  {
+   "path": "images/none-2/08.webp",
+   "sha256": "jfzvjqkxpfvxjxkffpkywjkkqqfqvpjpzfyjxwzpzwwkqjqyqpzvwpqjxfpfwvvwwxqyzpxqwkyxjz",
+   "bytes": 33046
+  },
+  {
+   "path": "images/none-2/11.webp",
+   "sha256": "wqfpvqpxyppwfzqzpzywpvvkqkjqwjvpzkvqfxvxkywwqzqqxpyzwfwqpxvwzxzppzvzvzjxqvvxv",
+   "bytes": 48492
+  },
+  {
+   "path": "images/none-2/13.webp",
+   "sha256": "kkzkyvyxkxzkpzwwpyxzxqvkkjvzywvqzyvfyfwjvfvpzzfypfykxkvvjwppyvykxxwjjjzvxjkpj",
+   "bytes": 50564
+  },
+  {
+   "path": "images/none-2/14.webp",
+   "sha256": "kvyzwyvqpwzkfzyfkvvpwkvpwxpxkzkjzfyfqkqppffwpxjzjkxwzqxzjqwwxjxkqxwwjjjzyvyvx",
+   "bytes": 62612
+  },
+  {
+   "path": "images/none-2/15.webp",
+   "sha256": "kjvqyvjpjzvxkyxzjjxfyvfzzxvxpzpvppkwjkvfxwzkwqxkxpxjzjyvkjpykqvzjxqpjxjqfzfkk",
+   "bytes": 37938
+  },
+  {
+   "path": "images/none-2/16.webp",
+   "sha256": "vwxyyfwypwyqkzzpfxjkzfwfqzzzkvwfzjzvjjzxpzzzvqqyyfkvqkqjjzjkppyxfkjyjfqxqqwjw",
+   "bytes": 47220
+  },
+  {
+   "path": "images/none-2/17.webp",
+   "sha256": "pwzfwpjpkqzxkzzqwvjkjqvyqvxxqfkpkfjyfkjkykqfpwxzxvzwkjyzqfvykfqzzqkjpjjqwqyv",
+   "bytes": 59618
+  },
+  {
+   "path": "images/none-2/21.webp",
+   "sha256": "xqxkvpvxjqjxzzjwkpxyyppkwzzqxvzwyyzqyyypwkykpvqjwxzkpxwfpfkxvqxvqqxwpvjwfkfwj",
+   "bytes": 34514
+  },
+  {
+   "path": "images/none-2/22.webp",
+   "sha256": "yvkjyvwkykwxzqkffjvxxyfpxwfxxpjvxfpwxkwqyfxxpzkvyzxfzfkwwfpvzxjvzwjjffxqzfkkk",
+   "bytes": 21414
+  },
+  {
+   "path": "images/none-2/23.webp",
+   "sha256": "wxpxqxkpzjjfkfxvvqfpvywwwjfjpvqpjjzvfxjvpykyfywxpzzkpvvkqwfqkvfqjpfjyqzfwqfzf",
+   "bytes": 65344
+  },
+  {
+   "path": "images/pdf417-1/01.png",
+   "sha256": "ypjqwfffzfwjxkwzqzxxkxfkkjwjvpqyxfzzpwfpxyjqxqpxzwywqyjykfjzqjvkppqzvfzqyqfwx",
+   "bytes": 274
+  },
+  {
+   "path": "images/pdf417-1/02.png",
+   "sha256": "vjqjkkkyxqqyzjfwfxqfvyjqqyppfzjpxvyfzfqvyxpjzwjwzkzjvpjkkjykxzkwxfyqkwjppqjzx",
+   "bytes": 5037
+  },
+  {
+   "path": "images/pdf417-1/03-aliased.png",
+   "sha256": "kyjpvffvkxppwvpwqykyxkwwffywyjpkpvpyqzvjxkjjwxvypwpqwqzvfvfvzfzwkvwyfwqkwjjxx",
+   "bytes": 254
+  },
+  {
+   "path": "images/pdf417-1/03-cut-bot.png",
+   "sha256": "yjxxwxwxfpkkkjqqqwxjyzfwkzkxzxkfwqvxvqzkqypfzpwyqjzppkxyyvwqfpxffpqwqwqjykvvf",
+   "bytes": 279
+  },
+  {
+   "path": "images/pdf417-1/03-cut-top.png",
+   "sha256": "pjjxywppjvfwvwqjzwqxfkyqzvyfqjkzjfkvxfpqzjqpkfxkkqfqwpyfvkjwwxvfxxyvyzyqwjyx",
+   "bytes": 276
+  },
+  {
+   "path": "images/pdf417-1/03-flipped.png",
+   "sha256": "qvpfpqyjjkqzxxxxkfqvfxvwvwzqwpppxpfpfjxkkjffxyvjyfzzffzxwvjpyypzkppkfqypxwzpx",
+   "bytes": 293
+  },
+  {
+   "path": "images/pdf417-1/03-rot90.png",
+   "sha256": "wyvvwkpqqjvyfjqkxppjyvvxkvyjwjzqjyxzkxjyzxjvkqqvxfzxwqkkqvwyqqkwpjkzpyqxjxxqw",
+   "bytes": 410
+  },
+  {
+   "path": "images/pdf417-1/03.png",
+   "sha256": "jjpqjzqzzqpyfzzqqqxvqzzvkvwykpfjqyfpxqwjqzxywzkyjqpykkykqfxwyyyypkwfwyqkkfwpyz",
+   "bytes": 291
+  },
+  {
+   "path": "images/pdf417-1/04.png",
+   "sha256": "jqywfwxzjwzvvpfkwpvkzxypffyjkwvfpqjkzjvyqqwjxwpkzkkppzjpjpvfjjqzkkwwkjyvfzfjj",
+   "bytes": 2412
+  },
+  {
+   "path": "images/pdf417-1/05.png",
+   "sha256": "zjwxjxvpwvykpwvpkvkzwxpxwfyzwjvwpkvpppzvpqzkqqpqffzvjqjyzfxfvvqqwqwjkvvzvvykx",
+   "bytes": 3310
+  },
+  {
+   "path": "images/pdf417-1/11.png",
+   "sha256": "qjjzjvjpwpppxjpvfjzxfpfjwwffxkyvkywfyjxwyyxxvkfyyqpfjvpqvfkzwxxfzkwxpxfpvfqvz",
+   "bytes": 492
+  },
+  {
+   "path": "images/pdf417-1/reader-init.png",
+   "sha256": "wppjqjqyfvjwfwqxzwwkfwvzffqvjqxpqvkppywxpwqkyvxzfpyvyzpjyxkqwzqqwzzfyvyzqpyxv",
+   "bytes": 165
+  },
+  {
+   "path": "images/pdf417-2/10.png",
+   "sha256": "ykvxwpkjkwyvkwyjfyvvjpjkqqpvzkxppqxxqzvqkvkqkvjjqjfjpyqjxfypzywkjjzxyzwpzvjkp",
+   "bytes": 503
+  },
+  {
+   "path": "images/pdf417-2/StructApp1.png",
+   "sha256": "vzpyyfpvpxvjfyzfzwvpfxvzvfwjkjjvywvqxjyyjwwqyfkpfwpyxwfyvvpqxjkjwwjzypvwwjyjx",
+   "bytes": 583
+  },
+  {
+   "path": "images/pdf417-2/barrel.webp",
+   "sha256": "jjpvwxjqvjppxqvpkkyzwvvfxjqxxkyfjyvwkvjyvkvwfywfxjfwzqwqkzjpvqvqqypjfkwfqpxqp",
+   "bytes": 3566
+  },
+  {
+   "path": "images/pdf417-2/broken.png",
+   "sha256": "kywjxfxxvqyqkwqjzwwpfpjyfyqkyqyjkjkxxfzkzjkwyzyxvkkyykjxxjwwkxzpjvkwjfwyxvfvf",
+   "bytes": 594
+  },
+  {
+   "path": "images/pdf417-3/1x-1.webp",
+   "sha256": "vfvpkkqkqkfwxqywvyjfqkqwxfppvvyzqkwwkwzfwkqzpwykqffxxjqjfkfvxkpjkqzpppqqkjyxz",
+   "bytes": 3914
+  },
+  {
+   "path": "images/pdf417-3/1x-2.webp",
+   "sha256": "kwjkzxzjjpwpjkkkyqpjpkkypwxvwvfkzvqqkywjyvqjwjwvvywqvxfqfkjjpypkwwpwxwxqfqfqk",
+   "bytes": 4248
+  },
+  {
+   "path": "images/pdf417-3/1x-3.webp",
+   "sha256": "vwvpzkfqpyfjqvxpvqvqzzfvzkfpykzyjxwxqpfqjvyjjfpqfyxvkzywzvzfzqyfxyfjxzwpfkkvk",
+   "bytes": 3768
+  },
+  {
+   "path": "images/pdf417-3/1x-4.webp",
+   "sha256": "jfqjjypzzxqyvjjzfyyzyffjjfvyzfzvzxpqqwfkypvxfzwywypjyfpxvfpxywwkfwkkjxxwfqjpf",
+   "bytes": 5350
+  },
+  {
+   "path": "images/pdf417-3/1x-5.webp",
+   "sha256": "qjwxzkwwzyffxxfxxkwfzpkjqwyxvyvkjzfjvpxxkywyxkkxxkvfvjxkvjjqpzkwkjyfykvxkjjxf",
+   "bytes": 4758
+  },
+  {
+   "path": "images/pdf417-3/1x-6.webp",
+   "sha256": "zzvkjjpwvjkqwqzjzwkwywfqkyxwvfvvykzjfjzzfkxfqqvjvzfqfxjpjwqjzfpzzkwjyjkpfkfp",
+   "bytes": 4750
+  },
+  {
+   "path": "images/pdf417-3/1x-7.webp",
+   "sha256": "yxpxvkjwfpyzfkywkkpxqyqkzfzxzfwzzzqyzkvqjkzwzfpqkfvfwzfwqjkyywzkwppjpjzkwkxjf",
+   "bytes": 4182
+  },
+  {
+   "path": "images/pdf417-3/2x-1.webp",
+   "sha256": "zqyfpkqxzpwxpzjwyfqjqzfwfxvzvzqjpkqxyffkkjzvjpyyzzvqyqxxjfwfvwwvyqpjwppkyqkwx",
+   "bytes": 5206
+  },
+  {
+   "path": "images/pdf417-3/2x-2.webp",
+   "sha256": "qxwzpxjjxxkppwjxxpfpzvzyyvqpfpwyyqwkxwfykvpfzqjvyyzkpkkvxkkwfyjfqyvpyxxwzjvxw",
+   "bytes": 4506
+  },
+  {
+   "path": "images/pdf417-3/2x-3.webp",
+   "sha256": "vyzvkwzzqjwfwjwjjfjwjvpvwzyfkwzpwqzwwzkvfkjjwzxfwqkzxzwpwzpzxzjykfzqzyzqvffqw",
+   "bytes": 5086
+  },
+  {
+   "path": "images/pdf417-3/2x-4.webp",
+   "sha256": "qkxqpqvwfkvwzyvjvjpjvwykqfwvjpzfxyjjxfpwjwqpyzkzjqxvpkqjpyqpjjkpvwxxjjkkjvxqf",
+   "bytes": 5010
+  },
+  {
+   "path": "images/pdf417-3/2x-5.webp",
+   "sha256": "kqkvqvxkkzkvxypzpfjpjpwvppqyqqqpyyywqjjvpkyxfpjwvvqvfxxjzxzwyxfvfpkvpkqvywkvp",
+   "bytes": 5038
+  },
+  {
+   "path": "images/pdf417-3/2x-6.webp",
+   "sha256": "kvffwwyfywyjfyqfxjzywykzwwwyjkkxxyxkqjvxjxxkzyfxvppzwywzqjjxzvyqjwxzkvjqxzkqf",
+   "bytes": 6340
+  },
+  {
+   "path": "images/pdf417-3/2x-7.webp",
+   "sha256": "qwkvwvzqjqkfyxfvyvfjvkwzwvfwxzkxjqpjjvfvfpvqjkwwzqpzzwzjxzyzzpxwzwppwqxppvwjp",
+   "bytes": 7456
+  },
+  {
+   "path": "images/pdf417-3/2x-8.webp",
+   "sha256": "wyvyvywzqvkfffqpfzqypywqpwfyfjwpzxjzjqxxjzwvvzzkkvvzpzyzxfvwxqqppxffvyzkjxfjp",
+   "bytes": 5684
+  },
+  {
+   "path": "images/pdf417-3/error4-0.png",
+   "sha256": "yykxvkjvzkqyffpkyxfxzkfkjxwwwkkkyfpqppwwjjyvxxyqqvfxzwvfvpjfyzyxfwpwxwwxxkjwj",
+   "bytes": 411
+  },
+  {
+   "path": "images/pdf417-3/error4-1.png",
+   "sha256": "kqzpvkpjzyfzzyqxwwvykzypzwwwpvqxjkwxxvwkwxjjxzyxpfkyfypqxfywqwvfzqfjzxypyqpxz",
+   "bytes": 476
+  },
+  {
+   "path": "images/pdf417-3/error4-2.webp",
+   "sha256": "jfywxfwxqpfwfqjvwzyvjfkvzkwpjfqfypjfkjfypkywzpxkfqqqjzxvwqzxxkvjyvpwpkxvqxvwpw",
+   "bytes": 5334
+  },
+  {
+   "path": "images/pdf417-3/error4-3.webp",
+   "sha256": "zzwfxzfpyxkfqqfvkpqkvjyxfvqwyjxyppvvkvpzxqyqwvyppvjvjvjvjjwjkxxvxpkykfkyqwyyx",
+   "bytes": 2582
+  },
+  {
+   "path": "images/pdf417-3/error4-4.webp",
+   "sha256": "kwvwxqkqfykfwkvvzxjjwxqxjzyjkqxzzyzqkwkkzjpyvkkwqyzwqfjwyqvqpzffyjvkkyvxfffkv",
+   "bytes": 2430
+  },
+  {
+   "path": "images/pdf417-3/error8-1.png",
+   "sha256": "pqqyvvfxpxfpzjpfjpzzxvvzywxkkyxqxxvfypwqwkfzyqfjwwjpzqfxkkzzjkfvpvjqqfwwxkvkv",
+   "bytes": 1650
+  },
+  {
+   "path": "images/pdf417-3/error8-2.webp",
+   "sha256": "xqzjqxqjwzfyzvjwfjqqpvfqxkwvkvwvjpkjzzpzfvkxxkpkzfzyzvkkjzqpxzxwfkpxxvqkwjkvv",
+   "bytes": 5818
+  },
+  {
+   "path": "images/pdf417-3/error8-3.webp",
+   "sha256": "zkzwfpxjvyfyjzwqyvfvjxzywjpwqvvykyvyxpwfzqzfvxxqjkfqkyqpzqwfyjqwxxkwwqwwzxvwp",
+   "bytes": 5534
+  },
+  {
+   "path": "images/pdf417-3/error8-4.webp",
+   "sha256": "pfxwkjjxqqfxzvkzfjpxywkwpkxfkywkqxxqyqfxxpjvkfwfzzvfjvfvxypkwvjvkwjyxqvxfvpqz",
+   "bytes": 18678
+  },
+  {
+   "path": "images/pdf417-3/error8-5.webp",
+   "sha256": "vxvzwkqkxypxzwyffpjpjjzkkvvjjffzfkqwzpqxvwywzyyzxjjpfvwjxxwwjyppxyvpkxqpqyzxf",
+   "bytes": 15130
+  },
+  {
+   "path": "images/pdf417-3/error8-6.webp",
+   "sha256": "kxxkvqjzpkwypfpqyvpjfyyxzwwwykxjxqwvpjwkwwvvyzjvkqpxvqqjpqpqppkpqqjwykwqwfwx",
+   "bytes": 10078
+  },
+  {
+   "path": "images/pdf417-3/error8-7.png",
+   "sha256": "yyjqqfyzvyzxqjjxyywjxpwwvfzfyxwyfjwwyjjqzyfjqfykfffkqwfvxxqkykvfjwfkwwqvxzpyf",
+   "bytes": 1981
+  },
+  {
+   "path": "images/pdf417-3/error8-8.png",
+   "sha256": "wyzyfyzvqjfvyyzzfkqkzwfpywqjpypqfkqqxfjzkvzqxzxwvzpxwjzzjpyxqfypxqqyzqqwjqwyx",
+   "bytes": 1521
+  },
+  {
+   "path": "images/pdf417-3/error8-9.png",
+   "sha256": "xvqzvjwypfqzfwkjqykyfxfjqpqzwfkwzkwzfqzkkwvpyqpffpvffwvkzpvvppfjvqwyvqypyxpwp",
+   "bytes": 1404
+  },
+  {
+   "path": "images/qrcode-1/1.png",
+   "sha256": "qxqqpvqyyjwjwyywxwzxxyxffzkzpjywxkjjqypfqywvffpxyyxpzxjwwkqkfyjxvxkxzwwkwppfv",
+   "bytes": 1451
+  },
+  {
+   "path": "images/qrcode-1/19.webp",
+   "sha256": "zzpkwxqjqpvqyqqywxxqypyyfxvfqjjxpjkjkwpwqkqzqpvywyfjxfkqxxxzxxpzypyjqpyfpzjjk",
+   "bytes": 1512
+  },
+  {
+   "path": "images/qrcode-1/27.webp",
+   "sha256": "qpvxpjqqjypjpkwvfyzjjkzfwppzzzpxpfwqffwyxwvwqjfzxjxwkkfxwkqpvjvkvvwxvkypzpzzy",
+   "bytes": 3508
+  },
+  {
+   "path": "images/qrcode-1/30.png",
+   "sha256": "wwwqjppzqxvypvyxzxwwfkqvpvkvzqvpjfypzfjzjqjwkxfzfwfxqpwvjxqwwwkwyvpzxqxqfpfzx",
+   "bytes": 365
+  },
+  {
+   "path": "images/qrcode-1/34.png",
+   "sha256": "qxxjzvffkjxjfzpzjjzkfwkvzvpwwvyzffwpwvwqvppwkkjykwvvkxqjpkykfvyjkwyjkxqpkvzyw",
+   "bytes": 319
+  },
+  {
+   "path": "images/qrcode-1/35.png",
+   "sha256": "zqvzzjfjxfvqkwqxxjyyzkxjkkvvxpfyzpfzfxvxjyykqxxqwqwxqfjyvwzkvwwjjpvyjfpxjwxxf",
+   "bytes": 313
+  },
+  {
+   "path": "images/qrcode-1/9.png",
+   "sha256": "xqffyqpxvqwkpykqwppyvfjypzwpvvwfkjjfyzzxqfwqkjxjvqkfzfpzvjwqwxvjfwfjwkjpyqkyw",
+   "bytes": 272
+  },
+  {
+   "path": "images/qrcode-1/EC-L.png",
+   "sha256": "pzpfpjqqyzzzwykypwkvqzpyfxxkfvxwfzjpyyfykppqzyjfjkwzwxxxqkkkwxwjkkwvzzpxzpqvp",
+   "bytes": 4205
+  },
+  {
+   "path": "images/qrcode-1/gs1-figure-4.15.1-2.png",
+   "sha256": "wwxjwqyvyyzkfxxwxyzjxxqkvzyyqvpvwjvjyfxkwzffywjqqjwxfqwpyzfjvqykkjwqyjwvjqfyz",
+   "bytes": 289
+  },
+  {
+   "path": "images/qrcode-1/qr-model-1.png",
+   "sha256": "wxwpyxxjjzvpqwkjyzjjvzvkyzjzyyfwqypjppxffywpywyxvwwzxfkkpxqwzfkxyvfjpzxyxzkqj",
+   "bytes": 230
+  },
+  {
+   "path": "images/qrcode-2/#1086.png",
+   "sha256": "jfwyvqqwvvqpxyzjqzjfzywpqzffvqkpwyyxvyjwfpkyxvkkwyqywxvxzqfqzvfjwzxfpqpqkwzkvf",
+   "bytes": 1417
+  },
+  {
+   "path": "images/qrcode-2/#142.webp",
+   "sha256": "xpqpxvyxfzxvzxfjyypfpzkwkwwzjkjxywpkqpyjjkwzpxfjqjjyxqvykfxvyxzykvvqwzfywwvwx",
+   "bytes": 19030
+  },
+  {
+   "path": "images/qrcode-2/#199.webp",
+   "sha256": "ppkywwfpywpzvypzqwzwwkfzjjvqwwzypppvwxxxfjzvwkqvfjzxvpkpxjfqqxxyyzypqyzfjkpvj",
+   "bytes": 2424
+  },
+  {
+   "path": "images/qrcode-2/#199b.jpg",
+   "sha256": "pxywvqyffxjzfkvkzqqkpykzxpyvxvfxxykkxxyjkjqkwxzkzkvyxqqqzqyvjfvxvkyqpxfpywkxx",
+   "bytes": 3833
+  },
+  {
+   "path": "images/qrcode-2/#258.webp",
+   "sha256": "vwvvxkfpqywvxjpfxwkqkwkzyjyfzvvvxyyjqxfjqzvjvzpvjwkwqkpzxpjfwzfzywpvffqkywqzz",
+   "bytes": 9596
+  },
+  {
+   "path": "images/qrcode-2/#940.png",
+   "sha256": "yvwvzqpqxkpvxxvwzqzpzyvvxpzpzwzvvjvpxvkjyxfpwyyqwzvfyvpyzjkjyvwzkxxwyvqxyyjxp",
+   "bytes": 342
+  },
+  {
+   "path": "images/qrcode-2/15.webp",
+   "sha256": "xxxpxpzkvxzzypjkfjfyvpzywkpkpjjfypppvkvfjxqfkqzvkzkyqqypvwfwwwkxxfqwxjwzvvfjp",
+   "bytes": 1764
+  },
+  {
+   "path": "images/qrcode-2/22.webp",
+   "sha256": "zfjpqywjzfpfwpzqzvfywykkvqqfywyjwzkzfvjpjwjjwxppqjqkpjxzyzkxzxqjxkqqzwkqvxzfw",
+   "bytes": 8626
+  },
+  {
+   "path": "images/qrcode-2/24.webp",
+   "sha256": "xwxwyfzvqyzxpqqjvvjvpxffpkpvvqjqzzxxwqzyfqffyxypqkfjkqyyvypzzyzppvwppqzjjffxx",
+   "bytes": 3652
+  },
+  {
+   "path": "images/qrcode-2/28.webp",
+   "sha256": "kvppxyqwvyxyvfxzypqzzxxjyxkwxfjwywfxpjpffxvpvxvqwjpvypvvkqjxqwfpkkjvwqjykvkfw",
+   "bytes": 6174
+  },
+  {
+   "path": "images/qrcode-2/2in1.webp",
+   "sha256": "xqqwwzqkwyqyvqkkyxwzkxxyzjzjkwzjfqkxzzfxkwkzxfpzvyqpfjyypzwwvwwwwvqfpwpjxwqjf",
+   "bytes": 1366
+  },
+  {
+   "path": "images/qrcode-2/30a.webp",
+   "sha256": "yjzqkkxpzqfzyjvzkvwqzjjzjjpjvpfxkyxkzqxqvxvqqqkvpzxywvvxxkqzyqwzkyvxwkzkfyxpf",
+   "bytes": 6054
+  },
+  {
+   "path": "images/qrcode-2/estimate-tilt.jpg",
+   "sha256": "kfzxkyzxyvwyqpvypjyvjzkvwjfpwwvjqqzkqfkxvzqwvppjwvpkzqjzzkzjqxzfzkyypwwjyzff",
+   "bytes": 3173
+  },
+  {
+   "path": "images/qrcode-2/fix-finderpattern-order.webp",
+   "sha256": "pvwykvqfzkpffxwfxpvyzjyzpzywxpkxwyqfxkkxfyxpqyfjxfwvvxffqzwzqjvpwvqzjypwzpxjj",
+   "bytes": 1972
+  },
+  {
+   "path": "images/qrcode-2/fix-traceline.webp",
+   "sha256": "yfqpvpwwfpfqzppwxxjqpwvjkxfvvjqfkvyfyxkjxyvppvvvqzfxkzkvpqpfjxqjqvpkvqwppppwx",
+   "bytes": 6972
+  },
+  {
+   "path": "images/qrcode-2/low-res-v1-a.webp",
+   "sha256": "jjpjkffwzkyzwzjzwkxjvyjqfxvxkqvzvxxqkjqzvwjxfjzqvvpjjxkypfxkyjfkzjwyvkyyqxjkzx",
+   "bytes": 838
+  },
+  {
+   "path": "images/qrcode-2/qr-inv-1.webp",
+   "sha256": "jkzfzvpvyxpzwkzwfqqwzvwkwfqjpxwkzzyqfvkkyppjkxpxqzzykfyqyffjfykyfzyfppvkypqvq",
+   "bytes": 10092
+  },
+  {
+   "path": "images/qrcode-2/qr-inv-2.webp",
+   "sha256": "xjqjkjkwkqpxvxyjzwvjqvfyywkqxxxjzvkzqpxfvyjpzjjyykxkpyvqzjyywkqqyxjjvfkppkqxp",
+   "bytes": 1082
+  },
+  {
+   "path": "images/qrcode-3/blurry1.webp",
+   "sha256": "pjfvjqjpwyzjwfxzvyzqqzfxvqfqzpykjwxkxkpyxkxpjkxkjyxvqjqxqykwwvjfkxjqzpjqpzxkj",
+   "bytes": 1954
+  },
+  {
+   "path": "images/qrcode-3/rotate-1.png",
+   "sha256": "pfjxxxfyyyppzkwywvpwvfyzkvwwkxkpxxfjvkzwwkqxxyyfpfxfwqyvfwqfpvvywyjvpzxxkywz",
+   "bytes": 1006
+  },
+  {
+   "path": "images/qrcode-3/rotate-2.png",
+   "sha256": "zyxxvjqxwjjfvqqxfxxkqxqwfpjjjjwffxvfpxjkjjyxxxwvxxwzvqwfjkyyxpfzqzqyxkvfkpyxk",
+   "bytes": 1035
+  },
+  {
+   "path": "images/qrcode-3/rotate-3.png",
+   "sha256": "pqkkzvfvfjqqwkwqjvkppwpqkjjpwqjpfpxwkjyxvyxyffvvpywzpwzjxfjpvxqfwqzxxqxjwjyzy",
+   "bytes": 984
+  },
+  {
+   "path": "images/qrcode-3/rotate-4.png",
+   "sha256": "ykywpvjwxyxqwkjppjyvjzzkzxqqqzyfvwwwqvkyjppjpzjyzykfjpfjywxfqwjqjzyfyjpqxvwpj",
+   "bytes": 985
+  },
+  {
+   "path": "images/qrcode-3/rotate-5.png",
+   "sha256": "qxvfzpqxzfkpqvvvjqzzffqvvpxjfxqyvkkjwkfjyvxwjzxkyzjqwkfyjjkqppvzjypwzwvwvxzxf",
+   "bytes": 1001
+  },
+  {
+   "path": "images/qrcode-3/rotate-6.png",
+   "sha256": "pxvzxyvvppywxzxqzqjwjjpjpkppyvkzyqxqyqvqjqfyjfvzxyjqyqwkqvkzpvwjfqqkyqfypkjq",
+   "bytes": 1315
+  },
+  {
+   "path": "images/qrcode-3/rotate-7.png",
+   "sha256": "kqwkpqjxfwvwkyxjyjwfxzxfpyqkfkzqkpjjfwvzjvyqqfxwkzjyxzwkkjyjjwxpxfpypzzjjxpyk",
+   "bytes": 1038
+  },
+  {
+   "path": "images/qrcode-3/rotate-8.png",
+   "sha256": "kjyxjwvjqpzfjpwwfyqvzpvfvfjkpywxvfxqfywjxvvvjxxyqwqvpqjkvvzfwqxwykjpwjwkjywjy",
+   "bytes": 981
+  },
+  {
+   "path": "images/qrcode-3/rotate-9.png",
+   "sha256": "xwqfqvykfkxkjwqpkwxxkwpqyjwzkpjyqykzwfxfwjzzvxkvxqvfpyzvxjpvwkvkpjvxzzwxkzpwy",
+   "bytes": 1006
+  },
+  {
+   "path": "images/qrcode-3/rotate-a.png",
+   "sha256": "wvxykvwqwpwjjzvywjqvywwvpkzxffzvvfpqwzzqfjjzvkjzjpzjwzqvyykwpjqqwvwkfywxzwfyy",
+   "bytes": 1009
+  },
+  {
+   "path": "images/qrcode-3/rotate-b.png",
+   "sha256": "xyzqfvfpvyqqkyyfjwfyjpwzwqwyfpzpjvzpjpzkxwvvfkvvzfwwjpkxkzqxvqyfjkwzkyvzfpypy",
+   "bytes": 1009
+  },
+  {
+   "path": "images/qrcode-3/rotate-c.png",
+   "sha256": "jfkywvzqxwfjjvxwxxqffvjqzjfzyzxzjwyvwvjzjywjyfyyqvzppfqyjwxpvzfwpjfkqkzyfpjyww",
+   "bytes": 1047
+  },
+  {
+   "path": "images/qrcode-3/rotate-d.png",
+   "sha256": "jxpyyyxpjwzwffvzqjqfxyzffxqkjyzfwkvxjyyxqjpzjwykwzffwfpxyvfzvfkyvzzxpkwkvkkqx",
+   "bytes": 1049
+  },
+  {
+   "path": "images/qrcode-3/rotate-e.png",
+   "sha256": "qywqyjzyvqpkywpwyjxqpzvfwzxvyxjkyywkyjkxpwyxxvqwzzzqwwyjvykkjjvxfkxzzzwkyyfzf",
+   "bytes": 1041
+  },
+  {
+   "path": "images/qrcode-3/test1-1.webp",
+   "sha256": "jjvxqxwjkppppjzpfvqyqwkykkpfpwjppyxyvpywfjfpyywzpzvyykjkkjzvvwwywjjqkykyvvzkzx",
+   "bytes": 1916
+  },
+  {
+   "path": "images/qrcode-3/test1-2.webp",
+   "sha256": "xqvqykxqkxykpkkfyvqqfvvqkpqzpvzfykqxzvzypkzvqyzkxpvkpppqxwxpwjwqffjpkwkppkvqp",
+   "bytes": 1188
+  },
+  {
+   "path": "images/qrcode-3/test1-3.webp",
+   "sha256": "jjfxwqxkqwjwpxwxxvpxpxjwjkqvywpkpjpvpzfkfqqjzqzpkxkzpqpypzpzwxkkzvxxqppvwywkxf",
+   "bytes": 1942
+  },
+  {
+   "path": "images/qrcode-3/test1-4.webp",
+   "sha256": "xqvzvfpwpjqpzwpzqjpkxjqqqfqpwzpxkyzyyfzkqqxwyjqjywyfqvqzvpvxwqqxqjzfjxxxppwkw",
+   "bytes": 1034
+  },
+  {
+   "path": "images/qrcode-3/test1-5.webp",
+   "sha256": "pfvjzppqyfpvqkzkxppzxvxvjpvvpqyxvpzkxykvpfjfjfwxpqkqfffvqzppjqxzzyvxjvvvfyvzx",
+   "bytes": 1746
+  },
+  {
+   "path": "images/qrcode-3/test1-6.webp",
+   "sha256": "xqjpyvwyzkpwvzzwqkxqyfqwqzwjypxvxykvxpvzkvxqpwyvjyxypvfffvqfpxzkpjyzqjqwvpqky",
+   "bytes": 1734
+  },
+  {
+   "path": "images/qrcode-3/test2-1.webp",
+   "sha256": "vykfkvwjfyykjzqyvjzjvvfkvyfxxxxvwqfpyvwfqvzxxfvkvkpzyyxyvpqxwyzfkqkpwkfkjvkvy",
+   "bytes": 3876
+  },
+  {
+   "path": "images/qrcode-3/test2-2.webp",
+   "sha256": "xxzkvkxypzzxjvxqpqpwqfpyqxpzxzpzvjxpvfzvfvzxzzfjqqvyvkjxvjpvvwfyvzkzzjqqzjfjp",
+   "bytes": 3766
+  },
+  {
+   "path": "images/qrcode-3/test2-3.webp",
+   "sha256": "vywqfvwqjyqywywvyyvxkvqfjqfpqvvfykfzfjjzzzjywzzwwzxxxwjvvqkvfvpzvpzfppxkjfxzy",
+   "bytes": 3038
+  },
+  {
+   "path": "images/qrcode-3/test2-4.webp",
+   "sha256": "kfvqxqkjvyykyvwppywwvppwvyfvyjyyxxzwvxkjfxvkpxwjjyqyjkkzqjvjqpjwyqwvzvwwqfpvf",
+   "bytes": 4566
+  },
+  {
+   "path": "images/qrcode-3/test3-1.webp",
+   "sha256": "xfvkzwpjykzqkqwxpkjfzyfvkkwwvvzjwpxkkkwwzjqfqfpyzjqfzqfqpxywypvwvxpxqjpwyqpq",
+   "bytes": 6878
+  },
+  {
+   "path": "images/qrcode-3/test3-2.webp",
+   "sha256": "jjfjvpyzzpkzyqkxpfqpzzfjfxwkxzpwpkfpfpkwfkvpxxjxjfyvfzyjxzvzjjpvxvyzyvppwwjvxp",
+   "bytes": 8556
+  },
+  {
+   "path": "images/qrcode-3/test3-3.webp",
+   "sha256": "pjjfjkkzxzpjqfffwxvwyxvfxyykpkfwwyvwjzppjffkwqpjypyyxpkvfpfpvzxjvfkkyjwqzyvyf",
+   "bytes": 5750
+  },
+  {
+   "path": "images/qrcode-3/tilt-1.webp",
+   "sha256": "vxqppvfzkkjjyjfqxvkkffjpjfjvvjyvpzqwwppwvzvzwpwkzpyyxpqvffkvxykkzwkqwkjvyzxzz",
+   "bytes": 1760
+  },
+  {
+   "path": "images/qrcode-3/tilt-2.webp",
+   "sha256": "pkqxqxvxxykpkfwqkfxywfjzjvyxqzzvpxfxzpxwpzzwfzxfypzpqkqqkxjzypfyqvvkzyqypvzqv",
+   "bytes": 1608
+  },
+  {
+   "path": "images/qrcode-3/tilt-3.webp",
+   "sha256": "zzxfqyqjpjpqkffkwzwpykqfpxzkxzppvpqqfxxwpppkxfqzvjyzwyxkxzzfxyvvxjzvwjvxqvvfq",
+   "bytes": 5110
+  },
+  {
+   "path": "images/qrcode-3/tilt-4.webp",
+   "sha256": "vpkypzwzzkvvwjqwkkpwyqqzqqqpxxffvwwpfxvfwpzpzvpwpkppxykfwwxxvjvwpjqjkwzqpxkfk",
+   "bytes": 2250
+  },
+  {
+   "path": "images/qrcode-3/tilt-5.webp",
+   "sha256": "yqpkvvzpyvvwyykjzjpyypyqjppvwkqpqpyfyyvjfzykqxjkwzpkjwfxkzqxpfwfqxxjqzkvjvjxp",
+   "bytes": 5236
+  },
+  {
+   "path": "images/qrcode-3/tilt-6.webp",
+   "sha256": "zjzvjwjwpzqjvpykyzjypwkqkpkyvqvzpvffxxkzykxffyzqkfzjpyxjwjxxwyywzwqwyyqjyfvkz",
+   "bytes": 5196
+  },
+  {
+   "path": "images/qrcode-3/tilt-7.webp",
+   "sha256": "jvqxjqwpfyzqkpzzxfzxqxxqjvfpzkqwwxwzkwxpqqfpxwwfykvvpqxyykfqxvvqvwyqwqjvvqfwy",
+   "bytes": 1748
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-01.webp",
+   "sha256": "jkxxwvyvkzwfpvpvzpzfpxzqxvfpkfqkpyyzfjfzxyzjqjqxfkjwvqxqvxxwqfvqxzpxfqqqjjqfz",
+   "bytes": 4334
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-02.webp",
+   "sha256": "vxzzjzqwyzpfzqkzqpfqjvzvqjqxyjpykpwfjpxvqqywqykffjqvfpxwqkzzfkwjwjqzvyvvpvypv",
+   "bytes": 4062
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-04.webp",
+   "sha256": "ykfqqpkpzppjqzqvkqpqzvjvyxxwjkjqzfpvjjjzffpqwjpwqkzkvxkqpxkwkzywfvyqjfkzjxvp",
+   "bytes": 3878
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-05!.webp",
+   "sha256": "vvjfpqkqwyfzwkpyfxqkzwpxyyyyzxpwyvyyfxkzyjpqxfqpxwfpyzpzvjfxkqkzfjwzwywwkfpfz",
+   "bytes": 3798
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-06!.webp",
+   "sha256": "wxjqxjjvpjkkfzvqjvpxpfxjfkxzqwpkwjxkjyyvxyjzkqvzjvvzkkfpyqyzvjykjypjffqqyykvf",
+   "bytes": 4562
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-07.webp",
+   "sha256": "yjjypyjkyjkyqfjfjfzpvkwxxfpvqkvkwjwvvjkyfywqxzjqxpqfpffjqvpzvwpqvxpvkykkjwjxw",
+   "bytes": 4030
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-08!.webp",
+   "sha256": "zfxfvjyjxwfppykyfkykyjxyjywwpvwvwjjvqxywqxjjwqfkzwkzywqwvfzxkzvjqpvxwyjwxppy",
+   "bytes": 4546
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-09!.webp",
+   "sha256": "ykzxxjwjwpqkykxwqpzvxyyjzpjjfqjkfqfjwffywqvwqjqyzyqyqpkxpkpkzfzpffvjkvwfkqpvx",
+   "bytes": 5224
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-11.webp",
+   "sha256": "vzqjwfjxjwvjkypzkkpvppzzjpqwqjzpfkyfjjfxkkfyzwkfpvzfvwyzpfpqyjkvwyxxzfqpwjyfq",
+   "bytes": 4082
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-12.webp",
+   "sha256": "qyyjyfyfqzzxkzkkfvwwzzfffppypkjykfzvkvzwpvjvzwpfyfffkqxfyjqjwkpxwxkvvxzfxxvpp",
+   "bytes": 3872
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-13!.webp",
+   "sha256": "qpzfzyyvvxyfyxzxppjvzpvqfqzpxxqkwfxvkyxfjfvkppyxxqfkzxpvzjppxqxkpxvvfzpfxyzzz",
+   "bytes": 3780
+  },
+  {
+   "path": "images/qrcode-4/wrinkle1-14!.webp",
+   "sha256": "vwpvpwvxkzqxqxwkxzzwkfzkzxvwpqpyyzvyzyyxkwwjypfzpwqzwfwqfvqyxqyvjwypqkzfkwppq",
+   "bytes": 3774
+  },
+  {
+   "path": "images/qrcode-4/wrinkle3-1.webp",
+   "sha256": "vxjyfqyvvyypfyxxzxjqkfqpyjvxvqxjpyxxywkfyywyjpjxzwjjqpzzkqxykfkfkqwxxkjvvvqqy",
+   "bytes": 3168
+  },
+  {
+   "path": "images/qrcode-4/wrinkle3-2.webp",
+   "sha256": "jjqfjxxkppkxqykqzqjpqfxqkwpzpzzkjvkfwfvjjjzkpfwzffywqkqwjwpyzkyfqxqxypyyzwkzvw",
+   "bytes": 3280
+  },
+  {
+   "path": "images/qrcode-4/wrinkle3-3.webp",
+   "sha256": "pfwjjkpkzvjwpfkjvfkqjvyxkkxypfvvvjqkfxzzvpyjwxjpjwkvwfwppyypjjwjpkxwyyxqwzpzx",
+   "bytes": 4022
+  },
+  {
+   "path": "images/upca-1/2.webp",
+   "sha256": "jvjvkzkfqqppzvjvxvpfyxxzxyjpvqjxwwxxkpkvjvfqyjkzkfvvxwfvwzpwjwxkvpfvkxpvkzwy",
+   "bytes": 2146
+  },
+  {
+   "path": "images/upca-2/003-1.webp",
+   "sha256": "yqqyfqyxjqpqxxqkpjvjpvqkzwwjyvzfkxwfqwfxfjpjkyjkzjpjfwwwjpkyffzpwqqjkwjvqzqjy",
+   "bytes": 1552
+  },
+  {
+   "path": "images/upca-2/003-2.webp",
+   "sha256": "jjwqjxwjwxzywyzypqzwfyyyjyfyxwkkqkfqvvffjppjwyfkzqpzkvvyvxkkjqypwfvxfqvqjkzpy",
+   "bytes": 1928
+  },
+  {
+   "path": "images/upca-2/003-3.webp",
+   "sha256": "wzzvpwxxqpyfzyzxvfwzxzkpfxjfzvqjywvypjjqjxxpyfkyxjpxywwywxyxyxvzwkzqpkjvyyzpf",
+   "bytes": 2722
+  },
+  {
+   "path": "images/upca-2/003-4!.webp",
+   "sha256": "jjkzvzxxvzqyvkpkfwvjqwjzjfqyzpykzpjvpwqyqzxkkyxwffzyjqyfpjjkjwjpyxpqzwqwwxvzxy",
+   "bytes": 2156
+  },
+  {
+   "path": "images/upca-2/058-1.webp",
+   "sha256": "vyvkqwzyfzzvwyzfzzkkxjxpvqvxpkfpzkpwqkkfxqjqkzwqqjpjpwqzwxffqjqvjzqfywkxzwzjf",
+   "bytes": 5916
+  },
+  {
+   "path": "images/upca-2/058-2.webp",
+   "sha256": "vwqxqzyqyfxqkfkyjjwqqqkvfjjpzwfqvfvfqpqfwjwqkqwzzqxpvqqfwxvyyvxfvvpwjzwpqxxxx",
+   "bytes": 7708
+  },
+  {
+   "path": "images/upca-2/058-3.webp",
+   "sha256": "jjpjfwvxpzqywjfzyyqwpqwwjqwxvwfwzxykwxkfjfxykywfqjjqkwwyjpfffvyjfzkwzjqzqxjpfp",
+   "bytes": 4518
+  },
+  {
+   "path": "images/upca-2/058-4.webp",
+   "sha256": "xwpzjwzzjwvkwzjqxjxwvwykxpwwxjzkzkqpfpwpfqpqxjpkwpfyfqvvpwkkvpxxwvjwzvjwqfwzq",
+   "bytes": 7816
+  },
+  {
+   "path": "images/upca-2/058-5.webp",
+   "sha256": "jffkjvzxkqyxvvyfvzpxqfzyvvfpkvyxxfvppzpyzqxxpqpwwxwwkyzzzjwzzzkqzfvyqqvkwfzqqw",
+   "bytes": 6914
+  },
+  {
+   "path": "images/upca-2/058-6!.webp",
+   "sha256": "yzwpzfzwqpwqqwpzkqwkpfvvyxzpyxwkpqfxypjjfjzwqfkypyzxwkwzjqffpxvvwpykxvypwwfpp",
+   "bytes": 5700
+  },
+  {
+   "path": "images/upca-2/058-7!.webp",
+   "sha256": "pjfwykwzjvypwjpxxkqjfwpkqwvqpvxwwfvzvyfzjzfvzxpjpwywxkwyfppkvjjjywvfxxzwzvkqj",
+   "bytes": 4504
+  },
+  {
+   "path": "images/upca-2/058-8!.webp",
+   "sha256": "xxjfqkkxqvqjvfyfwzzfzjfzxkvvxxwqwpykvzjkypwkyjkqqykzxvkpzyyyvqzjyvyzkfkkxvzpf",
+   "bytes": 5564
+  },
+  {
+   "path": "images/upca-2/058-9!.webp",
+   "sha256": "vfpfkjppqqqkppqqpwzzpvvpfxpjpqxjxkqkffypkpwfjfzqyqyzzxkwpfxywpxqjyxzkxjwwfxxy",
+   "bytes": 4362
+  },
+  {
+   "path": "images/upca-2/058-a!.webp",
+   "sha256": "vyxpfkkvjfzpwqkppfyfvqjvyzpvkyxwyqjvjjkxfkfzqfpwzvkpvyyyfywzfqqzvvfqjjwjqpjx",
+   "bytes": 5120
+  },
+  {
+   "path": "images/upca-2/058-b!.webp",
+   "sha256": "jfqwjywkvjfxfvvjzzxwvvjzkjpvzzyvzzjvywqffpvxfpkxyvxfqwvvzkqfyzwfvxwwzjkyzqjjzv",
+   "bytes": 6588
+  },
+  {
+   "path": "images/upca-2/116-1.webp",
+   "sha256": "pqpwxjvfjxfjyvzkzwzxkyfpxzkyyzfqvkqqxjwpyvqzfzvpyxkpkkzwpkkywkpxpypfzqwjzkjzf",
+   "bytes": 6864
+  },
+  {
+   "path": "images/upca-2/116-2.webp",
+   "sha256": "pkwzqyvjjqjpqzjffjzvpfpjqwpwyvqfvyvqjqkqjfjyxjwwfyqzkwpykqkzzffxwxqjvzfjjjjwf",
+   "bytes": 6710
+  },
+  {
+   "path": "images/upca-2/116-3.webp",
+   "sha256": "qpywxqvqfvkjqzfyzyjvpfzffxfpvfyvqfkfjwxfzkzzfpwfjqkwjvyzyvwjpxfzkwpyzqzxzxvwv",
+   "bytes": 5158
+  },
+  {
+   "path": "images/upca-2/116-4.webp",
+   "sha256": "qpfjvzzppfpppkqkjqzpwpwwkjjfyyjpfkkwkqzfpkzqyzjyvwfykkxqzvkxzqpqxfzpwpwxjywkp",
+   "bytes": 5088
+  },
+  {
+   "path": "images/upca-2/116-5.webp",
+   "sha256": "yxwkqypzkqvzwvywxxjzyzvzxqzypyffpzfxwvvfzjxyzwfjwwpzkwykfjpfwfykjkxjzfxfqxkxy",
+   "bytes": 6576
+  },
+  {
+   "path": "images/upca-2/116-6.webp",
+   "sha256": "jfvwxfpkywyjzxkpfkjpfvfjfwqzqzkzfvxpfkzjvyfyfkfyjqykpzfvvfpwwfqpypfxxwqzzzjwkv",
+   "bytes": 7944
+  },
+  {
+   "path": "images/upca-2/14.webp",
+   "sha256": "pjpkyjwqkxzqpyjpzzxvkfwjkppvvpqpfxvpkxwjwkvxyxwxvpjpxqxqjqzywjwpzwpjxqyqppqfx",
+   "bytes": 2870
+  },
+  {
+   "path": "images/upca-2/18.webp",
+   "sha256": "jxwqvyqqvfqzjxffzjjkxyfzpvpfvpxfzxpzfzxywzxqywxyqjyzqqwpyzkwyyfvqqxkwyykqkkzq",
+   "bytes": 3442
+  },
+  {
+   "path": "images/upca-2/335-1.webp",
+   "sha256": "jkxwfzvfqvvvwvpkzvkjvwfwzfjqwpjyvfyqqfyxyjqzywkzqpjyfywpfkfjfwxpkqvwpypkpvxpf",
+   "bytes": 2018
+  },
+  {
+   "path": "images/upca-2/335-2.webp",
+   "sha256": "xkkwqyyvzwywfvfvfqyvfzvwzkkqvvjzwvjqkfywkzfkwwyzxwfzxfwfqzkvzqwvvzkxykvzkykqj",
+   "bytes": 4096
+  },
+  {
+   "path": "images/upca-2/335-3.webp",
+   "sha256": "wvvxpjyqyzpfpqppppqqvxxqvyvkfkkwkjqkwkkxyxfvpzxvxjjyxkwvpvjwwyfkyjjyqxjfvyfqz",
+   "bytes": 1740
+  },
+  {
+   "path": "images/upca-2/335-4!.webp",
+   "sha256": "xvvyqfykqpypvkyvxzwvzffxqppxypkwpfkzffpqqyjzxjpyfkkfwpfpywxyvyjkjvffpppkyxzkj",
+   "bytes": 2410
+  },
+  {
+   "path": "images/upca-2/592-1.webp",
+   "sha256": "xfqyvvpjvkzyzjpwvwwkfjwjqxkqqpqxpfzqvwpqfpxwvvyfpzqqjyqxyjvvkwyxqkkqxjzkkpwwj",
+   "bytes": 2822
+  },
+  {
+   "path": "images/upca-2/592-2.webp",
+   "sha256": "pfffpyjqxzqyvxxyvzxvxzxzfwfvqxqqyxzwkpfpkvqzfpqwfqfjpxfwjqzkkxyzyjpkzwkqyqqpz",
+   "bytes": 1016
+  },
+  {
+   "path": "images/upca-2/592-3!.webp",
+   "sha256": "jvvyjfppvvkqkjfxwwzyfqvpkxfyxxpqqwxwzvqwpjjjzwyfqqxjyvqfwxfjwzvpwxyqkzfkwwxwp",
+   "bytes": 1190
+  },
+  {
+   "path": "images/upca-2/592-4!.webp",
+   "sha256": "kfwyxzwkqwkpwzxqpkywyzzyzzkqxfxjjxzqjxxjwffwwzwwyjxfqxzvvfwwjzjjfyyvpwvvkxxpq",
+   "bytes": 1118
+  },
+  {
+   "path": "images/upca-2/675-1.webp",
+   "sha256": "yqjwzjfzxqqkkkvyqwvqzzyffyjypkzzvvyzyvkwkkxpkpffkywpqzwwxjqkkvpyxqypvpvjykwvj",
+   "bytes": 3452
+  },
+  {
+   "path": "images/upca-2/675-2.webp",
+   "sha256": "jfjxwyqpqqwxpvqpxxkjkpxqyypkkfqxwxvfqjpwxypzvkzwvqfqypjqwkwwqzqqyzqzvqypjwjzvf",
+   "bytes": 4630
+  },
+  {
+   "path": "images/upce-1/1.png",
+   "sha256": "pyzpvqpkkqpyqywyjfkwjxjzzwjjkzvwyvykvyyxvjqxzpfjjqjxzxvkjykfkvyyqkjzfwqvjqwzy",
+   "bytes": 526
+  },
+  {
+   "path": "images/upce-1/4.png",
+   "sha256": "jfyfxzjwwvqzyqfpfzzxkxfpfqkpxyypjvpvpwvyvvwqpkxjxzzjkqvwkpwwwqzwwwzzzpzwykwkwy",
+   "bytes": 521
+  },
+  {
+   "path": "images/upce-2/12649-1.webp",
+   "sha256": "pxpjpkwkqpwjyyxjwjkfvyjypwjjykwywpvwykvvvvzpxyvkjpfqqqkfjyxqfxkkxkwkyvzyzpqfx",
+   "bytes": 446
+  },
+  {
+   "path": "images/upce-2/12649-2.webp",
+   "sha256": "zwxkpyfxxzvqffyvwwfqfqkyjwpxwzjfqjpwzwfkpzfvzyzpjvkxjwzxfpfjqxjfjjqfxxqyfqxxp",
+   "bytes": 454
+  },
+  {
+   "path": "images/upce-2/12649-3.webp",
+   "sha256": "jfpjjwvzzxvywjzpykyvkpzzfpkfvkjxzpvpvxpwjyxjvwypxfxyqfzxqjpvzkfpfvpfyqjxpzyyvw",
+   "bytes": 1534
+  },
+  {
+   "path": "images/upce-2/12649-4!.webp",
+   "sha256": "kfqpvvwxwkvvwqkxxfzjpxwqywkwkjyfqfzzqqkpqqvzfkzpjqxpqyyykkjkwkkpkpqyzqvjyzypp",
+   "bytes": 1028
+  },
+  {
+   "path": "images/upce-2/12649-5!.webp",
+   "sha256": "qvpywqfvypvvxyzjywfpwqkxyxfpyfyzjzxfqxqfvjjjyqyvvvvvqwyqvwwkfjpkzfpffkzvkkfff",
+   "bytes": 1682
+  },
+  {
+   "path": "images/upce-2/49634-1.webp",
+   "sha256": "qxfqxwfpfwvjkppjwjxxpkzqqjkjfjyfxjykkvkyqzvvkvxvkzxxxjwqxkpxpwpjwkxqpqpqvqwqq",
+   "bytes": 2044
+  },
+  {
+   "path": "images/upce-2/49634-2!f.webp",
+   "sha256": "jfykxkwvvjjfzwqqjkjxfqzjyvzvpjkqjqpzypypfzpqqkpppkwjfjkyywvvvvypjxwzwvyjwjfzjy",
+   "bytes": 1942
+  },
+  {
+   "path": "images/upce-2/49634-3!.webp",
+   "sha256": "wvkykyfvfqkvzxjywzfjfzwyppvjvxjzykfzppkxkxkkvxzpvzyfkkqwwwzkzfqzfpfvqxvkkwfqy",
+   "bytes": 1118
+  },
+  {
+   "path": "images/upce-2/49658-1.webp",
+   "sha256": "ykvjpqzyxxywwwwwkyfvwwxxwkxyqvqkwzyfzwkvwpykfxzwfpqwyfwpkpfqwyyxvpyvfzppyqqjz",
+   "bytes": 3110
+  },
+  {
+   "path": "images/upce-2/49658-2.webp",
+   "sha256": "xvvvpyzyjfxzpfyqyvkpfxwyzqvyypwkxjzpzyvfzzpqykvvjkjvqwpwpwwxpjyfkjjfkyyppwxzp",
+   "bytes": 3134
+  },
+  {
+   "path": "images/upce-2/49658-3.webp",
+   "sha256": "vwxfwxzkyqwfwwjxyxkyfwqpyzvxvkypvyfqxxxfvqwzqzxfkfzyfzjwyzzzfwkqwxxfxpkfkpfpz",
+   "bytes": 2904
+  },
+  {
+   "path": "images/upce-2/49658-4.webp",
+   "sha256": "zfwjfxwyvkyvfqyxyjzkqwwqkzfwvwvxvpkkyqvkvvjpqzvzxwjkkyjwffzwqxzwqpwqpzxvzykkv",
+   "bytes": 2212
+  },
+  {
+   "path": "images/upce-2/49658-5.webp",
+   "sha256": "jfzpqqywjzvvypkkfyzzvwfjjjwkjxwzkpxqzpzxppkkwvwpzffpvzxfjpqvyxykvvjqxzxfqxyxvx",
+   "bytes": 2864
+  },
+  {
+   "path": "images/upce-2/49658-6!f.webp",
+   "sha256": "qxfzzjfjpkqjzpwkzpkkyjzjyqyjkpjzpjyqpjwyyjpfzvwvyjpvwqkkpxqpvwwkwjpyvzqkjjxvv",
+   "bytes": 2478
+  },
+  {
+   "path": "images/upce-2/49658-7!f.webp",
+   "sha256": "jfpvqkzzpypxwqjpvzqyfqqkxwjwypzpqffxkxpwyxjkjkjjfzkjvvvvjyjyffqkyqqpkfwvkwxfyy",
+   "bytes": 2644
+  },
+  {
+   "path": "images/upce-2/49658-8!.webp",
+   "sha256": "wzzxyjjkfxvzpkqyyfvxjfwvxpkwxxxxxxqfqxpwpfqqxpqfyvkzvvfzkwwjyxpkyzfyqwpfyyfwp",
+   "bytes": 2224
+  },
+  {
+   "path": "images/upce-2/49658-9!.webp",
+   "sha256": "zjkxkwjpyfqfvwjvkpyxpffpzvqypqzqzvvqkxkwfpfjkqkjzvfwqzkzvxqpzvqjvkkwqpvjwvyvx",
+   "bytes": 2592
+  },
+  {
+   "path": "images/upce-2/49658-a!.webp",
+   "sha256": "kpkxwxwzfppwfpjpqzffvypqyjwvwyxjwzxyvwjpxqvfqjvffkzpzwfjzpkvjyqqxwkyqvwpzzxkj",
+   "bytes": 2960
+  },
+  {
+   "path": "images/upce-2/49658-b!.webp",
+   "sha256": "jjpwxxzkywjzqkpqqqjjwqpjjpjkjkkkwfvwyvzqqxvwxxyjwxzqyjxvpykpvzwzzvxwjfyxyqvkzf",
+   "bytes": 2636
+  },
+  {
+   "path": "truth.jsonl",
+   "sha256": "yxqvfjpfvjwqwqxqpyyjkvkzvpzzjqpykfqyvvvjwjvwwpxxkyzfzxkzfpfqxkzvxppqfjpvzyfwp",
+   "bytes": 96172
+  }
+ ]
+}
