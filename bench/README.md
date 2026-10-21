@@ -67,8 +67,8 @@ metric's delta and a verdict. A change is acceptable only if:
   a higher-is-better metric), and the delta exceeds the metric's recorded
   run-to-run noise (`bench/noise.json`); and
 - **no speed metric regresses by more than 5%** (median per-item ratio B/A above
-  1.05, with its bootstrap interval wholly above 1, and beyond the metric's
-  noise), **unless an accuracy gain is explicit**: a speed regression is
+  1.05 after calibrating for the machine's speed at each run, with its
+  bootstrap interval wholly above 1, and beyond the metric's noise), **unless an accuracy gain is explicit**: a speed regression is
   accepted only when some accuracy metric improved significantly *and* the
   change says so (pass `--accept-tradeoff`, and state the trade in the commit).
 
@@ -185,8 +185,13 @@ over half a second, with `RAYON_NUM_THREADS=1` **and `RTEN_NUM_THREADS=1`**
 (rten keeps its own thread pool, sized to the physical cores, which
 RAYON_NUM_THREADS alone does not limit: the README's earlier "one core" OCR
 figures were in fact multithreaded), each item repeated and its median kept.
-Every latency records the CPU, the repeats and the load average before and
-after. Other users' jobs load this machine (a 6-core, 12-thread Xeon E5-1650
+Every latency records the CPU, the repeats, the load average before and
+after, and `calib_ms`: a fixed CPU-bound job (sha256 of 64 MiB in tmpfs) timed
+on the same core before every repeat and after the last. compare.py divides
+latency ratios by the ratio of the two runs' `calib_ms`, so a run on a busier
+machine is not read as a slower scanner; it also warns when the runs' load
+differed by more than a factor of two, because contention (a busy hyperthread
+sibling, memory bandwidth) does not scale every workload alike. Other users' jobs load this machine (a 6-core, 12-thread Xeon E5-1650
 v3); compare latencies measured at similar load, and look at the noise floor in
 BASELINE.md before believing a small speed change.
 

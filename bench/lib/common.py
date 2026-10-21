@@ -319,20 +319,42 @@ def idlest_cpu() -> int:
         return 0
 
 
+CALIB = DATA / "calib.bin"
+
+
+def calibrate(cpu: int | None) -> float:
+    """Milliseconds for a fixed CPU-bound job (sha256sum of 64 MiB in tmpfs) on
+    the same core, right beside the timed runs: how fast this core is at the
+    moment. compare.py divides latency ratios by its ratio, so a run on a busier
+    machine is not mistaken for a slower scanner."""
+    if not CALIB.exists():
+        CALIB.parent.mkdir(parents=True, exist_ok=True)
+        CALIB.write_bytes(np.random.default_rng(0).bytes(64 << 20))
+    t = time.perf_counter()
+    subprocess.run((taskset(cpu) if cpu is not None else []) + ["sha256sum", str(CALIB)], stdout=subprocess.DEVNULL, check=True)
+    return (time.perf_counter() - t) * 1000
+
+
 def timed_runs(run_once, repeats: int) -> dict:
     """Calls `run_once(cpu)` `repeats` times; each returns {item: ms}. Returns
-    per-item medians across repeats plus the context needed to judge them."""
+    per-item medians across repeats plus the context needed to judge them: the
+    core, the load, and the calibration job's time before every repeat and after
+    the last."""
     cpu = idlest_cpu()
     load0 = loadavg()
     t0 = time.time()
     per: dict[str, list[float]] = {}
+    calib = []
     for _ in range(repeats):
+        calib.append(calibrate(cpu))
         for k, v in run_once(cpu).items():
             per.setdefault(k, []).append(float(v))
+    calib.append(calibrate(cpu))
     items = sorted(per)
     samples = [float(np.median(per[k])) for k in items]
     return {"items": items, "samples": samples, "all": [per[k] for k in items], "cpu": cpu, "repeats": repeats,
-            "load_start": load0, "load_end": loadavg(), "wall_s": round(time.time() - t0, 1)}
+            "load_start": load0, "load_end": loadavg(), "wall_s": round(time.time() - t0, 1),
+            "calib_ms": round(float(np.median(calib)), 2), "calib_all": [round(c, 2) for c in calib]}
 
 
 def taskset(cpu: int) -> list[str]:
@@ -365,7 +387,7 @@ def m_latency(t: dict, *, desc: str, unit: str = "ms") -> dict:
     m, q1, q3 = stats.median_iqr(t["samples"])
     return {"kind": "latency", "value": m, "iqr": [q1, q3], "n": len(t["samples"]), "better": "lower", "unit": unit, "desc": desc,
             "ids": t["items"], "samples": [round(x, 3) for x in t["samples"]], "repeats": t["repeats"], "cpu": t["cpu"],
-            "threads": 1, "load_start": t["load_start"], "load_end": t["load_end"]}
+            "threads": 1, "load_start": t["load_start"], "load_end": t["load_end"], "calib_ms": t.get("calib_ms"), "calib_all": t.get("calib_all")}
 
 
 def m_info(value, *, desc: str, unit: str = "") -> dict:

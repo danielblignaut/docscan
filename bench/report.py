@@ -37,6 +37,8 @@ def noise(a: dict, b: dict) -> dict:
             shared = [i for i in ma["ids"] if i in ib]
             if shared:
                 r, _, _ = stats.paired_latency_ratio([ia[i] for i in shared], [ib[i] for i in shared])
+                if ma.get("calib_ms") and mb.get("calib_ms"):
+                    r /= mb["calib_ms"] / ma["calib_ms"]
                 out[k] = round(abs(r - 1), 4)
         elif ma["value"] is not None and mb["value"] is not None:
             out[k] = round(abs(mb["value"] - ma["value"]), 6)

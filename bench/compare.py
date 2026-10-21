@@ -11,8 +11,11 @@ A is the reference (usually the baseline or the parent commit), B the change.
   is beyond the metric's measured run-to-run noise (bench/noise.json, from two
   baseline runs; 0 for deterministic metrics).
 - Latencies: the median of per-item ratios B/A with a bootstrap 95% interval,
-  the medians with IQR, and a two-sided Mann-Whitney p. A speed regression is a
-  median ratio above 1 + max(5%, noise) whose interval lies wholly above 1.
+  divided by the ratio of a fixed calibration job timed on the same core in
+  each run (so a busier machine is not read as a slower scanner), the medians
+  with IQR, and a two-sided Mann-Whitney p of the raw samples. A speed
+  regression is a calibrated ratio above 1 + max(5%, noise) whose interval
+  lies wholly above 1.
 - Verdict: **regressed** if any accuracy metric is significantly worse, or any
   speed metric regresses beyond 5% (unless --accept-tradeoff is given *and*
   some accuracy metric improved significantly: the gain must be explicit);
@@ -86,15 +89,22 @@ def compare_stat(a: dict, b: dict):
 
 
 def compare_latency(a: dict, b: dict):
+    """Median per-item ratio B/A with its bootstrap interval, divided by the
+    ratio of the calibration job's times (the core's speed at each run) when
+    both runs recorded one; and the Mann-Whitney p of the raw samples."""
     ia = dict(zip(a["ids"], a["samples"]))
     ib = dict(zip(b["ids"], b["samples"]))
     shared = [k for k in a["ids"] if k in ib]
     _, p = stats.mann_whitney(a["samples"], b["samples"])
+    k, note = 1.0, ""
+    if a.get("calib_ms") and b.get("calib_ms"):
+        k = b["calib_ms"] / a["calib_ms"]
+        note = f"; machine x{k:.2f}, calibrated"
     if shared:
-        r, lo, hi = stats.paired_latency_ratio([ia[k] for k in shared], [ib[k] for k in shared])
-        return r, lo, hi, p, f"paired ratio on {len(shared)} items"
+        r, lo, hi = stats.paired_latency_ratio([ia[i] for i in shared], [ib[i] for i in shared])
+        return r / k, lo / k, hi / k, p, f"paired ratio on {len(shared)} items{note}"
     ma, mb = np.median(a["samples"]), np.median(b["samples"])
-    return mb / ma, float("nan"), float("nan"), p, "unpaired"
+    return mb / ma / k, float("nan"), float("nan"), p, "unpaired" + note
 
 
 def main():
@@ -118,6 +128,10 @@ def main():
             warnings.append(f"dataset {s} differs between A and B (manifest hash): its metrics are not comparable")
     if ma["args"].get("quick") != mb["args"].get("quick"):
         warnings.append("one run is --quick and the other is not: only shared items are compared")
+    la, lb = (ma.get("load_start") or [0])[0], (mb.get("load_start") or [0])[0]
+    if max(la, lb) > 2 * max(1.0, min(la, lb)) and abs(la - lb) > 4:
+        warnings.append(f"the machine's load differed (1-min load {la} vs {lb}): latencies are calibrated against a fixed job on the same core, "
+                        "but contention is not linear; recheck a speed verdict at similar load")
     if mb.get("git_dirty"):
         warnings.append(f"B was run with uncommitted changes ({len(mb['git_dirty'])} files)")
     print(f"A: {ma['git_sha'][:10]} {ma['timestamp_utc']} load {ma.get('load_start')}  {'quick' if ma['args'].get('quick') else 'full'}")

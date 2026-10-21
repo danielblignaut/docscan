@@ -173,18 +173,21 @@ def wasm(ctx) -> dict:
     in_json.write_text(json.dumps(wasm_inputs(ctx)))
     out_json.unlink(missing_ok=True)
     load0 = loadavg()
+    calib = [common.calibrate(None)]
     cmd = ["node", str(BENCH / "wasm" / "bench.mjs"), "--inputs", str(in_json), "--out", str(out_json)] + (["--quick"] if ctx.quick else [])
     r = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True)
     sys.stderr.write(r.stderr[-3000:])
     if r.returncode or not out_json.exists():
         return {"wasm.error": common.m_info(r.stderr[-500:] or "failed", desc="wasm benchmark failed")}
+    calib.append(common.calibrate(None))
     data = json.loads(out_json.read_text())
     metrics = {}
     for build, rows in data["builds"].items():
         for name, row in rows.items():
             if not row["items"]:
                 continue
-            t = {"items": row["items"], "samples": row["samples"], "repeats": row["repeats"], "cpu": None, "load_start": load0, "load_end": loadavg()}
+            t = {"items": row["items"], "samples": row["samples"], "repeats": row["repeats"], "cpu": None, "load_start": load0, "load_end": loadavg(),
+                 "calib_ms": round(sum(calib) / len(calib), 2), "calib_all": [round(c, 2) for c in calib]}
             m = common.m_latency(t, desc=f"headless Chrome, {build} wasm ({row['threads']} thread{'s' if row['threads'] > 1 else ''}): {row['desc']}")
             m["threads"] = row["threads"]
             metrics[f"wasm.{build}.{name}"] = m
