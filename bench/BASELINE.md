@@ -40,7 +40,7 @@ is the same: proof-of-address DEV 99% / 89.0% and LOCKBOX 90.4% / 24.0%
 (README, eval/LOCKBOX.md); LFW 99.52% / 99.03%, ID photo 98.20%, CelebA-Spoof
 AUC 0.842 and ACER 28.5% at the session's setting, liveness BPCER 3.3% / 0%
 (face/RESULTS.md); testdata/camera 29/30 good accepted (eval/eval.py's
-counting, which ignores the kind, gives 30/30).
+counting gives the same, README).
 
 The speed numbers were measured at load averages of 15-28 on a 12-thread
 machine and are slower than the README's (which were taken idle, and whose

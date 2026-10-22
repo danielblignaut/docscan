@@ -9,7 +9,9 @@ through `examples/scan --barcodes` (barcode::read_all, what the wasm's
 `examples/scan --labelled` (Scanner::labelled: barcodes, OCR and pairing).
 
 A decode matches a truth code when the symbology and the text are identical
-(UPC-A and the EAN-13 with a leading 0 are the same code). Scoring:
+(UPC-A and the EAN-13 with a leading 0 are the same code; Codabar is compared
+without its start/stop characters, which zxing-cpp's truth keeps and rxing
+strips: SCORER_VERSION 2). Scoring:
 - recall: truth codes decoded, over the codes meant to be decodable (codes
   drawn deliberately undecodable, e.g. bars under a pixel, are excluded, and
   scored only through the labelled metrics' printed values); per symbology too;
@@ -40,10 +42,23 @@ def norm(s) -> str:
     return "".join(c for c in str(s or "").upper() if c.isalnum())
 
 
+# Scorer versions (recorded in every result's meta; compare.py warns when they differ):
+# 1  first version
+# 2  Codabar compared without its start/stop characters (A-D, or T N * E) on
+#    either side: zxing-cpp's test samples keep them in their truth, rxing and
+#    the synthetic set strip them, so every decoder scored 0 on the public set's
+#    Codabar codes.
+SCORER_VERSION = 2
+CODABAR_GUARDS = set("ABCDTN*E")
+
+
 def canon(fmt: str, text: str) -> tuple[str, str]:
-    """UPC-A is EAN-13 with a leading zero."""
+    """The form a code is compared in: UPC-A is EAN-13 with a leading zero;
+    Codabar without its start and stop characters."""
     if fmt == "upca" and len(text) == 12:
         return "ean13", "0" + text
+    if fmt == "codabar" and len(text) >= 2 and text[0].upper() in CODABAR_GUARDS and text[-1].upper() in CODABAR_GUARDS:
+        return fmt, text[1:-1]
     return fmt, text
 
 
@@ -169,7 +184,10 @@ def speed(ctx, rows: list[dict], labelled_rows: list[dict]) -> dict:
 
 
 def run(ctx) -> dict:
-    metrics = {}
+    metrics = {"barcode.scorer_version": m_info(SCORER_VERSION, desc="barcode scorer version (see SCORER_VERSION in suites/barcode.py)")}
+    if ctx.speed_only:
+        _, rows = frames_of("barcode_synth_dev", ctx.quick)
+        return {**metrics, **speed(ctx, rows, [r for r in rows if r.get("fields")])}
     speed_rows, speed_lab = None, None
     for split in ctx.splits:
         for kind in ("synth", "public"):
