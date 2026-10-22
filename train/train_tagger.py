@@ -30,7 +30,8 @@ import torch.nn.functional as F
 
 BUCKETS = 16384
 MAX_IDS = 24
-NUM_FEATURES = 32
+NUM_FEATURES = 32  # set from the data: 32 (features) or 50 (features_v2)
+REL_BUCKETS = 8  # relative-position buckets each side of zero, per axis (v2)
 ENTITIES = ["HOLDER_NAME", "STREET", "SUBURB", "CITY", "PROVINCE", "POSTAL_CODE", "DOC_DATE", "PERIOD_FROM", "PERIOD_TO", "ISSUER", "ACCOUNT_NO"]
 CLASSES = 1 + 2 * len(ENTITIES)
 
@@ -66,28 +67,65 @@ class Block(nn.Module):
 
 
 class Tagger(nn.Module):
-    def __init__(self, d: int = 128, emb: int = 64, layers: int = 3, heads: int = 4, ff: int = 256, dropout: float = 0.1):
+    def __init__(self, d: int = 128, emb: int = 64, layers: int = 3, heads: int = 4, ff: int = 256, dropout: float = 0.1,
+                 nfeat: int = 32, rel: bool = False, abs_pos: bool = True):
         super().__init__()
+        self.nfeat, self.rel, self.abs_pos, self.heads = nfeat, rel, abs_pos, heads
+        # v2: the last two features are the centre in units of 50 text heights, for the relative bias only.
+        self.word_feats = nfeat - 2 if nfeat == 50 else nfeat
         self.emb = nn.Embedding(BUCKETS, emb, padding_idx=0)
-        self.inp = nn.Sequential(nn.Linear(emb + NUM_FEATURES, d), nn.ReLU(), nn.Linear(d, d))
+        self.inp = nn.Sequential(nn.Linear(emb + self.word_feats, d), nn.ReLU(), nn.Linear(d, d))
         # Box geometry gets its own projection too: 2-D position, the layout signal.
-        self.pos = nn.Sequential(nn.Linear(6, d), nn.ReLU(), nn.Linear(d, d))
+        if abs_pos:
+            self.pos = nn.Sequential(nn.Linear(6, d), nn.ReLU(), nn.Linear(d, d))
+        if rel:
+            # A learned bias per head and layer for each (dx, dy) bucket pair (BROS/LAMBERT-style relative 2-D attention).
+            nb = 2 * REL_BUCKETS + 1
+            self.rel_table = nn.Parameter(torch.zeros(layers, nb * nb, heads))
         self.blocks = nn.ModuleList(Block(d, heads, ff, dropout) for _ in range(layers))
         self.norm = nn.LayerNorm(d)
         self.head = nn.Linear(d, CLASSES)
+
+    def rel_index(self, feats):
+        """[B, N, N] bucket-pair index of every word pair's offset, in text heights (log-spaced)."""
+        c = feats[..., -2:] * 50.0  # [B, N, 2], in median text heights
+        d = c[:, None, :, :] - c[:, :, None, :]  # [B, N(query), N(key), 2]
+        b = torch.sign(d) * torch.floor(torch.log(d.abs() + 1.0) * 2.0)
+        b = torch.clamp(b, -REL_BUCKETS, REL_BUCKETS) + REL_BUCKETS
+        nb = 2 * REL_BUCKETS + 1
+        return (b[..., 0] * nb + b[..., 1]).long()
 
     def forward(self, ids, feats, key_mask=None):
         """ids [B, N, K] int, feats [B, N, F]; key_mask [B, N] true for real words."""
         e = self.emb(ids.long())  # [B, N, K, E]
         m = (ids > 0).to(e.dtype).unsqueeze(-1)
         e = (e * m).sum(2) / m.sum(2).clamp(min=1.0)
-        x = self.inp(torch.cat([e, feats], -1)) + self.pos(feats[..., :6])
-        bias = None
+        x = self.inp(torch.cat([e, feats[..., : self.word_feats]], -1))
+        if self.abs_pos:
+            x = x + self.pos(feats[..., :6])
+        mask_bias = None
         if key_mask is not None:
-            bias = torch.zeros(key_mask.shape, dtype=x.dtype).masked_fill(~key_mask, -1e9)[:, None, None, :]
-        for blk in self.blocks:
+            mask_bias = torch.zeros(key_mask.shape, dtype=x.dtype).masked_fill(~key_mask, -1e9)[:, None, None, :]
+        idx = self.rel_index(feats) if self.rel else None
+        for k, blk in enumerate(self.blocks):
+            bias = mask_bias
+            if idx is not None:
+                rb = self.rel_table[k][idx].permute(0, 3, 1, 2)  # [B, H, N, N]
+                bias = rb if bias is None else rb + bias
             x = blk(x, bias)
         return self.head(self.norm(x))
+
+
+def word_slots(words: list[dict]) -> np.ndarray:
+    """[N, MAX_IDS] true where an id is the word itself (w:lower, and w:core when it differs), for word-identity dropout."""
+    out = np.zeros((len(words), MAX_IDS), bool)
+    out[:, 0] = True
+    for i, w in enumerate(words):
+        lower = w["text"].lower()
+        core = "".join(c for c in lower if c.isalnum())
+        if core != lower and core:
+            out[i, 2] = True
+    return out
 
 
 def load(paths: list[str]) -> list[dict]:
@@ -100,25 +138,35 @@ def load(paths: list[str]) -> list[dict]:
             pages.append({
                 "id": r["id"], "layout": r["layout"], "kind": r["kind"],
                 "ids": np.array(r["ids"], np.int32), "num": np.array(r["num"], np.float32), "labels": np.array(r["labels"], np.int64),
+                "wslot": word_slots(r["words"]),
             })
     return pages
 
 
 def batches(pages, size, shuffle, rng):
     order = list(range(len(pages)))
+    groups = [order[i : i + size] for i in range(0, len(order), size)]
     if shuffle:
+        # Pages of similar length together (within random pools of 32 batches), so little of a batch is padding.
         rng.shuffle(order)
-    for i in range(0, len(order), size):
-        chunk = [pages[j] for j in order[i : i + size]]
+        pool = 32 * size
+        groups = []
+        for i in range(0, len(order), pool):
+            part = sorted(order[i : i + pool], key=lambda j: len(pages[j]["labels"]))
+            groups += [part[k : k + size] for k in range(0, len(part), size)]
+        rng.shuffle(groups)
+    for g in groups:
+        chunk = [pages[j] for j in g]
         n = max(len(p["labels"]) for p in chunk)
         ids = np.zeros((len(chunk), n, MAX_IDS), np.int32)
         num = np.zeros((len(chunk), n, NUM_FEATURES), np.float32)
         lab = np.full((len(chunk), n), -100, np.int64)
         mask = np.zeros((len(chunk), n), bool)
+        wslot = np.zeros((len(chunk), n, MAX_IDS), bool)
         for k, p in enumerate(chunk):
             m = len(p["labels"])
-            ids[k, :m], num[k, :m], lab[k, :m], mask[k, :m] = p["ids"], p["num"], p["labels"], True
-        yield torch.from_numpy(ids), torch.from_numpy(num), torch.from_numpy(lab), torch.from_numpy(mask)
+            ids[k, :m], num[k, :m], lab[k, :m], mask[k, :m], wslot[k, :m] = p["ids"], p["num"], p["labels"], True, p["wslot"]
+        yield torch.from_numpy(ids), torch.from_numpy(num), torch.from_numpy(lab), torch.from_numpy(mask), torch.from_numpy(wslot)
 
 
 def word_metrics(model, pages) -> dict:
@@ -126,7 +174,7 @@ def word_metrics(model, pages) -> dict:
     model.eval()
     tp = np.zeros(len(ENTITIES)); fp = np.zeros(len(ENTITIES)); fn = np.zeros(len(ENTITIES))
     with torch.no_grad():
-        for ids, num, lab, mask in batches(pages, 16, False, None):
+        for ids, num, lab, mask, _ in batches(pages, 16, False, None):
             pred = model(ids, num, mask).argmax(-1)
             for p, t in zip(pred[mask].numpy(), lab[mask].numpy()):
                 pe, te = (p - 1) // 2 if p else -1, (t - 1) // 2 if t else -1
@@ -186,11 +234,16 @@ def main() -> None:
     ap.add_argument("--threads", type=int, default=12)
     ap.add_argument("--weights", help="per-file repeat counts, comma-separated, matching the expanded --data files in order (default 1)")
     ap.add_argument("--layout-aug", action=argparse.BooleanOptionalAction, default=True, help="randomise absolute positions in training")
+    ap.add_argument("--rel", action=argparse.BooleanOptionalAction, default=False, help="relative 2-D attention bias (v2 features)")
+    ap.add_argument("--abs-pos", action=argparse.BooleanOptionalAction, default=True, help="the absolute box projection")
+    ap.add_argument("--word-drop", type=float, default=0.0, help="drop a word's own identity ids (keep shape and trigrams) with this probability")
+    ap.add_argument("--val-data", nargs="*", default=[], help="pages to choose the best epoch on instead of a slice of the training data (e.g. DEV-G words)")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
     torch.set_num_threads(args.threads)
     rng = random.Random(args.seed)
 
+    global NUM_FEATURES
     paths = [p for pat in args.data for p in sorted(glob.glob(pat))]
     weights = [int(w) for w in args.weights.split(",")] if args.weights else [1] * len(paths)
     assert len(weights) == len(paths), "one --weights entry per data file"
@@ -204,9 +257,13 @@ def main() -> None:
     val = [p for p in train if p["id"] in val_ids]
     train = [p for p in train if p["id"] not in val_ids]
     test = [p for p in pages if p["layout"] in held]
-    print(f"train {len(train)} pages, val {len(val)}, held-out layouts {sorted(held)}: {len(test)}")
+    NUM_FEATURES = pages[0]["num"].shape[1]
+    if args.val_data:
+        val = load([p for pat in args.val_data for p in sorted(glob.glob(pat))])
+        train = train + [p for p in pages if p["id"] in val_ids and p["layout"] not in held]
+    print(f"train {len(train)} pages, val {len(val)}, held-out layouts {sorted(held)}: {len(test)}", flush=True)
 
-    model = Tagger(d=args.d, layers=args.layers)
+    model = Tagger(d=args.d, layers=args.layers, nfeat=NUM_FEATURES, rel=args.rel, abs_pos=args.abs_pos)
     params = sum(p.numel() for p in model.parameters())
     print(f"{params:,} parameters")
     # O dominates the words; weigh it down so entities are not ignored.
@@ -220,10 +277,14 @@ def main() -> None:
     for epoch in range(args.epochs):
         model.train()
         total = 0.0
-        for ids_t, num_t, lab_t, mask_t in batches(train, args.batch, True, rng):
+        for ids_t, num_t, lab_t, mask_t, wslot_t in batches(train, args.batch, True, rng):
             # Word dropout on the text features: OCR misreads words.
             drop = torch.rand(ids_t.shape[:2]) < 0.05
             ids_t = ids_t.masked_fill(drop.unsqueeze(-1), 0)
+            if args.word_drop > 0:
+                # The word's own identity hidden: read it by its shape, trigrams and context.
+                wd = (torch.rand(ids_t.shape[:2]) < args.word_drop).unsqueeze(-1) & wslot_t
+                ids_t = ids_t.masked_fill(wd, 0)
             if args.layout_aug:
                 num_t = layout_augment(num_t)
             logits = model(ids_t, num_t, mask_t)
@@ -250,7 +311,7 @@ def main() -> None:
     ex = Export(model).eval()
     n = 50
     torch.onnx.export(
-        ex, (torch.ones(1, n, MAX_IDS, dtype=torch.int32), torch.zeros(1, n, NUM_FEATURES)), str(out / "poa-tagger.onnx"),
+        ex, (torch.ones(1, n, MAX_IDS, dtype=torch.int32), torch.rand(1, n, NUM_FEATURES)), str(out / "poa-tagger.onnx"),
         input_names=["ids", "feats"], output_names=["logits"], dynamic_axes={"ids": {1: "n"}, "feats": {1: "n"}, "logits": {1: "n"}},
         opset_version=17, dynamo=False,
     )

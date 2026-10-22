@@ -27,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-POA = ROOT / "docscan" / "target" / "release" / "examples" / "poa"
+POA = Path(os.environ.get("DOCSCAN_POA", ROOT / "docscan" / "target" / "release" / "examples" / "poa"))
 ENTITIES = ["HOLDER_NAME", "STREET", "SUBURB", "CITY", "PROVINCE", "POSTAL_CODE", "DOC_DATE", "PERIOD_FROM", "PERIOD_TO", "ISSUER", "ACCOUNT_NO"]
 
 

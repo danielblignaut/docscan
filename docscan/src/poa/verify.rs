@@ -167,6 +167,12 @@ fn days_in_month(year: i32, month: u32) -> Option<u32> {
 }
 
 fn month_number(word: &str) -> Option<u32> {
+    // A zero read for the O of a month ("0ct", "N0v", "0CTOBER").
+    let word: String = if word.chars().any(char::is_alphabetic) && word.trim_matches(|c: char| !c.is_alphanumeric()).chars().all(|c| c.is_alphabetic() || c == '0') {
+        word.replace('0', "o")
+    } else {
+        word.to_string()
+    };
     let w: String = word.to_lowercase().chars().filter(|c| c.is_alphabetic()).collect();
     if w.len() < 3 {
         return None;
@@ -263,12 +269,41 @@ pub fn find_dates(words: &[&str]) -> Vec<(usize, usize, Date)> {
             let prev = w[..k].chars().last().unwrap();
             (prev.is_ascii_alphabetic() && c.is_ascii_digit()) || (prev.is_ascii_digit() && c.is_ascii_alphabetic())
         });
+        // A day run into the year after a month ("July 212026"): two words.
+        let digits_only = w.trim_end_matches(['.', ',']);
+        if (5..=6).contains(&digits_only.len())
+            && digits_only.chars().all(|c| c.is_ascii_digit())
+            && i > 0
+            && month_number(words[i - 1]).is_some()
+            && year(&digits_only[digits_only.len() - 4..]).is_some()
+        {
+            let k = digits_only.len() - 4;
+            split.push((format!("{},", &digits_only[..k]), i));
+            split.push((digits_only[k..].to_string(), i));
+            continue;
+        }
+        // A day run into a month whose O was read as a zero ("010ct").
+        if w.len() >= 4 && w.chars().all(|c| c.is_ascii_alphanumeric()) {
+            if let Some(k) = (1..=2).find(|&k| w.is_char_boundary(k) && w[..k].chars().all(|c| c.is_ascii_digit()) && w[k..].starts_with('0')
+                && w[k + 1..].chars().all(|c| c.is_ascii_alphabetic()) && w.len() > k + 2 && month_number(&w[k..]).is_some())
+            {
+                split.push((w[..k].to_string(), i));
+                split.push((w[k..].to_string(), i));
+                continue;
+            }
+        }
         match (w.split_once(','), boundary) {
             (Some((a, b)), _) if !a.is_empty() && !b.is_empty() && b.chars().all(|c| c.is_ascii_digit()) => {
                 split.push((format!("{a},"), i));
                 split.push((b.to_string(), i));
             }
-            (_, Some((k, _))) if w.chars().all(|c| c.is_ascii_alphanumeric()) && month_number(&w[..k]).or(month_number(&w[k..])).is_some() => {
+            // The comma read as a full stop: "16.2026" (a day, then a year).
+            _ if w.split_once('.').is_some_and(|(a, b)| (1..=2).contains(&a.len()) && a.chars().all(|c| c.is_ascii_digit()) && b.len() == 4 && b.chars().all(|c| c.is_ascii_digit())) => {
+                let (a, b) = w.split_once('.').unwrap();
+                split.push((format!("{a},"), i));
+                split.push((b.to_string(), i));
+            }
+            (_, Some((k, _))) if w.chars().all(|c| c.is_ascii_alphanumeric()) && !(w.chars().all(|c| c.is_alphabetic() || c == '0') && month_number(w).is_some()) && month_number(&w[..k]).or(month_number(&w[k..])).is_some() => {
                 split.push((w[..k].to_string(), i));
                 split.push((w[k..].to_string(), i));
             }
@@ -311,6 +346,20 @@ pub fn find_dates(words: &[&str]) -> Vec<(usize, usize, Date)> {
 }
 
 /// The first date in a string.
+#[cfg(test)]
+mod ocr_date_tests {
+    use super::*;
+
+    #[test]
+    fn dates_ocr_ran_together() {
+        assert_eq!(parse_date("July 212026"), Date::new(2026, 7, 21));
+        assert_eq!(parse_date("010ct 2026"), Date::new(2026, 10, 1));
+        assert_eq!(parse_date("14 0CTOBER 2026"), Date::new(2026, 10, 14));
+        assert_eq!(parse_date("September 16.2026"), Date::new(2026, 9, 16));
+        assert_eq!(parse_date("Account 212026"), None);
+    }
+}
+
 pub fn parse_date(text: &str) -> Option<Date> {
     let words: Vec<&str> = text.split_whitespace().collect();
     find_dates(&words).first().map(|d| d.2)

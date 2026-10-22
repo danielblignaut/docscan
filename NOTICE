@@ -11,6 +11,12 @@ ocrs OCR models (text-detection.rten, text-recognition.rten)
   Trained on HierText (Google, CC BY-SA 4.0) and synthetic data.
   Modified versions of these models must be shared under CC BY-SA 4.0.
 
+text-detection-page.onnx (models/), a modified version of the ocrs text detection model
+  Made from ocrs-models' text-detection.onnx (Copyright Robert Knight) by
+  scripts/make-page-detector.py: its input height and width made free and its
+  skip connections' crops sized from their inputs. Weights unchanged.
+  Licensed under CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+
 MediaPipe BlazeFace short-range and Face Mesh V2 models; canonical face mesh
   Copyright Google LLC. https://github.com/google-ai-edge/mediapipe
   Licensed under the Apache License, Version 2.0. Converted to ONNX.

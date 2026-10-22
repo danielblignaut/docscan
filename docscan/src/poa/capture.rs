@@ -11,12 +11,16 @@ use std::collections::HashMap;
 
 use serde::Serialize;
 
-use super::customer::{self, Customer, CustomerCheck};
+use super::customer::{self, AddressMatch, Customer, CustomerCheck};
 use super::verify::{self, Date};
 use super::{AddressResult, Fields, Period};
 
 /// The weight of the rules' labelled date against one frame's tagged date.
 pub const RULES_DATE_VOTE: f32 = 0.3;
+
+/// The confidence of a key field filled from the rules where the tagger
+/// found nothing (lib.rs, `Scanner::address_from_words`).
+pub const RULES_FILL_CONFIDENCE: f32 = 0.3;
 
 /// The most frames worth reading for one capture.
 pub const MAX_FRAMES: usize = 4;
@@ -109,6 +113,10 @@ fn plausibility(field: &str, v: &str) -> f32 {
 /// The value most frames agree on (ties: the more confident), with the count.
 fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) -> Option<String>) -> FieldVote {
     let mut groups: HashMap<String, (usize, f32, String)> = HashMap::new();
+    // Each value's weight: a frame's reading counts 1, the rules' reading of a
+    // field the tagger left empty (confidence RULES_FILL_CONFIDENCE) less, so
+    // one frame's tagged value beats two frames' rules.
+    let mut weight: HashMap<String, f32> = HashMap::new();
     let mut none = 0;
     for r in readings {
         match get(&r.fields) {
@@ -116,6 +124,7 @@ fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) 
                 let g = groups.entry(key(&v)).or_insert((0, 0.0, v.clone()));
                 g.0 += 1;
                 let c = confidence(r, field);
+                *weight.entry(key(&v)).or_insert(0.0) += if c == RULES_FILL_CONFIDENCE { 0.4 } else { 1.0 };
                 if c > g.1 {
                     g.2 = v;
                 }
@@ -142,7 +151,7 @@ fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) 
         } else {
             0
         };
-        (g.0 + absorbed) as f32 + 0.45 * plausibility(field, &g.2) - 0.3 * spread + 0.05 * g.1.min(3.0)
+        weight[k] + absorbed as f32 + 0.45 * plausibility(field, &g.2) - 0.3 * spread + 0.05 * g.1.min(3.0)
     };
     let best = groups.iter().max_by(|a, b| score(a.0, a.1).total_cmp(&score(b.0, b.1))).map(|(_, g)| g.clone());
     // A field the page may well not print (a suburb, the province, a
@@ -203,7 +212,26 @@ pub fn doc_date(f: &Fields) -> Option<Date> {
 /// best holder's address of any frame, and the voted date.
 pub fn combine_checks(checks: &[&CustomerCheck], date: Option<Date>, today: Date) -> CustomerCheck {
     let name = checks.iter().filter_map(|c| c.name.clone()).max_by(|a, b| a.score.total_cmp(&b.score));
-    let address = checks.iter().filter_map(|c| c.address.clone()).max_by(|a, b| a.score.total_cmp(&b.score));
+    let mut address = checks.iter().filter_map(|c| c.address.clone()).max_by(|a, b| a.score.total_cmp(&b.score));
+    if address.is_none() {
+        // The address read well on one frame and the name above it on
+        // another: the flattened pages line up, so the name's line in one
+        // frame can sit over the address's street line in the other.
+        address = checks
+            .iter()
+            .flat_map(|c| c.unlinked.iter())
+            .filter(|a| {
+                checks.iter().flat_map(|c| c.names.iter()).any(|n| {
+                    let h = a.line_h.max(0.005);
+                    let above = n.bbox[3] <= a.bbox[1] + 0.5 * h && a.bbox[1] - n.bbox[3] < 6.0 * h;
+                    let overlap = n.bbox[0] < a.bbox[2] && n.bbox[2] > a.bbox[0];
+                    above && overlap
+                })
+            })
+            .max_by(|a, b| a.score.total_cmp(&b.score))
+            .cloned()
+            .map(|a| AddressMatch { holder_linked: true, ..a });
+    }
     let elsewhere = if address.is_none() {
         checks.iter().filter_map(|c| c.address_elsewhere.clone()).max_by(|a, b| a.score.total_cmp(&b.score))
     } else {

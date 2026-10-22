@@ -17,6 +17,10 @@ use crate::za::Line;
 pub const BUCKETS: u32 = 16384;
 pub const MAX_IDS: usize = 24;
 pub const NUM_FEATURES: usize = 32;
+/// The second feature set ([`features_v2`]): the first 32, then layout-agnostic
+/// text, gazetteer and block features, then two coordinates in units of the
+/// page's median text height for the model's relative-position attention.
+pub const NUM_FEATURES_V2: usize = 50;
 
 /// An OCR word in reading order, with its line.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -259,6 +263,198 @@ pub fn features(words: &[Word], width: f32, height: f32) -> (Vec<[i32; MAX_IDS]>
     (ids, num)
 }
 
+// --------------------------------------------------------------------------
+// The second feature set
+// --------------------------------------------------------------------------
+
+/// Words of a block of the issuer's own contact details.
+const ISSUER_CUES: &[&str] = &["tel", "fax", "vat", "reg", "www", "box", "bag", "office", "branch", "call", "email", "e-mail", "website", "centre", "registration", "head"];
+/// Labels that introduce the holder.
+const HOLDER_CUES: &[&str] = &[
+    "name", "holder", "customer", "client", "dear", "to", "attention", "attn", "tenant", "lessee", "policyholder", "member", "addressee",
+    "insured", "billed", "bill", "deliver", "account", "for", "consumer",
+];
+/// Ordinary words of bills and statements: a capitalised word that is none of
+/// these (and no place) is more likely a name, a street or a place.
+const DOC_WORDS: &[&str] = &[
+    "account", "statement", "date", "total", "amount", "balance", "payment", "payments", "due", "vat", "tax", "invoice", "electricity",
+    "water", "refuse", "sewerage", "rates", "charges", "charge", "period", "from", "to", "number", "no", "customer", "name", "address",
+    "postal", "physical", "residential", "service", "services", "monthly", "opening", "closing", "previous", "received", "thank", "you",
+    "your", "our", "the", "and", "of", "for", "on", "in", "at", "by", "with", "please", "page", "tel", "fax", "email", "www", "reg", "ref",
+    "reference", "office", "head", "box", "private", "bag", "bank", "branch", "code", "issue", "issued", "bill", "dear", "sir", "madam",
+    "whom", "it", "may", "concern", "confirm", "confirmation", "letter", "re", "description", "qty", "units", "unit", "price", "subtotal",
+    "excl", "incl", "consumption", "usage", "history", "meter", "reading", "basic", "levy", "fee", "fees", "interest", "debit", "credit",
+    "order", "transfer", "deposit", "withdrawal", "cash", "card", "purchase", "fuel", "airtime", "data", "contract", "plan", "policy",
+    "premium", "cover", "insurance", "lease", "rental", "tenant", "landlord", "agent", "municipality", "local", "metropolitan", "city",
+    "district", "important", "notice", "customer", "care", "centre", "contact", "details", "summary", "tariff", "residential", "kwh", "mr",
+    "mrs", "ms", "miss", "dr", "prof", "holder", "client", "member", "number", "id", "identity", "is", "a", "an", "this", "that", "has",
+    "been", "are", "be", "will", "not", "or", "any", "all", "if", "as", "we", "us", "per", "pay", "paid", "online", "app", "debit",
+    "sincerely", "faithfully", "regards", "yours", "kind", "manager", "consultant", "signed", "valid", "months", "days", "standing",
+];
+
+fn issuer_cue(t: &str) -> bool {
+    let b = bare(t);
+    ISSUER_CUES.contains(&b.as_str()) || t.contains('@') || b.starts_with("www")
+}
+
+/// The second feature set: [`features`]' 32, then (32..48) gazetteer, street,
+/// name, line and block features that do not depend on where a layout puts
+/// things, then (48, 49) the word's centre in units of 50 median text heights
+/// (not moved by training's layout augmentation; the model's relative
+/// attention reads their differences).
+pub fn features_v2(words: &[Word], width: f32, height: f32) -> (Vec<[i32; MAX_IDS]>, Vec<[f32; NUM_FEATURES_V2]>) {
+    let (ids, base) = features(words, width, height);
+    let g = super::gazetteer::gazetteer();
+    let n = words.len();
+    let mut hs: Vec<f32> = words.iter().map(|w| w.h).collect();
+    hs.sort_by(f32::total_cmp);
+    let mh = hs.get(n / 2).copied().unwrap_or(10.0).max(1.0);
+    let lines = words.iter().map(|w| w.line).max().map_or(0, |m| m + 1);
+    let mut line_words: Vec<Vec<usize>> = vec![Vec::new(); lines];
+    for (i, w) in words.iter().enumerate() {
+        line_words[w.line].push(i);
+    }
+    let ext: Vec<(f32, f32, f32, f32)> = line_words
+        .iter()
+        .map(|ix| {
+            let x0 = ix.iter().map(|&i| words[i].x).fold(f32::MAX, f32::min);
+            let x1 = ix.iter().map(|&i| words[i].x + words[i].w).fold(f32::MIN, f32::max);
+            let y0 = ix.iter().map(|&i| words[i].y).fold(f32::MAX, f32::min);
+            let y1 = ix.iter().map(|&i| words[i].y + words[i].h).fold(f32::MIN, f32::max);
+            (x0, x1, y0, y1)
+        })
+        .collect();
+    let core = |i: usize| -> String { words[i].text.chars().filter(|c| c.is_alphanumeric()).collect::<String>() };
+    let is_code = |i: usize| {
+        let c = core(i);
+        c.len() == 4 && c.chars().all(|ch| ch.is_ascii_digit())
+    };
+    // Lines below / above in the same column, nearest first (up to 6).
+    let column = |l: usize, down: bool| -> Vec<usize> {
+        let (x0, x1, y0, y1) = ext[l];
+        let h = (y1 - y0).max(1.0);
+        let mut v: Vec<(f32, usize)> = (0..lines)
+            .filter(|&k| k != l && !line_words[k].is_empty())
+            .filter(|&k| {
+                let (a0, a1, b0, b1) = ext[k];
+                a0 < x1 && a1 > x0 && if down { b0 > y0 + 0.5 * h && b0 - y1 < 8.0 * h } else { b1 < y1 - 0.5 * h && y0 - b1 < 8.0 * h }
+            })
+            .map(|k| ((ext[k].2 - y0).abs(), k))
+            .collect();
+        v.sort_by(|a, b| a.0.total_cmp(&b.0));
+        v.into_iter().map(|x| x.1).take(6).collect()
+    };
+    let below: Vec<Vec<usize>> = (0..lines).map(|l| column(l, true)).collect();
+    let above: Vec<Vec<usize>> = (0..lines).map(|l| column(l, false)).collect();
+    let line_has_code: Vec<bool> = line_words.iter().map(|ix| ix.iter().any(|&i| is_code(i))).collect();
+    let line_codes: Vec<Vec<String>> = line_words.iter().map(|ix| ix.iter().filter(|&&i| is_code(i)).map(|&i| core(i)).collect()).collect();
+    let line_issuer: Vec<bool> = line_words.iter().map(|ix| ix.iter().any(|&i| issuer_cue(&words[i].text))).collect();
+    let line_holder: Vec<bool> = line_words.iter().map(|ix| ix.iter().any(|&i| HOLDER_CUES.contains(&bare(&words[i].text).as_str()))).collect();
+    let line_title: Vec<bool> = line_words.iter().map(|ix| ix.iter().any(|&i| TITLES.contains(&bare(&words[i].text).as_str()))).collect();
+    let is_sfx = |i: usize| STREET_SUFFIXES.contains(&bare(&words[i].text).as_str());
+    let numberish = |i: usize| {
+        let c = core(i);
+        !c.is_empty() && c.len() <= 5 && c.chars().next().is_some_and(|ch| ch.is_ascii_digit())
+    };
+    let line_street: Vec<bool> = line_words
+        .iter()
+        .map(|ix| ix.iter().enumerate().any(|(k, &i)| numberish(i) && ix[k + 1..].iter().take(5).skip(1).any(|&j| is_sfx(j))))
+        .collect();
+    // Place names: a word alone, or with the word after or before it.
+    let mut place = vec![false; n];
+    let mut place_words: Vec<(usize, usize)> = Vec::new(); // (first, last) of each known place run
+    for ix in &line_words {
+        for k in 0..ix.len() {
+            for len in (1..=3).rev() {
+                if k + len > ix.len() {
+                    continue;
+                }
+                let t: String = ix[k..k + len].iter().map(|&i| words[i].text.trim_matches(|c: char| !c.is_alphanumeric())).collect::<Vec<_>>().join(" ");
+                if t.chars().filter(|c| c.is_alphabetic()).count() >= 3 && g.knows_place(&t) && !DOC_WORDS.contains(&t.to_lowercase().as_str()) {
+                    for &i in &ix[k..k + len] {
+                        place[i] = true;
+                    }
+                    place_words.push((ix[k], ix[k + len - 1]));
+                    break;
+                }
+            }
+        }
+    }
+    // A place consistent with a code on its line or the two lines below; a code with a place on its line or the two above.
+    let mut consistent = vec![false; n];
+    for &(a, b) in &place_words {
+        let l = words[a].line;
+        let name: String = (a..=b).filter(|&i| words[i].line == l).map(|i| words[i].text.trim_matches(|c: char| !c.is_alphanumeric()).to_string()).collect::<Vec<_>>().join(" ");
+        let near: Vec<usize> = std::iter::once(l).chain(below[l].iter().copied().take(2)).collect();
+        for &m in &near {
+            for code in &line_codes[m] {
+                if g.consistent(&name, code) {
+                    for i in a..=b {
+                        if words[i].line == l {
+                            consistent[i] = true;
+                        }
+                    }
+                    for &i in &line_words[m] {
+                        if is_code(i) && core(i) == *code {
+                            consistent[i] = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    let mut sorted_h: Vec<f32> = words.iter().map(|w| w.h).collect();
+    sorted_h.sort_by(f32::total_cmp);
+    let f = |v: bool| if v { 1.0 } else { 0.0 };
+    let mut num = Vec::with_capacity(n);
+    for (i, w) in words.iter().enumerate() {
+        let l = w.line;
+        let ix = &line_words[l];
+        let pos = ix.iter().position(|&j| j == i).unwrap_or(0);
+        let t = w.text.as_str();
+        let b = bare(t);
+        let sfx_after = ix[pos + 1..].iter().take(4).any(|&j| is_sfx(j));
+        let title_before = ix[..pos].iter().rev().take(3).any(|&j| TITLES.contains(&bare(&words[j].text).as_str()));
+        let to_code = below[l].iter().position(|&k| line_has_code[k]).map_or(7.0, |p| p as f32 + 1.0);
+        let code_here = line_has_code[l];
+        let from_title = above[l].iter().position(|&k| line_title[k]).map_or(7.0, |p| p as f32 + 1.0);
+        let near_issuer = line_issuer[l] || below[l].iter().take(2).any(|&k| line_issuer[k]) || above[l].iter().take(2).any(|&k| line_issuer[k]);
+        let holder_cue = line_holder[l] || above[l].first().is_some_and(|&k| line_holder[k]);
+        let prev = if pos > 0 { Some(ix[pos - 1]) } else { (i > 0).then(|| i - 1) };
+        let prev_lower = prev.is_some_and(|j| words[j].text.chars().next().is_some_and(char::is_lowercase));
+        let caps_line = ix.iter().all(|&j| words[j].text.chars().all(|c| !c.is_lowercase()));
+        let rank = sorted_h.partition_point(|&h| h < w.h) as f32 / n.max(1) as f32;
+        let letters = b.chars().filter(|c| c.is_alphabetic()).count();
+        let content = letters >= 2 && !DOC_WORDS.contains(&b.as_str()) && !place[i] && !TITLES.contains(&b.as_str()) && !is_sfx(i);
+        let digits_line = ix.iter().filter(|&&j| core(j).chars().any(|c| c.is_ascii_digit())).count() as f32 / ix.len().max(1) as f32;
+        let mut row = [0f32; NUM_FEATURES_V2];
+        row[..NUM_FEATURES].copy_from_slice(&base[i]);
+        let extra = [
+            f(place[i]),
+            f(is_code(i) && g.knows_code(&core(i))),
+            f(consistent[i]),
+            f(sfx_after),
+            f(line_street[l]),
+            f(title_before),
+            f(code_here),
+            to_code / 7.0,
+            from_title / 7.0,
+            f(near_issuer),
+            f(holder_cue),
+            f(prev_lower),
+            f(caps_line),
+            rank,
+            f(content),
+            digits_line,
+        ];
+        row[NUM_FEATURES..NUM_FEATURES + 16].copy_from_slice(&extra);
+        row[48] = (w.x + w.w / 2.0) / (50.0 * mh);
+        row[49] = (w.y + w.h / 2.0) / (50.0 * mh);
+        num.push(row);
+    }
+    (ids, num)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -297,5 +493,19 @@ mod tests {
         assert!(date_like("15/03/2026") && date_like("2026-03-15") && !date_like("12"));
         assert!(currency_like("R1,234.56") && currency_like("234.00") && !currency_like("7700"));
         assert!(is_month("March") && is_month("Mar,"));
+    }
+
+    #[test]
+    fn second_feature_set() {
+        let words = vec![line("Mr", 50.0, 100.0), line("S", 90.0, 100.0), line("Nkosi", 120.0, 100.0), line("12", 50.0, 130.0), line("Acacia", 90.0, 130.0),
+            line("Road", 170.0, 130.0), line("Rondebosch", 50.0, 160.0), line("7700", 170.0, 160.0)];
+        let r = reading_order(&words);
+        let (_, num) = features_v2(&r, 1000.0, 1400.0);
+        let k = |t: &str| r.iter().position(|w| w.text == t).unwrap();
+        assert_eq!(num[k("Rondebosch")][32], 1.0); // a known place
+        assert_eq!(num[k("Rondebosch")][34], 1.0); // consistent with the code beside it
+        assert_eq!(num[k("Acacia")][35], 1.0); // a suffix after it
+        assert_eq!(num[k("Nkosi")][37], 1.0); // a title before it
+        assert!(num[k("Nkosi")][39] < 0.5); // a code two lines below
     }
 }

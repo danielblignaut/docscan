@@ -89,13 +89,23 @@ async function load(threads: number) {
   const t0 = performance.now();
   const loaded = await loadScanner(threads);
   scanner = loaded.scanner;
-  const [det, rec, tagger] = await Promise.all([
+  const [det, rec, tagger, pageDet] = await Promise.all([
     fetchModel("text-detection.rten"),
     fetchModel("text-recognition.rten"),
     // The proof-of-address tagger: optional, the rules read the page without it.
     fetchModel("poa-tagger.onnx", true),
+    // The page detector (ocrs's detection model with its input size freed):
+    // optional, proof-of-address pages are detected in tiles without it.
+    fetchModel("text-detection-page.onnx", true),
   ]);
   scanner.load_ocr(det!, rec!);
+  if (pageDet) {
+    try {
+      scanner.load_page_detector(pageDet);
+    } catch (e) {
+      console.warn(`text-detection-page.onnx not loaded: ${e}`);
+    }
+  }
   // A dev server answers a missing file with index.html: a model that does not load is left out.
   if (tagger) {
     try {

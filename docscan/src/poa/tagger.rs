@@ -9,7 +9,7 @@ use rten_tensor::prelude::*;
 use rten_tensor::{NdTensor, NdTensorView};
 use serde::Serialize;
 
-use super::features::{self, MAX_IDS, NUM_FEATURES, Word};
+use super::features::{self, MAX_IDS, NUM_FEATURES, NUM_FEATURES_V2, Word};
 
 /// The entities, in the order of the model's classes (`B-x` is `1 + 2i`,
 /// `I-x` is `2 + 2i`, and class 0 is `O`).
@@ -30,6 +30,8 @@ pub const CLASSES: usize = 1 + 2 * ENTITIES.len();
 
 pub struct Tagger {
     model: Model,
+    /// The width of the model's `feats` input: [`NUM_FEATURES`] or [`NUM_FEATURES_V2`].
+    feats: usize,
 }
 
 /// A run of words tagged as one entity.
@@ -45,7 +47,13 @@ pub struct Span {
 
 impl Tagger {
     pub fn load(bytes: Vec<u8>) -> anyhow::Result<Tagger> {
-        Ok(Tagger { model: Model::load(bytes).context("loading the tagger model")? })
+        let model = Model::load(bytes).context("loading the tagger model")?;
+        let id = model.node_id("feats")?;
+        let feats = match model.node_info(id).and_then(|n| n.shape()).and_then(|s| s.last().cloned()) {
+            Some(rten::Dimension::Fixed(n)) if n == NUM_FEATURES_V2 => NUM_FEATURES_V2,
+            _ => NUM_FEATURES,
+        };
+        Ok(Tagger { model, feats })
     }
 
     /// Per-word class probabilities, `[words][CLASSES]`.
@@ -53,12 +61,17 @@ impl Tagger {
         if words.is_empty() {
             return Ok(Vec::new());
         }
-        let (ids, num) = features::features(words, width, height);
         let n = words.len();
+        let (ids, num): (Vec<[i32; MAX_IDS]>, Vec<f32>) = if self.feats == NUM_FEATURES_V2 {
+            let (ids, num) = features::features_v2(words, width, height);
+            (ids, num.iter().flatten().copied().collect())
+        } else {
+            let (ids, num) = features::features(words, width, height);
+            (ids, num.iter().flatten().copied().collect())
+        };
         let ids: Vec<i32> = ids.iter().flatten().copied().collect();
-        let num: Vec<f32> = num.iter().flatten().copied().collect();
         let ids = NdTensor::from_data([1, n, MAX_IDS], ids);
-        let num = NdTensor::from_data([1, n, NUM_FEATURES], num);
+        let num = NdTensor::from_data([1, n, self.feats], num);
         let ids_node = self.model.node_id("ids")?;
         let feats_node = self.model.node_id("feats")?;
         let out_node = self.model.node_id("logits")?;

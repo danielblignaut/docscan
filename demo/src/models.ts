@@ -22,8 +22,8 @@ export interface CatalogueEntry {
 export const CATALOGUE: CatalogueEntry[] = [
   {
     id: "ocrs",
-    files: ["text-detection.rten", "text-recognition.rten"],
-    downloadMb: 12.2,
+    files: ["text-detection.rten", "text-recognition.rten", "text-detection-page.onnx"],
+    downloadMb: 14.7,
     memoryMb: 220,
     required: true,
     licence: "ocrs-models terms (github.com/robertknight/ocrs-models)",

@@ -303,12 +303,22 @@ API, and the page asks for persistent storage.
    percentiles, dilated and blurred), so shadows and uneven light go, then
    stretched; the page is scaled to 1754 px tall (A4 at 150 dpi: at 120 dpi
    ocrs runs words together and reads commas as full stops).
-4. **OCR** (`Scanner::ocr_page`): words are detected tile by tile at the
-   ocrs detection model's native 600 × 800 input, the overlapping detections
-   merged, and each line recognised once on the whole page, in batches of 16
-   lines. Compared with recognising every tile (`ocr_tiled`), which reads the
-   overlaps two to four times, this measured 2.5 s instead of 3.7 s per page
-   natively on one core, with lower peak memory, and no loss of accuracy.
+4. **OCR** (`Scanner::ocr_page`): words are detected on the whole page in
+   strips the width of the page, 384 rows tall and overlapping by 64, by the
+   **page detector** (`models/text-detection-page.onnx`: ocrs's own detection
+   network and weights, its graph edited by `scripts/make-page-detector.py`
+   so its input size is free; on ocrs's 800 × 600 input it gives the same
+   output to the bit). The stitched probability map is turned into word boxes
+   as ocrs does. This covers the page once (2.4 M pixels) where ocrs's fixed
+   600 × 800 input needed nine overlapping tiles (4.3 M pixels, about twice
+   the page) and then de-duplicating the words cut by tile edges; peak memory
+   stays where it was (a whole page in one pass would peak at 700 MB). Without
+   the page detector the tiles are used. Each line is then recognised once on
+   the whole page, in batches of 16 lines of similar width (ocrs pads a batch
+   to its widest line, so lines in reading order wasted most of each batch).
+   Compared with recognising every tile (`ocr_tiled`), which reads the
+   overlaps two to four times, recognising lines once on the page measured
+   2.5 s instead of 3.7 s per page natively on one core.
    A "line" made of two stray word boxes far apart used to be recognised as
    one crop spanning the gap, reading every word between them a second time
    (1.5% of all words, small print and dates especially); lines are now split
@@ -326,7 +336,10 @@ API, and the page asks for persistent storage.
      a name, a place completed by the next word when that makes a place the
      gazetteer knows; a lone digit between name words is read as the initial
      it resembles (`Liezel 3 Petersen`), and a day as `OS` or `OL` as 05 or 01.
-     With no date tagged, the rules' labelled date is taken;
+     With no date tagged, the rules' labelled date is taken, and a holder,
+     street, city or postal code the tagger found nothing for is taken from
+     the rules' reading (voted at 0.4 of a frame across a capture, so a
+     tagged value outvotes them);
    - **the rules** (`poa/rules.rs`): labelled values (`Account holder:`,
      `Statement date` beside or above its value), address blocks ending in a
      4-digit code, scored for a street line and a name above them and against
@@ -366,17 +379,30 @@ API, and the page asks for persistent storage.
      beside it matched in order to the forenames on the ID (`MR S J NKOSI`,
      `Nkosi, SJ`, `Sipho Nkosi`); a first name or initial that contradicts the
      ID is another person; `Mr & Mrs J Botha` with the spouse's initial is
-     accepted and noted as joint holders;
+     accepted and noted as joint holders. A surname of three or four letters
+     one OCR look-alike away (`TAV` for `TAU`) counts when the given names
+     agree. Names OCR ran together are taken apart: a title into initials
+     (`MRLS NDLAMTHIVENDLE`), an initial into the surname (`Mr MHizuhle`,
+     `Miss D.Sacoor`), a whole name into one word (`MPFARISENIBHLOPHE`, read
+     only when the run-together given names spell the ID's), a comma read as
+     a full stop or lost (`Wetlumuntshe.FM`; `LIEBENBERG RIANA` only when the
+     names agree), `Kr`, `Nrs`, `Mi` read for `Mr`, `Mrs`, initials read as
+     digits (`L2`), and `Sipho & Thandi Nkosi` (one of the two given names
+     must be the customer's);
    - **address**: the house number exactly (letters OCR reads for digits
      folded), the street name by similarity with the suffix normalised (`St`
-     = `Street`, `Rd` = `Road`, `Ave`, `Dr`, `Cres`, ...), and the suburb, city
-     or postal code in the lines that follow; the occurrence must be the
+     = `Street`, `Rd` = `Road`, `Ave`, `Dr`, `Cres`, ...; one look-alike away,
+     `Ct` for `Cl`, counts), and the suburb, city or postal code in the lines
+     that follow (a house number or a suffix OCR ran into the street name,
+     `17klipLane`, `54 FETHADLROAD`, is taken apart); the occurrence must be the
      holder's: the customer's name printed above it (or in the sentence
      before it), and not in a block of the issuer's contact details (`Head
      office`, `PO Box`, `Tel`, `VAT`, `Branch`, ...);
    - **date**: the capture's voted document date, within three months.
 
-   Across frames the best name and address evidence of any frame counts.
+   Across frames the best name and address evidence of any frame counts,
+   and an address read well on one frame is linked to the holder by the
+   name read on another frame at the same place on the page.
    Every decision carries its evidence: the name and address scores, the
    printed lines they were found on, why an address was not taken (another
    house number, the issuer's own, not linked to the holder), and the date's
@@ -435,32 +461,69 @@ pages (`eval/poa_vlm.mjs`):
 
 `train/train_tagger.py` (PyTorch, CPU). Each OCR word is the mean of its
 hashed text features (the word, its shape, its character trigrams, FNV-1a into
-16 384 buckets: no vocabulary) concatenated with 32 numbers (its box on the
-page, its place in its line, the gaps around it, digit/case/date/month/province/
-currency/title/street-suffix flags), projected to 128 dimensions with its box
-geometry; three pre-norm transformer layers (4 heads) attend over every word on
-the page; a linear head gives 23 BIO classes. 1.5 M parameters, **6.0 MB** as
-float32 ONNX, loaded by rten 0.26 directly (rten reads ONNX itself, so no
-`rten-convert` step is needed; the pip `rten-convert` is at 0.22 anyway).
+16 384 buckets: no vocabulary) concatenated with 48 numbers, projected to 128
+dimensions with its box geometry; three pre-norm transformer layers (4 heads)
+attend over every word on the page; a linear head gives 23 BIO classes.
+The numbers (`features::features_v2`) are the word's box on the page, its
+place in its line, the gaps around it and digit/case/date/month/province/
+currency/title/street-suffix flags, and, so the model need not learn *where*
+a layout puts things nor memorise names and places, features that hold on
+any layout: whether the word (alone or with a neighbour) is a place the
+gazetteer knows, a postal code it knows, a place *consistent* with a code on
+its line or the two below; a street suffix after it, a numbered street on its
+line, a title before it; how many lines down its column the next postal-code
+line is and how many up the last title line; issuer cues near it (`Tel`,
+`VAT`, `PO Box`, `www`, `Branch`) and holder cues (`Name`, `Dear`, `To`);
+a sentence word before it, an all-capitals line, its text height's rank on
+the page, and whether it is a "content" word (none of the ordinary words of
+bills, a place, a title or a suffix). Attention is also biased by every pair
+of words' relative position (dx and dy in text heights, log-bucketed, a
+learned bias per head and layer, as in BROS and LAMBERT), and in training a
+word's own identity hash is hidden 20% of the time (its shape and trigrams
+kept), so names and streets it never saw are read from context.
+1.5 M parameters, **6.0 MB** as float32 ONNX, loaded by rten 0.26 directly.
+The tagger picks the feature set from its model's `feats` input width, so the
+first model (32 numbers) still loads.
 `docscan/src/poa/features.rs` is the only definition of the features: the
 training data is produced by the Rust pipeline itself (`examples/poa.rs
---words`), so training and the browser cannot drift apart.
+--words`, or `examples/poa_feats` to recompute features from words already
+read), so training and the browser cannot drift apart.
 
-Training data, all synthetic (`testdata/poa_synth.py`, see `testdata/POA.md`):
-fictional issuers and holders on real public place names and postal codes,
-with the issuer's own address as a decoy on ~70% of pages, decoy dates and
-numbers, tables of charges and small print. 11 hand-made layouts, plus a
-procedural family (`--procedural`: header, holder block, details block and
-decoys placed and styled independently; 398 distinct layouts in 700 pages).
-Every page is OCR'd by docscan's own pipeline (clean renders, and camera-like
-photos through the page finder and flattening), and each OCR word labelled
-from the generator's word boxes (`train/build_dataset.py`). Two things moved
-held-out accuracy most: randomly moving and stretching each page's absolute
-coordinates during training (so the model cannot learn *where* a layout puts
-the address), and the procedural layouts.
+Training data, all synthetic. Two generators:
 
-The committed `models/poa-tagger.onnx` (retrained during the lockbox work)
-was trained on 3 250 pages after a 1/12 validation split: 765 camera-like
+- `testdata/poa_synth.py` (see `testdata/POA.md`): fictional issuers and
+  holders on real public place names and postal codes, with the issuer's own
+  address as a decoy on ~70% of pages, decoy dates and numbers, tables of
+  charges and small print; 11 hand-made layouts, plus a procedural family
+  (`--procedural`: header, holder block, details block and decoys placed and
+  styled independently). Its world is small (111 places, 50 streets, about 90
+  first names and 80 surnames, 20 issuer roots), and a tagger trained on it
+  alone learnt that world: 89% key fields on DEV, whose three held-out layouts
+  share it, against 24% on the lockbox.
+- `testdata/poa_wide.py` (built on `poa_synth.py`'s drawing): every value from
+  pools hundreds to thousands wide (common South African first names and
+  surnames and syllable-generated ones; street roots of many kinds and
+  generated ones, 26 street suffixes; issuer roots and kinds; places from the
+  GeoNames gazetteer docscan ships, with suburbs under their metro), 25 fonts
+  (SIL OFL; `testdata/fetch_wide_fonts.sh`, none of the lockbox's), unit and
+  complex lines, and eight new layout families: confirmation letters naming
+  the holder in a sentence under "To whom it may concern", window envelopes
+  with a return address above the holder, label: value pages with a postal
+  address as decoy, right-hand panels, salutation notices, ruled grids,
+  English/Afrikaans labels, and the holder only at the foot above a tear-off
+  slip with the issuer's office where a window would show the holder. A fifth
+  of every pool and two more families are held out (`--split devg`) for
+  DEV-G.
+
+Pages are read two ways: by docscan's own OCR (clean renders, and camera-like
+photos through the page finder and flattening; `train/build_dataset.py`
+labels each OCR word from the generator's word boxes), and, for volume, by a
+model of OCR's mistakes (`train/synth_ocr.py`: every word the page drew, with
+look-alike character swaps, dropped and joined words and jittered boxes,
+ordered and featurised by `examples/poa_feats`), which costs milliseconds a
+page instead of seconds.
+
+The previous tagger (retrained during the lockbox work) was trained on 3 250 pages after a 1/12 validation split: 765 camera-like
 and 400 clean pages of 8 of the 11 named layouts, 624 camera-like and 350
 clean procedural pages, and 1 106 camera-like and 300 clean procedural pages
 drawn in eight more fonts (`poa_synth.py --extra-fonts`: Lato, PT Sans, PT
@@ -473,7 +536,17 @@ took about 1.7 hours with 11 processes. A per-word character encoder (a
 two-layer 1-D CNN over the word's characters, with OCR-like character noise
 in training) was also tried and did not help on the DEV captures (86.0%
 against 87.5% key fields); it is not kept. Since the training data is
-entirely synthetic the model is committed (MIT OR Apache-2.0). Reproduce:
+entirely synthetic the model is committed (MIT OR Apache-2.0).
+
+The committed `models/poa-tagger.onnx` (the second feature set, relative
+attention, word-identity dropout 0.2; 10 epochs, about 3.7 hours on 5 threads)
+was trained on those 3 250 real-OCR pages (features recomputed by
+`examples/poa_feats`), plus 1 000 camera-like `poa_wide.py` pages read by
+docscan's OCR (weighted twice), and 7 000 `poa_wide.py` pages read by the
+synthetic-OCR model (4 000 of the first five new families, 3 000 of all
+eight). Its effect is in `docs/improvements-poa.md` (items 14-15, 18): DEV
+unchanged (key fields 89-91.5%, within noise), DEV-G captures 17.3% → 44.7%
+key fields. The previous model's recipe:
 
 ```sh
 cd testdata
@@ -854,6 +927,7 @@ settle the training data's terms; see the provenance column and
 | Model | Used for | Author | Licence | Provenance notes |
 | --- | --- | --- | --- | --- |
 | ocrs text detection and text recognition (`text-detection.rten`, `text-recognition.rten`; fetched by `scripts/fetch-models.sh`) | all OCR: ID documents, labels, proof of address | Robert Knight, [ocrs-models](https://github.com/robertknight/ocrs-models) ([model card](https://huggingface.co/robertknight/ocrs)) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Trained on Google's [HierText](https://github.com/google-research-datasets/hiertext) (CC BY-SA 4.0) and synthetic data. Commercial use allowed with attribution; **a modified version (fine-tuned, quantised, retrained) must be released under CC BY-SA 4.0**. |
+| Page detector (`models/text-detection-page.onnx`), a **modified version** of the ocrs text detection model | proof of address: words found in strips the width of the page | Robert Knight (the model); modified here by `scripts/make-page-detector.py` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | ocrs-models' `text-detection.onnx` with its input height and width made free and its skip connections' crops sized from their inputs; the weights are unchanged, and on the original 800 × 600 input the output is identical. |
 | Proof-of-address field tagger (`models/poa-tagger.onnx`) | proof of address | this repository | MIT OR Apache-2.0 | Trained here on synthetic documents only. |
 | MediaPipe BlazeFace short-range (`face_detector.onnx`) | face detection | Google, [MediaPipe](https://github.com/google-ai-edge/mediapipe) | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) | Converted from the published `.tflite`; training data not published. |
 | MediaPipe Face Mesh V2 (`face_landmarks_detector.onnx`) and the canonical face mesh (`docscan/src/face/canonical.rs`) | face landmarks, head pose | Google, MediaPipe | Apache-2.0 | Converted from the published model and `canonical_face_model.obj`; training data not published. |

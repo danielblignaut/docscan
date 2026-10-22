@@ -69,12 +69,20 @@ pub struct NameMatch {
     pub note: Option<String>,
     #[serde(skip)]
     pub line_index: usize,
+    /// The line's box, as fractions of the extent of the page's words (x0, y0, x1, y1).
+    #[serde(skip)]
+    pub bbox: [f32; 4],
 }
 
 #[derive(Debug, Clone, Default, Serialize, PartialEq)]
 pub struct AddressMatch {
     /// 0–1: street similarity, weighed with the locality.
     pub score: f32,
+    /// The street line's box, as fractions of the extent of the page's words, and a line's height.
+    #[serde(skip)]
+    pub bbox: [f32; 4],
+    #[serde(skip)]
+    pub line_h: f32,
     pub street_score: f32,
     /// Share of the suburb, city and postal code given that were found near it.
     pub locality_score: f32,
@@ -100,6 +108,14 @@ pub struct CustomerCheck {
     /// issuer's own address), or the same street with another number.
     pub address_elsewhere: Option<AddressMatch>,
     pub date: Option<Age>,
+    /// Occurrences of the address that are the holder's in every way but
+    /// the printed name above them, which another frame of the capture may
+    /// have read ([`super::capture::combine_checks`]).
+    #[serde(skip)]
+    pub unlinked: Vec<AddressMatch>,
+    /// The customer's name lines found, with their boxes, for the same.
+    #[serde(skip)]
+    pub names: Vec<NameMatch>,
 }
 
 /// Thresholds of the decision (calibrated on the DEV set, never the lockbox).
@@ -124,6 +140,7 @@ fn fold_letters(s: &str) -> String {
             '5' => 'S',
             '8' => 'B',
             'L' => 'I',
+            'J' => 'I',
             _ => c,
         })
         .collect()
@@ -135,12 +152,30 @@ fn fold_digits(s: &str) -> String {
         .map(|c| match c {
             'O' | 'D' | 'Q' => '0',
             'I' | 'L' | '|' => '1',
-            'S' => '5',
+            'S' | '$' => '5',
             'B' => '8',
             'Z' => '2',
             _ => c,
         })
         .collect()
+}
+
+/// Pairs of capitals (and digits) OCR mistakes for each other.
+const CONFUSABLE: &[(char, char)] = &[
+    ('C', 'G'), ('C', 'O'), ('C', 'E'), ('D', 'O'), ('Q', 'O'), ('U', 'V'), ('M', 'N'), ('E', 'F'), ('P', 'R'), ('H', 'N'), ('I', 'T'),
+    ('I', 'J'), ('Y', 'V'), ('K', 'X'), ('A', '4'), ('G', '6'), ('Z', '2'), ('R', 'K'), ('B', 'E'), ('H', 'K'), ('I', 'E'), ('U', 'O'),
+    ('A', 'O'),
+];
+
+/// Whether `a` is `b` with exactly one letter swapped for a look-alike (after
+/// folding the digits OCR reads for letters).
+fn confusable_slip(a: &str, b: &str) -> bool {
+    let (a, b): (Vec<char>, Vec<char>) = (fold_letters(a).chars().collect(), fold_letters(b).chars().collect());
+    if a.len() != b.len() {
+        return false;
+    }
+    let diff: Vec<(char, char)> = a.iter().zip(&b).filter(|(x, y)| x != y).map(|(x, y)| (*x, *y)).collect();
+    matches!(diff.as_slice(), [(x, y)] if CONFUSABLE.iter().any(|&(p, q)| (p, q) == (*x, *y) || (q, p) == (*x, *y)))
 }
 
 fn word_sim(a: &str, b: &str) -> f32 {
@@ -174,6 +209,22 @@ pub(crate) fn suffix(token: &str) -> Option<&'static str> {
         "COURT" | "CT" => "COURT",
         _ => return None,
     })
+}
+
+/// The spellings of a canonical street suffix.
+fn suffix_forms(canonical: &str) -> Vec<&'static str> {
+    const ALL: &[&str] = &[
+        "STREET", "ST", "STR", "STRAAT", "ROAD", "RD", "WEG", "AVENUE", "AVE", "AV", "LAAN", "RYLAAN", "DRIVE", "DR", "CRESCENT", "CRES", "CR",
+        "SINGEL", "LANE", "LN", "STEEG", "CLOSE", "CL", "WAY", "WY", "PLACE", "PL", "PLEK", "BOULEVARD", "BLVD", "HIGHWAY", "HWY", "TERRACE",
+        "TCE", "CIRCLE", "CIR", "COURT", "CT",
+    ];
+    ALL.iter().copied().filter(|f| suffix(f) == Some(canonical)).collect()
+}
+
+/// Whether a token is the customer's street suffix, allowing one letter OCR
+/// confuses ("CT" read for "CL").
+fn same_suffix(token: &str, canonical: &str) -> bool {
+    suffix(token) == Some(canonical) || suffix_forms(canonical).iter().any(|f| f.len() >= 2 && confusable_slip(token, f))
 }
 
 /// Words of the issuer's own address and contact block (as in `rules.rs`).
@@ -215,8 +266,16 @@ fn build_lines(words: &[Word]) -> Vec<Line> {
             l.text.push(' ');
         }
         l.text.push_str(&w.text);
-        let t = norm(&w.text);
-        if !t.is_empty() {
+        // "$" is a 5 OCR misread ("$33 Seme Grove"); norm would drop it.
+        let t = norm(&w.text.replace('$', "S"));
+        // A house number OCR ran into the street name ("17KLIPLANE"): two tokens.
+        let digits = t.chars().take_while(|c| c.is_ascii_digit()).count();
+        if (1..=5).contains(&digits) && t.len() - digits >= 2 && t[digits..].chars().all(|c| c.is_ascii_uppercase()) {
+            l.tokens.push(t[..digits].to_string());
+            l.token_word.push(i);
+            l.tokens.push(t[digits..].to_string());
+            l.token_word.push(i);
+        } else if !t.is_empty() {
             l.tokens.push(t);
             l.token_word.push(i);
         }
@@ -320,6 +379,9 @@ fn given_items(words: &[&str]) -> Vec<Given> {
         } else if t.len() <= 3 && raw_upper && t.chars().all(|c| c.is_alphabetic()) && (w.len() <= 3 || w.contains('.')) {
             // "SJ", "S.J."
             out.extend(t.chars().map(Given::Initial));
+        } else if t.len() <= 3 && t.chars().any(|c| c.is_ascii_digit()) && t.chars().all(|c| c.is_alphabetic() || super::initial_digit(&c.to_string()).is_some()) {
+            // Initials with a letter OCR read as a digit ("L2" for "LZ").
+            out.extend(t.chars().map(|c| Given::Initial(super::initial_digit(&c.to_string()).unwrap_or(c))));
         } else {
             out.push(Given::Name(t));
         }
@@ -351,75 +413,241 @@ fn given_agreement(items: &[Given], given: &[String]) -> f32 {
     }
 }
 
+/// A piece of a printed name line: a word, or part of one OCR ran together
+/// with its neighbour ("MRLS" for "MR LS", "D.Sacoor" for "D. Sacoor").
+struct Piece {
+    /// Letters and digits, in capitals.
+    t: String,
+    /// As printed (initials are told from names by their case and stops).
+    raw: String,
+    /// A comma or full stop after it ("Nkosi, SJ", often read "Nkosi. SJ").
+    stop_after: bool,
+    /// Starts with a lower-case letter: a word of the sentence around a name.
+    lower: bool,
+    colon: bool,
+}
+
+/// Titles as OCR reads them at the start of a name line ("Kr", "Nrs" for
+/// "Mr", "Mrs"), taken as titles only there.
+const OCR_TITLES: &[&str] = &["KR", "NR", "NRS", "HRS", "MRA", "M5", "MI", "NS"];
+
+fn pieces(l: &Line, words: &[Word]) -> Vec<Piece> {
+    let mut out = Vec::new();
+    for &wi in &l.words {
+        let raw = words[wi].text.as_str();
+        if raw == "&" {
+            out.push(Piece { t: "AND".into(), raw: "&".into(), stop_after: false, lower: false, colon: false });
+            continue;
+        }
+        let t = norm(raw);
+        if t.is_empty() {
+            continue;
+        }
+        // Two words OCR joined at a comma or full stop: "Wetlumuntshe.FM", "Nkosi,SJ".
+        if let Some(k) = raw.find([',', '.'])
+            && k >= 3
+            && raw[..k].chars().all(char::is_alphabetic)
+            && raw[k + 1..].chars().count() >= 1
+            && raw[k + 1..].chars().all(char::is_alphabetic)
+            && raw[k + 1..].chars().all(char::is_uppercase)
+        {
+            let (a, b) = (&raw[..k], &raw[k + 1..]);
+            out.push(Piece { t: norm(a), raw: a.to_string(), stop_after: true, lower: a.chars().next().is_some_and(char::is_lowercase), colon: false });
+            out.push(Piece { t: norm(b), raw: b.to_string(), stop_after: false, lower: false, colon: false });
+            continue;
+        }
+        let stop_after = raw.ends_with(',') || raw.ends_with('.');
+        let lower = raw.chars().next().is_some_and(char::is_lowercase);
+        let colon = raw.ends_with(':');
+        // An initial run into the next word at a full stop: "D.Sacoor", "M.Ndlovu".
+        if let Some((a, b)) = raw.split_once('.')
+            && !a.is_empty()
+            && a.chars().all(char::is_alphabetic)
+            && a.chars().count() <= 2
+            && b.chars().filter(|c| c.is_alphabetic()).count() >= 3
+            && b.chars().next().is_some_and(char::is_uppercase)
+        {
+            out.push(Piece { t: norm(a), raw: format!("{a}."), stop_after: false, lower: false, colon: false });
+            out.push(Piece { t: norm(b), raw: b.to_string(), stop_after, lower: false, colon });
+            continue;
+        }
+        // A title run into the initials after it: "MRLS", "MRSK", "MSNK".
+        let letters: String = raw.chars().filter(|c| c.is_alphabetic()).collect();
+        let mut split = false;
+        for title in ["MISS", "PROF", "MRS", "MNR", "MEV", "MR", "MS", "DR"] {
+            if t.len() > title.len() && t.len() <= title.len() + 3 && t.starts_with(title) && t.chars().all(char::is_alphabetic) {
+                let rest: String = letters.chars().skip(title.len()).collect();
+                if rest.chars().all(char::is_uppercase) && !TITLES.contains(&t.as_str()) {
+                    out.push(Piece { t: title.to_string(), raw: title.to_string(), stop_after: false, lower: false, colon: false });
+                    out.push(Piece { t: norm(&rest), raw: rest, stop_after, lower: false, colon });
+                    split = true;
+                }
+                break;
+            }
+        }
+        if !split {
+            out.push(Piece { t, raw: raw.to_string(), stop_after, lower, colon });
+        }
+    }
+    out
+}
+
+/// How well a title and given names run together ("MPFARISENIB", "MSS")
+/// spell the ID's forenames, in order, each in full or as its initial: 1 when
+/// they do, 0 when they cannot be read that way.
+fn run_together_agreement(run: &str, given: &[String]) -> f32 {
+    let mut rest = run;
+    for t in ["MISS", "PROF", "MRS", "MNR", "MEV", "MR", "MS", "DR"] {
+        if let Some(r) = rest.strip_prefix(t) {
+            rest = r;
+            break;
+        }
+    }
+    let rest = fold_letters(rest);
+    fn walk(rest: &str, given: &[String]) -> bool {
+        if rest.is_empty() {
+            return true;
+        }
+        let Some((g, more)) = given.split_first() else { return false };
+        let g = fold_letters(g);
+        (g.len() > 1 && rest.starts_with(&g) && walk(&rest[g.len()..], more)) || (rest.starts_with(&g[..1]) && walk(&rest[1..], more))
+    }
+    if !rest.is_empty() && walk(&rest, given) { 1.0 } else { 0.0 }
+}
+
+fn is_title(p: &[Piece], k: usize) -> bool {
+    // "NS" is also a pair of initials: a title only before a full name and a surname.
+    let need = if p[k].t == "NS" { 3 } else { 2 };
+    TITLES.contains(&p[k].t.as_str()) || (k == 0 && p.len() >= need && OCR_TITLES.contains(&p[k].t.as_str()))
+}
+
 fn match_names(lines: &[Line], words: &[Word], c: &Customer) -> Vec<NameMatch> {
     let (given, surname) = split_name(c);
     if surname.is_empty() {
         return Vec::new();
     }
+    let need = if surname.len() >= 5 { 0.8 } else { 0.99 };
     let mut out = Vec::new();
     for (li, l) in lines.iter().enumerate() {
-        let n = l.tokens.len();
+        let p = pieces(l, words);
+        let n = p.len();
         let mut best: Option<NameMatch> = None;
         for i in 0..n {
             for len in 1..=3.min(n - i) {
-                let cand: String = l.tokens[i..i + len].concat();
-                if cand.len() + 3 < surname.len() || cand.len() > surname.len() + 3 {
-                    continue;
-                }
-                let sim = word_sim(&cand, &surname);
-                let need = if surname.len() >= 5 { 0.8 } else { 0.99 };
-                if sim < need {
-                    continue;
-                }
-                // Given names: the words just before the surname (stopping at a
-                // title or label), or, with none, the words after ("Nkosi, SJ").
-                let wi: Vec<usize> = l.token_word[..i].to_vec();
-                let mut before: Vec<&str> = Vec::new();
-                let mut couple = false;
-                for &w in wi.iter().rev() {
-                    let t = norm(&words[w].text);
-                    if TITLES.contains(&t.as_str()) {
-                        // "Mr & Mrs J Botha": a second title before it.
-                        let k = wi.iter().position(|&x| x == w).unwrap();
-                        couple = wi[..k].iter().any(|&x| TITLES.contains(&norm(&words[x].text).as_str()))
-                            || l.text.contains('&')
-                            || l.upper.contains(" AND ");
-                        break;
+                let cand: String = p[i..i + len].iter().map(|x| x.t.as_str()).collect();
+                // The surname, or (one piece) the surname with the initials OCR ran into it ("MHIZUHLE").
+                let mut tries: Vec<(String, String)> = vec![(cand.clone(), String::new())];
+                if len == 1 && surname.len() >= 4 {
+                    for k in 1..=2 {
+                        if cand.len() > k + 3 && cand.is_char_boundary(k) && p[i].raw.chars().nth(k).is_some_and(|ch| ch.is_uppercase()) {
+                            tries.push((cand[k..].to_string(), cand[..k].to_string()));
+                        }
                     }
-                    // A word in lower case is the sentence the name sits in
-                    // ("We confirm that CRAIG F DESAI is ..."), not a given name.
-                    let sentence_word = words[w].text.chars().next().is_some_and(char::is_lowercase);
-                    if LABELS.contains(&t.as_str()) || CONNECTORS.contains(&t.as_str()) || before.len() >= 3 || words[w].text.ends_with(':') || sentence_word {
-                        break;
-                    }
-                    before.push(words[w].text.as_str());
-                }
-                before.reverse();
-                let mut items = given_items(&before);
-                if items.is_empty() && i + len < n {
-                    let after: Vec<&str> = l.token_word[i + len..]
-                        .iter()
-                        .take(2)
-                        .map(|&w| words[w].text.as_str())
-                        .take_while(|t| !t.chars().next().is_some_and(char::is_lowercase))
-                        .collect();
-                    // Only after a comma: "Nkosi, SJ" (which OCR often reads as "Nkosi. SJ").
-                    let last_word = l.token_word[i + len - 1];
-                    if words[last_word].text.ends_with(',') || words[last_word].text.ends_with('.') {
-                        items = given_items(&after);
+                    // A whole name OCR ran into one word ("MPFARISENIBHLOPHE", "MsSHiophe"):
+                    // the surname at its end, the title and given names before it.
+                    if cand.len() >= surname.len() + 2 && cand.is_char_boundary(cand.len() - surname.len()) {
+                        let k = cand.len() - surname.len();
+                        tries.push((cand[k..].to_string(), format!("~{}", &cand[..k])));
                     }
                 }
-                let mut g = given_agreement(&items, &given);
-                let mut note = None;
-                if g == 0.0 && couple {
-                    g = 0.8;
-                    note = Some("joint holders printed as \"Mr & Mrs\"".to_string());
-                } else if g == 0.6 {
-                    note = Some("only the surname is printed here".to_string());
-                }
-                let score = g * sim;
-                if best.as_ref().is_none_or(|b| score > b.score) {
-                    best = Some(NameMatch { score, line: l.text.clone(), surname_score: sim, given_score: g, note, line_index: li });
+                for (body, glued) in tries {
+                    if body.len() + 3 < surname.len() || body.len() > surname.len() + 3 {
+                        continue;
+                    }
+                    let mut sim = word_sim(&body, &surname);
+                    if sim < need {
+                        // A short surname with one letter OCR confuses with
+                        // another ("TAU" read "TAV"): a near match,
+                        // enough only when the given names printed beside it agree.
+                        if surname.len() >= 3 && confusable_slip(&body, &surname) {
+                            sim = 0.95;
+                        } else {
+                            continue;
+                        }
+                    }
+                    if !glued.is_empty() && sim < 0.99 {
+                        continue;
+                    }
+                    if let Some(run) = glued.strip_prefix('~') {
+                        // Given names run into the surname: they count only when they spell the ID's.
+                        let g = run_together_agreement(run, &given);
+                        let score = g * sim;
+                        if g > 0.0 && best.as_ref().is_none_or(|b| score > b.score) {
+                            best = Some(NameMatch { score, line: l.text.clone(), surname_score: sim, given_score: g, note: None, line_index: li, bbox: [0.0; 4] });
+                        }
+                        continue;
+                    }
+                    // Given names: the pieces just before the surname (stopping at a
+                    // title or label), or, with none, the pieces after ("Nkosi, SJ").
+                    // The given names from piece `end` back (stopping at a title,
+                    // a label, a connector or the sentence around the name).
+                    let collect = |end: usize| -> (Vec<String>, Option<usize>, bool) {
+                        let mut v: Vec<String> = Vec::new();
+                        for k in (0..end).rev() {
+                            if is_title(&p, k) {
+                                // "Mr & Mrs J Botha": a second title before it.
+                                let couple = (0..k).any(|j| is_title(&p, j)) || l.text.contains('&') || l.upper.contains(" AND ");
+                                v.reverse();
+                                return (v, None, couple);
+                            }
+                            // A word in lower case is the sentence the name sits in
+                            // ("We confirm that CRAIG F DESAI is ..."), not a given name.
+                            let t = p[k].t.as_str();
+                            if CONNECTORS.contains(&t) {
+                                // Two given names printed ("Sipho & Thandi Nkosi"): one must be
+                                // the customer's (checked below), not a joint account by default.
+                                v.reverse();
+                                return (v, Some(k), false);
+                            }
+                            if LABELS.contains(&t) || v.len() >= 3 || p[k].colon || p[k].lower {
+                                break;
+                            }
+                            v.push(p[k].raw.clone());
+                        }
+                        v.reverse();
+                        (v, None, false)
+                    };
+                    let (mut before, connector, couple) = collect(i);
+                    // "Sipho & Thandi Nkosi": the given name before the "&" may be the customer's.
+                    let other_side = connector.map(|k| collect(k).0).filter(|v| !v.is_empty());
+                    if !glued.is_empty() {
+                        before.push(glued.clone());
+                    }
+                    let refs: Vec<&str> = before.iter().map(String::as_str).collect();
+                    let mut items = given_items(&refs);
+                    let mut only_if_agree = false;
+                    if items.is_empty() && i + len < n {
+                        let after: Vec<&str> = p[i + len..].iter().take(2).take_while(|x| !x.lower).map(|x| x.raw.as_str()).collect();
+                        // After a comma ("Nkosi, SJ"); or, the comma lost, a line
+                        // that starts with the surname ("LIEBENBERG RIANA"), taken
+                        // only when the names agree.
+                        let first = (0..i).all(|k| LABELS.contains(&p[k].t.as_str()) || p[k].colon);
+                        if p[i + len - 1].stop_after {
+                            items = given_items(&after);
+                        } else if first && n - (i + len) <= 3 {
+                            items = given_items(&after);
+                            only_if_agree = true;
+                        }
+                    }
+                    let mut g = given_agreement(&items, &given);
+                    if only_if_agree && g < 0.9 {
+                        g = 0.6;
+                    }
+                    if let Some(o) = &other_side {
+                        let refs: Vec<&str> = o.iter().map(String::as_str).collect();
+                        g = g.max(given_agreement(&given_items(&refs), &given));
+                    }
+                    let mut note = None;
+                    if g == 0.0 && couple {
+                        g = 0.8;
+                        note = Some("joint holders printed as \"Mr & Mrs\"".to_string());
+                    } else if g == 0.6 {
+                        note = Some("only the surname is printed here".to_string());
+                    }
+                    let score = g * sim;
+                    if best.as_ref().is_none_or(|b| score > b.score) {
+                        best = Some(NameMatch { score, line: l.text.clone(), surname_score: sim, given_score: g, note, line_index: li, bbox: [0.0; 4] });
+                    }
                 }
             }
         }
@@ -498,9 +726,16 @@ fn find_streets(lines: &[Line], sp: &StreetParts) -> Vec<StreetHit> {
                 let cand: String = l.tokens[after..after + len].concat();
                 let mut sim = word_sim(&cand, &sp.core);
                 let mut end = after + len;
-                let page_sfx = l.tokens.get(end).and_then(|t| suffix(t));
+                // The customer's suffix run into the name ("FETHADLROAD").
+                if let Some(a) = sp.suffix
+                    && let Some(f) = suffix_forms(a).into_iter().filter(|f| f.len() >= 4).find(|f| cand.len() >= f.len() + 3 && cand.ends_with(f))
+                {
+                    sim = sim.max(word_sim(&cand[..cand.len() - f.len()], &sp.core));
+                }
+                let next = l.tokens.get(end);
+                let page_sfx = next.and_then(|t| suffix(t)).or_else(|| sp.suffix.filter(|a| next.is_some_and(|t| same_suffix(t, a))));
                 match (sp.suffix, page_sfx) {
-                    (Some(a), Some(b)) if a == b => end += 1,
+                    (Some(a), Some(b)) if a == b || next.is_some_and(|t| same_suffix(t, a)) => end += 1,
                     (Some(_), Some(_)) => {
                         sim *= 0.7;
                         end += 1;
@@ -588,6 +823,8 @@ fn address_matches(lines: &[Line], words: &[Word], names: &[NameMatch], c: &Cust
         let _ = words;
         out.push(AddressMatch {
             score,
+            bbox: [l.x0, l.y0, l.x1, l.y1],
+            line_h: l.y1 - l.y0,
             street_score: if hit.number_ok { hit.score } else { 0.0 },
             locality_score: locality.min(1.0),
             postal_code: postal,
@@ -610,12 +847,30 @@ fn address_ok(a: &AddressMatch) -> bool {
 /// read by the extractor (or voted across frames).
 pub fn check(words: &[Word], spans: &[Span], customer: &Customer, date: Option<Date>, today: Date) -> CustomerCheck {
     let lines = build_lines(words);
-    let names = match_names(&lines, words, customer);
+    let mut names = match_names(&lines, words, customer);
     let _ = spans; // the decision rests on the printed text alone (see the module docs)
-    let addrs = address_matches(&lines, words, &names, customer);
+    let mut addrs = address_matches(&lines, words, &names, customer);
+    // Boxes as fractions of the words' extent, comparable between frames.
+    let (x0, y0) = words.iter().fold((f32::MAX, f32::MAX), |(a, b), w| (a.min(w.x), b.min(w.y)));
+    let (x1, y1) = words.iter().fold((f32::MIN, f32::MIN), |(a, b), w| (a.max(w.x + w.w), b.max(w.y + w.h)));
+    let (sw, sh) = ((x1 - x0).max(1.0), (y1 - y0).max(1.0));
+    let norm_box = |b: [f32; 4]| [(b[0] - x0) / sw, (b[1] - y0) / sh, (b[2] - x0) / sw, (b[3] - y0) / sh];
+    for n in &mut names {
+        let l = &lines[n.line_index];
+        n.bbox = norm_box([l.x0, l.y0, l.x1, l.y1]);
+    }
+    for a in &mut addrs {
+        a.bbox = norm_box(a.bbox);
+        a.line_h /= sh;
+    }
     let address = addrs.iter().find(|a| address_ok(a)).cloned();
     let address_elsewhere = if address.is_none() { addrs.first().cloned() } else { None };
-    decide(names.into_iter().next(), address, address_elsewhere, date.map(|d| verify::age(d, today)))
+    let unlinked: Vec<AddressMatch> = addrs.iter().filter(|a| !a.holder_linked && address_ok(&AddressMatch { holder_linked: true, issuer_block: false, ..(*a).clone() }) && !a.issuer_block).cloned().collect();
+    let top: Vec<NameMatch> = names.iter().filter(|n| n.score >= NAME_MIN).cloned().collect();
+    let mut c = decide(names.into_iter().next(), address, address_elsewhere, date.map(|d| verify::age(d, today)));
+    c.unlinked = unlinked;
+    c.names = top;
+    c
 }
 
 /// The decision from the evidence (also used to combine frames).
@@ -648,7 +903,7 @@ pub fn decide(name: Option<NameMatch>, address: Option<AddressMatch>, address_el
         _ => {}
     }
     let accepted = reasons.is_empty() && address.is_some();
-    CustomerCheck { accepted, reasons, name, address, address_elsewhere, date }
+    CustomerCheck { accepted, reasons, name, address, address_elsewhere, date, unlinked: Vec::new(), names: Vec::new() }
 }
 
 #[cfg(test)]
@@ -736,5 +991,50 @@ mod tests {
         let words = page(&[("Mrs T Dlamlni", 60.0, 200.0), ("3 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
         assert!(check(&words, &[], &customer("THANDI DLAMINI", "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
         assert!(!check(&words, &[], &customer("ZANELE DLAMINI", "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        // A look-alike slip in a short surname, with the given name agreeing, is the customer; without it, not.
+        let words = page(&[("Mrs T Tav", 60.0, 200.0), ("3 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+        assert!(check(&words, &[], &customer("THANDI TAU", "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        let words = page(&[("Mrs Tav", 60.0, 200.0), ("3 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+        assert!(!check(&words, &[], &customer("THANDI TAU", "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        assert!(!confusable_slip("NEL", "NAL") && confusable_slip("TAV", "TAU"));
+    }
+
+    #[test]
+    fn names_ocr_ran_together() {
+        let ok = |line: &str, name: &str| {
+            let words = page(&[(line, 60.0, 200.0), ("3 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+            check(&words, &[], &customer(name, "3 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted
+        };
+        assert!(ok("Mr MHizuhle", "MAVA V HIZUHLE"));
+        assert!(ok("MRLS NDLAMTHIVENDLE", "LWAZI S NDLAMTHIVENDLE"));
+        assert!(ok("Miss D.Sacoor", "DIKELEDI SACOOR"));
+        assert!(ok("Kr MOLEFI LEBONA", "MOLEFI LEBONA"));
+        assert!(ok("LIEBENBERG RIANA", "RIANA W LIEBENBERG"));
+        // Another person's initial run in is still another person.
+        assert!(!ok("Mr THizuhle", "MAVA V HIZUHLE"));
+        assert!(!ok("MRLS NDLAMTHIVENDLE", "THABO NDLAMTHIVENDLE"));
+        assert!(ok("Wetlumuntshe.FM", "FIKILE M WETLUMUNTSHE"));
+        assert!(ok("Nkosi, L2", "LINDA Z NKOSI"));
+        assert!(ok("Mi Ashwin von Aswegen", "ASHWIN C VAN ASWEGEN"));
+        assert!(ok("NTSANOHAVU & KIRSTEN HUMAN", "NTSANOHAVU E HUMAN"));
+        assert!(ok("MISS ISTEWART", "JONQAVA S STEWART"));
+        assert!(!ok("THABO & KIRSTEN HUMAN", "NTSANOHAVU E HUMAN"));
+        assert!(ok("MPFARISENIBHLOPHE", "MPFARISENI B HLOPHE"));
+        assert!(ok("MsSHiophe", "SIPHO E HLOPHE"));
+        assert!(!ok("MsTHiophe", "SIPHO E HLOPHE"));
+    }
+
+    #[test]
+    fn streets_ocr_ran_together() {
+        let ok = |street_line: &str, street: &str| {
+            let words = page(&[("Mrs T Dlamini", 60.0, 200.0), (street_line, 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+            check(&words, &[], &customer("THANDI DLAMINI", street, "Paarl", "7646"), Some(RECENT), TODAY).accepted
+        };
+        assert!(ok("17klipLane", "17 Klip Lane"));
+        assert!(ok("54 FETHADLROAD", "54 Fethadli Road"));
+        assert!(ok("71 Buffalo Ct", "71 Buffalo Cl"));
+        assert!(ok("$33 Seme Grove", "533 Seme Grove"));
+        assert!(!ok("71 Buffalo Ct", "17 Buffalo Cl"));
+        assert!(!ok("18klipLane", "17 Klip Lane"));
     }
 }

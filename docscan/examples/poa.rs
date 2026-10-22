@@ -8,6 +8,8 @@
 //! - `--words` adds the OCR words and the tagger's input features, which is
 //!   what `train/train_tagger.py` learns from.
 //! - The fields are read by rules always, and by the tagger when given.
+//! - `models/text-detection-page.onnx`, when present, detects the page's
+//!   words in strips; `--tiles` uses ocrs's 600 × 800 tiles instead.
 use docscan::poa::{self, Method, verify::Date};
 use docscan::{Scanner, page, quad};
 
@@ -23,6 +25,11 @@ fn main() -> anyhow::Result<()> {
         std::fs::read(format!("{models}/text-detection.rten"))?,
         std::fs::read(format!("{models}/text-recognition.rten"))?,
     )?;
+    // The page detector, when present (scripts/make-page-detector.py); `--tiles` reads without it.
+    let page_det = format!("{models}/text-detection-page.onnx");
+    if !args.iter().any(|a| a == "--tiles") && std::path::Path::new(&page_det).exists() {
+        scanner.load_page_detector_native(std::fs::read(&page_det)?)?;
+    }
     let tagger = args.iter().find_map(|a| a.strip_prefix("--tagger="));
     if let Some(path) = tagger {
         scanner.load_tagger_native(std::fs::read(path)?)?;

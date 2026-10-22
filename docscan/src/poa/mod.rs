@@ -10,6 +10,10 @@
 //! Either way, [`verify`] then checks every value against the page's text,
 //! the postal code against the province, and the document's age.
 
+/// Fill a key field the tagger found nothing for (holder, street, city,
+/// postal code) from the rules' reading.
+pub const RULES_FILL: bool = true;
+
 pub mod capture;
 pub mod customer;
 pub mod features;

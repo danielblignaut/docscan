@@ -102,7 +102,8 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
         <p>
           Code: MIT or Apache-2.0. Models and data are under their own terms:
           OCR models © Robert Knight (<a href="https://huggingface.co/robertknight/ocrs">ocrs</a>,{" "}
-          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, trained on HierText);
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, trained on HierText; the page
+          detector is a modified version, also CC BY-SA 4.0);
           BlazeFace and Face Mesh © Google (<a href="https://github.com/google-ai-edge/mediapipe">MediaPipe</a>, Apache-2.0);
           MiniFASNet © <a href="https://github.com/minivision-ai/Silent-Face-Anti-Spoofing">Minivision</a> (Apache-2.0);
           SFace © <a href="https://github.com/opencv/opencv_zoo">OpenCV</a> (Apache-2.0);

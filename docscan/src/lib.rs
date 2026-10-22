@@ -188,6 +188,9 @@ pub struct Scanner {
     no_gazetteer: bool,
     /// Proof of address: the frames of the capture in progress, as read.
     capture: std::cell::RefCell<Vec<(poa::AddressResult, Vec<poa::features::Word>)>>,
+    /// The detection model with a free input size, for pages
+    /// ([`Scanner::detect_page`]): ocrs runs its own only at 800 × 600.
+    det: Option<rten::Model>,
 }
 
 #[wasm_bindgen]
@@ -284,6 +287,14 @@ impl Scanner {
     pub fn load_tagger(&mut self, model: Vec<u8>) -> Result<(), JsError> {
         self.tagger = Some(poa::tagger::Tagger::load(model).map_err(|e| JsError::new(&e.to_string()))?);
         Ok(())
+    }
+
+    /// Loads the page detector (`text-detection-page.onnx`: ocrs's text
+    /// detection model with its input size freed, scripts/make-page-detector.py).
+    /// Optional: proof-of-address pages are then detected in strips the width
+    /// of the page rather than nine overlapping tiles.
+    pub fn load_page_detector(&mut self, model: Vec<u8>) -> Result<(), JsError> {
+        self.load_page_detector_native(model).map_err(|e| JsError::new(&e.to_string()))
     }
 
     pub fn has_tagger(&self) -> bool {
@@ -567,6 +578,11 @@ impl Scanner {
         self.no_gazetteer = !on;
     }
 
+    pub fn load_page_detector_native(&mut self, model: Vec<u8>) -> anyhow::Result<()> {
+        self.det = Some(rten::Model::load(model)?);
+        Ok(())
+    }
+
     pub fn load_tagger_native(&mut self, model: Vec<u8>) -> anyhow::Result<()> {
         self.tagger = Some(poa::tagger::Tagger::load(model)?);
         Ok(())
@@ -580,6 +596,65 @@ impl Scanner {
         Ok(poa::features::reading_order(&words))
     }
 
+    /// Words detected on a page with a detection model whose input size is
+    /// free (ocrs's own runs only at its declared 800 × 600): the model is
+    /// fully convolutional, so it runs on strips the width of the page, and
+    /// the stitched probability map is thresholded and its connected
+    /// components turned into word rectangles exactly as ocrs does (threshold
+    /// 0.2, contours simplified, the minimum-area rectangle grown by 3 px, at
+    /// least 100 px²). The 3 × 3 overlapping 600 × 800 tiles covered a page
+    /// about twice over, and a word cut by a tile edge had to be de-duplicated.
+    fn detect_page(&self, grey: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<rten_imageproc::RotatedRect>> {
+        use rten_imageproc::{RetrievalMode, find_contours, min_area_rect, simplify_polygon};
+        use rten_tensor::prelude::*;
+        use rten_tensor::NdTensor;
+        let det = self.det.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
+        // The page in strips the full width of the page and STRIP rows tall,
+        // overlapping by OVERLAP rows; each pixel's probability is taken from
+        // the strip it sits deeper in.
+        // 384 rows: the activations of a 1248 × 384 strip are about those of
+        // a 600 × 800 tile, so peak memory stays where it was (196 MB against
+        // 192 MB natively; a whole page in one pass peaks at 700 MB).
+        const STRIP: usize = 384;
+        const OVERLAP: usize = 64;
+        let pw = w.next_multiple_of(32);
+        let sh = STRIP.min(h.next_multiple_of(32));
+        let mut starts = vec![0usize];
+        while starts.last().unwrap() + sh < h {
+            starts.push((starts.last().unwrap() + sh - OVERLAP).min(h.saturating_sub(sh)));
+        }
+        let mut prob = vec![0f32; w * h];
+        for (k, &y0) in starts.iter().enumerate() {
+            let mut input = NdTensor::full([1, 1, sh, pw], -0.5f32);
+            for y in 0..sh.min(h - y0) {
+                for x in 0..w {
+                    input[[0, 0, y, x]] = grey[(y0 + y) * w + x] as f32 / 255.0 - 0.5;
+                }
+            }
+            let out: NdTensor<f32, 4> = det.run_one(input.view().as_dyn().into(), None)?.try_into()?;
+            // Rows this strip owns: from the middle of the overlap above to the middle of the one below.
+            let top = if k == 0 { 0 } else { (starts[k - 1] + sh).saturating_sub(y0) / 2 };
+            let bottom = if k + 1 == starts.len() { sh.min(h - y0) } else { (y0 + sh - starts[k + 1]) / 2 + (starts[k + 1] - y0) };
+            for y in top..bottom.min(h - y0) {
+                for x in 0..w {
+                    prob[(y0 + y) * w + x] = out[[0, 0, y, x]];
+                }
+            }
+        }
+        let mask = NdTensor::from_fn([h, w], |[y, x]| prob[y * w + x] > 0.2);
+        Ok(find_contours(mask.view(), RetrievalMode::External)
+            .iter()
+            .filter_map(|poly| {
+                let pts: Vec<_> = poly.iter().map(|p| p.to_f32()).collect();
+                min_area_rect(&simplify_polygon(&pts, 2.0)).map(|mut r| {
+                    r.resize(r.width() + 6.0, r.height() + 6.0);
+                    r
+                })
+            })
+            .filter(|r| r.area() >= 100.0)
+            .collect())
+    }
+
     /// OCR of a whole page, word by word: words are detected tile by tile at
     /// the detection model's native input size (as [`Scanner::ocr_tiled`]
     /// does, so small print keeps its detail), the detections from
@@ -590,6 +665,8 @@ impl Scanner {
     pub fn ocr_page(&self, grey: &[u8], w: usize, h: usize) -> anyhow::Result<Vec<za::Line>> {
         use rten_imageproc::{BoundingRect, Point, RotatedRect};
         let ocr = self.ocr.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
+        let profile = cfg!(not(target_arch = "wasm32")) && std::env::var("DOCSCAN_PROFILE").is_ok();
+        let t0 = now();
         const TILE_W: usize = 600;
         const TILE_H: usize = 800;
         let starts = |len: usize, tile: usize| -> Vec<usize> {
@@ -600,38 +677,44 @@ impl Scanner {
             let step = (len - tile) as f32 / (n - 1) as f32;
             (0..n).map(|i| (i as f32 * step).round() as usize).collect()
         };
-        let (tw, th) = (TILE_W.min(w), TILE_H.min(h));
-        let mut found: Vec<RotatedRect> = Vec::new();
-        for &y0 in &starts(h, th) {
-            for &x0 in &starts(w, tw) {
-                let mut tile = Vec::with_capacity(tw * th);
-                for y in y0..y0 + th {
-                    tile.extend_from_slice(&grey[y * w + x0..y * w + x0 + tw]);
-                }
-                let input = ocr.prepare_input(ImageSource::from_bytes(&tile, (tw as u32, th as u32))?)?;
-                for r in ocr.detect_words(&input)? {
-                    let c = r.center();
-                    found.push(RotatedRect::new(Point::from_yx(c.y + y0 as f32, c.x + x0 as f32), r.up_axis(), r.width(), r.height()));
+        let words = if self.det.is_some() {
+            self.detect_page(grey, w, h)?
+        } else {
+            let (tw, th) = (TILE_W.min(w), TILE_H.min(h));
+            let mut found: Vec<RotatedRect> = Vec::new();
+            for &y0 in &starts(h, th) {
+                for &x0 in &starts(w, tw) {
+                    let mut tile = Vec::with_capacity(tw * th);
+                    for y in y0..y0 + th {
+                        tile.extend_from_slice(&grey[y * w + x0..y * w + x0 + tw]);
+                    }
+                    let input = ocr.prepare_input(ImageSource::from_bytes(&tile, (tw as u32, th as u32))?)?;
+                    for r in ocr.detect_words(&input)? {
+                        let c = r.center();
+                        found.push(RotatedRect::new(Point::from_yx(c.y + y0 as f32, c.x + x0 as f32), r.up_axis(), r.width(), r.height()));
+                    }
                 }
             }
-        }
-        // A word seen in two tiles: keep the larger detection (the other is
-        // usually cut by a tile edge).
-        let area = |r: &RotatedRect| r.width() * r.height();
-        found.sort_by(|a, b| area(b).total_cmp(&area(a)));
-        let mut words: Vec<RotatedRect> = Vec::new();
-        for r in found {
-            let b = r.bounding_rect();
-            let dup = words.iter().any(|k| {
-                let kb = k.bounding_rect();
-                let ow = kb.right().min(b.right()) - kb.left().max(b.left());
-                let oh = kb.bottom().min(b.bottom()) - kb.top().max(b.top());
-                ow > 0.0 && oh > 0.0 && ow * oh > 0.5 * (b.width() * b.height()).min(kb.width() * kb.height())
-            });
-            if !dup {
-                words.push(r);
+            // A word seen in two tiles: keep the larger detection (the other is
+            // usually cut by a tile edge).
+            let area = |r: &RotatedRect| r.width() * r.height();
+            found.sort_by(|a, b| area(b).total_cmp(&area(a)));
+            let mut words: Vec<RotatedRect> = Vec::new();
+            for r in found {
+                let b = r.bounding_rect();
+                let dup = words.iter().any(|k| {
+                    let kb = k.bounding_rect();
+                    let ow = kb.right().min(b.right()) - kb.left().max(b.left());
+                    let oh = kb.bottom().min(b.bottom()) - kb.top().max(b.top());
+                    ow > 0.0 && oh > 0.0 && ow * oh > 0.5 * (b.width() * b.height()).min(kb.width() * kb.height())
+                });
+                if !dup {
+                    words.push(r);
+                }
             }
-        }
+            words
+        };
+        let t1 = now();
         let input = ocr.prepare_input(ImageSource::from_bytes(grey, (w as u32, h as u32))?)?;
         let lines = ocr.find_text_lines(&input, &words);
         // A "line" of word boxes far apart (two stray words found again in a
@@ -658,9 +741,28 @@ impl Scanner {
         // In batches: recognising a page's hundred-odd lines at once holds
         // every line image (and the model's activations for all of them) in
         // memory together, which in wasm grows the heap for good.
-        let mut texts = Vec::with_capacity(split.len());
-        for batch in split.chunks(16) {
-            texts.extend(ocr.recognize_text(&input, batch)?);
+        // ocrs pads every line of a batch to the batch's widest (in steps of
+        // 50 px at the recogniser's height) and runs each width group
+        // separately, so 16 lines in reading order make many small groups:
+        // batch lines of similar width together (by their width at that
+        // height), and put the readings back in order.
+        let aspect = |line: &[RotatedRect]| {
+            let (x0, x1) = line.iter().map(|r| r.bounding_rect()).fold((f32::MAX, f32::MIN), |(a, b), r| (a.min(r.left()), b.max(r.right())));
+            let h = line.iter().map(|r| r.bounding_rect().height()).fold(1.0f32, f32::max);
+            (x1 - x0) / h
+        };
+        let mut order: Vec<usize> = (0..split.len()).collect();
+        order.sort_by(|&a, &b| aspect(&split[a]).total_cmp(&aspect(&split[b])));
+        let mut texts: Vec<Option<ocrs::TextLine>> = vec![None; split.len()];
+        for batch in order.chunks(16) {
+            let lines: Vec<Vec<RotatedRect>> = batch.iter().map(|&i| split[i].clone()).collect();
+            for (&i, t) in batch.iter().zip(ocr.recognize_text(&input, &lines)?) {
+                texts[i] = t;
+            }
+        }
+        if profile {
+            let words: usize = split.iter().map(|l| l.len()).sum();
+            eprintln!("ocr_page: detect {:.0} ms, recognise {:.0} ms ({} lines, {} words)", t1 - t0, now() - t1, split.len(), words);
         }
         // Words read twice (by two overlapping line crops): keep the reading
         // from the line with more words, whose crop fits the text best.
@@ -725,12 +827,33 @@ impl Scanner {
                 let probs = tagger.probabilities(words, pw as f32, ph as f32)?;
                 let spans = poa::tagger::spans(words, &probs);
                 let (mut f, mut c) = poa::fields_from_spans(words, &spans, &text);
-                // No date tagged: the rules' labelled document date, if any.
-                if f.document_date.is_none() && f.statement_period.is_none() {
+                // A key field the tagger found nothing for: the rules' reading, if any.
+                let a = &f.address;
+                if (f.document_date.is_none() && f.statement_period.is_none())
+                    || f.holder_name.is_none()
+                    || a.street.is_none()
+                    || a.city.is_none()
+                    || a.postal_code.is_none()
+                {
                     let (rf, _) = poa::rules::extract(words, ph as f32, &text, today);
-                    if let Some(d) = rf.document_date {
+                    if f.document_date.is_none() && f.statement_period.is_none()
+                        && let Some(d) = rf.document_date
+                    {
                         f.document_date = Some(d);
                         c.push(("document_date", 0.3));
+                    }
+                    if poa::RULES_FILL {
+                        for (field, mine, theirs) in [
+                            ("holder_name", &mut f.holder_name, rf.holder_name),
+                            ("street", &mut f.address.street, rf.address.street),
+                            ("city", &mut f.address.city, rf.address.city),
+                            ("postal_code", &mut f.address.postal_code, rf.address.postal_code),
+                        ] {
+                            if mine.is_none() && theirs.is_some() {
+                                *mine = theirs;
+                                c.push((field, poa::capture::RULES_FILL_CONFIDENCE));
+                            }
+                        }
                     }
                 }
                 (f, c, spans)

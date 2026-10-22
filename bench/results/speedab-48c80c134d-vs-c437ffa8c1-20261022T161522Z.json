@@ -1,0 +1,30 @@
+{
+ "ref": "c437ffa8c141701113c06cb5dda6e024f50fcc40",
+ "new": "48c80c134d0088076fb4505b3e1f90fe306f500a",
+ "dirty": true,
+ "repeats": 4,
+ "load_start": [
+  7.06,
+  6.98,
+  10.02
+ ],
+ "load_end": [
+  25.54,
+  14.8,
+  11.73
+ ],
+ "timestamp_utc": "2026-10-22T16:15:22Z",
+ "metrics": {
+  "poa.speed.frame_ms": {
+   "ratio": 0.8520421316148563,
+   "ci95": [
+    0.8075624374491887,
+    0.8905578768374645
+   ],
+   "ref_ms": 11827.4805,
+   "new_ms": 10067.3305,
+   "pairs": 24,
+   "status": "improved"
+  }
+ }
+}

@@ -12,6 +12,9 @@ for m in text-detection text-recognition; do
   cp "models/$m.rten" demo/public/models/
 done
 [ -f models/poa-tagger.onnx ] && cp models/poa-tagger.onnx demo/public/models/
+# The page detector: ocrs's detection model with its input size freed (committed;
+# CC BY-SA 4.0 like the model it is made from; scripts/make-page-detector.py).
+[ -f models/text-detection-page.onnx ] && cp models/text-detection-page.onnx demo/public/models/
 # The face models (models/face/: MediaPipe BlazeFace and Face Mesh V2, MiniFASNet,
 # SFace int8; all Apache-2.0, converted by face/tools/convert_models.sh; see face/MODELS.md).
 mkdir -p demo/public/models/face
