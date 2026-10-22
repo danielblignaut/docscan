@@ -264,7 +264,8 @@ pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], 
     for t in tally.iter_mut() {
         if let Some(d) = Date::parse_iso(&t.0) {
             let age = today.days() - d.days();
-            if (-10..=400).contains(&age) {
+            // Not a date after today: that is a due date, not the document's.
+            if (0..=400).contains(&age) {
                 t.1 += 0.2;
             }
         }

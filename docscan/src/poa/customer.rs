@@ -227,6 +227,9 @@ fn same_suffix(token: &str, canonical: &str) -> bool {
     suffix(token) == Some(canonical) || suffix_forms(canonical).iter().any(|f| f.len() >= 2 && confusable_slip(token, f))
 }
 
+/// Labels of the address an account is for (with "address").
+const PREMISES: &[&str] = &["PROPERTY", "SUPPLY", "SERVICE", "PHYSICAL", "RESIDENTIAL", "PREMISES", "DELIVERY", "INSTALLATION", "STAND", "ERF"];
+
 /// Words of the issuer's own address and contact block (as in `rules.rs`).
 const ISSUER_CUES: &[&str] = &[
     "HEAD OFFICE", "REGISTERED OFFICE", "PO BOX", "P O BOX", "POBOX", "PRIVATE BAG", "TEL", "FAX", "VAT", "REG NO", "REGISTRATION",
@@ -820,6 +823,14 @@ fn address_matches(lines: &[Line], words: &[Word], names: &[NameMatch], c: &Cust
         // Linked to the holder: a holder-name line above it in its column,
         // on the same line before it, or the sentence just before it.
         let near_name = holder_lines.iter().any(|&h| h == hit.line || above_lines.contains(&h) || (h < hit.line && hit.line - h <= 3 && lines[h].y1 <= l.y0 + 1.0 && lines[h].x0 <= l.x1 && lines[h].x1 >= l.x0));
+        // Or labelled as the holder's premises ("Property address", "Supply
+        // address", ...) on a page that prints the customer's name.
+        let premises = !holder_lines.is_empty()
+            && std::iter::once(hit.line).chain(above_lines.iter().copied().take(2)).any(|k| {
+                let u = &lines[k].upper;
+                u.contains("ADDRESS") && PREMISES.iter().any(|p| u.contains(p)) && !has_issuer_cue(&lines[k])
+            });
+        let near_name = near_name || premises;
         let block: Vec<usize> = std::iter::once(hit.line).chain(above_lines.iter().copied().take(2)).chain(below_lines.iter().copied()).collect();
         let issuer = block.iter().any(|&b| has_issuer_cue(&lines[b]));
         let mut shown: Vec<String> = above_lines.iter().take(1).rev().map(|&i| lines[i].text.clone()).collect();
@@ -1045,6 +1056,11 @@ mod tests {
         assert!(ok("$33 Seme Grove", "533 Seme Grove"));
         let words = page(&[("Mrs T Dlamini", 60.0, 200.0), ("12 Oak Avenue", 60.0, 224.0), ("Paarl7646", 60.0, 248.0)]);
         assert!(check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        // The holder's premises, labelled, apart from the name.
+        let words = page(&[("Mrs T Dlamini", 600.0, 100.0), ("PROPERTY ADDRESS", 60.0, 300.0), ("12 Oak Avenue", 60.0, 324.0), ("Paarl 7646", 60.0, 348.0)]);
+        assert!(check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        let words = page(&[("Mrs T Dlamini", 600.0, 100.0), ("HEAD OFFICE ADDRESS", 60.0, 300.0), ("12 Oak Avenue", 60.0, 324.0), ("Paarl 7646", 60.0, 348.0)]);
+        assert!(!check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
         assert!(!ok("71 Buffalo Ct", "17 Buffalo Cl"));
         assert!(!ok("18klipLane", "17 Klip Lane"));
     }
