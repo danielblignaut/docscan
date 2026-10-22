@@ -55,11 +55,11 @@ Everything is in `docscan/src/`:
 | Module | What it does |
 | --- | --- |
 | `quad.rs` | Finds the document: a Hough transform over colour gradients (votes restricted to each pixel's gradient direction), candidate quadrilaterals from pairs of near-horizontal and near-vertical lines, scored by how much of each side lies on a strong edge. A homography then flattens it. |
-| `barcode.rs` | [rxing](https://github.com/rxing-core/rxing) (a Rust port of ZXing) for every symbology at once, with a skew-levelled retry for PDF417. |
+| `barcode.rs` | [rxing](https://github.com/rxing-core/rxing) (a Rust port of ZXing): each 2-D symbology through its own multi-symbol detector (also on the negative and a local-mean binarisation; Aztec from a bull's-eye search), a skew-levelled retry for PDF417, and linear codes from a bar-patch finder at any angle, each patch read squared up, upsampled, or as an averaged profile ([docs/improvements-barcode.md](docs/improvements-barcode.md)). |
 | `lib.rs` | OCR with [ocrs](https://github.com/robertknight/ocrs) on the flattened page, an orientation search (0°, 180°, 90°/270°), and classification. |
 | `mrz.rs` | TD3 and TD1 parsing; per-field correction of OCR look-alikes (`O`/`0`, `S`/`5`, …); check digits; and repair of the names (which check digits do not cover) against the printed words on the page. |
 | `za.rs` | SA identity numbers (date, sex, citizenship, Luhn), the smart ID PDF417 (pipe-separated text), and label/value extraction with per-field validators. |
-| `labels.rs` | Pairs barcodes with printed `LABEL: value` lines and the digits under an EAN; validates IMEI (Luhn) and GTIN checksums; drops decodes the print contradicts. |
+| `labels.rs` | Pairs barcodes with printed `LABEL: value` lines and the digits under an EAN; validates IMEI and ICCID (Luhn) and GTIN checksums; drops decodes the print contradicts. |
 | `quality.rs`, `geometry.rs` | Sharpness, glare and exposure; skew estimation and rotation. |
 
 A document is **accepted** only when its reading checks out: MRZ check digits

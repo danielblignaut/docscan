@@ -689,16 +689,30 @@ impl Scanner {
         })
     }
 
+    /// The widest image [`Scanner::labelled_native`] reads print from.
+    pub const LABEL_OCR_WIDTH_PX: u32 = 1280;
+
     pub fn labelled_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
         let luma = quality::rgba_to_luma(rgba);
         let barcodes = barcode::read_all(&luma, width, height, None);
         // Bar patches, read or not: they give decoded codes their extent and
         // let unreadable bars claim the value printed beside them.
-        let regions: Vec<[f32; 4]> = barcode::linear_regions(&luma, width as usize, height as usize)
-            .into_iter()
-            .map(|r| [r.x0 as f32, r.y0 as f32, (r.x1 - r.x0) as f32, (r.y1 - r.y0) as f32])
-            .collect();
-        let lines = self.ocr_tiled(rgba, width as usize, height as usize)?;
+        let regions: Vec<[f32; 4]> = barcode::oriented_regions(&luma, width as usize, height as usize).iter().map(|r| r.bounds()).collect();
+        // Print is read at most LABEL_OCR_WIDTH_PX wide, the size the browser
+        // analyses: device-label print is large enough there, and a larger
+        // frame only costs tiles (a 1920-wide frame takes ten rather than
+        // three, and reads no better).
+        let k = (Self::LABEL_OCR_WIDTH_PX as f32 / width as f32).min(1.0);
+        let lines = if k < 1.0 {
+            let (small, sw, sh) = quality::scale_rgba(rgba, width as usize, height as usize, k);
+            let mut lines = self.ocr_tiled(&small, sw, sh)?;
+            for l in &mut lines {
+                (l.x, l.y, l.w, l.h) = (l.x / k, l.y / k, l.w / k, l.h / k);
+            }
+            lines
+        } else {
+            self.ocr_tiled(rgba, width as usize, height as usize)?
+        };
         Ok(labels::associate(&barcodes, &regions, &lines))
     }
 

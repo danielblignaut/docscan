@@ -39,6 +39,8 @@ pub enum ValueKind {
     Imei,
     /// A GTIN: EAN-13, EAN-8, UPC-A or UPC-E, with its checksum.
     Gtin,
+    /// A SIM card's ICCID: 19 or 20 digits starting `89`, with a Luhn digit.
+    Iccid,
     Text,
 }
 
@@ -107,15 +109,71 @@ fn alnum_upper(s: &str) -> String {
 
 /// Normalises a printed label: `S/N` → `SN`, `IMEl 1` → `IMEI1`.
 fn normalise_label(raw: &str) -> String {
-    let mut l = alnum_upper(raw);
-    if let Some(rest) = l.strip_prefix("IMEL").or_else(|| l.strip_prefix("1MEI")).or_else(|| l.strip_prefix("IME1")) {
-        l = format!("IMEI{rest}");
+    if let Some(imei) = imei_label(raw) {
+        return imei;
     }
-    if let Some(rest) = l.strip_prefix("IMEI") {
-        // The index after IMEI is a digit: `l`, `I` and `|` are a 1, `Z` a 2.
-        l = format!("IMEI{}", digitise(rest));
+    let l = alnum_upper(raw);
+    // `S/N` with its slash read as a letter or digit.
+    if matches!(l.as_str(), "SIN" | "S1N" | "SLN" | "STN") {
+        return "SN".into();
     }
     l
+}
+
+/// An IMEI label as OCR reads it: `IMEI1`, `IMEI 1`, `IMEl1`, `1MEI2`, `IME) 1`,
+/// `IME/2`, `IMFI2`, `IME17` (an `I` read as `1` and a `1` as `7`). The index
+/// is 1 or 2 (a phone has at most two): a trailing `l`, `I`, `|`, `T` or `7`
+/// is a 1, `Z` a 2. `None` when the label is not an IMEI's.
+fn imei_label(raw: &str) -> Option<String> {
+    let t = alnum_upper(raw);
+    let index = |s: &str| -> Option<&'static str> {
+        match s {
+            "" => Some(""),
+            "1" | "I" | "L" | "T" | "7" | "J" => Some("1"),
+            "2" | "Z" => Some("2"),
+            _ => None,
+        }
+    };
+    // `I` misread as `1`, `l`, `|`, `T` or `J`; `E` as `F`.
+    let like_i = |c: char| matches!(c, 'I' | '1' | 'L' | 'T' | 'J');
+    let is_imei = |p: &str| {
+        let c: Vec<char> = p.chars().collect();
+        c.len() == 4 && [like_i(c[0]), c[1] == 'M', matches!(c[2], 'E' | 'F'), like_i(c[3])].iter().filter(|&&ok| !ok).count() <= 1
+    };
+    // An index set apart from the letters (`IME 1`, `IME) 1`, `IME/2`): the
+    // letters before it are the word, even with its last `I` lost.
+    let parts: Vec<String> = raw.split(|c: char| !c.is_alphanumeric()).filter(|p| !p.is_empty()).map(alnum_upper).collect();
+    if parts.len() >= 2
+        && let Some(i) = index(parts.last().unwrap())
+        && !i.is_empty()
+    {
+        let word: String = parts[..parts.len() - 1].concat();
+        if is_imei(&word) || word == "IME" {
+            return Some(format!("IMEI{i}"));
+        }
+    }
+    // Read twice over a tile seam (`IMEIIME2`): the last reading.
+    if let Some(i) = t.rfind("IME").filter(|&i| i > 0) {
+        return imei_label(&t[i..]);
+    }
+    // The first I lost (`MEI2`).
+    if let Some(rest) = t.strip_prefix("MEI")
+        && let Some(i) = index(rest).filter(|i| !i.is_empty())
+    {
+        return Some(format!("IMEI{i}"));
+    }
+    // `IME2`: the last I dropped, the index kept (a 2 is never an I).
+    if matches!(t.as_str(), "IME2" | "IMEZ") {
+        return Some("IMEI2".into());
+    }
+    // `IMEI1`, `IME11`, `IMFI2`: four letters like IMEI, then the index.
+    if t.len() >= 4
+        && is_imei(&t[..4])
+        && let Some(i) = index(&t[4..])
+    {
+        return Some(format!("IMEI{i}"));
+    }
+    None
 }
 
 /// Classifies and normalises a printed value for its label.
@@ -130,11 +188,21 @@ fn classify(label: Option<&str>, raw: &str) -> (String, ValueKind, Option<bool>)
         let ok = value.len() == 15 && luhn_valid(&value);
         return (value, ValueKind::Imei, Some(ok));
     }
+    if label == Some("ICCID") || (numeric && is_iccid_shape(&digits) && luhn_valid(&digits)) {
+        let value = if numeric { digits } else { alnum_upper(raw) };
+        let ok = is_iccid_shape(&value) && luhn_valid(&value);
+        return (value, ValueKind::Iccid, Some(ok));
+    }
     if numeric && matches!(digits.len(), 8 | 12 | 13) && label.is_none_or(|l| matches!(l, "EAN" | "UPC" | "GTIN" | "BARCODE")) {
         let ok = gtin_valid(&digits);
         return (digits, ValueKind::Gtin, Some(ok));
     }
     (raw.trim().to_string(), ValueKind::Text, None)
+}
+
+/// 19 or 20 digits starting with the telecom industry's `89`.
+fn is_iccid_shape(digits: &str) -> bool {
+    matches!(digits.len(), 19 | 20) && digits.starts_with("89") && digits.chars().all(|c| c.is_ascii_digit())
 }
 
 struct Printed {
@@ -158,11 +226,15 @@ fn parse_line(line: &Line) -> Option<Printed> {
         return Some(Printed { label: Some(label), value, kind, check, line: line.clone() });
     }
     // A label without its colon (`IMEI1 351204123456785`, `SN 10AB12C…`).
-    let mut parts = t.splitn(2, char::is_whitespace);
-    if let (Some(first), Some(rest)) = (parts.next(), parts.next()) {
-        let label = normalise_label(first);
+    // The label may be two words when its index stands apart (`IME 1 3512…`).
+    let words: Vec<&str> = t.split_whitespace().collect();
+    for n in [2, 1] {
+        if words.len() <= n || (n == 2 && words[1].chars().count() != 1) {
+            continue;
+        }
+        let label = normalise_label(&words[..n].join(" "));
         if label.starts_with("IMEI") || matches!(label.as_str(), "SN" | "MEID" | "EID" | "ICCID" | "PN") {
-            let (value, kind, check) = classify(Some(&label), rest);
+            let (value, kind, check) = classify(Some(&label), &words[n..].join(" "));
             return Some(Printed { label: Some(label), value, kind, check, line: line.clone() });
         }
     }
@@ -202,11 +274,15 @@ fn kind_of_barcode(b: &Barcode) -> (ValueKind, Option<bool>) {
     if t.len() == 15 && t.chars().all(|c| c.is_ascii_digit()) {
         return (ValueKind::Imei, Some(luhn_valid(t)));
     }
+    // Only a valid ICCID is called one: other long numbers starting 89 exist.
+    if is_iccid_shape(t) && luhn_valid(t) {
+        return (ValueKind::Iccid, Some(true));
+    }
     (ValueKind::Text, None)
 }
 
 /// Pairs barcodes with printed labels and values. `regions` are patches
-/// that look like linear barcodes (`barcode::linear_regions`), decoded or
+/// that look like linear barcodes (`barcode::oriented_regions`), decoded or
 /// not; `lines` are OCR lines. Everything is in the same frame pixels.
 ///
 /// A label can sit above a code, below it, or to its left. A code with no
@@ -232,12 +308,27 @@ pub fn associate(barcodes: &[Barcode], regions: &[[f32; 4]], lines: &[Line]) -> 
         })
         .collect();
 
+    // A label printed just left of its bars is often read together with them
+    // (`IMEI1: INNNN`): an IMEI "value" with hardly a digit is the bars, and
+    // the label a bare one.
+    let mut printed = printed;
+    for p in printed.iter_mut().filter(|p| p.kind == ValueKind::Imei && p.value.chars().filter(|c| c.is_ascii_digit()).count() <= 1) {
+        p.value.clear();
+        (p.kind, p.check) = (ValueKind::Text, None);
+    }
+
     // Decoded codes whose value is printed (exactly, or within two OCR slips).
     let hits: Vec<Option<usize>> = barcodes
         .iter()
         .map(|b| {
-            let want = alnum_upper(&b.text);
-            let hit = printed.iter().enumerate().filter(|(i, _)| !used[*i]).find(|(_, p)| same_value(&alnum_upper(&p.value), &want)).map(|(i, _)| i);
+            // The closest printed value that plausibly prints this code.
+            let hit = printed
+                .iter()
+                .enumerate()
+                .filter(|(i, _)| !used[*i])
+                .filter_map(|(i, p)| value_distance(&p.value, &b.text, p.check == Some(true)).map(|d| (d, i)))
+                .min()
+                .map(|(_, i)| i);
             if let Some(i) = hit {
                 used[i] = true;
             }
@@ -286,7 +377,8 @@ pub fn associate(barcodes: &[Barcode], regions: &[[f32; 4]], lines: &[Line]) -> 
     // Bare labels beside decoded codes that have none yet.
     let unlabelled: Vec<usize> = (0..fields.len()).filter(|&i| fields[i].label.is_none()).collect();
     let targets: Vec<[f32; 4]> = unlabelled.iter().map(|&i| fields[i].bbox).collect();
-    for (k, hit) in match_labels(&printed, &used, &targets, true).into_iter().enumerate() {
+    let values: Vec<Option<&str>> = unlabelled.iter().map(|&i| Some(fields[i].value.as_str())).collect();
+    for (k, hit) in match_labels(&printed, &used, &targets, &values, true).into_iter().enumerate() {
         if let Some(pi) = hit {
             used[pi] = true;
             fields[unlabelled[k]].label = printed[pi].label.clone();
@@ -296,7 +388,7 @@ pub fn associate(barcodes: &[Barcode], regions: &[[f32; 4]], lines: &[Line]) -> 
     // Bars that would not decode: they take the labelled value printed next
     // to them (`IMEI1: 8620…` above a Code 128 too fine to read).
     let unread: Vec<[f32; 4]> = regions.iter().copied().filter(|r| !boxes.iter().any(|d| overlap(*d, *r) > 0.3)).collect();
-    for (ri, hit) in match_labels(&printed, &used, &unread, false).into_iter().enumerate() {
+    for (ri, hit) in match_labels(&printed, &used, &unread, &vec![None; unread.len()], false).into_iter().enumerate() {
         let Some(pi) = hit else { continue };
         used[pi] = true;
         let p = &printed[pi];
@@ -344,16 +436,43 @@ pub fn associate(barcodes: &[Barcode], regions: &[[f32; 4]], lines: &[Line]) -> 
     Labelled { fields, dropped }
 }
 
-/// Equal, or the same length within two characters: a printed value the OCR
-/// misread slightly still confirms the code (whose decoded value stands).
-fn same_value(printed: &str, decoded: &str) -> bool {
-    if printed.is_empty() || decoded.is_empty() {
-        return false;
+/// How far a printed value is from a decoded one, when it plausibly prints
+/// that code: equal; or, for values of eight characters or more, within two
+/// OCR slips (substitutions, a dropped or doubled character; `?` matches
+/// anything); or cut short (a prefix or suffix of at least 60% of it, a line
+/// clipped by a tile edge or split by layout). A printed value that passes
+/// its own check digit (`checked`) but differs is a different number, not a
+/// misread: a phone's two IMEIs differ only in their last digits.
+fn value_distance(printed: &str, decoded: &str, checked: bool) -> Option<usize> {
+    let p: Vec<char> = printed.chars().filter(|c| c.is_ascii_alphanumeric() || *c == '?').map(|c| c.to_ascii_uppercase()).collect();
+    let d: Vec<char> = alnum_upper(decoded).chars().collect();
+    if p.is_empty() || d.is_empty() {
+        return None;
     }
-    printed == decoded
-        || (printed.len() == decoded.len()
-            && printed.len() >= 8
-            && printed.chars().zip(decoded.chars()).filter(|(a, b)| a != b).count() <= 2)
+    if p == d {
+        return Some(0);
+    }
+    if checked || p.len() < 8 {
+        return None;
+    }
+    let same = |a: char, b: char| a == b || a == '?';
+    // Cut short at either end.
+    if p.len() < d.len() && p.len() * 5 >= d.len() * 3 {
+        if p.iter().zip(&d).all(|(&a, &b)| same(a, b)) || p.iter().rev().zip(d.iter().rev()).all(|(&a, &b)| same(a, b)) {
+            return Some(1);
+        }
+    }
+    // Levenshtein distance, `?` a wildcard.
+    let mut prev: Vec<usize> = (0..=d.len()).collect();
+    for (i, &a) in p.iter().enumerate() {
+        let mut cur = vec![i + 1; d.len() + 1];
+        for (j, &b) in d.iter().enumerate() {
+            cur[j + 1] = (prev[j] + usize::from(!same(a, b))).min(prev[j + 1] + 1).min(cur[j] + 1);
+        }
+        prev = cur;
+    }
+    let dist = prev[d.len()];
+    (dist <= 2).then_some(dist)
 }
 
 /// Joins runs of digit groups on one row (`6`, `932204`, `520951`: an EAN's
@@ -411,7 +530,25 @@ fn merge_digit_groups(lines: &[Line]) -> Vec<Line> {
 /// labelled value is a field in its own right); without it (bars that did not
 /// decode) only labels that print a value qualify, since the value is what
 /// those bars hold.
-fn match_labels(printed: &[Printed], used: &[bool], targets: &[[f32; 4]], bare_only: bool) -> Vec<Option<usize>> {
+/// Whether a code holding `value` can carry `label`: an IMEI label only a
+/// 15-digit value with its Luhn digit, an EAN or UPC label only a GTIN, an
+/// ICCID label only an ICCID.
+fn fits_label(label: &str, value: &str) -> bool {
+    if label.starts_with("IMEI") {
+        return value.len() == 15 && luhn_valid(value);
+    }
+    if matches!(label, "EAN" | "UPC" | "GTIN") {
+        return gtin_valid(value);
+    }
+    if label == "ICCID" {
+        return is_iccid_shape(value) && luhn_valid(value);
+    }
+    true
+}
+
+/// `values`: each target's decoded value, when known; a label goes only to a
+/// value it fits ([`fits_label`]).
+fn match_labels(printed: &[Printed], used: &[bool], targets: &[[f32; 4]], values: &[Option<&str>], bare_only: bool) -> Vec<Option<usize>> {
     let mut candidates: Vec<(u8, f32, usize, usize)> = Vec::new();
     for (pi, p) in printed.iter().enumerate() {
         if used[pi] || p.label.is_none() || bare_only != p.value.is_empty() {
@@ -421,6 +558,9 @@ fn match_labels(printed: &[Printed], used: &[bool], targets: &[[f32; 4]], bare_o
         let (lx0, ly0, lx1, ly1) = (l.x, l.y, l.x + l.w, l.y + l.h);
         let reach = 2.5 * l.h;
         for (ti, t) in targets.iter().enumerate() {
+            if values[ti].is_some_and(|v| !fits_label(p.label.as_deref().unwrap_or(""), v)) {
+                continue;
+            }
             let (bx0, by0, bx1, by1) = (t[0], t[1], t[0] + t[2], t[1] + t[3]);
             let x_overlap = lx0 < bx1 && lx1 > bx0;
             let y_overlap = (ly1.min(by1) - ly0.max(by0)) > 0.5 * l.h.min(t[3]);
@@ -458,6 +598,54 @@ mod tests {
 
     fn bar(format: &str, text: &str, x0: f32, x1: f32, y: f32) -> Barcode {
         Barcode { format: format.into(), text: text.into(), bytes: vec![], points: vec![[x0, y], [x1, y]] }
+    }
+
+    #[test]
+    fn imei_and_serial_labels_as_ocr_reads_them() {
+        for (raw, want) in [
+            ("IMEI1", "IMEI1"), ("IMEI 1", "IMEI1"), ("IMEl1", "IMEI1"), ("1MEI2", "IMEI2"), ("IME) 1", "IMEI1"), ("IME/2", "IMEI2"),
+            ("IMFI2", "IMEI2"), ("IME17", "IMEI1"), ("IME11", "IMEI1"), ("IMEIT", "IMEI1"), ("IME2", "IMEI2"), ("IME 1", "IMEI1"),
+            ("IMEI", "IMEI"), ("IMEIIME2", "IMEI2"), ("IMEIMEI2", "IMEI2"), ("MEI2", "IMEI2"), ("S/N", "SN"), ("SIN", "SN"), ("SN", "SN"), ("EAN", "EAN"), ("MEID", "MEID"), ("ITEM", "ITEM"),
+        ] {
+            assert_eq!(normalise_label(raw), want, "{raw}");
+        }
+    }
+
+    #[test]
+    fn label_index_apart_from_its_word() {
+        let p = parse_line(&line("IME 1 860449065649608", 0.0, 0.0, 300.0)).unwrap();
+        assert_eq!((p.label.as_deref(), p.value.as_str(), p.check), (Some("IMEI1"), "860449065649608", Some(true)));
+        let p = parse_line(&line("IME) 1: 359774779498853", 0.0, 0.0, 300.0)).unwrap();
+        assert_eq!((p.label.as_deref(), p.value.as_str()), (Some("IMEI1"), "359774779498853"));
+    }
+
+    #[test]
+    fn printed_values_that_confirm_a_code() {
+        assert!(value_distance("F465MM?TT9T1", "F465MM7TT9T1", false).is_some());
+        assert!(value_distance("R58N67EAIP", "R58N67EAJPJ", false).is_some());
+        assert!(value_distance("W12KVM5T39", "W12KVM5T396U", false).is_some());
+        assert!(value_distance("55430598320", "5543059832017", false).is_some());
+        // A valid IMEI that differs is the other IMEI, however close.
+        assert_eq!(value_distance("351204123456785", "351204123456793", true), None);
+        assert_eq!(value_distance("351204123456785", "351204123456785", true), Some(0));
+        // Short values must match exactly.
+        assert_eq!(value_distance("AB12", "AB13", false), None);
+        assert_eq!(value_distance("HH2", "HH28269516CN", false), None);
+    }
+
+    /// A SIM box: the ICCID printed with its label, checked by its Luhn digit.
+    #[test]
+    fn iccid() {
+        // 8927 0000 0000 0000 000 with its Luhn digit.
+        let body = "892700000000000000";
+        let check = (0..10).map(|d| format!("{body}{d}")).find(|v| luhn_valid(v)).unwrap();
+        let p = parse_line(&line(&format!("ICCID: {check}"), 0.0, 0.0, 300.0)).unwrap();
+        assert_eq!((p.label.as_deref(), p.kind, p.check), (Some("ICCID"), ValueKind::Iccid, Some(true)));
+        let mut wrong = check.clone();
+        wrong.replace_range(5..6, if &check[5..6] == "1" { "2" } else { "1" });
+        assert_eq!(parse_line(&line(&format!("ICCID {wrong}"), 0.0, 0.0, 300.0)).unwrap().check, Some(false));
+        let b = bar("code128", &check, 0.0, 300.0, 40.0);
+        assert_eq!(kind_of_barcode(&b), (ValueKind::Iccid, Some(true)));
     }
 
     #[test]
