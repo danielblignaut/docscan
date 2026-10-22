@@ -119,6 +119,7 @@ the referee's code hash (`bench_code_sha256`).
 
 | Date | Change | Comparable with earlier results? |
 |---|---|---|
+| 2026-10-22 | latency noise re-measured from two back-to-back `--speed-only` runs (17-68%); speed claims move to `speed_ab.py` | latency verdicts only |
 | 2026-10-22 | barcode scorer v2: Codabar compared without its start/stop characters (A-D, T N * E) on either side. zxing-cpp's truth keeps them, rxing and the synthetic set strip them, so every decoder scored 0 on the public set's Codabar codes. | `barcode.public_*.recall.codabar`, `recall`, `all_codes`, `false_decode_frames`, `precision` move; everything else unchanged |
 | 2026-10-22 | speed verdicts need the raw and the calibrated ratio to agree; calibration is the median of three runs of the job; noise.json latency entries are the larger of raw and calibrated noise | latency verdicts only |
 | 2026-10-22 | compare.py margin is twice the recorded noise | verdicts only |
@@ -132,6 +133,7 @@ bench/
   bench.py             the driver: suites, result JSON, table
   compare.py           A vs B: deltas, significance, verdict
   report.py            run-to-run noise (noise.json) and BASELINE.md
+  speed_ab.py          interleaved A/B timing of a reference build and this one
   requirements.txt     the pinned Python environment (generators and scorers)
   lib/common.py        paths, hashing, manifests, sharded runs, caching, timing, metric records
   lib/stats.py         bootstrap, Mann-Whitney, LFW 10-fold, TAR@FAR, AUC, APCER/BPCER/ACER
@@ -211,6 +213,21 @@ on a small fixed DEV subset.
 **e2e** (`--e2e`): `e2e.pass` (demo/e2e/run.mjs cases passing) and
 `e2e.cases` (info: capture times from the clip's start, per-frame browser
 timings). The cases need the clips under testdata/video (README, Test data).
+
+### Speed claims: `bench/speed_ab.py`
+
+```sh
+bench/speed_ab.py [--ref c437ffa] [--suite id,barcode,poa,face] [--repeats 4] [--quick]
+```
+
+builds the reference commit (default: the baseline) in its own worktree and
+target directory under `$BENCH_DATA/ref/`, then times the reference binaries
+and this worktree's alternately, in one session, on the same pinned core
+(alternating which goes first), and judges the per-item ratios pooled over
+the repeats: a regression above +5% with its 95% interval wholly above 1.
+Results go to `bench/results/speedab-<new>-vs-<ref>-<time>.json`. Use it for
+every speed claim: between two separate runs the machine's own speed moves
+by 25-35% (BASELINE.md), more than any change worth making.
 
 ### Speed, and the shared machine
 

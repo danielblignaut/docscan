@@ -9,27 +9,32 @@ only adds the harness). Compare a change against it with
 bench/compare.py bench/results/baseline-c437ffa.json bench/results/<sha>-<time>.json
 ```
 
-Run-to-run noise (`bench/noise.json`) is the difference between this run and
-the first full run of the same scanner binaries
-(`bench/results/83dd9907fb-20261021T193347Z.json`, 83dd990: same scanner,
-referee code identical but for the retry of an item that returns nothing).
-**All 186 accuracy metrics were identical between the two runs**: the
-harness is deterministic, so an accuracy delta is the code's, and its 95%
-interval says whether the item set is large enough to call it. Latency noise
-(the larger of the raw and the calibrated per-item ratio between the runs):
-native 0.3-13%, wasm 1.5-21%; see the Noise column.
+Run-to-run noise (`bench/noise.json`). **Accuracy**: the difference between
+this run and the first full run of the same scanner binaries
+(`bench/results/83dd9907fb-20261021T193347Z.json`, 83dd990). **All 186
+accuracy metrics were identical**: the harness is deterministic, so an
+accuracy delta is the code's, and its 95% interval says whether the item set
+is large enough to call it. **Speed**: two `--speed-only` runs back to back
+(load 28 falling to 10), each metric's noise the larger of the raw and the
+calibrated per-item ratio between them: 17-37% native, 32-68% wasm. On this
+shared machine the calibration job is bimodal (about 180 ms or 300-460 ms on
+the same core, depending on what its hyperthread sibling is doing), so
+neither raw nor calibrated time is stable across runs. compare.py's speed
+verdicts between runs therefore only catch large changes; **a speed claim of
+a few percent must come from `bench/speed_ab.py`**, which times the reference
+build and the change alternately in one session (README, Speed).
 
 ## Summary
 
 | Scanner | DEV | TEST (reporting only) | Speed (native, 1 thread; wasm in headless Chrome) |
 |---|---|---|---|
 | ID: testdata/camera stills | 96.7% good accepted, 6.7% bad accepted, 98.5% fields, MRZ 100% | - | |
-| ID: hard set | 85.0% good accepted, 5.8% bad accepted, 7.6% accepted wrong, 92.5% fields, MRZ 98.2% | 82.1% / 7.5% / 5.2% / 91.3% / 98.8% | fast pass 376 ms, OCR pass 6.6 s (wasm 1 thread 201 ms / 6.1 s; 8 threads 205 ms / 2.2 s) |
-| ID: clips | 6/6 right outcome, capture at 3.75 s (median) | - | |
-| Barcodes: synthetic | recall 66.3%, all codes 43.9%, false-decode frames 10.0%, labelled value 78.7% (label too 60.8%) | 61.2%, 44.4%, 8.3%, 74.3% (55.6%) | 894 ms per frame, labelled 6.5 s (wasm 667 ms) |
+| ID: hard set | 85.0% good accepted, 5.8% bad accepted, 7.6% accepted wrong, 92.5% fields, MRZ 98.2% | 82.1% / 7.5% / 5.2% / 91.3% / 98.8% | fast pass 288 ms, OCR pass 4.0 s (wasm 1 thread 289 ms / 9.8 s; 8 threads 310 ms / 3.4 s) |
+| ID: clips | 6/6 right outcome, capture at 3.75-4.25 s | - | |
+| Barcodes: synthetic | recall 66.3%, all codes 43.9%, false-decode frames 10.0%, labelled value 78.7% (label too 60.8%) | 61.2%, 44.4%, 8.3%, 74.3% (55.6%) | 821 ms per frame, labelled 6.3 s (wasm 847 ms) |
 | Barcodes: zxing-cpp photos | recall 76.3%, false-decode frames 8.7%, 1 hang | 76.9%, 3.6%, 1 crash | |
-| Proof of address | genuine 99%, every negative 100% rejected, key fields 89.0% | genuine 90.4%, negatives 100%, key fields 24.0% | 14.5 s per frame read, ~42 s per capture (wasm page() 127 ms) |
-| Face: LFW | 10-fold 99.63%, TAR@1e-3 99.41% | 99.52%, 99.03% | liveness frame 59 ms (wasm track 49 ms / 35 ms) |
+| Proof of address | genuine 99%, every negative 100% rejected, key fields 89.0% | genuine 90.4%, negatives 100%, key fields 24.0% | 19.0 s per frame read, ~55 s per capture (wasm page() 167 ms) |
+| Face: LFW | 10-fold 99.63%, TAR@1e-3 99.41% | 99.52%, 99.03% | liveness frame 74 ms (wasm track 81 ms / 68 ms) |
 | Face: ID photo vs live | TAR@1e-3 98.46% | 98.20% (97.90% at DOC_THRESHOLD) | |
 | Face: CelebA-Spoof | AUC 0.858, ACER 21.6% | AUC 0.842, ACER 28.5% | |
 | Face: liveness clips | BPCER 3.3%, APCER 0% every species | BPCER 0%, APCER 0% | |
@@ -73,7 +78,7 @@ improvement agents' to fix):
 
 Measured 2026-10-22T08:10:01Z on Intel(R) Xeon(R) CPU E5-1650 v3 @ 3.50GHz (12 logical CPUs), 8 parallel jobs for accuracy, speed on one pinned core; load average [20.9, 27.81, 26.01] at the start and [14.64, 15.94, 19.68] at the end (other users' jobs share this machine). Full run: 11449.6 s. Splits: both.
 
-Value: the metric on the whole set. 95% CI: bootstrap over items (rates and statistics) or the IQR across items (latencies). Noise: the difference between two full runs of the same commit; 0 means the metric is deterministic (the same frames give the same readings), so any change at all is the code's. Latency noise is the median per-item ratio between the runs.
+Value: the metric on the whole set. 95% CI: bootstrap over items (rates and statistics) or the IQR across items (latencies). Noise: see above (accuracy: two full runs; speed: two speed-only runs). 0 means the metric is deterministic.
 
 ## id
 
@@ -96,8 +101,8 @@ Value: the metric on the whole set. 95% CI: bootstrap over items (rates and stat
 | `id.hard_test.mrz_pass` | 98.81% | 168 | 97.0-100.0% | 0 | higher | passport good frames: MRZ read with every check digit passing |
 | `id.clips.outcome_right` | 100.00% | 6 | 100.0-100.0% | 0 | higher | clips sampled at 4 fps: captured with the right reading (or, the 960x540 back, not captured) |
 | `id.clips.time_to_capture_s` | 3.75 s | 5 | IQR 3.75-3.75 | 0.0% | lower | time to capture from the clip's start (clip seconds, 4 fps sampling; deterministic) |
-| `id.speed.fast_ms` | 288 ms | 15 | IQR 256-348 | 0.3% | lower | native, 1 thread, median over 3 runs: fast pass per frame: outline, flatten, quality, barcodes |
-| `id.speed.ocr_ms` | 3964 ms | 15 | IQR 3168-6395 | 7.3% | lower | native, 1 thread, median over 3 runs: OCR pass per frame (orientation search included) |
+| `id.speed.fast_ms` | 288 ms | 15 | IQR 256-348 | 17.0% | lower | native, 1 thread, median over 3 runs: fast pass per frame: outline, flatten, quality, barcodes |
+| `id.speed.ocr_ms` | 3964 ms | 15 | IQR 3168-6395 | 26.6% | lower | native, 1 thread, median over 3 runs: OCR pass per frame (orientation search included) |
 | `id.runtime_s` | 1570.2 s | | | | | wall time of the suite (s) |
 
 ## barcode
@@ -190,8 +195,8 @@ Value: the metric on the whole set. 95% CI: bootstrap over items (rates and stat
 | `barcode.public_test.recall.upca` | 76.47% | 34 | 61.8-88.2% | 0 | higher | upca: decodable truth codes read |
 | `barcode.public_test.recall.upce` | 66.67% | 21 | 47.6-85.7% | 0 | higher | upce: decodable truth codes read |
 | `barcode.public_test.recall.itf` | 92.86% | 14 | 78.6-100.0% | 0 | higher | itf: decodable truth codes read |
-| `barcode.speed.frame_ms` | 821 ms | 19 | IQR 416-1474 | 3.1% | lower | native, 1 thread, median of 5 runs: barcodes in a frame (read_all: every symbology, skew retry, linear rescue) |
-| `barcode.speed.labelled_ms` | 6307 ms | 5 | IQR 6256-6330 | 12.8% | lower | native, 1 thread, median of 3 runs: a labelled reading (barcodes, OCR in tiles, pairing) |
+| `barcode.speed.frame_ms` | 821 ms | 19 | IQR 416-1474 | 34.9% | lower | native, 1 thread, median of 5 runs: barcodes in a frame (read_all: every symbology, skew retry, linear rescue) |
+| `barcode.speed.labelled_ms` | 6307 ms | 5 | IQR 6256-6330 | 24.6% | lower | native, 1 thread, median of 3 runs: a labelled reading (barcodes, OCR in tiles, pairing) |
 | `barcode.runtime_s` | 729.2 s | | | | | wall time of the suite (s) |
 
 ## poa
@@ -242,7 +247,7 @@ Value: the metric on the whole set. 95% CI: bootstrap over items (rates and stat
 | `poa.lockbox.single.reject_issuer_decoy` | 100.00% | 96 | 100.0-100.0% | 0 | higher | 'issuer_decoy' cases rejected (per single frame) |
 | `poa.lockbox.single.key_fields` | 15.50% | 800 | 13.0-18.1% | 0 | higher | blind: holder, street, city, postal code and date all right (per single frame) |
 | `poa.lockbox.frames_read_mean` | 3.51 | | | | | frames read per capture (mean) |
-| `poa.speed.frame_ms` | 18968 ms | 6 | IQR 18234-20409 | 4.7% | lower | native, 1 thread, median of 3 runs: one frame read (decode, page outline, flatten, enhance, OCR, rules, tagger) |
+| `poa.speed.frame_ms` | 18968 ms | 6 | IQR 18234-20409 | 37.1% | lower | native, 1 thread, median of 3 runs: one frame read (decode, page outline, flatten, enhance, OCR, rules, tagger) |
 | `poa.speed.capture_ms_est` | 55008 ms | | | | | frame_ms x DEV frames read per capture (voting and verification add < 0.12 s) |
 | `poa.runtime_s` | 6578.6 s | | | | | wall time of the suite (s) |
 
@@ -299,23 +304,23 @@ Value: the metric on the whole set. 95% CI: bootstrap over items (rates and stat
 | `face.liveness_test.apcer_all` | 0.00% | 70 | 0.0-0.0% | 0 | lower | attacks of every species accepted |
 | `face.liveness_test.acer_worst` | 0.0 | | | | | (worst species APCER + BPCER) / 2 |
 | `face.liveness_test.session_s_median` | 6.47 s | | | | | bona fide session, centred to done (median, s) |
-| `face.speed.liveness_frame_ms` | 74 ms | 3 | IQR 72.6-79.5 | 8.5% | lower | native, 1 thread, median of 3 runs: a liveness frame (detect when needed, mesh, pose, quality, parallax, anti-spoofing / template on some frames), per-clip median |
+| `face.speed.liveness_frame_ms` | 74 ms | 3 | IQR 72.6-79.5 | 26.2% | lower | native, 1 thread, median of 3 runs: a liveness frame (detect when needed, mesh, pose, quality, parallax, anti-spoofing / template on some frames), per-clip median |
 | `face.runtime_s` | 1846.8 s | | | | | wall time of the suite (s) |
 
 ## wasm
 
 | Metric | Value | n | 95% CI / spread | Noise | Better | What |
 |---|---|---|---|---|---|---|
-| `wasm.single.barcodes_ms` | 847 ms | 5 | IQR 682-1101 | 15.4% | lower | headless Chrome, single wasm (1 thread): barcodes(): every barcode in a camera frame |
-| `wasm.single.id_fast_ms` | 289 ms | 5 | IQR 259-340 | 12.6% | lower | headless Chrome, single wasm (1 thread): document() without OCR: the fast pass |
-| `wasm.single.id_ocr_ms` | 9791 ms | 5 | IQR 5990-12052 | 11.1% | lower | headless Chrome, single wasm (1 thread): document() with OCR |
-| `wasm.single.poa_page_ms` | 167 ms | 3 | IQR 152-190 | 19.8% | lower | headless Chrome, single wasm (1 thread): page(): proof-of-address outline and quality per frame |
-| `wasm.single.face_track_ms` | 80.8 ms | 10 | IQR 77.1-84.1 | 1.5% | lower | headless Chrome, single wasm (1 thread): FaceScanner.track(): detect, mesh, pose, quality per frame |
-| `wasm.threads8.barcodes_ms` | 980 ms | 5 | IQR 673-996 | 15.1% | lower | headless Chrome, threads8 wasm (8 threads): barcodes(): every barcode in a camera frame |
-| `wasm.threads8.id_fast_ms` | 310 ms | 5 | IQR 270-312 | 11.9% | lower | headless Chrome, threads8 wasm (8 threads): document() without OCR: the fast pass |
-| `wasm.threads8.id_ocr_ms` | 3407 ms | 5 | IQR 2022-3782 | 9.3% | lower | headless Chrome, threads8 wasm (8 threads): document() with OCR |
-| `wasm.threads8.poa_page_ms` | 214 ms | 3 | IQR 190-215 | 15.6% | lower | headless Chrome, threads8 wasm (8 threads): page(): proof-of-address outline and quality per frame |
-| `wasm.threads8.face_track_ms` | 67.7 ms | 10 | IQR 64.4-75.5 | 20.8% | lower | headless Chrome, threads8 wasm (8 threads): FaceScanner.track(): detect, mesh, pose, quality per frame |
+| `wasm.single.barcodes_ms` | 847 ms | 5 | IQR 682-1101 | 36.8% | lower | headless Chrome, single wasm (1 thread): barcodes(): every barcode in a camera frame |
+| `wasm.single.id_fast_ms` | 289 ms | 5 | IQR 259-340 | 35.1% | lower | headless Chrome, single wasm (1 thread): document() without OCR: the fast pass |
+| `wasm.single.id_ocr_ms` | 9791 ms | 5 | IQR 5990-12052 | 32.4% | lower | headless Chrome, single wasm (1 thread): document() with OCR |
+| `wasm.single.poa_page_ms` | 167 ms | 3 | IQR 152-190 | 56.1% | lower | headless Chrome, single wasm (1 thread): page(): proof-of-address outline and quality per frame |
+| `wasm.single.face_track_ms` | 80.8 ms | 10 | IQR 77.1-84.1 | 34.2% | lower | headless Chrome, single wasm (1 thread): FaceScanner.track(): detect, mesh, pose, quality per frame |
+| `wasm.threads8.barcodes_ms` | 980 ms | 5 | IQR 673-996 | 38.8% | lower | headless Chrome, threads8 wasm (8 threads): barcodes(): every barcode in a camera frame |
+| `wasm.threads8.id_fast_ms` | 310 ms | 5 | IQR 270-312 | 68.5% | lower | headless Chrome, threads8 wasm (8 threads): document() without OCR: the fast pass |
+| `wasm.threads8.id_ocr_ms` | 3407 ms | 5 | IQR 2022-3782 | 35.3% | lower | headless Chrome, threads8 wasm (8 threads): document() with OCR |
+| `wasm.threads8.poa_page_ms` | 214 ms | 3 | IQR 190-215 | 52.1% | lower | headless Chrome, threads8 wasm (8 threads): page(): proof-of-address outline and quality per frame |
+| `wasm.threads8.face_track_ms` | 67.7 ms | 10 | IQR 64.4-75.5 | 68.1% | lower | headless Chrome, threads8 wasm (8 threads): FaceScanner.track(): detect, mesh, pose, quality per frame |
 | `wasm.runtime_s` | 448.4 s | | | | | wall time (s) |
 
 ## e2e
