@@ -132,9 +132,14 @@ def code_sha256(paths: list[Path]) -> str:
 
 
 def bench_code_sha256() -> str:
-    """The referee: the harness's code (not its results, manifests or recorded noise) and the shared scorers."""
+    """The referee: the code that produces measurements (the driver, the suites,
+    the data preparation, the wasm runner, the pinned requirements) and the
+    shared scorers. Not compare.py or report.py, which only read results, nor
+    results, manifests (hashed on their own) or the recorded noise."""
     skip = {"results", "manifests", "__pycache__"}
-    files = [p for p in BENCH.rglob("*") if p.is_file() and p.suffix in {".py", ".sh", ".mjs", ".txt"} and not skip & set(p.relative_to(BENCH).parts)]
+    judges = {"compare.py", "report.py"}
+    files = [p for p in BENCH.rglob("*") if p.is_file() and p.suffix in {".py", ".sh", ".mjs", ".txt"} and p.name not in judges
+             and not skip & set(p.relative_to(BENCH).parts)]
     files += [ROOT / "eval" / "poa_eval.py", ROOT / "face" / "eval" / "verification.py"]
     return code_sha256([f for f in files if f.exists()])
 

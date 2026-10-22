@@ -8,14 +8,14 @@ A is the reference (usually the baseline or the parent commit), B the change.
   accuracy): B - A with a **paired** bootstrap 95% interval over the same items
   (2 000 resamples for rates, 500 for statistics, stratified by label and
   fold). A change is significant when the interval excludes 0 *and* the delta
-  is beyond the metric's measured run-to-run noise (bench/noise.json, from two
-  baseline runs; 0 for deterministic metrics).
+  is beyond twice the metric's measured run-to-run noise (bench/noise.json,
+  one difference between two baseline runs; 0 for deterministic metrics).
 - Latencies: the median of per-item ratios B/A with a bootstrap 95% interval,
   divided by the ratio of a fixed calibration job timed on the same core in
   each run (so a busier machine is not read as a slower scanner), the medians
   with IQR, and a two-sided Mann-Whitney p of the raw samples. A speed
-  regression is a calibrated ratio above 1 + max(5%, noise) whose interval
-  lies wholly above 1.
+  regression is a calibrated ratio above 1 + max(5%, 2 x noise) whose
+  interval lies wholly above 1.
 - Verdict: **regressed** if any accuracy metric is significantly worse, or any
   speed metric regresses beyond 5% (unless --accept-tradeoff is given *and*
   some accuracy metric improved significantly: the gain must be explicit);
@@ -43,6 +43,9 @@ from lib import stats  # noqa: E402
 TTY = sys.stdout.isatty()
 RED, GREEN, YELLOW, BOLD, DIM, END = ("\033[31m", "\033[32m", "\033[33m", "\033[1m", "\033[2m", "\033[0m") if TTY else ("",) * 6
 SPEED_TOLERANCE = 0.05
+# bench/noise.json holds one difference between two runs of the same code: a
+# single draw of the noise, so the margin is twice that.
+NOISE_MULT = 2.0
 
 
 def load(p: str) -> dict:
@@ -148,7 +151,7 @@ def main():
         a, b = A["metrics"][k], B["metrics"][k]
         if a["kind"] != b["kind"] or a["kind"] == "info":
             continue
-        nf = float(noise.get(k, 0.0) or 0.0)
+        nf = NOISE_MULT * float(noise.get(k, 0.0) or 0.0)
         better = a.get("better", "higher")
         if a["kind"] in ("rate", "stat"):
             d, lo, hi, how = compare_rate(a, b) if a["kind"] == "rate" else compare_stat(a, b)

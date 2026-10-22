@@ -64,11 +64,12 @@ metric's delta and a verdict. A change is acceptable only if:
 
 - **no accuracy metric regresses beyond its 95% confidence interval**: the paired
   bootstrap interval of B - A over the same items lies wholly below zero (for
-  a higher-is-better metric), and the delta exceeds the metric's recorded
-  run-to-run noise (`bench/noise.json`); and
+  a higher-is-better metric), and the delta exceeds twice the metric's
+  recorded run-to-run noise (`bench/noise.json`: one difference between two
+  runs of the same commit, so a single draw of the noise); and
 - **no speed metric regresses by more than 5%** (median per-item ratio B/A above
   1.05 after calibrating for the machine's speed at each run, with its
-  bootstrap interval wholly above 1, and beyond the metric's noise), **unless an accuracy gain is explicit**: a speed regression is
+  bootstrap interval wholly above 1, and beyond twice the metric's noise), **unless an accuracy gain is explicit**: a speed regression is
   accepted only when some accuracy metric improved significantly *and* the
   change says so (pass `--accept-tradeoff`, and state the trade in the commit).
 

@@ -1,3 +1,4 @@
 2026-10-21T15:43:56Z 2d7ae88db3 suites=id,barcode,poa,face quick=True user=dan -> r_test_quick.json
 2026-10-21T18:25:58Z 589ad5f926 suites=barcode quick=False user=dan -> bctest.json
 2026-10-21T19:33:47Z 83dd9907fb suites=id,barcode,poa,face quick=False user=dan -> 83dd9907fb-20261021T193347Z.json
+2026-10-22T08:10:01Z c437ffa8c1 suites=id,barcode,poa,face quick=False user=dan -> c437ffa8c1-20261022T081001Z.json
