@@ -83,6 +83,26 @@ pub fn greedy(lp: NdTensorView<f32, 2>) -> String {
     out
 }
 
+/// As [`greedy`], with only the characters of `allowed` (and the blank)
+/// competing at each step.
+pub fn greedy_restricted(lp: NdTensorView<f32, 2>, allowed: &str) -> String {
+    let alphabet: Vec<char> = OCRS_ALPHABET.chars().collect();
+    let [t, c] = lp.shape();
+    let keep: Vec<usize> = std::iter::once(0)
+        .chain((1..c.min(alphabet.len() + 1)).filter(|&k| allowed.contains(alphabet[k - 1])))
+        .collect();
+    let mut out = String::new();
+    let mut last = 0;
+    for ti in 0..t {
+        let best = keep.iter().copied().max_by(|&a, &b| lp[[ti, a]].total_cmp(&lp[[ti, b]])).unwrap_or(0);
+        if best != last && best > 0 {
+            out.push(alphabet[best - 1]);
+        }
+        last = best;
+    }
+    out
+}
+
 /// Sets of MRZ characters, as bit masks over [`MRZ`].
 const DIGITS: u64 = (1 << 10) - 1;
 const LETTERS: u64 = ((1 << 26) - 1) << 10;

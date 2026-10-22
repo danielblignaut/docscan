@@ -509,8 +509,7 @@ impl Scanner {
         // and thin, across much of the page) go there first, and only those
         // that do not read as an MRZ are then recognised as ordinary text:
         // each line is recognised once.
-        let mut mrz_texts = Vec::new();
-        let mut decoded = Vec::new();
+        let mut decoded: Vec<(usize, mrz_decode::Decoded)> = Vec::new();
         let mut ordinary: Vec<usize> = Vec::new();
         let luma_input = match self.rec_model.as_ref() {
             Some(_) => {
@@ -519,25 +518,25 @@ impl Scanner {
             }
             None => None,
         };
-        for (i, line) in line_rects.iter().enumerate() {
-            let (Some(rec), Some(luma_input)) = (self.rec_model.as_ref(), luma_input.as_ref()) else {
-                ordinary.push(i);
-                continue;
-            };
-            if !mrz_shaped(line, lw) {
-                ordinary.push(i);
-                continue;
-            }
+        // The line read on the luma plane by the model run directly: its
+        // greedy text, and its MRZ decoding.
+        let read_mrz = |line: &[rten_imageproc::RotatedRect]| -> anyhow::Result<Option<(String, Option<mrz_decode::Decoded>)>> {
+            let (Some(rec), Some(luma_input)) = (self.rec_model.as_ref(), luma_input.as_ref()) else { return Ok(None) };
             let img = ocr.prepare_recognition_input(luma_input, line)?;
             let [ih, iw] = img.shape();
             let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
             // [seq, batch, classes]
             let lp = out.slice((.., 0, ..));
-            if mrz::looks_like_mrz(&mrz_decode::greedy(lp)) && let Some(d) = mrz_decode::read_line(lp) {
-                mrz_texts.push(String::new());
-                decoded.push(d);
-            } else {
+            Ok(Some((mrz_decode::greedy(lp), mrz_decode::read_line(lp))))
+        };
+        for (i, line) in line_rects.iter().enumerate() {
+            if !mrz_shaped(line, lw) {
                 ordinary.push(i);
+                continue;
+            }
+            match read_mrz(line)? {
+                Some((text, Some(d))) if mrz::looks_like_mrz(&text) => decoded.push((i, d)),
+                _ => ordinary.push(i),
             }
         }
         let rects: Vec<Vec<rten_imageproc::RotatedRect>> = ordinary.iter().map(|&i| line_rects[i].clone()).collect();
@@ -549,14 +548,41 @@ impl Scanner {
             let Some(text) = text else { continue };
             let s = text.to_string();
             if mrz::looks_like_mrz(&s) {
-                // Read as an MRZ only on the ink plane (or no direct model).
-                stray_mrz.push((ordinary[k], s));
+                // An MRZ line not shaped like one (a poor outline, a tilt):
+                // decoded as the others are when the direct model can.
+                match read_mrz(&line_rects[ordinary[k]])? {
+                    Some((_, Some(d))) => decoded.push((ordinary[k], d)),
+                    _ => stray_mrz.push((ordinary[k], s)),
+                }
                 continue;
             }
             for word in text.words() {
                 let r = word.bounding_rect();
+                let mut word_text = word.to_string();
+                // `?` is the recogniser's "unsure": in a word of capitals (a
+                // name, often crossed by a coloured overprint) read the word
+                // again with the alphabet restricted to capitals.
+                if word_text.contains('?')
+                    && word_text.chars().filter(|c| c.is_ascii_uppercase()).count() * 2 >= word_text.chars().count()
+                    && let Some(rec) = self.rec_model.as_ref()
+                {
+                    let pad = 2.0;
+                    let rect = rten_imageproc::RotatedRect::from_rect(rten_imageproc::RectF::from_tlbr(
+                        r.top() as f32 - pad,
+                        r.left() as f32 - pad,
+                        r.bottom() as f32 + pad,
+                        r.right() as f32 + pad,
+                    ));
+                    let img = ocr.prepare_recognition_input(&input, &[rect])?;
+                    let [ih, iw] = img.shape();
+                    let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
+                    let again = mrz_decode::greedy_restricted(out.slice((.., 0, ..)), "ABCDEFGHIJKLMNOPQRSTUVWXYZ-'");
+                    if !again.is_empty() {
+                        word_text = again;
+                    }
+                }
                 placed.push(za::Line {
-                    text: word.to_string(),
+                    text: word_text,
                     x: r.left() as f32,
                     y: r.top() as f32,
                     w: r.width() as f32,
@@ -565,11 +591,14 @@ impl Scanner {
             }
         }
         let vocab = za::words(&placed);
-        mrz_decode::finish_lines(&mut decoded, &vocab);
-        for (slot, d) in mrz_texts.iter_mut().zip(decoded) {
-            *slot = d.text;
-        }
-        mrz_texts.extend(stray_mrz.into_iter().map(|(_, s)| s));
+        // In reading order: the MRZ's lines are paired by position.
+        decoded.sort_by_key(|(i, _)| *i);
+        let mut ds: Vec<mrz_decode::Decoded> = decoded.iter().map(|(_, d)| d.clone()).collect();
+        mrz_decode::finish_lines(&mut ds, &vocab);
+        let mut lines_in_order: Vec<(usize, String)> = decoded.iter().map(|(i, _)| *i).zip(ds.into_iter().map(|d| d.text)).collect();
+        lines_in_order.extend(stray_mrz);
+        lines_in_order.sort_by_key(|(i, _)| *i);
+        let mrz_texts: Vec<String> = lines_in_order.into_iter().map(|(_, s)| s).collect();
         Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew: page.skew })
     }
 
@@ -1016,8 +1045,11 @@ impl Scanner {
 
         let formats: Vec<String> = barcode::ID_FORMATS.iter().map(|s| s.to_string()).collect();
         let mut barcodes = barcode::read_all(work, ww as u32, wh as u32, Some(&formats));
-        if flat.is_some() && !barcodes.iter().any(|b| b.format == "pdf417") {
+        if flat.is_some() && !barcodes.iter().any(|b| b.format == "pdf417") && idback::frame_has_wide_bars(&luma, w, h) {
             // A wrong outline must not cost a barcode the raw frame would give.
+            // (Only when the frame shows a patch of bars that could be one:
+            // reading the whole frame again costs as much as the first read,
+            // on every frame of a card front or a passport.)
             let raw = barcode::read_all(&luma, width, height, Some(&formats));
             if raw.iter().any(|b| b.format == "pdf417") {
                 barcodes = raw;

@@ -44,6 +44,13 @@ pub fn has_wide_bars(flat: &[u8], w: usize, h: usize) -> bool {
     })
 }
 
+/// Whether a frame shows a patch of parallel bars across a seventh of its
+/// longer side, at any angle: what a smart ID back's PDF417 (or a green
+/// book's Code 39) looks like in a frame the card fills.
+pub fn frame_has_wide_bars(luma: &[u8], w: usize, h: usize) -> bool {
+    barcode::oriented_regions(luma, w, h).iter().any(|r| 14.0 * r.half_across >= w.max(h) as f32)
+}
+
 /// Reads the PDF417 from the card `quad` in the frame (`luma`, `w × h`),
 /// resampled at twice the flattened size `ow × oh` and sharpened. Points are
 /// returned in the flattened card's pixels.

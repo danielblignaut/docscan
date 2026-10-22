@@ -129,13 +129,77 @@ Run files (not committed): `/tmp/docscan-id-work/results/ref3.json`, `c3.json`.
   small ones are under the 760-px floor and the blurred ones are
   inconsistent across settings. Not adopted.
 
+## Round two
+
+Reference: `5196114` (milestone 1). Bench runs: `c4` (items A, B),
+`c5` (A-D). compare.py, c3 (= milestone 1's source) vs c4:
+`hard_dev.accepted_wrong` 2.38% → 1.43% (-1.9 to -0.2 pt), **improved**,
+nothing else changed beyond its CI. c4 vs c5: no accuracy change (accept_good
++0.24, fields +0.16, mrz_pass +0.6 pt, all within CI). The speed rows of c5
+were taken at load 48 against 18 and flag unrelated suites too
+(`wasm.single.face_track_ms` +75% with no face code changed), so speed is
+judged with `bench/speed_ab.py` instead (interleaved, same core, 3 repeats,
+reference 5196114): `id.speed.fast_ms` 415 → 249 ms (**-36%**, CI -41% to
+-10%, from D), `id.speed.ocr_ms` 4042 → 4206 ms (median per-item ratio +0.0%,
+CI -3% to +4.5%): no speed regression.
+
+A. **Weak edges vote in the outline's Hough** (`quad::hough_weak`, identity
+   documents only; pages keep the full threshold). Gradients down to 0.6 of
+   the edge threshold vote, in proportion to their strength. Outline against
+   the generator's corners (`examples/quads`, 510 DEV frames without the
+   half-out-of-frame ones): mean IoU 0.959 → 0.977, IoU ≥ 0.9 95.1% → 97.3%,
+   no outline 13 → 5. Factors 0.4-0.8 measured; 0.5-0.6 best, 0.6 kept.
+B. **`?` words re-read as capitals.** The recogniser's "unsure" mark, which
+   it gives where the SPECIMEN overprint crosses a surname, in a word that
+   is mostly capitals: the word is read again with the alphabet restricted
+   to capitals (`MO?O?ENA` → `MOKOENA`). Screening (126 frames):
+   accepted-wrong 7 → 4.
+C. **MRZ lines not shaped like one are decoded too.** A line that the
+   ordinary recognition reads as an MRZ, but whose box failed the shape test
+   (a poor outline, a tilt), now goes through the layout decoder as well.
+   This fixed `gb_passport_05_glare`, which A had cost (its outline moved,
+   and the MRZ lines' boxes with it).
+D. **The raw-frame barcode retry only when the frame shows wide bars**
+   (`idback::frame_has_wide_bars`: a bar patch across a seventh of the
+   frame). When the flattened card gave no PDF417, the whole frame was read
+   again on every frame of a card front or passport, which costs as much as
+   the first read (100-750 ms natively, `examples/fastprof`). The gate is on
+   in 92 of 108 smart ID back frames (off: the defocused, motion-blurred,
+   640-wide and one cut-off frame, none of which reads) and in 7 of 324
+   front and passport frames.
+
+After rebasing onto `792e053` (proof of address, which changed `lib.rs`):
+`c6` vs milestone 1's run: accept_good 92.86 → 93.10%, accepted_wrong 2.38 →
+1.67%, fields 97.02 → 97.13% (all within CI on this run); against main
+before milestone 1 (`ref3`): accept_good 85.0 → 93.1%, accepted_wrong 7.6 →
+1.7%, fields 92.5 → 97.1%. All suites `--quick` against `792e053` measured at
+the same time: 105 metrics unchanged. compare.py flagged
+`wasm.single.barcodes_ms` against the day-old run (raw +88%); the
+barcode reader is untouched here and the same-session quick pair shows no
+change, so that is load. Pushed as milestone 2.
+
+### Measured and not kept (round two)
+
+- **Green book surname and forenames by their place** (anchored on the
+  date of birth; the 3rd and 2nd larger-type lines above it). Screening
+  (green books, 6 holders, 84 good and 24 bad frames): accepted 73 → 79, but
+  accepted with a wrong field 1 → 6. A wrong name accepted is the costly
+  error, so this was reverted.
+
+- **Passport early exit**: skip recognising the rest of the page when the
+  MRZ passes every check and its names are read with a margin of at least M
+  nats between the best and next-best character. Screening (168 passports):
+  M = 5: OCR -7%, accepted-wrong 3 → 5; M = 2: OCR -50%, accepted-wrong
+  3 → 16. The printed names are what keeps the MRZ names right. Reverted.
+
+## TEST
+
+Not run yet (see the end of the work).
+
 ## Next
 
-- `?` in a word of capitals (the recogniser's "unsure", typically where the
-  SPECIMEN overprint crosses a surname) re-read with the alphabet restricted
-  to capitals. Screening (126 frames): accepted-wrong 7 → 4, fields 653 → 656.
-- Outline failures. With `examples/quads` against the generator's corners on
-  510 DEV frames: mean IoU 0.959, 95% of frames at IoU ≥ 0.9. The misses are
-  overexposed frames (a white card on a white desk), dim green books (the
-  page's faint top edge loses to the barcode's), and small or tilted cards.
-- Green books in dim light, small and 640-wide frames.
+- Skip the barcode readers entirely when the page asked for a card front or
+  a passport and the frame shows no wide bars (the demo's per-frame fast
+  pass; the bench times frames with no expected kind, so only the clips
+  would show it).
+- Outline misses that remain: overexposed white cards on white desks.
