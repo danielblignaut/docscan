@@ -44,6 +44,43 @@ impl MrzChecks {
     }
 }
 
+/// The three-letter codes an MRZ may give for an issuing state or a
+/// nationality: ISO 3166-1 alpha-3, and ICAO 9303 Part 3's additions (`D<<`
+/// for Germany, the British `GB?` codes, the UN's, Kosovo's, the stateless
+/// and refugee `XX?` codes, …), plus ICAO's specimen state `UTO`.
+pub const STATE_CODES: &[&str] = &[
+    "ABW", "AFG", "AGO", "AIA", "ALA", "ALB", "AND", "ARE", "ARG", "ARM", "ASM", "ATA", "ATF",
+    "ATG", "AUS", "AUT", "AZE", "BDI", "BEL", "BEN", "BES", "BFA", "BGD", "BGR", "BHR", "BHS",
+    "BIH", "BLM", "BLR", "BLZ", "BMU", "BOL", "BRA", "BRB", "BRN", "BTN", "BVT", "BWA", "CAF",
+    "CAN", "CCK", "CHE", "CHL", "CHN", "CIV", "CMR", "COD", "COG", "COK", "COL", "COM", "CPV",
+    "CRI", "CUB", "CUW", "CXR", "CYM", "CYP", "CZE", "D<<", "DEU", "DJI", "DMA", "DNK", "DOM",
+    "DZA", "ECU", "EGY", "ERI", "ESH", "ESP", "EST", "ETH", "EUE", "FIN", "FJI", "FLK", "FRA",
+    "FRO", "FSM", "GAB", "GBD", "GBN", "GBO", "GBP", "GBR", "GBS", "GEO", "GGY", "GHA", "GIB",
+    "GIN", "GLP", "GMB", "GNB", "GNQ", "GRC", "GRD", "GRL", "GTM", "GUF", "GUM", "GUY", "HKG",
+    "HMD", "HND", "HRV", "HTI", "HUN", "IDN", "IMN", "IND", "IOT", "IRL", "IRN", "IRQ", "ISL",
+    "ISR", "ITA", "JAM", "JEY", "JOR", "JPN", "KAZ", "KEN", "KGZ", "KHM", "KIR", "KNA", "KOR",
+    "KWT", "LAO", "LBN", "LBR", "LBY", "LCA", "LIE", "LKA", "LSO", "LTU", "LUX", "LVA", "MAC",
+    "MAF", "MAR", "MCO", "MDA", "MDG", "MDV", "MEX", "MHL", "MKD", "MLI", "MLT", "MMR", "MNE",
+    "MNG", "MNP", "MOZ", "MRT", "MSR", "MTQ", "MUS", "MWI", "MYS", "MYT", "NAM", "NCL", "NER",
+    "NFK", "NGA", "NIC", "NIU", "NLD", "NOR", "NPL", "NRU", "NZL", "OMN", "PAK", "PAN", "PCN",
+    "PER", "PHL", "PLW", "PNG", "POL", "PRI", "PRK", "PRT", "PRY", "PSE", "PYF", "QAT", "REU",
+    "RKS", "ROU", "RUS", "RWA", "SAU", "SDN", "SEN", "SGP", "SGS", "SHN", "SJM", "SLB", "SLE",
+    "SLV", "SMR", "SOM", "SPM", "SRB", "SSD", "STP", "SUR", "SVK", "SVN", "SWE", "SWZ", "SXM",
+    "SYC", "SYR", "TCA", "TCD", "TGO", "THA", "TJK", "TKL", "TKM", "TLS", "TON", "TTO", "TUN",
+    "TUR", "TUV", "TWN", "TZA", "UGA", "UKR", "UMI", "UNA", "UNK", "UNO", "URY", "USA", "UTO",
+    "UZB", "VAT", "VCT", "VEN", "VGB", "VIR", "VNM", "VUT", "WLF", "WSM", "XBA", "XCC", "XCE",
+    "XCO", "XDC", "XEC", "XES", "XIM", "XMP", "XOM", "XPO", "XXA", "XXB", "XXC", "XXX", "YEM",
+    "ZAF", "ZMB", "ZWE",
+];
+
+/// Whether `code` (fillers as `<`, or as spaces once stripped) is a state
+/// code an MRZ may carry.
+pub fn valid_state(code: &str) -> bool {
+    let c: String = code.chars().map(|c| if c == ' ' { '<' } else { c }).collect();
+    let c = format!("{c:<<3}");
+    STATE_CODES.binary_search(&c.as_str()).is_ok()
+}
+
 pub fn char_value(c: char) -> u32 {
     match c {
         '0'..='9' => c as u32 - '0' as u32,
@@ -212,11 +249,20 @@ pub fn parse_td3(l1: &str, l2: &str) -> Option<Mrz> {
     if l1.len() < 40 || !(42..=46).contains(&l2.len()) {
         return None;
     }
-    let l1 = fit(l1, 44);
     let l2 = fit(l2, 44);
     if !l1.starts_with('P') {
         return None;
     }
+    // The `<` after `P` is often lost (`PGBRLE<ROUX…`), which moves the
+    // issuing state a place left. When the state read where it should be is
+    // not the holder's nationality but the one a place earlier is, put the
+    // filler back.
+    let nationality = alpha(&l2[10..13]);
+    let l1 = if l1.len() >= 5 && alpha(&l1[2..5]) != nationality && alpha(&l1[1..4]) == nationality && nationality.chars().all(|c| c.is_ascii_uppercase()) {
+        fit(&format!("P<{}", &l1[1..]), 44)
+    } else {
+        fit(l1, 44)
+    };
     let document_code = alpha(&l1[0..2]);
     let issuing_state = alpha(&l1[2..5]);
     let (surname, given_names) = names(&l1[5..44]);
@@ -225,7 +271,6 @@ pub fn parse_td3(l1: &str, l2: &str) -> Option<Mrz> {
     let doc_raw = &l2[0..9];
     let doc_check = to_digit_class(l2.as_bytes()[9] as char);
     let document_number = best_alnum(doc_raw, doc_check);
-    let nationality = alpha(&l2[10..13]);
     let dob = digits(&l2[13..19]);
     let dob_check = to_digit_class(l2.as_bytes()[19] as char);
     let sex = match l2.as_bytes()[20] as char {
@@ -540,6 +585,25 @@ pub fn find_mrz(lines: &[String]) -> Option<Mrz> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn state_codes() {
+        assert!(super::STATE_CODES.windows(2).all(|w| w[0] < w[1]));
+        assert!(super::valid_state("ZAF") && super::valid_state("GBR") && super::valid_state("D"));
+        assert!(!super::valid_state("CBR") && !super::valid_state("ORL"));
+    }
+
+    #[test]
+    fn restores_the_filler_after_p() {
+        let m = super::parse_td3(
+            "PUTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<",
+            "L898902C36UTO7408122F1204159ZE184226B<<<<<10",
+        )
+        .unwrap();
+        assert_eq!(m.issuing_state, "UTO");
+        assert_eq!(m.surname, "ERIKSSON");
+        assert_eq!(m.given_names, "ANNA MARIA");
+    }
+
     use super::*;
 
     // ICAO 9303 part 4 specimen.

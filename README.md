@@ -56,8 +56,11 @@ Everything is in `docscan/src/`:
 | --- | --- |
 | `quad.rs` | Finds the document: a Hough transform over colour gradients (votes restricted to each pixel's gradient direction), candidate quadrilaterals from pairs of near-horizontal and near-vertical lines, scored by how much of each side lies on a strong edge. A homography then flattens it. |
 | `barcode.rs` | [rxing](https://github.com/rxing-core/rxing) (a Rust port of ZXing): each 2-D symbology through its own multi-symbol detector (also on the negative and a local-mean binarisation; Aztec from a bull's-eye search), a skew-levelled retry for PDF417, and linear codes from a bar-patch finder at any angle, each patch read squared up, upsampled, or as an averaged profile ([docs/improvements-barcode.md](docs/improvements-barcode.md)). |
-| `lib.rs` | OCR with [ocrs](https://github.com/robertknight/ocrs) on the flattened page, an orientation search (0°, 180°, 90°/270°), and classification. |
+| `lib.rs` | OCR with [ocrs](https://github.com/robertknight/ocrs) on the flattened page (a small document enlarged to 1000 px first), an orientation search (0°, 180°, 90°/270°), and classification. |
+| `idocr.rs` | The page's words are detected once and their boxes turned with the page for each quarter turn; their shape says whether the page is sideways, which settles half the orientation search. |
+| `mrz_decode.rs` | MRZ lines read by the recognition model directly and decoded under the line's ICAO 9303 layout: exactly 44 or 30 characters, each from its position's set (digits, letters, filler), the best template winning; failing check digits repaired from the recogniser's next-best characters; the names reconciled with the printed words only where the recogniser's own alternatives allow. |
 | `mrz.rs` | TD3 and TD1 parsing; per-field correction of OCR look-alikes (`O`/`0`, `S`/`5`, …); check digits; and repair of the names (which check digits do not cover) against the printed words on the page. |
+| `idback.rs` | The smart ID back's PDF417, read again from the card resampled at twice its size and sharpened when the first read fails. |
 | `za.rs` | SA identity numbers (date, sex, citizenship, Luhn), the smart ID PDF417 (pipe-separated text), and label/value extraction with per-field validators. |
 | `labels.rs` | Pairs barcodes with printed `LABEL: value` lines and the digits under an EAN; validates IMEI and ICCID (Luhn) and GTIN checksums; drops decodes the print contradicts. |
 | `quality.rs`, `geometry.rs` | Sharpness, glare and exposure; skew estimation and rotation. |

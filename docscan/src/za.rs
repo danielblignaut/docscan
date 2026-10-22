@@ -226,7 +226,15 @@ fn norm(s: &str) -> String {
         .collect()
 }
 
-/// Whether `line` contains `label`, tolerating one OCR error per word.
+/// Letter pairs OCR reads as one letter in small print (`rn` as `m`, `li`
+/// as `u`), folded on both sides before labels are compared.
+fn fold_confusions(s: &str) -> String {
+    s.replace("RN", "M").replace("LI", "U")
+}
+
+/// Whether `line` contains `label`, tolerating one OCR error (a wrong, missing
+/// or extra character) per seven characters of a label of seven or more, after
+/// [`fold_confusions`].
 fn contains_label(line: &str, label: &str) -> bool {
     let line = norm(line);
     let label = norm(label);
@@ -237,14 +245,30 @@ fn contains_label(line: &str, label: &str) -> bool {
         return true;
     }
     let budget = if label.len() < 7 { 0 } else { (label.len() / 7).max(1) };
-    line.char_indices().any(|(i, _)| {
-        let tail: String = line[i..].chars().take(label.len()).collect();
-        tail.len() == label.len() && hamming(&tail, &label) <= budget
-    })
+    let (line, label) = (fold_confusions(&line), fold_confusions(&label));
+    if line.contains(&label) {
+        return true;
+    }
+    budget > 0 && substring_distance(&line, &label) <= budget
 }
 
-fn hamming(a: &str, b: &str) -> usize {
-    a.chars().zip(b.chars()).filter(|(x, y)| x != y).count()
+/// The fewest edits turning `pattern` into some substring of `text`
+/// (Sellers' approximate substring match).
+fn substring_distance(text: &str, pattern: &str) -> usize {
+    let p: Vec<char> = pattern.chars().collect();
+    let mut col: Vec<usize> = (0..=p.len()).collect();
+    let mut best = col[p.len()];
+    for t in text.chars() {
+        let mut prev_diag = col[0];
+        col[0] = 0;
+        for i in 1..=p.len() {
+            let cur = col[i];
+            col[i] = (prev_diag + usize::from(p[i - 1] != t)).min(col[i] + 1).min(col[i - 1] + 1);
+            prev_diag = cur;
+        }
+        best = best.min(col[p.len()]);
+    }
+    best
 }
 
 pub fn has_any(lines: &[Line], labels: &[&str]) -> bool {
@@ -322,6 +346,26 @@ pub fn value_as(lines: &[Line], labels: &[&str], expect: Expect) -> Option<Strin
         }
     }
     None
+}
+
+/// The value printed above a label, for when the value's own label was not
+/// read (cut off, or too garbled): on these layouts each value sits under
+/// its label, so the value of one field is the nearest plausible line above
+/// the next field's label, starting near its left edge and within two and a
+/// half of its line heights.
+pub fn value_above(lines: &[Line], next_labels: &[&str], expect: Expect) -> Option<String> {
+    let label = next_labels.iter().find_map(|lab| lines.iter().find(|l| contains_label(&l.text, lab)))?;
+    lines
+        .iter()
+        .filter(|l| {
+            l.y + l.h <= label.y + label.h * 0.3
+                && l.y >= label.y - label.h * 2.5
+                && (l.x - label.x).abs() < label.h * 3.0
+                && !is_label_like(&l.text)
+                && plausible(&l.text, expect)
+        })
+        .max_by(|a, b| a.y.total_cmp(&b.y))
+        .map(|l| l.text.trim().to_string())
 }
 
 const ALL_LABELS: &[&str] = &[
@@ -405,25 +449,72 @@ pub struct PrintedFields {
     pub country_of_birth: Option<String>,
     pub status: Option<String>,
     pub id_number: Option<IdNumber>,
+    /// Fields filled in from the identity number because their print was
+    /// not read (`"sex"`, `"date_of_birth"`): the number encodes both, and
+    /// its check digit has passed.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub derived: Vec<&'static str>,
+}
+
+const MONTHS: [&str; 12] = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+/// A smart ID front's printed date (`14 MAR 1990`) as (day, month, year),
+/// when all three were read.
+fn parse_dmy(s: &str) -> Option<(u32, u32, u32)> {
+    let t: Vec<String> = s.split(|c: char| !c.is_alphanumeric()).filter(|t| !t.is_empty()).map(|t| t.to_uppercase()).collect();
+    if t.len() != 3 {
+        return None;
+    }
+    let day: u32 = t[0].parse().ok().filter(|d| (1..=31).contains(d))?;
+    let month = MONTHS.iter().position(|m| *m == t[1])? as u32 + 1;
+    let year: u32 = t[2].parse().ok().filter(|y| (1900..=2100).contains(y))?;
+    Some((day, month, year))
+}
+
+/// Fills the card front's sex and date of birth from a valid identity number
+/// when their print was not read (or the date only in part), and records it
+/// in `derived`. A printed value that was read is never replaced. The
+/// number gives the year without its century: a year after `this_year`
+/// (two digits) is taken as the 1900s.
+pub fn complete_from_id(p: &mut PrintedFields, this_year: u32) {
+    let Some(id) = p.id_number.clone().filter(|id| id.luhn_valid && id.date_valid) else { return };
+    if p.sex.is_none() {
+        p.sex = Some(id.sex.to_string());
+        p.derived.push("sex");
+    }
+    let yy: u32 = id.date_of_birth[0..2].parse().unwrap_or(0);
+    let mm: u32 = id.date_of_birth[2..4].parse().unwrap_or(1);
+    let dd: u32 = id.date_of_birth[4..6].parse().unwrap_or(1);
+    let year = if yy <= this_year % 100 { 2000 + yy } else { 1900 + yy };
+    match p.date_of_birth.as_deref().and_then(parse_dmy) {
+        Some(_) => {}
+        None => {
+            p.date_of_birth = Some(format!("{dd:02} {} {year}", MONTHS[(mm - 1) as usize]));
+            p.derived.push("date_of_birth");
+        }
+    }
 }
 
 pub fn smart_id_front_fields(lines: &[Line]) -> PrintedFields {
     PrintedFields {
-        surname: value_as(lines, &["Surname"], Expect::Name),
-        names: value_as(lines, &["Names"], Expect::Name),
+        surname: value_as(lines, &["Surname"], Expect::Name).or_else(|| value_above(lines, &["Names"], Expect::Name)),
+        names: value_as(lines, &["Names"], Expect::Name).or_else(|| value_above(lines, &["Sex"], Expect::Name)),
         sex: value_as(lines, &["Sex"], Expect::Sex),
         nationality: value_as(lines, &["Nationality"], Expect::CountryCode),
         date_of_birth: value_as(lines, &["Date of Birth"], Expect::Date),
         country_of_birth: value_as(lines, &["Country of Birth"], Expect::CountryCode),
         status: value_as(lines, &["Status"], Expect::Name),
         id_number: lines.iter().find_map(|l| find_id_number(&l.text)),
+        derived: Vec::new(),
     }
 }
 
 pub fn green_book_fields(lines: &[Line]) -> PrintedFields {
     PrintedFields {
-        surname: value_as(lines, &["VAN/SURNAME", "SURNAME"], Expect::Name),
-        names: value_as(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name),
+        surname: value_as(lines, &["VAN/SURNAME", "SURNAME"], Expect::Name)
+            .or_else(|| value_above(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name)),
+        names: value_as(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name)
+            .or_else(|| value_above(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"], Expect::Name)),
         date_of_birth: value_as(lines, &["GEBOORTEDATUM/DATE OF BIRTH", "DATE OF BIRTH"], Expect::Date),
         country_of_birth: value_for(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"]),
         id_number: lines.iter().find_map(|l| find_id_number(&l.text)),
@@ -434,6 +525,46 @@ pub fn green_book_fields(lines: &[Line]) -> PrintedFields {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn front_fields_completed_from_the_id_number() {
+        let mut p = PrintedFields { id_number: parse_id_number("8001015009087"), date_of_birth: Some("JAN1980".into()), ..Default::default() };
+        complete_from_id(&mut p, 2026);
+        assert_eq!(p.sex.as_deref(), Some("M"));
+        assert_eq!(p.date_of_birth.as_deref(), Some("01 JAN 1980"));
+        assert_eq!(p.derived, ["sex", "date_of_birth"]);
+        // Read print stays, even where it disagrees.
+        let mut p = PrintedFields { id_number: parse_id_number("8001015009087"), sex: Some("F".into()), date_of_birth: Some("02 JAN 1980".into()), ..Default::default() };
+        complete_from_id(&mut p, 2026);
+        assert_eq!((p.sex.as_deref(), p.date_of_birth.as_deref()), (Some("F"), Some("02 JAN 1980")));
+        assert!(p.derived.is_empty());
+    }
+
+    #[test]
+    fn labels_survive_common_misreads() {
+        assert!(contains_label("Sumame:", "Surname"));
+        assert!(contains_label("VAN/SLIRNAME", "VAN/SURNAME"));
+        assert!(contains_label("VOORNAM/ORENAMES", "VOORNAME/FORENAMES"));
+        // Short labels stay exact: a name is not the label `Names`.
+        assert!(!contains_label("JAMES", "Names"));
+        assert!(!contains_label("DLAMINI", "Surname"));
+    }
+
+    #[test]
+    fn value_above_the_next_label() {
+        let line = |t: &str, x, y| Line { text: t.into(), x, y, w: 200.0, h: 20.0 };
+        // The surname's label was cut to `VA`; its value sits above the forenames label.
+        let lines = vec![
+            line("PHOTO", 300.0, 20.0),
+            line("VA", 100.0, 100.0),
+            line("KOWALSKI", 101.0, 125.0),
+            line("VOORNAM/ORENAMES", 100.0, 160.0),
+            line("SIPHO", 101.0, 185.0),
+        ];
+        let f = green_book_fields(&lines);
+        assert_eq!(f.surname.as_deref(), Some("KOWALSKI"));
+        assert_eq!(f.names.as_deref(), Some("SIPHO"));
+    }
 
     #[test]
     fn luhn() {

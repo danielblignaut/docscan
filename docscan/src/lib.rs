@@ -11,8 +11,11 @@
 pub mod barcode;
 pub mod face;
 pub mod geometry;
+pub mod idback;
+pub mod idocr;
 pub mod labels;
 pub mod mrz;
+pub mod mrz_decode;
 pub mod page;
 pub mod poa;
 pub mod quad;
@@ -20,6 +23,7 @@ pub mod quality;
 pub mod za;
 
 use ocrs::{ImageSource, OcrEngine, OcrEngineParams, TextItem};
+use rten_tensor::prelude::*;
 use serde::Serialize;
 use wasm_bindgen::prelude::*;
 
@@ -131,6 +135,16 @@ pub struct OcrOutput {
     pub skew: f32,
 }
 
+/// A page levelled for OCR, with the words found on it upright (turn 0).
+struct LevelledPage {
+    ink: Vec<u8>,
+    luma: Vec<u8>,
+    w: usize,
+    h: usize,
+    skew: f32,
+    words: Vec<rten_imageproc::RotatedRect>,
+}
+
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct Timings {
     /// Outline, flattening and quality.
@@ -162,9 +176,8 @@ pub(crate) fn now() -> f64 {
 #[derive(Default)]
 pub struct Scanner {
     ocr: Option<OcrEngine>,
-    /// The same recognition model restricted to the MRZ alphabet, used to
-    /// re-read lines that look like an MRZ.
-    mrz_ocr: Option<OcrEngine>,
+    /// The recognition model, run directly for MRZ lines ([`mrz_decode`]).
+    rec_model: Option<rten::Model>,
     /// The quarter turn that last read as a document: the holder tends to
     /// keep the book the same way round, so it is tried first next time.
     last_turn: std::cell::Cell<Option<u8>>,
@@ -415,18 +428,15 @@ fn to_js<T: Serialize>(value: &T) -> Result<JsValue, JsError> {
 
 impl Scanner {
     pub fn load_ocr_models(&mut self, detection: Vec<u8>, recognition: Vec<u8>) -> anyhow::Result<()> {
+        // MRZ lines are re-read with the recognition model run directly, so
+        // the MRZ's layout can steer the decoding (mrz_decode.rs).
+        self.rec_model = Some(rten::Model::load(recognition.clone())?);
         let ocr = OcrEngine::new(OcrEngineParams {
             detection_model: Some(rten::Model::load(detection)?),
-            recognition_model: Some(rten::Model::load(recognition.clone())?),
-            ..Default::default()
-        })?;
-        let mrz_ocr = OcrEngine::new(OcrEngineParams {
             recognition_model: Some(rten::Model::load(recognition)?),
-            allowed_chars: Some(MRZ_CHARS.to_string()),
             ..Default::default()
         })?;
         self.ocr = Some(ocr);
-        self.mrz_ocr = Some(mrz_ocr);
         Ok(())
     }
 
@@ -447,25 +457,89 @@ impl Scanner {
     /// MRZ lines are re-read on the luma plane, which suits the black OCR-B
     /// on white of the machine-readable zone.
     pub fn ocr_planes(&self, ink: &[u8], luma: &[u8], w: usize, h: usize) -> anyhow::Result<OcrOutput> {
+        let page = self.level_page(ink, luma, w, h)?;
+        self.read_turned(&page, 0)
+    }
+
+    /// The page levelled by its estimated skew, with its words detected
+    /// once: ocrs reads only upright text, but its word boxes are found in
+    /// any orientation, so the other quarter turns reuse them.
+    fn level_page(&self, ink: &[u8], luma: &[u8], w: usize, h: usize) -> anyhow::Result<LevelledPage> {
         let ocr = self.ocr.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
         let skew = geometry::estimate_skew(luma, w, h);
         let level = |img: &[u8]| if skew.abs() >= 1.0 { geometry::rotate(img, w, h, skew) } else { (img.to_vec(), w, h) };
-        let (img, lw, lh) = level(ink);
-        let source = ImageSource::from_bytes(&img, (lw as u32, lh as u32))?;
-        let input = ocr.prepare_input(source)?;
-        let words = ocr.detect_words(&input)?;
+        let (ink, lw, lh) = level(ink);
+        let (luma, _, _) = level(luma);
+        // The detector's input is portrait (600 x 800), and ocrs squashes any
+        // page to fit it: a landscape card would lose half its width and be
+        // stretched in height. It is detected turned a quarter instead (the
+        // detector finds words in any orientation) and the boxes turned back.
+        let words = if lw > lh {
+            let (t, tw, th) = geometry::rotate_quarters(&ink, lw, lh, 1);
+            let found = ocr.detect_words(&ocr.prepare_input(ImageSource::from_bytes(&t, (tw as u32, th as u32))?)?)?;
+            found.iter().map(|r| idocr::turn_rect(r, tw, th, 3)).collect()
+        } else {
+            ocr.detect_words(&ocr.prepare_input(ImageSource::from_bytes(&ink, (lw as u32, lh as u32))?)?)?
+        };
+        Ok(LevelledPage { ink, luma, w: lw, h: lh, skew, words })
+    }
+
+    /// Reads a levelled page turned by `quarters` (clockwise), with the
+    /// words found upright turned with it.
+    fn read_turned(&self, page: &LevelledPage, quarters: u8) -> anyhow::Result<OcrOutput> {
+        let ocr = self.ocr.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
+        let (img, lw, lh) = geometry::rotate_quarters(&page.ink, page.w, page.h, quarters);
+        let input = ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?;
+        let words: Vec<_> = page.words.iter().map(|r| idocr::turn_rect(r, page.w, page.h, quarters)).collect();
         let line_rects = ocr.find_text_lines(&input, &words);
-        let texts = ocr.recognize_text(&input, &line_rects)?;
+        // MRZ lines are read on the luma plane, which suits black OCR-B on
+        // white, by the recognition model run directly so the MRZ's layout
+        // can steer the decoding (mrz_decode.rs). Lines shaped like one (long
+        // and thin, across much of the page) go there first, and only those
+        // that do not read as an MRZ are then recognised as ordinary text:
+        // each line is recognised once.
+        let mut mrz_texts = Vec::new();
+        let mut decoded = Vec::new();
+        let mut ordinary: Vec<usize> = Vec::new();
+        let luma_input = match self.rec_model.as_ref() {
+            Some(_) => {
+                let (img, lw, lh) = geometry::rotate_quarters(&page.luma, page.w, page.h, quarters);
+                Some(ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?)
+            }
+            None => None,
+        };
+        for (i, line) in line_rects.iter().enumerate() {
+            let (Some(rec), Some(luma_input)) = (self.rec_model.as_ref(), luma_input.as_ref()) else {
+                ordinary.push(i);
+                continue;
+            };
+            if !mrz_shaped(line, lw) {
+                ordinary.push(i);
+                continue;
+            }
+            let img = ocr.prepare_recognition_input(luma_input, line)?;
+            let [ih, iw] = img.shape();
+            let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
+            // [seq, batch, classes]
+            let lp = out.slice((.., 0, ..));
+            if mrz::looks_like_mrz(&mrz_decode::greedy(lp)) && let Some(d) = mrz_decode::read_line(lp) {
+                mrz_texts.push(String::new());
+                decoded.push(d);
+            } else {
+                ordinary.push(i);
+            }
+        }
+        let rects: Vec<Vec<rten_imageproc::RotatedRect>> = ordinary.iter().map(|&i| line_rects[i].clone()).collect();
+        let texts = ocr.recognize_text(&input, &rects)?;
 
         let mut placed = Vec::new();
-        let mut mrz_rects = Vec::new();
-        let mut mrz_texts = Vec::new();
-        for (i, text) in texts.iter().enumerate() {
+        let mut stray_mrz = Vec::new();
+        for (k, text) in texts.iter().enumerate() {
             let Some(text) = text else { continue };
             let s = text.to_string();
             if mrz::looks_like_mrz(&s) {
-                mrz_rects.push(line_rects[i].clone());
-                mrz_texts.push(s);
+                // Read as an MRZ only on the ink plane (or no direct model).
+                stray_mrz.push((ordinary[k], s));
                 continue;
             }
             for word in text.words() {
@@ -479,18 +553,13 @@ impl Scanner {
                 });
             }
         }
-        if let Some(mrz_ocr) = self.mrz_ocr.as_ref()
-            && !mrz_rects.is_empty()
-        {
-            let (img, lw, lh) = level(luma);
-            let luma_input = mrz_ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?;
-            for (slot, text) in mrz_texts.iter_mut().zip(mrz_ocr.recognize_text(&luma_input, &mrz_rects)?) {
-                if let Some(text) = text {
-                    *slot = text.to_string();
-                }
-            }
+        let vocab = za::words(&placed);
+        mrz_decode::finish_lines(&mut decoded, &vocab);
+        for (slot, d) in mrz_texts.iter_mut().zip(decoded) {
+            *slot = d.text;
         }
-        Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew })
+        mrz_texts.extend(stray_mrz.into_iter().map(|(_, s)| s));
+        Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew: page.skew })
     }
 
     /// Proof of address: whether to correct place names and postal codes with the gazetteer (on by default).
@@ -831,6 +900,13 @@ impl Scanner {
                 barcodes = raw;
             }
         }
+        if let (Some(quad), Some((_, ow, oh))) = (&document, &flat)
+            && !barcodes.iter().any(|b| b.format == "pdf417")
+            && idback::roughly_card_shaped(*ow, *oh)
+            && idback::has_wide_bars(work, ww, wh)
+        {
+            barcodes.extend(idback::rescue_pdf417(&luma, w, h, quad, *ow, *oh));
+        }
         let smart_id_barcode = barcodes
             .iter()
             .filter(|b| b.format == "pdf417")
@@ -846,17 +922,51 @@ impl Scanner {
             // the page's shape allows, most likely first, and keep the first
             // that reads as a document. An OCR pass costs over a second in the
             // browser, so the search is kept as short as the shape allows.
-            let ink = ink();
+            // A small document is read enlarged: the detector pads anything
+            // smaller than its 600 x 800 input rather than scaling it up, so
+            // small print stays small to it.
+            let k = (OCR_MIN_LONG / ww.max(wh) as f32).clamp(1.0, 2.5);
+            let (page, k) = if k > 1.05 {
+                let (sw, sh) = ((ww as f32 * k).round() as usize, (wh as f32 * k).round() as usize);
+                let corners = match &document {
+                    Some(quad) => quad.corners,
+                    None => [[0.0, 0.0], [w as f32, 0.0], [w as f32, h as f32], [0.0, h as f32]],
+                };
+                let ink_big = quad::warp(&quality::rgba_to_ink(rgba), w, h, 1, &corners, sw, sh);
+                let luma_big = quad::warp(&luma, w, h, 1, &corners, sw, sh);
+                match (ink_big, luma_big) {
+                    (Some(i), Some(l)) => (self.level_page(&i, &l, sw, sh)?, sw as f32 / ww as f32),
+                    _ => (self.level_page(&ink(), work, ww, wh)?, 1.0),
+                }
+            } else {
+                (self.level_page(&ink(), work, ww, wh)?, 1.0)
+            };
             let mut attempt: Option<DocumentResult> = None;
             let mut order = first_turns(expected, shape, self.last_turn.get());
+            // The word boxes' shape says whether the text runs across or
+            // down the page: when it is clear, only turns that make the
+            // text run across are read.
+            let across = idocr::text_runs_across(&page.words);
+            if let Some(across) = across {
+                let ok = |t: &u8| (t % 2 == 0) == across;
+                order.retain(ok);
+                if order.is_empty() {
+                    let last = self.last_turn.get().filter(ok);
+                    order.push(last.unwrap_or(if across { 0 } else { 1 }));
+                }
+            }
             let mut passes = 0u8;
             let mut i = 0;
             while i < order.len() {
                 let quarters = order[i];
                 i += 1;
-                let (ink_turned, rw, rh) = geometry::rotate_quarters(&ink, ww, wh, quarters);
-                let (luma_turned, _, _) = geometry::rotate_quarters(work, ww, wh, quarters);
-                let ocr = self.ocr_planes(&ink_turned, &luma_turned, rw, rh)?;
+                let mut ocr = self.read_turned(&page, quarters)?;
+                if k > 1.0 {
+                    // Positions in the flattened document's pixels.
+                    for l in ocr.lines.iter_mut().chain(ocr.words.iter_mut()) {
+                        (l.x, l.y, l.w, l.h) = (l.x / k, l.y / k, l.w / k, l.h / k);
+                    }
+                }
                 passes += 1;
                 let readable = ocr.lines.iter().filter(|l| l.text.chars().filter(|c| c.is_alphanumeric()).count() >= 4).count();
                 let mut r = classify(q.clone(), barcodes.clone(), smart_id_barcode.clone(), ocr, expected, shape);
@@ -881,7 +991,16 @@ impl Scanner {
                         3 if any => &[1, 0],
                         1 => &[3],
                         3 => &[1],
+                        // Upside down was tried first only because the last
+                        // document read that way: try it upright.
+                        2 => &[0],
                         _ => &[],
+                    };
+                    let next: Vec<u8> = match across {
+                        // Text across the page: upright or upside down; down it: one of the sideways turns.
+                        Some(true) => vec![(quarters + 2) % 4],
+                        Some(false) => vec![if quarters == 1 { 3 } else { 1 }],
+                        None => next.to_vec(),
                     };
                     order.extend(next.iter().filter(|t| !order.contains(t)).copied().collect::<Vec<_>>());
                     // Three passes at most: over three seconds in the browser.
@@ -921,6 +1040,26 @@ fn first_turns(expected: Expected, shape: Option<(usize, usize)>, last: Option<u
         // No outline (or any document): start from the turn that read last.
         None => vec![last.unwrap_or(0)],
     }
+}
+
+/// The long side, in pixels, a document is enlarged to (from the frame,
+/// at most 2.5x) before OCR when it is smaller. On DEV's small and 640-wide
+/// frames this read more fields than reading them as they are (1 300 did
+/// no better than 1 000).
+const OCR_MIN_LONG: f32 = 1000.0;
+
+/// The current year, from the device's clock.
+fn this_year() -> u32 {
+    // Days since 1970 to a year is close enough for a century cut-off.
+    1970 + (now() / 1000.0 / 86_400.0 / 365.2425) as u32
+}
+
+/// Whether a text line has the shape of an MRZ line: at least 28
+/// characters of fixed-pitch OCR-B make it long and thin (width over 12
+/// times its height) and it spans much of the page (over 45% of its width).
+fn mrz_shaped(line: &[rten_imageproc::RotatedRect], page_width: usize) -> bool {
+    let Some(b) = rten_imageproc::bounding_rect(line.iter()) else { return false };
+    b.width() > 12.0 * b.height() && b.width() > 0.45 * page_width as f32
 }
 
 /// Words printed on the smart ID card's back (the conditions panel).
@@ -996,8 +1135,15 @@ fn classify(
             ("TD3", _) => DocumentKind::OtherPassport,
             _ => DocumentKind::OtherIdCard,
         };
-        out.accepted = m.checks.all();
-        reasons.push(format!("{} MRZ, check digits {}", m.format, if out.accepted { "pass" } else { "fail" }));
+        // Check digits do not cover the state codes: a code no state uses
+        // means letters were misread (a defocused page whose digits happen
+        // to check out).
+        let states_ok = mrz::valid_state(&m.issuing_state) && mrz::valid_state(&m.nationality);
+        out.accepted = m.checks.all() && states_ok;
+        reasons.push(format!("{} MRZ, check digits {}", m.format, if m.checks.all() { "pass" } else { "fail" }));
+        if !states_ok {
+            reasons.push(format!("unknown state code ({} / {})", m.issuing_state, m.nationality));
+        }
         out.mrz = Some(m);
         out.reasons = reasons;
         return out;
@@ -1035,7 +1181,8 @@ fn classify(
         out.printed = Some(printed);
     } else if is_card_front {
         out.kind = DocumentKind::ZaSmartIdFront;
-        let printed = za::smart_id_front_fields(lines);
+        let mut printed = za::smart_id_front_fields(lines);
+        za::complete_from_id(&mut printed, this_year());
         let id_ok = printed.id_number.as_ref().is_some_and(|id| id.luhn_valid && id.date_valid);
         out.accepted = id_ok && printed.surname.is_some();
         reasons.push(format!("smart ID front: printed ID {id_ok}, surname {}", printed.surname.is_some()));
