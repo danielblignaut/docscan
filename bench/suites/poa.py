@@ -137,6 +137,9 @@ def speed(ctx, caps: list[dict]) -> dict:
 def run(ctx) -> dict:
     metrics = {}
     dev_caps = None
+    if ctx.speed_only:
+        _, caps, _ = captures("poa_dev", ctx.quick)
+        return speed(ctx, caps)
     sets = ([("dev", "poa_dev")] if "dev" in ctx.splits else []) + ([("lockbox", "poa_lockbox")] if "test" in ctx.splits else [])
     for tag, name in sets:
         _, caps, truths = captures(name, ctx.quick)

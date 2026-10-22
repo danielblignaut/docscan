@@ -294,6 +294,8 @@ def tracking_speed(ctx, rec: dict) -> dict:
 def run(ctx) -> dict:
     rec = shipped()
     metrics = {"face.shipped": m_info(rec, desc="the shipped recogniser and thresholds, read from the source")}
+    if ctx.speed_only:
+        return {**metrics, **tracking_speed(ctx, rec)}
     m, templates = lfw(ctx, rec)
     metrics.update(m)
     metrics.update(docpairs(ctx, rec, templates))

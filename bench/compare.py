@@ -11,11 +11,12 @@ A is the reference (usually the baseline or the parent commit), B the change.
   is beyond twice the metric's measured run-to-run noise (bench/noise.json,
   one difference between two baseline runs; 0 for deterministic metrics).
 - Latencies: the median of per-item ratios B/A with a bootstrap 95% interval,
-  divided by the ratio of a fixed calibration job timed on the same core in
-  each run (so a busier machine is not read as a slower scanner), the medians
-  with IQR, and a two-sided Mann-Whitney p of the raw samples. A speed
-  regression is a calibrated ratio above 1 + max(5%, 2 x noise) whose
-  interval lies wholly above 1.
+  both raw and calibrated (divided by the ratio of a fixed job timed on the
+  same core in each run), the medians with IQR, and a two-sided Mann-Whitney p
+  of the raw samples. A speed regression needs the raw and the calibrated
+  ratio to agree: both above 1 + max(5%, 2 x noise), each interval wholly
+  above 1 (likewise for an improvement). The calibration job swings with
+  contention on a shared machine, so neither alone is trusted.
 - Verdict: **regressed** if any accuracy metric is significantly worse, or any
   speed metric regresses beyond 5% (unless --accept-tradeoff is given *and*
   some accuracy metric improved significantly: the gain must be explicit);
@@ -92,22 +93,44 @@ def compare_stat(a: dict, b: dict):
 
 
 def compare_latency(a: dict, b: dict):
-    """Median per-item ratio B/A with its bootstrap interval, divided by the
-    ratio of the calibration job's times (the core's speed at each run) when
-    both runs recorded one; and the Mann-Whitney p of the raw samples."""
+    """The median per-item ratio B/A with its bootstrap interval, raw and divided
+    by the ratio of the calibration job's times (the core's speed at each run);
+    and the Mann-Whitney p of the raw samples. Returns (raw, calibrated, p, how),
+    each ratio as (r, lo, hi)."""
     ia = dict(zip(a["ids"], a["samples"]))
     ib = dict(zip(b["ids"], b["samples"]))
     shared = [k for k in a["ids"] if k in ib]
     _, p = stats.mann_whitney(a["samples"], b["samples"])
-    k, note = 1.0, ""
-    if a.get("calib_ms") and b.get("calib_ms"):
-        k = b["calib_ms"] / a["calib_ms"]
-        note = f"; machine x{k:.2f}, calibrated"
+    k = b["calib_ms"] / a["calib_ms"] if a.get("calib_ms") and b.get("calib_ms") else None
     if shared:
-        r, lo, hi = stats.paired_latency_ratio([ia[i] for i in shared], [ib[i] for i in shared])
-        return r / k, lo / k, hi / k, p, f"paired ratio on {len(shared)} items{note}"
-    ma, mb = np.median(a["samples"]), np.median(b["samples"])
-    return mb / ma / k, float("nan"), float("nan"), p, "unpaired" + note
+        raw = stats.paired_latency_ratio([ia[i] for i in shared], [ib[i] for i in shared])
+        how = f"paired on {len(shared)} items"
+    else:
+        r = float(np.median(b["samples"]) / np.median(a["samples"]))
+        raw = (r, float("nan"), float("nan"))
+        how = "unpaired"
+    cal = tuple(x / k for x in raw) if k else raw
+    if k:
+        how += f"; machine x{k:.2f}"
+    return raw, cal, p, how
+
+
+def latency_status(raw, cal, p, tol) -> str:
+    """A speed change counts only when the raw and the calibrated ratios agree:
+    each beyond the tolerance, with its interval wholly on that side of 1 (or,
+    unpaired, p < 0.05). The calibration job is one proxy for the machine's
+    speed and swings with contention; requiring both keeps a busy machine from
+    passing for a slower scanner, and a calibration swing from inventing one."""
+    def beyond(rt, up):
+        r, lo, hi = rt
+        if up:
+            return r > 1 + tol and (lo > 1 if lo == lo else p < 0.05)
+        return r < 1 - tol and (hi < 1 if hi == hi else p < 0.05)
+    if beyond(raw, True) and beyond(cal, True):
+        return "REGRESSED"
+    if beyond(raw, False) and beyond(cal, False):
+        return "improved"
+    return "same"
 
 
 def main():
@@ -129,6 +152,11 @@ def main():
     for s in set(ma.get("manifests", {})) & set(mb.get("manifests", {})):
         if ma["manifests"][s]["tree_sha256"] != mb["manifests"][s]["tree_sha256"]:
             warnings.append(f"dataset {s} differs between A and B (manifest hash): its metrics are not comparable")
+    for key in [k for k in set(A["metrics"]) & set(B["metrics"]) if k.endswith(".scorer_version")]:
+        if A["metrics"][key]["value"] != B["metrics"][key]["value"]:
+            warnings.append(f"{key} differs ({A['metrics'][key]['value']} vs {B['metrics'][key]['value']}): that suite was scored differently")
+    for key in [k for k in set(B["metrics"]) - set(A["metrics"]) if k.endswith(".scorer_version")]:
+        warnings.append(f"{key} is {B['metrics'][key]['value']} in B and absent (version 1) in A: that suite was scored differently")
     if ma["args"].get("quick") != mb["args"].get("quick"):
         warnings.append("one run is --quick and the other is not: only shared items are compared")
     la, lb = (ma.get("load_start") or [0])[0], (mb.get("load_start") or [0])[0]
@@ -166,19 +194,17 @@ def main():
             delta = pct(d) if a.get("unit") == "%" else f"{d:+.4f}"
             rows.append((k, fmt_val(a), fmt_val(b), delta, ci, how, status))
         else:
-            r, lo, hi, p, how = compare_latency(a, b)
+            raw, cal, p, how = compare_latency(a, b)
             tol = max(SPEED_TOLERANCE, nf)
-            if r > 1 + tol and (lo > 1 or (math.isnan(lo) and p < 0.05)):
-                status = "REGRESSED"
+            status = latency_status(raw, cal, p, tol)
+            if status == "REGRESSED":
                 regress_speed.append(k)
-            elif r < 1 - tol and (hi < 1 or (math.isnan(hi) and p < 0.05)):
-                status = "improved"
+            elif status == "improved":
                 improve_speed.append(k)
-            else:
-                status = "same"
             qa, qb = a["iqr"], b["iqr"]
-            rows.append((k, f"{fmt_val(a)} ({qa[0]:.3g}-{qa[1]:.3g})", f"{fmt_val(b)} ({qb[0]:.3g}-{qb[1]:.3g})", f"{100 * (r - 1):+.1f}%",
-                         f"[{100 * (lo - 1):+.1f}%, {100 * (hi - 1):+.1f}%] p={p:.3f}", how + f"; tol {100 * tol:.0f}%", status))
+            pc = lambda r: f"{100 * (r - 1):+.1f}%"  # noqa: E731
+            rows.append((k, f"{fmt_val(a)} ({qa[0]:.0f}-{qa[1]:.0f})", f"{fmt_val(b)} ({qb[0]:.0f}-{qb[1]:.0f})", f"raw {pc(raw[0])}, cal {pc(cal[0])}",
+                         f"raw [{pc(raw[1])}, {pc(raw[2])}] cal [{pc(cal[1])}, {pc(cal[2])}] p={p:.3f}", how + f"; tol {100 * tol:.0f}%", status))
 
     shown = [r for r in rows if args.all or r[6] not in ("same",)]
     head = ("metric", "A", "B", "delta", "95% CI", "how", "status")

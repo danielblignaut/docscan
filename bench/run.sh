@@ -22,7 +22,7 @@ while [ $# -gt 0 ]; do
     --quick) QUICK=1; PASS="$PASS --quick"; shift ;;
     --no-wasm) WASM=""; PASS="$PASS --no-wasm"; shift ;;
     --skip-prepare) PREPARE=""; shift ;;
-    --e2e|--no-cache) PASS="$PASS $1"; shift ;;
+    --e2e|--no-cache|--speed-only) PASS="$PASS $1"; shift ;;
     --repeats|--jobs|--out) PASS="$PASS $1 $2"; shift 2 ;;
     -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;

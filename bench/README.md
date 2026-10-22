@@ -17,7 +17,8 @@ bench/compare.py bench/results/baseline-<sha>.json bench/results/<sha>-<ts>.json
 
 Options: `--split dev|test|both` (default `dev`), `--quick`, `--e2e`,
 `--no-wasm` (skip the headless-Chrome timings), `--no-cache` (recompute every
-per-item result), `--repeats N` (timing repeats; default 5, 2 with `--quick`,
+per-item result), `--speed-only` (only the timing passes, and wasm: minutes
+instead of hours, for iterating on speed), `--repeats N` (timing repeats; default 5, 2 with `--quick`,
 capped at 3 for the OCR-heavy timings), `--jobs N` (parallel processes for the
 accuracy passes; default logical CPUs - 2), `--skip-prepare` (trust the data on
 disk without checking hashes).
@@ -67,9 +68,11 @@ metric's delta and a verdict. A change is acceptable only if:
   a higher-is-better metric), and the delta exceeds twice the metric's
   recorded run-to-run noise (`bench/noise.json`: one difference between two
   runs of the same commit, so a single draw of the noise); and
-- **no speed metric regresses by more than 5%** (median per-item ratio B/A above
-  1.05 after calibrating for the machine's speed at each run, with its
-  bootstrap interval wholly above 1, and beyond twice the metric's noise), **unless an accuracy gain is explicit**: a speed regression is
+- **no speed metric regresses by more than 5%**: the median per-item ratio
+  B/A above 1 + max(5%, twice the metric's noise), with its bootstrap interval
+  wholly above 1, **both raw and calibrated** for the machine's speed at each
+  run (the calibration job swings with contention, so a regression must show
+  in both), **unless an accuracy gain is explicit**: a speed regression is
   accepted only when some accuracy metric improved significantly *and* the
   change says so (pass `--accept-tradeoff`, and state the trade in the commit).
 
@@ -107,6 +110,19 @@ subsets; compare.py pairs them on shared items, but their intervals are wide.
   binaries' results never mix, and temporary files are per process.
 - Per-item outcomes are cached only by the bytes of the binary, the models and
   the item: any code change that changes a binary is re-measured in full.
+
+## Referee changes
+
+Anything that changes how a metric is scored is versioned and noted here;
+compare.py warns when two results differ in a `<suite>.scorer_version` or in
+the referee's code hash (`bench_code_sha256`).
+
+| Date | Change | Comparable with earlier results? |
+|---|---|---|
+| 2026-10-22 | barcode scorer v2: Codabar compared without its start/stop characters (A-D, T N * E) on either side. zxing-cpp's truth keeps them, rxing and the synthetic set strip them, so every decoder scored 0 on the public set's Codabar codes. | `barcode.public_*.recall.codabar`, `recall`, `all_codes`, `false_decode_frames`, `precision` move; everything else unchanged |
+| 2026-10-22 | speed verdicts need the raw and the calibrated ratio to agree; calibration is the median of three runs of the job; noise.json latency entries are the larger of raw and calibrated noise | latency verdicts only |
+| 2026-10-22 | compare.py margin is twice the recorded noise | verdicts only |
+| 2026-10-22 | ID stills run one per process, clips in order (`id_scan_v2` cache) | ID metrics before 589ad5f are not comparable |
 
 ## Layout
 
@@ -206,11 +222,13 @@ RAYON_NUM_THREADS alone does not limit: the README's earlier "one core" OCR
 figures were in fact multithreaded), each item repeated and its median kept.
 Every latency records the CPU, the repeats, the load average before and
 after, and `calib_ms`: a fixed CPU-bound job (sha256 of 64 MiB in tmpfs) timed
-on the same core before every repeat and after the last. compare.py divides
-latency ratios by the ratio of the two runs' `calib_ms`, so a run on a busier
-machine is not read as a slower scanner; it also warns when the runs' load
-differed by more than a factor of two, because contention (a busy hyperthread
-sibling, memory bandwidth) does not scale every workload alike. Other users' jobs load this machine (a 6-core, 12-thread Xeon E5-1650
+on the same core (the median of three) before every repeat and after the
+last. compare.py reports each latency ratio raw and divided by the ratio of
+the two runs' `calib_ms`, and calls a speed change only when both agree: on
+this shared machine the calibration job alone swung 0.6-1.8x between runs
+(it once made a run at load 21 look 1.64x slower than one at load 45), so it
+can neither excuse nor invent a change by itself. compare.py also warns when
+the runs' load differed by more than a factor of two. Other users' jobs load this machine (a 6-core, 12-thread Xeon E5-1650
 v3); compare latencies measured at similar load, and look at the noise floor in
 BASELINE.md before believing a small speed change.
 

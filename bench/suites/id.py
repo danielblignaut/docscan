@@ -361,6 +361,8 @@ def speed(ctx) -> dict:
 
 
 def run(ctx) -> dict:
+    if ctx.speed_only:
+        return speed(ctx)
     out = {}
     sets = []
     if "dev" in ctx.splits:

@@ -36,10 +36,11 @@ def noise(a: dict, b: dict) -> dict:
             ia, ib = dict(zip(ma["ids"], ma["samples"])), dict(zip(mb["ids"], mb["samples"]))
             shared = [i for i in ma["ids"] if i in ib]
             if shared:
+                # compare.py needs the raw and the calibrated ratio to agree, so
+                # a metric's noise is the larger of the two.
                 r, _, _ = stats.paired_latency_ratio([ia[i] for i in shared], [ib[i] for i in shared])
-                if ma.get("calib_ms") and mb.get("calib_ms"):
-                    r /= mb["calib_ms"] / ma["calib_ms"]
-                out[k] = round(abs(r - 1), 4)
+                rc = r / (mb["calib_ms"] / ma["calib_ms"]) if ma.get("calib_ms") and mb.get("calib_ms") else r
+                out[k] = round(max(abs(r - 1), abs(rc - 1)), 4)
         elif ma["value"] is not None and mb["value"] is not None:
             out[k] = round(abs(mb["value"] - ma["value"]), 6)
     return out
@@ -114,6 +115,7 @@ def main():
     n.add_argument("a")
     n.add_argument("b")
     n.add_argument("--out", default=str(Path(__file__).resolve().parent / "noise.json"))
+    n.add_argument("--latency-only", action="store_true", help="update only the latency entries of an existing noise file")
     bl = sub.add_parser("baseline")
     bl.add_argument("result")
     bl.add_argument("--noise", default=str(Path(__file__).resolve().parent / "noise.json"))
@@ -121,6 +123,10 @@ def main():
     a = ap.parse_args()
     if a.cmd == "noise":
         out = noise(load(a.a), load(a.b))
+        if a.latency_only and Path(a.out).exists():
+            old = json.loads(Path(a.out).read_text())
+            kinds = {k: m["kind"] for k, m in load(a.b)["metrics"].items()}
+            out = {**{k: v for k, v in old.items() if kinds.get(k) != "latency"}, **{k: v for k, v in out.items() if kinds.get(k) == "latency"}}
         Path(a.out).write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
         print(f"{len(out)} metrics; non-zero: {sum(1 for v in out.values() if v)} -> {a.out}")
     else:

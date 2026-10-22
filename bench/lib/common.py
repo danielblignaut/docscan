@@ -425,9 +425,12 @@ def calibrate(cpu: int | None) -> float:
     machine is not mistaken for a slower scanner."""
     if not CALIB.exists():
         write_atomic(CALIB, np.random.default_rng(0).bytes(64 << 20))
-    t = time.perf_counter()
-    subprocess.run((taskset(cpu) if cpu is not None else []) + ["sha256sum", str(CALIB)], stdout=subprocess.DEVNULL, check=True)
-    return (time.perf_counter() - t) * 1000
+    ts = []
+    for _ in range(3):  # the median of three, so one preemption does not swing it
+        t = time.perf_counter()
+        subprocess.run((taskset(cpu) if cpu is not None else []) + ["sha256sum", str(CALIB)], stdout=subprocess.DEVNULL, check=True)
+        ts.append((time.perf_counter() - t) * 1000)
+    return float(np.median(ts))
 
 
 def timed_runs(run_once, repeats: int) -> dict:

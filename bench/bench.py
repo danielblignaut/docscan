@@ -40,6 +40,7 @@ class Ctx:
     jobs: int
     repeats: int
     skip_clips: bool = False
+    speed_only: bool = False
     notes: list[str] = field(default_factory=list)
 
 
@@ -227,13 +228,14 @@ def main():
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--no-wasm", action="store_true")
     ap.add_argument("--e2e", action="store_true")
+    ap.add_argument("--speed-only", action="store_true", help="only the timing passes (and wasm unless --no-wasm): no accuracy")
     ap.add_argument("--out")
     args = ap.parse_args()
     suites = SUITES if args.suite == "all" else args.suite.split(",")
     splits = ["dev", "test"] if args.split == "both" else [args.split]
     repeats = args.repeats or (2 if args.quick else 5)
     common.Cache.enabled = not args.no_cache
-    ctx = Ctx(splits=splits, quick=args.quick, jobs=args.jobs, repeats=repeats)
+    ctx = Ctx(splits=splits, quick=args.quick, jobs=args.jobs, repeats=repeats, speed_only=args.speed_only)
     sets = sorted({s for su in suites for sp in splits for s in SETS_OF[su][sp]})
     result = {"meta": meta(args, sets), "metrics": {}}
     t_all = time.time()
