@@ -247,6 +247,15 @@ fn number(s: &str, max: u32) -> Option<u32> {
 fn date_word(word: &str) -> Option<Date> {
     let t = word.trim_matches(|c: char| !c.is_alphanumeric());
     let p: Vec<&str> = t.split(['/', '-', '.']).collect();
+    // One of a numeric date's two separators lost ("06.082026", "0103.2026"):
+    // eight digits that read as day, month and a year 20xx.
+    if p.len() == 2 && p.iter().all(|x| x.chars().all(|c| c.is_ascii_digit())) && p[0].len() + p[1].len() == 8 && matches!(p[0].len(), 2 | 4) {
+        let d: String = p.concat();
+        if d[4..6] == *"20" {
+            return Date::new(d[4..].parse().ok()?, number(&d[2..4], 12)?, number(&d[..2], 31)?);
+        }
+        return None;
+    }
     if p.len() != 3 {
         return None;
     }
@@ -357,6 +366,9 @@ mod ocr_date_tests {
         assert_eq!(parse_date("14 0CTOBER 2026"), Date::new(2026, 10, 14));
         assert_eq!(parse_date("September 16.2026"), Date::new(2026, 9, 16));
         assert_eq!(parse_date("Account 212026"), None);
+        assert_eq!(parse_date("06.082026"), Date::new(2026, 8, 6));
+        assert_eq!(parse_date("0103.2026"), Date::new(2026, 3, 1));
+        assert_eq!(parse_date("1234.5678"), None);
     }
 }
 
