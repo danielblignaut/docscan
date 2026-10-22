@@ -315,6 +315,17 @@ def run_jsonl_sharded(cmd: list[str], items: list[str], jobs: int = JOBS, env: d
     with ThreadPoolExecutor(jobs) as ex:
         parts = list(ex.map(lambda sh: _run_shard(cmd, sh, env or env1(), list_arg, item_timeout), shards))
     out = [x for p in parts for x in p]
+    # Every item must come back. One that did not (seen once, not reproduced)
+    # is run again alone; if it still prints nothing it is recorded as a crash.
+    got = {r.get("path") for r in out}
+    missing = [p for p in items if p not in got]
+    if missing:
+        log(f"  WARNING: {len(missing)} items returned no result (e.g. {missing[0]}); running each again alone")
+        with ThreadPoolExecutor(jobs) as ex:
+            again = [x for part in ex.map(lambda p: _run_shard(cmd, [p], env or env1(), list_arg, item_timeout), missing) for x in part]
+        out += again
+        got |= {r.get("path") for r in again}
+        out += [{"path": p, "crash": True, "error": "no output, twice"} for p in missing if p not in got]
     pos = {p: i for i, p in enumerate(items)}
     out.sort(key=lambda r: pos.get(r.get("path"), 1 << 30))
     return out
