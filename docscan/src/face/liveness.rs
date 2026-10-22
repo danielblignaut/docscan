@@ -14,14 +14,15 @@
 //!
 //! The checks, scored over the whole session:
 //! - **coverage**: the share of segments lit;
-//! - **3-D motion** (`planarity`): a flat photo or screen, however it is moved
+//! - **3-D motion** (`planarity`; **off by default**, research-only: see
+//!   `PLANAR_PARALLAX_DEFAULT` and `face/PATENTS.md`): a flat photo or screen, however it is moved
 //!   or tilted, moves its landmarks by one homography between two frames; a
 //!   real head turning shows parallax (the nose moves against the cheeks)
 //!   that no homography explains. The residual of a homography fitted from
 //!   the reference frame's rigid landmarks to each turned frame's, in
 //!   canonical-face centimetres, must be large enough at the turned frames;
-//! - **anti-spoofing**: the MiniFASNet pair's live probability, averaged over
-//!   sampled near-frontal frames;
+//! - **anti-spoofing**: the MiniFASNet pair's live probability on frames
+//!   sampled across the whole sweep (every pose), decided on a low quantile;
 //! - **continuity**: no gap with the face lost for long, no jump of the face
 //!   between consecutive frames that a head cannot make (a spliced or
 //!   switched stream), timestamps that increase;
@@ -68,8 +69,20 @@ pub struct Config {
     pub min_identity: f32,
     /// Run anti-spoofing at most this often (ms).
     pub antispoof_every_ms: f64,
+    /// The `3d_motion` check: texture points re-found in turned frames and a
+    /// small residual from one homography read as a flat spoof. **Near
+    /// granted patents** (NEC US8860795, IBM US9898674; `face/PATENTS.md`):
+    /// read that file before turning it on in a product.
+    pub planar_parallax: bool,
     /// Measure texture parallax on every this-many-th turned frame.
     pub parallax_every: usize,
+    /// Score anti-spoofing on every pose of the sweep and the finish (at
+    /// most every `antispoof_every_ms`), not only near-frontal frames, and
+    /// decide on the `antispoof_quantile` of the samples rather than the
+    /// lowest one. A print or screen shows its texture at every angle; a
+    /// face's live probability dips only on a frame or two.
+    pub antispoof_all_poses: bool,
+    pub antispoof_quantile: f32,
 }
 
 impl Default for Config {
@@ -85,13 +98,26 @@ impl Default for Config {
             max_ms: 60_000.0,
             require_blink: false,
             min_parallax: 0.06,
-            min_antispoof: 0.5,
+            min_antispoof: super::antispoof::session_threshold(),
             min_identity: 0.5,
             antispoof_every_ms: 250.0,
+            planar_parallax: PLANAR_PARALLAX_DEFAULT,
             parallax_every: 2,
+            antispoof_all_poses: true,
+            antispoof_quantile: 0.1,
         }
     }
 }
+
+/// Whether the homography-residual `3d_motion` check runs by default: **no**
+/// (2026-10-23). The test, a single homography fitted to points re-found in
+/// two views and a small residual read as a flat spoof, is likely within
+/// granted claims (NEC US8860795 claim 1, to 2031; IBM US9898674 claims
+/// 10/13, to 2036; `face/PATENTS.md`). It stays as research code behind
+/// `Config::planar_parallax`. On the synthetic DEV clips the all-poses
+/// anti-spoofing quantile (`antispoof_all_poses`) stops every curved print
+/// the ring lets through without it (`docs/improvements-face.md`).
+pub const PLANAR_PARALLAX_DEFAULT: bool = false;
 
 /// The points re-found by texture for the parallax measure: the rigid ones,
 /// plus textured points inside the face (nostrils, nose sides, cheeks).
@@ -225,6 +251,8 @@ pub struct Session {
     segments: Vec<bool>,
     spoof: Vec<f32>,
     last_spoof_ts: f64,
+    /// The screen direction of each anti-spoofing sample.
+    spoof_dirs: Vec<[f32; 2]>,
     start_kept: Vec<Kept>,
     finish_kept: Vec<Kept>,
     ear_open: Vec<f32>,
@@ -282,6 +310,7 @@ impl Session {
             samples: Vec::new(),
             spoof: Vec::new(),
             last_spoof_ts: f64::MIN,
+            spoof_dirs: Vec::new(),
             start_kept: Vec::new(),
             finish_kept: Vec::new(),
             ear_open: Vec::new(),
@@ -422,14 +451,16 @@ impl Session {
 
         // Anti-spoofing on near-frontal frames, at most every `antispoof_every_ms`.
         if let Some(a) = engine.antispoof.as_ref() {
-            if near_frontal && ts - self.last_spoof_ts >= self.config.antispoof_every_ms && self.phase != Phase::Centre {
+            let pose_ok = if self.config.antispoof_all_poses { true } else { near_frontal };
+            if pose_ok && ts - self.last_spoof_ts >= self.config.antispoof_every_ms && matches!(self.phase, Phase::Sweep | Phase::Finish) {
                 self.last_spoof_ts = ts;
                 self.spoof.push(a.score(frame, obs.bbox)?.real);
+                self.spoof_dirs.push(dir);
             }
         }
 
         // Texture parallax on turned frames (every `parallax_every`-th, to bound the cost).
-        if matches!(self.phase, Phase::Sweep | Phase::Finish) {
+        if self.config.planar_parallax && matches!(self.phase, Phase::Sweep | Phase::Finish) {
             let mag = (dir[0].powi(2) + dir[1].powi(2)).sqrt();
             if mag >= self.config.min_angle * 0.7 {
                 self.turned += 1;
@@ -489,7 +520,9 @@ impl Session {
                             r.dir = [0.0, 0.0];
                             self.reference = Some(r);
                             let pts: Vec<[f32; 2]> = PARALLAX_POINTS.iter().map(|&i| [obs.points[i][0], obs.points[i][1]]).collect();
-                            self.parallax_ref = Some(parallax::Reference::new(frame, &pts, iod));
+                            if self.config.planar_parallax {
+                                self.parallax_ref = Some(parallax::Reference::new(frame, &pts, iod));
+                            }
                             self.parallax_ref_points = pts;
                             self.phase = Phase::Sweep;
                             self.good_run = 0;
@@ -599,6 +632,26 @@ impl Session {
         &self.parallax_dirs
     }
 
+    /// The screen direction (degrees right, up) of each anti-spoofing sample.
+    pub fn antispoof_directions(&self) -> &[[f32; 2]] {
+        &self.spoof_dirs
+    }
+
+    /// The anti-spoofing decision score: the configured low quantile of the
+    /// samples (all poses), or the lowest near-frontal sample.
+    pub fn antispoof_score(&self) -> Option<f32> {
+        if self.spoof.is_empty() {
+            return None;
+        }
+        let mut v = self.spoof.clone();
+        v.sort_by(f32::total_cmp);
+        if !self.config.antispoof_all_poses {
+            return Some(v[0]);
+        }
+        let k = (self.config.antispoof_quantile.clamp(0.0, 1.0) * (v.len() - 1) as f32).floor() as usize;
+        Some(v[k])
+    }
+
     /// The passive live probability of each sampled frame.
     pub fn antispoof_samples(&self) -> &[f32] {
         &self.spoof
@@ -628,35 +681,41 @@ impl Session {
         });
         let par = self.parallax();
         let planar = self.planarity();
-        checks.push(Check {
-            name: "3d_motion",
-            passed: par.is_some_and(|p| p >= c.min_parallax),
-            required: true,
-            score: par.unwrap_or(0.0),
-            threshold: c.min_parallax,
-            detail: match par {
-                Some(p) => format!(
-                    "the face's texture departs from a plane by {:.1}% of the eye distance over {} turned frames (landmarks alone: {:.2} cm)",
-                    p * 100.0,
-                    self.parallax.len(),
-                    planar.unwrap_or(0.0)
-                ),
-                None => "not enough turned frames".into(),
-            },
-        });
+        if c.planar_parallax {
+            checks.push(Check {
+                name: "3d_motion",
+                passed: par.is_some_and(|p| p >= c.min_parallax),
+                required: true,
+                score: par.unwrap_or(0.0),
+                threshold: c.min_parallax,
+                detail: match par {
+                    Some(p) => format!(
+                        "the face's texture departs from a plane by {:.1}% of the eye distance over {} turned frames (landmarks alone: {:.2} cm)",
+                        p * 100.0,
+                        self.parallax.len(),
+                        planar.unwrap_or(0.0)
+                    ),
+                    None => "not enough turned frames".into(),
+                },
+            });
+        }
         if engine.antispoof.is_some() {
-            // Every sampled near-frontal frame must look live: an attack has
-            // only to look live on average, so the weakest frame decides.
+            // An attack has only to look live on average, so a low quantile
+            // of the samples decides (the lowest near-frontal sample when
+            // `antispoof_all_poses` is off).
             let mean = if self.spoof.is_empty() { 0.0 } else { self.spoof.iter().sum::<f32>() / self.spoof.len() as f32 };
-            let min = self.spoof.iter().copied().fold(f32::INFINITY, f32::min);
-            let min = if self.spoof.is_empty() { 0.0 } else { min };
+            let score = self.antispoof_score();
             checks.push(Check {
                 name: "antispoof",
-                passed: !self.spoof.is_empty() && min >= c.min_antispoof,
+                passed: score.is_some_and(|s| s >= c.min_antispoof),
                 required: true,
-                score: min,
+                score: score.unwrap_or(0.0),
                 threshold: c.min_antispoof,
-                detail: format!("lowest live probability over {} sampled frames (mean {:.2})", self.spoof.len(), mean),
+                detail: if c.antispoof_all_poses {
+                    format!("{:.0}th-percentile live probability over {} frames sampled across the sweep (mean {:.2})", c.antispoof_quantile * 100.0, self.spoof.len(), mean)
+                } else {
+                    format!("lowest live probability over {} sampled near-frontal frames (mean {:.2})", self.spoof.len(), mean)
+                },
             });
         }
         let continuity_ok = self.jumps == 0 && self.max_gap_ms <= 1500.0 && self.non_monotonic == 0 && self.multi_face <= 1;

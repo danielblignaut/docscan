@@ -47,7 +47,7 @@ fn args() -> Args {
             "--aligned" | "--flip" | "--no-antispoof" | "--largest" => {
                 flags.insert(a.clone(), "1".into());
             }
-            "--shard" | "--every" | "--fps" | "--box-scale" | "--raw-eer" | "--start" | "--align" => {
+            "--shard" | "--every" | "--fps" | "--box-scale" | "--raw-threshold" | "--start" | "--align" => {
                 flags.insert(a.clone(), it.next().unwrap());
             }
             _ => rest.push(a),
@@ -67,8 +67,8 @@ fn engine(a: &Args, need_rec: bool) -> anyhow::Result<FaceEngine> {
             if let Some(k) = a.flags.get("--box-scale") {
                 s.box_scale = k.parse()?;
             }
-            if let Some(k) = a.flags.get("--raw-eer") {
-                s.raw_eer = k.parse()?;
+            if let Some(k) = a.flags.get("--raw-threshold") {
+                s.raw_threshold = k.parse()?;
             }
             e.antispoof = Some(s);
         }
@@ -280,7 +280,7 @@ fn main() -> anyhow::Result<()> {
             let par: Vec<_> = s.parallax_samples().iter().map(|(r, m)| serde_json::json!([r, m])).collect();
             println!(
                 "{}",
-                serde_json::json!({"clip": a.rest[1], "result": r, "residuals": res, "parallax": par, "parallax_dirs": s.parallax_directions(), "outliers": s.outlier_samples(), "antispoof": s.antispoof_samples(), "ms_median": ms.get(ms.len() / 2), "trace": if std::env::var("TRACE").is_ok() { serde_json::json!(trace) } else { serde_json::json!(null) }})
+                serde_json::json!({"clip": a.rest[1], "result": r, "residuals": res, "parallax": par, "parallax_dirs": s.parallax_directions(), "outliers": s.outlier_samples(), "antispoof": s.antispoof_samples(), "antispoof_dirs": s.antispoof_directions(), "ms_median": ms.get(ms.len() / 2), "trace": if std::env::var("TRACE").is_ok() { serde_json::json!(trace) } else { serde_json::json!(null) }})
             );
         }
         _ => anyhow::bail!("usage: see the header of examples/face.rs"),
