@@ -260,3 +260,32 @@ The public set's Codabar recall is 0% for every decoder (zxing-cpp too): its
 truth keeps the start/stop characters (zxing-cpp's convention) while the
 scanner, rxing and the synthetic set strip them, so its 10 Codabar codes count
 as misses and their reads as false decodes. A harness issue, left as it is.
+
+## TEST (run once, change final)
+
+`bench/run.sh --suite barcode --split test` on `5aab03c`
+(`5aab03c684-20261022T111246Z.json`), against main's baseline at `83dd990`
+(`83dd9907fb-20261021T193347Z.json`, the same scanner as the DEV reference).
+Reported as they are:
+
+| Metric | Before | After | Δ (95% CI) |
+|---|---|---|---|
+| synth recall | 61.2% | 70.2% | +9.0 pt [+6.7, +11.3] |
+| synth all codes | 44.4% | 56.0% | +11.7 pt [+7.5, +15.8] |
+| synth false-decode frames | 8.3% | 1.0% | −7.3 pt [−10.3, −4.3] |
+| synth Aztec / EAN-8 / UPC-E | 10.0 / 61.1 / 56.0% | 38.0 / 87.0 / 80.0% | +28.0 / +25.9 / +24.0 pt |
+| synth labelled: value / label and value / unread | 74.3 / 55.6 / 56.6% | 77.8 / 68.4 / 66.0% | +3.5 / +12.9 / +9.4 pt |
+| public recall | 76.9% | 78.6% | +1.7 pt [−1.1, +4.6] |
+| public false-decode frames | 3.6% | 1.9% | −1.7 pt [−3.3, −0.3] |
+| public negatives with a decode | 12.5% | 0% | −12.5 pt |
+| public Aztec | 44.7% | 60.5% | +15.8 pt [+5.3, +29.0] |
+| **public UPC-E** | **66.7%** | **47.6%** | **−19.0 pt [−38.1, −4.8]: regressed** |
+| public EAN-8 | 88.9% | 77.8% | −11.1 pt [−33.3, 0], within CI |
+
+The public UPC-E loss (4 of 21 real photos) is most likely the rule that a
+UPC-E or EAN-8 must be read again in another third of its bar patch (§3c),
+which on DEV cost one real UPC-E and removed a false one; on the real photos
+it costs more. Not tuned on TEST. The next step, on DEV, is to require the
+second reading only where the read covers less of its patch or there is no
+quiet zone, or to accept a single reading whose digits the rows above and
+below agree with partly.
