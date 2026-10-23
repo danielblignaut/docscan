@@ -134,3 +134,14 @@ On the synthetic bank-statement camera clip, the optional reader reported
 with two. These are individual headless desktop Chrome measurements under
 shared load, **not** a calibrated speed comparison or total browser RAM, and
 not measurements on a phone. GitHub Pages uses the single-threaded build.
+
+### Upload navigation regression
+
+The additional browser case starts a text photo read and opens another
+scanner before it completes. The old App component failed: photo completion
+replaced the new camera screen. The App now aborts publication of pending
+uploads on opening a scanner, returning home, or browser Back/Forward, and
+revokes discarded result image URLs. Worker computation can finish, but its
+late result cannot change the newer screen or push history. The browser test
+observes the worker's text response before asserting that the new camera
+remains, so it cannot pass merely because OCR has not finished yet.

@@ -5,7 +5,7 @@ import { spawn } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright-core";
 
-const server = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", "4186", "--strictPort"], { cwd: new URL("../", import.meta.url), stdio: "pipe" });
+const server = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", "4186", "--strictPort", ...(process.env.DOCSCAN_TEST_BUILD ? ["--outDir", process.env.DOCSCAN_TEST_BUILD] : [])], { cwd: new URL("../", import.meta.url), stdio: "pipe" });
 await new Promise((resolve, reject) => {
   server.stdout.on("data", (d) => String(d).includes("4186") && resolve());
   server.on("exit", (code) => reject(new Error(`preview exited ${code}`)));
@@ -24,6 +24,16 @@ page.on("pageerror", (e) => errors.push(e.message));
 await page.addInitScript(() => {
   window.__textEvents = [];
   window.__tracks = [];
+  window.__textReadResponses = 0;
+  const NativeWorker = window.Worker;
+  window.Worker = class extends NativeWorker {
+    constructor(...args) {
+      super(...args);
+      this.addEventListener("message", (event) => {
+        if (event.data.kind === "result" && ["text_page", "text_v6"].includes(event.data.request)) window.__textReadResponses++;
+      });
+    }
+  };
   const get = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
   navigator.mediaDevices.getUserMedia = async (...args) => {
     const stream = await get(...args);
@@ -78,6 +88,19 @@ try {
   assert.match(await page.getByLabel("Extracted text", { exact: true }).inputValue(), /SAMPLE INVOICE/);
   assert.equal(await page.evaluate(() => window.__textEvents.length), 0, "abandoned capture must not publish results");
   console.log("PASS leaving during OCR cancels capture completion");
+  // Upload reads also must not take over a different scanner opened while
+  // the worker is busy. New camera frames prove the old request has drained.
+  await page.goto(`http://localhost:4186/?threads=${threads}&textEngine=${engine}`);
+  await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
+  await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
+  await page.locator('[data-scanner="barcodes"]').click();
+  await page.locator('[data-testid="capture"][data-scanner="barcodes"]').waitFor();
+  await page.waitForFunction(() => document.querySelector('[data-testid="results"]') || (window.__textReadResponses > 0 && window.__docscan.frames.length >= 3), null, { timeout: 120000 });
+  assert.equal(await page.locator('[data-testid="capture"][data-scanner="barcodes"]').count(), 1);
+  assert.equal(await page.locator('[data-testid="results"]').count(), 0);
+  await page.locator('[data-testid="capture-home"]').click();
+  await page.locator('[data-testid="home"]').waitFor();
+  console.log("PASS leaving a photo read cannot replace a newer camera flow");
   assert.deepEqual(errors, []);
 } finally {
   await browser.close();

@@ -145,3 +145,13 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
   }
   return { kind: "id", scanner, captured, meta: meta(files.length, files.length) };
 }
+
+
+/** A discarded upload must release the image URLs it would have displayed. */
+export function releasePhotoOutcome(outcome: Outcome): void {
+  const urls = outcome.kind === "id" ? outcome.captured.map((c) => c.imageUrl)
+    : outcome.kind === "address" ? [outcome.captured.imageUrl]
+    : outcome.kind === "face" ? [...(outcome.photos?.map((p) => p.imageUrl) ?? []), outcome.document?.imageUrl]
+    : [outcome.imageUrl];
+  for (const url of new Set(urls)) if (url?.startsWith("blob:")) URL.revokeObjectURL(url);
+}
