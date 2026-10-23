@@ -39,3 +39,25 @@ and they stay in `/tmp`.
 
 `/tmp/docscan-real-face/` did not exist during this work, so no real photos
 of the user were evaluated.
+
+## Public-data expansion (23 October 2026)
+
+The earlier cleanup above describes the historical runs. The new bounded
+research evaluation keeps temporary owner-private data under
+`/tmp/docscan-public-data/` while the improvement loop is active. No photos,
+videos, identity-indexed scores or templates are committed. Acquisition and
+aggregate measurements are reproducible with
+[`experiments/public_face`](../experiments/public_face/README.md).
+
+| Dataset | Actual acquisition | Use and limitations |
+|---|---|---|
+| Face Research Lab London Set v5, DeBruine & Jones (2017), CC BY 4.0 | 204 frontal neutral/smile photos from the author's pinned `webmorphR.stim` release, 95.2 MB | Research-consented adults. 51 calibration / 51 validation identities; real matching pairs and synthetic grayscale/resolution stress. No biometric-commercial-consent inference, shipped training, cross-device claims, or TEST access. |
+| Axon Labs public display-replay preview | Five genuine selfies and five replay videos, 163.8 MB; official owner HF revision and LFS SHA-256 pinned | Owner's public evaluation sample. Sample card tagged CC BY 4.0, full collection commercially licensed; source consent and evaluation statements preserved separately. Local passive-model evaluation only, no training or redistribution. Five media per class cannot establish frontier performance. |
+| WFAS | Not acquired | Official InsightFace rules require a signed agreement and restrict usage to academic research. The paper's CC-source description does not supersede these terms. |
+| SynthASpoof | Not acquired | Official project requires a request and expressly excludes product development under its CC BY-NC-SA research terms. |
+
+The new still-photo benchmark contains no presentation attacks. The replay
+preview contains no dynamic genuine challenge trials, so it cannot estimate
+active-liveness BPCER. Do not convert either limitation into an apparently
+perfect liveness result. Report passive per-video APCER/BPCER separately from
+the session's physical parallax and challenge checks.
