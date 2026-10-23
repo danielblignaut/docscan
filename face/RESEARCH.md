@@ -200,3 +200,50 @@ browser: camera label, frame timing (requestVideoFrameCallback) → integrity
 
 Everything runs in one wasm (docscan, Rust, rten) in a Web Worker; nothing
 leaves the device; models are served from the app's own origin.
+
+
+## 2026-10-23: verification boundaries and the remaining evidence gap
+
+A sweep with missing anti-spoofing or recognition models previously omitted
+those checks. It now reports both as required failures. Invalid templates
+(empty, zero, non-finite, or different dimensions) cannot match; the demo
+also checks model names before comparing embeddings. A successful liveness
+session with a failed or missing face match now emits `passed: false` on the
+verification completion event. These are acceptance-boundary corrections;
+no recognition/PAD model or decision threshold changed in this correction.
+
+The current [NIST identity-proofing guidance](https://pages.nist.gov/800-63-4/sp800-63a/ial-general/)
+separates remote presentation-attack detection from sensor integrity and
+injected-media protection. It requires standardized PAD performance testing;
+a browser head-turn demonstration is not evidence that those requirements
+are met. Our concrete corrections close fail-open paths but do not provide
+sensor attestation or deepfake detection.
+
+The next model-quality milestone needs representative real document/selfie
+pairs and real presentation attacks across devices and demographics, with
+independent evaluation. The existing DEV document pairs are synthetic
+print/capture transforms of LFW; active-liveness clips are procedural heads.
+The CelebA-Spoof metric is an image-level result at calibrated score 0.5;
+it is not the session-level operating point (a higher score and a low
+quantile across frames). Its model score remapping does not establish that
+the score is a calibrated probability in the target deployment. Do not
+present these benchmarks as production FAR, certified PAD, or frontier
+performance. No TEST results were used to choose these corrections.
+
+Regression checks: `cargo test --lib face::` under `docscan/`, and
+`node --test demo/test/face-matching.test.mjs` from the root (Node 22.18+ for
+native TypeScript stripping), followed by the unchanged DEV benchmark.
+
+
+The recovered full DEV runs also permit auditing the preceding crop and
+session-default changes with the unchanged referee: `5196114514` (same face
+source and model configuration as `6070c92`/main) versus `8d801ae52d`.
+`bench/compare.py` reports **improved**, with no significant regressions:
+image-level PAD AUC 85.76% → 90.77% (paired 95% CI for the difference
++4.09 to +5.98 percentage points), APCER 32.66% → 24.43% (difference CI
+−9.86 to −6.37 points), and ACER 21.62% → 17.32%. Recognition and synthetic
+session outcomes are unchanged within their intervals. This supports the
+measured improvement on DEV, while the remaining image-level attack
+acceptance rate still prevents a strong deployment-security claim.
+The geometric check's patent discussion remains a research concern, not
+a legal clearance; no freedom-to-operate conclusion follows from these tests.

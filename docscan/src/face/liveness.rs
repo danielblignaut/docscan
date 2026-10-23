@@ -30,6 +30,9 @@
 //!   from the centre and finish phases agree);
 //! - **blink**: counted (eye aspect ratio against the session's own open-eye
 //!   baseline); required only when the config asks.
+//!
+//! Anti-spoofing and identity are required even when their models are absent:
+//! missing evidence fails the session instead of silently omitting a check.
 
 use serde::{Deserialize, Serialize};
 
@@ -640,7 +643,7 @@ impl Session {
     /// The anti-spoofing decision score: the configured low quantile of the
     /// samples (all poses), or the lowest near-frontal sample.
     pub fn antispoof_score(&self) -> Option<f32> {
-        if self.spoof.is_empty() {
+        if self.spoof.is_empty() || self.spoof.iter().any(|s| !s.is_finite() || !(0.0..=1.0).contains(s)) {
             return None;
         }
         let mut v = self.spoof.clone();
@@ -699,7 +702,7 @@ impl Session {
                 },
             });
         }
-        if engine.antispoof.is_some() {
+        {
             // An attack has only to look live on average, so a low quantile
             // of the samples decides (the lowest near-frontal sample when
             // `antispoof_all_poses` is off).
@@ -707,11 +710,13 @@ impl Session {
             let score = self.antispoof_score();
             checks.push(Check {
                 name: "antispoof",
-                passed: score.is_some_and(|s| s >= c.min_antispoof),
+                passed: engine.antispoof.is_some() && score.is_some_and(|s| s >= c.min_antispoof),
                 required: true,
                 score: score.unwrap_or(0.0),
                 threshold: c.min_antispoof,
-                detail: if c.antispoof_all_poses {
+                detail: if engine.antispoof.is_none() {
+                    "anti-spoofing model not loaded".into()
+                } else if c.antispoof_all_poses {
                     format!("{:.0}th-percentile live probability over {} frames sampled across the sweep (mean {:.2})", c.antispoof_quantile * 100.0, self.spoof.len(), mean)
                 } else {
                     format!("lowest live probability over {} sampled near-frontal frames (mean {:.2})", self.spoof.len(), mean)
@@ -730,7 +735,7 @@ impl Session {
                 self.jumps, self.max_gap_ms, self.non_monotonic, self.multi_face
             ),
         });
-        if engine.recogniser.is_some() {
+        {
             let start = self.start_kept.iter().max_by(|a, b| a.quality.total_cmp(&b.quality));
             let finish = self.finish_kept.iter().max_by(|a, b| a.quality.total_cmp(&b.quality));
             let sim = match (start, finish) {
@@ -739,11 +744,15 @@ impl Session {
             };
             checks.push(Check {
                 name: "identity",
-                passed: sim.is_some_and(|s| s >= c.min_identity),
+                passed: engine.recogniser.is_some() && sim.is_some_and(|s| s >= c.min_identity),
                 required: true,
                 score: sim.unwrap_or(0.0),
                 threshold: c.min_identity,
-                detail: "similarity of the face before and after the sweep".into(),
+                detail: if engine.recogniser.is_some() {
+                    "similarity of the face before and after the sweep".into()
+                } else {
+                    "recognition model not loaded".into()
+                },
             });
         }
         checks.push(Check {
@@ -816,4 +825,37 @@ fn portrait(frame: &Frame, points: &[[f32; 3]]) -> Vec<u8> {
     let h = PORTRAIT_H as f32 * k;
     let map = image::Affine([k, 0.0, cx - side / 2.0, 0.0, k, cy - h / 2.0]);
     image::warp_rgba(frame, &map, PORTRAIT_W, PORTRAIT_H)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn completed_sweep_requires_antispoof_and_identity_models() {
+        // Reproduce a completed, continuous ring without either model. It
+        // previously passed because both required checks were omitted.
+        let mut session = Session::new(Config::default());
+        session.phase = Phase::Done;
+        session.segments.fill(true);
+        let result = session.result(&FaceEngine::default());
+        assert!(result.completed);
+        assert!(!result.passed);
+        for name in ["antispoof", "identity"] {
+            let check = result.checks.iter().find(|c| c.name == name).unwrap();
+            assert!(check.required && !check.passed);
+            assert!(check.detail.contains("model not loaded"));
+        }
+    }
+
+    #[test]
+    fn malformed_antispoof_sample_cannot_hide_above_the_low_quantile() {
+        let mut session = Session::new(Config::default());
+        session.spoof = vec![0.9; 10];
+        assert_eq!(session.antispoof_score(), Some(0.9));
+        for invalid in [f32::NAN, f32::INFINITY, -0.1, 1.1] {
+            session.spoof[9] = invalid;
+            assert_eq!(session.antispoof_score(), None);
+        }
+    }
 }

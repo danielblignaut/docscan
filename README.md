@@ -892,8 +892,13 @@ face.threshold();                                     // the loaded model's thre
 
 The page gets `docscan:liveness` (`detail`: `passed`, the result with every
 check, `template`, `model`, `bestFrameUrl`) and then `docscan:complete`
-(with `match` for Face ID and Face vs ID document); the camera is released
-before the results screen opens.
+(with `match` for Face ID and Face vs ID document). For these verification
+flows, `docscan:complete.detail.passed` requires both successful liveness and
+a positive face match; a missing comparison fails. Templates must come from
+the same named model and have the same non-zero dimension and finite,
+values and a non-zero norm. The camera is released before the results screen opens.
+Missing anti-spoofing or recognition models produce failed required liveness
+checks; completing the head movement alone never passes.
 
 Natively, `examples/face.rs` runs the same code for evaluation: `photo`,
 `embed` (templates for a list of images), `liveness` (a session over a `.y4m`

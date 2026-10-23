@@ -10,7 +10,8 @@ import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { ScannerId } from "./scanners";
 import type { FaceClient } from "./face-client";
-import { documentMatch, matchEnrolments } from "./FaceFlow";
+import { documentMatch, matchEnrolments } from "./face-types";
+import { DOC_THRESHOLD } from "./face-models";
 import { listEnrolments } from "./face-store";
 import type { PhotoFace } from "./face-types";
 import type { AddressResult, Barcode, DocumentResult, Labelled, PageAnalysis } from "./types";
@@ -63,11 +64,11 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
         if (result.found) docPhoto = { label: "Identity document (flattened)", imageUrl: flatUrl, face: result };
       }
       const selfie = await read(files[1], "Selfie");
-      const match = selfie.face.found ? documentMatch(selfie.face.template, docPhoto.face) : null;
+      const match = selfie.face.found ? documentMatch(selfie.face.template, selfie.face.model, docPhoto.face, DOC_THRESHOLD) : null;
       return { kind: "face", flow: "facedoc", liveness: null, match, photos: [docPhoto, selfie], meta: meta(2) };
     }
     const photo = await read(files[0], "Photo");
-    const match = scanner === "faceid" && photo.face.found ? matchEnrolments(photo.face.template, await listEnrolments(), ready.threshold) : null;
+    const match = scanner === "faceid" && photo.face.found ? matchEnrolments(photo.face.template, photo.face.model, await listEnrolments(), ready.threshold) : null;
     return { kind: "face", flow: scanner, liveness: null, match, photos: [photo], meta: meta(1) };
   }
 

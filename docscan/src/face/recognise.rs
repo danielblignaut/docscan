@@ -184,10 +184,43 @@ pub fn flip_hwc(hwc: &[f32], w: usize, h: usize) -> Vec<f32> {
     out
 }
 
-/// Cosine similarity of two templates (both unit length: the dot product).
+/// Cosine similarity; NaN for empty, mismatched, non-finite or zero templates.
+/// Invalid templates must never pass a similarity threshold.
 pub fn similarity(a: &[f32], b: &[f32]) -> f32 {
+    if a.is_empty() || a.len() != b.len() || a.iter().chain(b).any(|v| !v.is_finite()) {
+        return f32::NAN;
+    }
     let dot: f32 = a.iter().zip(b).map(|(x, y)| x * y).sum();
     let na = a.iter().map(|x| x * x).sum::<f32>().sqrt();
     let nb = b.iter().map(|x| x * x).sum::<f32>().sqrt();
-    dot / (na * nb).max(1e-12)
+    if !na.is_finite() || !nb.is_finite() || na <= 0.0 || nb <= 0.0 {
+        return f32::NAN;
+    }
+    (dot / (na * nb)).clamp(-1.0, 1.0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::similarity;
+
+    #[test]
+    fn malformed_templates_never_match() {
+        for (a, b) in [
+            (vec![], vec![]),
+            (vec![1.0], vec![1.0, 0.0]),
+            (vec![1.0, 0.0], vec![1.0]),
+            (vec![0.0], vec![0.0]),
+            (vec![f32::NAN], vec![1.0]),
+            (vec![f32::INFINITY], vec![1.0]),
+        ] {
+            assert!(similarity(&a, &b).is_nan());
+        }
+    }
+
+    #[test]
+    fn cosine_is_scale_invariant_and_bounded() {
+        assert_eq!(similarity(&[1.0, 2.0], &[2.0, 4.0]), 1.0);
+        assert_eq!(similarity(&[1.0, 0.0], &[0.0, 1.0]), 0.0);
+        assert_eq!(similarity(&[1.0], &[-2.0]), -1.0);
+    }
 }

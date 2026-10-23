@@ -11,23 +11,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { FaceClient } from "./face-client";
 import { DOC_THRESHOLD, RECOGNISER } from "./face-models";
 import { type Enrolment, listEnrolments } from "./face-store";
-import { cosine, type PhotoFace, portraitUrl } from "./face-types";
+import { documentMatch, matchEnrolments, type PhotoFace, portraitUrl, verificationPassed } from "./face-types";
 import { FaceLiveness, type LivenessOutcome } from "./FaceLiveness";
 import { type Captured, IdCapture } from "./IdCapture";
 import type { CaptureMeta, Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 
-export type FaceFlowId = "liveness" | "faceid" | "facedoc";
+export type { FaceMatch } from "./face-types";
 
-export interface FaceMatch {
-  similarity: number;
-  threshold: number;
-  matched: boolean;
-  /** What the live face was compared with. */
-  against: string;
-  /** The other candidates, for Face ID with several enrolments. */
-  others?: { label: string; similarity: number }[];
-}
+export type FaceFlowId = "liveness" | "faceid" | "facedoc";
 
 export interface DocumentFace {
   imageUrl: string;
@@ -49,21 +41,6 @@ export async function imagePixels(url: string, maxSide = 1600): Promise<ImageDat
   ctx.drawImage(bmp, 0, 0, c.width, c.height);
   bmp.close();
   return ctx.getImageData(0, 0, c.width, c.height);
-}
-
-/** The best enrolment for a template, and the decision at the model's threshold. */
-export function matchEnrolments(template: number[], enrolments: Enrolment[], threshold: number): FaceMatch | null {
-  const usable = enrolments.filter((e) => e.template.length === template.length);
-  if (!usable.length) return null;
-  const scored = usable.map((e) => ({ label: e.label, similarity: cosine(template, e.template) })).sort((a, b) => b.similarity - a.similarity);
-  const best = scored[0];
-  return { similarity: best.similarity, threshold, matched: best.similarity >= threshold, against: best.label, others: scored.slice(1) };
-}
-
-export function documentMatch(template: number[], doc: PhotoFace): FaceMatch | null {
-  if (!doc.found || !doc.template.length || !template.length) return null;
-  const similarity = cosine(template, doc.template);
-  return { similarity, threshold: DOC_THRESHOLD, matched: similarity >= DOC_THRESHOLD, against: "the identity document's photo" };
 }
 
 export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; face: FaceClient; scanner: ScannerClient; onDone: (o: Outcome) => void }) {
@@ -117,9 +94,9 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
         window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: o.result, passed: o.passed } }));
         onDone({ kind: "face", flow, liveness: o, meta: meta(o) });
       } else if (flow === "faceid") {
-        const match = o.passed ? matchEnrolments(o.result.template, enrolRef.current, thresholdRef.current) : null;
+        const match = o.passed ? matchEnrolments(o.result.template, o.result.model, enrolRef.current, thresholdRef.current) : null;
         docscan().events.push({ type: "faceid", match });
-        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: o.result, passed: o.passed, match } }));
+        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: o.result, passed: verificationPassed(o.passed, match), match } }));
         onDone({ kind: "face", flow, liveness: o, match, meta: meta(o) });
       } else setStep("document");
     },
@@ -134,9 +111,9 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
       const image = await imagePixels(c.imageUrl);
       const { result } = await face.run<PhotoFace>({ kind: "photo", image });
       const doc: DocumentFace = { imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
-      const match = live.passed ? documentMatch(live.result.template, result) : null;
+      const match = live.passed ? documentMatch(live.result.template, live.result.model, result, DOC_THRESHOLD) : null;
       docscan().events.push({ type: "facedoc", found: result.found, match });
-      window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: live.passed, document: { kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
+      window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
       onDone({ kind: "face", flow, liveness: live, match, document: doc, meta: meta(live) });
     },
     [live, face, flow, onDone, meta],
