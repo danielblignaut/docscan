@@ -86,3 +86,11 @@ use the main benchmark's interleaved timing protocol for speed claims.
   in this iteration. Generated Photos provenance must stay attached to derivatives.
 - MIDV-2020's current official access form requires a separate user action;
   no access agreement has been accepted on the user's behalf.
+
+For `scan`, ignore the text-recovery summary (MRZ is emitted separately). Use
+`score_id.py RESULTS --output SCORED` for structured acceptance: all ten MRZ
+fields must match the source annotations and the document kind must be correct.
+An accepted passport with even one incorrect field is an `accepted_wrong`, and
+unsupported Estonian fronts form six negative acceptance cases. Both exact
+acceptance and wrong acceptance are reported over fixed denominators. This
+scorer is also frozen independently before scanner edits.
