@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import time
@@ -120,10 +121,15 @@ def rates(s, y, t):
 
 def score(rows, vec, found):
     output = {}
+    live_source = (ROOT / 'docscan/src/face/mod.rs').read_text()
+    doc_source = (ROOT / 'demo/src/face-models.ts').read_text()
+    live_threshold = float(re.search(r'model: \"sface_int8\", threshold: ([0-9.]+)', live_source).group(1))
+    doc_threshold = float(re.search(r'DOC_THRESHOLD = ([0-9.]+)', doc_source).group(1))
     for condition in CONDITIONS:
         cs, cy, ci = scores(rows, vec, found, 'calibration', condition)
         vs, vy, vi = scores(rows, vec, found, 'validation', condition)
-        result = {'calibration_counts': ci, 'validation_counts': vi, 'shipped_threshold': {'calibration': rates(cs, cy, 0.25), 'validation': rates(vs, vy, 0.25)}}
+        shipped = live_threshold if condition == 'original' else doc_threshold
+        result = {'calibration_counts': ci, 'validation_counts': vi, 'shipped_threshold': {'calibration': rates(cs, cy, shipped), 'validation': rates(vs, vy, shipped)}}
         for far in (0.001, 0.01):
             t = threshold_at_far(cs, cy, far)
             result[f'calibrated_far_{far}'] = {'calibration': rates(cs, cy, t), 'validation': rates(vs, vy, t)}
