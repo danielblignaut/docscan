@@ -52,7 +52,15 @@ def fetch():
         rows = list(pool.map(one, files))
     notice = urllib.request.urlopen(f'https://huggingface.co/datasets/{REPO}/raw/{REVISION}/README.md', timeout=60).read()
     (DATA / 'source-README.md').write_bytes(notice)
-    manifest = {'source': f'https://huggingface.co/datasets/{REPO}/tree/{REVISION}', 'revision': REVISION, 'provider': 'Axon Labs', 'license_tag': 'CC-BY-4.0', 'scope': 'public owner-provided evaluation preview; full collection commercially licensed; no training or redistribution', 'files': rows}
+    # Preserve the owner's broader terms as well as the sample card: a license
+    # tag alone does not resolve consent or the full collection's restrictions.
+    notices = {
+        'official-github': 'https://raw.githubusercontent.com/axonlab-data/face-anti-spoofing-dataset/e0c8bf8d0b3419806825bbc319575c05a17ca240/README.md',
+        'liveness-evaluation': 'https://huggingface.co/datasets/AxonData/liveness-detection-dataset/raw/c28f25c20328748b77c794853134e009df3b36fa/README.md',
+    }
+    for name, url in notices.items():
+        (DATA / ('source-' + name + '-README.md')).write_bytes(urllib.request.urlopen(url, timeout=60).read())
+    manifest = {'source': f'https://huggingface.co/datasets/{REPO}/tree/{REVISION}', 'revision': REVISION, 'provider': 'Axon Labs', 'license_tag': 'CC-BY-4.0', 'scope': 'public owner-provided evaluation preview; full collection commercially licensed; no training or redistribution', 'files': rows, 'source_notices': {name: {'url': url, 'sha256': digest(DATA / ('source-' + name + '-README.md'))} for name, url in notices.items()}}
     (DATA / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(json.dumps({'files': len(rows), 'bytes': sum(r['bytes'] for r in rows)}))
 
