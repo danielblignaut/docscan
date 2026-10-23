@@ -109,6 +109,13 @@ DEV and TEST were run with; moving to box 0.55 / 0.78 is the next change,
 to be validated on fresh (real, consented) data rather than by re-scoring
 the synthetic TEST.
 
+**Update 2026-10-23** (`docs/improvements-face.md`): the shipped code now
+crops at box 0.55 and calibrates the live probability so that 0.5 falls at
+the raw value where the DEV BPCER equals the old setting's (raw 0.59);
+the liveness session decides at the DEV equal-error point (raw 0.78) over
+frames sampled across every pose. The tables above are the 2026-10-21
+measurements.
+
 ## 3. Active liveness (synthetic clips; not comparable with published numbers)
 
 `face/synth/clips.py` renders every clip from procedural heads (no real
@@ -149,6 +156,13 @@ saturated).
 Not covered: 3-D masks and real-time 3-D deepfakes (geometrically correct by
 construction; need passive and injection defences), a replay on a large
 screen held far away, real people.
+
+**Update 2026-10-23:** the 3-D motion check described here is **off by
+default** after a patent review (`face/PATENTS.md` § 1: likely within NEC
+US8860795 and IBM US9898674 claims); the passive check now runs on every
+pose of the sweep and decides on the 10th percentile of its samples. The
+numbers above are the 2026-10-21 configuration; the current ones are in
+`docs/improvements-face.md` and `bench/`.
 
 ## 4. Document photo to live face (synthetic ID-photo renders of LFW pairs)
 
