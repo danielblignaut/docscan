@@ -11,6 +11,7 @@ import subprocess
 import urllib.parse
 import urllib.request
 
+import cv2
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -75,14 +76,25 @@ def prepare():
         if media['class'] == 'genuine':
             rows.append({'path': str(source), 'media': index, 'class': 'genuine', 'fraction': None})
             continue
-        probe = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'json', str(source)], capture_output=True, text=True, check=True)
-        duration = float(json.loads(probe.stdout)['format']['duration'])
+        video = cv2.VideoCapture(str(source))
+        count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        if not video.isOpened() or count <= 0:
+            raise ValueError('Video could not be decoded')
         for fraction in (0.25, 0.5, 0.75):
             p = DATA / 'frames-v1' / f'{index}-{fraction}.png'
             p.parent.mkdir(exist_ok=True)
             if not p.exists():
-                subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-threads', '1', '-ss', str(duration * fraction), '-i', str(source), '-frames:v', '1', '-vf', 'scale=960:960:force_original_aspect_ratio=decrease', '-threads', '1', str(p)], capture_output=True, check=True)
+                video.set(cv2.CAP_PROP_POS_FRAMES, int(count * fraction))
+                ok, frame = video.read()
+                if not ok:
+                    raise ValueError('Required frame unavailable; never skip silently')
+                h, w = frame.shape[:2]
+                scale = min(1.0, 960 / max(w, h))
+                frame = cv2.resize(frame, (round(w * scale), round(h * scale)), interpolation=cv2.INTER_AREA)
+                if not cv2.imwrite(str(p), frame):
+                    raise ValueError('Could not write decoded frame')
             rows.append({'path': str(p), 'media': index, 'class': 'replay', 'fraction': fraction})
+        video.release()
     (DATA / 'protocol-v1.json').write_text(json.dumps(rows, indent=2) + '\n')
     return rows
 
@@ -111,7 +123,7 @@ def evaluate(binary, report):
         genuine = [m['score'] for m in media if m['class'] == 'genuine']
         attack = [m['score'] for m in media if m['class'] == 'replay']
         metrics[name] = {'raw_threshold': threshold, 'genuine_media': len(genuine), 'attack_media': len(attack), 'bpcer': float(np.mean(np.array(genuine) < threshold)), 'apcer': float(np.mean(np.array(attack) >= threshold))}
-    result = {'protocol': 'axon-display-public-preview-v1', 'source_revision': REVISION, 'source_manifest_sha256': digest(DATA / 'manifest.json'), 'binary_sha256': digest(binary), 'model_sha256': digest(ROOT / 'models/face/minifasnet.onnx'), 'sample_unit': 'one genuine selfie or median of three fixed replay-video frames', 'frames': len(rows), 'missing_frames': sum(m['missing_frames'] for m in media), 'metrics': metrics, 'apcer_at_fixed_bpcer': None, 'limitations': ['Only five genuine photos and five attack videos; 20% error-rate steps', 'No verified identity mapping or held-out device split; no fitting or calibration', 'Still bona fide photos versus replay-video frames creates a media/source confound', 'Session threshold here evaluates passive component only, not active challenge/parallax', 'No dynamic bona fide videos, so active-session BPCER cannot be measured', 'No claim of SOTA, certification, or representative commercial accuracy']}
+    result = {'protocol': 'axon-display-public-preview-v1', 'source_revision': REVISION, 'opencv_version': cv2.__version__, 'source_manifest_sha256': digest(DATA / 'manifest.json'), 'binary_sha256': digest(binary), 'model_sha256': digest(ROOT / 'models/face/minifasnet.onnx'), 'sample_unit': 'one genuine selfie or median of three fixed replay-video frames', 'frames': len(rows), 'missing_frames': sum(m['missing_frames'] for m in media), 'metrics': metrics, 'apcer_at_fixed_bpcer': None, 'limitations': ['Only five genuine photos and five attack videos; 20% error-rate steps', 'No verified identity mapping or held-out device split; no fitting or calibration', 'Still bona fide photos versus replay-video frames creates a media/source confound', 'Session threshold here evaluates passive component only, not active challenge/parallax', 'No dynamic bona fide videos, so active-session BPCER cannot be measured', 'No claim of SOTA, certification, or representative commercial accuracy']}
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
