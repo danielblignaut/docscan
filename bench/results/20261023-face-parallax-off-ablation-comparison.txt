@@ -1,0 +1,13 @@
+A: 5196114514 2026-10-22T16:40:33Z load [63.84, 52.49, 39.42]  full
+B: 8d801ae52d 2026-10-23T00:21:51Z load [44.47, 33.91, 26.69]  full
+
+metric                    A       B       delta     95% CI          how     status  
+------------------------------------------------------------------------------------
+face.antispoof_dev.auc    85.76%  90.77%  +5.01 pt  [+4.09, +5.98]  paired  improved
+face.antispoof_dev.acer   21.62%  17.32%  -4.30 pt  [-5.53, -3.10]  paired  improved
+face.antispoof_dev.apcer  32.66%  24.43%  -8.23 pt  [-9.86, -6.37]  paired  improved
+(28 metrics unchanged within their CI; --all lists them)
+
+improvements: face.antispoof_dev.auc, face.antispoof_dev.acer, face.antispoof_dev.apcer
+
+verdict: improved

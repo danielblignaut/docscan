@@ -1,0 +1,51 @@
+Face evidence, 2026-10-23. All artifacts below are DEV only.
+
+Historical full DEV comparison (parallax-disabled ablation):
+  Baseline: 5196114514-20261022T164033Z.json
+  Candidate: 8d801ae52d-20261023T002151Z.json
+  Comparison: 20261023-face-parallax-off-ablation-comparison.txt
+The baseline has exactly the same face source, example and model configuration
+as 6070c92 and origin/main d5f0b9a. The unchanged referee reports improved
+image PAD, with no significant recognition or synthetic-liveness regression.
+The candidate in this comparison DISABLED physical parallax. It is historical
+experimental evidence, not the final shipped configuration or its speed.
+
+Final default retains physical parallax (PLANAR_PARALLAX_DEFAULT=true) alongside
+crop calibration and sweep-wide passive PAD. It also requires missing PAD and
+identity models to fail, rejects malformed and different-model comparisons,
+and emits verification success only after both liveness and a positive match.
+
+Fresh quick DEV comparison:
+  Baseline: 6070c9275a-20261023-main-face-dev-quick.json
+  Final source: 508582e (clean snapshot)
+  Candidate: 508582e-20261023-face-dev-quick.json
+  Comparison: 20261023-face-final-parallax-on-comparison.txt
+The baseline used bench/run.sh --suite face --split dev --quick --no-wasm
+--jobs 2. The final run followed cargo build --release --example face
+(CARGO_BUILD_JOBS=2), then the unchanged bench/bench.py with the same arguments.
+All datasets had already been verified by run.sh; the driver and manifests
+were unchanged. This avoids rebuilding unrelated native examples. Binary-keyed
+accuracy caches were cold for the final candidate.
+
+Validation outside the benchmark:
+  cargo test --lib face:: : 13 passed
+  node --test demo/test/face-{matching,document}.test.mjs : 7 passed
+  demo TypeScript build check: passed
+The native bona_fide_1000 DEV clip with --no-antispoof completed all 12 ring
+segments and passed identity/continuity, but correctly failed its required
+missing-model PAD check. This smoke check used 96c7f60's no-parallax setting;
+the default-on unit regression also requires the physical check.
+
+Limits: the final configuration has a quick DEV smoke run, not a new full DEV
+or TEST report. Quick liveness has only six genuine and ten attack clips.
+Document-photo pairs and active-liveness clips are synthetic. The preceding
+full real-image PAD result still accepts 24.43% of attacks at its image-level
+0.5 operating point; that is separate from the session's higher threshold
+and quantile. These results do not establish frontier or certified PAD,
+sensor integrity, real-document/phone performance, or patent clearance.
+No speed improvement is claimed from these separate runs.
+
+Final quick verdict: improved; no significant metric regressions.
+Image PAD AUC 85.99% -> 92.10%; APCER 33.23% -> 26.28%; BPCER 12.43% -> 6.51%.
+Recognition and synthetic-session decisions unchanged. Six genuine sessions
+passed and all ten synthetic attacks were rejected with physical parallax ON.
