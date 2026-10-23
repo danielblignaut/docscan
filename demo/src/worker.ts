@@ -1,3 +1,4 @@
+import { modelUrl } from "./model-url";
 /// <reference lib="webworker" />
 // Runs the docscan WebAssembly off the main thread, so the camera preview
 // never stutters while OCR runs. One request at a time: the page sends the
@@ -8,6 +9,7 @@ import wasmUrl from "docscan/docscan_bg.wasm?url";
 export type WorkerRequest =
   | { id: number; kind: "document"; image: ImageData; runOcr: boolean; expected: string }
   | { id: number; kind: "barcodes"; image: ImageData; formats: string[] }
+  | { id: number; kind: "text_page"; image: ImageData }
   | { id: number; kind: "text"; image: ImageData }
   | { id: number; kind: "labelled"; image: ImageData }
   | { id: number; kind: "flatten"; image: ImageData; corners: number[]; width: number; height: number }
@@ -49,7 +51,7 @@ async function loadScanner(threads: number): Promise<{ scanner: Scanner; threads
  * visit loads it offline. Reports download progress to the page.
  */
 async function fetchModel(name: string, optional = false): Promise<Uint8Array | null> {
-  const url = `${import.meta.env.BASE_URL}models/${name}`;
+  const url = modelUrl(`${name}`);
   const cache = typeof caches !== "undefined" ? await caches.open("docscan-models-v1").catch(() => null) : null;
   const hit = await cache?.match(url);
   if (hit) {
@@ -151,6 +153,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
         result = { ...out.result, customer: out.customer };
       } else result = scanner.address(bytes, width, height, req.today, req.method);
     }
+    else if (req.kind === "text_page") result = scanner.text_page(bytes, width, height);
     else result = scanner.text(bytes, width, height);
     post({ kind: "result", id: req.id, request: req.kind, ms: performance.now() - t0, result, memoryBytes: memory?.buffer.byteLength ?? 0 });
   } catch (e) {

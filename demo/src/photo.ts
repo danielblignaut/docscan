@@ -5,6 +5,7 @@ import { downscale, flattenPage, today } from "./AddressCapture";
 import { toJpeg } from "./camera";
 import { type Captured, FLOWS } from "./IdCapture";
 import { chooseExtractor, type Extractor } from "./models";
+import type { PageText } from "./TextCapture";
 import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { ScannerId } from "./scanners";
@@ -83,7 +84,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     return { kind: "barcodes", labels: scanner === "labels", barcodes, fields, imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
   }
 
-  if (scanner === "address") {
+  if (scanner === "address" || scanner === "text") {
     const file = files[0];
     const full = await pixels(file);
     const fullWidth = full.width;
@@ -102,6 +103,10 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
       image = await pixels(file);
       blob = await toJpeg(downscale(image, 1024));
       imageUrl = URL.createObjectURL(blob);
+    }
+    if (scanner === "text") {
+      const { result } = await client.run<PageText>({ kind: "text_page", image });
+      return { kind: "text", result, imageUrl, meta: meta(2, 1) };
     }
     const tRead = performance.now();
     const extractor = chooseExtractor((await client.ready).tagger, method);

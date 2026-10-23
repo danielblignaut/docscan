@@ -4,7 +4,7 @@
 import type { DocType } from "./IdCapture";
 import type { Extractor } from "./models";
 
-export type ScannerId = "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
+export type ScannerId = "text" | "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
 
 export interface ScannerInfo {
   id: ScannerId;
@@ -12,12 +12,13 @@ export interface ScannerInfo {
   title: string;
   description: string;
   /** The query parameter that opens it. */
-  param: ["doc", DocType] | ["mode", "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
+  param: ["doc", DocType] | ["mode", "text" | "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
   /** Which models it needs: none (barcodes alone), OCR, OCR plus the extractor, or the face models. */
   needs: "none" | "ocr" | "address" | "face";
 }
 
 export const SCANNERS: ScannerInfo[] = [
+  { id: "text", icon: "📄", title: "Document text", description: "Capture a printed page and copy its text, with word positions available", param: ["mode", "text"], needs: "ocr" },
   {
     id: "barcodes",
     icon: "▦",
@@ -80,6 +81,7 @@ const DOCS: DocType[] = ["smart_id", "green_book", "passport", "auto"];
 export function scannerFromUrl(search = location.search): ScannerId | null {
   const p = new URLSearchParams(search);
   const mode = p.get("mode");
+  if (mode === "text") return "text";
   if (mode === "multi") return "barcodes";
   if (mode === "labels") return "labels";
   if (mode === "address") return "address";

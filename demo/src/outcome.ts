@@ -1,5 +1,6 @@
 // What a finished scan hands to the results screen: the captured data, and
 // how it was captured (for the Metadata section).
+import type { PageText } from "./TextCapture";
 import type { AddressCaptured } from "./AddressCapture";
 import type { DocumentFace, FaceFlowId, FaceMatch } from "./FaceFlow";
 import type { LivenessOutcome } from "./FaceLiveness";
@@ -36,6 +37,7 @@ export interface SeenCode {
 }
 
 export type Outcome =
+  | { kind: "text"; result: PageText; imageUrl: string; meta: CaptureMeta }
   | { kind: "id"; scanner: ScannerId; captured: Captured[]; meta: CaptureMeta }
   | {
       kind: "face";

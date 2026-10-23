@@ -604,6 +604,7 @@ export function Results({ outcome, ready, onHome, face = null }: { outcome: Outc
         ? scannerById(outcome.flow).title
         : outcome.kind === "address"
           ? "Proof of address"
+          : outcome.kind === "text" ? "Document text"
           : outcome.labels
             ? "Device label"
             : "Barcodes";
@@ -614,6 +615,19 @@ export function Results({ outcome, ready, onHome, face = null }: { outcome: Outc
         <span className="muted">{outcome.meta.source === "photo" ? "from a photo" : `captured in ${secs(outcome.meta.captureMs)}`}</span>
       </header>
       <form className="results-form" onSubmit={(e) => e.preventDefault()}>
+        {outcome.kind === "text" && <section>
+          <Group title="Extracted text">
+            <p className="muted">{outcome.result.text ? "Check the reading against the page before using it." : "No text found. Try a closer, sharper photo with the text upright."}</p>
+            <textarea aria-label="Extracted text" readOnly value={outcome.result.text} rows={14} style={{ width: "100%", boxSizing: "border-box" }} />
+            <CopyButton value={outcome.result.text} />
+          </Group>
+          <details className="metadata"><summary>Captured page</summary><img className="captured" src={outcome.imageUrl} alt="Captured document" /></details>
+          <details className="metadata"><summary>Word positions and metadata</summary>
+            <p>Positions are in the enhanced, deskewed page ({outcome.result.page_size.join(" × ")} pixels). Lines follow rows; tables and columns may need rearranging.</p>
+            <CopyButton value={JSON.stringify(outcome.result, null, 2)} />
+            <Facts rows={[["Words", outcome.result.words.length], ["Lines", outcome.result.lines.length], ["OCR time", ms(outcome.result.timings_ms.ocr)], ...captureFacts(outcome.meta, ready)]} />
+          </details>
+        </section>}
         {outcome.kind === "id" && <IdResults outcome={outcome} ready={ready} />}
         {outcome.kind === "address" && <AddressResults outcome={outcome} ready={ready} />}
         {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} />}

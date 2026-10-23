@@ -1,5 +1,14 @@
 # docscan
 
+## General document text
+
+The **Document text** card (`?mode=text`) captures an upright printed page
+hands-free and returns copyable text plus word and line positions. Uploaded
+photos use the same enhanced page OCR. `Scanner.text_page` adds this richer
+API without changing `Scanner.text`. See
+[the API, DEV comparison and limitations](docs/improvements-general-text.md).
+
+
 Real-time identity document and barcode scanning in the browser, written in
 Rust and compiled to WebAssembly. It runs entirely on the device: no image
 leaves the phone.

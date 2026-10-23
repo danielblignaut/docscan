@@ -1,4 +1,5 @@
-import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -14,7 +15,22 @@ const isolation = {
   "Cross-Origin-Embedder-Policy": "require-corp",
 };
 
+// Cache keys follow the bytes actually served, so a returning visitor gets
+// updated OCR/tagger/face weights after deployment. Paths remain same-origin.
+const modelsRoot = fileURLToPath(new URL("./public/models/", import.meta.url));
+const modelRevisions: Record<string, string> = {};
+function hashModels(dir: string, prefix = "") {
+  if (!existsSync(dir)) return;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const key = `${prefix}${entry.name}`;
+    if (entry.isDirectory()) hashModels(`${dir}/${entry.name}`, `${key}/`);
+    else modelRevisions[key] = createHash("sha256").update(readFileSync(`${dir}/${entry.name}`)).digest("hex").slice(0, 16);
+  }
+}
+hashModels(modelsRoot);
+
 export default defineConfig({
+  define: { __MODEL_REVISIONS__: JSON.stringify(modelRevisions) },
   // GitHub Pages serves the demo under /<repo>/ (set by .github/workflows/pages.yml).
   base: process.env.DOCSCAN_BASE ?? "/",
   plugins: [react()],

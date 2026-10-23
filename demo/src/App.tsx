@@ -8,6 +8,7 @@ import { FaceClient } from "./face-client";
 import { type FaceFlowId, FaceFlow } from "./FaceFlow";
 import { Home } from "./Home";
 import { type Captured, type DocType, IdCapture } from "./IdCapture";
+import { TextCapture } from "./TextCapture";
 import { MultiBarcode } from "./MultiBarcode";
 import type { Extractor } from "./models";
 import type { CaptureMeta, Outcome, ReadyInfo } from "./outcome";
@@ -132,6 +133,8 @@ export function App() {
           <FaceFlow flow={s as FaceFlowId} face={faceClient()} scanner={client} onDone={onOutcome} />
         ) : s === "barcodes" || s === "labels" ? (
           <MultiBarcode client={client} labels={s === "labels"} onDone={onOutcome} />
+        ) : s === "text" ? (
+          <TextCapture client={client} onDone={onOutcome} />
         ) : s === "address" ? (
           <AddressCapture client={client} method={method} onDone={onAddress} />
         ) : (
