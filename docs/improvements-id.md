@@ -194,7 +194,26 @@ change, so that is load. Pushed as milestone 2.
 
 ## TEST
 
-Not run yet (see the end of the work).
+Run once, on `e764460` (milestones 1 and 2 on main), 2026-10-22T23:49Z,
+`bench/run.sh --suite id --split test` (logged in `TEST_ACCESS.log`; result
+`bench/results/e764460353-20261022T234920Z.json`). Against the official
+baseline's TEST (`baseline-c437ffa.json`), as compare.py gives it:
+
+| metric | baseline c437ffa | e764460 | 95% CI | |
+|---|---|---|---|---|
+| hard_test.accept_good | 82.14% | **91.67%** | +6.4 to +12.6 pt | improved |
+| hard_test.accepted_wrong | 5.24% | **1.43%** | -6.2 to -1.7 pt | improved |
+| hard_test.fields_exact | 91.34% | **96.48%** | +3.9 to +6.3 pt | improved |
+| hard_test.mrz_pass | 98.81% | 98.81% | | same |
+| hard_test.false_accept_bad | 7.50% | 9.17% | +0.0 to +4.2 pt | same |
+
+compare.py's overall verdict was "regressed" on two speed rows of other
+suites (`wasm.single.poa_page_ms`, `wasm.single.face_track_ms`, raw +115%
+and +120% against a run from a day earlier, at different load; no ID change
+touches either path). The TEST frames, truth and per-item outcomes were not
+opened; nothing was changed because of this run. false_accept_bad rose by
+1.7 pt (2 more of 120 bad frames accepted), within its interval; reported as
+it is.
 
 ## Next
 
