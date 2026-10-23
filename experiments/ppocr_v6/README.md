@@ -104,3 +104,36 @@ python3 experiments/ppocr_v6/build_probe.py
 ```
 
 No model binaries, generated pages or raw input tensors are committed.
+
+## Optional Rust engine follow-through
+
+Source commit `916a30b` adds `PaddleTextScanner`, a separate optional engine;
+existing OCR, ID and proof-of-address extraction retain their current models.
+Its public API, geometry conventions, explicit resource limits and numerical
+postprocessing differences are documented in `docscan/src/text_v6.md`.
+
+The final committed-source native run is retained in
+`evidence/native-results.json`: **all 12 fixed pages have zero normalized
+character errors, 100% word recall and no extra words**. This uses RTen and
+Rust preprocessing, geometry, crop sampling and CTC decoding end to end,
+without ONNX Runtime or Python in the application. The existing page engine's
+recorded score on those inputs is CER 0.2905% and word recall 99.1111%.
+
+All 91 native Rust library tests pass, including seven new tests covering
+input bounds, dictionary identity, CTC Unicode/repetition, geometry,
+normalization, long-line rejection, and clockwise reading order. Real-model
+smokes in `evidence/native-smoke.jsonl` show an empty result on a blank page
+and the correct paragraph order on a clockwise-rotated synthetic page.
+A first smoke revealed reversed order on the rotated page; sorting now uses
+the same virtual upright frame as crop recognition, while preserving original
+coordinates in the result. No benchmark data or thresholds changed.
+
+The repeat's measured mean was 883 ms on this loaded machine, versus 440 ms
+in an earlier pass with the same functional pipeline. That variability is
+why these unpaired timings must not be used for speed claims. The native
+result is not a substitute for the application's separate browser checks.
+
+```sh
+/tmp/docscan-ppocr-v6/venv/bin/python experiments/ppocr_v6/evaluate_native.py \
+  --scorer eval/text_eval.py --out /tmp/docscan-ppocr-v6/native-results.json --jobs 2
+```
