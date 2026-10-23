@@ -186,12 +186,23 @@ cd testdata
 uv venv && uv pip install pillow numpy opencv-python-headless pdf417gen python-barcode qrcode segno zxing-cpp
 .venv/bin/python synth.py && .venv/bin/python augment.py --per-doc 6 && .venv/bin/python make_videos.py
 .venv/bin/python make_videos.py --size 1280x720 --seconds 4.8 --hold 2.2 --only za_smart_id_back multi_barcode --outdir video/hd
-.venv/bin/python make_front_back.py     # the two-step smart ID clip
+.venv/bin/python make_front_back.py     # original two-step smart ID clip (v1)
+.venv/bin/python make_front_back_v2.py  # E2E v2: longer held sides, same pixels
 ```
 
 The generators are seeded, so these reproduce the clips the results below were
 measured on (about 1.6 GB; the browser tests need them, the native eval needs
 only `synth.py` and `augment.py`).
+
+The front/back E2E case now uses a separately named **v2** clip (~1.54 GB):
+20 seconds holding the front and 12 seconds holding the back, with the original
+arrival frames and held-frame pixels. Slow single-thread OCR needs two matching
+readings; v1's 2.2-second holds made the outcome depend on the fake-camera phase
+and machine load. The test's acceptance criteria and timeout are unchanged.
+The v1 clip, generators and pinned native `bench` datasets remain unchanged;
+the v2 JSON sidecar records source/output hashes and the timeline, and E2E
+results name the fixture version. This is a fixture robustness change, not
+evidence of a scanner regression or an accuracy improvement.
 
 The OCR-B font (`testdata/fonts/OCRB.otf`) is Matthew Skala's public-domain
 version.
