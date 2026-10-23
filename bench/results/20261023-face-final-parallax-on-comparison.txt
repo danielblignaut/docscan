@@ -1,0 +1,14 @@
+A: 6070c9275a 2026-10-23T16:49:20Z load [14.93, 14.68, 9.02]  quick
+B: 508582e83f 2026-10-23T16:58:02Z load [10.0, 11.43, 10.09]  quick
+
+metric                    A       B       delta     95% CI           how     status  
+-------------------------------------------------------------------------------------
+face.antispoof_dev.auc    85.99%  92.10%  +6.11 pt  [+3.72, +8.54]   paired  improved
+face.antispoof_dev.acer   22.83%  16.40%  -6.43 pt  [-9.41, -3.59]   paired  improved
+face.antispoof_dev.apcer  33.23%  26.28%  -6.95 pt  [-11.03, -3.02]  paired  improved
+face.antispoof_dev.bpcer  12.43%  6.51%   -5.92 pt  [-10.37, -1.78]  paired  improved
+(17 metrics unchanged within their CI; --all lists them)
+
+improvements: face.antispoof_dev.auc, face.antispoof_dev.acer, face.antispoof_dev.apcer, face.antispoof_dev.bpcer
+
+verdict: improved

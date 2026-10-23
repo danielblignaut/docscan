@@ -1,10 +1,11 @@
 // The scanners the demo offers, each one card on the home screen and one
 // deep link (`?doc=…` or `?mode=…`), so the e2e suite can open any of them
 // directly.
+import type { TextEngine } from "./text-engine";
 import type { DocType } from "./IdCapture";
 import type { Extractor } from "./models";
 
-export type ScannerId = "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
+export type ScannerId = "text" | "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
 
 export interface ScannerInfo {
   id: ScannerId;
@@ -12,12 +13,13 @@ export interface ScannerInfo {
   title: string;
   description: string;
   /** The query parameter that opens it. */
-  param: ["doc", DocType] | ["mode", "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
+  param: ["doc", DocType] | ["mode", "text" | "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
   /** Which models it needs: none (barcodes alone), OCR, OCR plus the extractor, or the face models. */
   needs: "none" | "ocr" | "address" | "face";
 }
 
 export const SCANNERS: ScannerInfo[] = [
+  { id: "text", icon: "📄", title: "Document text", description: "Capture a printed page and copy its text, with word positions available", param: ["mode", "text"], needs: "ocr" },
   {
     id: "barcodes",
     icon: "▦",
@@ -80,6 +82,7 @@ const DOCS: DocType[] = ["smart_id", "green_book", "passport", "auto"];
 export function scannerFromUrl(search = location.search): ScannerId | null {
   const p = new URLSearchParams(search);
   const mode = p.get("mode");
+  if (mode === "text") return "text";
   if (mode === "multi") return "barcodes";
   if (mode === "labels") return "labels";
   if (mode === "address") return "address";
@@ -99,15 +102,17 @@ export function methodFromUrl(search = location.search): Extractor | "auto" {
  * The URL for a scanner (or home, `null`), keeping every other parameter
  * (`threads`, `today`, …) so a test's settings survive navigation.
  */
-export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto"): string {
+export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto", textEngine: TextEngine = "ocrs"): string {
   const p = new URLSearchParams(location.search);
   p.delete("doc");
   p.delete("mode");
   p.delete("method");
+  p.delete("textEngine");
   if (id) {
     const [k, v] = scannerById(id).param;
     p.set(k, v);
     if (id === "address" && method !== "auto") p.set("method", method);
+    if (id === "text" && textEngine !== "ocrs") p.set("textEngine", textEngine);
   }
   const q = p.toString();
   return `${location.pathname}${q ? `?${q}` : ""}`;

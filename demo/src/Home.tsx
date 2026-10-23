@@ -1,6 +1,7 @@
 // The home screen: one large card per scanner, with whether it is ready and
 // the model it uses, a model choice for proof of address, and on each card a
 // small "Test with a photo" action that runs the same scanner on an image.
+import type { TextEngine } from "./text-engine";
 import { FACE_DOWNLOAD_MB } from "./face-models";
 import { catalogueEntry, chooseExtractor, type Extractor } from "./models";
 import type { ReadyInfo } from "./outcome";
@@ -11,6 +12,8 @@ interface Props {
   status: string;
   failed: boolean;
   method: Extractor | "auto";
+  textEngine: TextEngine;
+  onTextEngine: (engine: TextEngine) => void;
   onMethod: (m: Extractor | "auto") => void;
   onOpen: (id: ScannerId) => void;
   onPhoto: (id: ScannerId, files: File[]) => void;
@@ -19,7 +22,8 @@ interface Props {
   photoError: { id: ScannerId; message: string } | null;
 }
 
-function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto"): string {
+function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto", textEngine: TextEngine): string {
+  if (s.id === "text" && textEngine === "ppocr_v6_tiny") return "PP-OCRv6 tiny · ~6.3 MB · loaded when used";
   const ocr = `ocrs OCR · ${catalogueEntry("ocrs").downloadMb} MB`;
   if (s.needs === "none") return "Barcode decoder · no model";
   if (s.needs === "face") return s.id === "facedoc" ? `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB + ${ocr}` : `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB, loaded when opened`;
@@ -29,7 +33,7 @@ function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | 
   return used === "tagger" ? `${ocr} + tagger · ${catalogueEntry("poa-tagger").downloadMb} MB` : `${ocr} + layout rules`;
 }
 
-export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
+export function Home({ ready, status, failed, method, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
   const state = failed ? "failed" : ready ? "ready" : "loading";
   return (
     <main className="home" data-testid="home">
@@ -52,7 +56,7 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
                 <span className="card-desc">{s.description}</span>
                 <span className="card-meta">
                   <span className={`pill pill-${state}`}>{state === "ready" ? "Ready" : state === "failed" ? "Failed" : "Loading…"}</span>
-                  <span className="muted">{modelLine(s, ready, method)}</span>
+                  <span className="muted">{modelLine(s, ready, method, textEngine)}</span>
                 </span>
               </span>
               <span className="card-go" aria-hidden="true">
@@ -60,6 +64,15 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
               </span>
             </button>
             <div className="card-actions">
+              {s.id === "text" && (
+                <label className="model-select">
+                  <span>Text reader</span>
+                  <select data-testid="text-engine" value={textEngine} onChange={(e) => onTextEngine(e.target.value as TextEngine)} disabled={busy !== null}>
+                    <option value="ocrs">ocrs · text and word positions</option>
+                    <option value="ppocr_v6_tiny">PP-OCRv6 tiny · multilingual, line positions · ~6.3 MB extra</option>
+                  </select>
+                </label>
+              )}
               {s.id === "address" && (
                 <label className="model-select">
                   <span>Model</span>
@@ -104,6 +117,7 @@ export function Home({ ready, status, failed, method, onMethod, onOpen, onPhoto,
           OCR models © Robert Knight (<a href="https://huggingface.co/robertknight/ocrs">ocrs</a>,{" "}
           <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, trained on HierText; the page
           detector is a modified version, also CC BY-SA 4.0);
+          optional PP-OCRv6 tiny models and adapted preprocessing © <a href="https://github.com/PaddlePaddle/PaddleOCR">PaddlePaddle</a> (Apache-2.0);
           BlazeFace and Face Mesh © Google (<a href="https://github.com/google-ai-edge/mediapipe">MediaPipe</a>, Apache-2.0);
           MiniFASNet © <a href="https://github.com/minivision-ai/Silent-Face-Anti-Spoofing">Minivision</a> (Apache-2.0);
           SFace © <a href="https://github.com/opencv/opencv_zoo">OpenCV</a> (Apache-2.0);

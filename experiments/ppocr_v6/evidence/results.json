@@ -1,0 +1,991 @@
+{
+  "protocol": "general-text-dev-v1-ppocr-feasibility",
+  "synthetic_only": true,
+  "runtime": "ONNX Runtime CPU, native; not browser",
+  "threads": 2,
+  "onnxruntime": "1.31.0",
+  "opencv": "5.0.0",
+  "numpy": "2.5.4",
+  "source_scorer_sha256": "6fb5b0db550f37c25f759cd2a389869e2ed580139c10c562ebe1934fcb2167e6",
+  "source_baseline": {
+    "protocol": "general-text-dev-v1",
+    "synthetic_only": true,
+    "git": "b3247e6180c0a08f81acd24e1d5d46c8d4dc3601",
+    "binary_sha256": "cb444dc8f586f67f40faa77d02d2739b8ea7173947f217d3c9fe01e243cbf009",
+    "rows": [
+      {
+        "sample": "family0-size14-clean",
+        "mode": "legacy",
+        "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+        "characters": 285,
+        "edits": 4,
+        "words": 44,
+        "correct_words": 40,
+        "extra_words": 5,
+        "ms": 787.368876
+      },
+      {
+        "sample": "family0-size14-shade",
+        "mode": "legacy",
+        "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+        "characters": 285,
+        "edits": 5,
+        "words": 44,
+        "correct_words": 39,
+        "extra_words": 5,
+        "ms": 1189.700756
+      },
+      {
+        "sample": "family0-size20-clean",
+        "mode": "legacy",
+        "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1686.0021920000002
+      },
+      {
+        "sample": "family0-size20-shade",
+        "mode": "legacy",
+        "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1466.41199
+      },
+      {
+        "sample": "family0-size28-clean",
+        "mode": "legacy",
+        "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+        "characters": 285,
+        "edits": 50,
+        "words": 44,
+        "correct_words": 41,
+        "extra_words": 3,
+        "ms": 2210.7281479999997
+      },
+      {
+        "sample": "family0-size28-shade",
+        "mode": "legacy",
+        "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+        "characters": 285,
+        "edits": 54,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1920.9532199999999
+      },
+      {
+        "sample": "family1-size14-clean",
+        "mode": "legacy",
+        "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+        "characters": 174,
+        "edits": 9,
+        "words": 31,
+        "correct_words": 25,
+        "extra_words": 5,
+        "ms": 871.997784
+      },
+      {
+        "sample": "family1-size14-shade",
+        "mode": "legacy",
+        "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+        "characters": 174,
+        "edits": 10,
+        "words": 31,
+        "correct_words": 24,
+        "extra_words": 6,
+        "ms": 794.6314880000001
+      },
+      {
+        "sample": "family1-size20-clean",
+        "mode": "legacy",
+        "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 895.561358
+      },
+      {
+        "sample": "family1-size20-shade",
+        "mode": "legacy",
+        "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+        "characters": 174,
+        "edits": 3,
+        "words": 31,
+        "correct_words": 28,
+        "extra_words": 1,
+        "ms": 1046.544316
+      },
+      {
+        "sample": "family1-size28-clean",
+        "mode": "legacy",
+        "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 1045.1141289999998
+      },
+      {
+        "sample": "family1-size28-shade",
+        "mode": "legacy",
+        "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 862.313565
+      },
+      {
+        "sample": "family0-size14-clean",
+        "mode": "page",
+        "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 3080.9113789999997
+      },
+      {
+        "sample": "family0-size14-shade",
+        "mode": "page",
+        "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 2733.4813599999998
+      },
+      {
+        "sample": "family0-size20-clean",
+        "mode": "page",
+        "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2673.020355
+      },
+      {
+        "sample": "family0-size20-shade",
+        "mode": "page",
+        "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2695.165302
+      },
+      {
+        "sample": "family0-size28-clean",
+        "mode": "page",
+        "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2750.899208
+      },
+      {
+        "sample": "family0-size28-shade",
+        "mode": "page",
+        "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2005.4051890000003
+      },
+      {
+        "sample": "family1-size14-clean",
+        "mode": "page",
+        "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 2313.0744870000003
+      },
+      {
+        "sample": "family1-size14-shade",
+        "mode": "page",
+        "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 2628.3545529999997
+      },
+      {
+        "sample": "family1-size20-clean",
+        "mode": "page",
+        "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2568.8829499999997
+      },
+      {
+        "sample": "family1-size20-shade",
+        "mode": "page",
+        "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2683.9764569999998
+      },
+      {
+        "sample": "family1-size28-clean",
+        "mode": "page",
+        "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 1,
+        "ms": 1996.5541409999998
+      },
+      {
+        "sample": "family1-size28-shade",
+        "mode": "page",
+        "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2788.098053
+      }
+    ],
+    "summary": {
+      "legacy": {
+        "cer": 0.05119825708061002,
+        "word_recall": 0.9266666666666666,
+        "extra_words": 28,
+        "mean_ms": 1231.4439851666666
+      },
+      "page": {
+        "cer": 0.002904865649963689,
+        "word_recall": 0.9911111111111112,
+        "extra_words": 3,
+        "mean_ms": 2576.4852861666664
+      }
+    }
+  },
+  "models": {
+    "tiny_det": {
+      "repo": "PaddlePaddle/PP-OCRv6_tiny_det_onnx",
+      "revision": "2ba1506c0380b8f0b03dd142459aac66d4421f6c",
+      "license": "apache-2.0",
+      "files": {
+        "inference.onnx": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_det_onnx/resolve/2ba1506c0380b8f0b03dd142459aac66d4421f6c/inference.onnx",
+          "bytes": 1780590,
+          "sha256": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8"
+        },
+        "inference.yml": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_det_onnx/resolve/2ba1506c0380b8f0b03dd142459aac66d4421f6c/inference.yml",
+          "bytes": 883,
+          "sha256": "3ac018be6f97499a08faa3bbdeb33640968d9307f6736d152902747a9f259593"
+        },
+        "README.md": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_det_onnx/resolve/2ba1506c0380b8f0b03dd142459aac66d4421f6c/README.md",
+          "bytes": 16064,
+          "sha256": "f48628931a5dc994ce5c67e32c94d71b4a7e96b8c5c1b00663284999c3c566bc"
+        }
+      }
+    },
+    "tiny_rec": {
+      "repo": "PaddlePaddle/PP-OCRv6_tiny_rec_onnx",
+      "revision": "2612ab37152ae0a677521bae4e1e3d4fb4cf7c30",
+      "license": "apache-2.0",
+      "files": {
+        "inference.onnx": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx/resolve/2612ab37152ae0a677521bae4e1e3d4fb4cf7c30/inference.onnx",
+          "bytes": 4462639,
+          "sha256": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+        },
+        "inference.yml": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx/resolve/2612ab37152ae0a677521bae4e1e3d4fb4cf7c30/inference.yml",
+          "bytes": 55571,
+          "sha256": "66170210bad538e83fff3c4a3867e547d6bf20b50d64b20347c4b913f3034ea1"
+        },
+        "README.md": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx/resolve/2612ab37152ae0a677521bae4e1e3d4fb4cf7c30/README.md",
+          "bytes": 16600,
+          "sha256": "e83dd03e515a2d064eaba8ec82248f21dbf6a0813550bafe4c70ee2f6e8fdf2a"
+        }
+      }
+    },
+    "small_det": {
+      "repo": "PaddlePaddle/PP-OCRv6_small_det_onnx",
+      "revision": "28fe5895c24fd108c19eb3e8479f4ab385fbfc62",
+      "license": "apache-2.0",
+      "files": {
+        "inference.onnx": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_onnx/resolve/28fe5895c24fd108c19eb3e8479f4ab385fbfc62/inference.onnx",
+          "bytes": 9880512,
+          "sha256": "d73e0058b7a8086bbd57f3d10b8bcd4ff95363f67e06e2762b5e814fe9c9410e"
+        },
+        "inference.yml": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_onnx/resolve/28fe5895c24fd108c19eb3e8479f4ab385fbfc62/inference.yml",
+          "bytes": 885,
+          "sha256": "193f435274bf9f0b5f71a929bbfbcf148282df7e633b34e7c373e8f44741b516"
+        },
+        "README.md": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_onnx/resolve/28fe5895c24fd108c19eb3e8479f4ab385fbfc62/README.md",
+          "bytes": 16076,
+          "sha256": "e9403667f0f92055d8ce9e73a2beb1002fc489d9342697db74039eb7178bb5fb"
+        }
+      }
+    },
+    "small_rec": {
+      "repo": "PaddlePaddle/PP-OCRv6_small_rec_onnx",
+      "revision": "b8f84f0b80c529de40b4fbb3544b84fa7233a513",
+      "license": "apache-2.0",
+      "files": {
+        "inference.onnx": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx/resolve/b8f84f0b80c529de40b4fbb3544b84fa7233a513/inference.onnx",
+          "bytes": 21159378,
+          "sha256": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634"
+        },
+        "inference.yml": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx/resolve/b8f84f0b80c529de40b4fbb3544b84fa7233a513/inference.yml",
+          "bytes": 150579,
+          "sha256": "ab078671bb49f06228eadccd34f1bb501e157f7a047095ffb943ba81512c77d1"
+        },
+        "README.md": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx/resolve/b8f84f0b80c529de40b4fbb3544b84fa7233a513/README.md",
+          "bytes": 16585,
+          "sha256": "7d46dbd183ac09bd5a2e6b4577dcb29240751b1c00eb6813eca308d529f86806"
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "sample": "family0-size14-clean",
+      "mode": "tiny-max960",
+      "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 165.49248155206442,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size14-shade",
+      "mode": "tiny-max960",
+      "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 192.64195766299963,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils,\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size20-clean",
+      "mode": "tiny-max960",
+      "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 168.43297611922026,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size20-shade",
+      "mode": "tiny-max960",
+      "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 165.02768453210592,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size28-clean",
+      "mode": "tiny-max960",
+      "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 167.89019387215376,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size28-shade",
+      "mode": "tiny-max960",
+      "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 175.25696381926537,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family1-size14-clean",
+      "mode": "tiny-max960",
+      "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 139.10675793886185,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size14-shade",
+      "mode": "tiny-max960",
+      "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 131.7530134692788,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-clean",
+      "mode": "tiny-max960",
+      "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 139.25795257091522,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-shade",
+      "mode": "tiny-max960",
+      "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 138.96479085087776,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-clean",
+      "mode": "tiny-max960",
+      "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 144.53664422035217,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-shade",
+      "mode": "tiny-max960",
+      "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 144.2833747714758,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family0-size14-clean",
+      "mode": "tiny-max1754",
+      "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 389.2861334607005,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size14-shade",
+      "mode": "tiny-max1754",
+      "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 384.6808336675167,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size20-clean",
+      "mode": "tiny-max1754",
+      "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 367.0578310266137,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size20-shade",
+      "mode": "tiny-max1754",
+      "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 366.841834038496,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size28-clean",
+      "mode": "tiny-max1754",
+      "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 379.6455627307296,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size28-shade",
+      "mode": "tiny-max1754",
+      "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 375.36513060331345,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family1-size14-clean",
+      "mode": "tiny-max1754",
+      "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 349.169191904366,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size14-shade",
+      "mode": "tiny-max1754",
+      "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 349.12991244345903,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-clean",
+      "mode": "tiny-max1754",
+      "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 341.83160681277514,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-shade",
+      "mode": "tiny-max1754",
+      "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 352.3282269015908,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-clean",
+      "mode": "tiny-max1754",
+      "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 349.4288260117173,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-shade",
+      "mode": "tiny-max1754",
+      "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 348.25722221285105,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family0-size14-clean",
+      "mode": "small-max960",
+      "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 535.7398083433509,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size14-shade",
+      "mode": "small-max960",
+      "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 470.852080732584,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size20-clean",
+      "mode": "small-max960",
+      "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 567.3766825348139,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size20-shade",
+      "mode": "small-max960",
+      "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 501.53460819274187,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk"
+    },
+    {
+      "sample": "family0-size28-clean",
+      "mode": "small-max960",
+      "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 617.7584556862712,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size28-shade",
+      "mode": "small-max960",
+      "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 521.9707638025284,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family1-size14-clean",
+      "mode": "small-max960",
+      "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 382.5509725138545,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size14-shade",
+      "mode": "small-max960",
+      "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 367.7256517112255,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-clean",
+      "mode": "small-max960",
+      "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 409.2561062425375,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-shade",
+      "mode": "small-max960",
+      "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 400.7005859166384,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-clean",
+      "mode": "small-max960",
+      "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 417.9718028753996,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-shade",
+      "mode": "small-max960",
+      "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 414.81056809425354,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family0-size14-clean",
+      "mode": "small-max1754",
+      "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 967.6365870982409,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size14-shade",
+      "mode": "small-max1754",
+      "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 970.7578336820006,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size20-clean",
+      "mode": "small-max1754",
+      "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 958.8578334078193,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size20-shade",
+      "mode": "small-max1754",
+      "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 945.727288722992,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size28-clean",
+      "mode": "small-max1754",
+      "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 964.740501716733,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family0-size28-shade",
+      "mode": "small-max1754",
+      "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "ms": 989.8087475448847,
+      "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk."
+    },
+    {
+      "sample": "family1-size14-clean",
+      "mode": "small-max1754",
+      "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+      "characters": 174,
+      "edits": 1,
+      "words": 31,
+      "correct_words": 29,
+      "extra_words": 1,
+      "ms": 831.6435161978006,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 145.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size14-shade",
+      "mode": "small-max1754",
+      "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 806.6410981118679,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-clean",
+      "mode": "small-max1754",
+      "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 843.1668728590012,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size20-shade",
+      "mode": "small-max1754",
+      "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 837.4304827302694,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-clean",
+      "mode": "small-max1754",
+      "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 852.7617696672678,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    },
+    {
+      "sample": "family1-size28-shade",
+      "mode": "small-max1754",
+      "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "ms": 811.3885503262281,
+      "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026"
+    }
+  ],
+  "summary": {
+    "small-max1754": {
+      "cer": 0.00036310820624546115,
+      "word_recall": 0.9955555555555555,
+      "extra_words": 1,
+      "mean_ms_unpaired": 898.3800901720921
+    },
+    "small-max960": {
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "mean_ms_unpaired": 467.3540072205166
+    },
+    "tiny-max1754": {
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "mean_ms_unpaired": 362.7518593178441
+    },
+    "tiny-max960": {
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "mean_ms_unpaired": 156.05373261496425
+    }
+  },
+  "limitations": "Only 12 synthetic pages. Latencies are one uncalibrated pass, not paired with baseline; no speed claim."
+}

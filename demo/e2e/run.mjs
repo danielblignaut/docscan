@@ -101,7 +101,7 @@ const results = [];
 for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
   const video = c.video.startsWith("/") ? c.video : VIDEO + c.video;
   if (!existsSync(video)) {
-    results.push({ name: c.name, ok: false, why: `missing ${video}` });
+    results.push({ name: c.name, video: c.video, fixtureVersion: c.fixtureVersion ?? 1, ok: false, why: `missing ${video}` });
     console.log(JSON.stringify(results.at(-1)));
     continue;
   }
@@ -364,7 +364,7 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
   writeFileSync(`${OUT}${c.name}.frames.json`, JSON.stringify(await page.evaluate(() => window.__docscan?.frames ?? []).catch(() => [])));
   if (!outcome.ok || want.type === "abandon") await page.screenshot({ path: `${OUT}${c.name}.png`, fullPage: true });
   await browser.close();
-  results.push({ name: c.name, ...outcome });
+  results.push({ name: c.name, video: c.video, fixtureVersion: c.fixtureVersion ?? 1, ...outcome });
   console.log(JSON.stringify(results.at(-1)));
 }
 stopServer();

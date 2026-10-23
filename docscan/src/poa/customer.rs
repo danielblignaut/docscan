@@ -227,6 +227,9 @@ fn same_suffix(token: &str, canonical: &str) -> bool {
     suffix(token) == Some(canonical) || suffix_forms(canonical).iter().any(|f| f.len() >= 2 && confusable_slip(token, f))
 }
 
+/// Labels of the address an account is for (with "address").
+const PREMISES: &[&str] = &["PROPERTY", "SUPPLY", "SERVICE", "PHYSICAL", "RESIDENTIAL", "PREMISES", "DELIVERY", "INSTALLATION", "STAND", "ERF"];
+
 /// Words of the issuer's own address and contact block (as in `rules.rs`).
 const ISSUER_CUES: &[&str] = &[
     "HEAD OFFICE", "REGISTERED OFFICE", "PO BOX", "P O BOX", "POBOX", "PRIVATE BAG", "TEL", "FAX", "VAT", "REG NO", "REGISTRATION",
@@ -274,6 +277,12 @@ fn build_lines(words: &[Word]) -> Vec<Line> {
             l.tokens.push(t[..digits].to_string());
             l.token_word.push(i);
             l.tokens.push(t[digits..].to_string());
+            l.token_word.push(i);
+        } else if t.is_ascii() && t.len() >= 7 && t[t.len() - 4..].chars().all(|c| c.is_ascii_digit()) && t[..t.len() - 4].chars().all(|c| c.is_ascii_uppercase()) {
+            // A place run into its postal code ("EKURHULENI1546"): two tokens.
+            l.tokens.push(t[..t.len() - 4].to_string());
+            l.token_word.push(i);
+            l.tokens.push(t[t.len() - 4..].to_string());
             l.token_word.push(i);
         } else if !t.is_empty() {
             l.tokens.push(t);
@@ -398,7 +407,7 @@ fn given_agreement(items: &[Given], given: &[String]) -> f32 {
         items.iter().enumerate().all(|(k, it)| {
             let Some(g) = given.get(start + k) else { return false };
             match it {
-                Given::Initial(c) => g.starts_with(*c) || fold_letters(&c.to_string()) == fold_letters(&g[..1]),
+                Given::Initial(c) => g.starts_with(*c) || fold_letters(&c.to_string()) == g.chars().next().map(|initial| fold_letters(&initial.to_string())).unwrap_or_default(),
                 Given::Name(s) => word_sim(s, g) >= 0.75 || (s.len() >= 4 && g.starts_with(s.as_str())),
             }
         })
@@ -429,7 +438,7 @@ struct Piece {
 
 /// Titles as OCR reads them at the start of a name line ("Kr", "Nrs" for
 /// "Mr", "Mrs"), taken as titles only there.
-const OCR_TITLES: &[&str] = &["KR", "NR", "NRS", "HRS", "MRA", "M5", "MI", "NS"];
+const OCR_TITLES: &[&str] = &["KR", "NR", "XR", "NRS", "HRS", "MRA", "M5", "MI", "NS", "KISS", "NISS", "HISS"];
 
 fn pieces(l: &Line, words: &[Word]) -> Vec<Piece> {
     let mut out = Vec::new();
@@ -510,7 +519,9 @@ fn run_together_agreement(run: &str, given: &[String]) -> f32 {
         }
         let Some((g, more)) = given.split_first() else { return false };
         let g = fold_letters(g);
-        (g.len() > 1 && rest.starts_with(&g) && walk(&rest[g.len()..], more)) || (rest.starts_with(&g[..1]) && walk(&rest[1..], more))
+        let Some(initial) = g.chars().next() else { return false };
+        (g.chars().count() > 1 && rest.starts_with(&g) && walk(&rest[g.len()..], more))
+            || rest.strip_prefix(initial).is_some_and(|tail| walk(tail, more))
     }
     if !rest.is_empty() && walk(&rest, given) { 1.0 } else { 0.0 }
 }
@@ -537,8 +548,8 @@ fn match_names(lines: &[Line], words: &[Word], c: &Customer) -> Vec<NameMatch> {
                 let cand: String = p[i..i + len].iter().map(|x| x.t.as_str()).collect();
                 // The surname, or (one piece) the surname with the initials OCR ran into it ("MHIZUHLE").
                 let mut tries: Vec<(String, String)> = vec![(cand.clone(), String::new())];
-                if len == 1 && surname.len() >= 4 {
-                    for k in 1..=2 {
+                if len == 1 && surname.len() >= 3 {
+                    for k in (1..=2).filter(|_| surname.len() >= 4) {
                         if cand.len() > k + 3 && cand.is_char_boundary(k) && p[i].raw.chars().nth(k).is_some_and(|ch| ch.is_uppercase()) {
                             tries.push((cand[k..].to_string(), cand[..k].to_string()));
                         }
@@ -814,6 +825,14 @@ fn address_matches(lines: &[Line], words: &[Word], names: &[NameMatch], c: &Cust
         // Linked to the holder: a holder-name line above it in its column,
         // on the same line before it, or the sentence just before it.
         let near_name = holder_lines.iter().any(|&h| h == hit.line || above_lines.contains(&h) || (h < hit.line && hit.line - h <= 3 && lines[h].y1 <= l.y0 + 1.0 && lines[h].x0 <= l.x1 && lines[h].x1 >= l.x0));
+        // Or labelled as the holder's premises ("Property address", "Supply
+        // address", ...) on a page that prints the customer's name.
+        let premises = !holder_lines.is_empty()
+            && std::iter::once(hit.line).chain(above_lines.iter().copied().take(2)).any(|k| {
+                let u = &lines[k].upper;
+                u.contains("ADDRESS") && PREMISES.iter().any(|p| u.contains(p)) && !has_issuer_cue(&lines[k])
+            });
+        let near_name = near_name || premises;
         let block: Vec<usize> = std::iter::once(hit.line).chain(above_lines.iter().copied().take(2)).chain(below_lines.iter().copied()).collect();
         let issuer = block.iter().any(|&b| has_issuer_cue(&lines[b]));
         let mut shown: Vec<String> = above_lines.iter().take(1).rev().map(|&i| lines[i].text.clone()).collect();
@@ -945,6 +964,16 @@ mod tests {
     }
 
     #[test]
+    fn unicode_names_and_unrelated_text_do_not_panic() {
+        let words = page(&[("FRANÇOIS", 600.0, 40.0), ("Mr Émile René", 60.0, 200.0), ("12 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+        let c = customer("ÉMILE RENÉ", "12 Oak Avenue", "Paarl", "7646");
+        assert!(check(&words, &[], &c, Some(RECENT), TODAY).accepted);
+        assert_eq!(given_agreement(&[Given::Initial('A')], &["ÉMILE".into()]), 0.0);
+        assert_eq!(run_together_agreement("MRÉ", &["ÉMILE".into()]), 1.0);
+        assert_eq!(run_together_agreement("MRA", &["ÉMILE".into()]), 0.0);
+    }
+
+    #[test]
     fn genuine_with_abbreviations_and_initials() {
         let c = customer("SIPHO JABULANI NKOSI", "12 Acacia Rd", "Cape Town", "7700");
         let r = check(&bill(), &[], &c, Some(RECENT), TODAY);
@@ -1022,6 +1051,9 @@ mod tests {
         assert!(ok("MPFARISENIBHLOPHE", "MPFARISENI B HLOPHE"));
         assert!(ok("MsSHiophe", "SIPHO E HLOPHE"));
         assert!(!ok("MsTHiophe", "SIPHO E HLOPHE"));
+        assert!(ok("MRSNSUYS", "NOMSA S UYS"));
+        assert!(ok("XR FV JAFTER", "FARIED V JAFFER"));
+        assert!(!ok("MRSTSUYS", "NOMSA S UYS"));
     }
 
     #[test]
@@ -1034,6 +1066,13 @@ mod tests {
         assert!(ok("54 FETHADLROAD", "54 Fethadli Road"));
         assert!(ok("71 Buffalo Ct", "71 Buffalo Cl"));
         assert!(ok("$33 Seme Grove", "533 Seme Grove"));
+        let words = page(&[("Mrs T Dlamini", 60.0, 200.0), ("12 Oak Avenue", 60.0, 224.0), ("Paarl7646", 60.0, 248.0)]);
+        assert!(check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        // The holder's premises, labelled, apart from the name.
+        let words = page(&[("Mrs T Dlamini", 600.0, 100.0), ("PROPERTY ADDRESS", 60.0, 300.0), ("12 Oak Avenue", 60.0, 324.0), ("Paarl 7646", 60.0, 348.0)]);
+        assert!(check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
+        let words = page(&[("Mrs T Dlamini", 600.0, 100.0), ("HEAD OFFICE ADDRESS", 60.0, 300.0), ("12 Oak Avenue", 60.0, 324.0), ("Paarl 7646", 60.0, 348.0)]);
+        assert!(!check(&words, &[], &customer("THANDI DLAMINI", "12 Oak Avenue", "Paarl", "7646"), Some(RECENT), TODAY).accepted);
         assert!(!ok("71 Buffalo Ct", "17 Buffalo Cl"));
         assert!(!ok("18klipLane", "17 Klip Lane"));
     }

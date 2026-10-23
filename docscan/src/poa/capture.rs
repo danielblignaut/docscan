@@ -7,7 +7,7 @@
 //! voted. [`next_frame_needed`] says whether the frames read so far agree
 //! well enough to stop.
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use serde::Serialize;
 
@@ -36,6 +36,37 @@ mod tests {
         assert!(fuller_name("Nkosi, SZ", "Nkosi,"));
         assert!(!fuller_name("Mpho Visser P", "Mpho Visser"));
         assert!(!fuller_name("Thabo Ntuli", "Thabo Ntull"));
+    }
+
+    #[test]
+    fn agreeing_missing_fields_need_another_frame() {
+        let mut r = CaptureResult {
+            fields: Fields::default(),
+            votes: ["holder_name", "street", "city", "postal_code", "document_date"].into_iter()
+                .map(|field| FieldVote { field, value: Some("read".into()), agree: 2, of: 2 }).collect(),
+            customer: None,
+            frames_read: 2,
+        };
+        assert!(!next_frame_needed(&r));
+        r.votes[0].value = None;
+        assert!(next_frame_needed(&r));
+        r.frames_read = MAX_FRAMES;
+        assert!(!next_frame_needed(&r));
+    }
+
+    #[test]
+    fn equal_field_votes_are_reproducible() {
+        let reading = |name: &str| AddressResult {
+            method: super::super::Method::Rules,
+            fields: Fields { holder_name: Some(name.into()), ..Default::default() },
+            verification: super::super::verify_fields(&Fields::default(), "", &[], Date::new(2026, 10, 15).unwrap()),
+            text: String::new(), words: 0, spans: vec![], page_size: [1, 1], timings_ms: Default::default(),
+        };
+        let (a, b) = (reading("Sipho Nkosi"), reading("Thabo Nkosi"));
+        for _ in 0..100 {
+            assert_eq!(vote_fields(&[&a, &b]).0.holder_name.as_deref(), Some("Thabo Nkosi"));
+            assert_eq!(vote_fields(&[&b, &a]).0.holder_name.as_deref(), Some("Thabo Nkosi"));
+        }
     }
 }
 
@@ -112,11 +143,13 @@ fn plausibility(field: &str, v: &str) -> f32 {
 
 /// The value most frames agree on (ties: the more confident), with the count.
 fn vote(readings: &[&AddressResult], field: &'static str, get: impl Fn(&Fields) -> Option<String>) -> FieldVote {
-    let mut groups: HashMap<String, (usize, f32, String)> = HashMap::new();
+    // Stable iteration also makes floating-point sums and exact tie breaks
+    // reproducible between browser sessions and benchmark processes.
+    let mut groups: BTreeMap<String, (usize, f32, String)> = BTreeMap::new();
     // Each value's weight: a frame's reading counts 1, the rules' reading of a
     // field the tagger left empty (confidence RULES_FILL_CONFIDENCE) less, so
     // one frame's tagged value beats two frames' rules.
-    let mut weight: HashMap<String, f32> = HashMap::new();
+    let mut weight: BTreeMap<String, f32> = BTreeMap::new();
     let mut none = 0;
     for r in readings {
         match get(&r.fields) {
@@ -264,7 +297,8 @@ pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], 
     for t in tally.iter_mut() {
         if let Some(d) = Date::parse_iso(&t.0) {
             let age = today.days() - d.days();
-            if (-10..=400).contains(&age) {
+            // Not a date after today: that is a due date, not the document's.
+            if (0..=400).contains(&age) {
                 t.1 += 0.2;
             }
         }
@@ -286,7 +320,7 @@ pub fn combine(readings: &[&AddressResult], words: &[&[super::features::Word]], 
 
 /// Whether another frame should be read: fewer than two read, or the two
 /// (or more) read so far disagree on a key field (name, street, city, postal
-/// code, date), and fewer than
+/// code, date) or leave one missing, and fewer than
 /// [`MAX_FRAMES`] have been read.
 pub fn next_frame_needed(result: &CaptureResult) -> bool {
     if result.frames_read >= MAX_FRAMES {
@@ -296,6 +330,10 @@ pub fn next_frame_needed(result: &CaptureResult) -> bool {
         return true;
     }
     let key_fields = ["holder_name", "street", "city", "postal_code", "document_date"];
-    let split = result.votes.iter().filter(|v| key_fields.contains(&v.field)).any(|v| v.agree < v.of);
+    // Agreement on missing data is not a successful reading: give a later,
+    // clearer frame a chance to recover it before ending the capture.
+    let split = key_fields.iter().any(|field| {
+        result.votes.iter().find(|v| &v.field == field).is_none_or(|v| v.value.is_none() || v.agree < v.of)
+    });
     split
 }

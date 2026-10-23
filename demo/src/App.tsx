@@ -8,10 +8,12 @@ import { FaceClient } from "./face-client";
 import { type FaceFlowId, FaceFlow } from "./FaceFlow";
 import { Home } from "./Home";
 import { type Captured, type DocType, IdCapture } from "./IdCapture";
+import { type TextEngine, textEngineFromUrl } from "./text-engine";
+import { TextCapture } from "./TextCapture";
 import { MultiBarcode } from "./MultiBarcode";
 import type { Extractor } from "./models";
 import type { CaptureMeta, Outcome, ReadyInfo } from "./outcome";
-import { analysePhotos } from "./photo";
+import { analysePhotos, releasePhotoOutcome } from "./photo";
 import { Results } from "./Results";
 import { ScannerClient } from "./scanner-client";
 import { methodFromUrl, type ScannerId, scannerById, scannerFromUrl, urlFor } from "./scanners";
@@ -46,9 +48,18 @@ export function App() {
   const [ready, setReady] = useState<ReadyInfo | null>(null);
   const [failed, setFailed] = useState(false);
   const [screen, setScreen] = useState<Screen>(screenFromUrl);
+  const [textEngine, setTextEngine] = useState<TextEngine>(textEngineFromUrl);
   const [method, setMethod] = useState<Extractor | "auto">(methodFromUrl);
   const [busy, setBusy] = useState<ScannerId | null>(null);
   const [photoError, setPhotoError] = useState<{ id: ScannerId; message: string } | null>(null);
+  const photoRequest = useRef<AbortController | null>(null);
+  const cancelPhoto = useCallback(() => {
+    photoRequest.current?.abort();
+    photoRequest.current = null;
+    setBusy(null);
+  }, []);
+  useEffect(() => () => photoRequest.current?.abort(), []);
+
 
   useEffect(() => {
     client.ready
@@ -73,10 +84,10 @@ export function App() {
 
   // The browser's own Back (and Android's) follows the URL.
   useEffect(() => {
-    const onPop = () => setScreen(screenFromUrl());
+    const onPop = () => { cancelPhoto(); setTextEngine(textEngineFromUrl()); setScreen(screenFromUrl()); };
     addEventListener("popstate", onPop);
     return () => removeEventListener("popstate", onPop);
-  }, []);
+  }, [cancelPhoto]);
 
   // Each screen starts at the top.
   useEffect(() => {
@@ -85,18 +96,20 @@ export function App() {
 
   const open = useCallback(
     (scanner: ScannerId) => {
-      history.pushState(PUSHED, "", urlFor(scanner, method));
+      cancelPhoto();
+      history.pushState(PUSHED, "", urlFor(scanner, method, textEngine));
       setScreen({ kind: "capture", scanner });
     },
-    [method],
+    [method, textEngine, cancelPhoto],
   );
 
   /** Unmounting the capture screen stops its camera. */
   const goHome = useCallback(() => {
+    cancelPhoto();
     setScreen({ kind: "home" });
     if (history.state === PUSHED) history.back();
     else history.replaceState(null, "", urlFor(null));
-  }, []);
+  }, [cancelPhoto]);
 
   const onId = useCallback(
     (scanner: ScannerId) => (captured: Captured[], meta: CaptureMeta) => setScreen({ kind: "results", outcome: { kind: "id", scanner, captured, meta } }),
@@ -109,16 +122,21 @@ export function App() {
   const idDone = useMemo(() => (capturing ? onId(capturing) : null), [capturing, onId]);
 
   async function onPhoto(id: ScannerId, files: File[]) {
+    cancelPhoto();
+    const request = new AbortController();
+    photoRequest.current = request;
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos(client, id, files, method, faceClient);
-      history.pushState(PUSHED, "", urlFor(id, method));
+      const outcome = await analysePhotos(client, id, files, method, faceClient, textEngine);
+      if (request.signal.aborted) { releasePhotoOutcome(outcome); return; }
+      history.pushState(PUSHED, "", urlFor(id, method, textEngine));
       setScreen({ kind: "results", outcome });
     } catch (e) {
+      if (request.signal.aborted) return;
       setPhotoError({ id, message: `Could not read the photo: ${e instanceof Error ? e.message : String(e)}` });
     } finally {
-      setBusy(null);
+      if (photoRequest.current === request) { photoRequest.current = null; setBusy(null); }
     }
   }
 
@@ -132,6 +150,8 @@ export function App() {
           <FaceFlow flow={s as FaceFlowId} face={faceClient()} scanner={client} onDone={onOutcome} />
         ) : s === "barcodes" || s === "labels" ? (
           <MultiBarcode client={client} labels={s === "labels"} onDone={onOutcome} />
+        ) : s === "text" ? (
+          <TextCapture client={client} engine={textEngine} onDone={onOutcome} />
         ) : s === "address" ? (
           <AddressCapture client={client} method={method} onDone={onAddress} />
         ) : (
@@ -150,6 +170,8 @@ export function App() {
       status={status}
       failed={failed}
       method={method}
+      textEngine={textEngine}
+      onTextEngine={setTextEngine}
       onMethod={setMethod}
       onOpen={open}
       onPhoto={onPhoto}

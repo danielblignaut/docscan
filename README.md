@@ -1,5 +1,15 @@
 # docscan
 
+## General document text
+
+The **Document text** card (`?mode=text`) captures an upright printed page
+hands-free and returns copyable text plus word and line positions. Uploaded
+photos use the same enhanced page OCR. `Scanner.text_page` adds this richer
+API without changing `Scanner.text`. The optional **PP-OCRv6 tiny** reader
+adds a separate model choice with line polygons and lazy model downloads. See
+[the API, DEV comparison and limitations](docs/improvements-general-text.md).
+
+
 Real-time identity document and barcode scanning in the browser, written in
 Rust and compiled to WebAssembly. It runs entirely on the device: no image
 leaves the phone.
@@ -33,8 +43,8 @@ leaves the phone.
   verified against their name and address over a burst of frames. See
   [Proof of address](#proof-of-address-modeaddress).
 - **Face liveness and verification** (`?mode=liveness`, `faceid`, `facedoc`):
-  an active head-turn ring with 3-D motion, passive anti-spoofing,
-  continuity and identity checks; a face template for "Face ID" on return;
+  an active head-turn ring, passive anti-spoofing across every pose of the
+  sweep, continuity and identity checks; a face template for "Face ID" on return;
   and a live face matched to the photo on a passport or smart ID. See
   [Face liveness and verification](#face-liveness-and-verification-modeliveness-faceid-facedoc).
 
@@ -177,12 +187,23 @@ cd testdata
 uv venv && uv pip install pillow numpy opencv-python-headless pdf417gen python-barcode qrcode segno zxing-cpp
 .venv/bin/python synth.py && .venv/bin/python augment.py --per-doc 6 && .venv/bin/python make_videos.py
 .venv/bin/python make_videos.py --size 1280x720 --seconds 4.8 --hold 2.2 --only za_smart_id_back multi_barcode --outdir video/hd
-.venv/bin/python make_front_back.py     # the two-step smart ID clip
+.venv/bin/python make_front_back.py     # original two-step smart ID clip (v1)
+.venv/bin/python make_front_back_v2.py  # E2E v2: longer held sides, same pixels
 ```
 
 The generators are seeded, so these reproduce the clips the results below were
 measured on (about 1.6 GB; the browser tests need them, the native eval needs
 only `synth.py` and `augment.py`).
+
+The front/back E2E case now uses a separately named **v2** clip (~1.54 GB):
+20 seconds holding the front and 12 seconds holding the back, with the original
+arrival frames and held-frame pixels. Slow single-thread OCR needs two matching
+readings; v1's 2.2-second holds made the outcome depend on the fake-camera phase
+and machine load. The test's acceptance criteria and timeout are unchanged.
+The v1 clip, generators and pinned native `bench` datasets remain unchanged;
+the v2 JSON sidecar records source/output hashes and the timeline, and E2E
+results name the fixture version. This is a fixture robustness change, not
+evidence of a scanner regression or an accuracy improvement.
 
 The OCR-B font (`testdata/fonts/OCRB.otf`) is Matthew Skala's public-domain
 version.
@@ -852,10 +873,10 @@ iteration log (`RESULTS.md`).
 | `mesh.rs` | MediaPipe Face Mesh V2 (478 points with irises, Apache-2.0) on an eye-levelled crop; each frame's crop from the last frame's landmarks, the detector only when the face is lost (and every 6th frame, to count faces). |
 | `pose.rs` | Yaw, pitch, roll: a similarity fit (Horn) of MediaPipe's canonical face to the 3-D points. |
 | `quality.rs` | Size, exposure, evenness of light, saturation, sharpness, eyes open, pose: OFIQ-style individual measures, turned into hints. Absolute brightness is not held against dark skin. |
-| `parallax.rs` | 3-D motion from the pixels: rigid points re-found in each turned frame by texture (NCC of a reference patch warped by the local homography, twice), and how far they depart from one homography. A flat print or screen fits one; a head does not. The landmarks alone were not enough (their face prior bends a tilted print's points towards a turning head's). |
+| `parallax.rs` | 3-D motion from the pixels: rigid points re-found in each turned frame by texture (NCC of a reference patch warped by the local homography, twice), and how far they depart from one homography. A flat print or screen fits one; a head does not. **On by default**, alongside learned anti-spoofing. `face/PATENTS.md` records unresolved research questions; clearance is not established. |
 | `antispoof.rs` | Minivision's MiniFASNetV2 + V1SE (Apache-2.0) on 2.7× and 4.0× crops. |
 | `recognise.rs` | ArcFace five-point alignment from the mesh, OpenCV's SFace (Apache-2.0 weights, stored as int8), cosine similarity. |
-| `liveness.rs` | The session: centre → sweep → finish, and the checks: ring coverage, 3-D motion (≥ 6% of the eye distance), anti-spoofing (the weakest sampled near-frontal frame ≥ 0.5), continuity (no jump a head cannot make, no long gap, no second face, timestamps in order), identity (the face after the sweep is the face before it), blinks (counted; required only if configured). |
+| `liveness.rs` | The session: centre → sweep → finish, and the checks: ring coverage, anti-spoofing (the 10th percentile of the live probability over frames sampled at every pose of the sweep, at the DEV equal-error point), 3-D motion (on by default; `face/PATENTS.md` records unresolved research), continuity (no jump a head cannot make, no long gap, no second face, timestamps in order), identity (the face after the sweep is the face before it), blinks (counted; required only if configured). |
 
 The page adds capture integrity: a camera whose name is a virtual camera's
 (OBS, ManyCam, v4l2loopback, …) fails unless `?allowVirtualCamera=1` (the e2e
@@ -883,8 +904,13 @@ face.threshold();                                     // the loaded model's thre
 
 The page gets `docscan:liveness` (`detail`: `passed`, the result with every
 check, `template`, `model`, `bestFrameUrl`) and then `docscan:complete`
-(with `match` for Face ID and Face vs ID document); the camera is released
-before the results screen opens.
+(with `match` for Face ID and Face vs ID document). For these verification
+flows, `docscan:complete.detail.passed` requires both successful liveness and
+a positive face match; a missing comparison fails. Templates must come from
+the same named model and have the same non-zero dimension, finite values,
+and a non-zero norm. The camera is released before the results screen opens.
+Missing anti-spoofing or recognition models produce failed required liveness
+checks; completing the head movement alone never passes.
 
 Natively, `examples/face.rs` runs the same code for evaluation: `photo`,
 `embed` (templates for a list of images), `liveness` (a session over a `.y4m`
@@ -899,7 +925,8 @@ benchmark and the e2e suite (`python face/synth/clips.py --e2e`).
 | LFW, raw images through the on-device pipeline (SFace int8) | threshold 0.366 (FAR 1e-3 on DEV) | TAR 99.41% @ FAR 1e-3 | **99.52 ± 0.33%** 10-fold; TAR 99.03% @ FAR 1e-3; at the DEV threshold FAR 0.07%, FRR 1.0% |
 | LFW, standard pre-aligned crops (lfw.bin) | | | 99.63%; CALFW 94.8%, CPLFW 90.9% |
 | Passive anti-spoofing, CelebA-Spoof (cross-dataset) | | AUC 0.908 | AUC 0.858, ACER 23.2% |
-| Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
+| Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | 2026-10-21: parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
+| Active liveness, same clips, current default (no 3-D check; anti-spoofing across poses) | 10th-percentile live ≥ 0.711 | APCER 0%, BPCER 3.3% (`bench/`) | not yet run |
 | Document photo vs live face (synthetic ID renders of LFW pairs) | threshold 0.356 | TAR 98.5% @ FAR 1e-3 | TAR 98.2% @ FAR 1e-3; FAR 0.03%, FRR 2.1% at the DEV threshold |
 
 Browser (headless Chrome, this machine): a liveness frame takes ~100 ms in the
@@ -928,6 +955,7 @@ settle the training data's terms; see the provenance column and
 | --- | --- | --- | --- | --- |
 | ocrs text detection and text recognition (`text-detection.rten`, `text-recognition.rten`; fetched by `scripts/fetch-models.sh`) | all OCR: ID documents, labels, proof of address | Robert Knight, [ocrs-models](https://github.com/robertknight/ocrs-models) ([model card](https://huggingface.co/robertknight/ocrs)) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Trained on Google's [HierText](https://github.com/google-research-datasets/hiertext) (CC BY-SA 4.0) and synthetic data. Commercial use allowed with attribution; **a modified version (fine-tuned, quantised, retrained) must be released under CC BY-SA 4.0**. |
 | Page detector (`models/text-detection-page.onnx`), a **modified version** of the ocrs text detection model | proof of address: words found in strips the width of the page | Robert Knight (the model); modified here by `scripts/make-page-detector.py` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | ocrs-models' `text-detection.onnx` with its input height and width made free and its skip connections' crops sized from their inputs; the weights are unchanged, and on the original 800 × 600 input the output is identical. |
+| Optional PP-OCRv6 tiny detector, recognizer and dictionary | general document text, selected on the text card | PaddlePaddle, [PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR) | Apache-2.0 (official model cards) | Official ONNX exports and dictionary, pinned by revision and SHA-256 in `scripts/ppocr-v6-models.json`; fetched at build time, loaded in the browser only when used. [Provenance and evidence](experiments/ppocr_v6/README.md). |
 | Proof-of-address field tagger (`models/poa-tagger.onnx`) | proof of address | this repository | MIT OR Apache-2.0 | Trained here on synthetic documents only. |
 | MediaPipe BlazeFace short-range (`face_detector.onnx`) | face detection | Google, [MediaPipe](https://github.com/google-ai-edge/mediapipe) | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) | Converted from the published `.tflite`; training data not published. |
 | MediaPipe Face Mesh V2 (`face_landmarks_detector.onnx`) and the canonical face mesh (`docscan/src/face/canonical.rs`) | face landmarks, head pose | Google, MediaPipe | Apache-2.0 | Converted from the published model and `canonical_face_model.obj`; training data not published. |

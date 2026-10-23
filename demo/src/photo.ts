@@ -5,11 +5,14 @@ import { downscale, flattenPage, today } from "./AddressCapture";
 import { toJpeg } from "./camera";
 import { type Captured, FLOWS } from "./IdCapture";
 import { chooseExtractor, type Extractor } from "./models";
+import type { TextEngine } from "./text-engine";
+import type { TextResult } from "./TextCapture";
 import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { ScannerId } from "./scanners";
 import type { FaceClient } from "./face-client";
-import { documentMatch, matchEnrolments } from "./FaceFlow";
+import { documentMatch, matchEnrolments } from "./face-types";
+import { DOC_THRESHOLD } from "./face-models";
 import { listEnrolments } from "./face-store";
 import type { PhotoFace } from "./face-types";
 import type { AddressResult, Barcode, DocumentResult, Labelled, PageAnalysis } from "./types";
@@ -28,7 +31,7 @@ async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<
  * `files`: one photo per step, in order (a smart ID's front, then its back);
  * extra photos are read as the last step.
  */
-export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient): Promise<Outcome> {
+export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient, textEngine: TextEngine = "ocrs"): Promise<Outcome> {
   const t0 = performance.now();
   const meta = (frames: number, ocrFrames = 0) => ({ source: "photo" as const, captureMs: performance.now() - t0, frames, ocrFrames });
 
@@ -62,11 +65,11 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
         if (result.found) docPhoto = { label: "Identity document (flattened)", imageUrl: flatUrl, face: result };
       }
       const selfie = await read(files[1], "Selfie");
-      const match = selfie.face.found ? documentMatch(selfie.face.template, docPhoto.face) : null;
+      const match = selfie.face.found ? documentMatch(selfie.face.template, selfie.face.model, docPhoto.face, DOC_THRESHOLD) : null;
       return { kind: "face", flow: "facedoc", liveness: null, match, photos: [docPhoto, selfie], meta: meta(2) };
     }
     const photo = await read(files[0], "Photo");
-    const match = scanner === "faceid" && photo.face.found ? matchEnrolments(photo.face.template, await listEnrolments(), ready.threshold) : null;
+    const match = scanner === "faceid" && photo.face.found ? matchEnrolments(photo.face.template, photo.face.model, await listEnrolments(), ready.threshold) : null;
     return { kind: "face", flow: scanner, liveness: null, match, photos: [photo], meta: meta(1) };
   }
 
@@ -83,7 +86,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     return { kind: "barcodes", labels: scanner === "labels", barcodes, fields, imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
   }
 
-  if (scanner === "address") {
+  if (scanner === "address" || scanner === "text") {
     const file = files[0];
     const full = await pixels(file);
     const fullWidth = full.width;
@@ -100,8 +103,13 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
       ({ flat: image, imageUrl, blob } = await flattenPage(client, await pixels(file), k, page));
     } else {
       image = await pixels(file);
+      if (scanner === "text") image = downscale(image, 2480);
       blob = await toJpeg(downscale(image, 1024));
       imageUrl = URL.createObjectURL(blob);
+    }
+    if (scanner === "text") {
+      const { result, memoryBytes } = await client.run<TextResult>({ kind: textEngine === "ppocr_v6_tiny" ? "text_v6" : "text_page", image });
+      return { kind: "text", result, imageUrl, meta: { ...meta(2, 1), memoryBytes } };
     }
     const tRead = performance.now();
     const extractor = chooseExtractor((await client.ready).tagger, method);
@@ -136,4 +144,14 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     captured.push({ step: step.label, result, imageUrl, fallback: false, stepMs: performance.now() - tStep, frames: 1 });
   }
   return { kind: "id", scanner, captured, meta: meta(files.length, files.length) };
+}
+
+
+/** A discarded upload must release the image URLs it would have displayed. */
+export function releasePhotoOutcome(outcome: Outcome): void {
+  const urls = outcome.kind === "id" ? outcome.captured.map((c) => c.imageUrl)
+    : outcome.kind === "address" ? [outcome.captured.imageUrl]
+    : outcome.kind === "face" ? [...(outcome.photos?.map((p) => p.imageUrl) ?? []), outcome.document?.imageUrl]
+    : [outcome.imageUrl];
+  for (const url of new Set(urls)) if (url?.startsWith("blob:")) URL.revokeObjectURL(url);
 }

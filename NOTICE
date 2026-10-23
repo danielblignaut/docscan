@@ -51,3 +51,13 @@ Other Rust crates and npm packages: see docscan/Cargo.lock and
 demo/pnpm-lock.yaml; each is under its own (MIT and/or Apache-2.0) licence.
 
 Licences do not grant patent rights. Face liveness is a heavily patented field.
+
+Optional PP-OCRv6 tiny general-text reader
+----------------------------------------
+The official tiny detector/recognizer weights and character dictionary are
+published by PaddlePaddle under Apache-2.0. The weights are fetched, not stored
+in this repository; pinned revisions and checksums are recorded in
+scripts/ppocr-v6-models.json. The dictionary derives from the pinned official
+recognizer configuration. Rust preprocessing/postprocessing follows the
+PaddleX conventions documented in experiments/ppocr_v6/README.md; the public
+model distribution includes scripts/ppocr-v6-NOTICE.txt and LICENSE-APACHE.

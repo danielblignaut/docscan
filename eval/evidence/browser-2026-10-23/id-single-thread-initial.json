@@ -1,0 +1,92 @@
+[
+  {
+    "name": "smart-id-front-then-back",
+    "ok": false,
+    "why": "TimeoutError: page.waitForFunction: Timeout 90000ms exceeded.",
+    "hint": "Reading…",
+    "stats": "5 analyses/s · last OCR 1348 ms · sharp 249 · glare 1.1% · unknown",
+    "captures": [],
+    "kinds": [
+      "unknown",
+      "za_smart_id_front",
+      "za_smart_id_back"
+    ],
+    "timings": {
+      "frames": 112,
+      "fastMs": 164,
+      "fastP90": 210,
+      "ocrMs": 193,
+      "ocrFrames": 60,
+      "ocrPerPassMs": 1530,
+      "passes": {
+        "0": 37,
+        "1": 20,
+        "2": 3
+      },
+      "size": [
+        1144,
+        720
+      ]
+    },
+    "logs": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "seen": []
+  },
+  {
+    "name": "gb-passport",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 722,
+    "doneMs": 20013,
+    "captures": [
+      {
+        "kind": "gb_passport",
+        "stepMs": 19714,
+        "sinceStartMs": 19714,
+        "fallback": false,
+        "ocrMs": 7687.640000343323
+      }
+    ],
+    "problems": [],
+    "outline": "grey → green → done",
+    "timings": {
+      "frames": 19,
+      "fastMs": 151,
+      "fastP90": 202,
+      "ocrMs": 8200,
+      "ocrFrames": 2,
+      "ocrPerPassMs": 8070,
+      "passes": {
+        "1": 2
+      },
+      "size": [
+        783,
+        540
+      ]
+    }
+  },
+  {
+    "name": "back-from-capture",
+    "ok": true,
+    "threads": 8,
+    "readyMs": 844,
+    "doneMs": 3994,
+    "captures": [],
+    "problems": [],
+    "outline": "grey",
+    "timings": {
+      "frames": 27,
+      "fastMs": 88,
+      "fastP90": 104,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        827,
+        540
+      ]
+    }
+  }
+]

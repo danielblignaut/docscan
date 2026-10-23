@@ -20,6 +20,8 @@ pub mod page;
 pub mod poa;
 pub mod quad;
 pub mod quality;
+pub mod text;
+pub mod text_v6;
 pub mod za;
 
 use ocrs::{ImageSource, OcrEngine, OcrEngineParams, TextItem};
@@ -384,6 +386,13 @@ impl Scanner {
         }
         let more = poa::capture::next_frame_needed(&r);
         to_js(&Out { result: r, more })
+    }
+
+    /// General page OCR with enhancement, small-print detection and word boxes.
+    /// Input must be upright and flattened; boxes refer to the returned page_size.
+    pub fn text_page(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let result = self.text_page_native(rgba, width, height).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&result)
     }
 
     /// Recognised text lines only, for general OCR use.

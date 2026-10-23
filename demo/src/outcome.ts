@@ -1,5 +1,6 @@
 // What a finished scan hands to the results screen: the captured data, and
 // how it was captured (for the Metadata section).
+import type { TextResult } from "./TextCapture";
 import type { AddressCaptured } from "./AddressCapture";
 import type { DocumentFace, FaceFlowId, FaceMatch } from "./FaceFlow";
 import type { LivenessOutcome } from "./FaceLiveness";
@@ -26,6 +27,8 @@ export interface CaptureMeta {
   /** Median milliseconds per fast pass and per OCR pass. */
   fastMs?: number | null;
   ocrMs?: number | null;
+  /** Allocated wasm linear memory after the read (not total browser RAM). */
+  memoryBytes?: number;
 }
 
 export interface SeenCode {
@@ -36,6 +39,7 @@ export interface SeenCode {
 }
 
 export type Outcome =
+  | { kind: "text"; result: TextResult; imageUrl: string; meta: CaptureMeta }
   | { kind: "id"; scanner: ScannerId; captured: Captured[]; meta: CaptureMeta }
   | {
       kind: "face";

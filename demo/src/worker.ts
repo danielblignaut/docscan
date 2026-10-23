@@ -1,13 +1,16 @@
+import { modelUrl } from "./model-url";
 /// <reference lib="webworker" />
 // Runs the docscan WebAssembly off the main thread, so the camera preview
 // never stutters while OCR runs. One request at a time: the page sends the
 // next frame only when the previous answer is back.
-import init, { Scanner } from "docscan";
+import init, { Scanner, PaddleTextScanner } from "docscan";
 import wasmUrl from "docscan/docscan_bg.wasm?url";
 
 export type WorkerRequest =
   | { id: number; kind: "document"; image: ImageData; runOcr: boolean; expected: string }
   | { id: number; kind: "barcodes"; image: ImageData; formats: string[] }
+  | { id: number; kind: "text_v6"; image: ImageData }
+  | { id: number; kind: "text_page"; image: ImageData }
   | { id: number; kind: "text"; image: ImageData }
   | { id: number; kind: "labelled"; image: ImageData }
   | { id: number; kind: "flatten"; image: ImageData; corners: number[]; width: number; height: number }
@@ -24,6 +27,29 @@ export type WorkerResponse =
   | { kind: "result"; id: number; request: WorkerRequest["kind"]; ms: number; result: unknown; memoryBytes: number };
 
 let scanner: Scanner | null = null;
+let createPaddle = () => new PaddleTextScanner();
+let paddleReady: Promise<PaddleTextScanner> | null = null;
+
+/** The optional reader downloads only on its first actual text request. */
+function paddleScanner(): Promise<PaddleTextScanner> {
+  paddleReady ??= (async () => {
+    const [det, rec, dictionary] = await Promise.all([
+      fetchModel("ppocr-v6-tiny-det.onnx"),
+      fetchModel("ppocr-v6-tiny-rec.onnx"),
+      fetchModel("ppocr-v6-tiny-dictionary.json"),
+    ]);
+    const reader = createPaddle();
+    try {
+      reader.load_detector(det!);
+      reader.load_recognizer(rec!, new TextDecoder().decode(dictionary!));
+      return reader;
+    } catch (error) {
+      reader.free();
+      throw error;
+    }
+  })().catch((error) => { paddleReady = null; throw error; });
+  return paddleReady;
+}
 /** The wasm linear memory, to report how large it has grown (it never shrinks). */
 let memory: WebAssembly.Memory | null = null;
 
@@ -37,6 +63,7 @@ async function loadScanner(threads: number): Promise<{ scanner: Scanner; threads
     memory = (await mt.default()).memory;
     if (typeof mt.initThreadPool === "function") {
       await mt.initThreadPool(threads);
+      createPaddle = () => new mt.PaddleTextScanner() as PaddleTextScanner;
       return { scanner: new mt.Scanner() as Scanner, threads };
     }
   }
@@ -49,7 +76,7 @@ async function loadScanner(threads: number): Promise<{ scanner: Scanner; threads
  * visit loads it offline. Reports download progress to the page.
  */
 async function fetchModel(name: string, optional = false): Promise<Uint8Array | null> {
-  const url = `${import.meta.env.BASE_URL}models/${name}`;
+  const url = modelUrl(`${name}`);
   const cache = typeof caches !== "undefined" ? await caches.open("docscan-models-v1").catch(() => null) : null;
   const hit = await cache?.match(url);
   if (hit) {
@@ -151,6 +178,8 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
         result = { ...out.result, customer: out.customer };
       } else result = scanner.address(bytes, width, height, req.today, req.method);
     }
+    else if (req.kind === "text_v6") result = (await paddleScanner()).read(bytes, width, height);
+    else if (req.kind === "text_page") result = scanner.text_page(bytes, width, height);
     else result = scanner.text(bytes, width, height);
     post({ kind: "result", id: req.id, request: req.kind, ms: performance.now() - t0, result, memoryBytes: memory?.buffer.byteLength ?? 0 });
   } catch (e) {

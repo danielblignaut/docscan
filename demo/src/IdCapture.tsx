@@ -120,10 +120,13 @@ function hint(r: DocumentResult | null, step: Step): string {
 export function IdCapture({
   client,
   docType,
+  emitEvents = true,
   onDone,
 }: {
   client: ScannerClient;
   docType: DocType;
+  /** Nested verification flows publish their own completion event. */
+  emitEvents?: boolean;
   onDone: (c: Captured[], meta: CaptureMeta) => void;
 }) {
   const steps = FLOWS[docType];
@@ -249,7 +252,9 @@ export function IdCapture({
           const outW = Math.min(2000, Math.round(aw * k));
           const outH = Math.round((outW * ah) / aw);
           const flat = await client.run<ImageData>({ kind: "flatten", image: full, corners, width: outW, height: outH });
+          if (stopped) return;
           const blob = await toJpeg(flat.result);
+          if (stopped) return;
           const at = performance.now();
           const entry: Captured = { step: s.label, result, imageUrl: URL.createObjectURL(blob), fallback, stepMs: at - stepStart, frames: stepFrames };
           captured.current.push(entry);
@@ -264,7 +269,7 @@ export function IdCapture({
           });
           // For a host page: one event per captured side, with the reading and
           // the flattened JPEG (`blob`, and `imageUrl` for an <img>).
-          window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { ...entry, blob } }));
+          if (emitEvents) window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { ...entry, blob } }));
           stepStart = at;
           stepFrames = 0;
           lastKey = null;
@@ -281,7 +286,7 @@ export function IdCapture({
             const check = crossCheck(captured.current);
             if (check) docscan().events.push({ type: "crosscheck", ...check });
             // The flow is finished: the camera stops when this view unmounts.
-            window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { captured: captured.current, crossCheck: check } }));
+            if (emitEvents) window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { captured: captured.current, crossCheck: check } }));
             onDone(captured.current, {
               source: "camera",
               captureMs: at - t0,
@@ -294,6 +299,7 @@ export function IdCapture({
           }
         }
       } catch (e) {
+        if (stopped) return;
         setError(String(e));
       }
       requestAnimationFrame(loop);
@@ -313,12 +319,12 @@ export function IdCapture({
         }
         requestAnimationFrame(loop);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : String(e)));
+      .catch((e) => { if (!stopped) setError(e instanceof Error ? e.message : String(e)); });
     return () => {
       stopped = true;
       for (const t of stream?.getTracks() ?? []) t.stop();
     };
-  }, [client, steps, onDone]);
+  }, [client, steps, onDone, emitEvents]);
 
   return (
     <div className="capture">

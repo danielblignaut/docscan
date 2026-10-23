@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 BIN = ROOT / "docscan/target/release/examples/face"
 CLIPS = Path("/tmp/face-data/clips")
 RUNS = Path("/tmp/face-data/liveness-runs")
-DEFAULTS = {"min_parallax": 0.06, "min_antispoof": 0.5, "min_identity": 0.5}
+DEFAULTS = {"min_parallax": 0.06, "min_antispoof": 0.711, "min_identity": 0.5}  # min_antispoof: antispoof::session_threshold()
 # The clips frame the face (and attackers hold their print or screen) for a
 # guide of this radius (a share of the frame's shorter side). The demo passes
 # its own oval's geometry; an attacker adjusts distance until the size hint

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "smart-id-front-then-back",
+    "video": "hd/smart-id-front-back-v2.y4m",
+    "fixtureVersion": 2,
+    "ok": true,
+    "threads": 1,
+    "readyMs": 732,
+    "doneMs": 26219,
+    "captures": [
+      {
+        "kind": "za_smart_id_front",
+        "stepMs": 12137,
+        "sinceStartMs": 12137,
+        "fallback": false,
+        "ocrMs": 4198.064999580383
+      },
+      {
+        "kind": "za_smart_id_back",
+        "stepMs": 13724,
+        "sinceStartMs": 25861,
+        "fallback": false,
+        "ocrMs": 0.005000114440917969
+      }
+    ],
+    "problems": [],
+    "outline": "grey → green → grey → green → done",
+    "timings": {
+      "frames": 79,
+      "fastMs": 173,
+      "fastP90": 201,
+      "ocrMs": 4910,
+      "ocrFrames": 2,
+      "ocrPerPassMs": 4721,
+      "passes": {
+        "1": 2
+      },
+      "size": [
+        1144,
+        720
+      ]
+    }
+  }
+]

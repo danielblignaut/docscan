@@ -1,3 +1,4 @@
+import { modelUrl } from "./model-url";
 /// <reference lib="webworker" />
 // The face models in their own Web Worker (the document scanner's worker
 // keeps the OCR models): BlazeFace and Face Mesh V2 for tracking, the
@@ -30,7 +31,7 @@ function post(m: FaceResponse) {
 }
 
 async function fetchModel(name: string): Promise<Uint8Array> {
-  const url = `${import.meta.env.BASE_URL}models/face/${name}`;
+  const url = modelUrl(`face/${name}`);
   const cache = typeof caches !== "undefined" ? await caches.open("docscan-models-v1").catch(() => null) : null;
   const hit = await cache?.match(url);
   if (hit) {

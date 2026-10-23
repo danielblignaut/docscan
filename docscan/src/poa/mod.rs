@@ -145,7 +145,7 @@ pub fn clean(s: &str) -> String {
     let t = s.trim().trim_matches(|c: char| matches!(c, ',' | ';' | ':' | '|' | '-' | '–' | '(' | ')' | '"' | '\'')).trim();
     // A full stop OCR read for a comma ("Benoni."), but not an initial's ("J.").
     let last = t.split_whitespace().last().unwrap_or("");
-    let t = if last.len() > 2 && !last[..last.len() - 1].contains('.') { t.strip_suffix('.').unwrap_or(t) } else { t };
+    let t = if last.strip_suffix('.').is_some_and(|stem| stem.chars().count() > 1 && !stem.contains('.')) { t.strip_suffix('.').unwrap_or(t) } else { t };
     t.trim_end_matches(',').trim().to_string()
 }
 
@@ -564,4 +564,14 @@ pub fn verify_fields(f: &Fields, text: &str, confidence: &[(&'static str, f32)],
         reasons.push("postal code does not match the province".into());
     }
     Verification { fields: checks, postal_code, age, accepted: reasons.is_empty(), reasons }
+}
+
+#[cfg(test)]
+mod text_tests {
+    #[test]
+    fn clean_preserves_unicode_and_initials() {
+        for (input, expected) in [("René", "René"), ("René.", "René"), ("É.", "É."), ("J.", "J."), ("J.P.", "J.P."), ("Benoni.", "Benoni"), ("李", "李")] {
+            assert_eq!(super::clean(input), expected);
+        }
+    }
 }

@@ -32,10 +32,11 @@
   },
   {
     "name": "smart-id-front-then-back",
-    "video": "hd/smart-id-front-back.y4m",
+    "video": "hd/smart-id-front-back-v2.y4m",
+    "fixtureVersion": 2,
     "query": "?doc=smart_id",
     "timeout": 90000,
-    "note": "testdata/make_front_back.py: an HD front clip followed by hd/za_smart_id_back.y4m",
+    "note": "DEV fixture v2 (make_front_back_v2.py): original pixels/arrival sequences, front held 20s and back 12s for slow single-thread OCR. The original 2.2s holds were timing-sensitive; acceptance and timeout unchanged.",
     "expect": {
       "type": "captured",
       "count": 2,

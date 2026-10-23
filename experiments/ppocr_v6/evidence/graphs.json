@@ -1,0 +1,205 @@
+{
+  "small_rec": {
+    "opset": [
+      [
+        "",
+        11
+      ]
+    ],
+    "operators": [
+      "Add",
+      "AveragePool",
+      "BatchNormalization",
+      "Concat",
+      "Conv",
+      "Div",
+      "Erf",
+      "HardSigmoid",
+      "Identity",
+      "MatMul",
+      "MaxPool",
+      "Mul",
+      "Pow",
+      "ReduceMean",
+      "Relu",
+      "Reshape",
+      "Shape",
+      "Sigmoid",
+      "Slice",
+      "Softmax",
+      "Sqrt",
+      "Squeeze",
+      "Sub",
+      "Transpose",
+      "Unsqueeze"
+    ],
+    "inputs": [
+      [
+        "x",
+        [
+          "DynamicDimension.0",
+          3,
+          48,
+          "DynamicDimension.1"
+        ],
+        "tensor(float)"
+      ]
+    ],
+    "outputs": [
+      [
+        "fetch_name_0",
+        [
+          "DynamicDimension.0",
+          "Reshape_471_o0__d2",
+          18710
+        ],
+        "tensor(float)"
+      ]
+    ]
+  },
+  "small_det": {
+    "opset": [
+      [
+        "",
+        14
+      ]
+    ],
+    "operators": [
+      "Add",
+      "Concat",
+      "Conv",
+      "ConvTranspose",
+      "Div",
+      "Erf",
+      "GlobalAveragePool",
+      "HardSigmoid",
+      "MaxPool",
+      "Mul",
+      "ReduceMean",
+      "Relu",
+      "Resize",
+      "Sigmoid"
+    ],
+    "inputs": [
+      [
+        "x",
+        [
+          "DynamicDimension.0",
+          3,
+          "DynamicDimension.1",
+          "DynamicDimension.2"
+        ],
+        "tensor(float)"
+      ]
+    ],
+    "outputs": [
+      [
+        "fetch_name_0",
+        [
+          "ConvTranspose_459_o0__d0",
+          1,
+          "ConvTranspose_459_o0__d2",
+          "ConvTranspose_459_o0__d3"
+        ],
+        "tensor(float)"
+      ]
+    ]
+  },
+  "tiny_rec": {
+    "opset": [
+      [
+        "",
+        11
+      ]
+    ],
+    "operators": [
+      "Add",
+      "AveragePool",
+      "BatchNormalization",
+      "Conv",
+      "Div",
+      "Erf",
+      "HardSigmoid",
+      "Identity",
+      "MatMul",
+      "Mul",
+      "ReduceMean",
+      "Relu",
+      "Softmax",
+      "Squeeze",
+      "Transpose",
+      "Unsqueeze"
+    ],
+    "inputs": [
+      [
+        "x",
+        [
+          "DynamicDimension.0",
+          3,
+          48,
+          "DynamicDimension.1"
+        ],
+        "tensor(float)"
+      ]
+    ],
+    "outputs": [
+      [
+        "fetch_name_0",
+        [
+          "DynamicDimension.0",
+          "floor(floor(floor(DynamicDimension.1/2 - 1/2)/2)/2 - 1/2) + 1",
+          6906
+        ],
+        "tensor(float)"
+      ]
+    ]
+  },
+  "tiny_det": {
+    "opset": [
+      [
+        "",
+        14
+      ]
+    ],
+    "operators": [
+      "Add",
+      "Concat",
+      "Conv",
+      "ConvTranspose",
+      "Div",
+      "Erf",
+      "GlobalAveragePool",
+      "HardSigmoid",
+      "MaxPool",
+      "Mul",
+      "ReduceMean",
+      "Relu",
+      "Resize",
+      "Sigmoid"
+    ],
+    "inputs": [
+      [
+        "x",
+        [
+          "DynamicDimension.0",
+          3,
+          "DynamicDimension.1",
+          "DynamicDimension.2"
+        ],
+        "tensor(float)"
+      ]
+    ],
+    "outputs": [
+      [
+        "fetch_name_0",
+        [
+          "ConvTranspose_459_o0__d0",
+          1,
+          "ConvTranspose_459_o0__d2",
+          "ConvTranspose_459_o0__d3"
+        ],
+        "tensor(float)"
+      ]
+    ]
+  }
+}

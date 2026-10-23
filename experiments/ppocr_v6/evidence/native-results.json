@@ -1,0 +1,2825 @@
+{
+  "protocol": "general-text-dev-v1-ppocr-native",
+  "synthetic_only": true,
+  "runtime": "RTen0.26 native, Rust preprocessing/DB/CTC; not browser",
+  "threads": 2,
+  "binary_sha256": "df0b718914091ecc76e9bda8936a8cd69d49173f82e79ed5aba1e51c6a785986",
+  "source_scorer_sha256": "6fb5b0db550f37c25f759cd2a389869e2ed580139c10c562ebe1934fcb2167e6",
+  "source_revision": "916a30bf92240d35c45f7d2482701d0bf5b58c8c",
+  "model_manifest": {
+    "engine": "ppocr_v6_tiny",
+    "license": "Apache-2.0 (official model cards)",
+    "artifacts": [
+      {
+        "filename": "ppocr-v6-tiny-det.onnx",
+        "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_det_onnx/resolve/2ba1506c0380b8f0b03dd142459aac66d4421f6c/inference.onnx",
+        "bytes": 1780590,
+        "sha256": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+        "repo": "PaddlePaddle/PP-OCRv6_tiny_det_onnx",
+        "revision": "2ba1506c0380b8f0b03dd142459aac66d4421f6c",
+        "license": "Apache-2.0"
+      },
+      {
+        "filename": "ppocr-v6-tiny-rec.onnx",
+        "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx/resolve/2612ab37152ae0a677521bae4e1e3d4fb4cf7c30/inference.onnx",
+        "bytes": 4462639,
+        "sha256": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6",
+        "repo": "PaddlePaddle/PP-OCRv6_tiny_rec_onnx",
+        "revision": "2612ab37152ae0a677521bae4e1e3d4fb4cf7c30",
+        "license": "Apache-2.0"
+      },
+      {
+        "filename": "ppocr-v6-tiny-dictionary.json",
+        "source": "docscan/src/text_v6_dictionary.json",
+        "bytes": 40975,
+        "sha256": "33bb158d54d41942f51cf8222943e76c26064c207104388e3bc7e2a271e77064",
+        "license": "Apache-2.0",
+        "derived_from": {
+          "url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx/resolve/2612ab37152ae0a677521bae4e1e3d4fb4cf7c30/inference.yml",
+          "bytes": 55571,
+          "sha256": "66170210bad538e83fff3c4a3867e547d6bf20b50d64b20347c4b913f3034ea1"
+        },
+        "format": "JSON array of 6906 CTC symbols; blank at index 0, space last"
+      }
+    ]
+  },
+  "summary": {
+    "cer": 0.0,
+    "word_recall": 1.0,
+    "extra_words": 0,
+    "mean_ms_unpaired": 883.2305908203125
+  },
+  "rows": [
+    {
+      "sample": "family0-size14-clean",
+      "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9841431975364685,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                158.0
+              ],
+              [
+                417.0,
+                158.0
+              ],
+              [
+                417.0,
+                175.0
+              ],
+              [
+                93.0,
+                175.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 324.0,
+            "x": 93.0,
+            "y": 158.0
+          },
+          {
+            "confidence": 0.99275141954422,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                191.0
+              ],
+              [
+                376.0,
+                191.0
+              ],
+              [
+                376.0,
+                208.0
+              ],
+              [
+                93.0,
+                208.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 283.0,
+            "x": 93.0,
+            "y": 191.0
+          },
+          {
+            "confidence": 0.9908590912818909,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                223.0
+              ],
+              [
+                501.0,
+                223.0
+              ],
+              [
+                501.0,
+                241.0
+              ],
+              [
+                93.0,
+                241.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils",
+            "w": 408.0,
+            "x": 93.0,
+            "y": 223.0
+          },
+          {
+            "confidence": 0.993563711643219,
+            "h": 24.0,
+            "quad": [
+              [
+                90.0,
+                251.0
+              ],
+              [
+                505.0,
+                253.0
+              ],
+              [
+                504.0,
+                275.0
+              ],
+              [
+                90.0,
+                273.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package.",
+            "w": 415.0,
+            "x": 90.0,
+            "y": 251.0
+          },
+          {
+            "confidence": 0.9808618426322937,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                287.0
+              ],
+              [
+                428.0,
+                287.0
+              ],
+              [
+                428.0,
+                305.0
+              ],
+              [
+                93.0,
+                305.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature.",
+            "w": 335.0,
+            "x": 93.0,
+            "y": 287.0
+          },
+          {
+            "confidence": 0.9916664958000183,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                318.0
+              ],
+              [
+                444.0,
+                318.0
+              ],
+              [
+                444.0,
+                336.0
+              ],
+              [
+                93.0,
+                336.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 351.0,
+            "x": 93.0,
+            "y": 318.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size14-clean.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 680.093017578125,
+          "recognize": 413.53466796875,
+          "total": 1093.627685546875
+        }
+      }
+    },
+    {
+      "sample": "family0-size14-shade",
+      "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.984898567199707,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                158.0
+              ],
+              [
+                417.0,
+                158.0
+              ],
+              [
+                417.0,
+                175.0
+              ],
+              [
+                93.0,
+                175.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 324.0,
+            "x": 93.0,
+            "y": 158.0
+          },
+          {
+            "confidence": 0.9906615018844604,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                191.0
+              ],
+              [
+                374.0,
+                191.0
+              ],
+              [
+                374.0,
+                208.0
+              ],
+              [
+                93.0,
+                208.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 281.0,
+            "x": 93.0,
+            "y": 191.0
+          },
+          {
+            "confidence": 0.994071900844574,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                223.0
+              ],
+              [
+                501.0,
+                223.0
+              ],
+              [
+                501.0,
+                241.0
+              ],
+              [
+                93.0,
+                241.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils",
+            "w": 408.0,
+            "x": 93.0,
+            "y": 223.0
+          },
+          {
+            "confidence": 0.9793493151664734,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                256.0
+              ],
+              [
+                501.0,
+                256.0
+              ],
+              [
+                501.0,
+                274.0
+              ],
+              [
+                93.0,
+                274.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package",
+            "w": 408.0,
+            "x": 93.0,
+            "y": 256.0
+          },
+          {
+            "confidence": 0.9654534459114075,
+            "h": 22.0,
+            "quad": [
+              [
+                92.0,
+                286.0
+              ],
+              [
+                429.0,
+                286.0
+              ],
+              [
+                429.0,
+                308.0
+              ],
+              [
+                92.0,
+                308.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature.",
+            "w": 337.0,
+            "x": 92.0,
+            "y": 286.0
+          },
+          {
+            "confidence": 0.9714953303337097,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                320.0
+              ],
+              [
+                444.0,
+                320.0
+              ],
+              [
+                444.0,
+                338.0
+              ],
+              [
+                93.0,
+                338.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 351.0,
+            "x": 93.0,
+            "y": 320.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size14-shade.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 620.896240234375,
+          "recognize": 282.22900390625,
+          "total": 903.125244140625
+        }
+      }
+    },
+    {
+      "sample": "family0-size20-clean",
+      "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9991101026535034,
+            "h": 26.0,
+            "quad": [
+              [
+                92.0,
+                157.0
+              ],
+              [
+                554.0,
+                157.0
+              ],
+              [
+                554.0,
+                183.0
+              ],
+              [
+                92.0,
+                183.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 462.0,
+            "x": 92.0,
+            "y": 157.0
+          },
+          {
+            "confidence": 0.9848954081535339,
+            "h": 22.0,
+            "quad": [
+              [
+                93.0,
+                198.0
+              ],
+              [
+                493.0,
+                198.0
+              ],
+              [
+                493.0,
+                220.0
+              ],
+              [
+                93.0,
+                220.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 400.0,
+            "x": 93.0,
+            "y": 198.0
+          },
+          {
+            "confidence": 0.9761993885040283,
+            "h": 21.0,
+            "quad": [
+              [
+                93.0,
+                237.0
+              ],
+              [
+                678.0,
+                237.0
+              ],
+              [
+                678.0,
+                258.0
+              ],
+              [
+                93.0,
+                258.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils.",
+            "w": 585.0,
+            "x": 93.0,
+            "y": 237.0
+          },
+          {
+            "confidence": 0.9818291068077087,
+            "h": 22.0,
+            "quad": [
+              [
+                93.0,
+                275.0
+              ],
+              [
+                678.0,
+                275.0
+              ],
+              [
+                678.0,
+                297.0
+              ],
+              [
+                93.0,
+                297.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package",
+            "w": 585.0,
+            "x": 93.0,
+            "y": 275.0
+          },
+          {
+            "confidence": 0.9799067378044128,
+            "h": 22.0,
+            "quad": [
+              [
+                93.0,
+                313.0
+              ],
+              [
+                571.0,
+                313.0
+              ],
+              [
+                571.0,
+                335.0
+              ],
+              [
+                93.0,
+                335.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature.",
+            "w": 478.0,
+            "x": 93.0,
+            "y": 313.0
+          },
+          {
+            "confidence": 0.9904136061668396,
+            "h": 22.0,
+            "quad": [
+              [
+                93.0,
+                350.0
+              ],
+              [
+                597.0,
+                350.0
+              ],
+              [
+                597.0,
+                372.0
+              ],
+              [
+                93.0,
+                372.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 504.0,
+            "x": 93.0,
+            "y": 350.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size20-clean.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 439.20263671875,
+          "recognize": 400.809814453125,
+          "total": 840.012451171875
+        }
+      }
+    },
+    {
+      "sample": "family0-size20-shade",
+      "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.994441568851471,
+            "h": 21.0,
+            "quad": [
+              [
+                95.0,
+                162.0
+              ],
+              [
+                553.0,
+                162.0
+              ],
+              [
+                553.0,
+                183.0
+              ],
+              [
+                95.0,
+                183.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 458.0,
+            "x": 95.0,
+            "y": 162.0
+          },
+          {
+            "confidence": 0.9657053351402283,
+            "h": 26.0,
+            "quad": [
+              [
+                94.0,
+                197.0
+              ],
+              [
+                495.0,
+                197.0
+              ],
+              [
+                495.0,
+                223.0
+              ],
+              [
+                94.0,
+                223.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 401.0,
+            "x": 94.0,
+            "y": 197.0
+          },
+          {
+            "confidence": 0.9807599186897278,
+            "h": 26.0,
+            "quad": [
+              [
+                92.0,
+                235.0
+              ],
+              [
+                679.0,
+                235.0
+              ],
+              [
+                679.0,
+                261.0
+              ],
+              [
+                92.0,
+                261.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils.",
+            "w": 587.0,
+            "x": 92.0,
+            "y": 235.0
+          },
+          {
+            "confidence": 0.9849778413772583,
+            "h": 22.0,
+            "quad": [
+              [
+                93.0,
+                277.0
+              ],
+              [
+                678.0,
+                277.0
+              ],
+              [
+                678.0,
+                299.0
+              ],
+              [
+                93.0,
+                299.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package",
+            "w": 585.0,
+            "x": 93.0,
+            "y": 277.0
+          },
+          {
+            "confidence": 0.9791507720947266,
+            "h": 28.0,
+            "quad": [
+              [
+                92.0,
+                312.0
+              ],
+              [
+                570.0,
+                314.0
+              ],
+              [
+                570.0,
+                340.0
+              ],
+              [
+                92.0,
+                338.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature",
+            "w": 478.0,
+            "x": 92.0,
+            "y": 312.0
+          },
+          {
+            "confidence": 0.984793484210968,
+            "h": 22.0,
+            "quad": [
+              [
+                95.0,
+                352.0
+              ],
+              [
+                597.0,
+                352.0
+              ],
+              [
+                597.0,
+                374.0
+              ],
+              [
+                95.0,
+                374.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 502.0,
+            "x": 95.0,
+            "y": 352.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size20-shade.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 524.810546875,
+          "recognize": 503.37109375,
+          "total": 1028.181640625
+        }
+      }
+    },
+    {
+      "sample": "family0-size28-clean",
+      "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9951328635215759,
+            "h": 31.0,
+            "quad": [
+              [
+                93.0,
+                159.0
+              ],
+              [
+                738.0,
+                159.0
+              ],
+              [
+                738.0,
+                190.0
+              ],
+              [
+                93.0,
+                190.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 645.0,
+            "x": 93.0,
+            "y": 159.0
+          },
+          {
+            "confidence": 0.9954148530960083,
+            "h": 35.0,
+            "quad": [
+              [
+                92.0,
+                204.0
+              ],
+              [
+                657.0,
+                206.0
+              ],
+              [
+                657.0,
+                239.0
+              ],
+              [
+                92.0,
+                237.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 565.0,
+            "x": 92.0,
+            "y": 204.0
+          },
+          {
+            "confidence": 0.9808232188224792,
+            "h": 35.0,
+            "quad": [
+              [
+                92.0,
+                250.0
+              ],
+              [
+                914.0,
+                251.0
+              ],
+              [
+                914.0,
+                285.0
+              ],
+              [
+                92.0,
+                284.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils.",
+            "w": 822.0,
+            "x": 92.0,
+            "y": 250.0
+          },
+          {
+            "confidence": 0.984689474105835,
+            "h": 36.0,
+            "quad": [
+              [
+                92.0,
+                296.0
+              ],
+              [
+                912.0,
+                298.0
+              ],
+              [
+                912.0,
+                332.0
+              ],
+              [
+                92.0,
+                329.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package.",
+            "w": 820.0,
+            "x": 92.0,
+            "y": 296.0
+          },
+          {
+            "confidence": 0.9751344323158264,
+            "h": 30.0,
+            "quad": [
+              [
+                93.0,
+                346.0
+              ],
+              [
+                764.0,
+                346.0
+              ],
+              [
+                764.0,
+                376.0
+              ],
+              [
+                93.0,
+                376.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature.",
+            "w": 671.0,
+            "x": 93.0,
+            "y": 346.0
+          },
+          {
+            "confidence": 0.9832947850227356,
+            "h": 26.0,
+            "quad": [
+              [
+                94.0,
+                393.0
+              ],
+              [
+                796.0,
+                393.0
+              ],
+              [
+                796.0,
+                419.0
+              ],
+              [
+                94.0,
+                419.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 702.0,
+            "x": 94.0,
+            "y": 393.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size28-clean.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package.\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 721.47265625,
+          "recognize": 455.6162109375,
+          "total": 1177.0888671875
+        }
+      }
+    },
+    {
+      "sample": "family0-size28-shade",
+      "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+      "characters": 285,
+      "edits": 0,
+      "words": 44,
+      "correct_words": 44,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9948006868362427,
+            "h": 30.0,
+            "quad": [
+              [
+                94.0,
+                161.0
+              ],
+              [
+                736.0,
+                161.0
+              ],
+              [
+                736.0,
+                191.0
+              ],
+              [
+                94.0,
+                191.0
+              ]
+            ],
+            "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE",
+            "w": 642.0,
+            "x": 94.0,
+            "y": 161.0
+          },
+          {
+            "confidence": 0.9976313710212708,
+            "h": 40.0,
+            "quad": [
+              [
+                93.0,
+                203.0
+              ],
+              [
+                660.0,
+                207.0
+              ],
+              [
+                660.0,
+                243.0
+              ],
+              [
+                93.0,
+                239.0
+              ]
+            ],
+            "text": "Please retain this page for your records.",
+            "w": 567.0,
+            "x": 93.0,
+            "y": 203.0
+          },
+          {
+            "confidence": 0.9827229380607605,
+            "h": 36.0,
+            "quad": [
+              [
+                92.0,
+                250.0
+              ],
+              [
+                914.0,
+                252.0
+              ],
+              [
+                914.0,
+                286.0
+              ],
+              [
+                92.0,
+                284.0
+              ]
+            ],
+            "text": "The delivery contains four blue folders and twelve pencils.",
+            "w": 822.0,
+            "x": 92.0,
+            "y": 250.0
+          },
+          {
+            "confidence": 0.9858273267745972,
+            "h": 37.0,
+            "quad": [
+              [
+                93.0,
+                297.0
+              ],
+              [
+                911.0,
+                299.0
+              ],
+              [
+                911.0,
+                334.0
+              ],
+              [
+                93.0,
+                332.0
+              ]
+            ],
+            "text": "Read the printed instructions before opening the package",
+            "w": 818.0,
+            "x": 93.0,
+            "y": 297.0
+          },
+          {
+            "confidence": 0.9817984700202942,
+            "h": 35.0,
+            "quad": [
+              [
+                91.0,
+                344.0
+              ],
+              [
+                765.0,
+                344.0
+              ],
+              [
+                765.0,
+                379.0
+              ],
+              [
+                91.0,
+                379.0
+              ]
+            ],
+            "text": "Keep paper dry and store at room temperature.",
+            "w": 674.0,
+            "x": 91.0,
+            "y": 344.0
+          },
+          {
+            "confidence": 0.9802441000938416,
+            "h": 31.0,
+            "quad": [
+              [
+                94.0,
+                391.0
+              ],
+              [
+                797.0,
+                391.0
+              ],
+              [
+                797.0,
+                422.0
+              ],
+              [
+                94.0,
+                422.0
+              ]
+            ],
+            "text": "Questions can be answered at the reception desk.",
+            "w": 703.0,
+            "x": 94.0,
+            "y": 391.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family0-size28-shade.png",
+        "text": "DOCUMENT CAPTURE DEVELOPMENT SAMPLE\nPlease retain this page for your records.\nThe delivery contains four blue folders and twelve pencils.\nRead the printed instructions before opening the package\nKeep paper dry and store at room temperature.\nQuestions can be answered at the reception desk.",
+        "timings_ms": {
+          "detect": 459.421875,
+          "recognize": 314.06005859375,
+          "total": 773.48193359375
+        }
+      }
+    },
+    {
+      "sample": "family1-size14-clean",
+      "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9585065841674805,
+            "h": 17.0,
+            "quad": [
+              [
+                95.0,
+                158.0
+              ],
+              [
+                213.0,
+                158.0
+              ],
+              [
+                213.0,
+                175.0
+              ],
+              [
+                95.0,
+                175.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 118.0,
+            "x": 95.0,
+            "y": 158.0
+          },
+          {
+            "confidence": 0.9937347769737244,
+            "h": 21.0,
+            "quad": [
+              [
+                92.0,
+                188.0
+              ],
+              [
+                235.0,
+                188.0
+              ],
+              [
+                235.0,
+                209.0
+              ],
+              [
+                92.0,
+                209.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 143.0,
+            "x": 92.0,
+            "y": 188.0
+          },
+          {
+            "confidence": 0.9806116819381714,
+            "h": 18.0,
+            "quad": [
+              [
+                93.0,
+                223.0
+              ],
+              [
+                300.0,
+                223.0
+              ],
+              [
+                300.0,
+                241.0
+              ],
+              [
+                93.0,
+                241.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 207.0,
+            "x": 93.0,
+            "y": 223.0
+          },
+          {
+            "confidence": 0.9910956025123596,
+            "h": 17.0,
+            "quad": [
+              [
+                91.0,
+                255.0
+              ],
+              [
+                289.0,
+                255.0
+              ],
+              [
+                289.0,
+                272.0
+              ],
+              [
+                91.0,
+                272.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 198.0,
+            "x": 91.0,
+            "y": 255.0
+          },
+          {
+            "confidence": 0.9851734638214111,
+            "h": 22.0,
+            "quad": [
+              [
+                92.0,
+                284.0
+              ],
+              [
+                248.0,
+                284.0
+              ],
+              [
+                248.0,
+                306.0
+              ],
+              [
+                92.0,
+                306.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 156.0,
+            "x": 92.0,
+            "y": 284.0
+          },
+          {
+            "confidence": 0.9816481471061707,
+            "h": 22.0,
+            "quad": [
+              [
+                90.0,
+                317.0
+              ],
+              [
+                266.0,
+                317.0
+              ],
+              [
+                266.0,
+                339.0
+              ],
+              [
+                90.0,
+                339.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 176.0,
+            "x": 90.0,
+            "y": 317.0
+          },
+          {
+            "confidence": 0.9681227803230286,
+            "h": 20.0,
+            "quad": [
+              [
+                92.0,
+                349.0
+              ],
+              [
+                183.0,
+                349.0
+              ],
+              [
+                183.0,
+                369.0
+              ],
+              [
+                92.0,
+                369.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 91.0,
+            "x": 92.0,
+            "y": 349.0
+          },
+          {
+            "confidence": 0.9766926765441895,
+            "h": 22.0,
+            "quad": [
+              [
+                92.0,
+                381.0
+              ],
+              [
+                312.0,
+                381.0
+              ],
+              [
+                312.0,
+                403.0
+              ],
+              [
+                92.0,
+                403.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 220.0,
+            "x": 92.0,
+            "y": 381.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size14-clean.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 402.4130859375,
+          "recognize": 176.3671875,
+          "total": 578.7802734375
+        }
+      }
+    },
+    {
+      "sample": "family1-size14-shade",
+      "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9219175577163696,
+            "h": 17.0,
+            "quad": [
+              [
+                95.0,
+                158.0
+              ],
+              [
+                213.0,
+                158.0
+              ],
+              [
+                213.0,
+                175.0
+              ],
+              [
+                95.0,
+                175.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 118.0,
+            "x": 95.0,
+            "y": 158.0
+          },
+          {
+            "confidence": 0.9989408850669861,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                191.0
+              ],
+              [
+                234.0,
+                191.0
+              ],
+              [
+                234.0,
+                208.0
+              ],
+              [
+                93.0,
+                208.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 141.0,
+            "x": 93.0,
+            "y": 191.0
+          },
+          {
+            "confidence": 0.9932825565338135,
+            "h": 22.0,
+            "quad": [
+              [
+                92.0,
+                222.0
+              ],
+              [
+                301.0,
+                222.0
+              ],
+              [
+                301.0,
+                244.0
+              ],
+              [
+                92.0,
+                244.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 209.0,
+            "x": 92.0,
+            "y": 222.0
+          },
+          {
+            "confidence": 0.9982196688652039,
+            "h": 24.0,
+            "quad": [
+              [
+                92.0,
+                255.0
+              ],
+              [
+                288.0,
+                253.0
+              ],
+              [
+                289.0,
+                275.0
+              ],
+              [
+                92.0,
+                277.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 197.0,
+            "x": 92.0,
+            "y": 253.0
+          },
+          {
+            "confidence": 0.9971850514411926,
+            "h": 21.0,
+            "quad": [
+              [
+                92.0,
+                285.0
+              ],
+              [
+                246.0,
+                285.0
+              ],
+              [
+                246.0,
+                306.0
+              ],
+              [
+                92.0,
+                306.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 154.0,
+            "x": 92.0,
+            "y": 285.0
+          },
+          {
+            "confidence": 0.9973561763763428,
+            "h": 22.0,
+            "quad": [
+              [
+                92.0,
+                317.0
+              ],
+              [
+                264.0,
+                317.0
+              ],
+              [
+                264.0,
+                339.0
+              ],
+              [
+                92.0,
+                339.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 172.0,
+            "x": 92.0,
+            "y": 317.0
+          },
+          {
+            "confidence": 0.9937434196472168,
+            "h": 16.0,
+            "quad": [
+              [
+                93.0,
+                352.0
+              ],
+              [
+                182.0,
+                352.0
+              ],
+              [
+                182.0,
+                368.0
+              ],
+              [
+                93.0,
+                368.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 89.0,
+            "x": 93.0,
+            "y": 352.0
+          },
+          {
+            "confidence": 0.9921661019325256,
+            "h": 17.0,
+            "quad": [
+              [
+                93.0,
+                384.0
+              ],
+              [
+                309.0,
+                384.0
+              ],
+              [
+                309.0,
+                401.0
+              ],
+              [
+                93.0,
+                401.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 216.0,
+            "x": 93.0,
+            "y": 384.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size14-shade.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 663.23876953125,
+          "recognize": 207.15771484375,
+          "total": 870.396484375
+        }
+      }
+    },
+    {
+      "sample": "family1-size20-clean",
+      "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9957879185676575,
+            "h": 26.0,
+            "quad": [
+              [
+                92.0,
+                157.0
+              ],
+              [
+                264.0,
+                157.0
+              ],
+              [
+                264.0,
+                183.0
+              ],
+              [
+                92.0,
+                183.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 172.0,
+            "x": 92.0,
+            "y": 157.0
+          },
+          {
+            "confidence": 0.9988371729850769,
+            "h": 25.0,
+            "quad": [
+              [
+                92.0,
+                196.0
+              ],
+              [
+                295.0,
+                196.0
+              ],
+              [
+                295.0,
+                221.0
+              ],
+              [
+                92.0,
+                221.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 203.0,
+            "x": 92.0,
+            "y": 196.0
+          },
+          {
+            "confidence": 0.9836451411247253,
+            "h": 26.0,
+            "quad": [
+              [
+                92.0,
+                234.0
+              ],
+              [
+                389.0,
+                234.0
+              ],
+              [
+                389.0,
+                260.0
+              ],
+              [
+                92.0,
+                260.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 297.0,
+            "x": 92.0,
+            "y": 234.0
+          },
+          {
+            "confidence": 0.9975273609161377,
+            "h": 29.0,
+            "quad": [
+              [
+                92.0,
+                273.0
+              ],
+              [
+                373.0,
+                270.0
+              ],
+              [
+                373.0,
+                296.0
+              ],
+              [
+                92.0,
+                299.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 281.0,
+            "x": 92.0,
+            "y": 270.0
+          },
+          {
+            "confidence": 0.9934979677200317,
+            "h": 25.0,
+            "quad": [
+              [
+                92.0,
+                309.0
+              ],
+              [
+                312.0,
+                309.0
+              ],
+              [
+                312.0,
+                334.0
+              ],
+              [
+                92.0,
+                334.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 220.0,
+            "x": 92.0,
+            "y": 309.0
+          },
+          {
+            "confidence": 0.9468445181846619,
+            "h": 31.0,
+            "quad": [
+              [
+                91.0,
+                348.0
+              ],
+              [
+                338.0,
+                346.0
+              ],
+              [
+                339.0,
+                374.0
+              ],
+              [
+                92.0,
+                377.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 248.0,
+            "x": 91.0,
+            "y": 346.0
+          },
+          {
+            "confidence": 0.9913186430931091,
+            "h": 25.0,
+            "quad": [
+              [
+                93.0,
+                386.0
+              ],
+              [
+                221.0,
+                386.0
+              ],
+              [
+                221.0,
+                411.0
+              ],
+              [
+                93.0,
+                411.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 128.0,
+            "x": 93.0,
+            "y": 386.0
+          },
+          {
+            "confidence": 0.9870480895042419,
+            "h": 25.0,
+            "quad": [
+              [
+                90.0,
+                426.0
+              ],
+              [
+                402.0,
+                426.0
+              ],
+              [
+                402.0,
+                451.0
+              ],
+              [
+                90.0,
+                451.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 312.0,
+            "x": 90.0,
+            "y": 426.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size20-clean.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 654.42626953125,
+          "recognize": 202.282958984375,
+          "total": 856.709228515625
+        }
+      }
+    },
+    {
+      "sample": "family1-size20-shade",
+      "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9923279881477356,
+            "h": 21.0,
+            "quad": [
+              [
+                94.0,
+                160.0
+              ],
+              [
+                263.0,
+                160.0
+              ],
+              [
+                263.0,
+                181.0
+              ],
+              [
+                94.0,
+                181.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 169.0,
+            "x": 94.0,
+            "y": 160.0
+          },
+          {
+            "confidence": 0.9988922476768494,
+            "h": 25.0,
+            "quad": [
+              [
+                92.0,
+                196.0
+              ],
+              [
+                293.0,
+                196.0
+              ],
+              [
+                293.0,
+                221.0
+              ],
+              [
+                92.0,
+                221.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 201.0,
+            "x": 92.0,
+            "y": 196.0
+          },
+          {
+            "confidence": 0.9992706179618835,
+            "h": 25.0,
+            "quad": [
+              [
+                94.0,
+                236.0
+              ],
+              [
+                388.0,
+                236.0
+              ],
+              [
+                388.0,
+                261.0
+              ],
+              [
+                94.0,
+                261.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 294.0,
+            "x": 94.0,
+            "y": 236.0
+          },
+          {
+            "confidence": 0.9880690574645996,
+            "h": 28.0,
+            "quad": [
+              [
+                92.0,
+                274.0
+              ],
+              [
+                373.0,
+                272.0
+              ],
+              [
+                373.0,
+                298.0
+              ],
+              [
+                92.0,
+                300.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 281.0,
+            "x": 92.0,
+            "y": 272.0
+          },
+          {
+            "confidence": 0.9758257269859314,
+            "h": 25.0,
+            "quad": [
+              [
+                92.0,
+                311.0
+              ],
+              [
+                310.0,
+                311.0
+              ],
+              [
+                310.0,
+                336.0
+              ],
+              [
+                92.0,
+                336.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 218.0,
+            "x": 92.0,
+            "y": 311.0
+          },
+          {
+            "confidence": 0.9828882813453674,
+            "h": 28.0,
+            "quad": [
+              [
+                92.0,
+                351.0
+              ],
+              [
+                336.0,
+                348.0
+              ],
+              [
+                336.0,
+                374.0
+              ],
+              [
+                92.0,
+                376.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 244.0,
+            "x": 92.0,
+            "y": 348.0
+          },
+          {
+            "confidence": 0.9906036257743835,
+            "h": 25.0,
+            "quad": [
+              [
+                93.0,
+                388.0
+              ],
+              [
+                219.0,
+                388.0
+              ],
+              [
+                219.0,
+                413.0
+              ],
+              [
+                93.0,
+                413.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 126.0,
+            "x": 93.0,
+            "y": 388.0
+          },
+          {
+            "confidence": 0.9760779142379761,
+            "h": 25.0,
+            "quad": [
+              [
+                92.0,
+                426.0
+              ],
+              [
+                402.0,
+                426.0
+              ],
+              [
+                402.0,
+                451.0
+              ],
+              [
+                92.0,
+                451.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 310.0,
+            "x": 92.0,
+            "y": 426.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size20-shade.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 540.572998046875,
+          "recognize": 275.310302734375,
+          "total": 815.88330078125
+        }
+      }
+    },
+    {
+      "sample": "family1-size28-clean",
+      "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9756702780723572,
+            "h": 29.0,
+            "quad": [
+              [
+                93.0,
+                160.0
+              ],
+              [
+                331.0,
+                160.0
+              ],
+              [
+                331.0,
+                189.0
+              ],
+              [
+                93.0,
+                189.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 238.0,
+            "x": 93.0,
+            "y": 160.0
+          },
+          {
+            "confidence": 0.9814698100090027,
+            "h": 34.0,
+            "quad": [
+              [
+                92.0,
+                207.0
+              ],
+              [
+                374.0,
+                204.0
+              ],
+              [
+                375.0,
+                236.0
+              ],
+              [
+                93.0,
+                238.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 283.0,
+            "x": 92.0,
+            "y": 204.0
+          },
+          {
+            "confidence": 0.9734183549880981,
+            "h": 30.0,
+            "quad": [
+              [
+                93.0,
+                253.0
+              ],
+              [
+                503.0,
+                253.0
+              ],
+              [
+                503.0,
+                283.0
+              ],
+              [
+                93.0,
+                283.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 410.0,
+            "x": 93.0,
+            "y": 253.0
+          },
+          {
+            "confidence": 0.9953679442405701,
+            "h": 36.0,
+            "quad": [
+              [
+                92.0,
+                297.0
+              ],
+              [
+                482.0,
+                295.0
+              ],
+              [
+                482.0,
+                329.0
+              ],
+              [
+                92.0,
+                331.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 390.0,
+            "x": 92.0,
+            "y": 295.0
+          },
+          {
+            "confidence": 0.9947326183319092,
+            "h": 34.0,
+            "quad": [
+              [
+                92.0,
+                341.0
+              ],
+              [
+                397.0,
+                341.0
+              ],
+              [
+                397.0,
+                375.0
+              ],
+              [
+                92.0,
+                375.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 305.0,
+            "x": 92.0,
+            "y": 341.0
+          },
+          {
+            "confidence": 0.9816427826881409,
+            "h": 34.0,
+            "quad": [
+              [
+                92.0,
+                389.0
+              ],
+              [
+                434.0,
+                389.0
+              ],
+              [
+                434.0,
+                423.0
+              ],
+              [
+                92.0,
+                423.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 342.0,
+            "x": 92.0,
+            "y": 389.0
+          },
+          {
+            "confidence": 0.9859159588813782,
+            "h": 33.0,
+            "quad": [
+              [
+                92.0,
+                435.0
+              ],
+              [
+                270.0,
+                435.0
+              ],
+              [
+                270.0,
+                468.0
+              ],
+              [
+                92.0,
+                468.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 178.0,
+            "x": 92.0,
+            "y": 435.0
+          },
+          {
+            "confidence": 0.9965010285377502,
+            "h": 30.0,
+            "quad": [
+              [
+                91.0,
+                483.0
+              ],
+              [
+                524.0,
+                483.0
+              ],
+              [
+                524.0,
+                513.0
+              ],
+              [
+                91.0,
+                513.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 433.0,
+            "x": 91.0,
+            "y": 483.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size28-clean.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 453.230712890625,
+          "recognize": 299.192626953125,
+          "total": 752.42333984375
+        }
+      }
+    },
+    {
+      "sample": "family1-size28-shade",
+      "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+      "characters": 174,
+      "edits": 0,
+      "words": 31,
+      "correct_words": 31,
+      "extra_words": 0,
+      "output": {
+        "engine": "ppocr_v6_tiny",
+        "lines": [
+          {
+            "confidence": 0.9788731336593628,
+            "h": 25.0,
+            "quad": [
+              [
+                94.0,
+                163.0
+              ],
+              [
+                330.0,
+                163.0
+              ],
+              [
+                330.0,
+                188.0
+              ],
+              [
+                94.0,
+                188.0
+              ]
+            ],
+            "text": "SAMPLE INVOICE",
+            "w": 236.0,
+            "x": 94.0,
+            "y": 163.0
+          },
+          {
+            "confidence": 0.9978316426277161,
+            "h": 30.0,
+            "quad": [
+              [
+                93.0,
+                207.0
+              ],
+              [
+                372.0,
+                207.0
+              ],
+              [
+                372.0,
+                237.0
+              ],
+              [
+                93.0,
+                237.0
+              ]
+            ],
+            "text": "Reference INV-2048",
+            "w": 279.0,
+            "x": 93.0,
+            "y": 207.0
+          },
+          {
+            "confidence": 0.9851929545402527,
+            "h": 34.0,
+            "quad": [
+              [
+                94.0,
+                251.0
+              ],
+              [
+                504.0,
+                253.0
+              ],
+              [
+                504.0,
+                285.0
+              ],
+              [
+                94.0,
+                283.0
+              ]
+            ],
+            "text": "Description Quantity Amount",
+            "w": 410.0,
+            "x": 94.0,
+            "y": 251.0
+          },
+          {
+            "confidence": 0.9931663274765015,
+            "h": 34.0,
+            "quad": [
+              [
+                94.0,
+                300.0
+              ],
+              [
+                480.0,
+                297.0
+              ],
+              [
+                480.0,
+                329.0
+              ],
+              [
+                94.0,
+                331.0
+              ]
+            ],
+            "text": "Paper notebooks 12 360.00",
+            "w": 386.0,
+            "x": 94.0,
+            "y": 297.0
+          },
+          {
+            "confidence": 0.969811737537384,
+            "h": 30.0,
+            "quad": [
+              [
+                95.0,
+                344.0
+              ],
+              [
+                396.0,
+                344.0
+              ],
+              [
+                396.0,
+                374.0
+              ],
+              [
+                95.0,
+                374.0
+              ]
+            ],
+            "text": "Blue folders 4 120.00",
+            "w": 301.0,
+            "x": 95.0,
+            "y": 344.0
+          },
+          {
+            "confidence": 0.9977938532829285,
+            "h": 35.0,
+            "quad": [
+              [
+                92.0,
+                390.0
+              ],
+              [
+                432.0,
+                390.0
+              ],
+              [
+                432.0,
+                425.0
+              ],
+              [
+                92.0,
+                425.0
+              ]
+            ],
+            "text": "Delivery charge 1 45.00",
+            "w": 340.0,
+            "x": 92.0,
+            "y": 390.0
+          },
+          {
+            "confidence": 0.950042188167572,
+            "h": 29.0,
+            "quad": [
+              [
+                93.0,
+                438.0
+              ],
+              [
+                267.0,
+                438.0
+              ],
+              [
+                267.0,
+                467.0
+              ],
+              [
+                93.0,
+                467.0
+              ]
+            ],
+            "text": "Total 525.00",
+            "w": 174.0,
+            "x": 93.0,
+            "y": 438.0
+          },
+          {
+            "confidence": 0.9712216854095459,
+            "h": 33.0,
+            "quad": [
+              [
+                92.0,
+                484.0
+              ],
+              [
+                524.0,
+                482.0
+              ],
+              [
+                524.0,
+                513.0
+              ],
+              [
+                93.0,
+                515.0
+              ]
+            ],
+            "text": "Payment due 28 October 2026",
+            "w": 432.0,
+            "x": 92.0,
+            "y": 482.0
+          }
+        ],
+        "page_size": [
+          1240,
+          1754
+        ],
+        "path": "/tmp/docscan-text-dev/family1-size28-shade.png",
+        "text": "SAMPLE INVOICE\nReference INV-2048\nDescription Quantity Amount\nPaper notebooks 12 360.00\nBlue folders 4 120.00\nDelivery charge 1 45.00\nTotal 525.00\nPayment due 28 October 2026",
+        "timings_ms": {
+          "detect": 592.361328125,
+          "recognize": 316.6953125,
+          "total": 909.056640625
+        }
+      }
+    }
+  ],
+  "baseline": {
+    "protocol": "general-text-dev-v1",
+    "synthetic_only": true,
+    "git": "b3247e6180c0a08f81acd24e1d5d46c8d4dc3601",
+    "binary_sha256": "cb444dc8f586f67f40faa77d02d2739b8ea7173947f217d3c9fe01e243cbf009",
+    "rows": [
+      {
+        "sample": "family0-size14-clean",
+        "mode": "legacy",
+        "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+        "characters": 285,
+        "edits": 4,
+        "words": 44,
+        "correct_words": 40,
+        "extra_words": 5,
+        "ms": 787.368876
+      },
+      {
+        "sample": "family0-size14-shade",
+        "mode": "legacy",
+        "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+        "characters": 285,
+        "edits": 5,
+        "words": 44,
+        "correct_words": 39,
+        "extra_words": 5,
+        "ms": 1189.700756
+      },
+      {
+        "sample": "family0-size20-clean",
+        "mode": "legacy",
+        "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1686.0021920000002
+      },
+      {
+        "sample": "family0-size20-shade",
+        "mode": "legacy",
+        "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1466.41199
+      },
+      {
+        "sample": "family0-size28-clean",
+        "mode": "legacy",
+        "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+        "characters": 285,
+        "edits": 50,
+        "words": 44,
+        "correct_words": 41,
+        "extra_words": 3,
+        "ms": 2210.7281479999997
+      },
+      {
+        "sample": "family0-size28-shade",
+        "mode": "legacy",
+        "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+        "characters": 285,
+        "edits": 54,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 1920.9532199999999
+      },
+      {
+        "sample": "family1-size14-clean",
+        "mode": "legacy",
+        "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+        "characters": 174,
+        "edits": 9,
+        "words": 31,
+        "correct_words": 25,
+        "extra_words": 5,
+        "ms": 871.997784
+      },
+      {
+        "sample": "family1-size14-shade",
+        "mode": "legacy",
+        "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+        "characters": 174,
+        "edits": 10,
+        "words": 31,
+        "correct_words": 24,
+        "extra_words": 6,
+        "ms": 794.6314880000001
+      },
+      {
+        "sample": "family1-size20-clean",
+        "mode": "legacy",
+        "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 895.561358
+      },
+      {
+        "sample": "family1-size20-shade",
+        "mode": "legacy",
+        "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+        "characters": 174,
+        "edits": 3,
+        "words": 31,
+        "correct_words": 28,
+        "extra_words": 1,
+        "ms": 1046.544316
+      },
+      {
+        "sample": "family1-size28-clean",
+        "mode": "legacy",
+        "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 1045.1141289999998
+      },
+      {
+        "sample": "family1-size28-shade",
+        "mode": "legacy",
+        "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 862.313565
+      },
+      {
+        "sample": "family0-size14-clean",
+        "mode": "page",
+        "sha256": "ea96afac3f947929423b95f1d4bf7ee10ba15e26b751a986a53ab612c641a022",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 3080.9113789999997
+      },
+      {
+        "sample": "family0-size14-shade",
+        "mode": "page",
+        "sha256": "5d69445ebfc306b78d7af9a026b75cb61fe885aa6dde6444e744363ac90a3b29",
+        "characters": 285,
+        "edits": 1,
+        "words": 44,
+        "correct_words": 43,
+        "extra_words": 1,
+        "ms": 2733.4813599999998
+      },
+      {
+        "sample": "family0-size20-clean",
+        "mode": "page",
+        "sha256": "1f629d2e5d05215c9a62ddade2555a465bfa3f10c2b05e36bca81e840ff79964",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2673.020355
+      },
+      {
+        "sample": "family0-size20-shade",
+        "mode": "page",
+        "sha256": "b0a31fad986834ca409c895f9d5e266bc1f0f557151dd6fada3144ee32c76125",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2695.165302
+      },
+      {
+        "sample": "family0-size28-clean",
+        "mode": "page",
+        "sha256": "f386b29fbfff8aefd6f7f757ca5a7207854fb431a15df6fd2eb355631aa7bfe4",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2750.899208
+      },
+      {
+        "sample": "family0-size28-shade",
+        "mode": "page",
+        "sha256": "d6a35008705a7f0057f00a99fc77e6ab91c5bdf53e43aa7111c6ac318dfa0cfe",
+        "characters": 285,
+        "edits": 0,
+        "words": 44,
+        "correct_words": 44,
+        "extra_words": 0,
+        "ms": 2005.4051890000003
+      },
+      {
+        "sample": "family1-size14-clean",
+        "mode": "page",
+        "sha256": "b0bc6fd56d5fb0b5e249bf346709736505d09ebb29b7d56811af5610cb96239a",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 2313.0744870000003
+      },
+      {
+        "sample": "family1-size14-shade",
+        "mode": "page",
+        "sha256": "4ee4406c0b39109f14e3711e332147877ce5cff964d088a7aa47e38d26e48548",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 30,
+        "extra_words": 0,
+        "ms": 2628.3545529999997
+      },
+      {
+        "sample": "family1-size20-clean",
+        "mode": "page",
+        "sha256": "f225207b66d23780f5eab71443b1e4dc7d4286f4ac5b3e68b057aa42bbbf12c7",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2568.8829499999997
+      },
+      {
+        "sample": "family1-size20-shade",
+        "mode": "page",
+        "sha256": "e5fb0be6e6a0620ffd18f572a515e124d89ab01d933dbf752c34e3205d65ced3",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2683.9764569999998
+      },
+      {
+        "sample": "family1-size28-clean",
+        "mode": "page",
+        "sha256": "4ceacc41858cc8513d3569b7a115fbc54142c20f929ca697f5bd43c5f8f5a21b",
+        "characters": 174,
+        "edits": 2,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 1,
+        "ms": 1996.5541409999998
+      },
+      {
+        "sample": "family1-size28-shade",
+        "mode": "page",
+        "sha256": "dab1b1e0a443c156893f188163915baf97694736ba6091d57ee17caae0f73874",
+        "characters": 174,
+        "edits": 0,
+        "words": 31,
+        "correct_words": 31,
+        "extra_words": 0,
+        "ms": 2788.098053
+      }
+    ],
+    "summary": {
+      "legacy": {
+        "cer": 0.05119825708061002,
+        "word_recall": 0.9266666666666666,
+        "extra_words": 28,
+        "mean_ms": 1231.4439851666666
+      },
+      "page": {
+        "cer": 0.002904865649963689,
+        "word_recall": 0.9911111111111112,
+        "extra_words": 3,
+        "mean_ms": 2576.4852861666664
+      }
+    }
+  },
+  "limitations": "Only twelve synthetic English pages. Single-pass unpaired timings do not establish a speedup or phone latency."
+}

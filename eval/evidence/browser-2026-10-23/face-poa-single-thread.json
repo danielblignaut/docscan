@@ -1,0 +1,223 @@
+[
+  {
+    "name": "poa-bank-recent",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 1135,
+    "doneMs": 28672,
+    "captures": [
+      {
+        "kind": "proof_of_address",
+        "stepMs": 3069,
+        "readMs": 25013,
+        "method": "tagger",
+        "wasmMemoryMb": 190,
+        "ocrMs": 24517.670000076294
+      }
+    ],
+    "problems": [],
+    "outline": "grey → green → done",
+    "timings": {
+      "frames": 11,
+      "fastMs": 151,
+      "fastP90": 177,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        1080,
+        1827
+      ]
+    }
+  },
+  {
+    "name": "poa-municipal-old",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 800,
+    "doneMs": 28823,
+    "captures": [
+      {
+        "kind": "proof_of_address",
+        "stepMs": 2947,
+        "readMs": 25558,
+        "method": "tagger",
+        "wasmMemoryMb": 190,
+        "ocrMs": 25127.625
+      }
+    ],
+    "problems": [],
+    "near": [
+      "0.fields.address.street: want 476 Hill St, got 76 Hill St"
+    ],
+    "outline": "grey → green → done",
+    "timings": {
+      "frames": 14,
+      "fastMs": 116,
+      "fastP90": 159,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        1080,
+        1827
+      ]
+    }
+  },
+  {
+    "name": "face-liveness-bona-fide",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 971,
+    "doneMs": 10982,
+    "captures": [],
+    "problems": [],
+    "liveness": {
+      "passed": true,
+      "completed": true,
+      "sessionMs": 9516,
+      "doneMs": 9860,
+      "frames": 70,
+      "msPerFrame": 109.22499942779541,
+      "wasmMemoryMb": 86,
+      "checks": {
+        "coverage": 1,
+        "3d_motion": 0.085,
+        "antispoof": 0.998,
+        "continuity": 1,
+        "identity": 0.996,
+        "blink": 0,
+        "capture_integrity": 1
+      }
+    },
+    "outline": "grey → green → done",
+    "timings": {
+      "frames": 70,
+      "fastMs": 109,
+      "fastP90": 196,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        480,
+        640
+      ]
+    }
+  },
+  {
+    "name": "face-liveness-photo-attack",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 998,
+    "doneMs": 21516,
+    "captures": [],
+    "problems": [],
+    "liveness": {
+      "passed": false,
+      "completed": false,
+      "sessionMs": 19933,
+      "doneMs": 20313,
+      "frames": 188,
+      "msPerFrame": 75.07499980926514,
+      "wasmMemoryMb": 83,
+      "checks": {
+        "coverage": 0.25,
+        "3d_motion": 0.011,
+        "antispoof": 0.497,
+        "continuity": 1,
+        "identity": 0,
+        "blink": 0,
+        "capture_integrity": 1
+      }
+    },
+    "outline": "grey → green → done",
+    "timings": {
+      "frames": 188,
+      "fastMs": 75,
+      "fastP90": 131,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        480,
+        640
+      ]
+    }
+  },
+  {
+    "name": "face-id-enrol-then-verify",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 848,
+    "doneMs": 21311,
+    "captures": [],
+    "problems": [],
+    "match": {
+      "similarity": 0.999,
+      "threshold": 0.3659999966621399
+    },
+    "liveness": {
+      "passed": true,
+      "completed": true,
+      "sessionMs": 9483,
+      "doneMs": 9801,
+      "frames": 69,
+      "msPerFrame": 109.16499996185303,
+      "wasmMemoryMb": 86,
+      "checks": {
+        "coverage": 1,
+        "3d_motion": 0.088,
+        "antispoof": 0.999,
+        "continuity": 1,
+        "identity": 0.997,
+        "blink": 0,
+        "capture_integrity": 1
+      }
+    },
+    "outline": "grey → green → done → grey → green → done",
+    "timings": {
+      "frames": 144,
+      "fastMs": 107,
+      "fastP90": 177,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        480,
+        640
+      ]
+    }
+  },
+  {
+    "name": "face-abandon",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 767,
+    "doneMs": 7533,
+    "captures": [],
+    "problems": [],
+    "match": {
+      "similarity": 0.999,
+      "threshold": 0.3659999966621399
+    },
+    "outline": "grey → green",
+    "timings": {
+      "frames": 43,
+      "fastMs": 104,
+      "fastP90": 174,
+      "ocrMs": null,
+      "ocrFrames": 0,
+      "ocrPerPassMs": null,
+      "passes": {},
+      "size": [
+        480,
+        640
+      ]
+    }
+  }
+]
