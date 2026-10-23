@@ -34,3 +34,28 @@ benchmark manifests, capture acceptance and the 90 s timeout remain unchanged.
 `id-v2-fixture.json` records source/output hashes and timeline;
 `id-v2-single-thread.json` passes in 26.2 s, with both sides cross-checked.
 This fixes test pacing for a slow reader, not scanner accuracy.
+
+Final optional-model and navigation checks:
+
+- `DOCSCAN_TEXT_ENGINE=ppocr_v6_tiny node e2e/text.mjs`: all four checks pass.
+- Same with `DOCSCAN_TEST_THREADS=2`: all four pass.
+- `node e2e/text.mjs` (default ocrs, one thread): all four pass.
+
+The fourth check opens a barcode camera while a photo read is pending. It
+observes the text worker response before verifying the newer camera remains.
+A build with the original App component from `71d3869` fails that assertion;
+`f15bcd5` passes it. The controller cancels publication on scanner navigation
+and browser history changes, and disposes discarded result image URLs.
+
+Representative final camera reads, on this desktop under shared load:
+
+| Reader | Threads | Reader time | Allocated wasm memory |
+| --- | ---: | ---: | ---: |
+| PP-OCRv6 tiny | 1 | 5.41 s | 119,668,736 bytes |
+| PP-OCRv6 tiny | 2 | 3.71 s | 123,928,576 bytes |
+| ocrs page | 1 | 23.47 s including enhancement | 199,098,368 bytes |
+
+These are smoke observations on the synthetic camera clip, not an interleaved
+speed benchmark, total browser RAM, or phone measurements. Images/arrival
+frames can differ between captures; no statistically established speedup is
+claimed. Native exact-text accuracy uses the separate fixed 12-page corpus.
