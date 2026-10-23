@@ -1,0 +1,30 @@
+{
+  "fixture_version": 2,
+  "split": "dev",
+  "purpose": "browser E2E only; not bench id_clips",
+  "source": "smart-id-front-back.y4m",
+  "source_sha256": "21a7d1c022dd9035be8c0b2128f8f0b161cd7024e9492ebbd16f0d0dcb744a7d",
+  "output": "smart-id-front-back-v2.y4m",
+  "sha256": "0626e4930cf06a52d2f512e27a9abf15094facc713bee54fa7b0989e70a85126",
+  "size": [
+    1280,
+    720
+  ],
+  "fps": 30.0,
+  "frames": 1116,
+  "timeline": [
+    {
+      "side": "front",
+      "starts_s": 0.0,
+      "held_from_s": 2.5999999999999996,
+      "ends_s": 22.6
+    },
+    {
+      "side": "back",
+      "starts_s": 22.6,
+      "held_from_s": 25.200000000000003,
+      "ends_s": 37.2
+    }
+  ],
+  "change": "repeat each original held tail; preserve all original pixels and arrival frames"
+}

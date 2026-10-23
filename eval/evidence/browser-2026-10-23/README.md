@@ -27,3 +27,10 @@ stale unversioned cache, hands-free capture, exactly one completion event,
 released tracks, and cancellation while OCR is pending. Its fixtures are the
 12-page synthetic DEV corpus from `eval/text_eval.py`. Later model-specific
 checks are recorded separately.
+
+The separately versioned v2 smart-ID E2E fixture repeats only the existing
+held pixels (front20s/back12s). Original arrival frames, the v1 fixture,
+benchmark manifests, capture acceptance and the90s timeout remain unchanged.
+`id-v2-fixture.json` records source/output hashes and timeline;
+`id-v2-single-thread.json` passes in26.2s, with both sides cross-checked.
+This fixes test pacing for a slow reader, not scanner accuracy.
