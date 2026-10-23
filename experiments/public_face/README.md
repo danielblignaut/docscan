@@ -60,3 +60,32 @@ with physical parallax enabled. The next external PAD benchmark needs an
 explicitly authorized consented attack collection with identity, device and
 attack-type metadata, or a dataset whose official terms actually permit the
 intended use. No access gates are bypassed and no author is contacted here.
+
+## Owner-provided replay preview
+
+The [Axon Labs public display-replay preview](https://huggingface.co/datasets/AxonData/Display_replay_attacks/tree/f5560f659e185ded62c2f09ff502426b0588406e)
+contains five genuine selfies and five real replay videos (164 MB), with a
+CC BY 4.0 dataset-card tag. The [owner's official repository](https://github.com/axonlab-data/face-anti-spoofing-dataset)
+states that its samples feature consenting participants; the [owner's liveness card](https://huggingface.co/datasets/AxonData/liveness-detection-dataset)
+explicitly describes publicly available samples for evaluation. The full corpus
+requires a commercial license. This experiment uses the preview for local
+research evaluation only; no redistributed media, trained weights or calibration.
+The dataset-card tag is not asserted to clear commercial biometric training.
+
+```sh
+/tmp/docscan-bench/venv/bin/python experiments/public_face/pad_sample.py fetch
+/tmp/docscan-bench/venv/bin/python experiments/public_face/pad_sample.py evaluate \
+  --binary /path/to/release/examples/face \
+  --report experiments/public_face/results/pad-baseline.json
+```
+
+Before measuring, fix three positions at 25%, 50%, 75% of each attack clip;
+resize its long side to 960 pixels and take median passive live score per video.
+Keep one score per genuine selfie. Missing detections reject. Report APCER
+and BPCER at both existing raw operating points without any tuning. Five cases
+per class have 20 percentage-point steps; identity correspondence and device
+metadata are missing. The original selfie/video distinction is a confound.
+There is no valid independent calibration cohort, so APCER at fixed BPCER
+is **not estimable** here. Active session accuracy is also not measured: these
+clips contain no dynamic bona fide trials following the challenge. Physical
+parallax remains on in production.
