@@ -21,6 +21,7 @@ pub mod poa;
 pub mod quad;
 pub mod quality;
 pub mod text;
+pub mod text_v6;
 pub mod za;
 
 use ocrs::{ImageSource, OcrEngine, OcrEngineParams, TextItem};

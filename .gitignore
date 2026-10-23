@@ -29,3 +29,7 @@ eval/vlm/node_modules
 # Training runs write their datasets and checkpoints under /tmp; never commit real bills
 *.pt
 demo/tsconfig.tsbuildinfo
+
+# Optional PP-OCRv6 tiny weights: checksum-pinned by scripts/ppocr-v6-models.json
+models/ppocr-v6-tiny-*.onnx
+models/ppocr-v6-tiny-*.onnx.download

@@ -19,4 +19,6 @@ done
 # SFace int8; all Apache-2.0, converted by face/tools/convert_models.sh; see face/MODELS.md).
 mkdir -p demo/public/models/face
 cp models/face/*.onnx demo/public/models/face/
+# Optional PP-OCRv6 tiny: staged at build time, fetched by the browser only on selection.
+python3 scripts/fetch-ppocr-v6-models.py
 ls -l models models/face
