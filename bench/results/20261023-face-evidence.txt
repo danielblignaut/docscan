@@ -49,3 +49,8 @@ Final quick verdict: improved; no significant metric regressions.
 Image PAD AUC 85.99% -> 92.10%; APCER 33.23% -> 26.28%; BPCER 12.43% -> 6.51%.
 Recognition and synthetic-session decisions unchanged. Six genuine sessions
 passed and all ten synthetic attacks were rejected with physical parallax ON.
+
+Continuation PR source mapping: original local 508582e is integrated as
+ff8b5a2 (face code, example, and model configuration equivalent). Other areas
+also changed in the combined branch. The run metadata deliberately retains
+the actual local source snapshot that produced each result.

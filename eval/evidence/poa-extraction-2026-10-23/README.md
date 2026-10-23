@@ -6,6 +6,11 @@ committed in `1c2bb4c`. **Before is the existing recovered WIP**, including
 product. Both runs use the same 200 DEV captures and 800 frozen OCR frames.
 No TEST data or reports were consulted.
 
+The source commits were recovered from local worktrees. In the continuation PR,
+`4d63577` contains the equivalent recovered baseline source and `4055ac8`
+contains the fixes from `1c2bb4c`; unrelated face/general-OCR files differ.
+Raw run metadata keeps the original local revision and binary hashes.
+
 The `before.json` and `after.json` metrics come from the unchanged
 `bench/suites/poa.py` scorer and contain per-item outcomes. These are real
 extraction runs, not a copy of a headline score. The before timestamp is the

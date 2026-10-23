@@ -1,0 +1,44 @@
+[
+  {
+    "name": "smart-id-front-then-back",
+    "ok": true,
+    "threads": 1,
+    "readyMs": 783,
+    "doneMs": 37216,
+    "captures": [
+      {
+        "kind": "za_smart_id_front",
+        "stepMs": 36444,
+        "sinceStartMs": 36444,
+        "fallback": false,
+        "ocrMs": 4322.550000190735
+      },
+      {
+        "kind": "za_smart_id_back",
+        "stepMs": 518,
+        "sinceStartMs": 36962,
+        "fallback": false,
+        "ocrMs": 0.005000114440917969
+      }
+    ],
+    "problems": [],
+    "outline": "grey → green → grey → green → grey → green → done",
+    "timings": {
+      "frames": 57,
+      "fastMs": 159,
+      "fastP90": 197,
+      "ocrMs": 201,
+      "ocrFrames": 24,
+      "ocrPerPassMs": 1441,
+      "passes": {
+        "0": 15,
+        "1": 8,
+        "2": 1
+      },
+      "size": [
+        1144,
+        720
+      ]
+    }
+  }
+]
