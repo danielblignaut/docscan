@@ -9,6 +9,7 @@
 //   hands-free capture), the face found on it, and the two compared.
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FaceClient } from "./face-client";
+import { readDocumentFace } from "./face-document";
 import { DOC_THRESHOLD, RECOGNISER } from "./face-models";
 import { type Enrolment, listEnrolments } from "./face-store";
 import { documentMatch, matchEnrolments, type PhotoFace, portraitUrl, verificationPassed } from "./face-types";
@@ -45,6 +46,8 @@ export async function imagePixels(url: string, maxSide = 1600): Promise<ImageDat
 
 export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; face: FaceClient; scanner: ScannerClient; onDone: (o: Outcome) => void }) {
   const [step, setStep] = useState<"live" | "document" | "reading">("live");
+  const [readError, setReadError] = useState<string | null>(null);
+  const captureSession = useRef<AbortController | null>(null);
   const [live, setLive] = useState<LivenessOutcome | null>(null);
   const [threshold, setThreshold] = useState<number | null>(null);
   const [enrolments, setEnrolments] = useState<Enrolment[] | null>(null);
@@ -56,9 +59,11 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
 
   useEffect(() => {
     let alive = true;
+    const session = new AbortController();
+    captureSession.current = session;
     setStatus("Loading the face models…");
     face.onProgress = (p) => {
-      if (!p.cached && p.total) setStatus(`Downloading ${p.file}: ${Math.round((100 * p.loaded) / p.total)}%`);
+      if (alive && !p.cached && p.total) setStatus(`Downloading ${p.file}: ${Math.round((100 * p.loaded) / p.total)}%`);
     };
     face.ready
       .then((r) => {
@@ -79,6 +84,7 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
       );
     return () => {
       alive = false;
+      session.abort();
     };
   }, [face, flow]);
 
@@ -89,6 +95,7 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
 
   const onLive = useCallback(
     (o: LivenessOutcome) => {
+      if (captureSession.current?.signal.aborted !== false) return;
       setLive(o);
       if (flow === "liveness") {
         window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: o.result, passed: o.passed } }));
@@ -105,16 +112,24 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
 
   const onDocument = useCallback(
     async (captured: Captured[], _m: CaptureMeta) => {
-      if (!live) return;
+      const signal = captureSession.current?.signal;
+      if (!live || !signal || signal.aborted) return;
+      setReadError(null);
       setStep("reading");
       const c = captured[0];
-      const image = await imagePixels(c.imageUrl);
-      const { result } = await face.run<PhotoFace>({ kind: "photo", image });
-      const doc: DocumentFace = { imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
-      const match = live.passed ? documentMatch(live.result.template, live.result.model, result, DOC_THRESHOLD) : null;
-      docscan().events.push({ type: "facedoc", found: result.found, match });
-      window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
-      onDone({ kind: "face", flow, liveness: live, match, document: doc, meta: meta(live) });
+      try {
+        if (!c) throw new Error("No document was captured. Please try again.");
+        const result = await readDocumentFace(c.imageUrl, imagePixels, async (image) => (await face.run<PhotoFace>({ kind: "photo", image })).result, signal);
+        if (!result || signal.aborted) { URL.revokeObjectURL(c.imageUrl); return; }
+        const doc: DocumentFace = { imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
+        const match = live.passed ? documentMatch(live.result.template, live.result.model, result, DOC_THRESHOLD) : null;
+        docscan().events.push({ type: "facedoc", found: result.found, match });
+        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
+        onDone({ kind: "face", flow, liveness: live, match, document: doc, meta: meta(live) });
+      } catch (error) {
+        if (c) URL.revokeObjectURL(c.imageUrl);
+        if (!signal.aborted) setReadError(error instanceof Error ? error.message : String(error));
+      }
     },
     [live, face, flow, onDone, meta],
   );
@@ -145,11 +160,12 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
     const label = flow === "liveness" ? "Face liveness" : flow === "faceid" ? "Face ID" : "Face vs ID document";
     return <FaceLiveness face={face} preset={flow === "liveness" ? "full" : "quick"} label={label} stepNote={flow === "facedoc" ? "1 of 2" : undefined} onDone={onLive} />;
   }
-  if (step === "document") return <IdCapture client={scanner} docType="photo_page" onDone={onDocument} />;
+  if (step === "document") return <IdCapture client={scanner} docType="photo_page" emitEvents={false} onDone={onDocument} />;
   return (
     <div className="capture face-capture">
       <div className="capture-foot">
-        <div className="hint">Finding the face on the document…</div>
+        <div className="hint" data-testid="face-document-hint">{readError ?? "Finding the face on the document…"}</div>
+        {readError && <button type="button" onClick={() => { setReadError(null); setStep("document"); }}>Capture document again</button>}
       </div>
     </div>
   );

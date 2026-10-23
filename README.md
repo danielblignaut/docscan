@@ -895,8 +895,8 @@ check, `template`, `model`, `bestFrameUrl`) and then `docscan:complete`
 (with `match` for Face ID and Face vs ID document). For these verification
 flows, `docscan:complete.detail.passed` requires both successful liveness and
 a positive face match; a missing comparison fails. Templates must come from
-the same named model and have the same non-zero dimension and finite,
-values and a non-zero norm. The camera is released before the results screen opens.
+the same named model and have the same non-zero dimension, finite values,
+and a non-zero norm. The camera is released before the results screen opens.
 Missing anti-spoofing or recognition models produce failed required liveness
 checks; completing the head movement alone never passes.
 
