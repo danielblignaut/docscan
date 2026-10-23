@@ -17,6 +17,9 @@ const browser = await chromium.launch({ executablePath: "/usr/bin/google-chrome"
 const page = await browser.newPage({ viewport: { width: 540, height: 960 } });
 const errors = [];
 const threads = process.env.DOCSCAN_TEST_THREADS ?? "1";
+const engine = process.env.DOCSCAN_TEXT_ENGINE ?? "ocrs";
+const paddleRequests = [];
+page.on("request", (r) => { if (r.url().includes("/models/ppocr-v6-")) paddleRequests.push(r.url()); });
 page.on("pageerror", (e) => errors.push(e.message));
 await page.addInitScript(() => {
   window.__textEvents = [];
@@ -30,7 +33,7 @@ await page.addInitScript(() => {
   for (const type of ["docscan:text", "docscan:complete"]) window.addEventListener(type, (e) => window.__textEvents.push({ type, detail: e.detail }));
 });
 try {
-  await page.goto(`http://localhost:4186/?threads=${threads}`);
+  await page.goto(`http://localhost:4186/?threads=${threads}&textEngine=${engine}`);
   await page.evaluate(async () => {
     const cache = await caches.open("docscan-models-v1");
     await cache.put("/models/poa-tagger.onnx", new Response("obsolete model"));
@@ -39,28 +42,33 @@ try {
   await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
   assert.equal(await page.evaluate(() => window.__docscan.ready.tagger), true, "a stale unversioned model must not disable the current tagger");
   assert.ok(await page.evaluate(async () => (await (await caches.open("docscan-models-v1")).keys()).some((r) => /poa-tagger\.onnx\?v=/.test(r.url))));
+  assert.equal(paddleRequests.length, 0, "optional models must not load before use");
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 120000 });
   const text = await page.getByLabel("Extracted text", { exact: true }).inputValue();
   assert.match(text, /DOCUMENT CAPTURE DEVELOPMENT SAMPLE/);
   assert.match(text, /twelve pencils/);
+  assert.equal(paddleRequests.length, engine === "ppocr_v6_tiny" ? 3 : 0);
   assert.equal(await page.evaluate(() => window.__textEvents.length), 0, "photo reading must not announce a live capture");
   mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
-  await page.screenshot({ path: new URL("./out/text-photo.png", import.meta.url).pathname, fullPage: true });
-  console.log("PASS photo OCR and versioned model cache");
+  await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-photo.png`, import.meta.url).pathname, fullPage: true });
+  console.log(`PASS ${engine} photo OCR, lazy models and versioned cache`);
 
-  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}`);
+  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}&textEngine=${engine}`);
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 180000 });
   const result = await page.evaluate(() => ({ events: window.__textEvents, tracks: window.__tracks.map((t) => t.readyState) }));
   assert.deepEqual(result.events.map((e) => e.type), ["docscan:text", "docscan:complete"]);
-  assert.ok(result.events[0].detail.result.words.length > 10);
+  const reading = result.events[0].detail.result;
+  assert.ok(reading.lines.length > 3);
+  if (engine === "ppocr_v6_tiny") { assert.equal(reading.engine, engine); assert.ok(!("words" in reading)); }
+  else assert.ok(reading.words.length > 10);
   assert.ok(result.tracks.length > 0 && result.tracks.every((s) => s === "ended"));
-  await page.screenshot({ path: new URL("./out/text-camera.png", import.meta.url).pathname, fullPage: true });
-  console.log("PASS hands-free text capture, one completion, camera released");
+  await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-camera.png`, import.meta.url).pathname, fullPage: true });
+  console.log("PASS hands-free text capture, one completion, camera released", JSON.stringify({ engine, threads, timings: reading.timings_ms, wasmMemoryBytes: result.events[1].detail.meta.memoryBytes }));
 
   // Leave while OCR runs. A subsequent photo request queues behind it,
   // proving the abandoned request has drained before checking its events.
-  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}`);
+  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}&textEngine=${engine}`);
   await page.waitForFunction(() => document.querySelector('[data-testid="hint"]')?.textContent?.includes("Reading the page"), null, { timeout: 120000 });
   await page.locator('[data-testid="capture-home"]').click();
   await page.locator('[data-testid="home"]').waitFor();

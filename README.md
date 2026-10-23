@@ -5,7 +5,8 @@
 The **Document text** card (`?mode=text`) captures an upright printed page
 hands-free and returns copyable text plus word and line positions. Uploaded
 photos use the same enhanced page OCR. `Scanner.text_page` adds this richer
-API without changing `Scanner.text`. See
+API without changing `Scanner.text`. The optional **PP-OCRv6 tiny** reader
+adds a separate model choice with line polygons and lazy model downloads. See
 [the API, DEV comparison and limitations](docs/improvements-general-text.md).
 
 
@@ -954,6 +955,7 @@ settle the training data's terms; see the provenance column and
 | --- | --- | --- | --- | --- |
 | ocrs text detection and text recognition (`text-detection.rten`, `text-recognition.rten`; fetched by `scripts/fetch-models.sh`) | all OCR: ID documents, labels, proof of address | Robert Knight, [ocrs-models](https://github.com/robertknight/ocrs-models) ([model card](https://huggingface.co/robertknight/ocrs)) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Trained on Google's [HierText](https://github.com/google-research-datasets/hiertext) (CC BY-SA 4.0) and synthetic data. Commercial use allowed with attribution; **a modified version (fine-tuned, quantised, retrained) must be released under CC BY-SA 4.0**. |
 | Page detector (`models/text-detection-page.onnx`), a **modified version** of the ocrs text detection model | proof of address: words found in strips the width of the page | Robert Knight (the model); modified here by `scripts/make-page-detector.py` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | ocrs-models' `text-detection.onnx` with its input height and width made free and its skip connections' crops sized from their inputs; the weights are unchanged, and on the original 800 × 600 input the output is identical. |
+| Optional PP-OCRv6 tiny detector, recognizer and dictionary | general document text, selected on the text card | PaddlePaddle, [PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR) | Apache-2.0 (official model cards) | Official ONNX exports and dictionary, pinned by revision and SHA-256 in `scripts/ppocr-v6-models.json`; fetched at build time, loaded in the browser only when used. [Provenance and evidence](experiments/ppocr_v6/README.md). |
 | Proof-of-address field tagger (`models/poa-tagger.onnx`) | proof of address | this repository | MIT OR Apache-2.0 | Trained here on synthetic documents only. |
 | MediaPipe BlazeFace short-range (`face_detector.onnx`) | face detection | Google, [MediaPipe](https://github.com/google-ai-edge/mediapipe) | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) | Converted from the published `.tflite`; training data not published. |
 | MediaPipe Face Mesh V2 (`face_landmarks_detector.onnx`) and the canonical face mesh (`docscan/src/face/canonical.rs`) | face landmarks, head pose | Google, MediaPipe | Apache-2.0 | Converted from the published model and `canonical_face_model.obj`; training data not published. |

@@ -73,8 +73,8 @@ it as a preview with more errors than commercial engines. The current
 geometric rectification and reading order separately from transcription.
 Neither source establishes quality for this implementation. A larger held-out
 corpus of consented real pages, multiple columns, tables, thermal receipts,
-rotation, curved pages and phone measurements is still required. No new model
-licence or unmeasured VLM dependency is introduced here.
+rotation, curved pages and phone measurements is still required. The ocrs path reuses its existing models. The optional PP-OCRv6 tiny reader
+uses separate Apache-2.0 models and does not add a VLM dependency.
 
 ## Browser checks
 
@@ -89,3 +89,48 @@ Model download URLs now contain a hash of the served model bytes, computed at
 build time. Updated tagger/OCR/face weights therefore do not remain hidden
 behind an older Cache API entry on a returning visitor's device. This is cache
 versioning, not a security or model-authenticity guarantee.
+
+
+## Optional PP-OCRv6 tiny reader
+
+The Document text card also offers PP-OCRv6 tiny. A deep link is
+`?mode=text&textEngine=ppocr_v6_tiny`. The existing ocrs page reader remains the
+default. The optional reader runs in Rust/RTen in the same WebAssembly worker;
+Python and ONNX Runtime are used only by the development experiment.
+
+`PaddleTextScanner` loads the pinned detector, recognizer and full CTC
+dictionary; its `read(rgba, width, height)` returns `text`, `lines` (confidence,
+quadrilateral and bounding rectangle), `page_size`, `timings_ms` and
+`engine: "ppocr_v6_tiny"`. Its coordinates refer to the original **input page**,
+which is normally the flattened capture. It does not invent word boxes.
+The ocrs reader's coordinates instead refer to its enhanced/deskewed page.
+The result screen labels this difference when copying structured output.
+
+The two ONNX files total 6,243,229 bytes; the dictionary is about 41 KB.
+`scripts/ppocr-v6-models.json` pins the official revisions, sizes and SHA-256.
+Build-time model fetching verifies these before publishing same-origin assets;
+the browser downloads them only on the first selected PP-OCRv6 read. Loading a
+page or using another scanner does not fetch the optional models. Model URLs
+are content-versioned like the other readers.
+
+The pinned model publishes multilingual capability; the fixed DEV experiment
+here covers only 12 simple English pages. Model configuration and RTen/ONNX
+Runtime comparison are recorded under `experiments/ppocr_v6/`. This is an
+optional reader for comparison, not a replacement for the ID checks or PoA
+field tagger. No multilingual, handwriting, real-document or phone-performance
+claim follows from the English smoke corpus.
+
+
+### Browser smoke for the optional engine
+
+The combined build passed `demo/e2e/text.mjs` with
+`DOCSCAN_TEXT_ENGINE=ppocr_v6_tiny`, on both one and two wasm threads. The
+small-print photo was read, all three optional assets were fetched only when
+used, camera capture emitted one completion and stopped its tracks, and
+leaving during a pending read suppressed that capture's events.
+
+On the synthetic bank-statement camera clip, the optional reader reported
+5.24 s / 114.1 MiB allocated wasm memory with one thread and 3.87 s / 118.2 MiB
+with two. These are individual headless desktop Chrome measurements under
+shared load, **not** a calibrated speed comparison or total browser RAM, and
+not measurements on a phone. GitHub Pages uses the single-threaded build.

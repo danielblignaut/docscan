@@ -109,6 +109,7 @@ function captureFacts(meta: CaptureMeta, ready: ReadyInfo | null): [string, Reac
     ["Median fast pass", ms(meta.fastMs)],
     ["Median OCR pass", ms(meta.ocrMs)],
     ["Backend", backend(ready)],
+    ["Wasm allocated memory", meta.memoryBytes ? `${Math.round(meta.memoryBytes / 1048576)} MB (not total browser RAM)` : null],
     ["Scanner loaded in", ready ? ms(ready.loadMs) : null],
   ];
 }
@@ -622,10 +623,10 @@ export function Results({ outcome, ready, onHome, face = null }: { outcome: Outc
             <CopyButton value={outcome.result.text} />
           </Group>
           <details className="metadata"><summary>Captured page</summary><img className="captured" src={outcome.imageUrl} alt="Captured document" /></details>
-          <details className="metadata"><summary>Word positions and metadata</summary>
-            <p>Positions are in the enhanced, deskewed page ({outcome.result.page_size.join(" × ")} pixels). Lines follow rows; tables and columns may need rearranging.</p>
+          <details className="metadata"><summary>Text positions and metadata</summary>
+            <p>{"engine" in outcome.result ? "PP-OCRv6 tiny: line polygons refer to the input page" : "ocrs: word positions refer to the enhanced, deskewed page"} ({outcome.result.page_size.join(" × ")} pixels). Lines follow rows; tables and columns may need rearranging.</p>
             <CopyButton value={JSON.stringify(outcome.result, null, 2)} />
-            <Facts rows={[["Words", outcome.result.words.length], ["Lines", outcome.result.lines.length], ["OCR time", ms(outcome.result.timings_ms.ocr)], ...captureFacts(outcome.meta, ready)]} />
+            <Facts rows={[["Words", "words" in outcome.result ? outcome.result.words.length : null], ["Lines", outcome.result.lines.length], ["OCR time", ms("ocr" in outcome.result.timings_ms ? outcome.result.timings_ms.ocr : outcome.result.timings_ms.total)], ...captureFacts(outcome.meta, ready)]} />
           </details>
         </section>}
         {outcome.kind === "id" && <IdResults outcome={outcome} ready={ready} />}

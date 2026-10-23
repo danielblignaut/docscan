@@ -5,7 +5,8 @@ import { downscale, flattenPage, today } from "./AddressCapture";
 import { toJpeg } from "./camera";
 import { type Captured, FLOWS } from "./IdCapture";
 import { chooseExtractor, type Extractor } from "./models";
-import type { PageText } from "./TextCapture";
+import type { TextEngine } from "./text-engine";
+import type { TextResult } from "./TextCapture";
 import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { ScannerId } from "./scanners";
@@ -30,7 +31,7 @@ async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<
  * `files`: one photo per step, in order (a smart ID's front, then its back);
  * extra photos are read as the last step.
  */
-export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient): Promise<Outcome> {
+export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient, textEngine: TextEngine = "ocrs"): Promise<Outcome> {
   const t0 = performance.now();
   const meta = (frames: number, ocrFrames = 0) => ({ source: "photo" as const, captureMs: performance.now() - t0, frames, ocrFrames });
 
@@ -102,12 +103,13 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
       ({ flat: image, imageUrl, blob } = await flattenPage(client, await pixels(file), k, page));
     } else {
       image = await pixels(file);
+      if (scanner === "text") image = downscale(image, 2480);
       blob = await toJpeg(downscale(image, 1024));
       imageUrl = URL.createObjectURL(blob);
     }
     if (scanner === "text") {
-      const { result } = await client.run<PageText>({ kind: "text_page", image });
-      return { kind: "text", result, imageUrl, meta: meta(2, 1) };
+      const { result, memoryBytes } = await client.run<TextResult>({ kind: textEngine === "ppocr_v6_tiny" ? "text_v6" : "text_page", image });
+      return { kind: "text", result, imageUrl, meta: { ...meta(2, 1), memoryBytes } };
     }
     const tRead = performance.now();
     const extractor = chooseExtractor((await client.ready).tagger, method);

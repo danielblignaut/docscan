@@ -3,8 +3,10 @@
 The official PP-OCRv6 tiny ONNX pair is a practical candidate for an optional
 browser OCR engine: both graphs execute in the project's RTen 0.26, and the
 native ONNX Runtime pipeline reads all 12 frozen synthetic DEV pages without
-normalized character errors. This experiment does not integrate an engine or
-establish real-document or browser performance.
+normalized character errors. The initial experiment did not integrate an engine. The optional
+[implementation](../../docscan/src/text_v6.md) and its subsequent native
+evidence are now included; the experiment alone does not establish
+real-document or browser performance.
 
 ## Availability and provenance
 
@@ -137,3 +139,9 @@ result is not a substitute for the application's separate browser checks.
 /tmp/docscan-ppocr-v6/venv/bin/python experiments/ppocr_v6/evaluate_native.py \
   --scorer eval/text_eval.py --out /tmp/docscan-ppocr-v6/native-results.json --jobs 2
 ```
+
+
+Source mapping in the continuation PR: the original local `916a30b` engine
+commit is integrated as `e56dcfb`; the reader source and pinned artifacts are
+identical, while unrelated scanner areas also changed. Raw experiment metadata
+retains the actual local snapshot and binary hashes used for measurement.

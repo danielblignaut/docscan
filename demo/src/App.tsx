@@ -8,6 +8,7 @@ import { FaceClient } from "./face-client";
 import { type FaceFlowId, FaceFlow } from "./FaceFlow";
 import { Home } from "./Home";
 import { type Captured, type DocType, IdCapture } from "./IdCapture";
+import { type TextEngine, textEngineFromUrl } from "./text-engine";
 import { TextCapture } from "./TextCapture";
 import { MultiBarcode } from "./MultiBarcode";
 import type { Extractor } from "./models";
@@ -47,6 +48,7 @@ export function App() {
   const [ready, setReady] = useState<ReadyInfo | null>(null);
   const [failed, setFailed] = useState(false);
   const [screen, setScreen] = useState<Screen>(screenFromUrl);
+  const [textEngine, setTextEngine] = useState<TextEngine>(textEngineFromUrl);
   const [method, setMethod] = useState<Extractor | "auto">(methodFromUrl);
   const [busy, setBusy] = useState<ScannerId | null>(null);
   const [photoError, setPhotoError] = useState<{ id: ScannerId; message: string } | null>(null);
@@ -74,7 +76,7 @@ export function App() {
 
   // The browser's own Back (and Android's) follows the URL.
   useEffect(() => {
-    const onPop = () => setScreen(screenFromUrl());
+    const onPop = () => { setTextEngine(textEngineFromUrl()); setScreen(screenFromUrl()); };
     addEventListener("popstate", onPop);
     return () => removeEventListener("popstate", onPop);
   }, []);
@@ -86,10 +88,10 @@ export function App() {
 
   const open = useCallback(
     (scanner: ScannerId) => {
-      history.pushState(PUSHED, "", urlFor(scanner, method));
+      history.pushState(PUSHED, "", urlFor(scanner, method, textEngine));
       setScreen({ kind: "capture", scanner });
     },
-    [method],
+    [method, textEngine],
   );
 
   /** Unmounting the capture screen stops its camera. */
@@ -113,8 +115,8 @@ export function App() {
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos(client, id, files, method, faceClient);
-      history.pushState(PUSHED, "", urlFor(id, method));
+      const outcome = await analysePhotos(client, id, files, method, faceClient, textEngine);
+      history.pushState(PUSHED, "", urlFor(id, method, textEngine));
       setScreen({ kind: "results", outcome });
     } catch (e) {
       setPhotoError({ id, message: `Could not read the photo: ${e instanceof Error ? e.message : String(e)}` });
@@ -134,7 +136,7 @@ export function App() {
         ) : s === "barcodes" || s === "labels" ? (
           <MultiBarcode client={client} labels={s === "labels"} onDone={onOutcome} />
         ) : s === "text" ? (
-          <TextCapture client={client} onDone={onOutcome} />
+          <TextCapture client={client} engine={textEngine} onDone={onOutcome} />
         ) : s === "address" ? (
           <AddressCapture client={client} method={method} onDone={onAddress} />
         ) : (
@@ -153,6 +155,8 @@ export function App() {
       status={status}
       failed={failed}
       method={method}
+      textEngine={textEngine}
+      onTextEngine={setTextEngine}
       onMethod={setMethod}
       onOpen={open}
       onPhoto={onPhoto}

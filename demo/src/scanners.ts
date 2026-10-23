@@ -1,6 +1,7 @@
 // The scanners the demo offers, each one card on the home screen and one
 // deep link (`?doc=…` or `?mode=…`), so the e2e suite can open any of them
 // directly.
+import type { TextEngine } from "./text-engine";
 import type { DocType } from "./IdCapture";
 import type { Extractor } from "./models";
 
@@ -101,15 +102,17 @@ export function methodFromUrl(search = location.search): Extractor | "auto" {
  * The URL for a scanner (or home, `null`), keeping every other parameter
  * (`threads`, `today`, …) so a test's settings survive navigation.
  */
-export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto"): string {
+export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto", textEngine: TextEngine = "ocrs"): string {
   const p = new URLSearchParams(location.search);
   p.delete("doc");
   p.delete("mode");
   p.delete("method");
+  p.delete("textEngine");
   if (id) {
     const [k, v] = scannerById(id).param;
     p.set(k, v);
     if (id === "address" && method !== "auto") p.set("method", method);
+    if (id === "text" && textEngine !== "ocrs") p.set("textEngine", textEngine);
   }
   const q = p.toString();
   return `${location.pathname}${q ? `?${q}` : ""}`;
