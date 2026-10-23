@@ -89,3 +89,9 @@ There is no valid independent calibration cohort, so APCER at fixed BPCER
 is **not estimable** here. Active session accuracy is also not measured: these
 clips contain no dynamic bona fide trials following the challenge. Physical
 parallax remains on in production.
+
+The `production-pair` variant combines the two runs: flip-averaged neutral/document
+portrait (the still-photo path) against an unflipped smiling reference (the live
+frame path). It remains a **proxy**: no capture quality rejection or multi-frame
+session aggregation is modeled. The `iris` baseline is explicitly a native
+unflipped-embedding protocol, not the exact end-to-end production decision.

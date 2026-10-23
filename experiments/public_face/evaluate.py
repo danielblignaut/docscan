@@ -142,15 +142,22 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--data', type=Path, default=DATA)
     p.add_argument('--binary', type=Path, required=True)
-    p.add_argument('--variant', choices=('iris', 'flip', 'contour', 'nose4', 'inner-mouth'), default='iris')
+    p.add_argument('--variant', choices=('iris', 'flip', 'contour', 'nose4', 'inner-mouth', 'production-pair'), default='iris')
     p.add_argument('--jobs', type=int, choices=(1, 2), default=2)
     p.add_argument('--report', type=Path, required=True)
     a = p.parse_args()
     if not a.data.resolve().is_relative_to(Path('/tmp/docscan-public-data')):
         raise ValueError('Face data must stay owner-private in /tmp/docscan-public-data')
     rows = prepare(a.data)
-    vec, found, run = embed(a.binary.resolve(), a.data, rows, a.variant, a.jobs)
-    report = {'protocol': 'london-neutral-smile-v1-dev-only', 'purpose': 'research evaluation; no training or shipped calibration', 'source_revision': json.loads((a.data / 'manifest.json').read_text())['revision'], 'source_manifest_sha256': digest(a.data / 'manifest.json'), 'protocol_sha256': digest(a.data / 'protocol-v1.json'), 'binary_sha256': digest(a.binary), 'variant': a.variant, 'models': {p.name: digest(p) for p in sorted((ROOT / 'models/face').glob('*.onnx'))}, 'run': run, 'metrics': score(rows, vec, found), 'limits': ['51 identities per split; 2550 dependent impostor pairs cannot certify population FAR=0.001', 'One photo session and source; no held-out device, age or source validation', 'Controlled portrait degradation is not physical ID capture', 'No attack data; APCER and liveness effectiveness not estimable', 'No model weights trained; no production threshold selected']}
+    if a.variant == 'production-pair':
+        vec, found, live_run = embed(a.binary.resolve(), a.data, rows, 'iris', a.jobs)
+        still, still_found, photo_run = embed(a.binary.resolve(), a.data, rows, 'flip', a.jobs)
+        mask = np.array([row['pose'] == 'neutral' for row in rows])
+        vec[mask], found[mask] = still[mask], still_found[mask]
+        run = {'unflipped_live': live_run, 'flip_averaged_photo': photo_run}
+    else:
+        vec, found, run = embed(a.binary.resolve(), a.data, rows, a.variant, a.jobs)
+    report = {'protocol': 'london-neutral-smile-v1-dev-only', 'purpose': 'research evaluation; no training or shipped calibration', 'embedding_protocol': 'production-pair uses flip-averaged still vs unflipped reference; other variants use same transform on both; no session aggregation or quality gating', 'source_revision': json.loads((a.data / 'manifest.json').read_text())['revision'], 'source_manifest_sha256': digest(a.data / 'manifest.json'), 'protocol_sha256': digest(a.data / 'protocol-v1.json'), 'binary_sha256': digest(a.binary), 'variant': a.variant, 'models': {p.name: digest(p) for p in sorted((ROOT / 'models/face').glob('*.onnx'))}, 'run': run, 'metrics': score(rows, vec, found), 'limits': ['51 identities per split; 2550 dependent impostor pairs cannot certify population FAR=0.001', 'One photo session and source; no held-out device, age or source validation', 'Controlled portrait degradation is not physical ID capture', 'No attack data; APCER and liveness effectiveness not estimable', 'No model weights trained; no production threshold selected']}
     a.report.parent.mkdir(parents=True, exist_ok=True)
     a.report.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))
