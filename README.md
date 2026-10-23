@@ -42,8 +42,8 @@ leaves the phone.
   verified against their name and address over a burst of frames. See
   [Proof of address](#proof-of-address-modeaddress).
 - **Face liveness and verification** (`?mode=liveness`, `faceid`, `facedoc`):
-  an active head-turn ring with 3-D motion, passive anti-spoofing,
-  continuity and identity checks; a face template for "Face ID" on return;
+  an active head-turn ring, passive anti-spoofing across every pose of the
+  sweep, continuity and identity checks; a face template for "Face ID" on return;
   and a live face matched to the photo on a passport or smart ID. See
   [Face liveness and verification](#face-liveness-and-verification-modeliveness-faceid-facedoc).
 
@@ -861,10 +861,10 @@ iteration log (`RESULTS.md`).
 | `mesh.rs` | MediaPipe Face Mesh V2 (478 points with irises, Apache-2.0) on an eye-levelled crop; each frame's crop from the last frame's landmarks, the detector only when the face is lost (and every 6th frame, to count faces). |
 | `pose.rs` | Yaw, pitch, roll: a similarity fit (Horn) of MediaPipe's canonical face to the 3-D points. |
 | `quality.rs` | Size, exposure, evenness of light, saturation, sharpness, eyes open, pose: OFIQ-style individual measures, turned into hints. Absolute brightness is not held against dark skin. |
-| `parallax.rs` | 3-D motion from the pixels: rigid points re-found in each turned frame by texture (NCC of a reference patch warped by the local homography, twice), and how far they depart from one homography. A flat print or screen fits one; a head does not. The landmarks alone were not enough (their face prior bends a tilted print's points towards a turning head's). |
+| `parallax.rs` | 3-D motion from the pixels: rigid points re-found in each turned frame by texture (NCC of a reference patch warped by the local homography, twice), and how far they depart from one homography. A flat print or screen fits one; a head does not. **Off by default** (research-only: likely within granted patent claims, see `face/PATENTS.md`). |
 | `antispoof.rs` | Minivision's MiniFASNetV2 + V1SE (Apache-2.0) on 2.7× and 4.0× crops. |
 | `recognise.rs` | ArcFace five-point alignment from the mesh, OpenCV's SFace (Apache-2.0 weights, stored as int8), cosine similarity. |
-| `liveness.rs` | The session: centre → sweep → finish, and the checks: ring coverage, 3-D motion (≥ 6% of the eye distance), anti-spoofing (the weakest sampled near-frontal frame ≥ 0.5), continuity (no jump a head cannot make, no long gap, no second face, timestamps in order), identity (the face after the sweep is the face before it), blinks (counted; required only if configured). |
+| `liveness.rs` | The session: centre → sweep → finish, and the checks: ring coverage, anti-spoofing (the 10th percentile of the live probability over frames sampled at every pose of the sweep, at the DEV equal-error point), 3-D motion (off by default, see `face/PATENTS.md`), continuity (no jump a head cannot make, no long gap, no second face, timestamps in order), identity (the face after the sweep is the face before it), blinks (counted; required only if configured). |
 
 The page adds capture integrity: a camera whose name is a virtual camera's
 (OBS, ManyCam, v4l2loopback, …) fails unless `?allowVirtualCamera=1` (the e2e
@@ -908,7 +908,8 @@ benchmark and the e2e suite (`python face/synth/clips.py --e2e`).
 | LFW, raw images through the on-device pipeline (SFace int8) | threshold 0.366 (FAR 1e-3 on DEV) | TAR 99.41% @ FAR 1e-3 | **99.52 ± 0.33%** 10-fold; TAR 99.03% @ FAR 1e-3; at the DEV threshold FAR 0.07%, FRR 1.0% |
 | LFW, standard pre-aligned crops (lfw.bin) | | | 99.63%; CALFW 94.8%, CPLFW 90.9% |
 | Passive anti-spoofing, CelebA-Spoof (cross-dataset) | | AUC 0.908 | AUC 0.858, ACER 23.2% |
-| Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
+| Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | 2026-10-21: parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
+| Active liveness, same clips, current default (no 3-D check; anti-spoofing across poses) | 10th-percentile live ≥ 0.711 | APCER 0%, BPCER 3.3% (`bench/`) | not yet run |
 | Document photo vs live face (synthetic ID renders of LFW pairs) | threshold 0.356 | TAR 98.5% @ FAR 1e-3 | TAR 98.2% @ FAR 1e-3; FAR 0.03%, FRR 2.1% at the DEV threshold |
 
 Browser (headless Chrome, this machine): a liveness frame takes ~100 ms in the
