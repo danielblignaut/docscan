@@ -16,6 +16,7 @@ const browser = await chromium.launch({ executablePath: "/usr/bin/google-chrome"
 ] });
 const page = await browser.newPage({ viewport: { width: 540, height: 960 } });
 const errors = [];
+const threads = process.env.DOCSCAN_TEST_THREADS ?? "1";
 page.on("pageerror", (e) => errors.push(e.message));
 await page.addInitScript(() => {
   window.__textEvents = [];
@@ -29,13 +30,15 @@ await page.addInitScript(() => {
   for (const type of ["docscan:text", "docscan:complete"]) window.addEventListener(type, (e) => window.__textEvents.push({ type, detail: e.detail }));
 });
 try {
-  await page.goto("http://localhost:4186/?threads=1");
+  await page.goto(`http://localhost:4186/?threads=${threads}`);
   await page.evaluate(async () => {
     const cache = await caches.open("docscan-models-v1");
     await cache.put("/models/poa-tagger.onnx", new Response("obsolete model"));
   });
   await page.reload();
   await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
+  assert.equal(await page.evaluate(() => window.__docscan.ready.tagger), true, "a stale unversioned model must not disable the current tagger");
+  assert.ok(await page.evaluate(async () => (await (await caches.open("docscan-models-v1")).keys()).some((r) => /poa-tagger\.onnx\?v=/.test(r.url))));
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 120000 });
   const text = await page.getByLabel("Extracted text", { exact: true }).inputValue();
@@ -46,7 +49,7 @@ try {
   await page.screenshot({ path: new URL("./out/text-photo.png", import.meta.url).pathname, fullPage: true });
   console.log("PASS photo OCR and versioned model cache");
 
-  await page.goto("http://localhost:4186/?mode=text&threads=1");
+  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}`);
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 180000 });
   const result = await page.evaluate(() => ({ events: window.__textEvents, tracks: window.__tracks.map((t) => t.readyState) }));
   assert.deepEqual(result.events.map((e) => e.type), ["docscan:text", "docscan:complete"]);
@@ -57,7 +60,7 @@ try {
 
   // Leave while OCR runs. A subsequent photo request queues behind it,
   // proving the abandoned request has drained before checking its events.
-  await page.goto("http://localhost:4186/?mode=text&threads=1");
+  await page.goto(`http://localhost:4186/?mode=text&threads=${threads}`);
   await page.waitForFunction(() => document.querySelector('[data-testid="hint"]')?.textContent?.includes("Reading the page"), null, { timeout: 120000 });
   await page.locator('[data-testid="capture-home"]').click();
   await page.locator('[data-testid="home"]').waitFor();
