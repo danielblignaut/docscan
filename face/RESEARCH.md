@@ -235,8 +235,8 @@ Regression checks: `cargo test --lib face::` under `docscan/`, and
 native TypeScript stripping), followed by the unchanged DEV benchmark.
 
 
-The recovered full DEV runs also permit auditing the preceding crop and
-session-default changes with the unchanged referee: `5196114514` (same face
+The recovered full DEV runs audit the preceding crop and session-default
+experiment (parallax off, not the final shipped setting) with the unchanged referee: `5196114514` (same face
 source and model configuration as `6070c92`/main) versus `8d801ae52d`.
 `bench/compare.py` reports **improved**, with no significant regressions:
 image-level PAD AUC 85.76% → 90.77% (paired 95% CI for the difference
@@ -247,3 +247,9 @@ measured improvement on DEV, while the remaining image-level attack
 acceptance rate still prevents a strong deployment-security claim.
 The geometric check's patent discussion remains a research concern, not
 a legal clearance; no freedom-to-operate conclusion follows from these tests.
+
+
+Final integration preserves the physical parallax check by default, alongside
+the improved learned PAD. The full DEV comparison above is the historical
+no-parallax ablation; it does not measure the final enabled-parallax default.
+Final-config quick DEV evidence is recorded separately in `bench/results/`.

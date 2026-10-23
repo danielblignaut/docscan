@@ -157,12 +157,12 @@ Not covered: 3-D masks and real-time 3-D deepfakes (geometrically correct by
 construction; need passive and injection defences), a replay on a large
 screen held far away, real people.
 
-**Update 2026-10-23:** the 3-D motion check described here is **off by
-default** after a patent review (`face/PATENTS.md` § 1: likely within NEC
-US8860795 and IBM US9898674 claims); the passive check now runs on every
-pose of the sweep and decides on the 10th percentile of its samples. The
-numbers above are the 2026-10-21 configuration; the current ones are in
-`docs/improvements-face.md` and `bench/`.
+**Update 2026-10-23:** the passive check now runs on every pose of the
+sweep and decides on the 10th percentile of its samples. The 3-D motion
+check remains **on by default**. Recovered full DEV results for the earlier
+no-parallax branch are an ablation, not measurements of the final default;
+`docs/improvements-face.md` and `bench/results/` distinguish configurations.
+Patent research does not establish clearance or automatically disable checks.
 
 ## 4. Document photo to live face (synthetic ID-photo renders of LFW pairs)
 

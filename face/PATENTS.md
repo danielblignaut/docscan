@@ -21,18 +21,20 @@ research by the project's agents (2026-10-21/22), and the papers cited.
 US patents below. One iProov patent *is* in force in South Africa:
 ZA201704234B (§ 8).
 
-Verdict labels:
+These are research hypotheses, not legal conclusions or clearance. They do
+not automatically change enabled security checks.
+
+Historical research labels:
 - **no relevant patent found**;
 - **near a claimed method: different because …**;
-- **likely within a claim: not a default** (research-only, behind a flag, off
-  by default), or flagged for a decision where it is already part of the
-  pipeline.
+- **likely within a claim**: a question for qualified review; any product
+  decision is separate from this research label.
 
 ## Summary
 
 | Technique (where in the code) | Closest patents | Verdict |
 |---|---|---|
-| 3-D motion: texture points re-found, one homography fitted, a small residual means a flat spoof (`parallax.rs`, the `3d_motion` check) | NEC [US8860795B2](https://patents.google.com/patent/US8860795B2/en); IBM [US9898674B2](https://patents.google.com/patent/US9898674B2/en) | **likely within a claim** (NEC claim 1; IBM claims 10, 13, 16): **off by default since 2026-10-23**, research-only behind `Config::planar_parallax` (§ 1) |
+| 3-D motion: texture points re-found, one homography fitted, a small residual means a flat spoof (`parallax.rs`, the `3d_motion` check) | NEC [US8860795B2](https://patents.google.com/patent/US8860795B2/en); IBM [US9898674B2](https://patents.google.com/patent/US9898674B2/en) | **likely within a claim** (NEC claim 1; IBM claims 10, 13, 16): **on by default**; the disabled-check experiment is historical and clearance is not established (§ 1) |
 | A rigid 3-D head model fitted to the motion (tried 2026-10-21 as "model-consistent parallax") | IBM US9898674B2 | **likely within a claim**: dropped (2026-10-22), never a default |
 | The ring: segments lit when the head's yaw/pitch off neutral exceed a threshold; coverage decides (`liveness.rs`) | Google [US8542879B1](https://patents.google.com/patent/US8542879B1/en) (EP2680191), [US8798336B2](https://patents.google.com/patent/US8798336B2/en) | **near a claimed method**, arguably within claim 1 of US8542879: flagged for a decision, see § 2. Prior art: Frischholz & Werner 2003 |
 | ID capture + liveness + document-photo match combined in one decision (demo flow) | iProov [US9621548B2](https://patents.google.com/patent/US9621548B2/en) (asserted in litigation) | **likely within a claim** when the passive check is part of the liveness decision: flagged, see § 3 |
@@ -82,16 +84,14 @@ from motion of facial points for person recognition); Bao et al. 2009
 et al. ICB 2013 (geometric invariants / 3-D structure from facial points
 for liveness; both before IBM's 2015 priority, after NEC's 2008).
 
-**Decision (2026-10-23):** the check is **off by default**
-(`PLANAR_PARALLAX_DEFAULT = false` in `liveness.rs`); the code stays as
-research-only behind `Config::planar_parallax`. It was the only geometric
-defence against a print bent round a cylinder that completes the ring; its
-place is taken by passive anti-spoofing decided across every pose of the
-sweep (§ 9), which on the synthetic DEV clips and a further DEV-only set
-stops every such print. That replacement is a single, learned signal: a
-real print that fools the passive model now meets only the ring, continuity
-and identity checks. An integrator with a licence or an attorney's
-clearance can turn the check back on.
+**Integration decision (2026-10-23):** retain the baseline physical check
+by default (`PLANAR_PARALLAX_DEFAULT = true`). The earlier branch tested
+`false`, combining a sweep-wide passive score with continuity and identity;
+its recorded results are an ablation experiment, not the shipped setting.
+A real print that fools the learned model should still meet the independent
+geometric check. The optional configuration remains available for research.
+Patent scope and clearance are unresolved; this research alone does not
+justify removing a defence or establish freedom to operate.
 
 ## 2. The ring (yaw/pitch magnitude against a threshold)
 

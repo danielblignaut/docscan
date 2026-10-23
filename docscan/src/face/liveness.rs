@@ -14,8 +14,7 @@
 //!
 //! The checks, scored over the whole session:
 //! - **coverage**: the share of segments lit;
-//! - **3-D motion** (`planarity`; **off by default**, research-only: see
-//!   `PLANAR_PARALLAX_DEFAULT` and `face/PATENTS.md`): a flat photo or screen, however it is moved
+//! - **3-D motion** (`planarity`; on by default): a flat photo or screen, however it is moved
 //!   or tilted, moves its landmarks by one homography between two frames; a
 //!   real head turning shows parallax (the nose moves against the cheeks)
 //!   that no homography explains. The residual of a homography fitted from
@@ -73,9 +72,9 @@ pub struct Config {
     /// Run anti-spoofing at most this often (ms).
     pub antispoof_every_ms: f64,
     /// The `3d_motion` check: texture points re-found in turned frames and a
-    /// small residual from one homography read as a flat spoof. **Near
-    /// granted patents** (NEC US8860795, IBM US9898674; `face/PATENTS.md`):
-    /// read that file before turning it on in a product.
+    /// small residual from one homography read as a flat spoof. Enabled by
+    /// default as an independent physical check; `face/PATENTS.md` records
+    /// unresolved research questions, not a clearance determination.
     pub planar_parallax: bool,
     /// Measure texture parallax on every this-many-th turned frame.
     pub parallax_every: usize,
@@ -112,15 +111,10 @@ impl Default for Config {
     }
 }
 
-/// Whether the homography-residual `3d_motion` check runs by default: **no**
-/// (2026-10-23). The test, a single homography fitted to points re-found in
-/// two views and a small residual read as a flat spoof, is likely within
-/// granted claims (NEC US8860795 claim 1, to 2031; IBM US9898674 claims
-/// 10/13, to 2036; `face/PATENTS.md`). It stays as research code behind
-/// `Config::planar_parallax`. On the synthetic DEV clips the all-poses
-/// anti-spoofing quantile (`antispoof_all_poses`) stops every curved print
-/// the ring lets through without it (`docs/improvements-face.md`).
-pub const PLANAR_PARALLAX_DEFAULT: bool = false;
+/// Preserve the physical `3d_motion` check alongside learned anti-spoofing.
+/// The no-parallax experiment is recorded separately; its synthetic results
+/// and patent research do not justify silently removing this defence.
+pub const PLANAR_PARALLAX_DEFAULT: bool = true;
 
 /// The points re-found by texture for the parallax measure: the rigid ones,
 /// plus textured points inside the face (nostrils, nose sides, cheeks).
@@ -830,6 +824,13 @@ fn portrait(frame: &Frame, points: &[[f32; 3]]) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_retains_the_physical_check() {
+        let result = Session::new(Config::default()).result(&FaceEngine::default());
+        let check = result.checks.iter().find(|c| c.name == "3d_motion").unwrap();
+        assert!(check.required && !check.passed);
+    }
 
     #[test]
     fn completed_sweep_requires_antispoof_and_identity_models() {
