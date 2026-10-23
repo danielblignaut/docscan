@@ -53,7 +53,9 @@ fn lines(words: &[Word]) -> Vec<TextLine> {
 }
 
 fn lower(s: &str) -> String {
-    s.to_lowercase()
+    // Labels are ASCII. Keep their byte offsets valid in the original OCR
+    // text: Unicode case conversion can change length (for example İ).
+    s.to_ascii_lowercase()
 }
 
 const NAME_LABELS: &[&str] = &[
@@ -382,6 +384,21 @@ fn document_date(ls: &[TextLine], today: Date) -> Option<(Date, f32)> {
             {
                 return Some((*d, 0.8));
             }
+            // A row of column headings (ACCOUNT DATE | DUE DATE) has no
+            // value to the right of the label. Read the first line below
+            // within this column; never skip a non-date to a later row or
+            // borrow the neighbouring column's payment date.
+            if *label != "date" && l.text[at..].split_whitespace().count() <= 3 {
+                let below = ls.iter()
+                    .filter(|other| other.y >= l.bottom && other.y - l.bottom < 2.5 * l.h.max(1.0))
+                    .filter(|other| other.x < l.right && other.right > l.x)
+                    .min_by(|a, b| a.y.total_cmp(&b.y).then((a.x - l.x).abs().total_cmp(&(b.x - l.x).abs())));
+                if let Some(other) = below
+                    && let Some(d) = line_dates(other).first()
+                {
+                    return Some((*d, 0.8));
+                }
+            }
         }
     }
     // The latest plausible date on the page, outside due/payment lines.
@@ -524,6 +541,38 @@ mod tests {
             }
         }
         reading_order(&ws)
+    }
+
+    #[test]
+    fn document_date_below_a_column_heading_is_not_the_due_date() {
+        let today = Date::new(2026, 10, 15).unwrap();
+        for issued in ["2026/07/24", "2025/07/24"] {
+            let words = page(&[
+                ("Municipal account", 60.0, 40.0),
+                ("ACCOUNT NUMBER", 60.0, 180.0),
+                ("ACCOUNT DATE", 350.0, 180.0),
+                ("DUE DATE", 640.0, 180.0),
+                ("12345678", 60.0, 215.0),
+                (issued, 350.0, 215.0),
+                ("2026/08/18", 640.0, 215.0),
+            ]);
+            assert_eq!(document_date(&lines(&words), today).map(|v| v.0), verify::parse_date(issued));
+        }
+    }
+
+    #[test]
+    fn transaction_date_column_is_not_the_document_date() {
+        let words = page(&[
+            ("Bank statement", 60.0, 40.0),
+            ("03/08/2026", 800.0, 100.0),
+            ("DATE", 60.0, 400.0),
+            ("TRANSACTION", 300.0, 400.0),
+            ("AMOUNT", 800.0, 400.0),
+            ("04/07/2026", 60.0, 435.0),
+            ("Payment", 300.0, 435.0),
+            ("R 100.00", 800.0, 435.0),
+        ]);
+        assert_eq!(document_date(&lines(&words), Date::new(2026, 10, 15).unwrap()).map(|v| v.0), Date::new(2026, 8, 3));
     }
 
     /// The issuer's head-office address must not be taken for the holder's.

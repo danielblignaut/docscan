@@ -278,7 +278,7 @@ fn build_lines(words: &[Word]) -> Vec<Line> {
             l.token_word.push(i);
             l.tokens.push(t[digits..].to_string());
             l.token_word.push(i);
-        } else if t.len() >= 7 && t[t.len() - 4..].chars().all(|c| c.is_ascii_digit()) && t[..t.len() - 4].chars().all(|c| c.is_ascii_uppercase()) {
+        } else if t.is_ascii() && t.len() >= 7 && t[t.len() - 4..].chars().all(|c| c.is_ascii_digit()) && t[..t.len() - 4].chars().all(|c| c.is_ascii_uppercase()) {
             // A place run into its postal code ("EKURHULENI1546"): two tokens.
             l.tokens.push(t[..t.len() - 4].to_string());
             l.token_word.push(i);
@@ -407,7 +407,7 @@ fn given_agreement(items: &[Given], given: &[String]) -> f32 {
         items.iter().enumerate().all(|(k, it)| {
             let Some(g) = given.get(start + k) else { return false };
             match it {
-                Given::Initial(c) => g.starts_with(*c) || fold_letters(&c.to_string()) == fold_letters(&g[..1]),
+                Given::Initial(c) => g.starts_with(*c) || fold_letters(&c.to_string()) == g.chars().next().map(|initial| fold_letters(&initial.to_string())).unwrap_or_default(),
                 Given::Name(s) => word_sim(s, g) >= 0.75 || (s.len() >= 4 && g.starts_with(s.as_str())),
             }
         })
@@ -519,7 +519,9 @@ fn run_together_agreement(run: &str, given: &[String]) -> f32 {
         }
         let Some((g, more)) = given.split_first() else { return false };
         let g = fold_letters(g);
-        (g.len() > 1 && rest.starts_with(&g) && walk(&rest[g.len()..], more)) || (rest.starts_with(&g[..1]) && walk(&rest[1..], more))
+        let Some(initial) = g.chars().next() else { return false };
+        (g.chars().count() > 1 && rest.starts_with(&g) && walk(&rest[g.len()..], more))
+            || rest.strip_prefix(initial).is_some_and(|tail| walk(tail, more))
     }
     if !rest.is_empty() && walk(&rest, given) { 1.0 } else { 0.0 }
 }
@@ -959,6 +961,16 @@ mod tests {
             ("Rondebosch", 60.0, 248.0),
             ("Cape Town 7700", 60.0, 272.0),
         ])
+    }
+
+    #[test]
+    fn unicode_names_and_unrelated_text_do_not_panic() {
+        let words = page(&[("FRANÇOIS", 600.0, 40.0), ("Mr Émile René", 60.0, 200.0), ("12 Oak Avenue", 60.0, 224.0), ("Paarl 7646", 60.0, 248.0)]);
+        let c = customer("ÉMILE RENÉ", "12 Oak Avenue", "Paarl", "7646");
+        assert!(check(&words, &[], &c, Some(RECENT), TODAY).accepted);
+        assert_eq!(given_agreement(&[Given::Initial('A')], &["ÉMILE".into()]), 0.0);
+        assert_eq!(run_together_agreement("MRÉ", &["ÉMILE".into()]), 1.0);
+        assert_eq!(run_together_agreement("MRA", &["ÉMILE".into()]), 0.0);
     }
 
     #[test]
