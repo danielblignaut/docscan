@@ -49,3 +49,39 @@ these are synthetic PDFs/invoices, not diverse phone photographs. Bank scoring
 uses PDF transcription and does not measure transaction parsing. Invoice truth
 covers selected regions, so no full-page hallucination rate is available there.
 No latency improvement or phone-performance claim follows from these runs.
+
+## Predeclared model/resolution ablation
+
+A separate Python/ONNX Runtime experiment measured **all four** declared modes
+on the same 60 pages, using the same field scoring. It uses the reference
+geometry pipeline, so its tiny-960 numbers differ from Rust's; these are
+candidate-model results, not browser performance or a shipped change.
+
+| Candidate | Bank recall / precision | Invoice-region recall / precision | Exact invoice regions |
+| --- | --- | --- | ---: |
+| tiny, 960-pixel cap | 91.25% / 96.71% | 86.55% / 93.35% | 382/560 |
+| tiny, 1600-pixel cap | 94.69% / 96.90% | 86.55% / 93.35% | 382/560 |
+| small, 960-pixel cap | 94.51% / 97.96% | 91.80% / 95.69% | 439/560 |
+| small, 1600-pixel cap | 96.10% / 97.61% | 91.80% / 95.69% | 439/560 |
+
+All runs complete 60/60 pages. The larger detector and recognizer total about
+31 MB versus 6.2 MB for tiny, and require a different recognition dictionary.
+They are **not integrated into the browser**. The next deployable experiment is
+an explicit small-print profile using the existing tiny weights; keeping more
+detector pixels can help without a second model download. No default change is
+justified by these prototype results alone.
+
+Reproduce with the existing `experiments/ppocr_v6/requirements.txt` environment,
+plus `pypdfium2==5.14.0`, then run:
+
+```sh
+python experiments/public_documents/model_candidates.py \
+  --report /private/model-candidates.json
+```
+
+The review also hardened spatial scoring: OCRS canvases expanded by deskew are
+now explicitly rejected until an inverse transform is available. The saved
+FATURA canvases have the expected unrotated dimensions. New native evaluator
+runs require the executable to confirm its explicit model directory and verify
+model hashes before/after the run. The saved runs used the recorded same-checkout
+models; these guards prevent incorrect provenance in future cross-checkout runs.
