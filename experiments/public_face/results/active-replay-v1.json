@@ -1,0 +1,71 @@
+{
+  "protocol": "axon-active-replay-v1-attack-only",
+  "revision": "f5560f659e185ded62c2f09ff502426b0588406e",
+  "binary_sha256": "f6d9f3020a4cfb43a2b687327d8f13eece7fea29df122cc4ede95ca7ca2954f1",
+  "models": {
+    "face_detector.onnx": "ddaf3ca4fa242d93199bde2a190b3f2bc91cfb0535e0ffef68c4ce1af6f88309",
+    "face_landmarks_detector.onnx": "106636735b429f1e626cf76ea1eaab9272b0d08c5df72c8496c8076220b0d4f9",
+    "minifasnet.onnx": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+    "sface_int8.onnx": "7a1886c2b756089089cabc3ebf6f853f8616354d4588acafd037269cd40cf0a1"
+  },
+  "source_manifest_sha256": "8f13e022076d38fadf2d55e7d6bd4a1d47f2bee19a358b6f35c41a65bb113a95",
+  "scorer_sha256": "cdf289a8527b12853fbc04b81d6a57d374097dcfa58d563f3bbc0e84fffe23f7",
+  "liveness_source_sha256": "b0ae74e27beb65117c021d68d161ee047190fbb2f8f7d5e55bc7bb4e2bab543c",
+  "opencv_version": "5.0.0",
+  "every_source_frames": 3,
+  "long_side": 960,
+  "config_overrides": {},
+  "metrics": {
+    "attack_clips": 5,
+    "attacks_accepted": 0,
+    "observed_attack_acceptance_rate": 0.0,
+    "attack_acceptance_iid_exact95": [
+      0.0,
+      0.5218237501049814
+    ],
+    "completed_sessions": 0,
+    "entered_sweep": 0,
+    "clips_with_passive_samples": 0,
+    "clips_with_parallax_samples": 0,
+    "final_phases": {
+      "centre": 5
+    },
+    "failed_required_checks": {
+      "coverage": 5,
+      "3d_motion": 5,
+      "antispoof": 5,
+      "identity": 5
+    },
+    "frame_hints": {
+      "Centre your face in the oval": 561,
+      "Move back a little": 204
+    },
+    "native_check_thresholds": {
+      "3d_motion": 0.05999999865889549,
+      "antispoof": 0.711298942565918,
+      "continuity": 1.0,
+      "coverage": 1.0,
+      "identity": 0.5
+    },
+    "bpcer": null,
+    "apcer_at_fixed_bpcer": null
+  },
+  "sampling": {
+    "source_duration_s_range": [
+      14.387955555555555,
+      15.74
+    ],
+    "total_sampled_frames": 765,
+    "derived_clips_sha256": "f69d10c859187e6291cb09ed3bf826bb5f9b3a3dc3f5940f47ae30b259a51d7e"
+  },
+  "limits": [
+    "Attack-only observation, not a controlled active PAD efficacy benchmark",
+    "No dynamic bona fide challenge videos: BPCER and APCER at fixed BPCER unavailable",
+    "Original framing; clips were not recorded following this ring challenge",
+    "Early quality/framing/coverage failures cannot prove physical or passive PAD efficacy",
+    "Every third source frame; nominal constant frame rate, not original variable timestamps",
+    "Downscaled and converted through YUV420; not browser/phone capture evidence",
+    "Five owner preview clips with unknown identity/device independence; no population/SOTA claim",
+    "Default thresholds, parallax and identity checks unchanged; no tuning or training"
+  ]
+}

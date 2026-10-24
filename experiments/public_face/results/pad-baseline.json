@@ -1,0 +1,36 @@
+{
+  "protocol": "axon-display-public-preview-v1",
+  "source_revision": "f5560f659e185ded62c2f09ff502426b0588406e",
+  "opencv_version": "5.0.0",
+  "source_manifest_sha256": "8f13e022076d38fadf2d55e7d6bd4a1d47f2bee19a358b6f35c41a65bb113a95",
+  "binary_sha256": "83081f88da492d50fa5ec9473c3465f8e364bff966a048ad8972a11fab424a92",
+  "model_sha256": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+  "sample_unit": "one genuine selfie or median of three fixed replay-video frames",
+  "frames": 20,
+  "missing_frames": 0,
+  "metrics": {
+    "passive": {
+      "raw_threshold": 0.59,
+      "genuine_media": 5,
+      "attack_media": 5,
+      "bpcer": 0.0,
+      "apcer": 0.0
+    },
+    "session_passive_component": {
+      "raw_threshold": 0.78,
+      "genuine_media": 5,
+      "attack_media": 5,
+      "bpcer": 0.0,
+      "apcer": 0.0
+    }
+  },
+  "apcer_at_fixed_bpcer": null,
+  "limitations": [
+    "Only five genuine photos and five attack videos; 20% error-rate steps",
+    "No verified identity mapping or held-out device split; no fitting or calibration",
+    "Still bona fide photos versus replay-video frames creates a media/source confound",
+    "Session threshold here evaluates passive component only, not active challenge/parallax",
+    "No dynamic bona fide videos, so active-session BPCER cannot be measured",
+    "No claim of SOTA, certification, or representative commercial accuracy"
+  ]
+}

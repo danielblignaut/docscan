@@ -98,6 +98,21 @@ fn read_list(path: &str) -> anyhow::Result<Vec<String>> {
     Ok(std::fs::read_to_string(path)?.lines().map(str::trim).filter(|l| !l.is_empty()).map(String::from).collect())
 }
 
+/// Emit a rectangular matrix even when the first image has no detected face.
+/// Missing detections remain zero rows, preserving correspondence with metadata.
+fn write_embedding_rows(out: &mut impl Write, rows: &[Vec<f32>], dim: usize) -> anyhow::Result<()> {
+    for row in rows {
+        anyhow::ensure!(
+            row.is_empty() || row.len() == dim,
+            "recogniser output dimension changed"
+        );
+        for i in 0..dim {
+            out.write_all(&row.get(i).copied().unwrap_or(0.0).to_le_bytes())?;
+        }
+    }
+    Ok(())
+}
+
 /// Reads a YUV4MPEG2 (4:2:0) clip as RGBA frames, and its frame rate.
 fn read_y4m(path: &str) -> anyhow::Result<(Vec<Vec<u8>>, usize, usize, f64)> {
     let mut f = std::io::BufReader::new(std::fs::File::open(path)?);
@@ -168,6 +183,7 @@ fn main() -> anyhow::Result<()> {
             let rec = e.recogniser.as_ref().unwrap();
             let mut bin = std::io::BufWriter::new(std::fs::File::create(out)?);
             let mut meta = Vec::new();
+            let mut templates = Vec::new();
             let mut dim = 0;
             for p in &list[s0..s1] {
                 let (rgba, w, h) = load_rgba(p)?;
@@ -216,12 +232,16 @@ fn main() -> anyhow::Result<()> {
                 if !v.is_empty() {
                     dim = v.len();
                 }
-                let v = if v.is_empty() { vec![0f32; dim.max(1)] } else { v };
-                for x in &v {
-                    bin.write_all(&x.to_le_bytes())?;
-                }
+                templates.push(v);
                 meta.push(info);
             }
+            if dim == 0 && !templates.is_empty() {
+                // An all-missing shard still needs the actual model dimension.
+                // Use a dummy crop only to discover shape, never as a template.
+                dim = rec.embed_aligned(&vec![0.0; rec.size * rec.size * 3])?.len();
+            }
+            write_embedding_rows(&mut bin, &templates, dim)?;
+            bin.flush()?;
             std::fs::write(format!("{out}.json"), serde_json::to_string(&serde_json::json!({"dim": dim, "items": meta}))?)?;
         }
         "antispoof" => {
@@ -290,4 +310,33 @@ fn main() -> anyhow::Result<()> {
 
 fn docscan_now() -> f64 {
     std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs_f64() * 1000.0
+}
+
+#[cfg(test)]
+mod tests {
+    use super::write_embedding_rows;
+
+    #[test]
+    fn missing_first_face_preserves_rectangular_embedding_rows() {
+        let mut bytes = Vec::new();
+        write_embedding_rows(&mut bytes, &[vec![], vec![0.6, 0.8], vec![]], 2).unwrap();
+        let values: Vec<f32> = bytes
+            .chunks_exact(4)
+            .map(|b| f32::from_le_bytes(b.try_into().unwrap()))
+            .collect();
+        assert_eq!(values, vec![0.0, 0.0, 0.6, 0.8, 0.0, 0.0]);
+    }
+
+    #[test]
+    fn all_missing_faces_keep_the_models_dimension() {
+        let mut bytes = Vec::new();
+        write_embedding_rows(&mut bytes, &[vec![], vec![]], 128).unwrap();
+        assert_eq!(bytes.len(), 2 * 128 * 4);
+        assert!(bytes.iter().all(|b| *b == 0));
+    }
+
+    #[test]
+    fn inconsistent_embedding_dimensions_fail_instead_of_shifting_rows() {
+        assert!(write_embedding_rows(&mut Vec::new(), &[vec![1.0]], 2).is_err());
+    }
 }

@@ -1,0 +1,66 @@
+{
+  "protocol": "axon-display-public-preview-v2",
+  "source_revision": "f5560f659e185ded62c2f09ff502426b0588406e",
+  "opencv_version": "5.0.0",
+  "source_manifest_sha256": "8f13e022076d38fadf2d55e7d6bd4a1d47f2bee19a358b6f35c41a65bb113a95",
+  "binary_sha256": "f6d9f3020a4cfb43a2b687327d8f13eece7fea29df122cc4ede95ca7ca2954f1",
+  "model_sha256": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+  "sample_unit": "one genuine selfie or median of three fixed replay-video frames",
+  "frames": 20,
+  "missing_frames": 0,
+  "metrics": {
+    "passive": {
+      "raw_threshold": 0.59,
+      "genuine_media": 5,
+      "attack_media": 5,
+      "bpcer": 0.0,
+      "apcer": 0.0,
+      "genuine_rejected": 0,
+      "attacks_accepted": 0,
+      "bpcer_iid_exact95": [
+        0.0,
+        0.5218237501049814
+      ],
+      "apcer_iid_exact95": [
+        0.0,
+        0.5218237501049814
+      ]
+    },
+    "session_passive_component": {
+      "raw_threshold": 0.78,
+      "genuine_media": 5,
+      "attack_media": 5,
+      "bpcer": 0.0,
+      "apcer": 0.0,
+      "genuine_rejected": 0,
+      "attacks_accepted": 0,
+      "bpcer_iid_exact95": [
+        0.0,
+        0.5218237501049814
+      ],
+      "apcer_iid_exact95": [
+        0.0,
+        0.5218237501049814
+      ]
+    }
+  },
+  "apcer_at_fixed_bpcer": null,
+  "limitations": [
+    "Only five genuine photos and five attack videos; 20% error-rate steps",
+    "No verified identity mapping or held-out device split; no fitting or calibration",
+    "Still bona fide photos versus replay-video frames creates a media/source confound",
+    "Session threshold here evaluates passive component only, not active challenge/parallax",
+    "No dynamic bona fide videos, so active-session BPCER cannot be measured",
+    "No claim of SOTA, certification, or representative commercial accuracy",
+    "Exact intervals assume independent media, unverified here; descriptive only"
+  ],
+  "protocol_sha256": "b5a6883fa39baa9d9230707954f48e39ed44d30c6082a0faddc94b43c354b9f6",
+  "models": {
+    "face_detector.onnx": "ddaf3ca4fa242d93199bde2a190b3f2bc91cfb0535e0ffef68c4ce1af6f88309",
+    "face_landmarks_detector.onnx": "106636735b429f1e626cf76ea1eaab9272b0d08c5df72c8496c8076220b0d4f9",
+    "minifasnet.onnx": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+    "sface_int8.onnx": "7a1886c2b756089089cabc3ebf6f853f8616354d4588acafd037269cd40cf0a1"
+  },
+  "scorer_sha256": "2b55da70f19ca2752103ef2c491432b4cdde9439e9ee556244e0eebc4e34d868",
+  "invalid_frames": 0
+}
