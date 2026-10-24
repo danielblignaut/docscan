@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import time
+import tempfile
 import unicodedata
 
 HERE = Path(__file__).resolve().parent
@@ -122,9 +123,25 @@ def materialize():
     return samples, frozen
 
 
-def infer(sample, binary, engine, cache, detail=False):
+def model_state(paths):
+    return {path.name: (digest(path), path.stat().st_ino, path.stat().st_size,
+                        path.stat().st_mtime_ns, path.stat().st_ctime_ns) for path in paths}
+
+
+def publish_predictions(staged, cache, models, expected_models, provenance):
+    # Nothing produced by a failed run may enter the reusable cache.
+    if model_state(models) != expected_models:
+        raise RuntimeError('Models changed during evaluation')
+    for path in staged.glob('*.json'):
+        path.replace(cache / path.name)
+    marker = cache / 'validated.json.part'
+    marker.write_text(json.dumps(provenance, sort_keys=True))
+    marker.replace(cache / 'validated.json')
+
+
+def infer(sample, binary, engine, cache, detail=False, *, staged, cache_valid):
     out = cache / (sample['id'] + '.json')
-    if out.exists():
+    if cache_valid and out.exists():
         return json.loads(out.read_text())
     args = [str(binary)]
     args.append('--models=' + str((REPO / 'models').resolve()))
@@ -150,7 +167,7 @@ def infer(sample, binary, engine, cache, detail=False):
     except (ValueError, subprocess.TimeoutExpired) as error:
         prediction = {'text': '', 'lines': [], 'error': type(error).__name__}
     prediction['wall_ms'] = (time.monotonic() - start) * 1000
-    out.write_text(json.dumps(prediction, ensure_ascii=False) + '\n')
+    (staged / out.name).write_text(json.dumps(prediction, ensure_ascii=False) + '\n')
     return prediction
 
 
@@ -180,8 +197,10 @@ def main():
     binary = args.binary.resolve()
     model_names = (['ppocr-v6-tiny-det.onnx', 'ppocr-v6-tiny-rec.onnx'] if args.engine == 'ppocr_v6_tiny'
                    else ['text-detection.rten', 'text-recognition.rten', 'text-detection-page.onnx'])
-    provenance = {'binary_sha256': digest(binary), 'engine': args.engine, 'detail': args.detail,
-                  'models': {name: digest(REPO / 'models' / name) for name in model_names},
+    model_paths = [REPO / 'models' / name for name in model_names]
+    expected_models = model_state(model_paths)
+    provenance = {'cache_protocol': 2, 'binary_sha256': digest(binary), 'engine': args.engine, 'detail': args.detail,
+                  'models': {name: state[0] for name, state in expected_models.items()},
                   'scorer_sha256': digest(__file__), 'manifest_sha256': digest(manifest)}
     key = hashlib.sha256(json.dumps(provenance, sort_keys=True).encode()).hexdigest()
     cache = DATA / 'document-ocr-cache' / key
@@ -192,27 +211,29 @@ def main():
         shutil.copy2(binary, frozen_binary)
     if digest(frozen_binary) != provenance['binary_sha256']:
         raise ValueError('Executable changed during snapshot')
+    marker = cache / 'validated.json'
+    cache_valid = marker.exists() and json.loads(marker.read_text()) == provenance
     groups = defaultdict(list)
     rows = []
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        outputs = pool.map(lambda sample: infer(sample, frozen_binary, args.engine, cache, args.detail), samples)
-        for sample, output in zip(samples, outputs):
-            entry = {'id': sample['id'], 'source': sample['source'], 'failed': 'error' in output}
-            scored = []
-            if sample['source'] == 'bankstatemently':
-                scored.append({'label': 'full_page', **token_score(sample['text'], output['text'])})
-            else:
-                lines = input_lines(output, sample['width'], sample['height'])
-                for field in sample['fields']:
-                    scored.append({'label': field['label'], **token_score(field['text'], region_text(lines, field['bbox']))})
-            for score in scored:
-                groups[sample['source']].append(score)
-                groups[sample['source'] + '.' + score['label']].append(score)
-            entry['scores'] = scored
-            rows.append(entry)
-            print(sample['id'], 'failed' if entry['failed'] else 'scored', flush=True)
-    if {name: digest(REPO / 'models' / name) for name in model_names} != provenance['models']:
-        raise RuntimeError('Models changed during evaluation')
+    with tempfile.TemporaryDirectory(prefix=key + '.', dir=cache.parent) as staging_dir:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            outputs = pool.map(lambda sample: infer(sample, frozen_binary, args.engine, cache, args.detail, staged=Path(staging_dir), cache_valid=cache_valid), samples)
+            for sample, output in zip(samples, outputs):
+                entry = {'id': sample['id'], 'source': sample['source'], 'failed': 'error' in output}
+                scored = []
+                if sample['source'] == 'bankstatemently':
+                    scored.append({'label': 'full_page', **token_score(sample['text'], output['text'])})
+                else:
+                    lines = input_lines(output, sample['width'], sample['height'])
+                    for field in sample['fields']:
+                        scored.append({'label': field['label'], **token_score(field['text'], region_text(lines, field['bbox']))})
+                for score in scored:
+                    groups[sample['source']].append(score)
+                    groups[sample['source'] + '.' + score['label']].append(score)
+                entry['scores'] = scored
+                rows.append(entry)
+                print(sample['id'], 'failed' if entry['failed'] else 'scored', flush=True)
+        publish_predictions(Path(staging_dir), cache, model_paths, expected_models, provenance)
     report = {'protocol': frozen['version'], 'provenance': provenance,
               'source_revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip(),
               'summary': {name: summary(values) for name, values in sorted(groups.items())},
