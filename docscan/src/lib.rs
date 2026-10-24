@@ -1132,11 +1132,17 @@ impl Scanner {
                     }
                 }
                 passes += 1;
-                let readable = ocr.lines.iter().filter(|l| l.text.chars().filter(|c| c.is_alphanumeric()).count() >= 4).count();
+                let readable = readable_lines(&ocr.lines);
                 let mut r = classify(q.clone(), barcodes.clone(), smart_id_barcode.clone(), ocr, expected, shape);
                 r.quarter_turns = quarters;
                 let found = r.kind != DocumentKind::Unknown && !r.lines.is_empty();
-                attempt = Some(r);
+                // If no turn identifies the document, retain the reading with
+                // the most readable lines. The last turn is often upside-down
+                // noise; it must not overwrite useful upright text. Identified
+                // documents still win and stop the search exactly as before.
+                if prefer_orientation(&r, attempt.as_ref()) {
+                    attempt = Some(r);
+                }
                 if found {
                     self.last_turn.set(Some(quarters));
                     break;
@@ -1184,6 +1190,23 @@ impl Scanner {
         result.analysed_size = [ww as u32, wh as u32];
         Ok(result)
     }
+}
+
+/// Rank only unknown readings, retaining their orientation and geometry.
+/// Ties keep the earlier unknown attempt. A classified result (even an MRZ
+/// with no ordinary text) preserves the old last-attempt rule; readable text
+/// must not change which classified reading or acceptance decision is returned.
+fn prefer_orientation(candidate: &DocumentResult, best: Option<&DocumentResult>) -> bool {
+    best.is_none_or(|best| {
+        candidate.kind != DocumentKind::Unknown
+            || best.kind != DocumentKind::Unknown
+            || readable_lines(&candidate.lines) > readable_lines(&best.lines)
+    })
+}
+
+/// The same coarse evidence used to decide which orientation to try next.
+fn readable_lines(lines: &[za::Line]) -> usize {
+    lines.iter().filter(|line| line.text.chars().filter(|c| c.is_alphanumeric()).count() >= 4).count()
 }
 
 /// The quarter turns to try first. A document whose upright shape is known
@@ -1427,6 +1450,83 @@ mod tests {
         let bad = classify(quality(), vec![code39("8001015009087")], parsed, OcrOutput::default(), Expected::Any, None);
         assert_eq!(bad.kind, DocumentKind::ZaSmartIdBack);
         assert!(!bad.accepted);
+    }
+
+    fn unknown_reading(texts: &[&str], quarters: u8) -> DocumentResult {
+        let mut r = classify(
+            quality(), vec![], None,
+            OcrOutput { lines: texts.iter().enumerate().map(|(i, t)| line(t, i as f32 * 20.0)).collect(), ..Default::default() },
+            Expected::Any, None,
+        );
+        assert_eq!(r.kind, DocumentKind::Unknown);
+        assert!(!r.accepted);
+        r.quarter_turns = quarters;
+        r
+    }
+
+    #[test]
+    fn unknown_orientation_keeps_readable_text_in_either_search_order() {
+        let upright = unknown_reading(&["MEMBERSHIP CERTIFICATE", "ALÉX EXAMPLE", "VALID UNTIL"], 0);
+        let inverted = unknown_reading(&["<>??", "i1", "s", "0", "??"], 2);
+        assert!(prefer_orientation(&upright, None));
+        assert!(prefer_orientation(&upright, Some(&inverted)));
+        assert!(!prefer_orientation(&inverted, Some(&upright)));
+        let mut best = None;
+        for r in [inverted.clone(), upright, inverted] {
+            if prefer_orientation(&r, best.as_ref()) {
+                best = Some(r);
+            }
+        }
+        let best = best.unwrap();
+        assert_eq!(best.quarter_turns, 0);
+        assert_eq!(best.lines[1].text, "ALÉX EXAMPLE");
+        assert_eq!(best.lines[1].y, 20.0);
+        assert!(!best.accepted);
+    }
+
+    #[test]
+    fn unknown_orientation_ties_keep_the_first_attempt() {
+        let first = unknown_reading(&["EXAMPLE"], 1);
+        let later = unknown_reading(&["SAMPLE"], 3);
+        assert!(!prefer_orientation(&later, Some(&first)));
+        let empty = unknown_reading(&[], 0);
+        assert!(prefer_orientation(&empty, None));
+        assert!(!prefer_orientation(&empty, Some(&empty)));
+        assert_eq!(readable_lines(&[line("ÄBCD", 0.0), line("!!!", 20.0), line("ABC", 40.0)]), 1);
+    }
+
+    #[test]
+    fn identified_orientation_wins_even_when_it_is_not_accepted() {
+        let unknown = unknown_reading(&["MEMBERSHIP CERTIFICATE", "ALÉX EXAMPLE", "VALID UNTIL"], 0);
+        let identified = classify(
+            quality(), vec![], None,
+            OcrOutput { lines: vec![line("VAN/SURNAME", 0.0)], ..Default::default() },
+            Expected::Any, None,
+        );
+        assert_eq!(identified.kind, DocumentKind::ZaGreenBook);
+        assert!(!identified.accepted);
+        assert!(prefer_orientation(&identified, Some(&unknown)));
+    }
+
+    #[test]
+    fn mrz_without_ordinary_text_keeps_the_existing_last_attempt_rule() {
+        let mrz_only = classify(
+            quality(), vec![], None,
+            OcrOutput {
+                mrz: vec![
+                    "P<GBRUK<SPECIMEN<<ANGELA<ZOE<<<<<<<<<<<<<<<<".into(),
+                    "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06".into(),
+                ],
+                ..Default::default()
+            },
+            Expected::Any, None,
+        );
+        assert_eq!(mrz_only.kind, DocumentKind::GbPassport);
+        assert!(mrz_only.accepted && mrz_only.lines.is_empty());
+        let readable = unknown_reading(&["MEMBERSHIP CERTIFICATE", "ALÉX EXAMPLE"], 0);
+        let empty = unknown_reading(&[], 2);
+        assert!(prefer_orientation(&mrz_only, Some(&readable)));
+        assert!(prefer_orientation(&empty, Some(&mrz_only)));
     }
 
     #[test]
