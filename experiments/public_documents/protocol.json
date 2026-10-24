@@ -1,0 +1,24 @@
+{
+  "version": "public-documents-v1",
+  "bankstatemently": {
+    "repository": "bankstatemently/bank-statement-parsing-benchmark",
+    "revision": "2d8d31d68dcedbf9028b87f6c7df286f53a6c7de",
+    "license": "MIT",
+    "dev": ["bsb-001", "bsb-002", "bsb-003"],
+    "reserved_unfetched": ["bsb-004", "bsb-005"],
+    "purpose": "External synthetic bank-page OCR development only; official transaction truth is server-side and not reused as OCR truth"
+  },
+  "fatura": {
+    "record": "https://zenodo.org/records/8261508",
+    "url": "https://zenodo.org/api/records/8261508/files/FATURA.zip/content",
+    "license": "CC-BY-4.0",
+    "bytes": 363504027,
+    "md5": "a25c4f9292630f94774e0ca29d121e82",
+    "train_templates": [3,11,30,24,40,48,41,22,27,19,45,1,29,44,9,47,36,23,18,42,15,14,28,43,33,6,38,26,13,34,17,37,5,8,21,35,16,20,31,46],
+    "dev_templates": [50,7,32,39,2],
+    "reserved_templates": [12,4,49,10,25],
+    "train_instances": [0,15,30,45,60,75,90,105,120,135],
+    "dev_instances": [0,15,30,45,60,75,90,105,120,135],
+    "purpose": "Publisher strategy-2 training layouts; split its shared dev/test layout list into disjoint DEV and reserved layouts. Reserved content is not extracted. This stricter custom split is not the published leaderboard protocol."
+  }
+}

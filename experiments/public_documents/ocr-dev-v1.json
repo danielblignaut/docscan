@@ -1,0 +1,368 @@
+{
+  "version": "public-document-ocr-dev-v1",
+  "source_manifest_sha256": "221806094478e80d5ef2b285e5a70660881f304b0f61cb272125cef72427a1f8",
+  "protocol_sha256": "cc725e53851e77e4e90fbda2946d9153b7c7c4d0c81b3d4fd9d6cbecbacbdbc0",
+  "bank_render_dpi": 144,
+  "samples": [
+    {
+      "id": "Template50_Instance0",
+      "source": "fatura",
+      "image_sha256": "8466d1e8d23256114684d5dd19dc312ebf133408b166302a57aad186a5fbdbaf",
+      "truth_sha256": "12f92b6a3aead117ba4b06dcff17d57c40855c9cf2e8227d96725d0eb6ffe0ab"
+    },
+    {
+      "id": "Template50_Instance15",
+      "source": "fatura",
+      "image_sha256": "be572e3f01cdfc9f252791e062e91b277e8c8006d86b603d7354a710a88ef467",
+      "truth_sha256": "f63c71897b6d0b8515e4ed7a637c5b66ee3f377b87bedd25319c544cf49e115d"
+    },
+    {
+      "id": "Template50_Instance30",
+      "source": "fatura",
+      "image_sha256": "367c449651a921a386748649f1e9d0585040b70f90ad59f449f8661ee377123c",
+      "truth_sha256": "38003dab45b25705b869dc0d67e6465a9af519616d3c266f4a3ecdfe3e6746cb"
+    },
+    {
+      "id": "Template50_Instance45",
+      "source": "fatura",
+      "image_sha256": "ea46eff0ddabc392e73471fb7c98359e69672dbe375864d7ef5d5fafd53ba493",
+      "truth_sha256": "64ef561cb8a8321601499f7a689c1324cf36103f245b875157f420c1dff62a60"
+    },
+    {
+      "id": "Template50_Instance60",
+      "source": "fatura",
+      "image_sha256": "6bc06c37e63da8d8b33319e6241ddb0cc193673a70030285dab57fb4d58c3433",
+      "truth_sha256": "4beb719eb07880e79ac97fa46cd206aa47f8f90da1cefb99ca09afab8e6397ec"
+    },
+    {
+      "id": "Template50_Instance75",
+      "source": "fatura",
+      "image_sha256": "106a0740ce84f1b97191c478c0de8e7f153c12b017ce8d3a2bb77889a3b5e0b0",
+      "truth_sha256": "ae33240c9b25aa3e5f317a220aaa84411bb0e915730010a253eddd1ad12d9972"
+    },
+    {
+      "id": "Template50_Instance90",
+      "source": "fatura",
+      "image_sha256": "2d36cb89ead893a53d01110dfd459762766e656246f01b5e802e9d0221cae9ad",
+      "truth_sha256": "1e76744216b8a66d1a1a097865cfb28bec9a72e59ba11a70d99fad483a1ba54b"
+    },
+    {
+      "id": "Template50_Instance105",
+      "source": "fatura",
+      "image_sha256": "45512665e1df99a60d258aee76a5d565082505535a4612d306624aecb824b376",
+      "truth_sha256": "54389560496029d0c70dbb9f95f27bc798655ec5951ba03f5fd1fc5c71d203f1"
+    },
+    {
+      "id": "Template50_Instance120",
+      "source": "fatura",
+      "image_sha256": "58d2541a698ca7309b1863e82235c0fcab0c3590ad86aa8252a4f7815a3469b7",
+      "truth_sha256": "c3a06ec4f4f889d4a5761912a339c13f1a758db7cf66ff91a0a35b7e550c8cae"
+    },
+    {
+      "id": "Template50_Instance135",
+      "source": "fatura",
+      "image_sha256": "986573b413959cb54e1ec928272418fe7803360e4704086ecbbf6ecdb7e2c8c6",
+      "truth_sha256": "bcb95403ce1bee9b254835b87c8fb27246961572fd2a9d0ee1754d512a75aad0"
+    },
+    {
+      "id": "Template7_Instance0",
+      "source": "fatura",
+      "image_sha256": "57df947a3d14b1f1aebd8f8523ac36d0067cdfbfbe67cdb0a7fc1718f708a72a",
+      "truth_sha256": "4a5bf1a6e7b56dfe4ca7a012412c6a8f59dd1cc9f38c8e233660888aee9fe892"
+    },
+    {
+      "id": "Template7_Instance15",
+      "source": "fatura",
+      "image_sha256": "ab5aadb9868c9497b197e87870db37f57d3c3cc7977a7015590295a7879cd9f2",
+      "truth_sha256": "d6de089ad0d693abd049efdcd71db82dff1afe4f1c9c0f73019cc3c19314f506"
+    },
+    {
+      "id": "Template7_Instance30",
+      "source": "fatura",
+      "image_sha256": "d6215fc10aa53cc5d6128a4129a0e9e560a020f3b049b119f594035936cc1a5f",
+      "truth_sha256": "698b85f21f5617a4d2c3c03938e696d6dc8b29a5b4aa1b35434b8e902754112c"
+    },
+    {
+      "id": "Template7_Instance45",
+      "source": "fatura",
+      "image_sha256": "b93a6a44b362d7cffcad61aa63b85e7d8dd79b9916d9764770397881aa1b0efb",
+      "truth_sha256": "18cb4435ec71105e960eefe81772ebfd04e3c0febfe86d5787d11f86f61e288a"
+    },
+    {
+      "id": "Template7_Instance60",
+      "source": "fatura",
+      "image_sha256": "4e13e2c56959fd7f869ef3475ef08003fd9f64caa086db048a7707fb6d25faec",
+      "truth_sha256": "0b5eb0314b4b7acd775ad6a4f1ba2e1eb76f8a26e8b5fa0295cca7c1d1f5aaa3"
+    },
+    {
+      "id": "Template7_Instance75",
+      "source": "fatura",
+      "image_sha256": "72066f0a3a0a291592765c5852e013615c00aadb12bdf74959787da7db7cc5ee",
+      "truth_sha256": "9c7fb6cdaec492892cf955a45292b237e7bf6e9d82e791a1f85681fe8c1b2929"
+    },
+    {
+      "id": "Template7_Instance90",
+      "source": "fatura",
+      "image_sha256": "b2c5a8596a1b397c8c7e8b8fb3190b8993e04908c04ea316266712bacb9dae08",
+      "truth_sha256": "c8e2c43f6531b899464cd50cfbb8c17dab3e102503299abe2751ba73758e1741"
+    },
+    {
+      "id": "Template7_Instance105",
+      "source": "fatura",
+      "image_sha256": "b6a2085331f3ef43131ce0228337535459870c2dea58f65f19aa21554cb11ebe",
+      "truth_sha256": "43678778024274e756c966eee547191aa6fa0cfe6499b0b510fb6b6c663d6682"
+    },
+    {
+      "id": "Template7_Instance120",
+      "source": "fatura",
+      "image_sha256": "8ca6b234e0fb0c3c0c3ccc1f256fbc2397ab3f2aab473e2e5e629c2f1c919e7d",
+      "truth_sha256": "5d74576c6ec8db5dab73ba5f561be5d2e2033af374dab510ee2a81fb71f4b182"
+    },
+    {
+      "id": "Template7_Instance135",
+      "source": "fatura",
+      "image_sha256": "9fb4dc2bb7756be950530fc0451ffed9d2cdbe1cbe818acf2288fbce63e56d2a",
+      "truth_sha256": "8c3980c674fbe5f4bb5f835fa41b58741abf4276bd0b6ecd5116f0b3bd2566bd"
+    },
+    {
+      "id": "Template32_Instance0",
+      "source": "fatura",
+      "image_sha256": "2811dd161b0c51b33957ef81b00d6e96dd73ca81185b70cbd421519343b84d39",
+      "truth_sha256": "d6e9ba906e568b17def625e3e65163b83ae06e54caaf4062c5ab67c0a017370b"
+    },
+    {
+      "id": "Template32_Instance15",
+      "source": "fatura",
+      "image_sha256": "7001cee0ca1c71d0fa165ec8ebf597514bd7eb97c1106894420395673947e6e3",
+      "truth_sha256": "b2cf7db9bc25be1078f5352cc87e0cb1f44c167e8035871d0661d644a3c0a416"
+    },
+    {
+      "id": "Template32_Instance30",
+      "source": "fatura",
+      "image_sha256": "e4cfed2a20e8545fc0180169fd931279fbdf5acfe75f8324761916c535432210",
+      "truth_sha256": "0c84d94b5fbecbc0ff253466fb0574e184b8e27de3ebe977944e77bd775ace71"
+    },
+    {
+      "id": "Template32_Instance45",
+      "source": "fatura",
+      "image_sha256": "ed99ce1bab1fd5679a119a9fa1af22e8b286992e40300f03909b65a008bae993",
+      "truth_sha256": "9c1dd6de4221143d07a03b516b87878f257db5e6757f20f4d6e0c818c724a780"
+    },
+    {
+      "id": "Template32_Instance60",
+      "source": "fatura",
+      "image_sha256": "f8c66004535a29b83d90ca8eaab207e2e38e3170901602d659881b47ff9032db",
+      "truth_sha256": "2401c158f8183fc214b84693f8dc7606aac590345f73c1d8faecf3e93a9f66f8"
+    },
+    {
+      "id": "Template32_Instance75",
+      "source": "fatura",
+      "image_sha256": "a6addbf9f1cef0673e88045196c51da26175233bb6ff45e586697957c0c540aa",
+      "truth_sha256": "e72829ee54fc37398fee8e200812ede914a96bf3cc67674ad2df6495558485b9"
+    },
+    {
+      "id": "Template32_Instance90",
+      "source": "fatura",
+      "image_sha256": "f75b98eca740a955dfdcb544d37956cb511e85a81f5b73503e5c7d91662a455b",
+      "truth_sha256": "ed3340ee2ef158195d7672c0164bf4d94623a17e9142a219e9b405bc09cf105d"
+    },
+    {
+      "id": "Template32_Instance105",
+      "source": "fatura",
+      "image_sha256": "b79b5f171b231c9019629916a4981abc16bba7c54d367e7d5747c3d9c5aab35d",
+      "truth_sha256": "acfff3b252a1f2f844f02fca79252c27325252d7a2012fe7724797f73fc820fe"
+    },
+    {
+      "id": "Template32_Instance120",
+      "source": "fatura",
+      "image_sha256": "bb1cfd96178b7ae6c9db5e1113166fbefc13780101d65e040c1c22e45ceaef2f",
+      "truth_sha256": "dca79c4b93e9007604c229c925a43c5f3a4bf9bc917059e3ac914633b0dd73a3"
+    },
+    {
+      "id": "Template32_Instance135",
+      "source": "fatura",
+      "image_sha256": "5facb0e908a6f83581507b71fb3b319431622d5ad2095d6e91b78ca7414863fb",
+      "truth_sha256": "60be0bb6236556214263a36403ba601f5bd67755ec027bec02be3c815f28163b"
+    },
+    {
+      "id": "Template39_Instance0",
+      "source": "fatura",
+      "image_sha256": "a1ab1fb3c38c5539ba51f360a485378927e25310fed47168660c7374ea76546c",
+      "truth_sha256": "faaa05e227694594bf2cb912d21ece00ec2485f81848425fedbac4fab077615b"
+    },
+    {
+      "id": "Template39_Instance15",
+      "source": "fatura",
+      "image_sha256": "e11f65428b3c70a2e5c3962eb2205c10a4efd6c48e0ca51c16b18742781013d6",
+      "truth_sha256": "3164b3ee79ce5f6813219bdaa263010e71d6f86a52c4f626bc9f0be82baf7b00"
+    },
+    {
+      "id": "Template39_Instance30",
+      "source": "fatura",
+      "image_sha256": "dc8b662ba4c9a17d8e457093c92641695d2117b7abd2c679b80deea284c5c4cb",
+      "truth_sha256": "b35741d16aa72831b43daa740115a9e98b7883aa3c0d8e3783eade11ec3f3cd6"
+    },
+    {
+      "id": "Template39_Instance45",
+      "source": "fatura",
+      "image_sha256": "14bead078e90f3468c1cf28be289fc1fffe2b4e1403e8d347868c2be6e9e7d31",
+      "truth_sha256": "63eb9aec7dd5755249165aef267db02995cf8386deb705586314a6e0f1ba3c02"
+    },
+    {
+      "id": "Template39_Instance60",
+      "source": "fatura",
+      "image_sha256": "4a1915d3ea398d41a1b2a8938aef10c315e8d6d11e34e0283ad45fa0afadde2a",
+      "truth_sha256": "737851f5249f40399e156419a6b187d068d756f5d7bb983ba84ba319bbbad486"
+    },
+    {
+      "id": "Template39_Instance75",
+      "source": "fatura",
+      "image_sha256": "a54cb2c8d727db6b34447576f2e101ed4fbed06ae886395197f5a9cd1d198723",
+      "truth_sha256": "c59a7ff7a93eedbbc904c0408a9d04c4e7df0189ae6dbaa2f907d3201fbcc3f3"
+    },
+    {
+      "id": "Template39_Instance90",
+      "source": "fatura",
+      "image_sha256": "035e78f69f3b8398fe719ce7fd4d8502ad92b06189c580812f9d25e1c1d7b074",
+      "truth_sha256": "5c68e1e98430b8d49a74c96d83f5436ea215c3f02d7dfd3cb8f483644c3b8c98"
+    },
+    {
+      "id": "Template39_Instance105",
+      "source": "fatura",
+      "image_sha256": "c34a69f1194436acfa91e43780854c328b67034092da866a6205c47e7352ec32",
+      "truth_sha256": "cd5fc6637c50e5c8f02873367dfa00a33d43b7ee744d40f4eaaf977df0da1499"
+    },
+    {
+      "id": "Template39_Instance120",
+      "source": "fatura",
+      "image_sha256": "bc4a20aa6ccf40cd5eeeea13b1654d84ff445332be0832e3957b045fd22a7ffa",
+      "truth_sha256": "c179e4f6524a401c72f3e61d0023f0d1cfa4b487c5a3b0ad0a02681e4c2665fe"
+    },
+    {
+      "id": "Template39_Instance135",
+      "source": "fatura",
+      "image_sha256": "3b3193c01f6bb22ba417db4be910e4dc3abea5c5801d45aa35484f1764a36f18",
+      "truth_sha256": "05ec3cb6877f9a6cd93a802a1daed1b5be4c8e22ca12d887d69436fa61eaadca"
+    },
+    {
+      "id": "Template2_Instance0",
+      "source": "fatura",
+      "image_sha256": "f39bb5c99bf86f25861e1e987131d87fa55aa0e7f1a9eb2ff35f1bb7e5279c75",
+      "truth_sha256": "deded144681f14a22efe31c415424074a9ef6f900ee0b878e074feced23f672f"
+    },
+    {
+      "id": "Template2_Instance15",
+      "source": "fatura",
+      "image_sha256": "35086c7b53e8125a84d35b726c4d2598ad441c7d28c4a122cd027843ae9930e4",
+      "truth_sha256": "7516375d494b0769102fadcfe4cb6ab635e768b95e4387b19c3000368f6bdfc3"
+    },
+    {
+      "id": "Template2_Instance30",
+      "source": "fatura",
+      "image_sha256": "5945bf6c5978f353ed33171846a6a79e1e7c64c2899caeace6cfb0e1f02881fb",
+      "truth_sha256": "711a8bbb7ab9c169dcf612b035c9720bc27c9e677928ad5cc747059fdd41ff23"
+    },
+    {
+      "id": "Template2_Instance45",
+      "source": "fatura",
+      "image_sha256": "5ccfeb226478d563cc7d9f62728fb0b1e9655565fe117d119ed6120891be2bf4",
+      "truth_sha256": "0fb69280ba6e4b17992827a4730d81528fedf3b5b52b68d2a4da2276bef849ad"
+    },
+    {
+      "id": "Template2_Instance60",
+      "source": "fatura",
+      "image_sha256": "ad8439a51fdb09cc13c7c54e52a4e19cea8a16bd10a7bab4e58e250224f7bef2",
+      "truth_sha256": "c86c6cc9db9ec62d1d7e62855c30ef9bd2296c018f83270d444baa4a0897381d"
+    },
+    {
+      "id": "Template2_Instance75",
+      "source": "fatura",
+      "image_sha256": "013a0e140e7e6b865954c2b56f7331dac315d41bcb9dc0237e336b486711ba82",
+      "truth_sha256": "fb0a223346d94ae0949dda8f98dc151df3f4a4694ae74d215f23f7cab8c1c582"
+    },
+    {
+      "id": "Template2_Instance90",
+      "source": "fatura",
+      "image_sha256": "bc7d056f2182834b02970b9ca34c446857e2abe1de61e05397e9edff12fa4362",
+      "truth_sha256": "35ce5adfce50c877a985365355a5f4462fb39f52456abbd609bf816a503ad7a2"
+    },
+    {
+      "id": "Template2_Instance105",
+      "source": "fatura",
+      "image_sha256": "7788bc23a47dd990bf1ebc58472215bb0be7ff26c2b7d95be2812d30ff0c02ba",
+      "truth_sha256": "f28b877dae2bb6c0af13812b5910c81a27bc2ddb401c963214415e342c336fc2"
+    },
+    {
+      "id": "Template2_Instance120",
+      "source": "fatura",
+      "image_sha256": "6b810e6c5ae3ae5a2fb1734b7efe74edd54fda156e06d59cbbda2eea96f1e8e5",
+      "truth_sha256": "0f1acef26f034e792e1a86e00806958811bfdb23b968204903fdcf869e966bb3"
+    },
+    {
+      "id": "Template2_Instance135",
+      "source": "fatura",
+      "image_sha256": "4c587ace58c925c6d6824e50854446e3a7aece496f0c2ae16226394f1319140a",
+      "truth_sha256": "1022f157182d92902ce4778edccb064296abf64ad67e6ee7d8923bb5c1628a10"
+    },
+    {
+      "id": "bsb-001-p1",
+      "source": "bankstatemently",
+      "image_sha256": "557c536700baa1fdfd5c1ae459b45019ada9842faefec5e4cc83359f92894b13",
+      "truth_sha256": "bfcae77a8b38606fea796980a4d2ee4af7cb9bcef2a90a17b02c5ba9d1348f2a"
+    },
+    {
+      "id": "bsb-001-p2",
+      "source": "bankstatemently",
+      "image_sha256": "3582fefc89dbd0866d9fd181b584b9a469de786feba5db241ae19182d4f4148e",
+      "truth_sha256": "08b355901c85ac0ba35f57e2f009ffc62ac659ecb0df469220761aab00f449d6"
+    },
+    {
+      "id": "bsb-001-p3",
+      "source": "bankstatemently",
+      "image_sha256": "8afd0a252fbdd36be7843120c77f4df9eed79a8744bad20d7e044dd5208c45cb",
+      "truth_sha256": "ca41b63633a22d897a6326f1b7101e4cd792b324a55fff72a83971b4ee0e688c"
+    },
+    {
+      "id": "bsb-002-p1",
+      "source": "bankstatemently",
+      "image_sha256": "f3b50c2421ad14510ba27abc8f3c80f386e3f0220f556f661c0c04fc233dab9d",
+      "truth_sha256": "a0b236538cc627872d9f1223c97ec259687664a00cd8d89070d62501e0c5369d"
+    },
+    {
+      "id": "bsb-002-p2",
+      "source": "bankstatemently",
+      "image_sha256": "a51d0a14cd44c73911a1ddc93b4c0b72dc2001189e4f98d2fe72fd2201e2044b",
+      "truth_sha256": "3cfebf0d6d114d439ff890aadd5a437e325d999f42078b10e646d40ec6006bb1"
+    },
+    {
+      "id": "bsb-002-p3",
+      "source": "bankstatemently",
+      "image_sha256": "a365b7cbe3acf8c1f4afa5bead9593b5aae9f5c58eebffcb17781ad03ba041c8",
+      "truth_sha256": "906a5ff4f791cdfe68b65ff2a00d4e8eccfe5ee87498052e46fa18715cbe41f0"
+    },
+    {
+      "id": "bsb-002-p4",
+      "source": "bankstatemently",
+      "image_sha256": "6eb76361151e6a9d3102ad9cd8fcf7a14569f1f04052d716366f4e6b1e7430c0",
+      "truth_sha256": "3f8c614a046b363d8d4200810dc49e32b367b6781127ab56dfd1273532719a7c"
+    },
+    {
+      "id": "bsb-003-p1",
+      "source": "bankstatemently",
+      "image_sha256": "4af0870644fa8296773dac3d65adf4b726d6a700d75a76e358d95be7f8c062a3",
+      "truth_sha256": "e84f450822d46e4d2c59ce12e1c15eb6ffc373040c406300884dee0401c1a0be"
+    },
+    {
+      "id": "bsb-003-p2",
+      "source": "bankstatemently",
+      "image_sha256": "fdb6dd5b054ce2cafd7ec28c11c3e2266548512e895899aacf9eb44e56d6c11b",
+      "truth_sha256": "c8fbf03d64fec79301499b42069fa83c2ede019276ed0730af81508e6cd9a80e"
+    },
+    {
+      "id": "bsb-003-p3",
+      "source": "bankstatemently",
+      "image_sha256": "e45c0a65192d44543ab5b1f249ebb90af6d8740b4d28e9aa891b8130fdd75391",
+      "truth_sha256": "df27e01f17b4b62cc7a628280c8658795fe7ca790a416f9b6289aa0df4d912f4"
+    }
+  ]
+}
