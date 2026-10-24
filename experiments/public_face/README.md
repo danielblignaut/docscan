@@ -170,3 +170,10 @@ is omitted, no crop is selected, and PNG frames are deleted after inference.
   --binary docscan/target/release/examples/face \
   --report experiments/public_face/results/temporal-replay-v1.json
 ```
+
+The London evaluator also reports counts of native quality scores equal to one,
+grouped by split, pose and condition. This is a diagnostic of individual frames,
+not capture BPCER or a new eligibility rule. The still-photo path does not apply
+the live capture gate; its small document-photo proxies must not be rejected for
+failing a live-camera requirement. Actual camera capture still needs a timed
+sequence, guide compliance, continuity and the physical checks.

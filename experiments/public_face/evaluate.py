@@ -56,6 +56,18 @@ def read_embeddings(out, expected_rows):
     return vec, found, meta['items']
 
 
+def capture_quality(rows, found, items):
+    """Describe single-frame quality without claiming session capture success."""
+    groups = {}
+    for row, usable, item in zip(rows, found, items, strict=True):
+        key = '/'.join((row['split'], row['pose'], row['condition']))
+        group = groups.setdefault(key, {'frames': 0, 'usable_embeddings': 0, 'quality_score_one': 0})
+        group['frames'] += 1
+        group['usable_embeddings'] += int(usable)
+        group['quality_score_one'] += int(usable and item.get('quality') == 1.)
+    return {'groups': groups, 'interpretation': 'Native single-frame quality score, not capture BPCER; no session, guide, continuity or timing modeled; document photos do not use the live capture gate'}
+
+
 def prepare(data):
     manifest = json.loads((data / 'manifest.json').read_text())
     files = manifest['files']
@@ -118,7 +130,9 @@ def embed(binary, data, rows, variant, jobs):
     vec = np.concatenate([p[0] for p in parts])
     found = np.concatenate([p[1] for p in parts])
     vec /= np.maximum(np.linalg.norm(vec, axis=1, keepdims=True), 1e-12)
-    return vec, found, {'cache_key': key, 'elapsed_s': round(time.monotonic() - start, 2)}
+    items = [item for part in parts for item in part[2]]
+    return vec, found, {'cache_key': key, 'elapsed_s': round(time.monotonic() - start, 2),
+                        'capture_quality': capture_quality(rows, found, items)}
 
 
 def scores(rows, vec, found, split, condition):

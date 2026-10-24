@@ -4,11 +4,18 @@ import json
 import tempfile
 from pathlib import Path
 import numpy as np
-from evaluate import cache_key, rates, read_embeddings, scores, threshold_at_far
+from evaluate import cache_key, capture_quality, rates, read_embeddings, scores, threshold_at_far
 from pad_sample import exact_interval, media_scores, run_key
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_capture_quality_does_not_drop_missing_or_blurred_frames(self):
+        row = {'split': 'validation', 'pose': 'smile', 'condition': 'original'}
+        report = capture_quality([row] * 3, [True, False, True], [{'quality': 1.}, {'quality': 1.}, {'quality': .5}])
+        self.assertEqual(report['groups']['validation/smile/original'], {'frames': 3, 'usable_embeddings': 2, 'quality_score_one': 1})
+        with self.assertRaises(ValueError):
+            capture_quality([row], [True], [])
+
     def test_threshold_respects_ties_and_zero_far(self):
         values = np.array([0.9, 0.8, 0.8, 0.2], dtype=np.float32)
         truth = np.array([True, False, False, False])
