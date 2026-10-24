@@ -1,9 +1,25 @@
 import unittest
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
+import run
 from run import starts, ios, ref, artifact_state
 
 class GeometryTests(unittest.TestCase):
+    def test_fresh_reports_cannot_replace_prior_raw_evidence(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(run,'DATA',Path(folder)):
+            first=run.private_run_directory('same-mode',Path(folder)/'first.json')
+            (first/'page.json').write_text('original')
+            second=run.private_run_directory('same-mode',Path(folder)/'second.json')
+            (second/'page.json').write_text('new')
+            self.assertNotEqual(first,second)
+            self.assertEqual((first/'page.json').read_text(),'original')
+            report=Path(folder)/'report.json'
+            run.write_report_exclusive(report,{'result':'original'})
+            with self.assertRaises(FileExistsError):
+                run.write_report_exclusive(report,{'result':'replacement'})
+            self.assertIn('original',report.read_text())
+
     def test_artifact_guards_do_not_collapse_same_named_models(self):
         with tempfile.TemporaryDirectory() as folder:
             paths=[Path(folder)/role/'inference.onnx' for role in ['det','rec']]

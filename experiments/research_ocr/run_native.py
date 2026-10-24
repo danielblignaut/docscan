@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 import subprocess
 import time
-from run import HERE, REPO, DATA, MODELS, score, artifact_state
+from run import HERE, REPO, DATA, MODELS, score, artifact_state, private_run_directory, write_report_exclusive
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
             mode=f'native-tiny-{tier}-{profile}'
             target=args.output_dir/(mode+'.json')
             if target.exists():raise ValueError('Refusing to overwrite results')
-            raw=DATA/mode;raw.mkdir(exist_ok=True)
+            raw=private_run_directory(mode,target)
             def infer(sample):
                 cmd=[str(binary),str(detector),str(recognizer),sample['path']]
                 if profile=='detail':cmd.append('detail')
@@ -61,8 +61,9 @@ def main():
                     'runner_sha256':score.digest(__file__),'helper_sha256':score.digest(HERE/'run.py'),'dataset_sha256':score.digest(score.HERE/'ocr-dev-v1.json'),
                     'summary':{k:score.summary(v) for k,v in sorted(groups.items())},'rows':rows,
                     'failed_pages':sum(r['failed'] for r in rows),'wall_seconds_descriptive':time.monotonic()-start,
+                    'raw_evidence_path':str(raw),'raw_evidence_hashes':{p.name:score.digest(p) for p in raw.glob('*.json')},
                     'limits':'Native isolated probe only; no production/default or browser change; fixed DEV with correlated layouts.'}
-            target.write_text(json.dumps(report,indent=2)+'\n')
+            write_report_exclusive(target,report)
             print(mode,{k:v for k,v in report['summary'].items() if '.' not in k},flush=True)
 
 if __name__=='__main__':main()

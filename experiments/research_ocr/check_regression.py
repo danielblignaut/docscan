@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 from PIL import Image, ImageDraw
 import numpy as np
-from run import HERE,REPO,DATA,MODELS,module,score,artifact_state
+from run import HERE,REPO,DATA,MODELS,module,score,artifact_state,private_run_directory,write_report_exclusive
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
         samples=scorer.generate(Path(temporary))
         for name,image,truth in samples:
             if score.digest(image)!=pins[name] or score.digest(original/(name+'.png'))!=pins[name]:raise ValueError('Synthetic source changed')
-    output=DATA/'regression';output.mkdir(exist_ok=True)
+    output=private_run_directory('regression',target)
     negatives={};w,h=protocol['negative_size']
     rng=np.random.default_rng(protocol['negative_seed'])
     for name in protocol['negatives']:
@@ -70,6 +70,8 @@ def main():
         if artifact_state(artifacts)!=before:raise ValueError('Artifacts changed')
         report['results'][mode]={'build':build,'positive_rows':rows,'negative_rows':negative,'cer':sum(r['edits'] for r in rows)/sum(r['characters'] for r in rows),'word_recall':sum(r['correct_words'] for r in rows)/sum(r['words'] for r in rows),'extra_words':sum(r['extra_words'] for r in rows),'false_text_pages':sum(r['nonempty'] for r in negative)}
         print(mode,{k:report['results'][mode][k] for k in ['cer','word_recall','extra_words','false_text_pages']},flush=True)
-    target.write_text(json.dumps(report,indent=2)+'\n')
+    report['raw_evidence_path']=str(output)
+    report['raw_evidence_hashes']={p.name:score.digest(p) for p in output.iterdir() if p.is_file()}
+    write_report_exclusive(target,report)
 
 if __name__=='__main__':main()

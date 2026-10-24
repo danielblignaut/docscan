@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import tempfile
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -77,6 +78,18 @@ def boxes_for(pipeline, image, mode):
     return accepted
 
 
+def private_run_directory(label, report):
+    runs=DATA/'runs';runs.mkdir(parents=True,exist_ok=True,mode=0o700)
+    folder=Path(tempfile.mkdtemp(prefix=label+'-',dir=runs))
+    (folder/'run.json').write_text(json.dumps({'mode':label,'report':str(report.resolve())})+'\n')
+    return folder
+
+
+def write_report_exclusive(target, report):
+    with target.open('x') as out:
+        json.dump(report,out,indent=2);out.write('\n')
+
+
 def artifact_state(paths):
     # Detector/recognizer releases both use inference.onnx and inference.yml.
     # Preserve full paths so one role cannot overwrite another in a guard.
@@ -100,7 +113,7 @@ def run(mode, target):
     model_state=artifact_state(model_paths)
     pipeline=MixedPipeline(mode['detector'],mode['recognizer'])
     groups=defaultdict(list); rows=[]
-    raw=DATA/mode['id']; raw.mkdir(exist_ok=True)
+    raw=private_run_directory(mode['id'],target)
     started=time.monotonic()
     for sample in samples:
         image=ref.cv2.imread(sample['path'])
@@ -135,8 +148,9 @@ def run(mode, target):
                           'scorer_sha256':score.digest(score.__file__),'dataset_sha256':score.digest(score.HERE/'ocr-dev-v1.json'),
                           'model_files':{str(p.relative_to(MODELS)):score.digest(p) for p in model_paths},
                           'runtime':{'onnxruntime':ref.ort.__version__,'opencv':ref.cv2.__version__,'numpy':ref.np.__version__}},
+            'raw_evidence_path':str(raw),'raw_evidence_hashes':{p.name:score.digest(p) for p in raw.glob('*.json')},
             'limits':'DEV only; Python/native reference pipeline, not shipped Rust/browser. No complete-page hallucination score for partial invoice annotations; no speedup or SOTA claim.'}
-    target.write_text(json.dumps(result,indent=2)+'\n')
+    write_report_exclusive(target,result)
     print(mode['id'],{k:v for k,v in result['summary'].items() if '.' not in k},flush=True)
 
 
@@ -155,6 +169,6 @@ def main():
             try:
                 subprocess.run([sys.executable,__file__,'--mode',mode['id'],'--output-dir',str(output)],check=True,timeout=PROTOCOL['timeouts_seconds_per_mode'])
             except (subprocess.TimeoutExpired,subprocess.CalledProcessError) as error:
-                target.write_text(json.dumps({'mode':mode,'run_failed':type(error).__name__,'pages':60,'failed_pages':60})+'\n')
+                write_report_exclusive(target,{'mode':mode,'run_failed':type(error).__name__,'pages':60,'failed_pages':60})
 
 if __name__=='__main__':main()
