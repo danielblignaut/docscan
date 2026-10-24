@@ -120,3 +120,36 @@ Run the referee regressions with:
 /tmp/docscan-bench/venv/bin/python -m unittest discover \
   -s experiments/public_face -p 'test_*.py' -v
 ```
+
+## Next comparison and active replay protocols (predeclared)
+
+The next London run compares the existing `iris`, `flip`, `production-pair`,
+`contour`, `nose4`, and `inner-mouth` embedding protocols on exactly the existing
+DEV portraits and conditions. All six are reported, including negative results;
+none is selected for shipping from this research-only set. TAR and FAR at the
+unchanged shipped thresholds are primary. Research calibration remains confined
+to the 51 calibration identities. There is no TEST/reserved access, new
+augmentation search, threshold adjustment, or model fitting.
+
+`active_replay.py` measures the five authorized replay clips through the native
+active session at **default settings**, with no guide or security overrides.
+It sequentially decodes each clip, takes every third source frame, resizes the
+long side to at most 960 pixels (even dimensions), converts through YUV420 and
+retains the nominal source frame rate divided by three. It aborts on a truncated
+decode, inconsistent native decision, missing trace, or absent required physical
+check. Cache keys include source/model/binary/scorer hashes and sampling settings.
+Derived clips are temporary, owner-private, and removed after each trial; all
+per-clip traces remain under the private preview folder.
+
+```sh
+/tmp/docscan-bench/venv/bin/python experiments/public_face/active_replay.py \
+  --binary docscan/target/release/examples/face \
+  --report experiments/public_face/results/active-replay-v1.json
+```
+
+This is an **attack-only session observation**, not active-liveness accuracy.
+Report completion, entry into the sweep, which checks actually collected samples,
+and framing/quality hints alongside attack acceptance. A rejection before any
+parallax/PAD measurement says nothing about those checks' effectiveness. Original
+clips were not recorded following this ring challenge. Bona fide active BPCER and
+APCER at fixed BPCER remain unavailable. No experiment disables physical checks.
