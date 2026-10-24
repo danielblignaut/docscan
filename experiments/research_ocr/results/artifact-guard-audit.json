@@ -1,0 +1,80 @@
+{
+  "scope": "Post-run provenance audit; metadata-only guard correction, original reports retained",
+  "issue": "A basename-keyed guard could collapse detector/recognizer inference.onnx; future guards use full paths. No actual model file changed during these runs.",
+  "protocol_materialization_lower_bound_ns": 1792850640267306643,
+  "all_files_unchanged_since_before_protocols": true,
+  "artifacts": [
+    {
+      "path": "tiny_det/inference.onnx",
+      "sha256": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+      "mtime_ns": 1792774961972429082,
+      "ctime_ns": 1792774961972429082
+    },
+    {
+      "path": "tiny_det/inference.yml",
+      "sha256": "3ac018be6f97499a08faa3bbdeb33640968d9307f6736d152902747a9f259593",
+      "mtime_ns": 1792774962132435939,
+      "ctime_ns": 1792774962132435939
+    },
+    {
+      "path": "tiny_det/README.md",
+      "sha256": "f48628931a5dc994ce5c67e32c94d71b4a7e96b8c5c1b00663284999c3c566bc",
+      "mtime_ns": 1792774962280442280,
+      "ctime_ns": 1792774962280442280
+    },
+    {
+      "path": "tiny_rec/inference.onnx",
+      "sha256": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6",
+      "mtime_ns": 1792774962960471422,
+      "ctime_ns": 1792774962960471422
+    },
+    {
+      "path": "tiny_rec/inference.yml",
+      "sha256": "66170210bad538e83fff3c4a3867e547d6bf20b50d64b20347c4b913f3034ea1",
+      "mtime_ns": 1792774963124478451,
+      "ctime_ns": 1792774963124478451
+    },
+    {
+      "path": "tiny_rec/README.md",
+      "sha256": "e83dd03e515a2d064eaba8ec82248f21dbf6a0813550bafe4c70ee2f6e8fdf2a",
+      "mtime_ns": 1792774963280485136,
+      "ctime_ns": 1792774963280485136
+    },
+    {
+      "path": "small_det/inference.onnx",
+      "sha256": "d73e0058b7a8086bbd57f3d10b8bcd4ff95363f67e06e2762b5e814fe9c9410e",
+      "mtime_ns": 1792774964080519423,
+      "ctime_ns": 1792774964080519423
+    },
+    {
+      "path": "small_det/inference.yml",
+      "sha256": "193f435274bf9f0b5f71a929bbfbcf148282df7e633b34e7c373e8f44741b516",
+      "mtime_ns": 1792774964256526965,
+      "ctime_ns": 1792774964256526965
+    },
+    {
+      "path": "small_det/README.md",
+      "sha256": "e9403667f0f92055d8ce9e73a2beb1002fc489d9342697db74039eb7178bb5fb",
+      "mtime_ns": 1792774964408533479,
+      "ctime_ns": 1792774964408533479
+    },
+    {
+      "path": "small_rec/inference.onnx",
+      "sha256": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634",
+      "mtime_ns": 1792774965224568451,
+      "ctime_ns": 1792774965224568451
+    },
+    {
+      "path": "small_rec/inference.yml",
+      "sha256": "ab078671bb49f06228eadccd34f1bb501e157f7a047095ffb943ba81512c77d1",
+      "mtime_ns": 1792774965464578735,
+      "ctime_ns": 1792774965464578735
+    },
+    {
+      "path": "small_rec/README.md",
+      "sha256": "7d46dbd183ac09bd5a2e6b4577dcb29240751b1c00eb6813eca308d529f86806",
+      "mtime_ns": 1792774965616585250,
+      "ctime_ns": 1792774965616585250
+    }
+  ]
+}

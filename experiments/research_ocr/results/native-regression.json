@@ -1,0 +1,724 @@
+{
+  "protocol": {
+    "version": "ocr-native-regression-v1",
+    "positive_source": "general-text-dev-v1 frozen 12 pages; same normalizer and character-distance scorer",
+    "negative_size": [
+      640,
+      896
+    ],
+    "negative_seed": 58123,
+    "negatives": [
+      "white",
+      "gray",
+      "black",
+      "table_lines",
+      "checkerboard",
+      "speckles",
+      "rectangles",
+      "gradient"
+    ],
+    "modes": [
+      "tiny-standard",
+      "tiny-detail",
+      "small-standard",
+      "small-detail"
+    ],
+    "metric": "Positive normalized CER/word recall/extra words; negative nonempty-text pages and character count. Generated negatives are not proof of real-world hallucination safety.",
+    "threads": 1,
+    "timeout_seconds": 180
+  },
+  "runner_sha256": "bc09f5c4aec35686544b930267583a8fb41189b57a9d06ff0bf8f264422b4cae",
+  "results": {
+    "tiny-standard": {
+      "build": {
+        "source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "experimental_source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "dictionary_sha256": "a5ee8f47e42da8ca9ea204fa76442a94cb152b3603adf8783417350ffcf835af",
+        "binary_sha256": "e3d95c9329564ce410905cc9c078a475606d429517ffad7d5c2e8d9b94d7b7c9",
+        "recognizer_tier": "tiny",
+        "classes": 6906,
+        "dependencies": {
+          "anyhow": "f60a63e21ba6e7189afa55f68fce1cf1832502af5a2593e2d393da8b54761a0f",
+          "rten": "76b97b0e4cbe8a29b30d127affe4a9f1f07105c8c13aa73d1f3d59bb87ec7857",
+          "rten_imageproc": "b1f2b6a450c59c920eb355083eb42c0485a69b82d9c3c0321727f30bd7094435",
+          "rten_tensor": "6abb1391a42180a9d7fa7762bb78ee60c986c693d192e22a52deb097289bc04f",
+          "serde": "0b030c0cfd81e7e2c4e5427c9354dfad82ee5cf49825b605c5a42ab63fe94d68",
+          "serde_json": "be8afd3a099e3134b5b29833c732ee454c4c68e3180cfa016028244c99c2d993",
+          "serde_wasm_bindgen": "f1ad4ca9a56cc93ae5f84da79e92c6290b4b1780800e0c1e953d8a63d4d5ba03",
+          "wasm_bindgen": "58945e5e805fbea593118a7088b88f828264a4c36def924e45ea3bf02f357ddd",
+          "image": "106c5fbeef43d9f1f159e28fa0f6aed019a3bf3ae1d54dcb698eef52fe760270"
+        },
+        "model_hashes": {
+          "detector": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+          "recognizer": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+        },
+        "limits": "Native feasibility, no model fitting, browser or shipped engine change"
+      },
+      "positive_rows": [
+        {
+          "id": "family0-size14-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size14-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        }
+      ],
+      "negative_rows": [
+        {
+          "id": "white",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gray",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "black",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "table_lines",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "checkerboard",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "speckles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "rectangles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gradient",
+          "nonempty": false,
+          "characters": 0
+        }
+      ],
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "false_text_pages": 0
+    },
+    "tiny-detail": {
+      "build": {
+        "source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "experimental_source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "dictionary_sha256": "a5ee8f47e42da8ca9ea204fa76442a94cb152b3603adf8783417350ffcf835af",
+        "binary_sha256": "e3d95c9329564ce410905cc9c078a475606d429517ffad7d5c2e8d9b94d7b7c9",
+        "recognizer_tier": "tiny",
+        "classes": 6906,
+        "dependencies": {
+          "anyhow": "f60a63e21ba6e7189afa55f68fce1cf1832502af5a2593e2d393da8b54761a0f",
+          "rten": "76b97b0e4cbe8a29b30d127affe4a9f1f07105c8c13aa73d1f3d59bb87ec7857",
+          "rten_imageproc": "b1f2b6a450c59c920eb355083eb42c0485a69b82d9c3c0321727f30bd7094435",
+          "rten_tensor": "6abb1391a42180a9d7fa7762bb78ee60c986c693d192e22a52deb097289bc04f",
+          "serde": "0b030c0cfd81e7e2c4e5427c9354dfad82ee5cf49825b605c5a42ab63fe94d68",
+          "serde_json": "be8afd3a099e3134b5b29833c732ee454c4c68e3180cfa016028244c99c2d993",
+          "serde_wasm_bindgen": "f1ad4ca9a56cc93ae5f84da79e92c6290b4b1780800e0c1e953d8a63d4d5ba03",
+          "wasm_bindgen": "58945e5e805fbea593118a7088b88f828264a4c36def924e45ea3bf02f357ddd",
+          "image": "106c5fbeef43d9f1f159e28fa0f6aed019a3bf3ae1d54dcb698eef52fe760270"
+        },
+        "model_hashes": {
+          "detector": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+          "recognizer": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+        },
+        "limits": "Native feasibility, no model fitting, browser or shipped engine change"
+      },
+      "positive_rows": [
+        {
+          "id": "family0-size14-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size14-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        }
+      ],
+      "negative_rows": [
+        {
+          "id": "white",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gray",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "black",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "table_lines",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "checkerboard",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "speckles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "rectangles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gradient",
+          "nonempty": false,
+          "characters": 0
+        }
+      ],
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "false_text_pages": 0
+    },
+    "small-standard": {
+      "build": {
+        "source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "experimental_source_sha256": "77c2608a34d4c14d96ac3c5f868e714f10c1364837cbe13919c1773320b6569f",
+        "dictionary_sha256": "e6948b0b16c8d2c1255403b884fb9b3ecc3e5dea0ddafdfebe7276ef41520a08",
+        "binary_sha256": "084425218c4c9896db457b35a80836a6551cb3a9b46eb8d2cabfa186bc2d7c38",
+        "recognizer_tier": "small",
+        "classes": 18710,
+        "dependencies": {
+          "anyhow": "f60a63e21ba6e7189afa55f68fce1cf1832502af5a2593e2d393da8b54761a0f",
+          "rten": "76b97b0e4cbe8a29b30d127affe4a9f1f07105c8c13aa73d1f3d59bb87ec7857",
+          "rten_imageproc": "b1f2b6a450c59c920eb355083eb42c0485a69b82d9c3c0321727f30bd7094435",
+          "rten_tensor": "6abb1391a42180a9d7fa7762bb78ee60c986c693d192e22a52deb097289bc04f",
+          "serde": "0b030c0cfd81e7e2c4e5427c9354dfad82ee5cf49825b605c5a42ab63fe94d68",
+          "serde_json": "be8afd3a099e3134b5b29833c732ee454c4c68e3180cfa016028244c99c2d993",
+          "serde_wasm_bindgen": "f1ad4ca9a56cc93ae5f84da79e92c6290b4b1780800e0c1e953d8a63d4d5ba03",
+          "wasm_bindgen": "58945e5e805fbea593118a7088b88f828264a4c36def924e45ea3bf02f357ddd",
+          "image": "106c5fbeef43d9f1f159e28fa0f6aed019a3bf3ae1d54dcb698eef52fe760270"
+        },
+        "model_hashes": {
+          "detector": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+          "recognizer": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634"
+        },
+        "limits": "Native feasibility, no model fitting, browser or shipped engine change"
+      },
+      "positive_rows": [
+        {
+          "id": "family0-size14-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size14-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        }
+      ],
+      "negative_rows": [
+        {
+          "id": "white",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gray",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "black",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "table_lines",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "checkerboard",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "speckles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "rectangles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gradient",
+          "nonempty": false,
+          "characters": 0
+        }
+      ],
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "false_text_pages": 0
+    },
+    "small-detail": {
+      "build": {
+        "source_sha256": "871cc57226d0a789174e5efdbe2291afba7557a786b4f97a9aadd8ea37a944ba",
+        "experimental_source_sha256": "77c2608a34d4c14d96ac3c5f868e714f10c1364837cbe13919c1773320b6569f",
+        "dictionary_sha256": "e6948b0b16c8d2c1255403b884fb9b3ecc3e5dea0ddafdfebe7276ef41520a08",
+        "binary_sha256": "084425218c4c9896db457b35a80836a6551cb3a9b46eb8d2cabfa186bc2d7c38",
+        "recognizer_tier": "small",
+        "classes": 18710,
+        "dependencies": {
+          "anyhow": "f60a63e21ba6e7189afa55f68fce1cf1832502af5a2593e2d393da8b54761a0f",
+          "rten": "76b97b0e4cbe8a29b30d127affe4a9f1f07105c8c13aa73d1f3d59bb87ec7857",
+          "rten_imageproc": "b1f2b6a450c59c920eb355083eb42c0485a69b82d9c3c0321727f30bd7094435",
+          "rten_tensor": "6abb1391a42180a9d7fa7762bb78ee60c986c693d192e22a52deb097289bc04f",
+          "serde": "0b030c0cfd81e7e2c4e5427c9354dfad82ee5cf49825b605c5a42ab63fe94d68",
+          "serde_json": "be8afd3a099e3134b5b29833c732ee454c4c68e3180cfa016028244c99c2d993",
+          "serde_wasm_bindgen": "f1ad4ca9a56cc93ae5f84da79e92c6290b4b1780800e0c1e953d8a63d4d5ba03",
+          "wasm_bindgen": "58945e5e805fbea593118a7088b88f828264a4c36def924e45ea3bf02f357ddd",
+          "image": "106c5fbeef43d9f1f159e28fa0f6aed019a3bf3ae1d54dcb698eef52fe760270"
+        },
+        "model_hashes": {
+          "detector": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+          "recognizer": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634"
+        },
+        "limits": "Native feasibility, no model fitting, browser or shipped engine change"
+      },
+      "positive_rows": [
+        {
+          "id": "family0-size14-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size14-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size20-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-clean",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family0-size28-shade",
+          "characters": 285,
+          "edits": 0,
+          "words": 44,
+          "correct_words": 44,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size14-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size20-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-clean",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        },
+        {
+          "id": "family1-size28-shade",
+          "characters": 174,
+          "edits": 0,
+          "words": 31,
+          "correct_words": 31,
+          "extra_words": 0
+        }
+      ],
+      "negative_rows": [
+        {
+          "id": "white",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gray",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "black",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "table_lines",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "checkerboard",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "speckles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "rectangles",
+          "nonempty": false,
+          "characters": 0
+        },
+        {
+          "id": "gradient",
+          "nonempty": false,
+          "characters": 0
+        }
+      ],
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0,
+      "false_text_pages": 0
+    }
+  },
+  "negative_hashes": {
+    "white": "a73bd050a31e9c6c46b07c06d84521a0f03be5b2a2e3db698de53628b18a27e3",
+    "gray": "b1a6456ff041433b62dfbff3118f017ec886a433103022343647a9be61abd51c",
+    "black": "5a305c88cfd54bf9429e8b49e81ad5d31131f99b6ab56565764fd796daf78c3c",
+    "table_lines": "165c51bdf0f54105d5793b93b492a6b7892143aca5be21c52a9621533a39d43c",
+    "checkerboard": "df2d6b48f9595a3296ae68d2d752c19f182a9d8eabcb33705e8116e4ac55965a",
+    "speckles": "909b684700ec0800cd3a63c4163bad64f2c460c727f34b988211a3efb8f45dbb",
+    "rectangles": "2492c814678fcf4cf86b2713e4caee657afffdce9a928c017afe41e722466148",
+    "gradient": "55828e11a087dc1bf444b5a2ba059bcae6e7f1f0b49d36c9f2aadefdaa907389"
+  },
+  "limits": "Generated regressions only; positive corpus is unchanged and negatives are not real acquired blank documents."
+}
