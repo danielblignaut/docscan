@@ -280,3 +280,224 @@ The next meaningful security comparison needs a consented, permitted, real
 challenge-following DEV cohort with device/session metadata, including bona fide
 trials and attacks under the **same** acquisition protocol. That collection is a
 proposal only; no external acquisition or outreach was initiated.
+
+
+## Second face track: fixed photometric matching experiment, 24 October 2026
+
+This appendix is a separate **matching** experiment. The preceding first-track
+survey, protocol, temporal results and decisions remain unchanged. No production
+files, weights, thresholds, shared referee or historical results were edited;
+no commits, subagents, TEST runs, threshold fitting or calibration were performed.
+
+**Outcome:** a small, condition-specific descriptive signal at the fixed document
+threshold, with an adverse false-accept change at the other fixed threshold.
+The sole candidate meets the predeclared document-threshold criterion, but gains
+only one genuine accept per DEV split on an extremely damaging artificial
+condition. It is **not selected for production**. The hard condition still rejects
+47/51 calibration and 43/51 validation genuine comparisons with the candidate.
+There is no independent-document/device evidence, statistical superiority claim,
+SOTA comparison or population-FAR guarantee.
+
+### Hypothesis and primary-source basis
+
+[Jonientz et al., compression detection for explainable FIQA, 7 January 2025](https://arxiv.org/abs/2501.03619v1)
+describe compression-related loss of recognition utility and a trained artifact
+detector. This motivates retaining compression as an explicit stress axis; it does
+not establish that gamma correction repairs lost detail. [Wang, On the Burstiness
+of Faces in Set, 25 June 2025](https://arxiv.org/html/2506.20312v1) studies aggregation
+and quality-aware generalized max-pooling, including the problem of redundant
+views. It motivates testing aggregation carefully, rather than assuming multiple
+views are independent evidence. Neither paper is reproduced here. No FIQA model,
+QA-GMP weighting, attention module, new recognizer or paper checkpoint was used.
+
+Our engineering hypothesis was that **uniform averaging of three normalized
+photometric document embeddings** could stabilize matching after print degradation
+without increasing actual FAR. Gamma values 0.8, 1.0 and 1.2 are fixed engineering
+constants, not fitted quality estimates. Deterministic transformations of one
+portrait add no independent capture information and can reinforce shared errors.
+This is a falsifiable local stress experiment, not evidence for the papers' methods.
+
+The source remains [DeBruine and Jones, Face Research Lab London Set v5](https://doi.org/10.6084/m9.figshare.5047666.v5),
+CC BY 4.0, from the [pinned author release](https://github.com/debruine/webmorphR.stim/tree/fa8b78fda2d659bb74ce62fcd99c4407551d2a77).
+Its source README documents signed research consent for original and altered
+images. All 204 existing neutral/smile portraits of 102 people were used for local
+research only; this is not a commercial training permission or real-document dataset.
+No new external portrait collection was acquired.
+
+### Frozen design and exact correspondence
+
+- [Predeclared protocol](../experiments/research_face/matching_protocol_v1.json).
+- [Runner](../experiments/research_face/matching_photometric.py),
+  [nine synthetic regressions](../experiments/research_face/matching_test.py), and
+  [independent artifact audit](../experiments/research_face/matching_audit.py).
+- [All aggregate results](../experiments/research_face/results/matching_photometric_v1.json)
+  and [audit result](../experiments/research_face/results/matching_audit_v1.json).
+
+The private freeze receipt was written at **2026-10-24 14:30:34.710631 UTC**, before
+any new portrait inference or historical embedding-cache reads. The run completed
+at **14:33:18.720211 UTC**. Protocol SHA-256:
+`e0818c498c68ac46bc19d469964c9f67fe7c9b1151472775c7e89058e41d835d`.
+Runner SHA-256:
+`b1156e32ce78ea266f2a51695c560349278876886891b6461a9f94e3afcbbc2b`.
+Previous baseline results were known, including the 51/51 genuine ceiling on the
+original and two earlier degradation conditions. This was not a blinded study.
+No candidate or degradation search followed these results.
+
+The unchanged SHA-256 identity ordering keeps the first 51 people in the existing
+`calibration` split and the next 51 in `validation`. Those names are retained for
+correspondence only: **neither split fits anything**. All images and derived views
+of an identity stay together. Every neutral/document portrait is compared with
+all 51 original smiling references in its split: **51 genuine and 2,550 dependent
+impostor pairs per condition and arm**. Labels follow identity keys, not diagonals
+or file order. There are 20,808 comparisons per arm over the four conditions,
+41,616 across both arms; scoring them at two thresholds does not create more trials.
+
+Baseline is the earlier `production-pair` embedding proxy: native iris alignment,
+flip-averaged document/still embedding, unflipped original smiling reference.
+It does not model a complete production session, guide, capture-quality gate or
+liveness decision. As in the historical evaluator, face selection uses the native
+center-face path; no independent end-to-end equivalence claim is made.
+
+The **three print-degradation levels**, plus original control, were fixed before
+inference. All transformations affect the neutral/document side only:
+
+| Condition | Fixed generation |
+| --- | --- |
+| original | Existing original JPEG; no print transform |
+| document_gray | LANCZOS to 384×384, RGB→gray→RGB, Gaussian blur 0.4, JPEG quality 65 |
+| document_small | LANCZOS to 192×192, RGB→gray→RGB, Gaussian blur 0.7, JPEG quality 45 |
+| document_hard96 | LANCZOS to 96×96, RGB→gray→RGB, Gaussian blur 0.9, contrast 0.4 about pixel value 127.5, rounded/clipped uint8, JPEG quality 25 |
+
+The runner regenerates the two prior degradations in memory and requires exact
+byte equality with their existing private files. The harder condition was included
+up front because the historical ceiling was already known. It was intentionally
+not made easier after observing the very low genuine acceptance.
+
+For the one candidate, decode each condition's input, transform each RGB channel
+with `round(255 * (pixel/255)^gamma)`, and encode the two non-unit gamma views as
+lossless PNGs. Unit gamma reuses the exact baseline image/embedding. Each view is
+independently detected, aligned and flip-averaged; each vector is L2-normalized,
+the three are equally averaged in order 0.8, 1.0, 1.2, and the mean is normalized.
+The original unflipped smile embedding is shared by both arms. **All three views
+must be usable**. Missing detections, mesh presence below 0.5, nonfinite presence,
+zero/nonfinite vectors or a zero/nonfinite aggregate reject; no view or identity
+is removed from scoring. No live-camera quality gate is imposed on document photos.
+
+Both existing production operating points are reported for every condition:
+**document cosine ≥0.356** is primary, **live cosine ≥0.366** is secondary. This
+includes applying the document operating point to the original control; the earlier
+report used live 0.366 there. The runner checks that both constants still equal the
+source values. It never calls the existing research threshold-fitting function.
+The six historical baseline split/condition rate-and-count records reproduce
+exactly under their original mapping (original live; degraded document).
+
+### Results at document threshold 0.356 (primary)
+
+| Condition | Split | Baseline TAR | Gamma TAR | Baseline actual FAR | Gamma actual FAR |
+| --- | --- | ---: | ---: | ---: | ---: |
+| original | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 20/2,550 (0.784%) | 19/2,550 (0.745%) |
+| original | validation | 51/51 (100.000%) | 51/51 (100.000%) | 14/2,550 (0.549%) | 14/2,550 (0.549%) |
+| document_gray | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 12/2,550 (0.471%) | 12/2,550 (0.471%) |
+| document_gray | validation | 51/51 (100.000%) | 51/51 (100.000%) | 12/2,550 (0.471%) | 12/2,550 (0.471%) |
+| document_small | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 8/2,550 (0.314%) | 8/2,550 (0.314%) |
+| document_small | validation | 51/51 (100.000%) | 51/51 (100.000%) | 5/2,550 (0.196%) | 4/2,550 (0.157%) |
+| document_hard96 | calibration | 3/51 (5.882%) | 4/51 (7.843%) | 0/2,550 (0.000%) | 0/2,550 (0.000%) |
+| document_hard96 | validation | 7/51 (13.725%) | 8/51 (15.686%) | 0/2,550 (0.000%) | 0/2,550 (0.000%) |
+
+The frozen descriptive criterion required a hard96 TAR improvement in **both**
+splits with no FAR increase, and no TAR loss/FAR increase on any easier condition
+at 0.356. It is met. Hard96 gains are **one recovered genuine pair per split**,
+1.961 percentage points each, with no genuine accept→reject transitions. This
+small count change on one source does not establish a reliable generalization gain.
+Original and both earlier print conditions remain at the genuine ceiling. The
+impostor reductions are one pair in original calibration and one in 192 validation.
+
+### Results at live threshold 0.366 (secondary, unchanged)
+
+| Condition | Split | Baseline TAR | Gamma TAR | Baseline actual FAR | Gamma actual FAR |
+| --- | --- | ---: | ---: | ---: | ---: |
+| original | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 14/2,550 (0.549%) | 14/2,550 (0.549%) |
+| original | validation | 51/51 (100.000%) | 51/51 (100.000%) | 12/2,550 (0.471%) | 11/2,550 (0.431%) |
+| document_gray | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 5/2,550 (0.196%) | 6/2,550 (0.235%) |
+| document_gray | validation | 51/51 (100.000%) | 51/51 (100.000%) | 7/2,550 (0.275%) | 7/2,550 (0.275%) |
+| document_small | calibration | 51/51 (100.000%) | 51/51 (100.000%) | 6/2,550 (0.235%) | 6/2,550 (0.235%) |
+| document_small | validation | 51/51 (100.000%) | 51/51 (100.000%) | 2/2,550 (0.078%) | 2/2,550 (0.078%) |
+| document_hard96 | calibration | 2/51 (3.922%) | 2/51 (3.922%) | 0/2,550 (0.000%) | 0/2,550 (0.000%) |
+| document_hard96 | validation | 6/51 (11.765%) | 7/51 (13.725%) | 0/2,550 (0.000%) | 0/2,550 (0.000%) |
+
+This operating point exposes an unfavorable result: gray384 calibration false
+accepts rise **5→6/2,550 (0.196%→0.235%)**. Original calibration also swaps one
+previous false accept out and a different false accept in, leaving its count at
+14. Those paired transitions remain in the report. Hard96 calibration has **no
+TAR gain at 0.366**; validation gains one pair. These outcomes rule out describing
+the candidate as uniformly better, even though the primary descriptive criterion
+was satisfied. Zero hard96 false accepts accompanies very poor genuine acceptance;
+it cannot certify a population FAR or justify the degradation as a security filter.
+
+### Complete accounting, provenance and practicality
+
+All original and mild-condition probes/references are usable. Hard96 baseline
+has **2 calibration / 3 validation unusable probes**. Gamma 0.8 has 3/3, gamma
+1.2 has 2/2, and the all-view candidate has **3/3**. Thus the candidate loses one
+additional calibration probe to usability; that probe was already a genuine
+rejection at both thresholds. All missing comparisons remain in the 51/2,550
+counts. No reference is missing. Per-identity arrays and matrices remain private.
+
+The shared executable initially differed from the historical binary. An unmodified
+snapshot of the current Rust source, lockfile and two required compile-time text
+assets was built privately with `cargo build --release --locked --example face -j 2`.
+The initial source-copy omitted the two text assets; the first build failed before
+inference, then copying those unchanged assets completed it. The build receipt
+retains that preparation failure and every source hash. The successful build
+reproduced the historical executable **byte-for-byte**:
+`f6d9f3020a4cfb43a2b687327d8f13eece7fea29df122cc4ede95ca7ca2954f1`.
+The shared build was never modified.
+
+`public_face/artifacts.py` acquired one owner-private executable snapshot for the
+whole run and verified model file identities/hashes around cache use and fresh
+inference. The report retains every ONNX hash: detector, landmark detector,
+`sface_int8.onnx` (recognizer string `sface_int8.onnx:sface_int8:sface`) and
+`minifasnet.onnx`. The latter was guarded but not used: inference explicitly passes
+`--no-antispoof`. No new models or weights were downloaded or trained. Existing
+model provenance is inherited, not newly certified by this experiment.
+
+Exact source hashes, generated-row hashes, binary/model hashes, shard count and
+row order allowed **408 relevant existing baseline/reference rows** to be read
+from immutable historical caches. **918 rows received fresh native inference**:
+102 hard96 baselines and 408 portraits at each of the two additional gammas.
+This totals 1,326 input/view rows, representing the same 204 source photographs;
+there are not 1,326 independent captures. Both arms use the same exact executable.
+Every new native output was staged, validated and verified before publication.
+No historical cache, protocol file or report was rewritten.
+
+The native pool was limited to two jobs, each with one RTEN/Rayon thread; NumPy
+and BLAS were also limited to one thread. Fresh stage wall times were **7.982 s**
+(hard96 baseline), **39.802 s** (gamma 0.8) and **40.420 s** (gamma 1.2). Historical
+cache reads took 0.198/0.167 s. These are recorded batch diagnostics including
+verification on this shared host, not an equal-work baseline-versus-candidate
+latency benchmark or browser performance claim. Native processing does not measure
+camera latency, WASM performance or device peak memory.
+
+Implementation practicality: a gamma lookup and three-vector average are cheap,
+but this exact candidate makes **three detector/landmark passes and six recognizer
+passes per document**, versus one detector/landmark pass and two recognizer passes
+for the flip baseline. The smile path is unchanged. This analytical work increase
+is substantial compared with recovering one of 51 genuine pairs per split. No
+latency/memory claim or optimization is inferred from the cached baseline timings.
+
+**Nine new matching regressions and all 24 existing public-face referee/provenance
+tests pass (33 total).** Tests cover permuted references and gamma-row ordering,
+duplicate/incomplete/cross-split correspondence, normalization before/after fusion,
+zero/nonfinite/overflow/cancelling vectors, missing-first/all-missing native rows,
+low/nonfinite mesh presence, missing-reference denominators, unit-gamma identity
+and exact cache compatibility. The separate read-only audit passes all **32
+arm/condition/split/threshold cells**, checks private permissions and all recorded
+input/output hashes, reconstructs fusion independently in float64, and verifies
+every stored pair score and its identity label. Aggregate artifacts contain no
+portrait, embedding, identity-indexed score or source identity key.
+
+**Decision:** retain this one candidate as a modest positive local matching result
+with explicit secondary regressions; do not promote it. No parameter search follows.
+A future decision would require independently authorized real document/selfie DEV
+captures with device/session grouping and measured browser cost. This task acquires
+none of those data and makes no independent-device, age, document, PAD or SOTA claim.
