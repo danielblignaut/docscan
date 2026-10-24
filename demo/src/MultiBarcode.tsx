@@ -75,6 +75,7 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
   useEffect(() => {
     let stream: MediaStream | null = null;
     let stopped = false;
+    let disposed = false;
     const all = new Map<string, SeenCode>();
     const labelled = new Map<string, LabelledField & { seen: number }>();
     let shown: (LabelledField & { seen: number })[] = [];
@@ -109,6 +110,7 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       const source = bestCount > 0 ? best : video;
       const blob = await still(source, { x: 0, y: 0, w: video.videoWidth, h: video.videoHeight }).catch(() => null);
       release();
+      if (disposed) return;
       const imageUrl = blob ? URL.createObjectURL(blob) : null;
       const barcodes = confirmed();
       const meta: CaptureMeta = {
@@ -238,17 +240,19 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
     }
 
     openCamera()
-      .then((s) => {
+      .then(async (s) => {
         stream = s;
         if (stopped) return release();
         if (videoRef.current) {
           videoRef.current.srcObject = s;
-          void videoRef.current.play();
+          await videoRef.current.play();
         }
+        if (stopped) return;
         requestAnimationFrame(loop);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : String(e)));
+      .catch((e) => { if (!stopped) setError(e instanceof Error ? e.message : String(e)); });
     return () => {
+      disposed = true;
       stopped = true;
       release();
     };
