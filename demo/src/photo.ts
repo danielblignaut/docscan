@@ -5,7 +5,7 @@ import { downscale, flattenPage, today } from "./AddressCapture";
 import { toJpeg } from "./camera";
 import { type Captured, FLOWS } from "./IdCapture";
 import { chooseExtractor, type Extractor } from "./models";
-import type { TextEngine } from "./text-engine";
+import { type TextEngine, textRequest } from "./text-engine";
 import type { TextResult } from "./TextCapture";
 import type { Outcome } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
@@ -108,7 +108,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
       imageUrl = URL.createObjectURL(blob);
     }
     if (scanner === "text") {
-      const { result, memoryBytes } = await client.run<TextResult>({ kind: textEngine === "ppocr_v6_tiny" ? "text_v6" : "text_page", image });
+      const { result, memoryBytes } = await client.run<TextResult>(textRequest(textEngine, image));
       return { kind: "text", result, imageUrl, meta: { ...meta(2, 1), memoryBytes } };
     }
     const tRead = performance.now();

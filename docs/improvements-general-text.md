@@ -145,3 +145,33 @@ revokes discarded result image URLs. Worker computation can finish, but its
 late result cannot change the newer screen or push history. The browser test
 observes the worker's text response before asserting that the new camera
 remains, so it cannot pass merely because OCR has not finished yet.
+
+
+## External-data follow-up and small print
+
+The long-line guard now bounds the recognition tensor at 3200 pixels wide
+instead of rejecting a complete page containing a longer line. The native and
+WebAssembly regression uses a pinned publisher-synthetic bank statement.
+
+`PaddleTextScanner.read_detailed(rgba, width, height)` (native:
+`read_detailed_native`, CLI: `text_v6 --detail`) compares the standard 960-pixel
+and detailed 1600-pixel detector caps. The page reading with more alphanumeric
+characters weighted by decoder confidence wins; ties retain standard. It is a
+coverage heuristic, not calibrated accuracy. Input already within 960 pixels
+uses one pass. Output includes `passes` and `detection_max_side`; timings include
+both passes. Normal `read` remains single-pass with the original cap.
+
+Select **PP-OCRv6 tiny · small print** on the text card or use
+`?mode=text&textEngine=ppocr_v6_tiny_detail`. Upload and camera capture share the
+request helper and retain cancellation behavior. No extra weights download.
+The preset uses more compute and memory: the regression bank page allocated
+about 201 MiB of wasm memory versus about 85 MiB with the standard pass. This is
+allocated linear memory on desktop, not peak process RSS or a phone benchmark.
+
+The external DEV study covers 50 FATURA invoices and ten Bankstatemently pages,
+with a separate 400-invoice training subset acquired but not used for fitting.
+The final profile recovers 2497/2639 bank tokens (94.62%) at 96.93% precision;
+standard recovers 2336/2639 (88.52%) at 96.41%. One page loses two matched tokens;
+seven improve; invoice results are unchanged. The twelve synthetic regression
+pages remain at zero normalized CER. Full protocols, provenance, rejected
+candidates and limitations are in `experiments/public_documents/RESULTS.md`.

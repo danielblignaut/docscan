@@ -9,6 +9,18 @@ API without changing `Scanner.text`. The optional **PP-OCRv6 tiny** reader
 adds a separate model choice with line polygons and lazy model downloads. See
 [the API, DEV comparison and limitations](docs/improvements-general-text.md).
 
+The optional **small print** profile (`?mode=text&textEngine=ppocr_v6_tiny_detail`)
+compares two bounded resolutions with the same weights. It is slower and uses
+more memory; the default reader is unchanged. On ten external synthetic bank
+pages, token recall is 88.52% with standard PP-OCR and 94.62% with this profile.
+See [the complete external OCR results](experiments/public_documents/RESULTS.md),
+including per-page regressions and the separate larger-model experiment.
+
+Public-data work also covers [ID specimens](docs/improvements-public-id.md),
+[proof-of-address date ranges](docs/improvements-public-poa.md), and
+[face comparison and replay evaluation](experiments/public_face/README.md).
+These are bounded DEV studies; they do not establish state-of-the-art accuracy.
+
 
 Real-time identity document and barcode scanning in the browser, written in
 Rust and compiled to WebAssembly. It runs entirely on the device: no image

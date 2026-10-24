@@ -58,7 +58,7 @@ try {
   const text = await page.getByLabel("Extracted text", { exact: true }).inputValue();
   assert.match(text, /DOCUMENT CAPTURE DEVELOPMENT SAMPLE/);
   assert.match(text, /twelve pencils/);
-  assert.equal(paddleRequests.length, engine === "ppocr_v6_tiny" ? 3 : 0);
+  assert.equal(paddleRequests.length, engine !== "ocrs" ? 3 : 0);
   assert.equal(await page.evaluate(() => window.__textEvents.length), 0, "photo reading must not announce a live capture");
   mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
   await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-photo.png`, import.meta.url).pathname, fullPage: true });
@@ -70,7 +70,11 @@ try {
   assert.deepEqual(result.events.map((e) => e.type), ["docscan:text", "docscan:complete"]);
   const reading = result.events[0].detail.result;
   assert.ok(reading.lines.length > 3);
-  if (engine === "ppocr_v6_tiny") { assert.equal(reading.engine, engine); assert.ok(!("words" in reading)); }
+  if (engine !== "ocrs") {
+    assert.equal(reading.engine, "ppocr_v6_tiny"); assert.ok(!("words" in reading));
+    assert.equal(reading.passes, engine === "ppocr_v6_tiny_detail" ? 2 : 1);
+    assert.ok([960, 1600].includes(reading.detection_max_side));
+  }
   else assert.ok(reading.words.length > 10);
   assert.ok(result.tracks.length > 0 && result.tracks.every((s) => s === "ended"));
   await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-camera.png`, import.meta.url).pathname, fullPage: true });

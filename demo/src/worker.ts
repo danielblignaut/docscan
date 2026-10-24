@@ -9,7 +9,7 @@ import wasmUrl from "docscan/docscan_bg.wasm?url";
 export type WorkerRequest =
   | { id: number; kind: "document"; image: ImageData; runOcr: boolean; expected: string }
   | { id: number; kind: "barcodes"; image: ImageData; formats: string[] }
-  | { id: number; kind: "text_v6"; image: ImageData }
+  | { id: number; kind: "text_v6"; image: ImageData; detail?: boolean }
   | { id: number; kind: "text_page"; image: ImageData }
   | { id: number; kind: "text"; image: ImageData }
   | { id: number; kind: "labelled"; image: ImageData }
@@ -178,7 +178,10 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
         result = { ...out.result, customer: out.customer };
       } else result = scanner.address(bytes, width, height, req.today, req.method);
     }
-    else if (req.kind === "text_v6") result = (await paddleScanner()).read(bytes, width, height);
+    else if (req.kind === "text_v6") {
+      const reader = await paddleScanner();
+      result = req.detail ? reader.read_detailed(bytes, width, height) : reader.read(bytes, width, height);
+    }
     else if (req.kind === "text_page") result = scanner.text_page(bytes, width, height);
     else result = scanner.text(bytes, width, height);
     post({ kind: "result", id: req.id, request: req.kind, ms: performance.now() - t0, result, memoryBytes: memory?.buffer.byteLength ?? 0 });
