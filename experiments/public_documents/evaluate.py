@@ -43,6 +43,19 @@ def input_lines(output, width, height):
     ow, oh = output.get('page_size', [width, height])
     if ow <= 0 or oh <= 0:
         raise ValueError('Invalid OCR page size')
+    if output.get('error'):
+        return []
+    if output.get('engine') == 'ppocr_v6_tiny':
+        expected = (width, height)
+    else:
+        scale = min(1754 / max(width, height), 2)
+        if abs(scale - 1) <= .02:
+            scale = 1
+        expected = (round(width * scale), round(height * scale))
+    # OCRS deskew expands its canvas. Until it publishes the inverse transform,
+    # do not silently score rotated coordinates using a scale-only mapping.
+    if abs(ow - expected[0]) > 1 or abs(oh - expected[1]) > 1:
+        raise ValueError('Unsupported deskew geometry: spatial scoring requires an inverse transform')
     return [{**line, 'x': line['x'] * width / ow, 'w': line['w'] * width / ow,
              'y': line['y'] * height / oh, 'h': line['h'] * height / oh}
             for line in output['lines']]
@@ -114,8 +127,7 @@ def infer(sample, binary, engine, cache, detail=False):
     if out.exists():
         return json.loads(out.read_text())
     args = [str(binary)]
-    if engine == 'ppocr_v6_tiny':
-        args.append('--models=' + str(REPO / 'models'))
+    args.append('--models=' + str((REPO / 'models').resolve()))
     if detail:
         args.append('--detail')
     args.append(sample['path'])
@@ -129,6 +141,8 @@ def infer(sample, binary, engine, cache, detail=False):
         if len(lines) != 1:
             raise ValueError('Expected exactly one OCR result')
         prediction = json.loads(lines[0])
+        if prediction.get('model_directory') != str((REPO / 'models').resolve()):
+            raise RuntimeError('Reader did not confirm the pinned model directory; rebuild its current CLI')
         if 'error' in prediction:
             raise ValueError(prediction['error'])
         if not isinstance(prediction.get('text'), str) or not isinstance(prediction.get('lines'), list):
@@ -197,6 +211,8 @@ def main():
             entry['scores'] = scored
             rows.append(entry)
             print(sample['id'], 'failed' if entry['failed'] else 'scored', flush=True)
+    if {name: digest(REPO / 'models' / name) for name in model_names} != provenance['models']:
+        raise RuntimeError('Models changed during evaluation')
     report = {'protocol': frozen['version'], 'provenance': provenance,
               'source_revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip(),
               'summary': {name: summary(values) for name, values in sorted(groups.items())},

@@ -26,7 +26,7 @@ def expected(record):
 
 def score(results,truth):
     byid={r['id']:r for r in truth}
-    if len({i['id'] for i in results['items']})!=len(truth) or set(byid)!={i['id'] for i in results['items']}:
+    if len(byid)!=len(truth) or len(results['items'])!=len(truth) or set(byid)!={i['id'] for i in results['items']}:
         raise ValueError('input must contain exactly the fixed DEV items')
     outcomes=[]
     for item in results['items']:

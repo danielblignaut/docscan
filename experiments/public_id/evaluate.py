@@ -16,6 +16,8 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import shutil
+import tempfile
 import time
 import unicodedata
 
@@ -50,9 +52,19 @@ def main():
     records=json.loads((args.data/'dev.json').read_text())
     if any(r['split']!='dev' for r in records):
         raise ValueError('only DEV permitted')
+    model_dir=args.models.resolve()
+    model_hashes={p.name:sha(p) for p in sorted(model_dir.iterdir()) if p.is_file() and p.suffix in ['.rten','.onnx']}
+    binary_hash=sha(args.binary)
+    snapshot=tempfile.TemporaryDirectory(prefix='docscan-id-reader-')
+    binary=Path(snapshot.name)/'reader'
+    shutil.copy2(args.binary,binary)
+    if sha(binary)!=binary_hash:
+        raise ValueError('Executable changed during snapshot')
+    if any(arg.startswith('--models') for arg in args.engine_arg):
+        raise ValueError('Use --models, not an engine argument, to pin model provenance')
     def run(record):
         env={**os.environ,'RAYON_NUM_THREADS':'1','RTEN_NUM_THREADS':'1'}
-        command=[str(args.binary.resolve()),*args.engine_arg,str(args.data/record[args.input])]
+        command=[str(binary),'--models='+str(model_dir),*args.engine_arg,str(args.data/record[args.input])]
         started=time.monotonic()
         error=None
         try:
@@ -63,6 +75,8 @@ def main():
             error=output.get('error')
         except (subprocess.TimeoutExpired,RuntimeError,ValueError,IndexError) as exc:
             error=str(exc);output={}
+        if output and output.get('model_directory')!=str(model_dir):
+            raise AssertionError('Reader did not confirm the pinned model directory; rebuild its current CLI')
         text=output.get('text','')
         if not text:
             text='\n'.join(line if isinstance(line,str) else line.get('text','') for line in output.get('lines',[]))
@@ -74,11 +88,14 @@ def main():
         return measured
     with concurrent.futures.ThreadPoolExecutor(args.jobs) as pool:
         items=list(pool.map(run,records))
+    snapshot.cleanup()
+    if model_hashes!={p.name:sha(p) for p in sorted(model_dir.iterdir()) if p.is_file() and p.suffix in ['.rten','.onnx']}:
+        raise ValueError('Models changed during evaluation')
     fields=[f for item in items for f in item['fields']]
     mrz=[f for f in fields if f['mrz']]
     result={'schema':1,'scorer_sha256':sha(Path(__file__)),'manifest_sha256':sha(manifest),
-            'binary':str(args.binary.resolve()),'binary_sha256':sha(args.binary),'input':args.input,'engine_args':args.engine_arg,
-            'models':{p.name:sha(p) for p in sorted(args.models.iterdir()) if p.is_file() and p.suffix in ['.rten','.onnx']},
+            'binary':str(args.binary.resolve()),'binary_sha256':binary_hash,'input':args.input,'engine_args':args.engine_arg,
+            'models':model_hashes,
             'summary':{'frames':len(items),'fields':len(fields),'fields_recovered':sum(f['ok'] for f in fields),
                        'field_recovery':sum(f['ok'] for f in fields)/len(fields),'mrz_fields':len(mrz),
                        'mrz_fields_recovered':sum(f['ok'] for f in mrz),'errors':sum(bool(i['error']) for i in items)},

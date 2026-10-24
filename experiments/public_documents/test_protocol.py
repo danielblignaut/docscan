@@ -24,6 +24,11 @@ class RefereeTests(unittest.TestCase):
         lines = input_lines(output, 100, 200)
         self.assertEqual(region_text(lines, [49, 99, 61, 111]), 'customer')
 
+    def test_deskew_canvas_cannot_be_scored_by_scaling(self):
+        output = {'page_size': [1332, 1779], 'lines': []}
+        with self.assertRaisesRegex(ValueError, 'deskew'):
+            input_lines(output, 595, 841)
+
     def test_region_excludes_nearby_issuer(self):
         lines = [{'text':'issuer', 'x':0, 'y':0, 'w':10, 'h':10},
                  {'text':'customer', 'x':100, 'y':100, 'w':10, 'h':10}]
