@@ -1,0 +1,976 @@
+{
+  "receipt": {
+    "frozen_utc": "2026-10-24T20:00:10.086652+00:00",
+    "accuracy_report_sha256": "7379329ea1bf2f17f4c898fa23bb1aaaa96b6d2cc9873708bf583cbf1f9e504c",
+    "timing_source_sha256": "333b7ae41ea12ba31233e4f95c16d9b0bbc869015638927877cc5309be6273c6",
+    "sample_indices": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50,
+      53,
+      57
+    ],
+    "repeats": 3,
+    "cpu": 11,
+    "load_before": [
+      26.41259765625,
+      23.697265625,
+      14.0693359375
+    ],
+    "condition": "dark",
+    "order": "candidate/baseline alternates by sample index and repeat; separate pair for each candidate"
+  },
+  "summary": {
+    "global_exposure": {
+      "paired_groups": 8,
+      "paired_runs": 24,
+      "baseline_median_ms": 1293.4275972656906,
+      "candidate_median_ms": 1381.3107060268521,
+      "candidate_preprocess_median_ms": 63.221072778105736,
+      "median_paired_ratio": 1.0206578976612803,
+      "bootstrap_95_ci": [
+        0.9962841502730702,
+        1.1111154831057943
+      ],
+      "failures": 0
+    },
+    "local_illumination": {
+      "paired_groups": 8,
+      "paired_runs": 24,
+      "baseline_median_ms": 1554.2612299323082,
+      "candidate_median_ms": 1558.0283589661121,
+      "candidate_preprocess_median_ms": 67.88036180660129,
+      "median_paired_ratio": 1.0284375897118663,
+      "bootstrap_95_ci": [
+        1.0063241188021106,
+        1.0815352993992038
+      ],
+      "failures": 0
+    }
+  },
+  "pairs": [
+    {
+      "index": 0,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1205.5217437446117,
+        "preprocess_ms": 0.0017005950212478638,
+        "native_ms": 1056.7774455994368,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 1256.4978851005435,
+        "preprocess_ms": 56.773168966174126,
+        "native_ms": 1088.9092087745667,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 0,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1202.6144694536924,
+        "preprocess_ms": 0.005191192030906677,
+        "native_ms": 1054.6353617683053,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1280.3881773725152,
+        "preprocess_ms": 65.16670994460583,
+        "native_ms": 1103.4383084625006,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 10,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1069.9693290516734,
+        "preprocess_ms": 63.07523138821125,
+        "native_ms": 892.7478482946754,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1082.348220050335,
+        "preprocess_ms": 0.007524155080318451,
+        "native_ms": 921.6090869158506,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 10,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1101.7099460586905,
+        "preprocess_ms": 65.6508170068264,
+        "native_ms": 917.2131540253758,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1065.0332691147923,
+        "preprocess_ms": 0.004450790584087372,
+        "native_ms": 906.3626239076257,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 20,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1081.131630577147,
+        "preprocess_ms": 0.00130385160446167,
+        "native_ms": 921.410059556365,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 1134.00905020535,
+        "preprocess_ms": 61.06268335133791,
+        "native_ms": 954.8703348264098,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 20,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1121.6073464602232,
+        "preprocess_ms": 0.004184432327747345,
+        "native_ms": 959.4610119238496,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1128.7005245685577,
+        "preprocess_ms": 65.39360526949167,
+        "native_ms": 946.185827255249,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 30,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1249.0655118599534,
+        "preprocess_ms": 63.36691416800022,
+        "native_ms": 1069.0119173377752,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1206.5362334251404,
+        "preprocess_ms": 0.005044974386692047,
+        "native_ms": 1053.8218319416046,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 30,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1252.099011093378,
+        "preprocess_ms": 64.58639353513718,
+        "native_ms": 1075.8492900058627,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1193.7679797410965,
+        "preprocess_ms": 0.007112510502338409,
+        "native_ms": 1034.7791193053126,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 40,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 944.3073617294431,
+        "preprocess_ms": 0.0014845281839370728,
+        "native_ms": 789.4950676709414,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 958.4768917411566,
+        "preprocess_ms": 60.58887951076031,
+        "native_ms": 780.819047242403,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 40,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 924.9351415783167,
+        "preprocess_ms": 0.00520702451467514,
+        "native_ms": 770.0230283662677,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 944.9377357959747,
+        "preprocess_ms": 63.24610486626625,
+        "native_ms": 767.0187233015895,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 50,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1837.6219421625137,
+        "preprocess_ms": 214.19516578316689,
+        "native_ms": 1130.460573360324,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1592.9995905607939,
+        "preprocess_ms": 0.005793757736682892,
+        "native_ms": 924.5592085644603,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 50,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1743.3616174384952,
+        "preprocess_ms": 218.91620103269815,
+        "native_ms": 1047.1557090058923,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1603.7991074845195,
+        "preprocess_ms": 0.0058533623814582825,
+        "native_ms": 942.0031541958451,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 53,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 2960.324740037322,
+        "preprocess_ms": 0.001301988959312439,
+        "native_ms": 2295.735515654087,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 3466.9693848118186,
+        "preprocess_ms": 217.0352153480053,
+        "native_ms": 2766.750443726778,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 53,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 3233.7551871314645,
+        "preprocess_ms": 0.005819834768772125,
+        "native_ms": 2483.875128440559,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 3294.20202691108,
+        "preprocess_ms": 316.92464742809534,
+        "native_ms": 2431.1924958601594,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 57,
+      "repeat": 0,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 2828.151703812182,
+        "preprocess_ms": 217.25558955222368,
+        "native_ms": 2138.6059541255236,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 2896.4592330157757,
+        "preprocess_ms": 0.005876645445823669,
+        "native_ms": 2249.9499190598726,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 57,
+      "repeat": 0,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 3231.3360925763845,
+        "preprocess_ms": 304.691843688488,
+        "native_ms": 2434.950086288154,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 2865.3893815353513,
+        "preprocess_ms": 0.00486522912979126,
+        "native_ms": 2168.030181899667,
+        "failure": null
+      },
+      "calibration_before_ms": 152.39601954817772,
+      "calibration_after_ms": 150.5335560068488
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1292.1923846006393,
+        "preprocess_ms": 57.154834270477295,
+        "native_ms": 1121.5115021914244,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1306.1818853020668,
+        "preprocess_ms": 0.004692003130912781,
+        "native_ms": 1147.8138538077474,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1487.9831317812204,
+        "preprocess_ms": 58.77877306193113,
+        "native_ms": 1310.8859350904822,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1248.5306635499,
+        "preprocess_ms": 0.005229376256465912,
+        "native_ms": 1093.3908680453897,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 10,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1066.6736345738173,
+        "preprocess_ms": 0.0014044344425201416,
+        "native_ms": 910.8499111607671,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 1068.7689799815416,
+        "preprocess_ms": 57.41407163441181,
+        "native_ms": 897.0451522618532,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 10,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1369.5767726749182,
+        "preprocess_ms": 0.005111098289489746,
+        "native_ms": 1212.445916607976,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1647.6166704669595,
+        "preprocess_ms": 92.84857474267483,
+        "native_ms": 1385.2105559781194,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 20,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1448.2528381049633,
+        "preprocess_ms": 75.48052072525024,
+        "native_ms": 1207.6744129881263,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1274.340475909412,
+        "preprocess_ms": 0.006010755896568298,
+        "native_ms": 1096.6038340702653,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 20,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 2494.0000995993614,
+        "preprocess_ms": 63.3961595594883,
+        "native_ms": 2292.857715860009,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 3024.418613873422,
+        "preprocess_ms": 0.007063150405883789,
+        "native_ms": 2435.4732083156705,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 30,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 2239.9538801983,
+        "preprocess_ms": 0.001903623342514038,
+        "native_ms": 1939.5800326019526,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 2215.2228727936745,
+        "preprocess_ms": 92.9851857945323,
+        "native_ms": 1958.3226786926389,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 30,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1828.4210804849863,
+        "preprocess_ms": 0.006835907697677612,
+        "native_ms": 1589.305884204805,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1628.0735861510038,
+        "preprocess_ms": 93.23764685541391,
+        "native_ms": 1376.8681855872273,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 40,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1501.9087018445134,
+        "preprocess_ms": 62.705704011023045,
+        "native_ms": 1287.3216541483998,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1317.0420015230775,
+        "preprocess_ms": 0.005748122930526733,
+        "native_ms": 1112.4244686216116,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 40,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1293.3511398732662,
+        "preprocess_ms": 70.10990660637617,
+        "native_ms": 1087.6160245388746,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1504.723352380097,
+        "preprocess_ms": 0.005141831934452057,
+        "native_ms": 1311.930405907333,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 50,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1749.069661833346,
+        "preprocess_ms": 0.0016773119568824768,
+        "native_ms": 1032.2003280743957,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 2682.101681828499,
+        "preprocess_ms": 269.9879826977849,
+        "native_ms": 1717.6818130537868,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 50,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1705.6161761283875,
+        "preprocess_ms": 0.005444511771202087,
+        "native_ms": 991.240437142551,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1923.6303586512804,
+        "preprocess_ms": 315.80887734889984,
+        "native_ms": 1117.9818576201797,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 53,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 3303.0894426628947,
+        "preprocess_ms": 237.34956420958042,
+        "native_ms": 2558.855532668531,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 3883.676934055984,
+        "preprocess_ms": 0.005276873707771301,
+        "native_ms": 3138.7621015310287,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 53,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 3894.9547866359353,
+        "preprocess_ms": 263.34790978580713,
+        "native_ms": 3056.4510310068727,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 3370.291101746261,
+        "preprocess_ms": 0.00559631735086441,
+        "native_ms": 2551.9497338682413,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 57,
+      "repeat": 1,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 3023.8805701956153,
+        "preprocess_ms": 0.0015068799257278442,
+        "native_ms": 2341.0095274448395,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 3008.6886789649725,
+        "preprocess_ms": 234.83556229621172,
+        "native_ms": 2259.2717995867133,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 57,
+      "repeat": 1,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 2896.706623956561,
+        "preprocess_ms": 0.004780478775501251,
+        "native_ms": 2221.3616147637367,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 3027.1511767059565,
+        "preprocess_ms": 226.5200186520815,
+        "native_ms": 2290.1251912117004,
+        "failure": null
+      },
+      "calibration_before_ms": 156.60857874900103,
+      "calibration_after_ms": 155.8797275647521
+    },
+    {
+      "index": 0,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1280.6733092293143,
+        "preprocess_ms": 0.004014000296592712,
+        "native_ms": 1127.029437571764,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 1314.368573948741,
+        "preprocess_ms": 58.06749314069748,
+        "native_ms": 1139.3786370754242,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 0,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1265.2973616495728,
+        "preprocess_ms": 0.004652887582778931,
+        "native_ms": 1112.9379887133837,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1391.4192151278257,
+        "preprocess_ms": 58.82841628044844,
+        "native_ms": 1213.0031678825617,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 10,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1115.0098713114858,
+        "preprocess_ms": 56.089420802891254,
+        "native_ms": 938.194990158081,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1084.4573602080345,
+        "preprocess_ms": 0.004911795258522034,
+        "native_ms": 923.8081499934196,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 10,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1122.2103470936418,
+        "preprocess_ms": 61.227752827107906,
+        "native_ms": 942.1215830370784,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1084.0001683682203,
+        "preprocess_ms": 0.004984438419342041,
+        "native_ms": 921.9609517604113,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 20,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1106.6312622278929,
+        "preprocess_ms": 0.0015832483768463135,
+        "native_ms": 941.8857088312507,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 1150.5014775320888,
+        "preprocess_ms": 58.630879037082195,
+        "native_ms": 974.3306366726756,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 20,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 1133.8350800797343,
+        "preprocess_ms": 0.004408881068229675,
+        "native_ms": 970.9841795265675,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1186.24553270638,
+        "preprocess_ms": 59.049343690276146,
+        "native_ms": 1001.3750772923231,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 30,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1258.2676075398922,
+        "preprocess_ms": 57.0854851976037,
+        "native_ms": 1084.8799692466855,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1270.202523097396,
+        "preprocess_ms": 0.005204230546951294,
+        "native_ms": 1114.871121942997,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 30,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1276.4884661883116,
+        "preprocess_ms": 61.535281129181385,
+        "native_ms": 1078.7411760538816,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1671.9249915331602,
+        "preprocess_ms": 0.004653818905353546,
+        "native_ms": 1513.5653000324965,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 40,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 1032.0786302909255,
+        "preprocess_ms": 0.0014398247003555298,
+        "native_ms": 872.013540007174,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 969.7512667626143,
+        "preprocess_ms": 54.39115408807993,
+        "native_ms": 797.5554605945945,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 40,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 945.8738844841719,
+        "preprocess_ms": 0.0042924657464027405,
+        "native_ms": 782.1932351216674,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 1007.4221398681402,
+        "preprocess_ms": 56.96698650717735,
+        "native_ms": 831.2516966834664,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 50,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 1816.4444556459785,
+        "preprocess_ms": 217.31921192258596,
+        "native_ms": 1103.006542660296,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1735.393038019538,
+        "preprocess_ms": 0.0047888606786727905,
+        "native_ms": 1054.752572439611,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 50,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 1857.7700909227133,
+        "preprocess_ms": 228.6743987351656,
+        "native_ms": 1082.8898325562477,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 1606.071618385613,
+        "preprocess_ms": 0.005736947059631348,
+        "native_ms": 925.3367641940713,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 53,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "baseline": {
+        "total_ms": 3113.7299221009016,
+        "preprocess_ms": 0.0014863908290863037,
+        "native_ms": 2435.380450449884,
+        "failure": null
+      },
+      "global_exposure": {
+        "total_ms": 4186.44954636693,
+        "preprocess_ms": 248.50657675415277,
+        "native_ms": 3424.8940916731954,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 53,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "baseline": {
+        "total_ms": 3385.1053807884455,
+        "preprocess_ms": 0.006018206477165222,
+        "native_ms": 2569.4327568635345,
+        "failure": null
+      },
+      "local_illumination": {
+        "total_ms": 3189.9503925815225,
+        "preprocess_ms": 235.17299816012383,
+        "native_ms": 2439.269923605025,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 57,
+      "repeat": 2,
+      "candidate": "global_exposure",
+      "global_exposure": {
+        "total_ms": 3717.709979042411,
+        "preprocess_ms": 333.8706633076072,
+        "native_ms": 2393.524719402194,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 2884.7492346540093,
+        "preprocess_ms": 0.0047925859689712524,
+        "native_ms": 2224.606270901859,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    },
+    {
+      "index": 57,
+      "repeat": 2,
+      "candidate": "local_illumination",
+      "local_illumination": {
+        "total_ms": 2911.8060218170285,
+        "preprocess_ms": 223.88627287000418,
+        "native_ms": 2196.5877460315824,
+        "failure": null
+      },
+      "baseline": {
+        "total_ms": 2804.067234508693,
+        "preprocess_ms": 0.0055069103837013245,
+        "native_ms": 2145.036293193698,
+        "failure": null
+      },
+      "calibration_before_ms": 164.6787552163005,
+      "calibration_after_ms": 153.97206041961908
+    }
+  ],
+  "load_after": [
+    32.5576171875,
+    27.56982421875,
+    17.31640625
+  ],
+  "selector_per_frame_median_ms": 16.80144853889942,
+  "selector_per_frame_p95_ms": 17.83164786174893,
+  "limits": "Pinned single-core sequential native processes including PNG save/startup. Pixels loaded before timer; decoding excluded equally. Small clustered DEV timing set; not bench/speed_ab, browser, mobile, memory or capture latency."
+}

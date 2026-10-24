@@ -1,0 +1,184 @@
+{
+  "checked_on": "2026-10-24",
+  "sources": [
+    {
+      "url": "https://zenodo.org/api/records/6792397",
+      "sha256": "696c9d8d0bff76e4b3889c3cfeff5f252d79a4bd963d6ea45a7b4e47c44c61db",
+      "bytes": 8819,
+      "title": "Document Liveness Challenge (DLC-2021) - part 1 (or, cg)",
+      "data_license": {
+        "id": "cc-by-sa-2.5"
+      },
+      "release_files": [
+        {
+          "name": "README.md",
+          "bytes": 6011
+        },
+        {
+          "name": "or.zip",
+          "bytes": 18818074180
+        },
+        {
+          "name": "license.txt",
+          "bytes": 439
+        },
+        {
+          "name": "dlc-2021.csv",
+          "bytes": 70444
+        },
+        {
+          "name": "experimental_baseline.zip",
+          "bytes": 88403129
+        },
+        {
+          "name": "cg.zip",
+          "bytes": 15039057125
+        }
+      ]
+    },
+    {
+      "url": "https://zenodo.org/api/records/6466770",
+      "sha256": "192d60e7791a69d06e954f064036278a34edbd1a6027dbaee6508b0186b46100",
+      "bytes": 8862,
+      "title": "Document Liveness Challenge (DLC-2021) - part 2 (re)",
+      "data_license": {
+        "id": "cc-by-sa-2.5"
+      },
+      "release_files": [
+        {
+          "name": "license.txt",
+          "bytes": 439
+        },
+        {
+          "name": "re.z01",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.z08",
+          "bytes": 4293918720
+        },
+        {
+          "name": "dlc-2021.csv",
+          "bytes": 70444
+        },
+        {
+          "name": "re.z02",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.z05",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.z04",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.zip",
+          "bytes": 4170685785
+        },
+        {
+          "name": "README.md",
+          "bytes": 5340
+        },
+        {
+          "name": "re.z07",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.z03",
+          "bytes": 4293918720
+        },
+        {
+          "name": "re.z06",
+          "bytes": 4293918720
+        }
+      ]
+    },
+    {
+      "url": "https://zenodo.org/api/records/6466764",
+      "sha256": "0ee9c1d1ad0791481c2644157d70f0b001f123d49ed86a0ec067ce43e7116f25",
+      "bytes": 8638,
+      "title": "Document Liveness Challenge (DLC-2021) - part 3 (cc)",
+      "data_license": {
+        "id": "cc-by-sa-2.5"
+      },
+      "release_files": [
+        {
+          "name": "cc.zip",
+          "bytes": 3482083032
+        },
+        {
+          "name": "cc.z05",
+          "bytes": 4293918720
+        },
+        {
+          "name": "cc.z04",
+          "bytes": 4293918720
+        },
+        {
+          "name": "cc.z07",
+          "bytes": 4293918720
+        },
+        {
+          "name": "license.txt",
+          "bytes": 439
+        },
+        {
+          "name": "cc.z01",
+          "bytes": 4293918720
+        },
+        {
+          "name": "cc.z03",
+          "bytes": 4293918720
+        },
+        {
+          "name": "cc.z02",
+          "bytes": 4293918720
+        },
+        {
+          "name": "dlc-2021.csv",
+          "bytes": 70444
+        },
+        {
+          "name": "README.md",
+          "bytes": 5340
+        },
+        {
+          "name": "cc.z06",
+          "bytes": 4293918720
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chenlewis/LC-DF-For-DPAD/main/README.md",
+      "sha256": "ee04dec42c9fef4b1683ad9b87627425f04599e11d422871145b1b0dc39463df",
+      "bytes": 873
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chenlewis/LC-DF-For-DPAD/main/LICENSE",
+      "sha256": "25184b325117eb19056db3aa75267989115edc3656bdf81c0e1cd7985e4ab38c",
+      "bytes": 1518
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chenlewis/FMAG-with-MMFM/main/README.md",
+      "sha256": "b25a3358f2294fd4dca91c2d807ed533a094f18c80ee0f1027317991432c9cb8",
+      "bytes": 3789
+    },
+    {
+      "url": "https://raw.githubusercontent.com/SmartEngines/midv-holo/main/README.md",
+      "sha256": "a89b3abf36fdc036deb7890c3e2ea58cdb75cc39eae2441e859e60843aa76f41",
+      "bytes": 4692
+    },
+    {
+      "url": "ftp://smartengines.com/midv-2020/readme.txt",
+      "sha256": "02b2b1b562a97c6cfec9cc2986dc55dd711ef20b92454150a072815373d07eb4",
+      "bytes": 9576
+    },
+    {
+      "url": "ftp://smartengines.com/midv-2020/license.txt",
+      "sha256": "3b6bc8eb8a4a6bba41619051803991d9de949f7f722eee30bc0954c7b38aed7d",
+      "bytes": 439
+    }
+  ]
+}

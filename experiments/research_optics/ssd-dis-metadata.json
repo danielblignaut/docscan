@@ -1,0 +1,31 @@
+{
+  "accessed_utc": "2026-10-24T19:59:18.953209+00:00",
+  "source_url": "https://api.datacite.org/dois/10.6084/m9.figshare.29401811",
+  "source_response_sha256": "4697f7f481c78698e24620f6807f7d322a013bcb1c5672951b3fd1f46b8c9e68",
+  "dataset_metadata": {
+    "doi": "10.6084/m9.figshare.29401811",
+    "url": "https://figshare.com/articles/dataset/_/29401811",
+    "rightsList": [
+      {
+        "rights": "Creative Commons Attribution 4.0 International",
+        "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "schemeUri": "https://spdx.org/licenses/",
+        "rightsIdentifier": "cc-by-4.0",
+        "rightsIdentifierScheme": "SPDX"
+      }
+    ],
+    "version": null,
+    "titles": [
+      {
+        "title": "SSD-DIS dataset"
+      }
+    ],
+    "published": "2026",
+    "updated": "2026-02-03T16:07:26.000Z"
+  },
+  "figshare_direct_status": "HTTP 403; archive README and per-document rights not inspected",
+  "article_license": "CC-BY-NC-ND-4.0; separate from dataset",
+  "code_license": "No affirmative code license found in author README/repository root",
+  "downloaded_media": false,
+  "added_to_frozen_benchmark": false
+}

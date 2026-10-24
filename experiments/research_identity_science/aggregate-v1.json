@@ -1,0 +1,889 @@
+{
+  "at": "2026-10-24T19:50:59.976585+00:00",
+  "gate_passed": false,
+  "manifest_sha256": "d518294d3544162c0db0e480a807328eeff4da4d8bbe7f98a55f4643b4ab2416",
+  "private_outcomes_sha256": "578f468f77051af531bedb2fdf62065072578dd561d37d6ee2221a3ec5747729",
+  "private_root": "/tmp/docscan-identity-science-v1",
+  "source": {
+    "protocol.json": "0b458f4aa4f42966a8e5e453983c3053dd35ec01b1917461753de2b49aab26d8",
+    "stroke_consistency.py": "32c5d8b24337d9ec8733ce6d1fd2da95f5c5cf7e2b8dfc35f376fee5bcfa0510"
+  },
+  "splits": {
+    "DEV": {
+      "attacks": 288,
+      "baseline": {
+        "abstentions": 48,
+        "attack_non_detections": 102,
+        "attacks_clear": 102,
+        "attacks_flagged": 186,
+        "benign_clear": 143,
+        "correct": 329,
+        "errors": 0,
+        "false_flags": 193
+      },
+      "benign": 384,
+      "candidate": {
+        "abstentions": 48,
+        "attack_non_detections": 145,
+        "attacks_clear": 145,
+        "attacks_flagged": 143,
+        "benign_clear": 213,
+        "correct": 356,
+        "errors": 0,
+        "false_flags": 123
+      },
+      "conditions": {
+        "blur": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 47,
+            "correct": 47,
+            "errors": 0,
+            "false_flags": 1
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 21,
+            "correct": 21,
+            "errors": 0,
+            "false_flags": 27
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 26,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 26
+        },
+        "clean": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "coherent_replacement": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "digit_change": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "digit_change_shadow": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "exposure": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 48,
+          "regressed": 0
+        },
+        "identical_reprint": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "jpeg": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "legitimate_calligraphy": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "legitimate_weight": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "local_ink": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 5,
+            "attacks_clear": 5,
+            "attacks_flagged": 43,
+            "benign_clear": 0,
+            "correct": 43,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 43,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 43
+        },
+        "local_weight": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 1,
+            "attacks_clear": 1,
+            "attacks_flagged": 47,
+            "benign_clear": 0,
+            "correct": 47,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 1,
+            "attacks_clear": 1,
+            "attacks_flagged": 47,
+            "benign_clear": 0,
+            "correct": 47,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "low_contrast": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 48,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 48,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "shadow": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 48,
+          "regressed": 0
+        }
+      },
+      "new_clear_attacks": 43,
+      "new_false_flags": 26,
+      "pairs": 672,
+      "recovered": 96,
+      "regressed": 69
+    },
+    "TRAIN": {
+      "attacks": 288,
+      "baseline": {
+        "abstentions": 48,
+        "attack_non_detections": 102,
+        "attacks_clear": 102,
+        "attacks_flagged": 186,
+        "benign_clear": 149,
+        "correct": 335,
+        "errors": 0,
+        "false_flags": 187
+      },
+      "benign": 384,
+      "candidate": {
+        "abstentions": 48,
+        "attack_non_detections": 144,
+        "attacks_clear": 144,
+        "attacks_flagged": 144,
+        "benign_clear": 211,
+        "correct": 355,
+        "errors": 0,
+        "false_flags": 125
+      },
+      "conditions": {
+        "blur": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 47,
+            "correct": 47,
+            "errors": 0,
+            "false_flags": 1
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 19,
+            "correct": 19,
+            "errors": 0,
+            "false_flags": 29
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 28,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 28
+        },
+        "clean": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "coherent_replacement": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "digit_change": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "digit_change_shadow": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "exposure": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 48,
+          "regressed": 0
+        },
+        "identical_reprint": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "jpeg": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "legitimate_calligraphy": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "legitimate_weight": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 6,
+            "correct": 6,
+            "errors": 0,
+            "false_flags": 42
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 6,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 6
+        },
+        "local_ink": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 6,
+            "attacks_clear": 6,
+            "attacks_flagged": 42,
+            "benign_clear": 0,
+            "correct": 42,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 48,
+            "attacks_clear": 48,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 42,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 42
+        },
+        "local_weight": {
+          "attacks": 48,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 0,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 48,
+            "benign_clear": 0,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "low_contrast": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 48,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 48,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 0,
+          "regressed": 0
+        },
+        "shadow": {
+          "attacks": 0,
+          "baseline": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 0,
+            "correct": 0,
+            "errors": 0,
+            "false_flags": 48
+          },
+          "benign": 48,
+          "candidate": {
+            "abstentions": 0,
+            "attack_non_detections": 0,
+            "attacks_clear": 0,
+            "attacks_flagged": 0,
+            "benign_clear": 48,
+            "correct": 48,
+            "errors": 0,
+            "false_flags": 0
+          },
+          "new_clear_attacks": 0,
+          "new_false_flags": 0,
+          "pairs": 48,
+          "recovered": 48,
+          "regressed": 0
+        }
+      },
+      "new_clear_attacks": 42,
+      "new_false_flags": 34,
+      "pairs": 672,
+      "recovered": 96,
+      "regressed": 76
+    }
+  },
+  "threshold": 0.12,
+  "version": "stroke-consistency-v1"
+}

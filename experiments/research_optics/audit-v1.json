@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "source_sha256": "07eea6157ef2da23f93bb9f654cade4d718943c5082a8b4b111f4c3c5bf9ba48",
+  "accuracy_report_sha256": "7379329ea1bf2f17f4c898fa23bb1aaaa96b6d2cc9873708bf583cbf1f9e504c",
+  "document_cells_checked": 30,
+  "camera_arms_checked": 3,
+  "unique_prediction_hashes_checked": 472,
+  "private_permissions": true,
+  "fixed_document_denominators_per_arm_condition": {
+    "bank_tokens": 2639,
+    "invoice_tokens": 3196,
+    "bank_pages": 10,
+    "invoice_regions": 560
+  },
+  "burst_paired_regressions": {
+    "documents": {
+      "fatura": {
+        "bursts": 50,
+        "exact_regions_gained": 121,
+        "exact_regions_lost": 41,
+        "token_gain_pages": 24,
+        "token_loss_pages": 11,
+        "first_failures": 0,
+        "selected_failures": 0
+      },
+      "bankstatemently": {
+        "bursts": 10,
+        "exact_regions_gained": 0,
+        "exact_regions_lost": 0,
+        "token_gain_pages": 1,
+        "token_loss_pages": 6,
+        "first_failures": 0,
+        "selected_failures": 0
+      }
+    },
+    "camera": {
+      "bursts": 9,
+      "correct_accepts_gained": 0,
+      "correct_accepts_lost": 1,
+      "new_wrong_accepts": 0,
+      "wrong_accepts_removed": 1
+    }
+  }
+}

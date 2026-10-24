@@ -1,0 +1,110 @@
+{
+  "accessed": "2026-10-24",
+  "private_notices": "/tmp/docscan-identity-science-v1/source-notices",
+  "sources": [
+    {
+      "repository": "mk-minchul/AdaFace",
+      "revision": "c60eaa786a42c03444f3df7096dbaf9d57ae010d",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/mk-minchul/AdaFace/c60eaa786a42c03444f3df7096dbaf9d57ae010d/LICENSE",
+      "sha256": "95b6e493eb9dba27f2150304e790ae254bab18d1611f4d6e2ade28fa3a271583"
+    },
+    {
+      "repository": "mk-minchul/AdaFace",
+      "revision": "c60eaa786a42c03444f3df7096dbaf9d57ae010d",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/mk-minchul/AdaFace/c60eaa786a42c03444f3df7096dbaf9d57ae010d/README.md",
+      "sha256": "c3e65e47bb06a6387287bb76efe0fcf835ffbec466c305eb0a9744cc362ff18a"
+    },
+    {
+      "repository": "IrvingMeng/MagFace",
+      "revision": "99bae614ac2643b9694bf18e0c5645272ff6acfa",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/IrvingMeng/MagFace/99bae614ac2643b9694bf18e0c5645272ff6acfa/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "IrvingMeng/MagFace",
+      "revision": "99bae614ac2643b9694bf18e0c5645272ff6acfa",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/IrvingMeng/MagFace/99bae614ac2643b9694bf18e0c5645272ff6acfa/README.md",
+      "sha256": "6550995f1aa7a0d9651f894d58d00aba3b848b1b142865fc2bcc073b02b1031f"
+    },
+    {
+      "repository": "BSI-OFIQ/OFIQ-Project",
+      "error": "HTTP Error 422: Unprocessable Entity"
+    },
+    {
+      "repository": "ubicomplab/rPPG-Toolbox",
+      "revision": "b7500b848f84ad7f86e277b4612563b69f4f88f9",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/ubicomplab/rPPG-Toolbox/b7500b848f84ad7f86e277b4612563b69f4f88f9/LICENSE",
+      "sha256": "a2d16c386a18fc6c88ce0ff9d4593082f74a041c96e92ca9e2d89731955f1e1c"
+    },
+    {
+      "repository": "ubicomplab/rPPG-Toolbox",
+      "revision": "b7500b848f84ad7f86e277b4612563b69f4f88f9",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/ubicomplab/rPPG-Toolbox/b7500b848f84ad7f86e277b4612563b69f4f88f9/README.md",
+      "sha256": "44d84e927ace63d74e062fc652c59aaff2ea19d08161cc8e2457b79f23f13fd7"
+    },
+    {
+      "repository": "qcf-568/DocTamper",
+      "revision": "2d53389932f72941575adbb595377955d366881c",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/qcf-568/DocTamper/2d53389932f72941575adbb595377955d366881c/README.md",
+      "sha256": "a10834bb855ce63620a78cc8617de866a08a3657c1dc2f2affe01c44707d9d92"
+    },
+    {
+      "repository": "Mohamed-Dhouib/TDOC",
+      "revision": "c1597c96031786c7261f57bba113ace3010a3b54",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/Mohamed-Dhouib/TDOC/c1597c96031786c7261f57bba113ace3010a3b54/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "Mohamed-Dhouib/TDOC",
+      "revision": "c1597c96031786c7261f57bba113ace3010a3b54",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/Mohamed-Dhouib/TDOC/c1597c96031786c7261f57bba113ace3010a3b54/README.md",
+      "sha256": "7312068428161fdcd294e809031cd322d064c37f6776ff00c8caf3c0fe6779db"
+    },
+    {
+      "repository": "Mohamed-Dhouib/TDOC",
+      "revision": "c1597c96031786c7261f57bba113ace3010a3b54",
+      "path": "reproduction_guide.md",
+      "url": "https://raw.githubusercontent.com/Mohamed-Dhouib/TDOC/c1597c96031786c7261f57bba113ace3010a3b54/reproduction_guide.md",
+      "sha256": "4d2c4dbf4e485102d17f01bdef617b57d0f3179673551b342771118743c3347a"
+    },
+    {
+      "repository": "debruine/webmorphR.stim",
+      "revision": "fa8b78fda2d659bb74ce62fcd99c4407551d2a77",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/debruine/webmorphR.stim/fa8b78fda2d659bb74ce62fcd99c4407551d2a77/README.md",
+      "sha256": "b9408499a8c2925cde7eaf9f1ea3fd92fb6af61e061c2c1d175563b4663510a2"
+    },
+    {
+      "repository": "hf:MohamedDhouib1/TDoc-2.8M",
+      "revision": "ab5ae1cbe09a5f0dc5038ade77ea0ad718257f57",
+      "path": "README.md",
+      "url": "https://huggingface.co/datasets/MohamedDhouib1/TDoc-2.8M/raw/ab5ae1cbe09a5f0dc5038ade77ea0ad718257f57/README.md",
+      "sha256": "77474eb8f3ee279cc09d3245d070810b560768a3f511d1fa6b436701acf0a006"
+    },
+    {
+      "repository": "BSI-OFIQ/OFIQ-Project",
+      "revision": "f903e59e2fe1ac48418d253da8c17592464161d2",
+      "path": "LICENSE.md",
+      "url": "https://raw.githubusercontent.com/BSI-OFIQ/OFIQ-Project/f903e59e2fe1ac48418d253da8c17592464161d2/LICENSE.md",
+      "sha256": "2f71522167b564572f38ad1a22f30cbf166c031341d181edd0bf67cdcb550055",
+      "note": "Default branch resolved after retained master-ref API failure."
+    },
+    {
+      "repository": "BSI-OFIQ/OFIQ-Project",
+      "revision": "f903e59e2fe1ac48418d253da8c17592464161d2",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/BSI-OFIQ/OFIQ-Project/f903e59e2fe1ac48418d253da8c17592464161d2/README.md",
+      "sha256": "2312adcb3f2b027dc30a0a69a2ac1f94acf52b14359a40d84b6555bbec494291",
+      "note": "Default branch resolved after retained master-ref API failure."
+    }
+  ]
+}

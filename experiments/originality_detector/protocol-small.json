@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "id": "originality-optics-bounded-v2",
+  "seed": 630821,
+  "synthetic_size": [
+    320,
+    224
+  ],
+  "groups": {
+    "train": 24,
+    "calibration": 16,
+    "dev": 20
+  },
+  "devices": {
+    "train": [
+      0,
+      1,
+      2
+    ],
+    "calibration": [
+      3,
+      4
+    ],
+    "dev": [
+      5,
+      6
+    ]
+  },
+  "negative_conditions": [
+    "plain",
+    "security",
+    "mono",
+    "halftone",
+    "calligraphy",
+    "glare",
+    "dim",
+    "jpeg"
+  ],
+  "attack_conditions": [
+    "screen_strong",
+    "screen_weak",
+    "screen_achromatic",
+    "print_color",
+    "print_gray",
+    "print_clean"
+  ],
+  "candidates": [
+    "constant_unknown",
+    "chroma_frequency",
+    "texture_color",
+    "boundary_context",
+    "native_patch_texture"
+  ],
+  "logistic": {
+    "iterations": 800,
+    "learning_rate": 0.08,
+    "l2": 0.03
+  },
+  "decision": {
+    "minimum_logit": 2.1972245773362196,
+    "calibration": "strictly_above_max_bona_fide_group_score",
+    "confidence": null
+  },
+  "real_dev": {
+    "root": "/tmp/docscan-public-data/midv500",
+    "layouts": [
+      "05_aze_passport",
+      "16_deu_passport_new",
+      "22_est_id"
+    ],
+    "conditions": [
+      "TA",
+      "CA",
+      "HA"
+    ],
+    "frames": [
+      "01",
+      "15"
+    ],
+    "count": 18,
+    "use": "negative_only_laminated_specimen_first_capture"
+  },
+  "promotion": "blocked_until_real_recapture_and_bona_fide_device_disjoint_validation",
+  "notes": [
+    "No TEST or reserved access",
+    "Calibration is TRAIN-held-out; DEV never sets weights or thresholds",
+    "Simulated devices are independent seeds, not actual cameras",
+    "All conditions for a specimen remain in one partition",
+    "No original verdict is emitted",
+    "Reduced synthetic run size before outcomes after interrupted source-audit runs; all conditions/candidates retained."
+  ]
+}

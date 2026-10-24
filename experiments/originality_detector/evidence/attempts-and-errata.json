@@ -1,0 +1,35 @@
+{
+  "quarantined_broad_import": {
+    "path": "/tmp/docscan-originality-dlc-v1",
+    "status": "aborted; excluded from inference",
+    "images_written": 126,
+    "annotations_written": 64,
+    "bytes_written": 27445650,
+    "access": "One Albania annotation structure inspected; no image decode/model inference. Possible source-held-out acquisition cannot be ruled out."
+  },
+  "source_train_v2": {
+    "status": "completed import, no model inference; source-TRAIN negative rows reused after sealing",
+    "network_bytes": 62358188,
+    "helper_snapshot_timing": "Saved afterward; main importer hash matches initial policy, but exact acquisition-time shared-helper snapshot is not independently proven."
+  },
+  "source_train_v3": {
+    "status": "aborted on Latvia-exclusion correction during TAR metadata indexing",
+    "media_directory_created": false,
+    "media_downloaded": false
+  },
+  "source_train_v4": {
+    "status": "final Spain/Russia-only source-TRAIN import",
+    "network_bytes": 14463362,
+    "helper_snapshot_timing": "Saved by importer before media acquisition; final evaluator binds helpers/notices and re-verifies receipts."
+  },
+  "synthetic_v1_v2": {
+    "status": "interrupted feature extraction before fitting during audit fixes; all freezes retained"
+  },
+  "real_v1": {
+    "status": "all learned candidates failed fitting due author-origin/centre interpretation; reported fixed denominators retained"
+  },
+  "real_v2_metadata_erratum": {
+    "note": "Historical summary contains stale planned split wording (calibration positives 4-5, DEV 6-7). Numerical metrics were on v4 records. Final real-v3 derives actual cohort counts and corrects metadata; raw historical summary remains unchanged."
+  },
+  "source_test_access": "No docscan bench TEST/reserved access. First broad DLC attempt is disclosed separately; final experiments use exact author screen TRAIN membership only."
+}
