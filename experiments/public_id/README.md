@@ -94,3 +94,12 @@ An accepted passport with even one incorrect field is an `accepted_wrong`, and
 unsupported Estonian fronts form six negative acceptance cases. Both exact
 acceptance and wrong acceptance are reported over fixed denominators. This
 scorer is also frozen independently before scanner edits.
+
+Post-review provenance guard (24 October): `scan`, `text`, and `text_v6` now
+accept `--models=DIR` and confirm their canonical model directory in each
+reading. The evaluator passes that path, rejects older CLIs that cannot confirm
+it, snapshots the executable for all trials, and checks model hashes before and
+after inference. Structured scoring rejects duplicate/missing trials rather
+than letting duplicates increase its fixed denominator. The reviewed rerun
+reproduced all per-item text and field outcomes; the original aggregates remain
+alongside `eval/evidence/public-id-2026-10-24/reviewed-provenance.json`.
