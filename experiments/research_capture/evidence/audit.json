@@ -1,0 +1,18 @@
+{
+  "verified_utc": "2026-10-24T14:21:19.587383+00:00",
+  "artifacts": {
+    "id-round1.json": "2c361f37ed14c5aadca0a96766e81b86957f373d836c0d4f8096cb8c15e9a168",
+    "id-round2.json": "4a1c6957e8e50b34a6373fe57e104ed436a1aee1a3dee6e41f6d4773d95bb670",
+    "barcode-round1.json": "8f0998b4fafe4b8a8e7b6a832dd05c940537f642f2938a1c20feffdccfb67c44",
+    "barcode-round2.json": "7a71596a00beb7c2ffc485660f558181fc7c2b20a980d527dfa9e3f7bd05d376",
+    "source-snapshot.json": "dd81bf796ae20fd009475796a6b3db4cb887a1f83873f9d92e821a4130fd368d",
+    "build-and-decoder-pin.json": "98212365ea67d81a97574caffb707e17035e299b396f28d82a1e090e0cfa1b1d"
+  },
+  "native_source_and_binary_unchanged": true,
+  "models_unchanged": true,
+  "zxingcpp_package_bytes_unchanged": true,
+  "test_or_reserved_access": false,
+  "training_or_calibration": false,
+  "initial_barcode_decoder_pin_note": "Extension-byte receipt was recorded after the aborted attempt and before the complete barcode-v2 run; initial attempt only froze package version.",
+  "publishable_content": "Outcome booleans, counts, hashes, geometry metadata and provenance only; raw source text/media/payloads remain private."
+}

@@ -1,0 +1,61 @@
+{
+  "run_01_report_sha256": "2fb45b6792a36ca841682e11f6b513c8372f21ac176a284bb38f97e0696c143d",
+  "run_02_report_sha256": "de79021505f38b03d67299137734fdeaaececdf3a8e31a44fbad909cda860907",
+  "round_02_provenance": {
+    "frozen_at_utc": "2026-10-24T14:08:44.069702+00:00",
+    "candidate_freeze": {
+      "frozen_at_utc": "2026-10-24T14:01:39.141910+00:00",
+      "files": {
+        "protocol.json": "528e51ac1eaa423a9e863c56c87f3031bc623689e34d917f555a8927ec5c277b",
+        "candidates.py": "77191df713e8941a350ea72a2a5f1a69b2b74ad70637c57bb7e0e94bae6a6ee9"
+      }
+    },
+    "run_script_sha256": "0d8bade61648e312f7b154a06f50cef8f76ddda9707d9d1615524720160c4827",
+    "source": {
+      "revision": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+      "archive_sha256": "3683c9c78459478fcfbf482c601a414f090a04790782665a98816627af8ec184",
+      "timestamp": "2026-10-24T14:00:03.236613+00:00"
+    },
+    "binaries": {
+      "poa_fields": "ee968a1245975f3043872e2bafcbd11d76c7aae47f17704ea7e5967e2413d116",
+      "poa_capture": "6d3dfdd5a804f9d819ece500c42836eadbff2bd88573edbd9eaada0a9e01e16d"
+    },
+    "model_sha256": "f9840fce1896f93dd3a7773c5f1becfd23d2e1d3dbd5e4d0d74e839b7fd45700",
+    "synthetic_manifest": "qpxjfqxjzwpzfwxyvwvjqxvkwvxqvykyyjkwwkwywkwjpwvjvkpyxvyzxyjzzfjvfqkwyfqxfyqxx",
+    "synthetic_ocr_digest": "xkvwzqkpvxjjvyffqwqkqqzyyqzkzvyxypjpvvvyzxkjzjvpqyqwxqzvwpypykxkpqykjxzpwwqjw",
+    "public_inputs": {
+      "/tmp/docscan-public-data/poa-model-bound-v1/freeze.json": "e164a472d61d36e6a05b337ebb1f454bffe117dec74e9fb9a68142e87c5c8cae",
+      "/tmp/docscan-public-data/poa-model-bound-v1/truth.json": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+      "/tmp/docscan-public-data/poa-model-bound-v1/text-layer.json": "04d6792fa9418d6958c7dba51ba73f4d3db4f2824401039799c0d805f8a7b052",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/clean.json": "2d432b69e08e2eeededf9806e6bd291bb16a95496898e71354e5351ff70e0c02",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/scanned.json": "4ace722883068dd333993742d5536c63c9159df00171de7259f25fb70877b5bf",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/fax.json": "196bb247c2030bad53f9a1f6448213d54b4449d66565b025242d1ba725a92c9a"
+    },
+    "referees": {
+      "eval/poa_extraction_dev.py": "d71334e6d0b8633bfc1dba30e298c6a4277f79091ad379b6f66c427ab4cb7db6",
+      "eval/poa_eval.py": "cf9175d327f790352a0a749889ae66f4a1c64a6fbc49fe84fdd036bf72459139",
+      "bench/suites/poa.py": "10601fc2c571e63236aab5b7f59943852676c8f3781fc1da51873815f9f2c117",
+      "experiments/public_poa/harness.py": "1bae67cc2d2eaa03780223f56ce9f27d0e1d4d2dca2d3e7717371713b155e6c6"
+    }
+  },
+  "all_scored_outcomes_identical": true,
+  "compared_sections": [
+    "synthetic_baseline_metrics",
+    "candidates",
+    "public_baseline",
+    "native_text_baseline",
+    "errors"
+  ],
+  "corrected_parity": {
+    "matched": 800,
+    "denominator": 800
+  },
+  "completed_at_utc": "2026-10-24T14:09:18.400421+00:00",
+  "raw_output_sha256": {
+    "explicit_title-raw.json": "99a53b671e4fd64fa5bb71f5ee68a6d8a4dcee3a1b45b3cd0b2f6499bf890b1b",
+    "header_keywords-raw.json": "dbf6734449738c028e46ed94470dd58c60536f06b2becc9e4f9fa1c0f1d5498d",
+    "public-baseline-raw.json": "c5a6616ce3a24b09510204bd2aa41cabf8cdd88204d3cd69665e096225a692e5",
+    "synthetic-baseline-raw.json": "835d9654374c54af40411c54ce8959c657f76caf5d49ee5e9042f5d727a5e42f"
+  },
+  "note": "Same frozen candidates, current runner adds invalid-native-output guard and corrects port parity input line separators; no predictions or outcomes change."
+}

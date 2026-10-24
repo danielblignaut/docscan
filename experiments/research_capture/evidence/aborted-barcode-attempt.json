@@ -1,0 +1,5015 @@
+{
+  "valid_complete_benchmark": false,
+  "reason": "OpenCV failed to load the pinned 100x1 WebP at public DEV index 141; original raw outputs and log retained privately",
+  "completed_frames": 143,
+  "planned_public_frames": 277,
+  "planned_synthetic_frames": 300,
+  "private_log_sha256": "2f7c27eb06f547db237f642708246dad449aeeefa4d23425e83135e995dfb599",
+  "items": [
+    {
+      "id": "barcode_public_dev:0",
+      "input_sha256": "efbb1677ce32adf4e369bc5d0bb18e67c4ff57283af9dd0c4561608650c3762d",
+      "private_record_sha256": "3a84d6b64272d82c490ffd2a97ec41d2eab839cc39e5df87a8d0bbf1c8c314bb",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 28.112,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 51.227999999999994,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 43.092999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 210.281,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:1",
+      "input_sha256": "f5862fe874019c92a9cc1b2da6c5d6e688276b1c4fee4c06240898fcec9915e7",
+      "private_record_sha256": "bd8b175746a9ec7e16b374ba57a5fc70565fb87b5fa3ce8dd0462876f4470240",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 55.768,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 101.107,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 77.51,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 207.733,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:2",
+      "input_sha256": "fc351d50e1b28ffb71fe7462a2115d7ffaaf817b20b5c31b2d85e02d7c108d47",
+      "private_record_sha256": "155dbc549a87a3ee16b699ee836b4415ad20b0f13c631bff82a2f8f51a14c82d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 76.601,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 129.724,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 98.811,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.824,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:3",
+      "input_sha256": "b93908e5ca335fea1e1da5a149d2840b679edd9f6e3a312b05b785af5360c1ff",
+      "private_record_sha256": "43fc0dfc4cfe6c9d9e84cb0b439cce3622fff1e7f1628ca1cad9550e6ba40f98",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 106.595,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 285.797,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 193.377,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 235.153,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:4",
+      "input_sha256": "17618acea4bd84bd1a5a6663ecda1e8fdf8d53d35b3019597917f1b7607029e6",
+      "private_record_sha256": "dc20a07a08feac7b6cb7a623cf158bf37b2e95e85dba456ef8aa59ae041add96",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 27.343,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 89.591,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 46.281,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.129,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:5",
+      "input_sha256": "eea84a73a3640f413e5ff6a5cb1ea96e3bc89081aa9ec0f83dc5e75591f855d6",
+      "private_record_sha256": "2f0b12b3ac20cf5858e941172ac5ef89884096bb12a48c0b18ab7992f18b13b4",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 38.04,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 68.467,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 63.986000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 210.356,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:6",
+      "input_sha256": "cc48803e4dae5d0c980350de888b5513446defc6458622283ba43aed17427c77",
+      "private_record_sha256": "b9baa2a1b58c245da00f1e6593b41320918ef9e086c8d2501ab04fc091186636",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 15.51,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 43.766,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 35.36,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 214.243,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:7",
+      "input_sha256": "7f9fead65688514b181d9e9282ced44c2e1b6916bc1e21d7806ec4f29f1865a2",
+      "private_record_sha256": "4d23c727ed793163d85bef5ada3e067a1fc8cfe4d68cad5925df3f614c52f1c7",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 31.962,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 57.934,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 50.78,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 216.129,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:8",
+      "input_sha256": "6eaf4f773a41c333aac96165e15212b5f6c4e0a55f914484c9848bfa8f07514a",
+      "private_record_sha256": "064fcc7680a57f748af0c4abd8eb633c9aa3782fe4100dcf1d5127e12ac41c20",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 16.94,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 32.918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 30.639000000000003,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 210.375,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:9",
+      "input_sha256": "b428a5867f02f89866b772ae6e2f6f2260f1efff86abfec5a0877b193a3de21c",
+      "private_record_sha256": "c893077a4b024661069524cd3a9b36863b35501f9f823a0e346764f04426dfa6",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 16.162,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 28.691,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 30.156,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.93,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:10",
+      "input_sha256": "50986f368cb5c37bdabbfab828845484b387b20027aff052d628f98d322fdc8f",
+      "private_record_sha256": "07cbb25a4a8e19eee9c7879029791bfb6595462a5b2928c65fa1a547f9601cf2",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 47.26,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 118.81299999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 95.049,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 174.149,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:11",
+      "input_sha256": "add01c020e9ae61df74682314582279f52ba5effdc7cb8c5faefc5de14275e2b",
+      "private_record_sha256": "762df2a70443a067732bae501f26be1afb83a5b18f371f2050e07ae60700fb84",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 98.771,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 145.226,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 120.024,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 225.187,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:12",
+      "input_sha256": "b88cb13a46170c792ef20678c6bd241c8a16925f190bf3a91d5431b420e2d28d",
+      "private_record_sha256": "cb5c348ab81c26a31438ca99a9b427a4476d75081984e3361a2681626118dc92",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 15.752,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 35.452,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 38.999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 201.535,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:13",
+      "input_sha256": "8cd6f93e41de2b570a4e7b91dbeb3692be3b64a39811d25e8e19fd6312c871fd",
+      "private_record_sha256": "e928074a694a03d7276d81853998bd32279cc6e8640276b5f2dd34f76953e5ae",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 77.408,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 163.324,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 99.59100000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 198.703,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:14",
+      "input_sha256": "351ad43914572552189630e023285a259ed15ac78da2ca596b0fa356e070cd89",
+      "private_record_sha256": "f123b7debe5641f9537e7cb40d9126d16113677781a737a01ccac80fd1e341da",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 15.988,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 31.152,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 33.302,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.453,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:15",
+      "input_sha256": "2f2cd0614580041e8e1788084f0933ba1af63a659238489ec4d4dc0d44a06154",
+      "private_record_sha256": "d3fff74fbd0817b504b526fbc37b2b2b3f1a3f4b575a9b381be59e6787c903e6",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 27.524,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 45.043,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 53.875,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 214.469,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:16",
+      "input_sha256": "fe17e9b6bfd121c09495f4c9240a7ccc7bf2b57ea09d30ad5ff78b84fa8f386d",
+      "private_record_sha256": "fab1550fcc70b9f6ee388e5dc5ec00d6919f98a6dabf5e17a4f748c594986e08",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 32.517,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 88.63300000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 53.477000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 167.557,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:17",
+      "input_sha256": "8a3bf1d3b84baabda35c7abd6619a84197852c240032b016b1b031e5133b9bf0",
+      "private_record_sha256": "23533ccf7f646d5b185bff5815d311b973fa4c83868500ebf553ca8bf7ffdfd4",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 55.56,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 100.104,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 80.658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 228.875,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:18",
+      "input_sha256": "7fbb9408bf4fd7197b1cd2ca701c01be40c53487f60855decaf14e8d69df6c3c",
+      "private_record_sha256": "f28526c1b7fe4c08dbe31f335b8e3d8ab9ca860e2f187a2d269592595eb9ce2b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 19.042,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 37.195,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 38.24,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 207.949,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:19",
+      "input_sha256": "1902ab97501ab0d92c87405d8ade3060d2503788fce940ace7dbcdbfa80fa6cf",
+      "private_record_sha256": "63b0fdf95c00880217c74f2229afa08edfb9e968119b2be7b233cc392b61b6f5",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 40.663,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 71.985,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 70.723,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 233.144,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:20",
+      "input_sha256": "c2d3a8fffd16d7b3ad1bf9ef71368d0d6b84d3272952915fb6b21e3a9960c2dc",
+      "private_record_sha256": "9c0ebfd557826e30a78c72bce3c8670bdef7b5d323f6fbea00aaf390d69a5eb6",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.915,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 48.352999999999994,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 45.071,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 208.49,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:21",
+      "input_sha256": "ae57c428e9566460a4d0c3c0d46a2bafd9dd91a9a695205258c59707dec5b6a0",
+      "private_record_sha256": "76d0797c5fc02bc57ff91e23a930200cb41b2e8c35535abeab51b97853291626",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 24.78,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 45.002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 42.96,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 208.0,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:22",
+      "input_sha256": "dfbe544fce9de2634d580da6b73ffd5ccbe46e438ddc83d87e1ca9ac5af85905",
+      "private_record_sha256": "8773290364f46e2fefd9b98db367c8d6216a8a944df8c61962f28cea2b9bd603",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 15.643,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 32.499,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 37.527,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 183.625,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:23",
+      "input_sha256": "aa26a36ab62d7758efdadc50883410ab21ffb6f8b94039ecf0014e93ba34db9e",
+      "private_record_sha256": "3fc6373284cd147edc26aa8a4bad0ad4d347bd93fcfebca6052244d1bc5238e3",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 30.772,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 56.044,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 48.31999999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 211.239,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:24",
+      "input_sha256": "e041f52b1ee9329fb5c1f9c884dad749b2a41add772c417af0975651d33f7eca",
+      "private_record_sha256": "a22fae9a86544121cbb148f8613123043ac0c483938e92869bc98bbef1244cb4",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 35.9,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 67.722,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 62.605,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 189.201,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:25",
+      "input_sha256": "3dc4c6b5e401a05eb9a11da709f31601e04effc7e51f2d3463256ac28a94d260",
+      "private_record_sha256": "5df20a8b304f1c3352c082c2489ad81341b9fe266462bb5793fd9fa3f9578866",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.149,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 39.706,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 40.85,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 211.432,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:26",
+      "input_sha256": "047d96ff360c0e9a721b54bbd6e46b43c8f0606ca324a00fdb46d006dc41519a",
+      "private_record_sha256": "f6d8b70f8028140d8866cebf1400771c3b59cce0d1c14e8ddfe8f00a6a998eca",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.594,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 40.57,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 45.809,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 215.924,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:27",
+      "input_sha256": "95034d36d00ed3951d988cecd642b48eaabeb59de7e88732f4672bc52ac372f7",
+      "private_record_sha256": "1e5a44e3b0dc614248e3c9d7e77b5267e06af0fb2a2dfa95e7519fef80d955f0",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 31.882,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 54.884,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 51.816,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.298,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:28",
+      "input_sha256": "4c52a3c33ce0a2e67ed360b1000cd3538a834b95f8e94e422b7c65c915fc509f",
+      "private_record_sha256": "31e8a9ca849077108bc4eb5689483dba5395810909c7b647f63cb00fe8ab674e",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 192.953,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 410.12800000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 259.493,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 221.848,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:29",
+      "input_sha256": "8563aef107e139510f9341ba2b9caf7927ccffeb09797cbb49a105ff01d02b7b",
+      "private_record_sha256": "112dd01c67910318026581189be83ad98435dc4e23a6e12a756e219bd2f02572",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.696,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 37.501000000000005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 37.077,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 196.911,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:30",
+      "input_sha256": "08663fbf34071006d41c6cabf2d52a4b788f0bdd01e893e049ab62fccdc24aee",
+      "private_record_sha256": "ca94ab975dc3cb6c0739f599aa6ee1e25b02c5a70c30dd3085e307cb185374cf",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 38.943,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 81.36699999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 68.29599999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 195.255,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:31",
+      "input_sha256": "18a1e8339a43bd9f8c4cd8682109a911be2f8f6c467d339116320ccb31d41dcb",
+      "private_record_sha256": "3787c81fc5113185dee4e30b9b6b5d6f603772166a2def9104811cfb66fca10b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 31.271,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 61.370000000000005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 57.253,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 183.62,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:32",
+      "input_sha256": "05e12fd95cd65d01b6d95d8806d1d4b45be43a2f190529cf0132d0fbb8d3218f",
+      "private_record_sha256": "ec906f1a0b5d4f0e872b379d005b3d5c4fd6fc1c2b132524b4dc2706eb510131",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 53.414,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 109.018,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 88.382,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 212.926,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:33",
+      "input_sha256": "e20d3dd6562288a7c22c6a41652045931435c4576016b59d327bbad2f0f3c59e",
+      "private_record_sha256": "c92ef2f9aceeb4307cb80077f9d3b964539f3d41ea2c434df52f7b3ee26def20",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 31.09,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 64.813,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 54.781,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 159.305,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:34",
+      "input_sha256": "5c65ba3e0575e79289c5712b802df5f08f5332f003241272a56e1ef561346e85",
+      "private_record_sha256": "40f9d8fd08b638868dfaa6803364dd0ead134e9d9087e1745f18161ecf7e880a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 22.325,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 41.882999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 38.483000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 192.911,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:35",
+      "input_sha256": "1b631c3b46f6ef03e81f24b420b4fa7454c7d4204ae55bb02e867fefea32ec9b",
+      "private_record_sha256": "55a52db4036fccbe5c2f286eaa38708e8e28df76801ac4a5868f876680b3b10d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 41.341,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 79.348,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 70.57300000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 191.855,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:36",
+      "input_sha256": "6d091f84c6d51b8d0e216e01cbce5e90cee0680120501ab19dcc5e5a3232e286",
+      "private_record_sha256": "0cb5f4b865af51cad19f8c0155494f417fdf8084f08d88840a3848983dffd1dd",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 40.363,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 62.665,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 66.609,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 196.958,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:37",
+      "input_sha256": "ff7f1240cac3bc67f5a26c84b57e02b79a75926b49bff5ffee3b1c8ceed32383",
+      "private_record_sha256": "f18b4f70898a652b2d635725baab36e1c98351f4d17470b52b72beb6979e0e9f",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 67.364,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 129.612,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 101.083,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 223.668,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:38",
+      "input_sha256": "e65936e550c408228eebe94aad0054f08769ba0fb5d87aa1c02ae3d96dbda5b0",
+      "private_record_sha256": "f096cd97e375c25fc6d52ae5fc0eea64346e834b4e632eff3add151606899e18",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 13.084,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 35.275999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 29.86,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 182.715,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:39",
+      "input_sha256": "a562cd92e690419c92cc830a1cf87f7abd1dcdf79b3e3c6be1ea4b57a39ee3a1",
+      "private_record_sha256": "2959a90005c7feb4c245d826049a8d23e8b0232abe15ba51575f44a2ed862afd",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 15.002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 29.35,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 30.951999999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 209.658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:40",
+      "input_sha256": "181968ae6e60a68a49427951704b17f100cfb5aab78ba7c4789584a56b52082f",
+      "private_record_sha256": "f75c09a42a690179197e2565e365a7a62aef43cbedddc4a65e46d87393dc4277",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.86,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 36.42,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 39.778,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 183.367,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:41",
+      "input_sha256": "056d2b8de45e396abf6d8d1ef2e69579a267904babd58cdcdab8487a886e4b0d",
+      "private_record_sha256": "4aa5d4d878dcb382d5d1e7e24a6d2ade593863241083deb5b9fb2e53a358788d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 13.056,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 27.418999999999997,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 26.68,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 208.672,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:42",
+      "input_sha256": "91075c2de7a4d60afab3a08acbd4e48080491b0ae1375d1434053ae421a85c05",
+      "private_record_sha256": "38a23f37b922542d7ed956c9d8a3533c83a7e148dfeaf2d68c3b60d70a2da66a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 14.486,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 32.539,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 28.04,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 201.441,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:43",
+      "input_sha256": "95328b7f25fe1c794ab61dbeabc9b0d9394b32761bade94568f7d26bc1625855",
+      "private_record_sha256": "0eac65ff35fac410dde89a536fb42d0e3ff5ee448b16d065bcda5c803374b4a4",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 16.767,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 33.087,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 33.041,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 201.409,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:44",
+      "input_sha256": "c195138b0e7c2d5157b8a570f19132741241508b2c9b739be878f13ec2c4aadf",
+      "private_record_sha256": "0506e99fd5960c65bf8c3bd515b3b76086fad77831a5d1db040448368d25f7a6",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 44.795,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 99.30000000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 74.193,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 216.886,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:45",
+      "input_sha256": "27b384e495e88a03f632952b398659cefab88b0c662afb31e9eab1b3d3e81be8",
+      "private_record_sha256": "75644e459e933d649f8a186e5c7dd65cd91f3bbbe04a24a4f99219e5aa9550d2",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 22.637,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 51.595,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 50.724000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 180.611,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:46",
+      "input_sha256": "baded4c211e16d6139dbb8a0f85e84890d2195a9a24fb47561faec8c19fbd048",
+      "private_record_sha256": "be8dc071eda636395bbc1f335b5cffafc6e429e1fe1085048994fc05c032b75c",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 12.345,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 27.134999999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 50.183,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 171.237,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:47",
+      "input_sha256": "177a994a3b8078fc36d0593b343060f830a6507c80a358c752d9561a5789bdf1",
+      "private_record_sha256": "a2ef87f6d4b890ad63a3d1551530d65a8132e25cecc2941d41e1773d92d43e42",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 16.884,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 30.579,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 38.146,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.778,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:48",
+      "input_sha256": "8011a5bad1826a60bbe166bd22e374aed4cfedff9746b0b9a4b11433717bd328",
+      "private_record_sha256": "954c0484873eaaf18298c7270ed69db13d20b597bf76d4146b5b27df45f498dc",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.763,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 53.608000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 48.189,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 194.493,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:49",
+      "input_sha256": "8d693d725d64e81b2f51eec8afdc79dc3cd719e489c7bd1ea8551eb81f78b936",
+      "private_record_sha256": "b2e928b857cb4817eefa7e8bdbb9b16686917ce736edda3fcd3f3cb0944a1e50",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.642,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 43.479,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 52.153999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 193.761,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:50",
+      "input_sha256": "df31e49596a386ea8a59683c1d99e7b90ae082bf1b8df4344384baff11e3df62",
+      "private_record_sha256": "3ce2e98d074573290d4cdea67d467a3bd7c76202824ad0a7cdec9d1a388d4912",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 22.984,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 53.815,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 60.107,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 173.694,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:51",
+      "input_sha256": "1a4221f520a30a5744dba10beef17dae5271fee4d48680b4da9403e3c71f613e",
+      "private_record_sha256": "08e6bdb8ace404af9ebee9d54b69763f6411a1bd6fc4da3f5b13c497a2f2f925",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 28.32,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 64.021,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 51.177,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 198.564,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:52",
+      "input_sha256": "d093b537c36eca7c447055b152d269f72adc17f8d8eb27c39c29c905b773a710",
+      "private_record_sha256": "9048a03bf8e8c8c247039687e35eb5ad64b8d04bf5eee58146fa387e19c5bdb4",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.138,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 52.30800000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 60.664,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 154.832,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:53",
+      "input_sha256": "574da3e19b7591f95fa8b003e7082f1e0771f8933514aa7d910f655fa1bf0c2d",
+      "private_record_sha256": "dfeb0446d30d1086c10999483ebd10b8615898c79e3319739aabdec774227efb",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 38.919,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 63.158,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 56.387,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 212.785,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:54",
+      "input_sha256": "7c39f1283c6d9260652f77cd6c7f4421d28c375900ea98b2be70d227af8c11f5",
+      "private_record_sha256": "ed965ee22d065ca2788d994491df9cb8395afda2a19ff71d16f5d7558edafc67",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.165,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 39.453,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 34.12,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 204.049,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:55",
+      "input_sha256": "c22d444bf896c778f31a13f1813d71c39e10e4c08f582faea70b322376e0f810",
+      "private_record_sha256": "51e61aae0e6192f7990028fcf8522eec6b5668e552870c0a703bc8742e11fece",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.207,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 52.581,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 42.336,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 205.633,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:56",
+      "input_sha256": "059c53b144416ecb3463043936916006c4f8b663314bcbfe79eece7736787bac",
+      "private_record_sha256": "6e7d6ec101cf454414f18ecf2d50313f4287338733889def31bfdb76240e9b2b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.899,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 43.11,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 39.454,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 217.357,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:57",
+      "input_sha256": "a332f84b9f0751e3d919502c34f6405557b5a8263e27fe5e1b848eca582983ff",
+      "private_record_sha256": "7082fead9a7563d1a7f06c81751a0b86a91d26d568f54b09d709486f6a641071",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 26.366,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 48.144999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 41.759,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.45,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:58",
+      "input_sha256": "9225268666958a5f8189a03329b88b4cc79e60bd8d9bc9195c45fa6fece60b8d",
+      "private_record_sha256": "818f06234caaaae78f65011df183f4f13615456b90c33296389aaada3dc06645",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 13.256,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 27.326999999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 26.826999999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.017,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:59",
+      "input_sha256": "8be497cbf603bc85829998711d33977ed6a234c396ada96052dff0d0a879df14",
+      "private_record_sha256": "49b2f4bdc274fe3c3f79d8e5604740c27d2fd72663f876bc51433293b2c8d13e",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 17.768,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 32.645,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 32.801,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 204.267,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:60",
+      "input_sha256": "885fb95f754e307799bd0d4ccdd2746024d158c1a5ce49122f8aa9f12c07837e",
+      "private_record_sha256": "c84d378398e067443b2900feec277d0670f0d9c4102f1006926c2aaa8251fee3",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 18.791,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 37.591,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 34.284,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 193.328,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:61",
+      "input_sha256": "5e67fba5883bf1a686e425899400ffad8e1218635f1193ca932e1b6a786c2fa7",
+      "private_record_sha256": "b6b7c906245c3551f18cd2604c9f1e3751b49017a076decd7207eaebe8ef1702",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 23.359,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 45.264,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 51.689,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 258.482,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:62",
+      "input_sha256": "3ed6d9a947d38cb35a458e1f2b4dad552d11d039479137dcacd45778e312c6d2",
+      "private_record_sha256": "12de52b96ad13a6556de073128edaca56e5052d51b7ea614bfe2c96e93782c20",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 26.79,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 54.995,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 47.976,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 252.132,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:63",
+      "input_sha256": "e3947c362e882edc9c3c28c40ec4d7d8ba250b16f1c4a0956dc7f3781d9d1446",
+      "private_record_sha256": "79987208abb9d32a028c2161005af31da55cdf85fb4f813776fff10d8daaadca",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 14.962,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 29.082,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 31.919999999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 176.569,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:64",
+      "input_sha256": "67848e5f2f753e2e4def38d89662d1928b4d65d68e2e746dffdcafddda7bfcbf",
+      "private_record_sha256": "f9b5896a6458d288ff60de609601918deabd74bf994ec0ea86eff58a03f54a6b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 24.097,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 47.370000000000005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 39.936,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 214.817,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:65",
+      "input_sha256": "d0251626c87bdd0778215f2db68f08027fd76a86b67357867b3674bd6c054581",
+      "private_record_sha256": "eb5fd942e1d92f7e35dec13fe970c63496029e8c030b313263f2c198ec5cd05d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.271,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 57.887,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 39.099000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.159,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:66",
+      "input_sha256": "16dbcce5908cf7e33b397c1f578106ab42ca4fac3f17d873434e569acd3bf085",
+      "private_record_sha256": "6e55fd8c005d3c6620846f4564877095b34a4daf87611e6b157eafb0e6e03b04",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 14.253,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 27.777,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 28.492,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 217.315,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:67",
+      "input_sha256": "7b68d450d94f137ce3f6967bd8d979be1f31f2a79a941ea33d421255d160db07",
+      "private_record_sha256": "0d3e06bcb4ef50aa7493642e6c225f4cd4c150a20ada1ddde0c9873337119bbe",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 25.347,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 42.969,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 39.101,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 187.019,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:68",
+      "input_sha256": "654d9c90c3c530248b7a8613b5b74bac2a59997e78328e7a2c64d574b44a16c2",
+      "private_record_sha256": "98b4605d81dd1c630deb4cfb6cedb8906f02a5a9e9c1bd9febc2792865e00084",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 14.43,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 29.227,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 30.744,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 213.34,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:69",
+      "input_sha256": "52f96a42af9b9cf4479061ede8629ecd58a5124aca850f2b16595efef1ebc0ca",
+      "private_record_sha256": "bc9aab79441429103864a1a3f61c9d46ad328d9ddf7b7f1aa5539a3ab2dd9109",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.037,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 40.073,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 33.818,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 194.012,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:70",
+      "input_sha256": "be34c38028e464305f619b8bf5a19ffca67ab2e7533a58b558f25007b222dc44",
+      "private_record_sha256": "02a410d0943e83983cf24e89a9bff619071dc0f4ecd80fdcbcb4016cc9a20759",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.359,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 34.037000000000006,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 35.417,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 188.047,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:71",
+      "input_sha256": "9e228b6a913957dbd2ae5a73210e552f394fca84aaf6f46ca3aeab03fa6816e7",
+      "private_record_sha256": "4dbb369de21b003925f53619cc221f6b63b501c4c42d2f6b3b097c52e5493676",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.652,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 41.798,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 33.919,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 207.269,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:72",
+      "input_sha256": "5480d711d9a732728d02b7d21f84a0021c9717fd0be30e2db259d63b75b1c9ba",
+      "private_record_sha256": "2b1add42dbdfbabc7394cd38fa04b357474400dcca2a97617fa3e4f95412c69e",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 20.179,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 49.370999999999995,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 39.875,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 238.105,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:73",
+      "input_sha256": "4fabf2785ec1a0c0a0051f8ee9977fc248cce235caca38699b83e84203cb1770",
+      "private_record_sha256": "02c3954a593116ebfc0093a95c47c16172eab6b707ba57e3914ea949c43e93b5",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 19.984,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 41.47,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 43.510000000000005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.802,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:74",
+      "input_sha256": "0bb73639d49b02c8ca33250e99a7c2e849a31438870ba8ab4a669decce13538f",
+      "private_record_sha256": "4374e841cb74ce48860c309bbd9f0f02f8d44d1ddab169f1ef177a96f3efec4b",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 39.983,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 87.32,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 55.150999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 152.651,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:75",
+      "input_sha256": "6f6a76184645e65f35a63007fcfc7c8dab8f494206be4772d2c9e3627821a149",
+      "private_record_sha256": "55fed4886e5665aeb99d6ac7a7f96c85ed9f03035ab6f968b2165b0837dd566c",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 42.744,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 71.925,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 57.732,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 244.913,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:76",
+      "input_sha256": "5d98ea62d8269a82c5baf689d33b930a641bd49d8a1f344861d14da6a33b4e2c",
+      "private_record_sha256": "04b50be514110ada0ddc1deb38b878247030917d1275a72e7983fee6be5cc5a8",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 16.959,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 61.782,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 69.064,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 162.642,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:77",
+      "input_sha256": "60fef0e692e42f9b82d089c9168ad75efbeb6adf8d737555e11a7dfbd55464de",
+      "private_record_sha256": "ae2918fe93d02e3346672b03ada90b1ba3d0fdbcb1d7ea96e522cdbe21c9feb6",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.342,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 37.461,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 38.244,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 256.055,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:78",
+      "input_sha256": "2cf31887dda6a18e6dc2464bdcba926f14509dd02c0f4af072ff83b432d2482b",
+      "private_record_sha256": "e6b706e98b4cc0d7db2937d161f2a1bc3d474f937d6b234f65d44e45c1670b9d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 23.102,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 44.832,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 72.146,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 201.021,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:79",
+      "input_sha256": "bbefa8761c639d01ff50541bd5f0e3ada8fa046e09efe2c4b77e887044a3f3aa",
+      "private_record_sha256": "91d82e53b91e9d2a038c985e38e4e59fdce8df6892078bf463c35780c856cd9c",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 49.708,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 89.074,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 72.015,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 204.462,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:80",
+      "input_sha256": "d4c39fd8d507bb4f710c581c52fe78d734fb72a135c6235f37a15a1f2b42f74a",
+      "private_record_sha256": "95884017e2d43fb90ea82dd6fedece20b825ae2f83c3e73e497953a2e2dea423",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 54.961,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 108.59899999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 75.642,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 235.097,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:81",
+      "input_sha256": "e477bc777b86efe7f6f511e314e5c5a33a2cd73440a05c4589c6525476426586",
+      "private_record_sha256": "43ea10d363851e3944773c4c6891f76c421a0dd441e7a6f7aa1cb4de7837c652",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 44.029,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 68.393,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 60.69800000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 221.509,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:82",
+      "input_sha256": "0f5698a26b1fcf715e6071ec874e2dcd0d4e7f1626befd454df364c191785574",
+      "private_record_sha256": "4a83075986a778f9f3702659a928755fa2daf4bae3ae811e7ef37b3e46e9ac1b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 29.458,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 62.114,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 55.155,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 197.309,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:83",
+      "input_sha256": "64d0faafad33dc6425e75e375a2e016fce49703486b45d01bd87fec6a8b503fb",
+      "private_record_sha256": "0f88e37837ac8b22d10d023c3b8e4b274f55794e0fb172bf13e04f7007cbe411",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.959,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 50.477000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 46.153999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.259,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:84",
+      "input_sha256": "95cf66ed913d1baf788955c360e2b88f5320e7e0d15dcb51693028a03eb8319f",
+      "private_record_sha256": "59a08148743e3ea1d4651510ab651e82a6f47da65cac566a753112830487127a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 29.958,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 60.558,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 89.39099999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.535,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:85",
+      "input_sha256": "317aa4423fc5cf99e0efccef95231c82708cd4f57539dd493da63eeff2f361b6",
+      "private_record_sha256": "94ca86dba71bdf94b764f914d4a7a8194141b902862aebbf9a4151b71db7fc1d",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.288,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 40.732,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 68.063,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 229.967,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:86",
+      "input_sha256": "4dac2f1943d9a961f4579c7404b3a93c895cd0974dabfae32dd1332e737c19ea",
+      "private_record_sha256": "cce600edd74153d50e1aa63c8fc686bddd4c8b7b0bb05fd8902c6c107ecda38c",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 20.469,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 46.387,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 71.757,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 156.632,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:87",
+      "input_sha256": "79861e5530b86c4ac030206fc7861659bd9df88e5d668028ca5de47acfa3e96d",
+      "private_record_sha256": "d20937d23927c1f21c167e6f24af646c4c6cc8b2fe28e0beb690cf366cdce20c",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 25.966,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 43.916,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 45.786,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 228.1,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:88",
+      "input_sha256": "6f7a4d86179f9082b4218b267738337623839496e2e6364ba9cc69a1145de63f",
+      "private_record_sha256": "cc4cd215d1ce2761501ec74fc60860dd018a2a97a5beaa05618d7917d43473cd",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 19.221,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 37.916,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 36.314,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 176.789,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:89",
+      "input_sha256": "e1b71565d7d84c7d07f7a7cea0d452fd9c8d00cce5752f6e4bad573394d26da1",
+      "private_record_sha256": "b4dfa089cde0729284a74baea2c80cac19a5a662151577108983da303c769f3a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 30.826,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 53.001999999999995,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 53.027,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 221.959,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:90",
+      "input_sha256": "5263ea2f97b957ba137a827c0ff4e86edfd9cb61462ebc5a24a2b63c6b3b4101",
+      "private_record_sha256": "e03cf2c695973e4e3d16bc94c999386617724900e4e550c9fdc2ff3110074aef",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 24.485,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 46.459,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 44.06,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 219.847,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:91",
+      "input_sha256": "1e53f94810d9033e5011e6cea0d77f30fd4648eb967ab78f1189d70770c6b3c2",
+      "private_record_sha256": "1dbcefef1d76bff3dba4c4e2d3e4770bcd06169eece5207cf2fc1e7a443d81e5",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 69.527,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 122.90899999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 118.777,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 201.473,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:92",
+      "input_sha256": "ae5b3786a9c59821f4b2c2588732e549376dffac351ede67e567d1df3bee5545",
+      "private_record_sha256": "22660c6104fd1b0a4c9829509b1ef876099232e5a243be8546460a6abe60ceb1",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 40.854,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 75.695,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 67.59,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.76,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:93",
+      "input_sha256": "a1b959510956e446d6a76aa7044effd5999198d77f179354388445e44465b724",
+      "private_record_sha256": "e6313eedb1c1fcd6a0ead8fd09a4dc4de2e0d0d36c21ed30b41d70e022590130",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 62.432,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 109.132,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 92.84700000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 236.952,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:94",
+      "input_sha256": "d56e132703e4e4ed1abc54da49ec9c35694586b487d0878b11387a6c4cab1a4e",
+      "private_record_sha256": "fc1d0ce49899b8cc142c5bbfa123c3e4d2f3f3a223fa8161a7049ba9f07c5277",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 63.082,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 155.476,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 111.506,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 201.017,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:95",
+      "input_sha256": "d64af6ae0807485c476e58c5fc4ee647f68a7d644bd5e65c8b35bb568cf26fa9",
+      "private_record_sha256": "e1579744bd784e28886c7a12ead13cef9e8ea3f2cc71b73402774b2ae823f59b",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 127.829,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 231.517,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 172.534,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 206.207,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:96",
+      "input_sha256": "cc6764de2d3ebe7b941776d336540e16736b8a9103eab64a4de756562d800952",
+      "private_record_sha256": "fa04558d8a709596f0aebbd104b06edc00f8da1e809f5f32d45afb20de9738d8",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 38.244,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 77.338,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 67.396,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 206.234,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:97",
+      "input_sha256": "b463eb9626c134c317945b26d02e0063367d7a4c1e5f2d24b3c6649f84652dd0",
+      "private_record_sha256": "73c1711ca37d01246fd8da325dc537da90ba9d1ac6889b4d02404412df9144b2",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 25.691,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 67.096,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 53.8,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 193.231,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:98",
+      "input_sha256": "10f246947f04c1949689e2c07c6ca3db146b0980602b78283b913d702e77b281",
+      "private_record_sha256": "56eb803a3be14e59823ce5811f405f8dd41cb2516ed2b3829c24dcd331a464cd",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 26.69,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 61.613,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 81.531,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 186.291,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:99",
+      "input_sha256": "e2bf0ae17dfb255ee10fe9974957e3e591c7ebae885773614c54f9ca66ee0852",
+      "private_record_sha256": "e2f73d4bcfbf4bf5e302ae65987f3d37b0d64e2da80a7b71dc9f1702cfb509c3",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 27.66,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 46.219,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 54.861000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 196.469,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:100",
+      "input_sha256": "6e8b712f06b2fdc7a4b71b9dbd095c033f64fa32a79223b3be70475ab0f3976f",
+      "private_record_sha256": "ca66219ca2f0f69b0db8c22e81086c22b7005dfed4fc0807949919ed70a2097a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 38.302,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 96.453,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 73.089,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 215.381,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:101",
+      "input_sha256": "524b55a4b1a244517b1f84a4d571fa5a1051657bd29c0bbe4232c62545aab248",
+      "private_record_sha256": "909c41221f71e4010094a49861e51ec067010d47e0343b3282bc1093786ccff5",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 19.343,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 39.351,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 42.007000000000005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 162.251,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:102",
+      "input_sha256": "01e555c92ee8ed88a38d5c0ad6bd305b4ec59a41cd769544bdacdab588fac77f",
+      "private_record_sha256": "c814862c656df5ad0e65636b9ec729019736d7b762499612332e0c2e7f863167",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 46.96,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 76.932,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 71.437,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 227.865,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:103",
+      "input_sha256": "c15748d25c4d77bbab08d94c8f52e2400a9417870d6924e3e2c6fa069c58d7ff",
+      "private_record_sha256": "bc12654215644f027aa53b32b9a8ee78f94df8cd6adf7a9bdc1251e443b4b27a",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 23.811,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 48.652,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 48.855000000000004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 213.584,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:104",
+      "input_sha256": "28228bdd158b985757a3f865232c69db19c97950c63ff4829ba7f2e040bbd43c",
+      "private_record_sha256": "57e7d660b8b13be8363c613355fd7c0948671d68d812316413129282e8bf6484",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 30.031,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 58.765,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 57.997,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 199.295,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:105",
+      "input_sha256": "70479f8847887f914a1cae0cba967112192d4dc52cfa831873d878002065e7aa",
+      "private_record_sha256": "1ee5fa910ea1adb4cfbb8d4737b52ca588e897085cb94d31f381dc924a4eadea",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 18.674,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 38.673,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 32.542,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 194.945,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:106",
+      "input_sha256": "4b78bac7c8fd90518c5b904610d50a13e2be58f9a475be8d5b63856ee1c31fe3",
+      "private_record_sha256": "ecbabccbb0e1d346f3c4131e407a7b4d934dd4927d394de009bfd5bf425df0d8",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 43.037,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 70.071,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 67.176,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 238.91,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:107",
+      "input_sha256": "3f5d82ca3cad0c959279985b3268cd35ee0ecd7024d41e19b111cb032f57b88d",
+      "private_record_sha256": "cb46d0070769a737d21ee0603aef4b563ee812570f077f0a874b310f2f929116",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 27.231,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 67.607,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 64.658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 188.984,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:108",
+      "input_sha256": "af6f554948202ab11fc877645373c823a9f70912451193331e9f600abc643bbf",
+      "private_record_sha256": "4e0b93ecafe7a4b5bfaa805c43cbc6bcadbbd09c7a885d06c909e9eddfa72f47",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 58.037,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 117.446,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 78.965,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 209.342,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:109",
+      "input_sha256": "26c1d5a16e16d065c65e700f741169b55eb0b42d735a12e024cb9bb4de436334",
+      "private_record_sha256": "808580b0c8c79db852c1a3619cc1e5c200716e532b3ecfb6b88c903340f15728",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 52.222,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 104.328,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 81.048,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 234.999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:110",
+      "input_sha256": "454504ecfcc3845bb71265946ef5100d32fd590dd7711380b82d7169abdbb54c",
+      "private_record_sha256": "82b748163652d5cacfe9960a151225fc33601a1560d2525e963bc5bf228ee185",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 39.9,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 69.73599999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 59.564,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 214.748,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:111",
+      "input_sha256": "e99eaf2e1ef7ca3a48ba49e8ec85224e0194f68a950eff55fce712ad04bef1d0",
+      "private_record_sha256": "bebcd800419cc0f6937bfbac4e26ecc64abc05410fb477cf964d665084abfc04",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 30.865,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 54.400999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 52.688,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 188.826,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:112",
+      "input_sha256": "fd9efabbecb1c0ea885920088e65a92d031af3bb9a4c080ac8f3492a584fff0d",
+      "private_record_sha256": "145258d20f91f87b58dffd0207164ea11b722a2801055a0c9d37d0cf3bc0e2c1",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 58.338,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 121.818,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 87.504,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 220.671,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:113",
+      "input_sha256": "5c4ab9735d9fd383435b4035d5e884c2fe9dd36e15b5e0c441a02e34e4b34df2",
+      "private_record_sha256": "18c1318561877b18050e7567a47cb20f10602c31a9602530752428f21d9c3014",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 59.669,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 125.22,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 84.383,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 210.436,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:114",
+      "input_sha256": "e9f807671c54c7d7b9da41b278da8de1a59fc0d210aba2c4c2e71f8609e82065",
+      "private_record_sha256": "188001054e7d3b786bc0d31c4eb49d7f19ceeb107b5b6ac923bcd87bc1e34512",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 48.835,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 89.41,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 76.22800000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 206.282,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:115",
+      "input_sha256": "82f4ebd163583c550afd8c209ec8ecd430bb5a81e0076512c0dbc6106e8c57e2",
+      "private_record_sha256": "d735057f598addad7dcce99f790410f4bd188e552195c860a8aa1c5f05b537ef",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 38.385,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 76.467,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 62.028,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 204.447,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:116",
+      "input_sha256": "7ae86e7807b0896cc667a2c26c151504c465741ea5bd339882412b5a0db00f91",
+      "private_record_sha256": "19126f52b79abfccb61d1dbf289a15eb89e1355a2450233ccb15881e05ea86b7",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 70.064,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 137.932,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 111.72899999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 216.126,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:117",
+      "input_sha256": "732469b986f17a491b7823e657f6e4404f122abb1ebb299022e985a424081fe0",
+      "private_record_sha256": "c62405d25686febe0112d14b9ee2af4a4b393e1986ac203b96dca49a57a9d2ad",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 67.764,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 122.90199999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 95.149,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 2,
+          "wall_ms": 218.067,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:118",
+      "input_sha256": "c4041dcca49391ea048532481aecd15caf16e43e1fd0bb9a312611a3c5f69a10",
+      "private_record_sha256": "5cc49c112945b112830bd788eba950ae292df34f56cde787ce76b245a3cf8308",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 37.77,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 69.643,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 65.83500000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.843,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:119",
+      "input_sha256": "f343a5ef38c56db3f4241150f75543d2ec0c00b913cd266b8092540963c83bf2",
+      "private_record_sha256": "c4da43d81c8a9086ba491a1da461f9796601188549db65425144ccd89efd7796",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 148.291,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 311.48900000000003,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 177.511,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 227.456,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:120",
+      "input_sha256": "023ea202a04fca8ba5d0dadcf480076fc814652b21b94e7d2f926fb8e557a908",
+      "private_record_sha256": "ab43dc18ba5c65f7593d5737238da486cc1086079d7fadfc575080206a2356de",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 52.675,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 110.116,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 109.126,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 207.366,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:121",
+      "input_sha256": "9681a24140434423883b924d8bc74e2b92d1047080cfe399939d709cf7f3ae1c",
+      "private_record_sha256": "8c26c4b4cdc8ee261e566412833fe9859b3505f71388709535f4ed40b06df8f9",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 61.256,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 112.637,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 87.10300000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.378,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:122",
+      "input_sha256": "0ee55c9a10555f9b8a3de6f9503acf70eb280a1dc3ee2a61d1b0289b5d59c4c5",
+      "private_record_sha256": "6078c3edbef8b24b05cbf73aed49d07cecf9d499533d14cfc49f9f7371e2399b",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 116.414,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 272.62,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 137.844,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 194.375,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:123",
+      "input_sha256": "633568c391aa9135af393ad72176e78cf41730eef09ce6a747f08149cfe91e7f",
+      "private_record_sha256": "73803718e6705610fe3189e72f602e84a04982e9cf4945104f7f9ac1fd53d0c9",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 33.483,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 64.987,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 69.314,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.348,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:124",
+      "input_sha256": "992c89944b369641e9c8eec792a6c07c495c9ef98a0a43e6834ff6cd5c28b4e6",
+      "private_record_sha256": "a2edad5d4ea88b14719eb12601b0252243c516aea647fa6886f976dfd0ee7cf0",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 59.682,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 96.50800000000001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 77.529,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 207.52,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:125",
+      "input_sha256": "b49c9b4a76266625d9ca214930014f39de6bddcaf1fb08c47c933a5fe80dae6a",
+      "private_record_sha256": "76510f56689bea34f9a35cc39249b11e7b6ccd0b13b593dc992bc2480fe515dc",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.792,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 45.173,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 34.271,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 219.167,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:126",
+      "input_sha256": "607b4bb8eb75037d3406749ed584c312f8b769bf08604625dd5e588746212b64",
+      "private_record_sha256": "c6b05e80fa890dfeed8f34e802f156656aaedb97ada3b06d85e83953bfbd1b64",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 15.626,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 28.929000000000002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 29.301000000000002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 208.605,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:127",
+      "input_sha256": "be3daef16d9365ae490d078503fba3bb47948ff911ea75ea8534c5262a1d71cf",
+      "private_record_sha256": "aed02cc0fedf7afbf21628c7416b49c35f04b1a9669107813fa03fd01b1a97c5",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.948,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 39.147999999999996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 45.343,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 171.263,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:128",
+      "input_sha256": "31fc6ce99207376703e8e73e2bcb69abb8155eff25d1977f2b7770ab71ffd5e1",
+      "private_record_sha256": "a632192644c8651c8bb69fc29e619cb41b15de0098941d6b95f04d2419063cbe",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 24.747,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 41.334,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 42.351,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 202.271,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:129",
+      "input_sha256": "5a469ba36c58434fd996c19bbd6ea1efcfffdbff9778fe7ee7f8ba68e2237573",
+      "private_record_sha256": "a66eb06b95e03eaea4c13607e72938a45383905a926031badcbdd031fa1db123",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 16.617,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 32.67,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 32.334,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 203.859,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:130",
+      "input_sha256": "b876445309da3777209da53de3bb414dd14346a43da374a2029a26e99564c168",
+      "private_record_sha256": "d2f737bdb220eaf31e7f6bd0d720094c8dcee805c3dfed9a791980ea957f0d19",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 18.609,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 35.709,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 35.419,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 204.73,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:131",
+      "input_sha256": "20399baa0ecc9ee0681deb0bcff0c2b8e9944118e23cb057897cdb387e05cdd7",
+      "private_record_sha256": "3ad5d29f777905e3f01e1048f81bf29b1b3d819d24ccfc5ec03251f8f1ddec83",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 13.227,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 26.989,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 26.396,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 1,
+          "wall_ms": 205.255,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:132",
+      "input_sha256": "61b026cd2d79b9b585d09febc03984ef9273076c6ac0e28173aecc86e07969a5",
+      "private_record_sha256": "2e928ae8a7f219b7cbea7a001caac52f2d83c98a0159e1d0e2a33f4e46a5c337",
+      "variants": {
+        "native": {
+          "decode_count": 1,
+          "wall_ms": 21.523,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 1,
+          "wall_ms": 39.327,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 1,
+          "wall_ms": 38.027,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 5,
+          "wall_ms": 203.989,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:133",
+      "input_sha256": "6d778454e960d34bfbc90bdc453a36bcd0f6dd1ed9631d310b6eb781e0701151",
+      "private_record_sha256": "342d3ae14faa1d86142815ad9931164de339f0c456dcc558215a5a6c3366ec22",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 13.483,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 26.395000000000003,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 26.981,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 208.188,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:134",
+      "input_sha256": "697db9a87f08dce446d6fdae0bd15c81b5bc832b61335cc6921ad73af8496ff3",
+      "private_record_sha256": "21e1c25a3f9e3dadd144a23aa2dc9ca4949afa4bd89bb86f9a4a2eda744f6970",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 72.673,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 140.46699999999998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 96.023,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 227.973,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:135",
+      "input_sha256": "9fc551a77c5068b2a92caa6f8ae22b6fed25699cce3d931dbf0ca1de42b1e5a0",
+      "private_record_sha256": "bbd017ab1076132c8d74824d5615513948cb55e2654e46295bb4da8dfab69f0f",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 80.13,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 155.89,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 120.61699999999999,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 254.996,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:136",
+      "input_sha256": "e6c1e4842db01b4ae59fac898ff5fe7931296a6c7dbfc0076c5170dba44e30aa",
+      "private_record_sha256": "2954b7f1732409f6b1320bd1bf2030c5163c386e1daa54b7c113fbbbaccbfc65",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 84.714,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 143.403,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 109.821,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 221.949,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:137",
+      "input_sha256": "a85822f058128c9de4d8824ced2ac492827fcb2babbcccf8b30281ce637e24f7",
+      "private_record_sha256": "7d4f8f79631d70d6c9455fd6311dca2d25579199f57143b3f55849167829d152",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 115.31,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 307.445,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 157.887,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 223.778,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:138",
+      "input_sha256": "7e9fec4a8b99d89569257f60dc18f103076e974b9b45bed3fa0093a91362a59e",
+      "private_record_sha256": "ac96ca049302004d94239c4c29e6259ed3f6c72585d13b5e1b5b858e10234a3a",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 107.529,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 221.79500000000002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 142.053,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 230.994,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:139",
+      "input_sha256": "629eea59a0a3f2889ba560a9a6164fa3a4286a1a62f55ff6b5c80fa791dae780",
+      "private_record_sha256": "e9e750680f7cf54667c1f28dc7d7d103ee865f1780715561f20e57cdc37f9874",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 123.772,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 259.26300000000003,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 161.16,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 247.689,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:140",
+      "input_sha256": "45e197ec97eef6997028e969e9bd35fdf84727ffa67168683dd05f7da78e42f1",
+      "private_record_sha256": "bb873aacf4f2729c8d5ca4ba4ba0a6d136778190579ede3d93bb7de84355a52b",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 102.31,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 195.126,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 159.472,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 238.088,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:142",
+      "input_sha256": "ab6ccfd25dda9dfa4ddb97afeab1895916090879b06c8abd0a888ae3c986b049",
+      "private_record_sha256": "1a11639f8dbc562efe3485d01a67e7884cbfdece67564fc32d33e85b54578be7",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 97.148,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 200.565,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 129.017,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 238.042,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "barcode_public_dev:143",
+      "input_sha256": "3e658fbe6242c99b6aeb6b57c724735058fbcc74776bb5c819c67241bb73530f",
+      "private_record_sha256": "46491a0f58da373af53141927459b9d3676ecea9b840a216e2628310c9484364",
+      "variants": {
+        "native": {
+          "decode_count": 0,
+          "wall_ms": 71.012,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_cw90": {
+          "decode_count": 0,
+          "wall_ms": 197.191,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "native_plus_half": {
+          "decode_count": 0,
+          "wall_ms": 119.881,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "zxingcpp": {
+          "decode_count": 0,
+          "wall_ms": 231.49,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    }
+  ]
+}

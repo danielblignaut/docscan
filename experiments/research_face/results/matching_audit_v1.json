@@ -1,0 +1,42 @@
+{
+  "report_sha256": "6ff6c4c38542072a1cc84957e5b75b3e6b28e6b548cc2d49c3dd67e70d031ead",
+  "audit_sha256": "d3ad08c90ded5cd07da42e9470efda44f0667c37abf16a3edda6449fd33b3161",
+  "status": "passed",
+  "identities": 102,
+  "original_source_captures": 204,
+  "document_conditions": 4,
+  "candidates_including_baseline": 2,
+  "scoring_cells_at_two_thresholds": 32,
+  "pairs_per_cell": 2601,
+  "unique_comparisons_per_arm": 20808,
+  "inference_rows_including_reused": 1326,
+  "fresh_native_rows": 918,
+  "reused_corresponding_rows": 408,
+  "gamma_missing_views": {
+    "original/calibration/gamma0.8": 0,
+    "original/calibration/gamma1.2": 0,
+    "document_gray/calibration/gamma0.8": 0,
+    "document_gray/calibration/gamma1.2": 0,
+    "document_small/calibration/gamma0.8": 0,
+    "document_small/calibration/gamma1.2": 0,
+    "document_hard96/calibration/gamma0.8": 3,
+    "document_hard96/calibration/gamma1.2": 2,
+    "original/validation/gamma0.8": 0,
+    "original/validation/gamma1.2": 0,
+    "document_gray/validation/gamma0.8": 0,
+    "document_gray/validation/gamma1.2": 0,
+    "document_small/validation/gamma0.8": 0,
+    "document_small/validation/gamma1.2": 0,
+    "document_hard96/validation/gamma0.8": 3,
+    "document_hard96/validation/gamma1.2": 2
+  },
+  "checks": [
+    "all frozen/native/image/score hashes",
+    "owner-private permissions",
+    "identity-disjoint original split",
+    "native-to-view-to-identity correspondence",
+    "float64 unit normalization and equal aggregation",
+    "every retained pair matrix and all 32 TAR/FAR cells",
+    "original rows remain in denominators"
+  ]
+}

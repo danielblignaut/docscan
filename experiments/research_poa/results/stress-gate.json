@@ -1,0 +1,3335 @@
+{
+  "freeze": {
+    "frozen_at_utc": "2026-10-24T14:20:57.224110+00:00",
+    "files": {
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/stress_gate.py": "eac1ab88131d1f97a12c83af595869de2ed2fde1e93abc3fa4c2bd9bf73ea196",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/candidates.py": "77191df713e8941a350ea72a2a5f1a69b2b74ad70637c57bb7e0e94bae6a6ee9",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/protocol.json": "528e51ac1eaa423a9e863c56c87f3031bc623689e34d917f555a8927ec5c277b",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/candidate-freeze.json": "f7847d9783d7bbda7fabcf27736edee69359fdf0559dcdbf98d1484efe78bffb",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/run.py": "0d8bade61648e312f7b154a06f50cef8f76ddda9707d9d1615524720160c4827",
+      "/tmp/docscan-research-poa-stress-v2/stress_cases.json": "2d6b690bf46e4265403b63aeac3e17a8b37d1f129d3628a60742d0d6a4948165",
+      "/tmp/docscan-research-poa-stress-v2/stress_make_cases.py": "4b1bb9c6514d8485f0f78adbdc0e78738bc22f89c56c3ded568d5855ddc6a3bc",
+      "/tmp/docscan-research-poa-v1/build-source.json": "f91f01a8fc5a9f85684f34bdced8f2e60d371f65fa7d25791674e4dc29a62c04",
+      "/tmp/docscan-research-poa-v1/source/models/poa-tagger.onnx": "f9840fce1896f93dd3a7773c5f1becfd23d2e1d3dbd5e4d0d74e839b7fd45700",
+      "/tmp/docscan-research-poa-v1/target/release/examples/poa_fields": "ee968a1245975f3043872e2bafcbd11d76c7aae47f17704ea7e5967e2413d116"
+    },
+    "count": 71,
+    "groups": {
+      "clean": 6,
+      "issuer_organization": 6,
+      "customer_organization": 6,
+      "quoted_header_transaction_words": 6,
+      "quoted_body_transaction_words": 6,
+      "split_heading": 6,
+      "title_outside_header": 6,
+      "absent_explicit_title": 6,
+      "conflicting_titles": 15,
+      "blank": 1,
+      "unsupported_plain": 3,
+      "unsupported_organization": 2,
+      "unsupported_quoted_header": 1,
+      "unsupported_quoted_body": 1
+    },
+    "classes": {
+      "bank_statement": 8,
+      "municipal_account": 8,
+      "utility_bill": 8,
+      "cellphone_account": 8,
+      "insurance_statement": 8,
+      "lease_agreement": 8,
+      "other": 23
+    },
+    "policy": "Author-defined intent; coequal conflicting titles and unsupported documents are other. No inference used to author probes. Baseline is original native rules type; tagger agreement and Python port parity are audited. C1/C2 imported unchanged. Single-page type only, no voting, no candidate tuning or original rescoring.",
+    "metrics": "Unchanged type_row/summarize exact, recovered/regressed and false-bank accounting. Every row retained; missing native output fails and yields null, not other credit. Report every prediction, class/group totals, confusion matrices, non-type invariants. Separate designed counterexamples, never pooled with previous DEV scores.",
+    "integration_gate": "Any new regression, non-other unsupported/ambiguous outcome, or failure on a supported class blocks integration recommendation. Passing would still not establish real-world/OCR/security generalization."
+  },
+  "error": null,
+  "items": [
+    {
+      "id": "stress_000",
+      "group": "clean",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_001",
+      "group": "issuer_organization",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_002",
+      "group": "customer_organization",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_003",
+      "group": "quoted_header_transaction_words",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_004",
+      "group": "quoted_body_transaction_words",
+      "truth": "bank_statement",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_005",
+      "group": "split_heading",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_006",
+      "group": "title_outside_header",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_007",
+      "group": "absent_explicit_title",
+      "truth": "bank_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_008",
+      "group": "clean",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_009",
+      "group": "issuer_organization",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_010",
+      "group": "customer_organization",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_011",
+      "group": "quoted_header_transaction_words",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_012",
+      "group": "quoted_body_transaction_words",
+      "truth": "municipal_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_013",
+      "group": "split_heading",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_014",
+      "group": "title_outside_header",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_015",
+      "group": "absent_explicit_title",
+      "truth": "municipal_account",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_016",
+      "group": "clean",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_017",
+      "group": "issuer_organization",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_018",
+      "group": "customer_organization",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_019",
+      "group": "quoted_header_transaction_words",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_020",
+      "group": "quoted_body_transaction_words",
+      "truth": "utility_bill",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_021",
+      "group": "split_heading",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_022",
+      "group": "title_outside_header",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_023",
+      "group": "absent_explicit_title",
+      "truth": "utility_bill",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_024",
+      "group": "clean",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_025",
+      "group": "issuer_organization",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_026",
+      "group": "customer_organization",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_027",
+      "group": "quoted_header_transaction_words",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_028",
+      "group": "quoted_body_transaction_words",
+      "truth": "cellphone_account",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_029",
+      "group": "split_heading",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_030",
+      "group": "title_outside_header",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_031",
+      "group": "absent_explicit_title",
+      "truth": "cellphone_account",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_032",
+      "group": "clean",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_033",
+      "group": "issuer_organization",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_034",
+      "group": "customer_organization",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_035",
+      "group": "quoted_header_transaction_words",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_036",
+      "group": "quoted_body_transaction_words",
+      "truth": "insurance_statement",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_037",
+      "group": "split_heading",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_038",
+      "group": "title_outside_header",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_039",
+      "group": "absent_explicit_title",
+      "truth": "insurance_statement",
+      "baseline": "insurance_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "insurance_statement",
+        "explicit_title": "insurance_statement"
+      }
+    },
+    {
+      "id": "stress_040",
+      "group": "clean",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_041",
+      "group": "issuer_organization",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_042",
+      "group": "customer_organization",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_043",
+      "group": "quoted_header_transaction_words",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_044",
+      "group": "quoted_body_transaction_words",
+      "truth": "lease_agreement",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_045",
+      "group": "split_heading",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_046",
+      "group": "title_outside_header",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_047",
+      "group": "absent_explicit_title",
+      "truth": "lease_agreement",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_048",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_049",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_050",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_051",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_052",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_053",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_054",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_055",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "municipal_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "municipal_account",
+        "explicit_title": "municipal_account"
+      }
+    },
+    {
+      "id": "stress_056",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_057",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_058",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "utility_bill",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "utility_bill",
+        "explicit_title": "utility_bill"
+      }
+    },
+    {
+      "id": "stress_059",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_060",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_061",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_062",
+      "group": "conflicting_titles",
+      "truth": "other",
+      "baseline": "lease_agreement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "lease_agreement",
+        "explicit_title": "lease_agreement"
+      }
+    },
+    {
+      "id": "stress_063",
+      "group": "blank",
+      "truth": "other",
+      "baseline": "other",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "other",
+        "explicit_title": "other"
+      }
+    },
+    {
+      "id": "stress_064",
+      "group": "unsupported_plain",
+      "truth": "other",
+      "baseline": "other",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "other",
+        "explicit_title": "other"
+      }
+    },
+    {
+      "id": "stress_065",
+      "group": "unsupported_plain",
+      "truth": "other",
+      "baseline": "other",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "other",
+        "explicit_title": "other"
+      }
+    },
+    {
+      "id": "stress_066",
+      "group": "unsupported_plain",
+      "truth": "other",
+      "baseline": "other",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "other",
+        "explicit_title": "other"
+      }
+    },
+    {
+      "id": "stress_067",
+      "group": "unsupported_organization",
+      "truth": "other",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_068",
+      "group": "unsupported_organization",
+      "truth": "other",
+      "baseline": "cellphone_account",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "cellphone_account",
+        "explicit_title": "cellphone_account"
+      }
+    },
+    {
+      "id": "stress_069",
+      "group": "unsupported_quoted_header",
+      "truth": "other",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    },
+    {
+      "id": "stress_070",
+      "group": "unsupported_quoted_body",
+      "truth": "other",
+      "baseline": "bank_statement",
+      "valid": true,
+      "native_tagger_agrees": true,
+      "port_agrees": true,
+      "predictions": {
+        "header_keywords": "bank_statement",
+        "explicit_title": "bank_statement"
+      }
+    }
+  ],
+  "candidates": {
+    "header_keywords": {
+      "denominator": 71,
+      "baseline_exact": 46,
+      "candidate_exact": 33,
+      "recovered": 5,
+      "regressed": 18,
+      "false_bank_baseline": 5,
+      "false_bank_candidate": 8,
+      "nonbank_denominator": 63,
+      "items": [
+        {
+          "id": "stress_000",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_001",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_002",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_003",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_004",
+          "truth": "bank_statement",
+          "baseline": "utility_bill",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_005",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_006",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_007",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_008",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_009",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_010",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_011",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_012",
+          "truth": "municipal_account",
+          "baseline": "cellphone_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_013",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_014",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_015",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_016",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_017",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_018",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_019",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_020",
+          "truth": "utility_bill",
+          "baseline": "insurance_statement",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_021",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_022",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_023",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_024",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_025",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_026",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_027",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_028",
+          "truth": "cellphone_account",
+          "baseline": "lease_agreement",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_029",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_030",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_031",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_032",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_033",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": true,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_034",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": true,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_035",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": true,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_036",
+          "truth": "insurance_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_037",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_038",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_039",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_040",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_041",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_042",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_043",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": true,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_044",
+          "truth": "lease_agreement",
+          "baseline": "municipal_account",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_045",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_046",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_047",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_048",
+          "truth": "other",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_049",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_050",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_051",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_052",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_053",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_054",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_055",
+          "truth": "other",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_056",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_057",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_058",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_059",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_060",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_061",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_062",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_063",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "blank"
+        },
+        {
+          "id": "stress_064",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_065",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_066",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_067",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_organization"
+        },
+        {
+          "id": "stress_068",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_organization"
+        },
+        {
+          "id": "stress_069",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_quoted_header"
+        },
+        {
+          "id": "stress_070",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_quoted_body"
+        }
+      ],
+      "by_group": {
+        "absent_explicit_title": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "blank": {
+          "denominator": 1,
+          "baseline_exact": 1,
+          "candidate_exact": 1,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 1
+        },
+        "clean": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "conflicting_titles": {
+          "denominator": 15,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 15
+        },
+        "customer_organization": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 6,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 5
+        },
+        "issuer_organization": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 6,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 5
+        },
+        "quoted_body_transaction_words": {
+          "denominator": 6,
+          "baseline_exact": 0,
+          "candidate_exact": 5,
+          "recovered": 5,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 5
+        },
+        "quoted_header_transaction_words": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 6,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 5
+        },
+        "split_heading": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "title_outside_header": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "unsupported_organization": {
+          "denominator": 2,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 2
+        },
+        "unsupported_plain": {
+          "denominator": 3,
+          "baseline_exact": 3,
+          "candidate_exact": 3,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 3
+        },
+        "unsupported_quoted_body": {
+          "denominator": 1,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 1
+        },
+        "unsupported_quoted_header": {
+          "denominator": 1,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 1
+        }
+      },
+      "by_class": {
+        "bank_statement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 5,
+          "recovered": 1,
+          "regressed": 3,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 0
+        },
+        "cellphone_account": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 5,
+          "recovered": 1,
+          "regressed": 3,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "insurance_statement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 4,
+          "recovered": 0,
+          "regressed": 3,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 4,
+          "nonbank_denominator": 8
+        },
+        "lease_agreement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 5,
+          "recovered": 1,
+          "regressed": 3,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "municipal_account": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 5,
+          "recovered": 1,
+          "regressed": 3,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "other": {
+          "denominator": 23,
+          "baseline_exact": 4,
+          "candidate_exact": 4,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 4,
+          "false_bank_candidate": 4,
+          "nonbank_denominator": 23
+        },
+        "utility_bill": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 5,
+          "recovered": 1,
+          "regressed": 3,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        }
+      },
+      "confusion": {
+        "bank_statement->bank_statement": 5,
+        "bank_statement->utility_bill": 3,
+        "municipal_account->municipal_account": 5,
+        "municipal_account->cellphone_account": 3,
+        "utility_bill->utility_bill": 5,
+        "utility_bill->insurance_statement": 3,
+        "cellphone_account->cellphone_account": 5,
+        "cellphone_account->lease_agreement": 3,
+        "insurance_statement->insurance_statement": 4,
+        "insurance_statement->bank_statement": 4,
+        "lease_agreement->lease_agreement": 5,
+        "lease_agreement->municipal_account": 3,
+        "other->municipal_account": 2,
+        "other->utility_bill": 4,
+        "other->cellphone_account": 4,
+        "other->bank_statement": 4,
+        "other->lease_agreement": 5,
+        "other->other": 4
+      }
+    },
+    "explicit_title": {
+      "denominator": 71,
+      "baseline_exact": 46,
+      "candidate_exact": 52,
+      "recovered": 6,
+      "regressed": 0,
+      "false_bank_baseline": 5,
+      "false_bank_candidate": 4,
+      "nonbank_denominator": 63,
+      "items": [
+        {
+          "id": "stress_000",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_001",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_002",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_003",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_004",
+          "truth": "bank_statement",
+          "baseline": "utility_bill",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_005",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_006",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_007",
+          "truth": "bank_statement",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_008",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_009",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_010",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_011",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_012",
+          "truth": "municipal_account",
+          "baseline": "cellphone_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_013",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_014",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_015",
+          "truth": "municipal_account",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_016",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_017",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_018",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_019",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_020",
+          "truth": "utility_bill",
+          "baseline": "insurance_statement",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_021",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_022",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_023",
+          "truth": "utility_bill",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_024",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_025",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_026",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_027",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_028",
+          "truth": "cellphone_account",
+          "baseline": "lease_agreement",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_029",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_030",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_031",
+          "truth": "cellphone_account",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_032",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_033",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_034",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_035",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_036",
+          "truth": "insurance_statement",
+          "baseline": "bank_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_037",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_038",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_039",
+          "truth": "insurance_statement",
+          "baseline": "insurance_statement",
+          "candidate": "insurance_statement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_040",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "clean"
+        },
+        {
+          "id": "stress_041",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "issuer_organization"
+        },
+        {
+          "id": "stress_042",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "customer_organization"
+        },
+        {
+          "id": "stress_043",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_header_transaction_words"
+        },
+        {
+          "id": "stress_044",
+          "truth": "lease_agreement",
+          "baseline": "municipal_account",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "recovered": true,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "quoted_body_transaction_words"
+        },
+        {
+          "id": "stress_045",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "split_heading"
+        },
+        {
+          "id": "stress_046",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "title_outside_header"
+        },
+        {
+          "id": "stress_047",
+          "truth": "lease_agreement",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "absent_explicit_title"
+        },
+        {
+          "id": "stress_048",
+          "truth": "other",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_049",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_050",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_051",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_052",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_053",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_054",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_055",
+          "truth": "other",
+          "baseline": "municipal_account",
+          "candidate": "municipal_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_056",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_057",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_058",
+          "truth": "other",
+          "baseline": "utility_bill",
+          "candidate": "utility_bill",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_059",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_060",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_061",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_062",
+          "truth": "other",
+          "baseline": "lease_agreement",
+          "candidate": "lease_agreement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "conflicting_titles"
+        },
+        {
+          "id": "stress_063",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "blank"
+        },
+        {
+          "id": "stress_064",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_065",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_066",
+          "truth": "other",
+          "baseline": "other",
+          "candidate": "other",
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_plain"
+        },
+        {
+          "id": "stress_067",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_organization"
+        },
+        {
+          "id": "stress_068",
+          "truth": "other",
+          "baseline": "cellphone_account",
+          "candidate": "cellphone_account",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": false,
+          "false_bank_candidate": false,
+          "group": "unsupported_organization"
+        },
+        {
+          "id": "stress_069",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_quoted_header"
+        },
+        {
+          "id": "stress_070",
+          "truth": "other",
+          "baseline": "bank_statement",
+          "candidate": "bank_statement",
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "recovered": false,
+          "regressed": false,
+          "false_bank_baseline": true,
+          "false_bank_candidate": true,
+          "group": "unsupported_quoted_body"
+        }
+      ],
+      "by_group": {
+        "absent_explicit_title": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "blank": {
+          "denominator": 1,
+          "baseline_exact": 1,
+          "candidate_exact": 1,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 1
+        },
+        "clean": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "conflicting_titles": {
+          "denominator": 15,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 15
+        },
+        "customer_organization": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "issuer_organization": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "quoted_body_transaction_words": {
+          "denominator": 6,
+          "baseline_exact": 0,
+          "candidate_exact": 6,
+          "recovered": 6,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "quoted_header_transaction_words": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "split_heading": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "title_outside_header": {
+          "denominator": 6,
+          "baseline_exact": 6,
+          "candidate_exact": 6,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 5
+        },
+        "unsupported_organization": {
+          "denominator": 2,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 2
+        },
+        "unsupported_plain": {
+          "denominator": 3,
+          "baseline_exact": 3,
+          "candidate_exact": 3,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 3
+        },
+        "unsupported_quoted_body": {
+          "denominator": 1,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 1
+        },
+        "unsupported_quoted_header": {
+          "denominator": 1,
+          "baseline_exact": 0,
+          "candidate_exact": 0,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 1,
+          "nonbank_denominator": 1
+        }
+      },
+      "by_class": {
+        "bank_statement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 0
+        },
+        "cellphone_account": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "insurance_statement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 1,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "lease_agreement": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "municipal_account": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        },
+        "other": {
+          "denominator": 23,
+          "baseline_exact": 4,
+          "candidate_exact": 4,
+          "recovered": 0,
+          "regressed": 0,
+          "false_bank_baseline": 4,
+          "false_bank_candidate": 4,
+          "nonbank_denominator": 23
+        },
+        "utility_bill": {
+          "denominator": 8,
+          "baseline_exact": 7,
+          "candidate_exact": 8,
+          "recovered": 1,
+          "regressed": 0,
+          "false_bank_baseline": 0,
+          "false_bank_candidate": 0,
+          "nonbank_denominator": 8
+        }
+      },
+      "confusion": {
+        "bank_statement->bank_statement": 8,
+        "municipal_account->municipal_account": 8,
+        "utility_bill->utility_bill": 8,
+        "cellphone_account->cellphone_account": 8,
+        "insurance_statement->insurance_statement": 8,
+        "lease_agreement->lease_agreement": 8,
+        "other->municipal_account": 2,
+        "other->utility_bill": 4,
+        "other->cellphone_account": 4,
+        "other->bank_statement": 4,
+        "other->lease_agreement": 5,
+        "other->other": 4
+      }
+    }
+  },
+  "baseline_confusion": {
+    "bank_statement->bank_statement": 7,
+    "bank_statement->utility_bill": 1,
+    "municipal_account->municipal_account": 7,
+    "municipal_account->cellphone_account": 1,
+    "utility_bill->utility_bill": 7,
+    "utility_bill->insurance_statement": 1,
+    "cellphone_account->cellphone_account": 7,
+    "cellphone_account->lease_agreement": 1,
+    "insurance_statement->insurance_statement": 7,
+    "insurance_statement->bank_statement": 1,
+    "lease_agreement->lease_agreement": 7,
+    "lease_agreement->municipal_account": 1,
+    "other->municipal_account": 2,
+    "other->utility_bill": 4,
+    "other->cellphone_account": 4,
+    "other->bank_statement": 4,
+    "other->lease_agreement": 5,
+    "other->other": 4
+  },
+  "audit": {
+    "valid": 71,
+    "port_agrees": 71,
+    "native_tagger_agrees": 71,
+    "denominator": 71,
+    "non_type_invariants_equal": 142,
+    "non_type_invariants_checked": 142
+  },
+  "completed_at_utc": "2026-10-24T14:21:11.697670+00:00"
+}

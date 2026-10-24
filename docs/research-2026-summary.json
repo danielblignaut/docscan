@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-24",
+  "baseline_commit": "dd96ed0",
+  "arxiv_papers_cited": 49,
+  "arxiv_ids": [
+    "1801.01949",
+    "1804.07573",
+    "1807.05786",
+    "1910.04107",
+    "1911.05189",
+    "2012.12643",
+    "2103.06627",
+    "2106.09987",
+    "2109.09416",
+    "2202.06934",
+    "2204.00964",
+    "2208.05401",
+    "2307.01838",
+    "2404.06483",
+    "2405.04408",
+    "2405.06701",
+    "2408.09869",
+    "2410.01160",
+    "2411.00576",
+    "2411.15100",
+    "2411.15858",
+    "2412.02592",
+    "2412.12032",
+    "2501.03619",
+    "2502.02501",
+    "2503.11576",
+    "2503.22984",
+    "2504.14238",
+    "2504.19646",
+    "2505.21975",
+    "2506.10361",
+    "2506.20312",
+    "2507.15000",
+    "2508.06988",
+    "2601.04426",
+    "2601.05741",
+    "2604.09018",
+    "2604.09127",
+    "2605.03903",
+    "2606.01156",
+    "2606.05126",
+    "2606.13108",
+    "2606.23344",
+    "2607.01018",
+    "2608.01792",
+    "2608.23923",
+    "2609.03181",
+    "2609.15503",
+    "2609.20064"
+  ],
+  "production_changes": false,
+  "trained_weights": false,
+  "test_or_reserved_access": false,
+  "ocr": {
+    "baseline": {
+      "bank": {
+        "truth_tokens": 2639,
+        "predicted_tokens": 2576,
+        "matched_tokens": 2497,
+        "items": 10,
+        "exact": 1,
+        "token_recall": 0.9461917392951875,
+        "token_precision": 0.969332298136646
+      },
+      "invoice": {
+        "truth_tokens": 3196,
+        "predicted_tokens": 2986,
+        "matched_tokens": 2792,
+        "items": 560,
+        "exact": 392,
+        "token_recall": 0.8735919899874843,
+        "token_precision": 0.9350301406563966
+      },
+      "failed_pages": 0
+    },
+    "candidate": {
+      "bank": {
+        "truth_tokens": 2639,
+        "predicted_tokens": 2587,
+        "matched_tokens": 2529,
+        "items": 10,
+        "exact": 1,
+        "token_recall": 0.9583175445244411,
+        "token_precision": 0.9775802087359876
+      },
+      "invoice": {
+        "truth_tokens": 3196,
+        "predicted_tokens": 3091,
+        "matched_tokens": 2940,
+        "items": 560,
+        "exact": 428,
+        "token_recall": 0.9198998748435544,
+        "token_precision": 0.9511484956324814
+      },
+      "failed_pages": 0
+    },
+    "model_bytes": {
+      "baseline": 6243229,
+      "candidate": 22939968
+    }
+  },
+  "id": {
+    "positive_frames": 12,
+    "all_frames": 18,
+    "correct": [
+      1,
+      4
+    ],
+    "wrong": [
+      2,
+      1
+    ],
+    "decision": "integration lead, not ready for production"
+  },
+  "barcode": {
+    "public_codes": 262,
+    "public_recovered": [
+      214,
+      217
+    ],
+    "synthetic_codes": 818,
+    "synthetic_recovered": [
+      624,
+      629
+    ],
+    "public_false_frames": [
+      5,
+      5
+    ],
+    "public_frames": 277,
+    "synthetic_false_frames": [
+      1,
+      1
+    ],
+    "synthetic_frames": 300
+  },
+  "poa": {
+    "initial_type_correct": [
+      142,
+      185
+    ],
+    "initial_captures": 200,
+    "stress_correct": [
+      46,
+      33
+    ],
+    "stress_cases": 71,
+    "stress_new_regressions": 18,
+    "unsupported_wrong": 19,
+    "unsupported_cases": 23,
+    "rawblock_complete_dev": 0,
+    "rawblock_dev": 50,
+    "decision": "do not integrate"
+  },
+  "face_matching": {
+    "hard96_genuine": [
+      7,
+      8
+    ],
+    "genuine_pairs": 51,
+    "hard96_impostor": [
+      0,
+      0
+    ],
+    "impostor_pairs": 2550,
+    "other_point_false_accepts": [
+      5,
+      6
+    ],
+    "decision": "mixed and too small for production promotion"
+  },
+  "liveness": {
+    "attack_clips": 5,
+    "sampled_frames": 765,
+    "crossings": [
+      0,
+      0
+    ],
+    "bona_fide_challenge_trials": 0,
+    "decision": "no supported gain; temporal rules raised attack margins"
+  }
+}

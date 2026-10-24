@@ -1,0 +1,37 @@
+{
+  "protocol": "matching-london-photometric-v1-dev-only",
+  "hypothesis": "Uniform normalized aggregation of three modest fixed photometric views of the document portrait may improve matching under print degradation without increasing false accepts at unchanged thresholds. This is our hypothesis, not a reproduction of FIQA or QA-GMP.",
+  "prior_knowledge": "Historical original, gray384 and gray192 production-pair TAR was 51/51 in each split; no gamma or hard96 matching outcomes have been inspected. No post-result search is permitted.",
+  "source_revision": "fa8b78fda2d659bb74ce62fcd99c4407551d2a77",
+  "source_manifest_sha256": "d9ccf058c71a47bcdcdc7c379713804e9b7df087e946bfa8c63719ac83c57195",
+  "historical_rows_sha256": "549b27d02eaca02cf3f1da0711d98bd16d1a0c642b63d7d6573d5ece1fca84b1",
+  "identity_split": "Sort 102 complete neutral/smile identities by SHA256(london-dev-v1:<id>); first 51 calibration, next 51 validation. Names retained for correspondence only; neither split fits anything. No TEST.",
+  "conditions": [
+    {"name": "original", "side": null, "grayscale": false, "blur": 0, "contrast": 1, "jpeg_quality": null},
+    {"name": "document_gray", "side": 384, "grayscale": true, "blur": 0.4, "contrast": 1, "jpeg_quality": 65},
+    {"name": "document_small", "side": 192, "grayscale": true, "blur": 0.7, "contrast": 1, "jpeg_quality": 45},
+    {"name": "document_hard96", "side": 96, "grayscale": true, "blur": 0.9, "contrast": 0.4, "jpeg_quality": 25}
+  ],
+  "degradation": "Original RGB decoded source; resize square using Pillow LANCZOS, grayscale then RGB, Gaussian blur, contrast around 127.5 using round-to-even and clip uint8, JPEG encode with Pillow defaults and specified quality. Reproduce and byte-verify existing gray384/gray192 artifacts before reuse. No additional upscaling before native detection.",
+  "baseline": "production-pair: iris-aligned native flip-averaged neutral/document embedding versus original unflipped smile embedding; normalize final vectors; no live capture-quality gate",
+  "candidate": "gamma_mean",
+  "gammas": [0.8, 1.0, 1.2],
+  "gamma_transform": "After JPEG decode (or original decode), apply RGB lookup round(255*(pixel/255)^gamma), clip uint8; save non-unit gamma views as lossless PNG. Gamma 1 reuses exact baseline input/embedding. Re-detect/re-align each view, use native --flip on each document view. L2-normalize each vector, equal mean, L2-normalize mean. Smile unchanged.",
+  "missing_policy": "Reject candidate probe if ANY of its three views is missing, low-presence (<0.5), zero, nonfinite or has nonfinite presence; zero/nonfinite aggregate rejects. Baseline uses same usability checks. Missing references/probes retain every genuine and impostor pair and always reject.",
+  "thresholds": {"document": 0.356, "live": 0.366},
+  "primary_endpoint": "TAR and actual FAR at document threshold 0.356 for ALL conditions/splits; additionally report unchanged live 0.366 for ALL. Historical mapping (original live, degraded document) is retained as a correspondence check, not a fitted operating point.",
+  "comparison": "All 51x51 neutral-versus-smile comparisons within each split and condition; labels by identity, never row position. 51 genuine and 2550 dependent impostor pairs per cell. Report paired decision changes as well as counts; never treat conditions, pairs or gamma views as independent subjects.",
+  "decision_rule": "Descriptive support only if hard96 genuine accepts increase in both splits with no impostor-accept increase in either split at 0.356, and no original/gray384/gray192 genuine regression or impostor-accept increase at 0.356. Otherwise unsupported or mixed. Always retain all outcomes at both thresholds; no candidate or condition search follows.",
+  "recogniser": "sface_int8.onnx:sface_int8:sface",
+  "alignment": "iris",
+  "jobs": 2,
+  "threads_per_job": 1,
+  "cache_policy": "Reuse historical unflipped/flip caches read-only only with exact binary SHA256, all model hashes, manifest/row SHA256, variant, shard count/order and output dimensions. Otherwise use fresh native inference for both arms with one pinned executable snapshot. No mixing executables across arms.",
+  "privacy": "Source images, derived views, embeddings, identity keys and pair scores stay owner-private under /tmp/docscan-public-data/research-face/matching_*; only programs/protocol and aggregates in repo.",
+  "constraints": ["No model training", "No calibration or threshold selection", "No TEST access", "No shipping edits or commits", "No extra candidates", "No real-document, independent-device, SOTA or PAD claims"],
+  "primary_sources": [
+    "https://arxiv.org/abs/2501.03619v1",
+    "https://arxiv.org/html/2506.20312v1",
+    "https://doi.org/10.6084/m9.figshare.5047666.v5"
+  ]
+}

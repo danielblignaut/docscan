@@ -1,0 +1,17 @@
+{
+  "protocol": "research-face-temporal-quality-v1",
+  "frozen_utc": "2026-10-24T14:03:00Z",
+  "base_commit": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+  "data": "existing Axon owner preview, five replay clips, research DEV only",
+  "source_revision": "f5560f659e185ded62c2f09ff502426b0588406e",
+  "prior_report": "experiments/public_face/results/temporal-replay-v1.json",
+  "prior_cache": "a38eeee772bdbf562ea1cd6415710c9444968b68cb91a6a4717da1980d3fefbf",
+  "sampling": {"every_source_frames": 3, "long_side": 960, "block_seconds": 1.0},
+  "quality": {"description": "central half-frame grayscale Laplacian variance at fixed 112x112; capture blur proxy, NOT face quality or PAD", "roi_fraction": 0.5, "side": 112, "saturation": 100.0, "floor": 0.05},
+  "candidates": ["frame_median", "frame_q10", "block_mean_q10", "block_quality_mean_q10"],
+  "quantile": 0.1,
+  "quantile_method": "linear",
+  "thresholds": {"passive": 0.59, "session_component": 0.78},
+  "missing_score": -1.0,
+  "constraints": ["No crop or parameter search", "No per-frame deletion", "All blocks including partial final block retained", "Missing frames retain positive weight and rejection score", "No new acceptance rule or threshold shipped", "No TEST/reserved access", "No training/calibration", "No bona fide video accuracy claim", "Do not select new candidates after outcomes"]
+}

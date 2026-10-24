@@ -1,0 +1,115 @@
+{
+  "frozen_utc": "2026-10-24T14:05:04.002892+00:00",
+  "suite": "id",
+  "config": {
+    "schema": 1,
+    "declared_date": "2026-10-24",
+    "revision": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+    "split": "dev",
+    "workers": 2,
+    "id_timeout_seconds": 180,
+    "barcode_timeout_seconds": 30,
+    "id_candidates": [
+      "raw",
+      "rectified_control",
+      "raw_cw90",
+      "auto_quad",
+      "rectified_pad"
+    ],
+    "barcode_candidates": [
+      "native",
+      "native_plus_cw90",
+      "native_plus_half",
+      "zxingcpp"
+    ],
+    "id_max_width": 1280,
+    "barcode_max_width": 100000,
+    "auto_quad": {
+      "detection_long_side": 960,
+      "gaussian_kernel": 5,
+      "canny": [
+        50,
+        150
+      ],
+      "close_kernel": 5,
+      "approx_perimeter_fraction": 0.02,
+      "area_fraction": [
+        0.08,
+        0.95
+      ],
+      "aspect_ratio": [
+        1.1,
+        2.0
+      ],
+      "minimum_edge": 60,
+      "maximum_candidates": 1,
+      "rank": "largest_convex_quadrilateral_area",
+      "warp_long_side_cap": 1280,
+      "padding_fraction": 0.03,
+      "padding_color": 255,
+      "interpolation": "linear",
+      "fallback": "original_frame"
+    },
+    "rectified_pad_fraction": 0.05,
+    "barcode_half_interpolation": "area",
+    "barcode_merge": "union_exact_format_and_text; no oracle gating; every frame retried",
+    "zxingcpp": {
+      "package_version": "3.1.1",
+      "try_rotate": true,
+      "try_downscale": true,
+      "try_invert": true,
+      "text_mode": "HRI",
+      "binarizer": "LocalAverage",
+      "is_pure": false,
+      "ean_add_on_symbol": "Ignore",
+      "return_errors": false
+    },
+    "decisions": {
+      "promote": "no extra wrong accepts or false decode frames; retain all regressions; no speed claim from accuracy-pass wall times",
+      "id_metric": "unchanged public_id/score_id.py exact kind and ten MRZ fields",
+      "barcode_metric": "unchanged bench/suites/barcode.py scorer v2",
+      "training": "none",
+      "temporal": "deferred: two widely spaced frames per sequence are insufficient for production capture-policy claims"
+    }
+  },
+  "config_sha256": "6b31bc0d05f1abf792865060d7db7ba7ebeee7f3686705b991d7274cabc05343",
+  "runner_sha256": "1d0fcedfcdb9cd99dec8def64fc8be921ad88377a476c769a292383b90d5d3ee",
+  "zxing_worker_sha256": "a0070c101698db4ca80171daa059b27a35f00f50b8a82802a432d21156ef690e",
+  "manifests": {
+    "bench/manifests/barcode_public_dev.json": "82fb1dd165acd06e4f962abc14ba74d681c1189bb42a4010a1d3ef88b4362721",
+    "bench/manifests/barcode_synth_dev.json": "83ac7cbfd1c3794690f43b73207c89b0e35e7fdfed937f22dd0722e66a8c3c35",
+    "experiments/public_id/midv500-dev-v1.json": "91c72ee410daa14cd74a9860cf24034ebe3dd64fdb4cb441d5beb02b24da6fb1"
+  },
+  "binary_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+  "snapshot_sha256": "dd81bf796ae20fd009475796a6b3db4cb887a1f83873f9d92e821a4130fd368d",
+  "models": {
+    "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e",
+    "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca"
+  },
+  "packages": {
+    "numpy": "2.5.4",
+    "opencv-python-headless": "5.0.0.93",
+    "pillow": "12.3.0",
+    "zxing-cpp": "3.1.1"
+  },
+  "scorers": {
+    "bench/suites/barcode.py": "7893a13808f942aa475dc3e42fe2f769c090f5f4260b001a3fad40ff7cf98f79",
+    "bench/lib/common.py": "c9c7e63a2c011b896c3a429649c74b3c9f781d888a3fc454bbe74eb2e25c0b9a",
+    "bench/lib/stats.py": "4d61b53223fba383352c5083a44c49dc0c5eb5f9eb2f8c543e6f51e05b8373d8",
+    "experiments/public_id/score_id.py": "b280060bdd446dd14ead2ac997e9b3c6c50b7a4cf1e6a9905adfe4793dc6925c"
+  },
+  "thread_environment": {
+    "RAYON_NUM_THREADS": "1",
+    "RTEN_NUM_THREADS": "1",
+    "opencv_threads": 1
+  },
+  "native_flags": {
+    "id": [
+      "--models=/tmp/docscan-research-capture/models"
+    ],
+    "barcode": [
+      "--models=/tmp/docscan-research-capture/models",
+      "--barcodes"
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+-r ../ppocr_v6/requirements.txt
+pypdfium2==5.14.0

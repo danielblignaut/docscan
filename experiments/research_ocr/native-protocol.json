@@ -1,0 +1,12 @@
+{
+  "version":"research-ocr-native-v1",
+  "data":"experiments/public_documents/ocr-dev-v1.json",
+  "profiles":["standard","detail"],
+  "recognizers":["tiny","small"],
+  "detector":"tiny",
+  "threads":1,
+  "timeout_seconds_per_page":180,
+  "purpose":"Check the asymmetric candidate in the shipped Rust preprocessing/geometry/CTC code using an isolated source snapshot. Baseline probe must reproduce existing Rust scores before candidate interpretation.",
+  "no_training":true,
+  "no_browser_claim":true
+}
