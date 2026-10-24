@@ -1,0 +1,19 @@
+{
+  "version": "stroke-consistency-v1",
+  "seed": 864203,
+  "groups_per_device": 12,
+  "train_devices": ["synthetic-a", "synthetic-c", "synthetic-e", "synthetic-g"],
+  "dev_devices": ["synthetic-b", "synthetic-d", "synthetic-f", "synthetic-h"],
+  "benign": ["clean", "exposure", "shadow", "blur", "jpeg", "legitimate_weight", "legitimate_calligraphy", "low_contrast"],
+  "attacks": ["digit_change", "local_weight", "local_ink", "coherent_replacement", "identical_reprint", "digit_change_shadow"],
+  "threshold": 0.12,
+  "minimum_contrast": 24,
+  "candidate": "Per-cell border-plane illumination removal and robust ink-depth normalization; maximum paired-cell RMS difference >= fixed threshold flags an inconsistency.",
+  "baseline": "Maximum paired-cell raw grayscale RMS difference >= the same fixed threshold; same contrast abstention rule.",
+  "grouping": "Every variant of a synthetic identity/specimen belongs to exactly one synthetic device profile, and every device profile belongs to exactly one split. Common procedural digit skeletons are shared; this is not independent font-family validation.",
+  "training": "No fitting. TRAIN is a separately frozen diagnostic and exportable augmentation source; neither threshold nor parameters selected from its outcomes.",
+  "denominators": "48 specimens x 14 conditions per split = 672 pairs; 384 benign and 288 attacks. Abstentions/errors are incorrect in primary accuracy, never successful attack detection. Also report attack clear/pass separately from abstain/error, and all paired regressions.",
+  "scope": "Oracle paired fixed-width glyph crops, no OCR/localization and no shipping baseline. Artificial alteration labels describe generator interventions, not laboratory-authenticated ink or real forgery.",
+  "gate": "Retain as research only if DEV correct increases, no baseline-correct item regresses, no newly clear attack, no increased false flag on benigns. No production promotion even if this synthetic gate passes.",
+  "privacy": "All generated pixels, strings, per-specimen metadata/scores and receipts remain owner-private outside git. Only aggregate results and program/config hashes may be published. No existing datasets/caches or TEST/reserved paths are opened."
+}

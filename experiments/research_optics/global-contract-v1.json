@@ -1,0 +1,31 @@
+{
+  "version": "frozen-global-exposure-v1",
+  "reference": "optics.py:preprocess(rgb, 'global_exposure')",
+  "status": "experimental explicit opt-in ordinary-OCR utility only; parent implementation must be measured anew",
+  "input": "decoded uint8 RGB HxWx3, same orientation and dimensions as baseline; use existing input size limits; preserve original bytes/evidence",
+  "thumbnail": {
+    "scale": "min(1, 512/max(height,width))",
+    "dimensions": "max(1, round(width*scale)), max(1, round(height*scale)); Python round ties to even",
+    "interpolation": "OpenCV INTER_AREA on ENCODED uint8 RGB, before linearization; no resize when scale is 1"
+  },
+  "linearization": "float32 x=code/255; x<=0.04045 ? x/12.92 : ((x+0.055)/1.055)^2.4",
+  "background": {
+    "luminance": "linear RGB dot float32 [0.2126,0.7152,0.0722]",
+    "dilation": "cv2.dilate(y, ones((25,25), uint8)); centered anchor, one iteration, OpenCV default morphology border",
+    "smoothing": "cv2.GaussianBlur(dilated, (0,0), 9); sigmaY default=sigmaX, OpenCV default BORDER_REFLECT_101 and automatically derived kernel",
+    "percentile": "numpy.percentile(background, 90), default linear interpolation over flattened pixels at index 0.90*(N-1); reference also computes p10 but global arm never uses it"
+  },
+  "gate": "if p90>=0.55 return original RGB pixels exactly; no candidate OCR or diagnostic/quality score is consulted",
+  "gain": "min(4.0, 0.85/max(float(p90),0.01))",
+  "application": "linearize FULL ORIGINAL RGB, multiply every channel by this one scalar, clip to [0,1]; no resize, warp, spatial gain, per-channel white balance, sharpening, mask, denoising or text-dependent selection",
+  "encoding": "x<=0.0031308 ? 12.92*x : 1.055*x^(1/2.4)-0.055; multiply by 255, numpy.rint ties-to-even, cast uint8; same shape and coordinates",
+  "limits": [
+    "Inverse sRGB is not sensor RAW recovery or measured camera-response inversion.",
+    "Clipped/blurred evidence is not recovered. Scalar correction can still change OCR characters and fields.",
+    "Do not use the rejected local-illumination or glare/burst functions in this profile.",
+    "No acceptance threshold, field validator or model change; ordinary OCR utility does not authorize a document or person.",
+    "No automatic retry/union/best-reading policy was tested. Any such selector is a new candidate and needs a new freeze.",
+    "Retain baseline and transformed provenance; expose the operation as explicit experimental user choice, never a certified more-correct reading.",
+    "Native/browser resampling, float math, percentile and rounding need pixel/outcome parity checks followed by all unchanged DEV/negative metrics and actual phone latency. Python timing is not browser timing."
+  ]
+}

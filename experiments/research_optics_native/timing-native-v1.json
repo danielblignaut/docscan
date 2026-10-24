@@ -1,0 +1,833 @@
+{
+  "version": "exposure-native-timing-v1",
+  "utc": "2026-10-24T20:32:48.429965+00:00",
+  "exposure_rs_sha256": "fc062b7f44fea132f7c362dd753b87e29a8138f9caa63756b8fcff86266ec705",
+  "binary_sha256": "bae8139958dc751a4094fd26f2f302827b690e13ec3276684b0d2d9fb20b9172",
+  "cpu": 11,
+  "load_before": [
+    9.23095703125,
+    10.9111328125,
+    16.0390625
+  ],
+  "load_after": [
+    3.8740234375,
+    7.3984375,
+    13.70068359375
+  ],
+  "repeats": 3,
+  "calls_per_measurement": 20,
+  "summary": {
+    "dark-page": {
+      "items": 8,
+      "runs": 24,
+      "applied": 8,
+      "megapixels": [
+        0.500395,
+        2.005644,
+        2.104704
+      ],
+      "native_median_ms": 27.354148000000002,
+      "native_max_ms": 35.723849,
+      "python_median_ms": 69.4767702370882,
+      "native_ms_per_megapixel": 52.27120274982764,
+      "median_native_over_python": 0.40505679877791584
+    },
+    "camera-frame": {
+      "items": 18,
+      "runs": 54,
+      "applied": 5,
+      "megapixels": [
+        2.0736
+      ],
+      "native_median_ms": 25.977935499999997,
+      "native_max_ms": 30.6076055,
+      "python_median_ms": 17.6820601336658,
+      "native_ms_per_megapixel": 12.527939573688272,
+      "median_native_over_python": 1.4794328934905558
+    }
+  },
+  "rows": [
+    {
+      "item": 0,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 27.203695,
+      "python_applied": true,
+      "python_median_ms": 70.40950376540422
+    },
+    {
+      "item": 1,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 68.53578193113208,
+      "native_applied": true,
+      "native_median_ms": 28.1429295
+    },
+    {
+      "item": 2,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 31.4262205,
+      "python_applied": true,
+      "python_median_ms": 71.25115254893899
+    },
+    {
+      "item": 3,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 70.5521903000772,
+      "native_applied": true,
+      "native_median_ms": 27.326159
+    },
+    {
+      "item": 4,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 27.382137,
+      "python_applied": true,
+      "python_median_ms": 68.54403670877218
+    },
+    {
+      "item": 5,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 2.005644,
+      "python_applied": true,
+      "python_median_ms": 221.1936446838081,
+      "native_applied": true,
+      "native_median_ms": 35.723849
+    },
+    {
+      "item": 6,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 2.104704,
+      "native_applied": true,
+      "native_median_ms": 29.1241745,
+      "python_applied": true,
+      "python_median_ms": 224.03394058346748
+    },
+    {
+      "item": 7,
+      "kind": "dark-page",
+      "repeat": 0,
+      "megapixels": 2.005644,
+      "python_applied": true,
+      "python_median_ms": 214.45091208443046,
+      "native_applied": true,
+      "native_median_ms": 35.6409115
+    },
+    {
+      "item": 8,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 27.066989,
+      "python_applied": false,
+      "python_median_ms": 17.66886282712221
+    },
+    {
+      "item": 9,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.94762071222067,
+      "native_applied": false,
+      "native_median_ms": 26.8281785
+    },
+    {
+      "item": 10,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 26.853481,
+      "python_applied": false,
+      "python_median_ms": 18.20375118404627
+    },
+    {
+      "item": 11,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 18.095629289746284,
+      "native_applied": false,
+      "native_median_ms": 26.8163685
+    },
+    {
+      "item": 12,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 29.609462,
+      "python_applied": true,
+      "python_median_ms": 220.48525651916862
+    },
+    {
+      "item": 13,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 18.436879850924015,
+      "native_applied": false,
+      "native_median_ms": 26.617479
+    },
+    {
+      "item": 14,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 26.791432,
+      "python_applied": false,
+      "python_median_ms": 18.006044439971447
+    },
+    {
+      "item": 15,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 18.040298018604517,
+      "native_applied": false,
+      "native_median_ms": 26.603451
+    },
+    {
+      "item": 16,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 26.55925,
+      "python_applied": false,
+      "python_median_ms": 17.62919733300805
+    },
+    {
+      "item": 17,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 18.133075907826424,
+      "native_applied": false,
+      "native_median_ms": 26.762747
+    },
+    {
+      "item": 18,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 29.247262,
+      "python_applied": true,
+      "python_median_ms": 217.81786438077688
+    },
+    {
+      "item": 19,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 213.1107384338975,
+      "native_applied": true,
+      "native_median_ms": 28.411046
+    },
+    {
+      "item": 20,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.808759000000002,
+      "python_applied": false,
+      "python_median_ms": 17.190445214509964
+    },
+    {
+      "item": 21,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.071670852601528,
+      "native_applied": false,
+      "native_median_ms": 25.6098675
+    },
+    {
+      "item": 22,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.989914499999998,
+      "python_applied": false,
+      "python_median_ms": 17.7304376848042
+    },
+    {
+      "item": 23,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.240733839571476,
+      "native_applied": false,
+      "native_median_ms": 25.618684000000002
+    },
+    {
+      "item": 24,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 28.323010500000002,
+      "python_applied": true,
+      "python_median_ms": 211.21896104887128
+    },
+    {
+      "item": 25,
+      "kind": "camera-frame",
+      "repeat": 0,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 218.03432842716575,
+      "native_applied": true,
+      "native_median_ms": 29.845912
+    },
+    {
+      "item": 0,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 56.80426303297281,
+      "native_applied": true,
+      "native_median_ms": 27.094589499999998
+    },
+    {
+      "item": 1,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 27.181985,
+      "python_applied": true,
+      "python_median_ms": 55.351953487843275
+    },
+    {
+      "item": 2,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 55.45619083568454,
+      "native_applied": true,
+      "native_median_ms": 26.320743999999998
+    },
+    {
+      "item": 3,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 26.283811,
+      "python_applied": true,
+      "python_median_ms": 54.341308772563934
+    },
+    {
+      "item": 4,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 53.34718897938728,
+      "native_applied": true,
+      "native_median_ms": 26.393185000000003
+    },
+    {
+      "item": 5,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 2.005644,
+      "native_applied": true,
+      "native_median_ms": 34.2692415,
+      "python_applied": true,
+      "python_median_ms": 210.12172102928162
+    },
+    {
+      "item": 6,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 2.104704,
+      "python_applied": true,
+      "python_median_ms": 215.77656781300902,
+      "native_applied": true,
+      "native_median_ms": 27.887466
+    },
+    {
+      "item": 7,
+      "kind": "dark-page",
+      "repeat": 1,
+      "megapixels": 2.005644,
+      "native_applied": true,
+      "native_median_ms": 34.4259,
+      "python_applied": true,
+      "python_median_ms": 211.2566363066435
+    },
+    {
+      "item": 8,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 18.13465589657426,
+      "native_applied": false,
+      "native_median_ms": 26.140622
+    },
+    {
+      "item": 9,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 26.219168500000002,
+      "python_applied": false,
+      "python_median_ms": 17.137817572802305
+    },
+    {
+      "item": 10,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.60250423103571,
+      "native_applied": false,
+      "native_median_ms": 25.775329499999998
+    },
+    {
+      "item": 11,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.9388425,
+      "python_applied": false,
+      "python_median_ms": 17.526871524751186
+    },
+    {
+      "item": 12,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 213.7604565359652,
+      "native_applied": true,
+      "native_median_ms": 28.545026
+    },
+    {
+      "item": 13,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.8233385,
+      "python_applied": false,
+      "python_median_ms": 18.003047443926334
+    },
+    {
+      "item": 14,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.69525744020939,
+      "native_applied": false,
+      "native_median_ms": 25.880749
+    },
+    {
+      "item": 15,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.965956499999997,
+      "python_applied": false,
+      "python_median_ms": 18.11633910983801
+    },
+    {
+      "item": 16,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.239476088434458,
+      "native_applied": false,
+      "native_median_ms": 25.737864000000002
+    },
+    {
+      "item": 17,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.656484499999998,
+      "python_applied": false,
+      "python_median_ms": 17.348137218505144
+    },
+    {
+      "item": 18,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 212.62331027537584,
+      "native_applied": true,
+      "native_median_ms": 30.6076055
+    },
+    {
+      "item": 19,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 28.444246,
+      "python_applied": true,
+      "python_median_ms": 211.19388565421104
+    },
+    {
+      "item": 20,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.927226912230253,
+      "native_applied": false,
+      "native_median_ms": 25.524383999999998
+    },
+    {
+      "item": 21,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.722110999999998,
+      "python_applied": false,
+      "python_median_ms": 16.533154994249344
+    },
+    {
+      "item": 22,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.89801923930645,
+      "native_applied": false,
+      "native_median_ms": 25.596105
+    },
+    {
+      "item": 23,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.540309,
+      "python_applied": false,
+      "python_median_ms": 16.699501778930426
+    },
+    {
+      "item": 24,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 210.92097042128444,
+      "native_applied": true,
+      "native_median_ms": 28.0938865
+    },
+    {
+      "item": 25,
+      "kind": "camera-frame",
+      "repeat": 1,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 28.3128455,
+      "python_applied": true,
+      "python_median_ms": 210.12539276853204
+    },
+    {
+      "item": 0,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 26.3389155,
+      "python_applied": true,
+      "python_median_ms": 53.59312007203698
+    },
+    {
+      "item": 1,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 53.15098585560918,
+      "native_applied": true,
+      "native_median_ms": 26.028686
+    },
+    {
+      "item": 2,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 26.333907,
+      "python_applied": true,
+      "python_median_ms": 53.58564667403698
+    },
+    {
+      "item": 3,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 0.500395,
+      "python_applied": true,
+      "python_median_ms": 54.12467569112778,
+      "native_applied": true,
+      "native_median_ms": 26.0038955
+    },
+    {
+      "item": 4,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 0.500395,
+      "native_applied": true,
+      "native_median_ms": 25.6174705,
+      "python_applied": true,
+      "python_median_ms": 53.121326956897974
+    },
+    {
+      "item": 5,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 2.005644,
+      "python_applied": true,
+      "python_median_ms": 209.17195826768875,
+      "native_applied": true,
+      "native_median_ms": 34.2325
+    },
+    {
+      "item": 6,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 2.104704,
+      "native_applied": true,
+      "native_median_ms": 27.6980645,
+      "python_applied": true,
+      "python_median_ms": 216.94614505395293
+    },
+    {
+      "item": 7,
+      "kind": "dark-page",
+      "repeat": 2,
+      "megapixels": 2.005644,
+      "python_applied": true,
+      "python_median_ms": 209.33656580746174,
+      "native_applied": true,
+      "native_median_ms": 34.0689005
+    },
+    {
+      "item": 8,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.773137499999997,
+      "python_applied": false,
+      "python_median_ms": 17.074203118681908
+    },
+    {
+      "item": 9,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.9907552190125,
+      "native_applied": false,
+      "native_median_ms": 25.763565
+    },
+    {
+      "item": 10,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.703026,
+      "python_applied": false,
+      "python_median_ms": 17.659472301602364
+    },
+    {
+      "item": 11,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 17.23930286243558,
+      "native_applied": false,
+      "native_median_ms": 25.634325500000003
+    },
+    {
+      "item": 12,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 28.338206999999997,
+      "python_applied": true,
+      "python_median_ms": 211.27552818506956
+    },
+    {
+      "item": 13,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.57168986275792,
+      "native_applied": false,
+      "native_median_ms": 25.362917500000002
+    },
+    {
+      "item": 14,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 24.945003,
+      "python_applied": false,
+      "python_median_ms": 16.762168146669865
+    },
+    {
+      "item": 15,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.813975293189287,
+      "native_applied": false,
+      "native_median_ms": 25.2745705
+    },
+    {
+      "item": 16,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.053826,
+      "python_applied": false,
+      "python_median_ms": 16.34703716263175
+    },
+    {
+      "item": 17,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.681804321706295,
+      "native_applied": false,
+      "native_median_ms": 24.9422285
+    },
+    {
+      "item": 18,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 27.868893,
+      "python_applied": true,
+      "python_median_ms": 207.09583442658186
+    },
+    {
+      "item": 19,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 207.64763420447707,
+      "native_applied": true,
+      "native_median_ms": 28.100565000000003
+    },
+    {
+      "item": 20,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.432824,
+      "python_applied": false,
+      "python_median_ms": 16.65077032521367
+    },
+    {
+      "item": 21,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.27022959291935,
+      "native_applied": false,
+      "native_median_ms": 25.494576000000002
+    },
+    {
+      "item": 22,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": false,
+      "native_median_ms": 25.5473785,
+      "python_applied": false,
+      "python_median_ms": 16.76835911348462
+    },
+    {
+      "item": 23,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": false,
+      "python_median_ms": 16.743237618356943,
+      "native_applied": false,
+      "native_median_ms": 25.679434
+    },
+    {
+      "item": 24,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "native_applied": true,
+      "native_median_ms": 28.43087,
+      "python_applied": true,
+      "python_median_ms": 211.86369052156806
+    },
+    {
+      "item": 25,
+      "kind": "camera-frame",
+      "repeat": 2,
+      "megapixels": 2.0736,
+      "python_applied": true,
+      "python_median_ms": 210.8864188194275,
+      "native_applied": true,
+      "native_median_ms": 28.307695000000002
+    }
+  ],
+  "frozen_python_ocr_pass_median_ms": 1293.4275972656906,
+  "limits": "Descriptive only, and only of the preprocessing call: the 8 dark DEV pages the\nfrozen optics timing used (one per statement/layout, gate open) and the 18\ncamera frames (mostly gate shut). Pixels are loaded before any timer; the Rust\nbinary times `correct()` in-process after one warm-up, so process start-up,\nfile I/O and PNG coding are excluded from both arms. One pinned CPU, arms\nalternated per item and repeat. It is not the OCR pass the alternative reading\nadds (that second PP-OCR read dominates; see the frozen timing-v1.json), and\nit is not browser, WASM or phone latency."
+}

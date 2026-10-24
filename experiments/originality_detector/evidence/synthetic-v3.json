@@ -1,0 +1,1108 @@
+{
+  "schema": 1,
+  "protocol": "originality-optics-bounded-v2",
+  "source_hashes": {
+    "detector.py": "ea12d16bfec6fc122939dd578b63d7bbc11225d54f0ff8adabbf4c0103a490ed",
+    "synthetic.py": "cf98cddf7291e9865a19ec3978efed1e70379e41a8f27eae869f1f313f0cc0aa",
+    "study.py": "524fef418f0c4797e10af4806f335b629edc7e9c64389bb4ee0bc478ee01823d",
+    "real_study.py": "3632c9ac3f6531b3b3a3787f04d54caad62fe890a89c35ce5e24fa5b1b1e9586",
+    "receipts.py": "53f5e6a68f48ce33113ee597926d35506053ed39fa18c6e6c3e7bcd6317150be",
+    "protocol.json": "7c51f751d7702fc579dcd4a4cc55a238dd20b32ea018badfbb4a16faac04bd3f"
+  },
+  "manifest_sha256": "b369a624a4cf5d5756e1a8ef7980014b9495982611132daae56269a456b1cfdf",
+  "freeze_sha256": "61f4e191a508308dcb429812abaeb18af6b56ab63c07e6d53d84f6290d6d7eb2",
+  "inference_freeze_sha256": "10b291fa76f238d843d00c74e13632e557edd42a02ac573e903343666771a11e",
+  "candidates": {
+    "constant_unknown": {
+      "metrics": {
+        "calibration": {
+          "items": 224,
+          "attack_items": 96,
+          "negative_items": 128,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 96,
+          "false_positives": 0,
+          "negative_groups": 16,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.17074972298248092,
+          "abstentions": 224,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 280,
+          "attack_items": 120,
+          "negative_items": 160,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 120,
+          "false_positives": 0,
+          "negative_groups": 20,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.13910834066826516,
+          "abstentions": 280,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "real_dev": {
+          "items": 18,
+          "attack_items": 0,
+          "negative_items": 18,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 3,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.6315968501359612,
+          "abstentions": 18,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "CA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "HA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "TA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        }
+      },
+      "model_sha256": null,
+      "thresholds": null
+    },
+    "chroma_frequency": {
+      "metrics": {
+        "calibration": {
+          "items": 224,
+          "attack_items": 96,
+          "negative_items": 128,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 96,
+          "false_positives": 0,
+          "negative_groups": 16,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.17074972298248092,
+          "abstentions": 224,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 280,
+          "attack_items": 120,
+          "negative_items": 160,
+          "detected_attacks": 10,
+          "missed_or_abstained_attacks": 110,
+          "false_positives": 2,
+          "negative_groups": 20,
+          "false_positive_groups": 2,
+          "zero_error_group_upper95": null,
+          "abstentions": 268,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 10,
+          "regressions_vs_constant_unknown": 2,
+          "by_condition": {
+            "calligraphy": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 20,
+              "flags": 10,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 20,
+              "flags": 2,
+              "failures": 0
+            }
+          }
+        },
+        "real_dev": {
+          "items": 18,
+          "attack_items": 0,
+          "negative_items": 18,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 3,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.6315968501359612,
+          "abstentions": 18,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "CA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "HA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "TA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        }
+      },
+      "model_sha256": "3d3c2c592dab5112ba77b74e8ef960522f1d19cb6f7784e16d6e59b756eff2f1",
+      "thresholds": [
+        2.1972245773362196,
+        2.1972245773362196
+      ]
+    },
+    "texture_color": {
+      "metrics": {
+        "calibration": {
+          "items": 224,
+          "attack_items": 96,
+          "negative_items": 128,
+          "detected_attacks": 1,
+          "missed_or_abstained_attacks": 95,
+          "false_positives": 0,
+          "negative_groups": 16,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.17074972298248092,
+          "abstentions": 223,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 1,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 16,
+              "flags": 1,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 280,
+          "attack_items": 120,
+          "negative_items": 160,
+          "detected_attacks": 13,
+          "missed_or_abstained_attacks": 107,
+          "false_positives": 1,
+          "negative_groups": 20,
+          "false_positive_groups": 1,
+          "zero_error_group_upper95": null,
+          "abstentions": 266,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 13,
+          "regressions_vs_constant_unknown": 1,
+          "by_condition": {
+            "calligraphy": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 20,
+              "flags": 4,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 20,
+              "flags": 9,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 20,
+              "flags": 1,
+              "failures": 0
+            }
+          }
+        },
+        "real_dev": {
+          "items": 18,
+          "attack_items": 0,
+          "negative_items": 18,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 3,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.6315968501359612,
+          "abstentions": 18,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "CA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "HA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "TA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        }
+      },
+      "model_sha256": "ebdd1c3ecd7fb1b49b046bc4689806e2be3bb72c28bf1fd36397aa4fcc93baf5",
+      "thresholds": [
+        2.359696839513435,
+        2.1972245773362196
+      ]
+    },
+    "boundary_context": {
+      "metrics": {
+        "calibration": {
+          "items": 224,
+          "attack_items": 96,
+          "negative_items": 128,
+          "detected_attacks": 39,
+          "missed_or_abstained_attacks": 57,
+          "false_positives": 0,
+          "negative_groups": 16,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.17074972298248092,
+          "abstentions": 185,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 39,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 16,
+              "flags": 7,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 16,
+              "flags": 16,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 16,
+              "flags": 16,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 280,
+          "attack_items": 120,
+          "negative_items": 160,
+          "detected_attacks": 42,
+          "missed_or_abstained_attacks": 78,
+          "false_positives": 0,
+          "negative_groups": 20,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.13910834066826516,
+          "abstentions": 238,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 42,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 20,
+              "flags": 7,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 20,
+              "flags": 15,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 20,
+              "flags": 20,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "real_dev": {
+          "items": 18,
+          "attack_items": 0,
+          "negative_items": 18,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 16,
+          "negative_groups": 3,
+          "false_positive_groups": 3,
+          "zero_error_group_upper95": null,
+          "abstentions": 2,
+          "failures": 2,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 16,
+          "by_condition": {
+            "CA": {
+              "n": 6,
+              "flags": 6,
+              "failures": 0
+            },
+            "HA": {
+              "n": 6,
+              "flags": 5,
+              "failures": 1
+            },
+            "TA": {
+              "n": 6,
+              "flags": 5,
+              "failures": 1
+            }
+          }
+        }
+      },
+      "model_sha256": "a1ad13a23f5173ef63aad732701b3de29fabee5dbbe53d11ee653cbba3b91d3a",
+      "thresholds": [
+        2.1972245773362196,
+        2.1972245773362196
+      ]
+    },
+    "native_patch_texture": {
+      "metrics": {
+        "calibration": {
+          "items": 224,
+          "attack_items": 96,
+          "negative_items": 128,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 96,
+          "false_positives": 0,
+          "negative_groups": 16,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.17074972298248092,
+          "abstentions": 224,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "calligraphy": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 280,
+          "attack_items": 120,
+          "negative_items": 160,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 120,
+          "false_positives": 5,
+          "negative_groups": 20,
+          "false_positive_groups": 5,
+          "zero_error_group_upper95": null,
+          "abstentions": 275,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 5,
+          "by_condition": {
+            "calligraphy": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "dim": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "glare": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "halftone": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "jpeg": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "mono": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "plain": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_clean": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_color": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "print_gray": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_achromatic": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_strong": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "screen_weak": {
+              "n": 20,
+              "flags": 0,
+              "failures": 0
+            },
+            "security": {
+              "n": 20,
+              "flags": 5,
+              "failures": 0
+            }
+          }
+        },
+        "real_dev": {
+          "items": 18,
+          "attack_items": 0,
+          "negative_items": 18,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 3,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.6315968501359612,
+          "abstentions": 18,
+          "failures": 2,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "CA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 0
+            },
+            "HA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 1
+            },
+            "TA": {
+              "n": 6,
+              "flags": 0,
+              "failures": 1
+            }
+          }
+        }
+      },
+      "model_sha256": "7172e63100e181baaeafafef150b3f50a0258195d2dc74c049174b5b0bcf3bf8",
+      "thresholds": [
+        2.269467401146757,
+        2.1972245773362196
+      ]
+    }
+  },
+  "data_rights": "synthetic + existing author-published CC-BY-SA-2.5 MIDV DEV",
+  "test_access": false,
+  "real_attack_examples": 0,
+  "production_promotion": false
+}

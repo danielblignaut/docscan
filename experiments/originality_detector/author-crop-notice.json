@@ -1,0 +1,7 @@
+{
+  "url": "https://zenodo.org/records/6792397/files/experimental_baseline.zip",
+  "member": "screen_train.py",
+  "sha256": "64593289c0ea0d3dc170224fda93c6a4d0ed96c67d12d26fd8b3282fc7ce725c",
+  "finding": "TRAIN-list x,y are LEFT,TOP of a 224x224 patch, not its centre. Model API centre is [x+112,y+112].",
+  "code_used": "Reference inspection only; no author implementation executed or copied into product."
+}

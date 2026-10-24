@@ -1,0 +1,108 @@
+{
+  "real": {
+    "all_per_item_predictions_identical": true,
+    "all_fitted_numeric_parameters_identical": true,
+    "cohort": {
+      "train": {
+        "bona_fide_capture": {
+          "frames": 32,
+          "specimens": 16,
+          "identities": 16,
+          "clips": 16
+        },
+        "screen_recapture": {
+          "frames": 8,
+          "specimens": 4,
+          "identities": 4,
+          "clips": 4
+        }
+      },
+      "calibration": {
+        "bona_fide_capture": {
+          "frames": 16,
+          "specimens": 8,
+          "identities": 8,
+          "clips": 8
+        },
+        "screen_recapture": {
+          "frames": 0,
+          "specimens": 0,
+          "identities": 0,
+          "clips": 0
+        }
+      },
+      "dev": {
+        "bona_fide_capture": {
+          "frames": 48,
+          "specimens": 24,
+          "identities": 24,
+          "clips": 24
+        },
+        "screen_recapture": {
+          "frames": 24,
+          "specimens": 6,
+          "identities": 6,
+          "clips": 12
+        }
+      }
+    }
+  },
+  "automatic": {
+    "all_per_item_predictions_identical": true,
+    "all_fitted_numeric_parameters_identical": true,
+    "cohort": {
+      "train": {
+        "bona_fide_capture": {
+          "frames": 32,
+          "specimens": 16,
+          "identities": 16,
+          "clips": 16
+        },
+        "screen_recapture": {
+          "frames": 8,
+          "specimens": 4,
+          "identities": 4,
+          "clips": 4
+        }
+      },
+      "calibration": {
+        "bona_fide_capture": {
+          "frames": 16,
+          "specimens": 8,
+          "identities": 8,
+          "clips": 8
+        },
+        "screen_recapture": {
+          "frames": 0,
+          "specimens": 0,
+          "identities": 0,
+          "clips": 0
+        }
+      },
+      "dev": {
+        "bona_fide_capture": {
+          "frames": 48,
+          "specimens": 24,
+          "identities": 24,
+          "clips": 24
+        },
+        "screen_recapture": {
+          "frames": 24,
+          "specimens": 6,
+          "identities": 6,
+          "clips": 12
+        }
+      }
+    }
+  },
+  "full_image_cli_matches_recorded_prediction": true,
+  "tests_passed": 19,
+  "private_directory_modes": {
+    "/tmp/docscan-originality-source-train-v4": "0o700",
+    "/tmp/docscan-originality-automatic-v2": "0o700",
+    "/tmp/docscan-originality-real-v3": "0o700",
+    "/tmp/docscan-originality-synthetic-v3": "0o700"
+  },
+  "strict_model_sha256": "86f9e640ffe2fb071f0b4cbc2537e052a38582e00cf987b112fa4453a162859f",
+  "no_production_promotion": true
+}

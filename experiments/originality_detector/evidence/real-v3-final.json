@@ -1,0 +1,524 @@
+{
+  "cohort": {
+    "train": {
+      "bona_fide_capture": {
+        "frames": 32,
+        "specimens": 16,
+        "identities": 16,
+        "clips": 16
+      },
+      "screen_recapture": {
+        "frames": 8,
+        "specimens": 4,
+        "identities": 4,
+        "clips": 4
+      }
+    },
+    "calibration": {
+      "bona_fide_capture": {
+        "frames": 16,
+        "specimens": 8,
+        "identities": 8,
+        "clips": 8
+      },
+      "screen_recapture": {
+        "frames": 0,
+        "specimens": 0,
+        "identities": 0,
+        "clips": 0
+      }
+    },
+    "dev": {
+      "bona_fide_capture": {
+        "frames": 48,
+        "specimens": 24,
+        "identities": 24,
+        "clips": 24
+      },
+      "screen_recapture": {
+        "frames": 24,
+        "specimens": 6,
+        "identities": 6,
+        "clips": 12
+      }
+    }
+  },
+  "schema": 1,
+  "kind": "bounded_real_DLC_capture_pilot",
+  "data_manifest_sha256": "314d9c2e019daf24ad86c1dfb54e5454e6e46d9468569879bf257e18af4c500c",
+  "freeze_sha256": "969618532c0875a8f89d97a4e3700ddec5a6882bc3981944c72b14ca1c38ebdf",
+  "sources": {
+    "detector.py": "ea12d16bfec6fc122939dd578b63d7bbc11225d54f0ff8adabbf4c0103a490ed",
+    "synthetic.py": "cf98cddf7291e9865a19ec3978efed1e70379e41a8f27eae869f1f313f0cc0aa",
+    "study.py": "75bfd82813a19a9cab3ba604dcc287447bac37a507701584b9cf28c9005ca052",
+    "real_study.py": "d845be5f3f158275a253ced251f0a17a7f8e6ea6953155cfb9e060b6ad93b786",
+    "receipts.py": "0360dc5fd5f3059e19ecb2fc4d592f6cf7908941e50c48419b044666533b7f88",
+    "fetch_dlc.py": "3e51a9b42439dd5fe492c97109178dc3f8eaa584ef566a46adcc0330d371ff14",
+    "fetch_train_only.py": "af1dd3546512fceff278559a29a8e680119e07ef57caccdfe78079bc33c418fb",
+    "protocol.json": "7c51f751d7702fc579dcd4a4cc55a238dd20b32ea018badfbb4a16faac04bd3f",
+    "source-notices.json": "f630acc24abb76bd8a1c708d5e6562baffa8e6300b0907a9f9a544222fe07a49",
+    "author-crop-notice.json": "2bb165d02dfd20c9d9580f67f8036d22e502fbb4470e987657bf5de54ef7fea2"
+  },
+  "candidates": {
+    "constant_unknown": {
+      "metrics": {
+        "calibration": {
+          "items": 16,
+          "attack_items": 0,
+          "negative_items": 16,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 8,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.31234397806636793,
+          "abstentions": 16,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 8,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.31234397806636793,
+          "by_document_type": {
+            "esp_id": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 72,
+          "attack_items": 24,
+          "negative_items": 48,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 24,
+          "false_positives": 0,
+          "negative_groups": 24,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.11734615615494881,
+          "abstentions": 72,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 48,
+              "flags": 0,
+              "failures": 0
+            },
+            "macbook pro": {
+              "n": 12,
+              "flags": 0,
+              "failures": 0
+            },
+            "philips": {
+              "n": 12,
+              "flags": 0,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 24,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.11734615615494881,
+          "by_document_type": {
+            "esp_id": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 0
+            }
+          }
+        }
+      },
+      "model_sha256": null,
+      "thresholds": null
+    },
+    "chroma_frequency": {
+      "metrics": {
+        "calibration": {
+          "items": 16,
+          "attack_items": 0,
+          "negative_items": 16,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 8,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.31234397806636793,
+          "abstentions": 16,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 8,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.31234397806636793,
+          "by_document_type": {
+            "esp_id": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 72,
+          "attack_items": 24,
+          "negative_items": 48,
+          "detected_attacks": 1,
+          "missed_or_abstained_attacks": 23,
+          "false_positives": 0,
+          "negative_groups": 24,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.11734615615494881,
+          "abstentions": 71,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 1,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 48,
+              "flags": 0,
+              "failures": 0
+            },
+            "macbook pro": {
+              "n": 12,
+              "flags": 0,
+              "failures": 0
+            },
+            "philips": {
+              "n": 12,
+              "flags": 1,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 24,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.11734615615494881,
+          "by_document_type": {
+            "esp_id": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 1
+            }
+          }
+        }
+      },
+      "model_sha256": "853d74982c1158a38ebdf45301cf1eebee6d702485da57fc30c6f07114244e0d",
+      "thresholds": [
+        2.1972245773362196,
+        2.1972245773362196
+      ]
+    },
+    "texture_color": {
+      "metrics": {
+        "calibration": {
+          "items": 16,
+          "attack_items": 0,
+          "negative_items": 16,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 8,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.31234397806636793,
+          "abstentions": 16,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 8,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.31234397806636793,
+          "by_document_type": {
+            "esp_id": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 72,
+          "attack_items": 24,
+          "negative_items": 48,
+          "detected_attacks": 1,
+          "missed_or_abstained_attacks": 23,
+          "false_positives": 1,
+          "negative_groups": 24,
+          "false_positive_groups": 1,
+          "zero_error_group_upper95": null,
+          "abstentions": 70,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 1,
+          "regressions_vs_constant_unknown": 1,
+          "by_condition": {
+            "first_capture": {
+              "n": 48,
+              "flags": 1,
+              "failures": 0
+            },
+            "macbook pro": {
+              "n": 12,
+              "flags": 0,
+              "failures": 0
+            },
+            "philips": {
+              "n": 12,
+              "flags": 1,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 24,
+          "false_positive_identity_number_groups": 1,
+          "zero_error_identity_group_upper95": null,
+          "by_document_type": {
+            "esp_id": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 1,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 1
+            }
+          }
+        }
+      },
+      "model_sha256": "3133e21fba4912baabf89797cdd494053c340de962226363fe192a170334b1c2",
+      "thresholds": [
+        19.46047357255994,
+        2.1972245773362196
+      ]
+    },
+    "native_patch_texture": {
+      "metrics": {
+        "calibration": {
+          "items": 16,
+          "attack_items": 0,
+          "negative_items": 16,
+          "detected_attacks": 0,
+          "missed_or_abstained_attacks": 0,
+          "false_positives": 0,
+          "negative_groups": 8,
+          "false_positive_groups": 0,
+          "zero_error_group_upper95": 0.31234397806636793,
+          "abstentions": 16,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 0,
+          "regressions_vs_constant_unknown": 0,
+          "by_condition": {
+            "first_capture": {
+              "n": 16,
+              "flags": 0,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 8,
+          "false_positive_identity_number_groups": 0,
+          "zero_error_identity_group_upper95": 0.31234397806636793,
+          "by_document_type": {
+            "esp_id": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 8,
+              "negative_items": 8,
+              "attack_items": 0,
+              "false_positives": 0,
+              "detected_attacks": 0
+            }
+          }
+        },
+        "dev": {
+          "items": 72,
+          "attack_items": 24,
+          "negative_items": 48,
+          "detected_attacks": 1,
+          "missed_or_abstained_attacks": 23,
+          "false_positives": 1,
+          "negative_groups": 24,
+          "false_positive_groups": 1,
+          "zero_error_group_upper95": null,
+          "abstentions": 70,
+          "failures": 0,
+          "original_verdicts": 0,
+          "gains_vs_constant_unknown": 1,
+          "regressions_vs_constant_unknown": 1,
+          "by_condition": {
+            "first_capture": {
+              "n": 48,
+              "flags": 1,
+              "failures": 0
+            },
+            "macbook pro": {
+              "n": 12,
+              "flags": 0,
+              "failures": 0
+            },
+            "philips": {
+              "n": 12,
+              "flags": 1,
+              "failures": 0
+            }
+          },
+          "identity_number_groups": 24,
+          "false_positive_identity_number_groups": 1,
+          "zero_error_identity_group_upper95": null,
+          "by_document_type": {
+            "esp_id": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 1,
+              "detected_attacks": 0
+            },
+            "rus_internalpassport": {
+              "items": 36,
+              "negative_items": 24,
+              "attack_items": 12,
+              "false_positives": 0,
+              "detected_attacks": 1
+            }
+          }
+        }
+      },
+      "model_sha256": "acfd4d339b8f6d92e31db727d19134f9ab5363f1ea85a002b34cc1c8f8042151",
+      "thresholds": [
+        23.40862464181633,
+        2.1972245773362196
+      ]
+    }
+  },
+  "training_failures": {},
+  "real_attack_examples": 32,
+  "source_license": "CC-BY-SA-2.5; Polevoy et al., Bulatov et al.; Generated Photos attribution",
+  "network_bytes": 14463362,
+  "test_access": false,
+  "production_promotion": false,
+  "notes": [
+    "All models use author-annotated 224x224 document patches; no automatic localization",
+    "Device split is capture phone and screen model; no print positives",
+    "Actual available cohort counts are derived from sealed rows; planned IDs do not imply availability",
+    "Calibration shares TRAIN capture device but no identity/specimen",
+    "No real print-copy positives; no issuer authenticity claims"
+  ],
+  "pairwise_dev": {
+    "constant_unknown -> texture_color": {
+      "new_false_positives": 1,
+      "removed_false_positives": 0,
+      "lost_detections": 0,
+      "gained_detections": 1
+    },
+    "constant_unknown -> native_patch_texture": {
+      "new_false_positives": 1,
+      "removed_false_positives": 0,
+      "lost_detections": 0,
+      "gained_detections": 1
+    },
+    "chroma_frequency -> constant_unknown": {
+      "new_false_positives": 0,
+      "removed_false_positives": 0,
+      "lost_detections": 1,
+      "gained_detections": 0
+    },
+    "chroma_frequency -> texture_color": {
+      "new_false_positives": 1,
+      "removed_false_positives": 0,
+      "lost_detections": 0,
+      "gained_detections": 0
+    },
+    "chroma_frequency -> native_patch_texture": {
+      "new_false_positives": 1,
+      "removed_false_positives": 0,
+      "lost_detections": 0,
+      "gained_detections": 0
+    },
+    "native_patch_texture -> texture_color": {
+      "new_false_positives": 0,
+      "removed_false_positives": 0,
+      "lost_detections": 0,
+      "gained_detections": 0
+    }
+  }
+}

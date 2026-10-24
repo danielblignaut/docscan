@@ -1,0 +1,17 @@
+[package]
+name = "exposure-wasm-parity"
+version = "0.0.0"
+edition = "2024"
+publish = false
+description = "docscan/src/exposure.rs built for wasm32-unknown-unknown with a raw C ABI, for byte parity in Node. No dependencies."
+
+[workspace]
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

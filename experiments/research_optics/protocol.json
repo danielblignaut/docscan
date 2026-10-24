@@ -1,0 +1,19 @@
+{
+  "version": "optics-dev-v1",
+  "hypotheses": ["gated global linear exposure", "gated smooth local illumination", "image-only burst selection with glare suspicion"],
+  "effective_train": [],
+  "fit_or_threshold_search": false,
+  "dev": {"documents": "all 60 public-document-ocr-dev-v1 pages", "camera": "all 18 midv500-dev-v1 raw camera frames", "negatives": "six procedural non-text images"},
+  "grouping": "Every page/variant of a statement, invoice template/specimen, and MIDV specimen/device/session stays DEV. No TRAIN inference, no cross-device generalization claim. Existing FATURA TRAIN layouts are unused.",
+  "arms": ["baseline", "global_exposure", "local_illumination"],
+  "document_conditions": ["clean", "dark", "shadow", "glare", "motion_blur"],
+  "camera_conditions": ["original camera images only, no added degradation"],
+  "burst": {"synthetic": "each document's dark, glare, motion_blur; cyclic first frame chosen by specimen SHA256 modulo three", "camera": "two ordered existing frames per specimen and capture condition", "baseline": "first frame", "candidate": "maximum frozen image-only selection score; first wins ties; no OCR or truth used"},
+  "timeout_seconds": 180,
+  "workers": 2,
+  "native_threads": 1,
+  "timing": "separate interleaved single-worker paired baseline/candidate pass; 3 repeats; first manifest page per each of 5 invoice layouts and 3 statements, dark condition; no browser claim",
+  "selection_gate": "No clean token or exact-field loss and no new wrong-accept frame on real DEV; report every stratum and paired regression. A positive aggregate alone cannot promote a candidate. Latency is descriptive research timing, main bench and phone gate remain required.",
+  "failures": "empty predictions, fixed denominators; never select next-best successful burst member after failure",
+  "rights": "Existing author-published MIT Bankstatemently, CC-BY-4.0 FATURA, CC-BY-SA-2.5 MIDV specimens; original procedural degradations. No new weights/data acquisition. Raw data, text and per-specimen camera outcomes stay owner-private outside git."
+}

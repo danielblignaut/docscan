@@ -1,5 +1,13 @@
 # Document copy evidence and originality limits
 
+**Current integration status:** the pixel assessment is wired into native/WASM
+identity analysis and the demo's ID and face-document results (PRs #4 and #5).
+The API and UI are present; the remaining gap is a sufficiently validated
+original/copy decision. The subsequent [recapture detector implementation and
+real-data experiment](research-originality-detector.md) supplies a runnable
+full-image research classifier, but its false alarms and missed recaptures
+prevent production promotion. Its score must not replace null confidence.
+
 Research and implementation date: **2026-10-24**. This work adds
 `docscan/src/document_evidence.rs` and the isolated
 [`experiments/document_originality`](../experiments/document_originality/README.md)
