@@ -81,3 +81,16 @@ reports retain their original executed-source hashes rather than being rewritten
 These are research leads and rejection decisions, **not evidence of SOTA**.
 The data remain small, correlated and mostly synthetic/specimen-based; benchmarks
 must broaden before claims about production accuracy or attack resistance.
+
+Final validation: **44 focused research tests**, capture/source/denominator
+verification over all 577 barcode predictions, independent recomputation of all
+32 face-matching cells, and an independent complete sixty-page OCR rerun passed.
+The last review found no remaining actionable P1/P2 in the corrected rerun paths.
+A second review finding—fresh report paths reusing historical raw folders—was
+fixed with exclusive per-run private directories and exclusive report writes.
+All original scored evidence remains unchanged. No application-source build is
+claimed for this research-only branch; the prior PR's app validation/deployment
+is a separate, already completed step.
+
+[Interactive result summary](research-2026-dashboard.html) ·
+[Machine-readable summary](research-2026-summary.json)

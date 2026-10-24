@@ -95,3 +95,11 @@ explicit API/model provenance, lazy download, WASM parity, memory and phone
 latency gates. No production promotion or SOTA claim follows from these small,
 correlated development sets; incomplete invoice labels cannot measure full-page
 hallucinations, customer verification, table semantics or reading order.
+
+Final review also caught that fresh report paths still reused old raw-output
+folders. Each mode and regression run now allocates an exclusive owner-private
+folder under `DATA/runs`, records its receipt/path/hashes, and publishes reports
+with exclusive creation. Interrupted or concurrent reruns cannot replace prior
+raw predictions or reports. The full sixty-page baseline rerun in
+`results/independent-rerun-audit.json` reproduces every scored row and summary
+with a separate raw directory; original evidence remains intact.
