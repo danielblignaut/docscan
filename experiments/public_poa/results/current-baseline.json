@@ -1,0 +1,471 @@
+{
+  "protocol": "public-poa-dev-v1",
+  "split": "DEV",
+  "independent_identities": 1,
+  "freeze_sha256": "5d744a863f160d2dc28c9cabdf0cde1f87ca1905b614103b2af24acfcc89f25b",
+  "provenance": {
+    "version": "public-poa-dev-v1",
+    "frozen_at_utc": "2026-10-24T11:58:14.765657+00:00",
+    "split": "DEV",
+    "files": {
+      "clean.pdf": "30c150986701954b96e8a81b7933f400fab65bc5bc23babd5aae9bd0a50c6a73",
+      "clean.png": "baf86f309009c6c9195c3e0cbb26655ff89c017f04b58751139931712932e6c9",
+      "scanned.pdf": "1981023ca52b8d75f2ea490a52fab1e672e15663e8a93ec8ab63ffe9f3143ecf",
+      "scanned.png": "9976a8b5c0a12117ff35bdb578ff18c80b9fb4386c4ff51a9cb1b60a67abd08a",
+      "fax.pdf": "0e698f6a59bedc961ba917f70d3d8f46bbcff8664af9a6e11ff9dc4ed0c1d2b8",
+      "fax.png": "d1bc055f6b9e26628ea9517c1ff734169b6def6cb32d5f79cbdd16ee8d218597",
+      "truth.json": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+      "text-layer.json": "04d6792fa9418d6958c7dba51ba73f4d3db4f2824401039799c0d805f8a7b052",
+      "bin/poa": "ad3317452baa85d95babf98aff5a60c2aabbb906b638b1efa505612271e3a43d",
+      "bin/poa_fields": "f05c4c7075810a87fec0bd49dc447d987467cf2c46e0c86b9f425ebbb1e4e7ac",
+      "bin/poa_capture": "aeeb35f4e957fec0db57d64c1bc7cbe90f7fff130d99966195f22b3f65c90e94"
+    },
+    "pymupdf": "1.26.7",
+    "referee": {
+      "harness.py": "aef9f718ed94873c5f7b64481d6e67b57d7e8879d960dcd46b9583b0f086ffad",
+      "protocol.json": "c03e470ca83ab66024b10e492e8fab779a508eb1b0018c9364eb35480fd9b68b",
+      "source-pins.json": "468abda9d6b993ab8605af22ce4fe2e551ac8a7affca43f33529a597f7f5808f"
+    },
+    "models": {
+      "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+      "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e",
+      "text-detection-page.onnx": "9af24977ce4038e0c6da914a4acd0578fa07853399d4e8691e97ee4a759e7b5b",
+      "poa-tagger.onnx": "f9840fce1896f93dd3a7773c5f1becfd23d2e1d3dbd5e4d0d74e839b7fd45700"
+    },
+    "repo_head": "9e189bc5a9cb14c582bfdc5d22f79e1e73104c45",
+    "binary_provenance": "Existing release artifacts copied before inference; build-to-HEAD correspondence unverified; hashes identify executed bytes."
+  },
+  "raster_ocr": {
+    "rules": {
+      "denominator": 3,
+      "readable": 3,
+      "failed_or_no_reading": 0,
+      "field_exact": {
+        "holder_name": 0,
+        "address.street": 0,
+        "address.city": 0,
+        "address.postal_code": 0,
+        "issuer": 3,
+        "account_number": 0,
+        "document_type": 0,
+        "statement_period.from": 0,
+        "statement_period.to": 0
+      },
+      "field_opportunities": 27,
+      "field_exact_total": 3,
+      "all_fields_exact": 0,
+      "holder_address_exact": 0,
+      "document_date_unscored": {
+        "missing": 3
+      }
+    },
+    "tagger": {
+      "denominator": 3,
+      "readable": 3,
+      "failed_or_no_reading": 0,
+      "field_exact": {
+        "holder_name": 2,
+        "address.street": 0,
+        "address.city": 2,
+        "address.postal_code": 0,
+        "issuer": 3,
+        "account_number": 0,
+        "document_type": 0,
+        "statement_period.from": 0,
+        "statement_period.to": 3
+      },
+      "field_opportunities": 27,
+      "field_exact_total": 10,
+      "all_fields_exact": 0,
+      "holder_address_exact": 0,
+      "document_date_unscored": {
+        "missing": 3
+      }
+    },
+    "customer_verification": {
+      "matching": {
+        "denominator": 3,
+        "valid_decisions": 3,
+        "accepted": 3,
+        "rejected": 0,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": null,
+        "old_date_evidence": 0
+      },
+      "wrong_person": {
+        "denominator": 3,
+        "valid_decisions": 3,
+        "accepted": 0,
+        "rejected": 3,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 3,
+        "old_date_evidence": 0
+      },
+      "wrong_address": {
+        "denominator": 3,
+        "valid_decisions": 3,
+        "accepted": 0,
+        "rejected": 3,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 3,
+        "old_date_evidence": 0
+      },
+      "old": {
+        "denominator": 3,
+        "valid_decisions": 3,
+        "accepted": 0,
+        "rejected": 3,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 3,
+        "old_date_evidence": 3
+      }
+    }
+  },
+  "by_variant": {
+    "clean": {
+      "rules": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 0,
+          "address.street": 0,
+          "address.city": 0,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 0
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 1,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "tagger": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 1,
+          "address.street": 0,
+          "address.city": 1,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 1
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 4,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "customer_verification": {
+        "matching": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 1,
+          "rejected": 0,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": null,
+          "old_date_evidence": 0
+        },
+        "wrong_person": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "wrong_address": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "old": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 1
+        }
+      }
+    },
+    "scanned": {
+      "rules": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 0,
+          "address.street": 0,
+          "address.city": 0,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 0
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 1,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "tagger": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 1,
+          "address.street": 0,
+          "address.city": 1,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 1
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 4,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "customer_verification": {
+        "matching": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 1,
+          "rejected": 0,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": null,
+          "old_date_evidence": 0
+        },
+        "wrong_person": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "wrong_address": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "old": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 1
+        }
+      }
+    },
+    "fax": {
+      "rules": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 0,
+          "address.street": 0,
+          "address.city": 0,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 0
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 1,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "tagger": {
+        "denominator": 1,
+        "readable": 1,
+        "failed_or_no_reading": 0,
+        "field_exact": {
+          "holder_name": 0,
+          "address.street": 0,
+          "address.city": 0,
+          "address.postal_code": 0,
+          "issuer": 1,
+          "account_number": 0,
+          "document_type": 0,
+          "statement_period.from": 0,
+          "statement_period.to": 1
+        },
+        "field_opportunities": 9,
+        "field_exact_total": 2,
+        "all_fields_exact": 0,
+        "holder_address_exact": 0,
+        "document_date_unscored": {
+          "missing": 1
+        }
+      },
+      "customer_verification": {
+        "matching": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 1,
+          "rejected": 0,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": null,
+          "old_date_evidence": 0
+        },
+        "wrong_person": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "wrong_address": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 0
+        },
+        "old": {
+          "denominator": 1,
+          "valid_decisions": 1,
+          "accepted": 0,
+          "rejected": 1,
+          "failed_or_no_decision": 0,
+          "paired_matching_accept_and_reject": 1,
+          "old_date_evidence": 1
+        }
+      }
+    }
+  },
+  "text_layer_diagnostic": {
+    "rules": {
+      "denominator": 1,
+      "readable": 1,
+      "failed_or_no_reading": 0,
+      "field_exact": {
+        "holder_name": 0,
+        "address.street": 0,
+        "address.city": 0,
+        "address.postal_code": 0,
+        "issuer": 1,
+        "account_number": 0,
+        "document_type": 0,
+        "statement_period.from": 0,
+        "statement_period.to": 0
+      },
+      "field_opportunities": 9,
+      "field_exact_total": 1,
+      "all_fields_exact": 0,
+      "holder_address_exact": 0,
+      "document_date_unscored": {
+        "period_end": 1
+      }
+    },
+    "tagger": {
+      "denominator": 1,
+      "readable": 1,
+      "failed_or_no_reading": 0,
+      "field_exact": {
+        "holder_name": 0,
+        "address.street": 0,
+        "address.city": 0,
+        "address.postal_code": 0,
+        "issuer": 1,
+        "account_number": 0,
+        "document_type": 0,
+        "statement_period.from": 0,
+        "statement_period.to": 0
+      },
+      "field_opportunities": 9,
+      "field_exact_total": 1,
+      "all_fields_exact": 0,
+      "holder_address_exact": 0,
+      "document_date_unscored": {
+        "other": 1
+      }
+    },
+    "customer_verification": {
+      "matching": {
+        "denominator": 1,
+        "valid_decisions": 1,
+        "accepted": 0,
+        "rejected": 1,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": null,
+        "old_date_evidence": 0
+      },
+      "wrong_person": {
+        "denominator": 1,
+        "valid_decisions": 1,
+        "accepted": 0,
+        "rejected": 1,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 0,
+        "old_date_evidence": 0
+      },
+      "wrong_address": {
+        "denominator": 1,
+        "valid_decisions": 1,
+        "accepted": 0,
+        "rejected": 1,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 0,
+        "old_date_evidence": 0
+      },
+      "old": {
+        "denominator": 1,
+        "valid_decisions": 1,
+        "accepted": 0,
+        "rejected": 1,
+        "failed_or_no_decision": 0,
+        "paired_matching_accept_and_reject": 0,
+        "old_date_evidence": 0
+      }
+    }
+  },
+  "limitations": "Single US fictional identity, one template, three correlated variants; no training, no SOTA claim, no real-document or South African deployment acceptance claim."
+}

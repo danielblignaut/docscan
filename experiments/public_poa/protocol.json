@@ -1,0 +1,49 @@
+{
+  "version": "public-poa-dev-v1",
+  "split": "DEV",
+  "publisher": "Synthesized",
+  "source": "https://www.synthesized.io/sample-bank-statement",
+  "licence": "CC BY 4.0",
+  "identity_groups": 1,
+  "variants": ["clean", "scanned", "fax"],
+  "selection": "All three publicly linked variants of the one bank statement, chosen before inference. All share one identity and remain in DEV. No TEST access.",
+  "render": {"dpi": 150, "page": 0, "pymupdf": "1.26.7", "alpha": false},
+  "input": "Raster PDF page; poa --flat --words with shipped page detector and tagger. No camera, page detection or capture robustness claim.",
+  "today": "2026-10-15",
+  "old_today": "2027-02-01",
+  "timeout_seconds": 180,
+  "methods": ["rules", "tagger"],
+  "scored_fields": ["holder_name", "address.street", "address.city", "address.postal_code", "issuer", "account_number", "document_type", "statement_period.from", "statement_period.to"],
+  "mapping": {
+    "holder_name": "account_holder",
+    "address.street": "address.street (including apartment)",
+    "address.city": "address.city",
+    "address.postal_code": "address.zip",
+    "issuer": "bank_name",
+    "account_number": "personal_data entry of type ACCOUNT_NUMBER_MASKED; full printed masked value, not last-four alone",
+    "document_type": "document_type",
+    "statement_period.from": "period[0]",
+    "statement_period.to": "period[1]"
+  },
+  "normalisation": "Unicode NFKC, casefold, replace nonalphanumeric characters with spaces, collapse whitespace. Dates must match ISO strings. No fuzzy matching, abbreviation expansion or ZIP truncation.",
+  "unscored": {
+    "document_date": "Publisher supplies only statement period, no independent issue date. Report missing/period-start/period-end/other categories only. Never infer truth from scanner output.",
+    "address.province": "US state has no representation in shipped South African province enum; report as schema gap, never map state to province.",
+    "address.suburb": "No independent annotation; not scored.",
+    "province_inferred": "Implementation metadata, not publisher annotation."
+  },
+  "denominator": "Three fixed inputs per method, nine field opportunities per input; missing/error/timeout/malformed results fail every field and all-fields. No exclusions after inference. One identity, so no statistical significance or population claims.",
+  "verification": {
+    "entrypoint": "Shipped poa_capture --max-frames=1 --min-frames=1, with each page's frozen OCR words independently; no cross-variant voting.",
+    "cases": ["matching", "wrong_person", "wrong_address", "old"],
+    "matching": "Known customer from independent publisher truth; age reference today. Acceptance diagnostic only, since US document is outside ZA postal domain and watermark is not an authenticity test.",
+    "wrong_person": "Replace customer name with fixed invented completely different name; preserve address.",
+    "wrong_address": "Add 1000 to leading house number in customer street; preserve name and all other address components.",
+    "old": "Same unedited image and customer, change reference clock to old_today, after period is more than three months old.",
+    "failure": "Failed OCR or verification process stays in denominator and never earns a successful rejection. Report reason checks and paired matching-accept plus negative-reject, to reveal trivial reject-all behavior.",
+    "issuer_decoy": "Not measured: no separately annotated issuer address in this sample."
+  },
+  "diagnostic": "Run clean PDF native text-layer words and original geometry through poa_fields and single-frame poa_capture; independent of image OCR and never pooled with image metrics. Same nine-field truth. This is a text-layer diagnostic, not oracle-quality OCR or end-to-end performance.",
+  "next_source": "InvoiceOCR-Synth dataset card declares synthetic CC BY 4.0 and 177 utility_bill template records, but no images downloaded this round; templates are not proof of document semantic class.",
+  "limits": "Single US fictional identity, one template, three correlated variants; no training, no SOTA claim, no real-document or South African deployment acceptance claim."
+}
