@@ -69,3 +69,13 @@ For the private reported image, pass `DOCSCAN_PERF_IMAGE`,
 `DOCSCAN_EXPECTED_CODES` and `DOCSCAN_EXPECTED_REPORT` to `barcode-speed.mjs`.
 Only counts and timings are printed; the attachment, identifiers and JSON report
 are not committed. `DOCSCAN_URL` targets the deployed Pages build.
+
+## Live Pages verification
+
+The deployed PR #8 build (merge `1b31a4f76a100fbe1a45ac22ac708af96879f324`)
+was checked with the same private image and supplied report: two codes in
+360.5 ms, then all five fields after 24,289.9 ms of background label processing.
+With model requests blocked, the two codes appeared in 268.4 ms. Model retry,
+camera/file handoff, batch cancellation, source-event correlation and persistent
+worker-failure checks passed on that live build. These remain desktop Chrome
+measurements after scanner readiness, not phone or cold-network guarantees.
