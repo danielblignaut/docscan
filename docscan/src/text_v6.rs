@@ -12,6 +12,7 @@ use wasm_bindgen::prelude::*;
 pub const DICTIONARY_JSON: &str = include_str!("text_v6_dictionary.json");
 const CLASSES: usize = 6906;
 const MAX_SIDE: usize = 960;
+const DETAIL_MAX_SIDE: usize = 1600;
 const MAX_PIXELS: usize = 24_000_000;
 const MAX_CANDIDATES: usize = 3000;
 const MAX_LINES: usize = 256;
@@ -62,6 +63,13 @@ impl PaddleTextScanner {
     }
     pub fn load_recognizer(&mut self, bytes: Vec<u8>, dictionary_json: &str) -> Result<(), JsError> {
         self.load_recognizer_native(bytes, dictionary_json).map_err(|e| JsError::new(&e.to_string()))
+    }
+    /// Optional small-print profile: retains more detector pixels at higher cost.
+    pub fn read_detailed(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let result = self
+            .read_detailed_native(rgba, width as usize, height as usize)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        crate::to_js(&result)
     }
     pub fn read(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let result = self
@@ -120,6 +128,14 @@ impl PaddleTextScanner {
         Ok(())
     }
     pub fn read_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
+        self.read_at_resolution(rgba, width, height, MAX_SIDE)
+    }
+    /// Uses the same models, thresholds and allocation guards with a larger
+    /// bounded detector input. Explicit opt-in for dense documents.
+    pub fn read_detailed_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
+        self.read_at_resolution(rgba, width, height, DETAIL_MAX_SIDE)
+    }
+    fn read_at_resolution(&self, rgba: &[u8], width: usize, height: usize, max_side: usize) -> Result<PaddleTextResult> {
         validate_image(rgba, width, height)?;
         let detector = self.detector.as_ref().context("PP-OCR detector is not loaded")?;
         let recognizer = self.recognizer.as_ref().context("PP-OCR recognizer is not loaded")?;
@@ -130,7 +146,7 @@ impl PaddleTextScanner {
             height,
             channels: 4,
         };
-        let (input, dw, dh) = detection_input(&image);
+        let (input, dw, dh) = detection_input(&image, max_side);
         let value = ValueView::from_shape([1, 3, dh, dw], &input)?;
         let mut outputs = detector.run(vec![(detector.input_ids()[0], value.into())], detector.output_ids(), None)?;
         let map = outputs.remove(0).into_tensor::<f32>().context("non-float detector output")?;
@@ -246,8 +262,8 @@ fn cubic_weight(x: f32) -> f32 {
         0.0
     }
 }
-fn detection_input(image: &Image<'_>) -> (Vec<f32>, usize, usize) {
-    let ratio = (MAX_SIDE as f32 / image.width.max(image.height) as f32).min(1.0);
+fn detection_input(image: &Image<'_>, max_side: usize) -> (Vec<f32>, usize, usize) {
+    let ratio = (max_side as f32 / image.width.max(image.height) as f32).min(1.0);
     let rounded = |size: usize| (((size as f32 * ratio).floor() / 32.0).round_ties_even() as usize * 32).max(32);
     let (w, h) = (rounded(image.width), rounded(image.height));
     let mut out = vec![0.0; 3 * w * h];
@@ -514,7 +530,7 @@ mod tests {
             height: 1,
             channels: 4,
         };
-        let (data, w, h) = detection_input(&image);
+        let (data, w, h) = detection_input(&image, MAX_SIDE);
         assert!((data[0] - (-0.485 / 0.229)).abs() < 1e-5);
         assert!((data[2 * w * h] - ((1.0 - 0.406) / 0.225)).abs() < 1e-5);
         let transparent = Image {
@@ -524,6 +540,19 @@ mod tests {
             channels: 4,
         };
         assert_eq!(transparent.pixel(0, 0), [255.0; 3]);
+    }
+    #[test]
+    fn detailed_detector_retains_pixels_with_a_fixed_bound() {
+        let pixels = vec![255u8; 1600 * 1000 * 4];
+        let image = Image { bytes: &pixels, width: 1600, height: 1000, channels: 4 };
+        let (_, w, h) = detection_input(&image, MAX_SIDE);
+        let (detail, dw, dh) = detection_input(&image, DETAIL_MAX_SIDE);
+        assert_eq!((w, h), (960, 608));
+        assert_eq!((dw, dh), (1600, 992));
+        assert_eq!(detail.len(), 3 * dw * dh);
+        assert!(dw <= DETAIL_MAX_SIDE && dh <= DETAIL_MAX_SIDE);
+        let small = Image { bytes: &pixels[..64 * 64 * 4], width: 64, height: 64, channels: 4 };
+        assert_eq!(detection_input(&small, MAX_SIDE), detection_input(&small, DETAIL_MAX_SIDE));
     }
     #[test]
     fn long_lines_fit_the_bounded_recognition_tensor() {
