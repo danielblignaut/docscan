@@ -1,0 +1,10 @@
+{
+ "candidate_ms_max": 8393.2,
+ "candidate_ms_median": 3032.7,
+ "cpu": "3",
+ "frames": 12,
+ "full_ms_max": 8343.0,
+ "full_ms_median": 3000.0,
+ "roi_over_full_max": 1.056,
+ "roi_over_full_median": 1.003
+}

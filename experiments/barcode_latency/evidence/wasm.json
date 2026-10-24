@@ -1,0 +1,104 @@
+{
+ "barcodes": {
+  "cold_call_ms": [
+   404.6,
+   386.1,
+   393.7
+  ],
+  "instantiate_ms_median": 35.6,
+  "items": 2,
+  "models_ms_median": 0.0,
+  "warm_call_ms_median": 139.4
+ },
+ "cpu": "3",
+ "decoder": "PIL (browser decodes with createImageBitmap)",
+ "exploratory_tight_vs_full": {
+  "barcode_to_both": 1,
+  "base": 5,
+  "both_to_barcode": 0,
+  "cand": 5,
+  "gained": 0,
+  "gained_by_kind": {},
+  "lost": 0,
+  "lost_by_kind": {},
+  "source_changed": 1
+ },
+ "frozen_vs_full": {
+  "barcode_to_both": 0,
+  "base": 5,
+  "both_to_barcode": 0,
+  "cand": 5,
+  "gained": 0,
+  "gained_by_kind": {},
+  "lost": 0,
+  "lost_by_kind": {},
+  "source_changed": 0
+ },
+ "image": "user photo (private)",
+ "labelled": {
+  "cold_call_ms": [
+   24006.5,
+   24200.3,
+   25633.2
+  ],
+  "instantiate_ms_median": 35.1,
+  "items": 5,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "models_ms_median": 90.3,
+  "sources_shown": {
+   "barcode": 1,
+   "both": 1,
+   "text": 3
+  },
+  "warm_call_ms_median": 23863.0
+ },
+ "near_bars_exploratory_tight": {
+  "cold_call_ms": [
+   3933.0,
+   3824.2,
+   3653.6
+  ],
+  "instantiate_ms_median": 37.0,
+  "items": 5,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "models_ms_median": 89.2,
+  "sources_shown": {
+   "both": 2,
+   "text": 3
+  },
+  "warm_call_ms_median": 3003.2
+ },
+ "near_bars_frozen": {
+  "cold_call_ms": [
+   23973.2,
+   26176.0,
+   23772.7
+  ],
+  "instantiate_ms_median": 35.6,
+  "items": 5,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "models_ms_median": 82.8,
+  "sources_shown": {
+   "barcode": 1,
+   "both": 1,
+   "text": 3
+  },
+  "warm_call_ms_median": 24740.5
+ },
+ "size": [
+  720,
+  1280
+ ]
+}

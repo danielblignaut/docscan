@@ -1,0 +1,94 @@
+--- a/docscan/src/lib.rs
++++ b/docscan/src/lib.rs
+@@ -14,6 +14,7 @@
+ pub mod geometry;
+ pub mod idback;
+ pub mod idocr;
++pub mod label_regions;
+ pub mod labels;
+ pub mod mrz;
+ pub mod mrz_decode;
+@@ -305,6 +306,17 @@
+         to_js(&out)
+     }
+ 
++    /// [`Scanner::labelled`], reading print only around the frame's bars
++    /// ([`label_regions::plan`]), or the whole frame when nothing locates it.
++    /// `margins`: five numbers ([`label_regions::Margins::from_slice`]), or
++    /// empty for [`label_regions::MARGINS`].
++    pub fn labelled_near_bars(&self, rgba: &[u8], width: u32, height: u32, margins: Vec<f32>) -> Result<JsValue, JsError> {
++        let out = self
++            .labelled_near_bars_native(rgba, width, height, label_regions::Margins::from_slice(&margins))
++            .map_err(|e| JsError::new(&e.to_string()))?;
++        to_js(&out)
++    }
++
+     /// Loads the proof-of-address field tagger (`poa-tagger.onnx` or `.rten`).
+     pub fn load_tagger(&mut self, model: Vec<u8>) -> Result<(), JsError> {
+         self.tagger = Some(poa::tagger::Tagger::load(model).map_err(|e| JsError::new(&e.to_string()))?);
+@@ -966,6 +978,65 @@
+         Ok(labels::associate(&barcodes, &regions, &lines))
+     }
+ 
++    /// [`Scanner::labelled_native`] with OCR limited to the rectangles
++    /// [`label_regions::plan`] grows around the bars, read or not, packed onto
++    /// shared detector-sized canvases ([`label_regions::pack`]): a device
++    /// label's print sits beside its codes, and every detection pass costs
++    /// the same however little of it is print. A 720 × 1280 photo otherwise
++    /// takes six tiles. With no bars, or bars across most of the frame, it
++    /// reads the whole frame as `labelled_native` does. Pairing is unchanged.
++    pub fn labelled_near_bars_native(&self, rgba: &[u8], width: u32, height: u32, margins: label_regions::Margins) -> anyhow::Result<labels::Labelled> {
++        let luma = quality::rgba_to_luma(rgba);
++        let barcodes = barcode::read_all(&luma, width, height, None);
++        let regions: Vec<[f32; 4]> = barcode::oriented_regions(&luma, width as usize, height as usize).iter().map(|r| r.bounds()).collect();
++        let k = (Self::LABEL_OCR_WIDTH_PX as f32 / width as f32).min(1.0);
++        let scaled;
++        let (small, sw, sh) = if k < 1.0 {
++            scaled = quality::scale_rgba(rgba, width as usize, height as usize, k);
++            (scaled.0.as_slice(), scaled.1, scaled.2)
++        } else {
++            (rgba, width as usize, height as usize)
++        };
++        let bars: Vec<[f32; 4]> = regions.iter().map(|r| r.map(|v| v * k)).collect();
++        let codes: Vec<Vec<[f32; 2]>> = barcodes.iter().map(|b| b.points.iter().map(|p| [p[0] * k, p[1] * k]).collect()).collect();
++        let plan = label_regions::plan(sw as u32, sh as u32, &bars, &codes, margins);
++        let mut lines = Vec::new();
++        if plan.whole_frame.is_some() {
++            lines = self.ocr_tiled(small, sw, sh)?;
++        } else {
++            let (placed, apart) = label_regions::pack(&plan.rects);
++            let [cw, ch] = label_regions::CANVAS;
++            for c in 0..placed.iter().map(|p| p.canvas + 1).max().unwrap_or(0) {
++                let ocr = self.ocr_lines(&label_regions::compose(small, sw as u32, &placed, c), cw, ch)?;
++                for mut l in ocr.lines {
++                    if ocr.skew.abs() >= 1.0 {
++                        let q = [[l.x, l.y], [l.x + l.w, l.y], [l.x, l.y + l.h], [l.x + l.w, l.y + l.h]]
++                            .map(|p| geometry::rotated_to_source(p, cw as usize, ch as usize, ocr.skew));
++                        let (x0, x1) = q.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[0]), b.max(p[0])));
++                        let (y0, y1) = q.iter().fold((f32::MAX, f32::MIN), |(a, b), p| (a.min(p[1]), b.max(p[1])));
++                        (l.x, l.y, l.w, l.h) = (x0, y0, x1 - x0, y1 - y0);
++                    }
++                    // A line in a gutter belongs to no crop.
++                    if let Some(b) = label_regions::canvas_to_frame(&placed, c, [l.x, l.y, l.w, l.h]) {
++                        (l.x, l.y, l.w, l.h) = (b[0], b[1], b[2], b[3]);
++                        lines.push(l);
++                    }
++                }
++            }
++            for rect in apart {
++                let [rx, ry, rw, rh] = rect;
++                for mut l in self.ocr_tiled(&label_regions::crop_rgba(small, sw as u32, rect), rw as usize, rh as usize)? {
++                    (l.x, l.y) = (l.x + rx as f32, l.y + ry as f32);
++                    lines.push(l);
++                }
++            }
++        }
++        for l in &mut lines {
++            (l.x, l.y, l.w, l.h) = (l.x / k, l.y / k, l.w / k, l.h / k);
++        }
++        Ok(labels::associate(&barcodes, &regions, &lines))
++    }
++
+     /// OCR of a whole frame in overlapping tiles about the detection model's
+     /// input size (600 × 800). The model squashes a larger image to fit, which
+     /// costs small print (a device label's digits) the detail it needs; tiles

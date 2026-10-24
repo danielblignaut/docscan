@@ -1,0 +1,203 @@
+{
+ "all_dev": {
+  "barcode_to_both": 0,
+  "base": 261,
+  "both_to_barcode": 0,
+  "candidate": {
+   "detections": 218,
+   "false_fields": 24,
+   "frames": 72,
+   "gutter_lines": 0,
+   "label_value": 0.7095,
+   "label_value_hits": 210,
+   "mean_ocr_share": 0.9054,
+   "tiles": 218,
+   "truth_fields": 296,
+   "value": 0.7905,
+   "value_hits": 234,
+   "whole_frame": 59,
+   "whole_frame_no_bars": 0
+  },
+  "frames_with_gain": [
+   "bc_dev_00014",
+   "bc_dev_00101",
+   "bc_dev_00118",
+   "bc_dev_00130",
+   "bc_dev_00289"
+  ],
+  "frames_with_loss": [
+   "bc_dev_00014",
+   "bc_dev_00101",
+   "bc_dev_00118",
+   "bc_dev_00126",
+   "bc_dev_00130",
+   "bc_dev_00289"
+  ],
+  "full": {
+   "detections": 239,
+   "false_fields": 22,
+   "frames": 72,
+   "gutter_lines": 0,
+   "label_value": 0.7297,
+   "label_value_hits": 216,
+   "mean_ocr_share": 1.0,
+   "tiles": 239,
+   "truth_fields": 296,
+   "value": 0.8074,
+   "value_hits": 239,
+   "whole_frame": 0,
+   "whole_frame_no_bars": 0
+  },
+  "gained": 6,
+  "gained_by_kind": {
+   "imei": 1,
+   "text": 5
+  },
+  "label_value_gained": 0,
+  "label_value_lost": 6,
+  "lost": 9,
+  "lost_by_kind": {
+   "imei": 3,
+   "text": 6
+  },
+  "source_changed": 0,
+  "value_gained": 0,
+  "value_lost": 5
+ },
+ "all_dev_exploratory_tight": {
+  "barcode_to_both": 2,
+  "base": 261,
+  "both_to_barcode": 5,
+  "detections": 164,
+  "false_fields": 24,
+  "frames": 72,
+  "gained": 38,
+  "gained_by_kind": {
+   "gtin": 2,
+   "imei": 11,
+   "text": 25
+  },
+  "gutter_lines": 1,
+  "label_value": 0.6892,
+  "label_value_gained": 14,
+  "label_value_hits": 204,
+  "label_value_lost": 26,
+  "lost": 48,
+  "lost_by_kind": {
+   "gtin": 2,
+   "imei": 15,
+   "text": 31
+  },
+  "mean_ocr_share": 0.5786,
+  "source_changed": 7,
+  "tiles": 167,
+  "truth_fields": 296,
+  "value": 0.7669,
+  "value_gained": 7,
+  "value_hits": 227,
+  "value_lost": 19,
+  "whole_frame": 23,
+  "whole_frame_no_bars": 0
+ },
+ "gate": {
+  "passed": false,
+  "rule": "held-out: no lost field and no more false fields than the full reading"
+ },
+ "held_out_odd": {
+  "barcode_to_both": 0,
+  "base": 124,
+  "both_to_barcode": 0,
+  "candidate": {
+   "detections": 116,
+   "false_fields": 12,
+   "frames": 36,
+   "gutter_lines": 0,
+   "label_value": 0.7034,
+   "label_value_hits": 102,
+   "mean_ocr_share": 0.9426,
+   "tiles": 116,
+   "truth_fields": 145,
+   "value": 0.7586,
+   "value_hits": 110,
+   "whole_frame": 32,
+   "whole_frame_no_bars": 0
+  },
+  "frames_with_gain": [
+   "bc_dev_00014",
+   "bc_dev_00130",
+   "bc_dev_00289"
+  ],
+  "frames_with_loss": [
+   "bc_dev_00014",
+   "bc_dev_00130",
+   "bc_dev_00289"
+  ],
+  "full": {
+   "detections": 123,
+   "false_fields": 11,
+   "frames": 36,
+   "gutter_lines": 0,
+   "label_value": 0.731,
+   "label_value_hits": 106,
+   "mean_ocr_share": 1.0,
+   "tiles": 123,
+   "truth_fields": 145,
+   "value": 0.7793,
+   "value_hits": 113,
+   "whole_frame": 0,
+   "whole_frame_no_bars": 0
+  },
+  "gained": 3,
+  "gained_by_kind": {
+   "imei": 1,
+   "text": 2
+  },
+  "label_value_gained": 0,
+  "label_value_lost": 4,
+  "lost": 5,
+  "lost_by_kind": {
+   "imei": 2,
+   "text": 3
+  },
+  "source_changed": 0,
+  "value_gained": 0,
+  "value_lost": 3
+ },
+ "held_out_odd_exploratory_tight": {
+  "barcode_to_both": 2,
+  "base": 124,
+  "both_to_barcode": 3,
+  "detections": 82,
+  "false_fields": 9,
+  "frames": 36,
+  "gained": 13,
+  "gained_by_kind": {
+   "gtin": 1,
+   "imei": 3,
+   "text": 9
+  },
+  "gutter_lines": 0,
+  "label_value": 0.6828,
+  "label_value_gained": 6,
+  "label_value_hits": 99,
+  "label_value_lost": 13,
+  "lost": 22,
+  "lost_by_kind": {
+   "gtin": 1,
+   "imei": 7,
+   "text": 14
+  },
+  "mean_ocr_share": 0.5859,
+  "source_changed": 5,
+  "tiles": 82,
+  "truth_fields": 145,
+  "value": 0.731,
+  "value_gained": 3,
+  "value_hits": 106,
+  "value_lost": 10,
+  "whole_frame": 12,
+  "whole_frame_no_bars": 0
+ },
+ "margins": "1.5,0.4,1.0,0.4,48",
+ "mode": "mosaic"
+}

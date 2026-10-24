@@ -1,0 +1,19 @@
+{
+ "head": "815db22e4a61a31ea70df3aa44cf96bd039c945d",
+ "copied": {
+  "docscan/src/label_regions.rs": "d1e3f578a5d61340dc1fe8e74b3f6b5fce1e6e2a340bccd094b12c6f4bce4a55",
+  "docscan/examples/latency_probe.rs": "94781cb2da2a55c28731df56d847ffeabb4902b210091d432cb5eb11bd9bc455"
+ },
+ "models": {
+  "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+  "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e"
+ },
+ "binaries": {
+  "bin/latency_probe": "3da856fd6be6b8341376c3947335f650bc1dd87d127fe93c42bfffaa9320876f",
+  "bin/scan-base": "8713a8d5c39509d03bc71a7a49957e3d7e18e6f6745339c3ce7fcfe34f7c8120",
+  "pkg-cand/docscan_bg.wasm": "0f14cd73427b27eb5741eb5fcd3203cb031837d5dac1657b42d2cacd7989fc49"
+ },
+ "snapshot_files": 58,
+ "build": "cargo --locked --release -j2 (native); wasm-pack --release --target web, RUSTFLAGS=+simd128, CARGO_BUILD_JOBS=2, single-threaded",
+ "note": "pkg-cand built from the snapshot with lib-integration.patch and the final label_regions.rs; the probe binary predates the final MARGINS/PREVIEW_MARGINS constants and was always run with explicit --margins"
+}

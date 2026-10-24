@@ -1,0 +1,26 @@
+{
+ "report": "user-supplied 22 s browser report (private): outcome.fields 5 (IMEI1, IMEI2, SN, 2 GTIN), 2 EAN-13 decodes, captureMs 21795",
+ "compared_on": "label, value, kind, source, check_digit_valid, barcode_format (values compared in memory only)",
+ "wasm_labelled_full": {
+  "exact": true
+ },
+ "wasm_labelled_near_bars_frozen_wide": {
+  "exact": true,
+  "note": "whole-frame fallback on this photo; fields identical to wasm full"
+ },
+ "wasm_labelled_near_bars_tight_research_only": {
+  "exact": false,
+  "labels_values_kinds_checks": true,
+  "difference": "GTIN provenance: both GTINs 'both' vs report one 'both', one 'barcode'"
+ },
+ "native_full": {
+  "exact": false,
+  "labels_values_kinds_checks": true,
+  "difference": "one GTIN 'both' where the report has 'barcode'"
+ },
+ "native_tight_research_only": {
+  "exact": false,
+  "labels_values_kinds_checks": true,
+  "difference": "the two GTINs' provenance swapped vs the report"
+ }
+}
