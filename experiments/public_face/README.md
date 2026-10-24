@@ -153,3 +153,20 @@ and framing/quality hints alongside attack acceptance. A rejection before any
 parallax/PAD measurement says nothing about those checks' effectiveness. Original
 clips were not recorded following this ring challenge. Bona fide active BPCER and
 APCER at fixed BPCER remain unavailable. No experiment disables physical checks.
+
+After the active-session run showed all five clips stopped at centering (no
+passive/parallax samples), a separate temporal passive diagnostic was declared
+before examining temporal scores. `temporal_replay.py` evaluates **every third
+frame of every full replay clip**, at the same maximum 960-pixel long side as the
+three-frame preview. It reports all frame crossings at the two unchanged raw
+thresholds, clips with any crossing, and clips whose median crosses. An any-frame
+crossing is an attack-opportunity diagnostic, **not** a production acceptance
+rule. There are still only five attack trials, not hundreds of independent ones;
+no temporal bona fide trials or active BPCER are available. No unfavorable frame
+is omitted, no crop is selected, and PNG frames are deleted after inference.
+
+```sh
+/tmp/docscan-bench/venv/bin/python experiments/public_face/temporal_replay.py \
+  --binary docscan/target/release/examples/face \
+  --report experiments/public_face/results/temporal-replay-v1.json
+```
