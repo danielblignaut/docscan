@@ -63,3 +63,13 @@ recovery only; it does not measure semantic extraction or customer verification.
 There is no full-page hallucination estimate for partially annotated invoices.
 Samples share layouts and pages share statements; no independent-sample
 significance or state-of-the-art claim follows from these DEV results.
+
+The long-line regression is `node experiments/public_documents/wasm_long_line.mjs`
+(after a wasm build). It reads the pinned synthetic bank page locally, asserts
+that the long sentence survives, and reports only pass status, line count and
+allocated wasm memory. An optional first argument selects an older package for
+before/after reproduction. The old port rejects the whole page when a genuine
+918×12-pixel terms line exceeds 3200 pixels at recognition height 48. Bounding
+the resized width at 3200, as the Python reference already does, retains that
+line without increasing the allocation limit. Extremely compressed text can
+still misread; there is no promise of perfect long-line recognition.
