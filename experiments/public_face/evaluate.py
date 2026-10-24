@@ -20,10 +20,40 @@ from PIL import Image, ImageFilter
 ROOT = Path(__file__).resolve().parents[2]
 DATA = Path('/tmp/docscan-public-data/face-london')
 CONDITIONS = ('original', 'document_gray', 'document_small')
+CACHE_VERSION = 'embedding-v2'
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def cache_key(binary_hash, model_hashes, rows, variant, jobs):
+    # A shard index has different rows when the job count changes.
+    return hashlib.sha256(json.dumps([CACHE_VERSION, binary_hash, model_hashes, rows, variant, jobs], sort_keys=True).encode()).hexdigest()
+
+
+def read_embeddings(out, expected_rows):
+    meta = json.loads(Path(str(out) + '.json').read_text())
+    dim = meta['dim']
+    if type(dim) is not int or dim <= 0 or len(meta['items']) != expected_rows:
+        raise ValueError('Native embed metadata has unexpected dimensions or row count')
+    raw = np.fromfile(out, dtype='<f4')
+    if raw.size != expected_rows * dim:
+        raise ValueError('Native embed output rows have inconsistent dimensions')
+    vec = raw.reshape(expected_rows, dim)
+    found = []
+    for v, item in zip(vec, meta['items'], strict=True):
+        if type(item.get('found')) is not bool:
+            raise ValueError('Native embed output is missing a detection flag')
+        # A detected box with an absent mesh is not a usable face. The native
+        # embed path historically labels these found; production photo does not.
+        usable = item['found'] and item.get('presence', 1.0) >= 0.5
+        norm = np.linalg.norm(v)
+        usable = usable and np.isfinite(v).all() and np.isfinite(norm) and norm > 1e-12
+        found.append(bool(usable))
+    found = np.array(found, dtype=bool)
+    vec[~found] = 0
+    return vec, found, meta['items']
 
 
 def prepare(data):
@@ -68,7 +98,7 @@ def embed(binary, data, rows, variant, jobs):
     elif variant != 'iris':
         flags = ['--align', variant]
     models = ROOT / 'models/face'
-    key = hashlib.sha256((digest(binary) + variant + ''.join(digest(p) for p in sorted(models.glob('*.onnx'))) + json.dumps(rows)).encode()).hexdigest()
+    key = cache_key(digest(binary), {p.name: digest(p) for p in sorted(models.glob('*.onnx'))}, rows, variant, jobs)
     folder = data / 'runs' / key
     folder.mkdir(parents=True, exist_ok=True)
     paths = folder / 'images.txt'
@@ -81,18 +111,12 @@ def embed(binary, data, rows, variant, jobs):
         if not out.exists() or not Path(str(out) + '.json').exists():
             cmd = [str(binary), '--models', str(models), '--recogniser', 'sface_int8.onnx:sface_int8:sface', '--no-antispoof', 'embed', str(paths), str(out), '--shard', f'{i}/{jobs}', *flags]
             subprocess.run(cmd, env=env, check=True, timeout=1200, capture_output=True)
-        meta = json.loads(Path(str(out) + '.json').read_text())
-        raw = np.fromfile(out, dtype='<f4')
-        # Native harness has a historical zero-length-row bug if first face fails.
-        # Refuse to reshape silently; never score a displaced person's embedding.
-        if raw.size != len(meta['items']) * meta['dim']:
-            raise ValueError('Native embed output rows have inconsistent dimensions')
-        return raw.reshape(-1, meta['dim']), meta['items']
+        return read_embeddings(out, len(rows) * (i + 1) // jobs - len(rows) * i // jobs)
 
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         parts = list(pool.map(run, range(jobs)))
     vec = np.concatenate([p[0] for p in parts])
-    found = np.array([x['found'] for p in parts for x in p[1]])
+    found = np.concatenate([p[1] for p in parts])
     vec /= np.maximum(np.linalg.norm(vec, axis=1, keepdims=True), 1e-12)
     return vec, found, {'cache_key': key, 'elapsed_s': round(time.monotonic() - start, 2)}
 
@@ -102,7 +126,9 @@ def scores(rows, vec, found, split, condition):
     b = [i for i, r in enumerate(rows) if r['split'] == split and r['pose'] == 'smile']
     s = vec[a] @ vec[b].T
     valid = found[a, None] & found[None, b]
-    s[~valid] = -1
+    # Below every possible cosine threshold. Missing faces always reject,
+    # even when all calibration references are missing.
+    s[~valid] = -np.inf
     labels = np.array([[rows[i]['id'] == rows[j]['id'] for j in b] for i in a])
     return s, labels, {'identities': len(a), 'genuine_pairs': int(labels.sum()), 'impostor_pairs': int((~labels).sum()), 'missing_probe': int((~found[a]).sum()), 'missing_reference': int((~found[b]).sum())}
 
@@ -110,13 +136,21 @@ def scores(rows, vec, found, split, condition):
 def threshold_at_far(s, y, far):
     # score >= threshold accepts. Step above a selected impostor to respect
     # the empirical FAR budget even with ties (no optimistic interpolation).
+    if not 0 <= far < 1 or not np.any(~y):
+        raise ValueError('Need impostor pairs and a FAR in [0, 1)')
     neg = np.sort(s[~y])[::-1]
     allowed = int(np.floor(far * len(neg)))
-    return float(np.nextafter(neg[min(allowed, len(neg) - 1)], np.float32(np.inf)))
+    cutoff = neg[allowed]
+    if not np.isfinite(cutoff):
+        return -1.0
+    return float(np.nextafter(cutoff, np.array(np.inf, dtype=neg.dtype)))
 
 
 def rates(s, y, t):
-    return {'tar': float(np.mean(s[y] >= t)), 'far': float(np.mean(s[~y] >= t)), 'threshold': float(t)}
+    if not np.any(y) or not np.any(~y):
+        raise ValueError('Verification rates require genuine and impostor pairs')
+    accepted = np.isfinite(s) & (s >= t)
+    return {'tar': float(np.mean(accepted[y])), 'far': float(np.mean(accepted[~y])), 'genuine_accepted': int(accepted[y].sum()), 'impostors_accepted': int(accepted[~y].sum()), 'threshold': float(t)}
 
 
 def score(rows, vec, found):
@@ -159,6 +193,8 @@ def main():
         vec, found, run = embed(a.binary.resolve(), a.data, rows, a.variant, a.jobs)
     report = {'protocol': 'london-neutral-smile-v1-dev-only', 'purpose': 'research evaluation; no training or shipped calibration', 'embedding_protocol': 'production-pair uses flip-averaged still vs unflipped reference; other variants use same transform on both; no session aggregation or quality gating', 'source_revision': json.loads((a.data / 'manifest.json').read_text())['revision'], 'source_manifest_sha256': digest(a.data / 'manifest.json'), 'protocol_sha256': digest(a.data / 'protocol-v1.json'), 'binary_sha256': digest(a.binary), 'variant': a.variant, 'models': {p.name: digest(p) for p in sorted((ROOT / 'models/face').glob('*.onnx'))}, 'run': run, 'metrics': score(rows, vec, found), 'limits': ['51 identities per split; 2550 dependent impostor pairs cannot certify population FAR=0.001', 'One photo session and source; no held-out device, age or source validation', 'Controlled portrait degradation is not physical ID capture', 'No attack data; APCER and liveness effectiveness not estimable', 'No model weights trained; no production threshold selected']}
     a.report.parent.mkdir(parents=True, exist_ok=True)
+    report.update(protocol='london-neutral-smile-v2-dev-only', scorer_sha256=digest(Path(__file__)),
+                  scorer_changes='Shard-aware cache; exact row counts; reject absent mesh and invalid embeddings; missing pairs always reject')
     a.report.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))
 

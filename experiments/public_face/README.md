@@ -95,3 +95,28 @@ portrait (the still-photo path) against an unflipped smiling reference (the live
 frame path). It remains a **proxy**: no capture quality rejection or multi-frame
 session aggregation is modeled. The `iris` baseline is explicitly a native
 unflipped-embedding protocol, not the exact end-to-end production decision.
+
+## Referee audit, 24 October 2026
+
+Version 2 makes embedding caches depend on the shard count and verifies each
+shard's expected row count. Version 1 could reuse half the dataset when switching
+from two workers to one. Non-finite, zero, or low-presence mesh templates reject;
+missing comparisons use a rejection sentinel below every cosine threshold.
+Reports now include accepted counts and the scorer digest. The identity split,
+images, degradation conditions and shipped thresholds are unchanged.
+
+PAD version 2 keys inference by **all** model hashes and the actual frame hashes,
+checks output length before grouping, and rejects non-finite/out-of-range scores.
+It preserves the predeclared three-frame median (one missing frame alone does not
+reject a whole video). It adds exact two-sided 95% binomial intervals: even zero
+errors in five cases gives an upper bound of 52.2%, **assuming independent trials**,
+which the preview's missing identity/device metadata cannot establish. This is
+sample-size context, not a certification bound. Original v1 results are preserved;
+v2 results must be labelled separately, not silently substituted.
+
+Run the referee regressions with:
+
+```sh
+/tmp/docscan-bench/venv/bin/python -m unittest discover \
+  -s experiments/public_face -p 'test_*.py' -v
+```
