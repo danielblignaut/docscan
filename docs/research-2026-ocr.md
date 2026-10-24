@@ -58,3 +58,20 @@ uv pip install --python /tmp/docscan-ppocr-v6/venv/bin/python -r experiments/res
 
 The runner refuses to overwrite reports. To resume an interrupted batch, run
 only an unmeasured predeclared `--mode`; keep completed and failed results.
+
+## Measured outcome
+
+All seven Python modes and four native configurations were measured, followed
+by unchanged synthetic and non-text regressions. The tiny-detector/small-recognizer
+hybrid is the strongest practical lead: native detailed bank recall/precision
+**95.83% / 97.76%**, versus **94.62% / 96.93%** for the shipped detailed pipeline;
+invoice-region recall/precision **91.99% / 95.11%**, versus **87.36% / 93.50%**.
+It uses 22.9 MB of weights, not the 31.0 MB of the full small pair. No weights
+were trained. Larger detection alone regressed invoices, and sliced detection's
+extra recall came with a precision tradeoff. Full results, baselines, provenance,
+negative outcomes and reproduction: [experiment report](../experiments/research_ocr/README.md).
+
+The native baseline reproduces all prior scored items. Four configurations keep
+zero normalized CER on the twelve synthetic regression pages and emit no text
+on eight generated non-text pages. Browser memory/latency and independent
+real-camera data remain integration gates; none of these results is SOTA proof.
