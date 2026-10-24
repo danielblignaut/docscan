@@ -104,3 +104,17 @@ test('incomplete inspection warnings are not exported as failed page readings', 
  const result = createDocumentReport({ kind: 'file_error', message: 'Metadata unavailable', severity: 'warning', meta });
  assert.equal(result.outcome.status, 'incomplete'); assert.equal(result.outcome.severity, 'warning');
 });
+
+test('experimental exposure export retains original text and keeps alternatives separate', () => {
+ const result = createDocumentReport({ kind: 'text', meta, imageUrl: secret.imageUrl,
+   result: { engine: 'ppocr_v6_tiny', text: 'original 123', lines: [], exposure: {
+     version: 'frozen-global-exposure-v1', status: 'compared', applied: true, gain: 4, backgroundP90: .1,
+     alternative: { text: 'alternative 128', lines: [], ...secret }, error: null,
+   } } });
+ assert.equal(result.outcome.text, 'original 123');
+ assert.equal(result.outcome.exposure.alternative.text, 'alternative 128');
+ assert.equal(result.outcome.exposure.selection, 'original_retained_no_automatic_selection');
+ assert.match(result.outcome.exposure.interpretation, /can introduce incorrect characters/);
+ assert.equal('template' in result.outcome.exposure.alternative, false);
+ assert.equal('imageUrl' in result.outcome.exposure.alternative, false);
+});

@@ -16,6 +16,8 @@ import { documentMatch, matchEnrolments, type PhotoFace, portraitUrl, verificati
 import { FaceLiveness, type LivenessOutcome } from "./FaceLiveness";
 import { type Captured, IdCapture } from "./IdCapture";
 import type { CaptureMeta, Outcome } from "./outcome";
+import { createProcessingSession } from "./processing";
+import { ProcessingView } from "./ProcessingView";
 import type { ScannerClient } from "./scanner-client";
 
 export type { FaceMatch } from "./face-types";
@@ -45,7 +47,14 @@ export async function imagePixels(url: string, maxSide = 1600): Promise<ImageDat
   return ctx.getImageData(0, 0, c.width, c.height);
 }
 
-export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; face: FaceClient; scanner: ScannerClient; onDone: (o: Outcome) => void }) {
+export function FaceFlow({ flow, face, scanner, captureClient, onDone }: {
+  flow: FaceFlowId;
+  face: FaceClient;
+  scanner: ScannerClient;
+  /** The document step's live analysis (no OCR); a model-free worker answers at once. Defaults to `scanner`. */
+  captureClient?: ScannerClient;
+  onDone: (o: Outcome) => void;
+}) {
   const [step, setStep] = useState<"live" | "document" | "reading">("live");
   const [readError, setReadError] = useState<string | null>(null);
   const captureSession = useRef<AbortController | null>(null);
@@ -118,17 +127,23 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
       setReadError(null);
       setStep("reading");
       const c = captured[0];
+      // Both inputs are already captured: this operation only processes them.
+      const work = createProcessingSession(flow, "camera");
+      signal.addEventListener("abort", () => work.cancel(), { once: true });
+      work.stage("face_match");
       try {
         if (!c) throw new Error("No document was captured. Please try again.");
         const result = await readDocumentFace(c.imageUrl, imagePixels, async (image) => (await face.run<PhotoFace>({ kind: "photo", image })).result, signal);
-        if (!result || signal.aborted) { URL.revokeObjectURL(c.imageUrl); return; }
+        if (!result || signal.aborted) { URL.revokeObjectURL(c.imageUrl); work.cancel(); return; }
         const doc: DocumentFace = { copy_assessment: c.result.copy_assessment, imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
         const match = live.passed ? documentMatch(live.result.template, live.result.model, result, DOC_THRESHOLD) : null;
         docscan().events.push({ type: "facedoc", found: result.found, match });
+        work.complete();
         window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { copy_assessment: c.result.copy_assessment, kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
         onDone({ kind: "face", flow, liveness: live, match, document: doc, meta: meta(live) });
       } catch (error) {
         if (c) URL.revokeObjectURL(c.imageUrl);
+        work.fail(error);
         if (!signal.aborted) setReadError(error instanceof Error ? error.message : String(error));
       }
     },
@@ -159,16 +174,16 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
   if (flow === "faceid" && enrolments === null) return null;
   if (step === "live") {
     const label = flow === "liveness" ? "Face liveness" : flow === "faceid" ? "Face ID" : "Face vs ID document";
-    return <FaceLiveness face={face} preset={flow === "liveness" ? "full" : "quick"} label={label} stepNote={flow === "facedoc" ? "1 of 2" : undefined} onDone={onLive} />;
+    return <FaceLiveness face={face} preset={flow === "liveness" ? "full" : "quick"} label={label} scanner={flow} stepNote={flow === "facedoc" ? "1 of 2" : undefined} onDone={onLive} />;
   }
-  if (step === "document") return <IdCapture client={scanner} docType="photo_page" emitEvents={false} onDone={onDocument} />;
+  if (step === "document") return <IdCapture client={scanner} captureClient={captureClient} scanner={flow} docType="photo_page" emitEvents={false} onDone={onDocument} />;
+  if (!readError) return <ProcessingView title="Face vs ID document" stage="Finding the face on the document…" />;
   return (
-    <div className="capture face-capture">
-      <div className="capture-foot">
-        <div className="hint" data-testid="face-document-hint">{readError ?? "Finding the face on the document…"}</div>
-        {readError && <button type="button" onClick={() => { setReadError(null); setStep("document"); }}>Capture document again</button>}
-      </div>
-    </div>
+    <main className="processing-panel" data-testid="capture-error" role="alert">
+      <h1>Face vs ID document</h1>
+      <p data-testid="face-document-hint">{readError}</p>
+      <button type="button" className="primary" data-testid="capture-again" onClick={() => { setReadError(null); setStep("document"); }}>Capture document again</button>
+    </main>
   );
 }
 

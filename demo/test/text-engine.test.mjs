@@ -17,3 +17,9 @@ test('standard and unknown links preserve existing reader choices', () => {
   assert.deepEqual(textRequest(textEngineFromUrl('?textEngine=ppocr_v6_tiny'), image), {kind:'text_v6',detail:false,image});
   assert.deepEqual(textRequest(textEngineFromUrl('?textEngine=unknown'), image), {kind:'text_page',image});
 });
+
+test('brightness comparison is an explicit opt-in and retains the standard reader', () => {
+ const image = {};
+ assert.equal(textEngineFromUrl('?textEngine=ppocr_v6_tiny_exposure'), 'ppocr_v6_tiny_exposure');
+ assert.deepEqual(textRequest('ppocr_v6_tiny_exposure', image), { kind: 'text_v6', detail: false, exposureCompare: true, image });
+});

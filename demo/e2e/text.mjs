@@ -80,10 +80,10 @@ try {
   await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-camera.png`, import.meta.url).pathname, fullPage: true });
   console.log("PASS hands-free text capture, one completion, camera released", JSON.stringify({ engine, threads, timings: reading.timings_ms, wasmMemoryBytes: result.events[1].detail.meta.memoryBytes }));
 
-  // Leave while OCR runs. A subsequent photo request queues behind it,
-  // proving the abandoned request has drained before checking its events.
+  // Leave while OCR runs. Cancellation stops the worker; a subsequent photo
+  // reloads it and must not receive any abandoned capture events.
   await page.goto(`http://localhost:4186/?mode=text&threads=${threads}&textEngine=${engine}`);
-  await page.waitForFunction(() => document.querySelector('[data-testid="hint"]')?.textContent?.includes("Reading the page"), null, { timeout: 120000 });
+  await page.waitForFunction(() => document.querySelector('[data-testid="processing"] [role="status"]')?.textContent?.includes("Reading the page"), null, { timeout: 120000 });
   await page.locator('[data-testid="capture-home"]').click();
   await page.locator('[data-testid="home"]').waitFor();
   await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
@@ -97,9 +97,11 @@ try {
   await page.goto(`http://localhost:4186/?threads=${threads}&textEngine=${engine}`);
   await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
+  await page.locator('[data-testid="processing-cancel"]').click();
+  await page.locator('[data-testid="home"]').waitFor();
   await page.locator('[data-scanner="barcodes"]').click();
   await page.locator('[data-testid="capture"][data-scanner="barcodes"]').waitFor();
-  await page.waitForFunction(() => document.querySelector('[data-testid="results"]') || (window.__textReadResponses > 0 && window.__docscan.frames.length >= 3), null, { timeout: 120000 });
+  await page.waitForFunction(() => document.querySelector('[data-testid="results"]') || (window.__docscan.frames.length >= 3), null, { timeout: 120000 });
   assert.equal(await page.locator('[data-testid="capture"][data-scanner="barcodes"]').count(), 1);
   assert.equal(await page.locator('[data-testid="results"]').count(), 0);
   await page.locator('[data-testid="capture-home"]').click();

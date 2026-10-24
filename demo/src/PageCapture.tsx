@@ -1,9 +1,14 @@
-// Shared hands-free page capture. Releases the camera before OCR starts.
+// Shared hands-free page capture. Acquisition ends at the second stable
+// accepted frame: the camera is released, `docscan:capture-ready` fires and
+// the processing view replaces the camera before flattening and OCR start.
+// See docs/capture-processing.md.
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { cropToScreen, grab, grabFull, guideInVideo, openCamera, snapshot, toJpeg } from "./camera";
 import { drawPolygon, OUTLINE_COLOUR, type OutlineState, outlineState } from "./outline";
 import { type CaptureMeta, median } from "./outcome";
+import { createProcessingSession } from "./processing";
+import { ProcessingView } from "./ProcessingView";
 import type { ScannerClient } from "./scanner-client";
 import type { PageAnalysis } from "./types";
 
@@ -25,6 +30,20 @@ export interface CapturedPage {
   blob: Blob;
   captureMs: number;
 }
+
+/**
+ * What `onRead` is handed besides the page: whether the screen is still
+ * mounted, and `done`, called once the reading is ready and before it is
+ * published (the processing lifecycle completes there, ahead of
+ * `docscan:complete`). A throw is a failed read: the page offers a recapture.
+ */
+export interface PageWork {
+  active: () => boolean;
+  done: () => void;
+}
+
+/** Processing stages, as published in `docscan:processing` and as shown. */
+const STAGES = { flatten: "Flattening the page…", read: "Reading the page (OCR)…" } as const;
 
 type Docscan = { events: unknown[]; frames: unknown[] };
 const docscan = () => (window as unknown as { __docscan: Docscan }).__docscan;
@@ -48,10 +67,15 @@ function similar(a: PageAnalysis, b: PageAnalysis): boolean {
   return a.outline.corners.every(([x, y], i) => Math.hypot(x - b.outline!.corners[i][0], y - b.outline!.corners[i][1]) < tol);
 }
 
-export function PageCapture({ client, title, onRead }: {
+export function PageCapture({ client, captureClient, title, scanner, onRead }: {
+  /** Flattens and reads the captured page. */
   client: ScannerClient;
+  /** Analyses the live frames (`page`); a model-free worker answers at once. Defaults to `client`. */
+  captureClient?: ScannerClient;
   title: string;
-  onRead: (page: CapturedPage, meta: CaptureMeta, active: () => boolean) => Promise<void>;
+  /** The scanner id published in the processing events. */
+  scanner: string;
+  onRead: (page: CapturedPage, meta: CaptureMeta, work: PageWork) => Promise<void>;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const guideRef = useRef<HTMLDivElement>(null);
@@ -61,11 +85,18 @@ export function PageCapture({ client, title, onRead }: {
   const [error, setError] = useState<string | null>(null);
   const [fps, setFps] = useState(0);
   const [outlineUi, setOutlineUi] = useState<OutlineState>("grey");
+  /** Bumped by "Capture again": a fresh camera, run and session. */
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let stopped = false;
     let mounted = true;
+    const live = captureClient ?? client;
+    const session = createProcessingSession(scanner, "camera");
+    setStage(null);
+    setError(null);
+    setLast(null);
     let previous: PageAnalysis | null = null;
     let repeats = 0;
     const outline = outlineState(setOutlineUi);
@@ -82,25 +113,41 @@ export function PageCapture({ client, title, onRead }: {
     async function capture(rect: ReturnType<typeof guideInVideo>, analysedWidth: number, page: PageAnalysis) {
       stopped = true;
       const captureMs = performance.now() - t0;
-      setStage("Flattening the page…");
       const full = grabFull(frame, rect);
-      // The camera is no longer needed: release it before the slow part.
+      // The camera is no longer needed: release it, say so, and show the
+      // processing view before the slow part.
       release();
-      const { flat, blob, imageUrl } = await flattenPage(client, full, full.width / analysedWidth, page);
-      if (!mounted) { URL.revokeObjectURL(imageUrl); return; }
-      window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { step: title.toLowerCase(), imageUrl, blob, page } }));
-      docscan().events.push({ type: "page_captured", sinceStartMs: Math.round(captureMs), page });
-
-      setStage("Reading the page (OCR)…");
-      await onRead({ flat, imageUrl, blob, captureMs }, { source: "camera", captureMs, frames: pageMs.length, fastMs: median(pageMs) }, () => mounted);
-      if (mounted) outline.set("done");
+      session.captured({ step: title.toLowerCase(), inputCount: 1 });
+      docscan().events.push({ type: "capture_ready", sinceStartMs: Math.round(captureMs), operationId: session.id });
+      session.stage("flatten");
+      setStage(STAGES.flatten);
+      let imageUrl: string | null = null;
+      let handed = false;
+      try {
+        const flattened = await flattenPage(client, full, full.width / analysedWidth, page);
+        imageUrl = flattened.imageUrl;
+        if (!mounted) { URL.revokeObjectURL(imageUrl); return; }
+        window.dispatchEvent(new CustomEvent("docscan:captured", { detail: { step: title.toLowerCase(), imageUrl, blob: flattened.blob, page } }));
+        docscan().events.push({ type: "page_captured", sinceStartMs: Math.round(captureMs), page });
+        session.stage("read");
+        setStage(STAGES.read);
+        const done = () => { handed = true; session.complete(); };
+        await onRead({ flat: flattened.flat, imageUrl, blob: flattened.blob, captureMs }, { source: "camera", captureMs, frames: pageMs.length, fastMs: median(pageMs) }, { active: () => mounted, done });
+        // Read, and still on screen: the reader owns the image from here.
+        if (mounted) { done(); outline.set("done"); }
+      } catch (e) {
+        // A failed read never completes: the page asks for a recapture.
+        if (imageUrl && !handed) URL.revokeObjectURL(imageUrl);
+        session.fail(e);
+        if (mounted) setError(e instanceof Error ? e.message : String(e));
+      }
     }
 
     async function loop() {
       const video = videoRef.current;
       const guide = guideRef.current;
       if (stopped) return;
-      if (!video || !guide || video.readyState < 2 || client.busy) {
+      if (!video || !guide || video.readyState < 2 || live.busy) {
         requestAnimationFrame(loop);
         return;
       }
@@ -110,7 +157,7 @@ export function PageCapture({ client, title, onRead }: {
       const image = grab(video, rect);
       snapshot(video, frame);
       try {
-        const { result, ms } = await client.run<PageAnalysis>({ kind: "page", image });
+        const { result, ms } = await live.run<PageAnalysis>({ kind: "page", image });
         if (stopped) return;
         docscan().frames.push({ ms, size: [image.width, image.height], accepted: result.accepted, reasons: result.reasons, shape: result.shape, quality: result.quality });
         frames++;
@@ -138,6 +185,7 @@ export function PageCapture({ client, title, onRead }: {
         }
       } catch (e) {
         if (!mounted) return;
+        session.fail(e);
         setError(String(e));
         stopped = true;
         release();
@@ -157,13 +205,30 @@ export function PageCapture({ client, title, onRead }: {
         }
         requestAnimationFrame(loop);
       })
-      .catch((e) => { if (mounted) setError(e instanceof Error ? e.message : String(e)); });
+      .catch((e) => {
+        session.fail(e);
+        if (mounted) setError(e instanceof Error ? e.message : String(e));
+      });
     return () => {
       mounted = false;
       stopped = true;
       release();
+      // Left mid-read (Back to home): the operation ends cancelled. A no-op
+      // once it completed or failed.
+      session.cancel();
     };
-  }, [client, title, onRead]);
+  }, [client, captureClient, title, scanner, onRead, attempt]);
+
+  if (stage && error) {
+    return (
+      <main className="processing-panel" data-testid="capture-error" role="alert">
+        <h1>{title}</h1>
+        <p>The page could not be read: {error}</p>
+        <button type="button" className="primary" data-testid="capture-again" onClick={() => setAttempt((a) => a + 1)}>Capture again</button>
+      </main>
+    );
+  }
+  if (stage) return <ProcessingView title={title} stage={stage} />;
 
   return (
     <div className="capture">
@@ -173,8 +238,8 @@ export function PageCapture({ client, title, onRead }: {
         <div ref={guideRef} className={`guide ${outlineUi !== "grey" ? "guide-found" : ""}`} style={{ "--aspect": String(A4) } as React.CSSProperties} />
         <div className="step-label" data-testid="step">{title}</div>
         <div className="capture-foot">
-          <div className={`hint ${stage ? "hint-busy" : ""}`} data-testid="hint">
-            {error ?? stage ?? hint(last)}
+          <div className="hint" data-testid="hint">
+            {error ?? hint(last)}
           </div>
           <div className="stats">
             {fps} analyses/s · sharp {last?.quality.sharpness.toFixed(0) ?? "–"} · glare {((last?.quality.glare ?? 0) * 100).toFixed(1)}% ·{" "}

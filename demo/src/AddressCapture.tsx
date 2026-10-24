@@ -1,7 +1,7 @@
 // Proof-of-address interpretation of a shared hands-free page capture.
 import { useCallback } from "react";
 import { chooseExtractor, type Extractor } from "./models";
-import { PageCapture, type CapturedPage } from "./PageCapture";
+import { PageCapture, type CapturedPage, type PageWork } from "./PageCapture";
 import type { CaptureMeta } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { AddressResult } from "./types";
@@ -16,16 +16,19 @@ export interface AddressCaptured {
   asked: Extractor | "auto";
 }
 
-export function AddressCapture({ client, method = "auto", onDone }: {
+export function AddressCapture({ client, captureClient, method = "auto", onDone }: {
   client: ScannerClient;
+  /** Analyses the live frames; a model-free worker answers while `client` loads its models. */
+  captureClient?: ScannerClient;
   method?: Extractor | "auto";
   onDone: (c: AddressCaptured, meta: CaptureMeta) => void;
 }) {
-  const read = useCallback(async (page: CapturedPage, meta: CaptureMeta, active: () => boolean) => {
+  const read = useCallback(async (page: CapturedPage, meta: CaptureMeta, work: PageWork) => {
     const tRead = performance.now();
     const extractor = chooseExtractor((await client.ready).tagger, method);
     const { result, memoryBytes } = await client.run<AddressResult>({ kind: "address", image: page.flat, today: today(), method: extractor, customer: knownCustomer() });
-    if (!active()) { URL.revokeObjectURL(page.imageUrl); return; }
+    if (!work.active()) { URL.revokeObjectURL(page.imageUrl); return; }
+    work.done();
     const { flat: _, ...captured } = page;
     const entry: AddressCaptured = { ...captured, result, readMs: performance.now() - tRead, asked: method };
     (window as unknown as { __docscan: { events: unknown[] } }).__docscan.events.push({ type: "captured", kind: "proof_of_address", stepMs: Math.round(page.captureMs), readMs: Math.round(entry.readMs), wasmMemoryMb: Math.round(memoryBytes / 2 ** 20), result });
@@ -33,7 +36,7 @@ export function AddressCapture({ client, method = "auto", onDone }: {
     window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { captured: [entry] } }));
     onDone(entry, meta);
   }, [client, method, onDone]);
-  return <PageCapture client={client} title="Proof of address" onRead={read} />;
+  return <PageCapture client={client} captureClient={captureClient} scanner="address" title="Proof of address" onRead={read} />;
 }
 
 /** The device's date as YYYY-MM-DD, for the document's age. `?today=` overrides (tests). */

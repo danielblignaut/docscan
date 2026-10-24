@@ -397,13 +397,18 @@ function fieldNote(f: LabelledField): [Status | undefined, string] {
   return [undefined, `${source}${fmt} · no check digit`];
 }
 
-function BarcodeResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: "barcodes" }>; ready: ReadyInfo | null }) {
+function BarcodeResults({ outcome, ready, onReadLabels }: { outcome: Extract<Outcome, { kind: "barcodes" }>; ready: ReadyInfo | null; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   return (
     <section className="step" data-testid="barcode-results">
       <Verdict ok={outcome.barcodes.length + outcome.fields.length > 0}>
         {outcome.labels ? `${outcome.fields.length} labelled field${outcome.fields.length === 1 ? "" : "s"}` : `${outcome.barcodes.length} barcode${outcome.barcodes.length === 1 ? "" : "s"}`}{" "}
         captured
       </Verdict>
+      {!outcome.labels && <p className="muted">Barcodes are decoded directly. Printed IMEI and serial-number labels can be read separately.</p>}
+      {!outcome.labels && outcome.blob && onReadLabels && <button type="button" className="copy" data-testid="read-printed-labels" onClick={() => onReadLabels(outcome)}>Read printed labels too</button>}
+      {outcome.labelReadStatus === "cancelled" && <p className="muted">Printed-label reading stopped. Barcode results are retained.</p>}
+      {outcome.labelReadError && <p role="alert">Printed labels could not be read: {outcome.labelReadError}. The barcode results are retained.</p>}
+      {outcome.labelReadWarning && <p className="muted">{outcome.labelReadWarning}</p>}
       {outcome.imageUrl && <img className="captured" src={outcome.imageUrl} alt="the frame the set was captured from" />}
       {(outcome.labels || outcome.fields.length > 0) && (
         <Group title={outcome.labels ? "Device label" : "Labelled values"} testid="label-fields">
@@ -428,7 +433,7 @@ function BarcodeResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: 
             ["Finished because", outcome.finishedBy],
             ["Codes confirmed", outcome.barcodes.length],
             ["Reads per code", outcome.barcodes.map((b) => b.count).join(", ") || null],
-            ["Model", outcome.labels ? `rxing barcodes + ocrs, tiled (${catalogueEntry("ocrs").downloadMb} MB)` : "rxing barcodes (no model)"],
+            ["Model", (outcome.labels || (outcome.meta.ocrFrames ?? 0) > 0) ? `rxing barcodes + ocrs, tiled (${catalogueEntry("ocrs").downloadMb} MB)` : "rxing barcodes (no model)"],
             ...captureFacts(outcome.meta, ready),
           ]}
         />
@@ -604,14 +609,14 @@ function FaceResults({ outcome, face }: { outcome: Extract<Outcome, { kind: "fac
 }
 
 /** A body can render a batch page without nesting forms or home controls. */
-function OutcomeBody({ outcome, ready, face, sourceInHeading = false }: { outcome: Outcome; ready: ReadyInfo | null; face: FaceClient | null; sourceInHeading?: boolean }) {
+function OutcomeBody({ outcome, ready, face, sourceInHeading = false, onReadLabels }: { outcome: Outcome; ready: ReadyInfo | null; face: FaceClient | null; sourceInHeading?: boolean; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   return <>
     <InputSource input={outcome.meta.input} hideLabel={sourceInHeading} />
     {outcome.kind === "batch" && <>
       <p>{outcome.pages.length} results. Page readings and file-inspection warnings are listed separately.</p>
       {outcome.pages.map((page, i) => <section className="step" key={i} data-testid="batch-page">
         <h2>{page.meta.input ? sourceLabel(page.meta.input) : `Page result ${i + 1}`}</h2>
-        <OutcomeBody outcome={page} ready={ready} face={face} sourceInHeading />
+        <OutcomeBody outcome={page} ready={ready} face={face} sourceInHeading onReadLabels={onReadLabels} />
       </section>)}
     </>}
     {outcome.kind === "file_error" && <section role="alert" data-testid="file-error">
@@ -625,6 +630,16 @@ function OutcomeBody({ outcome, ready, face, sourceInHeading = false }: { outcom
             <textarea aria-label="Extracted text" readOnly value={outcome.result.text} rows={14} style={{ width: "100%", boxSizing: "border-box" }} />
             <CopyButton value={outcome.result.text} />
           </Group>
+          {"exposure" in outcome.result && outcome.result.exposure && <Group title="Brighter reading · experimental" testid="exposure-comparison">
+            <p>The original reading above is retained. Brightening can introduce incorrect characters; compare both readings with the original page.</p>
+            <Facts rows={[["Status", outcome.result.exposure.status], ["Linear-light gain", outcome.result.exposure.gain ?? "unknown"], ["Background level", outcome.result.exposure.backgroundP90 ?? "unknown"], ["Additional processing", ms(outcome.result.exposure.elapsedMs)]]} />
+            {outcome.result.exposure.error && <p role="alert">Alternative failed: {outcome.result.exposure.error}</p>}
+            {outcome.result.exposure.status === "unchanged" && <p>The brightness rule left this page unchanged.</p>}
+            {outcome.result.exposure.alternative && <>
+              <textarea aria-label="Brighter alternative text" readOnly value={outcome.result.exposure.alternative.text} rows={10} style={{ width: "100%", boxSizing: "border-box" }} />
+              <CopyButton value={outcome.result.exposure.alternative.text} />
+            </>}
+          </Group>}
           <details className="metadata"><summary>Captured page</summary><img className="captured" src={outcome.imageUrl} alt="Captured document" /></details>
           <details className="metadata"><summary>Text positions and metadata</summary>
             <p>{"engine" in outcome.result ? "PP-OCRv6 tiny: line polygons refer to the input page" : "ocrs: word positions refer to the enhanced, deskewed page"} ({outcome.result.page_size.join(" × ")} pixels). Lines follow rows; tables and columns may need rearranging.</p>
@@ -634,14 +649,14 @@ function OutcomeBody({ outcome, ready, face, sourceInHeading = false }: { outcom
         </section>}
         {outcome.kind === "id" && <IdResults outcome={outcome} ready={ready} />}
         {outcome.kind === "address" && <AddressResults outcome={outcome} ready={ready} />}
-        {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} />}
+        {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} onReadLabels={onReadLabels} />}
         {outcome.kind === "face" && <FaceResults outcome={outcome} face={face} />}
 
     {outcome.documentEvidence ? <EvidenceResults evidence={outcome.documentEvidence} /> : null}
   </>;
 }
 
-export function Results({ outcome, ready, onHome, face = null }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null }) {
+export function Results({ outcome, ready, onHome, face = null, onReadLabels }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   const title = outcome.kind === "batch" ? `${scannerById(outcome.scanner).title} · document batch`
     : outcome.kind === "file_error" ? "Document could not be read"
     : outcome.kind === "id" ? scannerById(outcome.scanner).title
@@ -657,7 +672,7 @@ export function Results({ outcome, ready, onHome, face = null }: { outcome: Outc
       </header>
       <p className="muted">Authenticity, issuer and physical originality are not verified.</p>
       <form className="results-form" onSubmit={(e) => e.preventDefault()}>
-        <OutcomeBody outcome={outcome} ready={ready} face={face} />
+        <OutcomeBody outcome={outcome} ready={ready} face={face} onReadLabels={onReadLabels} />
       </form>
       <ReportExport outcome={outcome} />
       <button type="button" className="primary home-button" data-testid="results-home" onClick={onHome}>Back to home</button>
