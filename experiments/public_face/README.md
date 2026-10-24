@@ -177,3 +177,117 @@ not capture BPCER or a new eligibility rule. The still-photo path does not apply
 the live capture gate; its small document-photo proxies must not be rejected for
 failing a live-camera requirement. Actual camera capture still needs a timed
 sequence, guide compliance, continuity and the physical checks.
+
+## Results and decisions, 24 October 2026
+
+The six complete v2 reports are in `results/london-v2-*.json`. All conditions
+retain 51/51 genuine accepts in **both** splits at the unchanged shipped
+thresholds. Below are false accepts out of **2,550 dependent impostor pairs**
+per split; each entry is calibration / validation, not independent repetitions.
+The original condition uses the live threshold 0.366; the two degraded portrait
+conditions use document threshold 0.356, exactly as v1 did. `production-pair`
+still means a still/live embedding proxy, not the complete document-verification
+decision, including for the undegraded original condition.
+
+| Variant | Original | Gray 384 | Gray 192 |
+| --- | ---: | ---: | ---: |
+| iris baseline | 12 / 12 | 12 / 13 | 11 / 5 |
+| flip both sides | 16 / 11 | 10 / 11 | 8 / 4 |
+| production-pair | 14 / 12 | 12 / 12 | 8 / 5 |
+| contour | 9 / 11 | 8 / 11 | 5 / 5 |
+| nose4 | 18 / 11 | 10 / 10 | 9 / 3 |
+| inner-mouth | 9 / 12 | 6 / 12 | 7 / 5 |
+
+**No production candidate selected.** Recognition is at a genuine-acceptance
+ceiling on these same-session portraits. Small changes in correlated impostor
+counts do not demonstrate a generalizable gain; nose4's original calibration
+false accepts even rise from 12 to 18. Contour is a candidate for independently
+authorized evaluation, not a new shipped alignment. No speed claim is made.
+Baseline validation FAR is 0.471%, 0.510%, and 0.196% across the three conditions;
+production-pair gives 0.471%, 0.471%, and 0.196%. Neither establishes a population
+FAR of 0.1%. The research-calibrated results remain in the reports and have not
+been copied into production.
+
+The iris baseline, flip and production-pair reproduce every v1 TAR, FAR and
+threshold exactly under v2. A fresh iris run with one worker matches the two-worker
+run's complete metrics, checking the corrected cache partition in actual native
+inference. The prior `f24ad10` missing-first/all-missing embedding fix also passes
+all three native example regressions. No TEST/reserved data was opened or run.
+
+The capture-quality diagnostic is deliberately separate: all 51 validation smile
+references produce usable embeddings, but 49 have native quality score one.
+Only 31/51 small validation document proxies have score one; applying a live
+capture gate to those **still document** images would measure the wrong pipeline.
+Neither count estimates multi-frame camera capture BPCER.
+
+`results/pad-v2-baseline.json` reproduces the passive preview: zero rejected
+genuine selfies out of five and zero accepted replay-video medians out of five,
+at raw 0.59 and 0.78, with no missing/invalid frames. The 95% independent-binomial
+interval for either error rate is [0%, 52.2%]; independence itself is unverified.
+
+`results/active-replay-v1.json` processes 765 sampled frames from the full five
+14.4–15.7-second replay clips. Zero sessions accept, but **all five stay in the
+centering phase**, with 561 centering hints and 204 move-back hints. None enters
+the sweep or collects passive/parallax samples. These are framing rejections,
+not evidence that active PAD defeated a completed attack. Required parallax,
+passive PAD, continuity, identity and coverage checks remain present with their
+unchanged thresholds. Bona fide active BPCER remains unmeasurable.
+
+`results/temporal-replay-v1.json` independently scores all 765 sampled replay
+frames through passive PAD. **Zero frames** cross either raw threshold, no clip
+has an accepted frame or median, and all 765 have valid detected scores. Thus the
+three-frame result did not hide a transient crossing in this fixed sample. This
+does not make 765 independent attack trials; unsampled frames, other devices and
+other attacks remain untested. It supplies no temporal bona fide error rate.
+
+Validation completed:
+
+```sh
+PATH=/home/dan/.cargo/bin:$PATH cargo build \
+  --manifest-path docscan/Cargo.toml --release --locked --example face -j 2
+PATH=/home/dan/.cargo/bin:$PATH cargo test \
+  --manifest-path docscan/Cargo.toml --release --locked --lib --example face -j 2
+/tmp/docscan-bench/venv/bin/python -m unittest discover \
+  -s experiments/public_face -p 'test_*.py' -v
+git diff --exit-code f24ad10 -- docscan demo models bench
+```
+
+All **99 library + 3 native example + 18 Python referee tests** pass. Each of
+the three prior London variants reproduces 54 rate/threshold fields exactly;
+the one/two-worker runs match metrics and capture-quality counts. Binary and
+scorer hashes, all model hashes, source/protocol digests and operating thresholds
+are in the reports. Production code, model bytes, security thresholds, physical
+checks and the shared `bench/` referee remain unchanged from `f24ad10`. This is
+a referee/evidence improvement, **not a demonstrated production accuracy gain**.
+
+## External-source review and the SOTA evidence gap
+
+Reviewed official sources on 24 October 2026, without acquiring additional
+biometric media or accepting an agreement:
+
+- [Microsoft DigiFace-1M](https://github.com/microsoft/DigiFace1M) is synthetic,
+  but its [official R-UDA license](https://github.com/microsoft/DigiFace1M/blob/main/LICENSE)
+  restricts use to noncommercial research and excludes using the data or results
+  to improve a commercial product/service. It was not acquired and does not
+  supply real presentation attacks or camera capture trials.
+- [NIST FRTE 1:1](https://pages.nist.gov/frvt/html/frvt11.html) reports verification
+  on distinct mugshot, visa, border, kiosk, pose and ageing conditions at specified
+  FMRs including 1e-5 and 1e-6. Our 102 same-session subjects, synthetic document
+  degradation and small dependent impostor set cannot establish performance on
+  those operating points or rank SFace against those submissions.
+- [NIST's passive PAD evaluation, IR 8491](https://www.nist.gov/publications/face-analysis-technology-evaluation-fate-part-10-performance-passive-software-based)
+  examines multiple presentation-attack instruments on sequestered imagery. It
+  explicitly does not evaluate real-time challenge-response systems. Five owner
+  replay previews cannot establish broad PAD effectiveness, and neither that
+  report nor this experiment validates our active challenge.
+
+The SOTA gap is **unquantified**, not zero: no comparable independently evaluated
+real ID/selfie, cross-age/device/source, demographic, or challenge-following
+bona fide/attack corpus was available within this task's permissions. The next
+useful acquisition is an authorized paired collection with independent subjects,
+devices and attack instruments, including real compliant challenge sessions,
+with commercial development rights established separately if intended. Freeze
+evaluation conditions and reserve subjects before development; do not turn these
+preview results into production calibration. All source notices, media, derived
+frames, templates and per-media scores remain private under the two authorized
+`/tmp/docscan-public-data` directories. Only aggregate reports are committed.

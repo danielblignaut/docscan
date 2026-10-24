@@ -1,0 +1,268 @@
+{
+  "protocol": "london-neutral-smile-v2-dev-only",
+  "purpose": "research evaluation; no training or shipped calibration",
+  "embedding_protocol": "production-pair uses flip-averaged still vs unflipped reference; other variants use same transform on both; no session aggregation or quality gating",
+  "source_revision": "fa8b78fda2d659bb74ce62fcd99c4407551d2a77",
+  "source_manifest_sha256": "d9ccf058c71a47bcdcdc7c379713804e9b7df087e946bfa8c63719ac83c57195",
+  "protocol_sha256": "549b27d02eaca02cf3f1da0711d98bd16d1a0c642b63d7d6573d5ece1fca84b1",
+  "binary_sha256": "f6d9f3020a4cfb43a2b687327d8f13eece7fea29df122cc4ede95ca7ca2954f1",
+  "variant": "inner-mouth",
+  "models": {
+    "face_detector.onnx": "ddaf3ca4fa242d93199bde2a190b3f2bc91cfb0535e0ffef68c4ce1af6f88309",
+    "face_landmarks_detector.onnx": "106636735b429f1e626cf76ea1eaab9272b0d08c5df72c8496c8076220b0d4f9",
+    "minifasnet.onnx": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+    "sface_int8.onnx": "7a1886c2b756089089cabc3ebf6f853f8616354d4588acafd037269cd40cf0a1"
+  },
+  "run": {
+    "cache_key": "1de706331dd862c23c994b2540987acd519411d7e0996821e916a57314419979",
+    "elapsed_s": 0.01,
+    "capture_quality": {
+      "groups": {
+        "calibration/neutral/original": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 49
+        },
+        "calibration/neutral/document_gray": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 49
+        },
+        "calibration/neutral/document_small": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 27
+        },
+        "calibration/smile/original": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 50
+        },
+        "validation/neutral/original": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 51
+        },
+        "validation/neutral/document_gray": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 51
+        },
+        "validation/neutral/document_small": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 27
+        },
+        "validation/smile/original": {
+          "frames": 51,
+          "usable_embeddings": 51,
+          "quality_score_one": 49
+        }
+      },
+      "interpretation": "Native single-frame quality score, not capture BPCER; no session, guide, continuity or timing modeled; document photos do not use the live capture gate"
+    }
+  },
+  "metrics": {
+    "original": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.0035294117647058825,
+          "genuine_accepted": 51,
+          "impostors_accepted": 9,
+          "threshold": 0.366
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.004705882352941176,
+          "genuine_accepted": 51,
+          "impostors_accepted": 12,
+          "threshold": 0.366
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "genuine_accepted": 51,
+          "impostors_accepted": 2,
+          "threshold": 0.4089672565460205
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.001176470588235294,
+          "genuine_accepted": 51,
+          "impostors_accepted": 3,
+          "threshold": 0.4089672565460205
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "genuine_accepted": 51,
+          "impostors_accepted": 25,
+          "threshold": 0.34075793623924255
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.008627450980392156,
+          "genuine_accepted": 51,
+          "impostors_accepted": 22,
+          "threshold": 0.34075793623924255
+        }
+      }
+    },
+    "document_gray": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.002352941176470588,
+          "genuine_accepted": 51,
+          "impostors_accepted": 6,
+          "threshold": 0.356
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.004705882352941176,
+          "genuine_accepted": 51,
+          "impostors_accepted": 12,
+          "threshold": 0.356
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "genuine_accepted": 51,
+          "impostors_accepted": 2,
+          "threshold": 0.3776646852493286
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.00196078431372549,
+          "genuine_accepted": 51,
+          "impostors_accepted": 5,
+          "threshold": 0.3776646852493286
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "genuine_accepted": 51,
+          "impostors_accepted": 25,
+          "threshold": 0.3245193660259247
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.01019607843137255,
+          "genuine_accepted": 51,
+          "impostors_accepted": 26,
+          "threshold": 0.3245193660259247
+        }
+      }
+    },
+    "document_small": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.0027450980392156863,
+          "genuine_accepted": 51,
+          "impostors_accepted": 7,
+          "threshold": 0.356
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.00196078431372549,
+          "genuine_accepted": 51,
+          "impostors_accepted": 5,
+          "threshold": 0.356
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "genuine_accepted": 51,
+          "impostors_accepted": 2,
+          "threshold": 0.38049647212028503
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.000392156862745098,
+          "genuine_accepted": 51,
+          "impostors_accepted": 1,
+          "threshold": 0.38049647212028503
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "genuine_accepted": 51,
+          "impostors_accepted": 25,
+          "threshold": 0.32007595896720886
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.006666666666666667,
+          "genuine_accepted": 51,
+          "impostors_accepted": 17,
+          "threshold": 0.32007595896720886
+        }
+      }
+    }
+  },
+  "limits": [
+    "51 identities per split; 2550 dependent impostor pairs cannot certify population FAR=0.001",
+    "One photo session and source; no held-out device, age or source validation",
+    "Controlled portrait degradation is not physical ID capture",
+    "No attack data; APCER and liveness effectiveness not estimable",
+    "No model weights trained; no production threshold selected"
+  ],
+  "scorer_sha256": "f0ef410d29ecfd3d75ee338c9dd11eed8582a1e069c09313406240267b511d2e",
+  "scorer_changes": "Shard-aware cache; exact row counts; reject absent mesh and invalid embeddings; missing pairs always reject"
+}
