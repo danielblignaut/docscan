@@ -43,6 +43,8 @@ pub struct PaddleTextResult {
     pub text: String,
     pub lines: Vec<PaddleTextLine>,
     pub page_size: [u32; 2],
+    pub detection_max_side: usize,
+    pub passes: u8,
     pub timings_ms: PaddleTextTimings,
 }
 #[wasm_bindgen]
@@ -130,10 +132,23 @@ impl PaddleTextScanner {
     pub fn read_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
         self.read_at_resolution(rgba, width, height, MAX_SIDE)
     }
-    /// Uses the same models, thresholds and allocation guards with a larger
-    /// bounded detector input. Explicit opt-in for dense documents.
+    /// Compare two bounded resolutions for dense documents. More pixels can
+    /// merge lines, so retain the reading with stronger recognized-text evidence
+    /// rather than always replacing the standard pass. This is an OCR heuristic,
+    /// not calibrated accuracy or document verification.
     pub fn read_detailed_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
-        self.read_at_resolution(rgba, width, height, DETAIL_MAX_SIDE)
+        let start = crate::now();
+        let standard = self.read_native(rgba, width, height)?;
+        if width.max(height) <= MAX_SIDE {
+            return Ok(standard);
+        }
+        let detailed = self.read_at_resolution(rgba, width, height, DETAIL_MAX_SIDE)?;
+        let detect = standard.timings_ms.detect + detailed.timings_ms.detect;
+        let recognize = standard.timings_ms.recognize + detailed.timings_ms.recognize;
+        let mut selected = select_reading(standard, detailed);
+        selected.passes = 2;
+        selected.timings_ms = PaddleTextTimings { detect, recognize, total: crate::now() - start };
+        Ok(selected)
     }
     fn read_at_resolution(&self, rgba: &[u8], width: usize, height: usize, max_side: usize) -> Result<PaddleTextResult> {
         validate_image(rgba, width, height)?;
@@ -195,6 +210,8 @@ impl PaddleTextScanner {
             text: lines.iter().map(|l| l.text.as_str()).collect::<Vec<_>>().join("\n"),
             lines,
             page_size: [width as u32, height as u32],
+            detection_max_side: max_side,
+            passes: 1,
             timings_ms: PaddleTextTimings {
                 detect,
                 recognize: total - detect,
@@ -202,6 +219,12 @@ impl PaddleTextScanner {
             },
         })
     }
+}
+fn select_reading(standard: PaddleTextResult, detailed: PaddleTextResult) -> PaddleTextResult {
+    let evidence = |result: &PaddleTextResult| -> f32 {
+        result.lines.iter().map(|line| line.text.chars().filter(|c| c.is_alphanumeric()).count() as f32 * line.confidence).sum()
+    };
+    if evidence(&detailed) > evidence(&standard) { detailed } else { standard }
 }
 fn validate_image(bytes: &[u8], width: usize, height: usize) -> Result<()> {
     ensure!(width > 0 && height > 0, "empty image");
@@ -540,6 +563,20 @@ mod tests {
             channels: 4,
         };
         assert_eq!(transparent.pixel(0, 0), [255.0; 3]);
+    }
+    #[test]
+    fn detail_does_not_replace_a_richer_standard_reading_or_ties() {
+        let result = |text: &str, confidence: f32, side| PaddleTextResult {
+            engine: "ppocr_v6_tiny", text: text.into(), page_size: [100, 100],
+            detection_max_side: side, passes: 1, timings_ms: PaddleTextTimings::default(),
+            lines: vec![PaddleTextLine { text: text.into(), confidence,
+                quad: [[0.0; 2]; 4], x: 0.0, y: 0.0, w: 10.0, h: 10.0 }],
+        };
+        let base = || result("Complete line of clearly recognized small print", 0.98, MAX_SIDE);
+        assert_eq!(select_reading(base(), result("truncated", 0.99, DETAIL_MAX_SIDE)).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(base(), result("A longer line but with extremely uncertain recognition", 0.1, DETAIL_MAX_SIDE)).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(base(), base()).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(result("partial", 0.98, MAX_SIDE), base()).text, base().text);
     }
     #[test]
     fn detailed_detector_retains_pixels_with_a_fixed_bound() {
