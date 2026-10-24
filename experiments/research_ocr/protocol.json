@@ -3,21 +3,64 @@
   "data": "experiments/public_documents/ocr-dev-v1.json",
   "split": "DEV only; all 50 invoice and 10 bank pages",
   "modes": [
-    {"id":"tiny-tiny-960", "detector":"tiny", "recognizer":"tiny", "max_side":960, "sliced":false},
-    {"id":"tiny-small-960", "detector":"tiny", "recognizer":"small", "max_side":960, "sliced":false},
-    {"id":"tiny-small-1600", "detector":"tiny", "recognizer":"small", "max_side":1600, "sliced":false},
-    {"id":"small-tiny-960", "detector":"small", "recognizer":"tiny", "max_side":960, "sliced":false},
-    {"id":"small-small-960", "detector":"small", "recognizer":"small", "max_side":960, "sliced":false},
-    {"id":"tiny-tiny-slices", "detector":"tiny", "recognizer":"tiny", "max_side":960, "sliced":true},
-    {"id":"tiny-small-slices", "detector":"tiny", "recognizer":"small", "max_side":960, "sliced":true}
+    {
+      "id": "tiny-tiny-960",
+      "detector": "tiny",
+      "recognizer": "tiny",
+      "max_side": 960,
+      "sliced": false
+    },
+    {
+      "id": "tiny-small-960",
+      "detector": "tiny",
+      "recognizer": "small",
+      "max_side": 960,
+      "sliced": false
+    },
+    {
+      "id": "tiny-small-1600",
+      "detector": "tiny",
+      "recognizer": "small",
+      "max_side": 1600,
+      "sliced": false
+    },
+    {
+      "id": "small-tiny-960",
+      "detector": "small",
+      "recognizer": "tiny",
+      "max_side": 960,
+      "sliced": false
+    },
+    {
+      "id": "small-small-960",
+      "detector": "small",
+      "recognizer": "small",
+      "max_side": 960,
+      "sliced": false
+    },
+    {
+      "id": "tiny-tiny-slices",
+      "detector": "tiny",
+      "recognizer": "tiny",
+      "max_side": 960,
+      "sliced": true
+    },
+    {
+      "id": "tiny-small-slices",
+      "detector": "tiny",
+      "recognizer": "small",
+      "max_side": 960,
+      "sliced": true
+    }
   ],
-  "slice_height":640,
-  "slice_overlap":160,
-  "suppression_intersection_over_smaller":0.7,
-  "include_full_page":true,
-  "max_lines":256,
-  "threads":1,
-  "timeouts_seconds_per_mode":1200,
-  "rationale":"Own hypotheses: asymmetric detector/recognizer capacity and full-width overlapping strip detection inspired by modular PP-OCRv6 and SAHI. Not exact reproductions of either paper. No thresholds fit to the reference labels.",
-  "selection_rule":"Report all modes. Consider shipping only after Rust/WASM parity and fixed-input regressions; no automatic default replacement. Report token recall with precision and full-field exact counts. Native unpaired time is descriptive only."
+  "slice_height": 640,
+  "slice_overlap": 160,
+  "suppression_intersection_over_smaller": 0.7,
+  "include_full_page": true,
+  "max_lines": 256,
+  "threads": 1,
+  "timeouts_seconds_per_mode": 1200,
+  "rationale": "Own hypotheses: asymmetric detector/recognizer capacity and full-width overlapping strip detection inspired by modular PP-OCRv6 and SAHI. Not exact reproductions of either paper. No thresholds fit to the reference labels.",
+  "selection_rule": "Report all modes. Consider shipping only after Rust/WASM parity and fixed-input regressions; no automatic default replacement. Report token recall with precision and full-field exact counts. Native unpaired time is descriptive only.",
+  "suppression_priority": "Full-page detections first, then larger distance from the strip boundary; axis-aligned intersection over smaller. No text labels used."
 }
