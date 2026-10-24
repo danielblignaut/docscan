@@ -127,6 +127,116 @@ pub fn read_all(luma: &[u8], w: u32, h: u32, formats: Option<&[String]>) -> Vec<
     drop_nested_reads(found, &regions)
 }
 
+/// Opt-in exhaustive matrix retry: the unchanged first pass, then at most
+/// two additional matrix-only searches (clockwise 90 degrees and half size).
+/// Linear formats and MaxiCode are never retried. All points refer to the
+/// original input; existing reads win format/text duplicates, including bytes.
+/// This is deliberately separate from [`read_all`]: it costs extra scans.
+/// The pass count is bounded, but the underlying decoder has no time budget.
+pub fn read_all_with_matrix_retries(luma: &[u8], w: u32, h: u32, formats: Option<&[String]>) -> Vec<Barcode> {
+    read_with_matrix_retries(luma, w, h, formats, false)
+}
+
+/// Cheaper opt-in fallback: only an empty first pass gets one half-size
+/// matrix search. A successful first pass is returned without retry work.
+pub fn read_all_with_empty_matrix_retry(luma: &[u8], w: u32, h: u32, formats: Option<&[String]>) -> Vec<Barcode> {
+    read_with_matrix_retries(luma, w, h, formats, true)
+}
+
+fn matrix_retry_formats(formats: Option<&[String]>) -> Vec<String> {
+    let wanted = Wanted::new(formats);
+    [BarcodeFormat::QR_CODE, BarcodeFormat::DATA_MATRIX, BarcodeFormat::AZTEC, BarcodeFormat::PDF_417]
+        .into_iter()
+        .filter(|f| wanted.has(*f))
+        .map(|f| format_name(&f))
+        .collect()
+}
+
+fn read_with_matrix_retries(luma: &[u8], w: u32, h: u32, formats: Option<&[String]>, empty_only: bool) -> Vec<Barcode> {
+    // Check before calling the unchanged reader, whose size check uses u32.
+    if w < 16 || h < 16 || w.checked_mul(h).is_none_or(|n| n as usize != luma.len()) {
+        return Vec::new();
+    }
+    let mut found = read_all(luma, w, h, formats);
+    if empty_only && !found.is_empty() {
+        return found;
+    }
+    let retry_formats = matrix_retry_formats(formats);
+    // An empty format list means ALL to read_all, so never pass one to it.
+    if retry_formats.is_empty() {
+        return found;
+    }
+    if !empty_only {
+        merge_matrix_retry(&mut found, luma, w, h, &retry_formats, MatrixRetry::Clockwise);
+    }
+    if w >= 32 && h >= 32 {
+        merge_matrix_retry(&mut found, luma, w, h, &retry_formats, MatrixRetry::Half);
+    }
+    found
+}
+
+#[derive(Clone, Copy)]
+enum MatrixRetry {
+    Clockwise,
+    Half,
+}
+
+impl MatrixRetry {
+    fn original_point(self, p: [f32; 2], w: u32, h: u32) -> [f32; 2] {
+        match self {
+            Self::Clockwise => [p[1], (h - 1) as f32 - p[0]],
+            Self::Half => [(p[0] + 0.5) * w as f32 / (w / 2) as f32 - 0.5, (p[1] + 0.5) * h as f32 / (h / 2) as f32 - 0.5],
+        }
+    }
+
+    fn image(self, luma: &[u8], w: u32, h: u32) -> (Vec<u8>, u32, u32) {
+        match self {
+            Self::Clockwise => {
+                let mut rotated = vec![0; luma.len()];
+                for y in 0..h {
+                    for x in 0..w {
+                        rotated[(x * h + h - 1 - y) as usize] = luma[(y * w + x) as usize];
+                    }
+                }
+                (rotated, h, w)
+            }
+            Self::Half => {
+                let (tw, th) = (w / 2, h / 2);
+                let mut small = vec![0; (tw * th) as usize];
+                // Exact area weights in integer coordinates. Unlike a 2x2
+                // crop this includes the last row/column of odd-size inputs.
+                for y in 0..th {
+                    let (y0, y1) = (u64::from(y) * u64::from(h), u64::from(y + 1) * u64::from(h));
+                    for x in 0..tw {
+                        let (x0, x1) = (u64::from(x) * u64::from(w), u64::from(x + 1) * u64::from(w));
+                        let mut sum = 0u64;
+                        for sy in y0 / u64::from(th)..y1.div_ceil(u64::from(th)) {
+                            let wy = y1.min((sy + 1) * u64::from(th)) - y0.max(sy * u64::from(th));
+                            for sx in x0 / u64::from(tw)..x1.div_ceil(u64::from(tw)) {
+                                let wx = x1.min((sx + 1) * u64::from(tw)) - x0.max(sx * u64::from(tw));
+                                sum += u64::from(luma[(sy * u64::from(w) + sx) as usize]) * wx * wy;
+                            }
+                        }
+                        let area = u64::from(w) * u64::from(h);
+                        small[(y * tw + x) as usize] = ((sum + area / 2) / area) as u8;
+                    }
+                }
+                (small, tw, th)
+            }
+        }
+    }
+}
+
+fn merge_matrix_retry(found: &mut Vec<Barcode>, luma: &[u8], w: u32, h: u32, formats: &[String], retry: MatrixRetry) {
+    let (image, rw, rh) = retry.image(luma, w, h);
+    for mut b in read_all(&image, rw, rh, Some(formats)) {
+        for p in &mut b.points {
+            *p = retry.original_point(*p, w, h);
+        }
+        push(found, b);
+    }
+}
+
 fn push(out: &mut Vec<Barcode>, b: Barcode) {
     if !out.iter().any(|o| o.format == b.format && o.text == b.text) {
         out.push(b);
@@ -1121,6 +1231,146 @@ fn unsharp_x(img: &[u8], w: usize, h: usize, sigma: f32, amount: f32) -> Vec<u8>
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // Generated synthetic QR only; contains no corpus payload or source image.
+    fn retry_fixture() -> (Vec<u8>, u32, u32) {
+        let rows = [
+            "1111111001000010101111111",
+            "1000001011001000001000001",
+            "1011101011011110001011101",
+            "1011101001101111101011101",
+            "1011101001111001101011101",
+            "1000001000010000101000001",
+            "1111111010101010101111111",
+            "0000000000101010000000000",
+            "0111011001011011000000110",
+            "1100100111000000110100010",
+            "0000001110100000100110000",
+            "0111110011111110100001110",
+            "1101011001101000011010101",
+            "0110100111110011101110011",
+            "0111101000010000100110010",
+            "1001110110110100100000011",
+            "0001101000101100111110101",
+            "0000000010011000100010001",
+            "1111111001011110101010011",
+            "1000001010100111100011010",
+            "1011101001101110111111010",
+            "1011101010010011011111111",
+            "1011101010001010001110010",
+            "1000001010100110001100100",
+            "1111111001011001011001111",
+        ];
+        let (w, h) = (337u32, 221u32);
+        let mut image = vec![255u8; (w * h) as usize];
+        for (y, row) in rows.iter().enumerate() {
+            for (x, bit) in row.bytes().enumerate() {
+                for dy in 0..4 {
+                    for dx in 0..4 {
+                        image[(52 + 4 * y + dy) * w as usize + 36 + 4 * x + dx] = if bit == b'1' { 0 } else { 255 };
+                    }
+                }
+            }
+        }
+        (image, w, h)
+    }
+
+    #[test]
+    fn retry_coordinates_and_payload_are_in_the_original_image() {
+        let (image, w, h) = retry_fixture();
+        let formats = vec!["qrcode".to_owned()];
+        let first = read_all(&image, w, h, Some(&formats));
+        assert_eq!(first.len(), 1);
+        assert_eq!(first[0].text, "matrix retry fixture");
+        assert!(!first[0].bytes.is_empty());
+        for transform in [MatrixRetry::Clockwise, MatrixRetry::Half] {
+            let mut retry = Vec::new();
+            merge_matrix_retry(&mut retry, &image, w, h, &formats, transform);
+            assert_eq!(retry.len(), 1);
+            assert_eq!(retry[0].text, first[0].text);
+            assert_eq!(retry[0].bytes, first[0].bytes);
+            // RXing reports symbol edges slightly differently after rotation
+            // and resampling: allow one fixture module (4 original pixels).
+            // Exact inverse pixel mappings are checked separately below.
+            for p in &retry[0].points {
+                assert!(
+                    first[0].points.iter().any(|q| (p[0] - q[0]).abs() <= 4.0 && (p[1] - q[1]).abs() <= 4.0),
+                    "{p:?} not near original {:?}",
+                    first[0].points
+                );
+            }
+        }
+        // Duplicate retries cannot replace baseline points or binary payload.
+        let retried = read_all_with_matrix_retries(&image, w, h, Some(&formats));
+        assert_eq!(serde_json::to_value(&first).unwrap(), serde_json::to_value(&retried).unwrap());
+        let fallback = read_all_with_empty_matrix_retry(&image, w, h, Some(&formats));
+        assert_eq!(serde_json::to_value(&first).unwrap(), serde_json::to_value(&fallback).unwrap());
+    }
+
+    #[test]
+    fn empty_baseline_recovers_striped_synthetic_qr() {
+        let (mut image, w, h) = retry_fixture();
+        // A one-pixel white stripe on every even column interrupts source
+        // modules; area averaging restores their contrast at half scale.
+        for y in 0..h as usize {
+            for x in (0..w as usize).step_by(2) {
+                image[y * w as usize + x] = 255;
+            }
+        }
+        let qr = vec!["qrcode".to_owned()];
+        assert!(read_all(&image, w, h, Some(&qr)).is_empty());
+        let recovered = read_all_with_empty_matrix_retry(&image, w, h, Some(&qr));
+        assert_eq!(recovered.len(), 1);
+        assert_eq!(recovered[0].text, "matrix retry fixture");
+        assert_eq!(recovered[0].bytes, b"matrix retry fixture");
+        assert_eq!(recovered[0].format, "qrcode");
+        let expected = [[36.0, 52.0], [136.0, 52.0], [36.0, 152.0], [136.0, 152.0]];
+        assert_eq!(recovered[0].points.len(), 4);
+        for point in &recovered[0].points {
+            assert!(expected.iter().any(|corner| (point[0] - corner[0]).abs() < 4.0 && (point[1] - corner[1]).abs() < 4.0));
+        }
+        assert!(read_all_with_empty_matrix_retry(&image, w, h, Some(&["datamatrix".to_owned()])).is_empty());
+    }
+
+    #[test]
+    fn retries_do_not_expand_linear_or_unsupported_matrix_requests() {
+        let (image, w, h) = retry_fixture();
+        for names in [vec!["code128".to_owned()], vec!["ean13".to_owned(), "unknown".to_owned()], vec!["maxicode".to_owned()]] {
+            assert!(matrix_retry_formats(Some(&names)).is_empty());
+            assert!(read_all_with_matrix_retries(&image, w, h, Some(&names)).is_empty());
+            assert!(read_all_with_empty_matrix_retry(&image, w, h, Some(&names)).is_empty());
+        }
+        let mixed = vec!["code128".to_owned(), "QR-Code".to_owned()];
+        assert_eq!(matrix_retry_formats(Some(&mixed)), ["qrcode"]);
+        // Match read_all's established all-formats default for empty/unknown lists.
+        assert_eq!(matrix_retry_formats(Some(&[])), matrix_retry_formats(None));
+        assert_eq!(matrix_retry_formats(Some(&["unknown".to_owned()])), matrix_retry_formats(None));
+    }
+
+    #[test]
+    fn retry_transforms_cover_non_square_and_odd_images() {
+        let (rotated, w, h) = MatrixRetry::Clockwise.image(&[1, 2, 3, 4, 5, 6], 3, 2);
+        assert_eq!((w, h), (2, 3));
+        assert_eq!(rotated, [4, 1, 5, 2, 6, 3]);
+        for y in 0..h {
+            for x in 0..w {
+                let p = MatrixRetry::Clockwise.original_point([x as f32, y as f32], 3, 2);
+                assert_eq!(rotated[(y * w + x) as usize], [1, 2, 3, 4, 5, 6][p[1] as usize * 3 + p[0] as usize]);
+            }
+        }
+        let (small, w, h) = MatrixRetry::Half.image(&[0, 0, 100, 0, 0, 100, 100, 100, 100], 3, 3);
+        assert_eq!((w, h), (1, 1));
+        assert_eq!(small, [56]); // all nine pixels, including last row/column
+        assert_eq!(MatrixRetry::Half.original_point([0.0, 0.0], 3, 3), [1.0, 1.0]);
+        assert_eq!(MatrixRetry::Half.original_point([0.0, 0.0], 4, 4), [0.5, 0.5]);
+    }
+
+    #[test]
+    fn retries_reject_invalid_buffers_and_skip_too_small_half_images() {
+        assert!(read_all_with_matrix_retries(&[], u32::MAX, 16, None).is_empty());
+        assert!(read_all_with_empty_matrix_retry(&[], 32, 32, None).is_empty());
+        assert!(read_all_with_matrix_retries(&[255; 16 * 31], 16, 31, None).is_empty());
+    }
 
     fn linear(format: &str, text: &str, a: [f32; 2], b: [f32; 2]) -> Barcode {
         Barcode { format: format.into(), text: text.into(), bytes: vec![], points: vec![a, b] }

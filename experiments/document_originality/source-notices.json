@@ -1,0 +1,47 @@
+{
+  "checked_on": "2026-10-24",
+  "note": "Primary source notices and record metadata only; no dataset media downloaded. No author code or weights imported.",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/SmartEngines/midv-holo/1be22a78eb46fe73dd3d3f9bf06992b6b32e0e30/README.md",
+      "sha256": "a89b3abf36fdc036deb7890c3e2ea58cdb75cc39eae2441e859e60843aa76f41",
+      "bytes": 4692
+    },
+    {
+      "url": "https://raw.githubusercontent.com/EPITAResearchLab/pouliquen.25.icdar/e50d115659ab834b0cbb51a136fcb59df7c83123/README.md",
+      "sha256": "f2d8f5dbe9fd49893bbcf1a9cfbfc479120683546d8aff5bf70340d23cdb9c1f",
+      "bytes": 10795
+    },
+    {
+      "url": "https://raw.githubusercontent.com/EPITAResearchLab/pouliquen.25.icdar/e50d115659ab834b0cbb51a136fcb59df7c83123/LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "bytes": 35149
+    },
+    {
+      "url": "https://zenodo.org/api/records/17079529",
+      "sha256": "a70947e9a6f272ebbd0dc0bdf8f0220b82ebeb9ec3bc1668dd42fb702658f3fe",
+      "record_id": 17079529,
+      "title": "MIDV-DynAttack",
+      "license": {
+        "id": "cc-by-sa-4.0"
+      },
+      "files_metadata_only": [
+        {
+          "key": "video.tar.gz",
+          "bytes": 24177709340,
+          "checksum": "md5:95837f26916e3f6ce7ab6122f8657ac6"
+        },
+        {
+          "key": "cropped.tar.gz",
+          "bytes": 7112918200,
+          "checksum": "md5:8727c965d2a8588256cea303910eb1b7"
+        },
+        {
+          "key": "tracking.tar.gz",
+          "bytes": 14080920,
+          "checksum": "md5:a9759820829b5495cdec1bbdca08a475"
+        }
+      ]
+    }
+  ]
+}

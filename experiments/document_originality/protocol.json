@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "split": "dev_synthetic_only",
+  "hypothesis": "A dominant chromatic spatial frequency is sufficiently specific to warn about screen recapture.",
+  "candidate": "maximum conjugate-pair Fourier power / total chromatic power, over periods 4 through 32 pixels; require chromatic standard deviation >= 4 byte levels and concentration >= 0.35",
+  "image_size": 256,
+  "periods": [8, 16, 32],
+  "amplitudes": [8, 24],
+  "axes": ["horizontal", "vertical"],
+  "cohorts": {
+    "moire_surrogate": 12,
+    "benign_security_texture": 12,
+    "benign_grey_statement": 12,
+    "benign_colour_gradient": 12
+  },
+  "decisions": {
+    "reject_generic_warning": "any benign security-texture or statement fixture crosses the frozen threshold",
+    "promotion": "never from this toy study; requires rights-cleared real DEV recaptures and bona fide documents, then independent calibration"
+  },
+  "scope": "Original procedural graphics, no names, portraits, personal IDs, external media, TEST, reserved identities, weights, training or threshold search. Surrogate positives are not real presentation attacks.",
+  "retention": "Freeze source and protocol hashes before scoring; exclusive report creation; retain all per-fixture outcomes including counterexamples. No application acceptance rule changes."
+}

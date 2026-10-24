@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "declared_date": "2026-10-24",
+  "base_revision": "b298eca87ab6e7499a749da8d59b483ae7b717e1",
+  "split": "dev",
+  "datasets": {"barcode_public_dev": 277, "barcode_synth_dev": 300},
+  "variants": {
+    "baseline": "unchanged read_all",
+    "matrix_both": "baseline then CW90 and half-scale read_all restricted to requested QR/DataMatrix/Aztec/PDF417; exact format/text union retaining baseline objects",
+    "empty_half": "baseline then only if no barcode decoded, one half-scale read_all restricted to requested QR/DataMatrix/Aztec/PDF417"
+  },
+  "half_scale": "floor(width/2), floor(height/2); integer area-average on native luminance including odd edges; nearest integer rounding; map pixel centres (p+0.5)*source/target-0.5",
+  "rotation": "CW90 exact pixel permutation; inverse point (y, original_height-1-x)",
+  "bounds": "At most 3 read_all calls (both) or 2 (empty_half), each existing decoder path unchanged; no recursive retries; transformed images smaller than 16 on either axis skipped. Existing decoder internals have no hard real-time bound.",
+  "timeout_seconds": 30,
+  "timeout_accounting": "30 seconds covers entire candidate including all passes, loading and transforms; timeout/crash means nothing read, never rescued from separately scored baseline",
+  "accuracy_workers": 2,
+  "latency": {"repeats": 4, "selection": "first 20 nonnegative rows at stride max(1,nrows//20) in each DEV corpus; fixed without outcomes", "order": "per item repeat alternates baseline,candidate and candidate,baseline; single pinned CPU, no parallel benchmark workers", "scope": "native decode+transform internal ms and whole-process wall ms; all attempted pairs retained, timeout failures reported separately and charged timeout budget", "gate": "median paired candidate/baseline >1.05 with bootstrap95 lower>1 is regression; unchanged bench speed_ab statistic, 2000 draws seed0"},
+  "promotion": "No new false-decode frame, no lost baseline truth code or returned baseline object; report all per-format metrics, precision, timeouts, crashes, errors. Default stays unchanged regardless; opt-in only if exact recovery gains and measured cost useful. No TEST/reserved, no shared scorer changes, no payload/media in repository.",
+  "native_difference_from_cached_prototype": "Matrix-only calls exclude linear regions and raw MaxiCode retries. Native area downsample happens after grayscale rather than OpenCV color-downsample before grayscale; result need not equal cached prototype."
+}

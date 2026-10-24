@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-24T15:40:08.753777+00:00",
+  "protocol": {
+    "schema": 1,
+    "declared_date": "2026-10-24",
+    "base_revision": "b298eca87ab6e7499a749da8d59b483ae7b717e1",
+    "split": "dev",
+    "datasets": {
+      "barcode_public_dev": 277,
+      "barcode_synth_dev": 300
+    },
+    "variants": {
+      "baseline": "unchanged read_all",
+      "matrix_both": "baseline then CW90 and half-scale read_all restricted to requested QR/DataMatrix/Aztec/PDF417; exact format/text union retaining baseline objects",
+      "empty_half": "baseline then only if no barcode decoded, one half-scale read_all restricted to requested QR/DataMatrix/Aztec/PDF417"
+    },
+    "half_scale": "floor(width/2), floor(height/2); integer area-average on native luminance including odd edges; nearest integer rounding; map pixel centres (p+0.5)*source/target-0.5",
+    "rotation": "CW90 exact pixel permutation; inverse point (y, original_height-1-x)",
+    "bounds": "At most 3 read_all calls (both) or 2 (empty_half), each existing decoder path unchanged; no recursive retries; transformed images smaller than 16 on either axis skipped. Existing decoder internals have no hard real-time bound.",
+    "timeout_seconds": 30,
+    "timeout_accounting": "30 seconds covers entire candidate including all passes, loading and transforms; timeout/crash means nothing read, never rescued from separately scored baseline",
+    "accuracy_workers": 2,
+    "latency": {
+      "repeats": 4,
+      "selection": "first 20 nonnegative rows at stride max(1,nrows//20) in each DEV corpus; fixed without outcomes",
+      "order": "per item repeat alternates baseline,candidate and candidate,baseline; single pinned CPU, no parallel benchmark workers",
+      "scope": "native decode+transform internal ms and whole-process wall ms; all attempted pairs retained, timeout failures reported separately and charged timeout budget",
+      "gate": "median paired candidate/baseline >1.05 with bootstrap95 lower>1 is regression; unchanged bench speed_ab statistic, 2000 draws seed0"
+    },
+    "promotion": "No new false-decode frame, no lost baseline truth code or returned baseline object; report all per-format metrics, precision, timeouts, crashes, errors. Default stays unchanged regardless; opt-in only if exact recovery gains and measured cost useful. No TEST/reserved, no shared scorer changes, no payload/media in repository.",
+    "native_difference_from_cached_prototype": "Matrix-only calls exclude linear regions and raw MaxiCode retries. Native area downsample happens after grayscale rather than OpenCV color-downsample before grayscale; result need not equal cached prototype."
+  },
+  "source_receipt_sha256": "1c5e1e648387f548eb755099d4272c3453b6043494addc00ca899bbbba1de868",
+  "experiment_files": {
+    "protocol.json": "02fcb8784a81baafe30b37ab7fa1e9058c5875c6a4f188db48dd73921655261a",
+    "probe.rs": "81d02916b42e415feffdc46cb1b61b78238acee47f78553546ba0c090d34658e",
+    "run.py": "9c46bd6976034e872cff1b8c3b20039ea8870119f04f61b6f521a41a82a0b1fa",
+    "prepare.py": "57a577c02c3bd7ba11cdee59a22c16829f1bc0eb364f18614391f0cefbe7d71f"
+  },
+  "binaries": {
+    "before": "e246e4c60715da0fda25c9b1396226ee507b5f42425fdb66d07102577a896b6b",
+    "after": "375a2f4d94157416d75fa2f09c61208bdd3d9a81f731fc94764aa69fac4ff53c"
+  },
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: x86_64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "build": "cargo build --locked --release --example matrix_probe -j2; CARGO_TARGET_DIR=/tmp/docscan-matrix-retry-v1/target",
+  "manifests": {
+    "barcode_public_dev": "82fb1dd165acd06e4f962abc14ba74d681c1189bb42a4010a1d3ef88b4362721",
+    "barcode_synth_dev": "83ac7cbfd1c3794690f43b73207c89b0e35e7fdfed937f22dd0722e66a8c3c35"
+  },
+  "scorers": {
+    "suites/barcode.py": "7893a13808f942aa475dc3e42fe2f769c090f5f4260b001a3fad40ff7cf98f79",
+    "lib/common.py": "c9c7e63a2c011b896c3a429649c74b3c9f781d888a3fc454bbe74eb2e25c0b9a",
+    "lib/stats.py": "4d61b53223fba383352c5083a44c49dc0c5eb5f9eb2f8c543e6f51e05b8373d8",
+    "compare.py": "ff60e373adfc9a679aa2c4e246a8f4856b2209d7855d6e5fef43ba87a9c1e2b4",
+    "noise.json": "1cee9a4c06e5a197b1efd290c6b3298c9b09b4d055329d882d69cbfb40104cae"
+  },
+  "env": {
+    "RAYON_NUM_THREADS": "1",
+    "RTEN_NUM_THREADS": "1"
+  }
+}

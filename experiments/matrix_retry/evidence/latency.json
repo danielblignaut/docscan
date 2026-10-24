@@ -1,0 +1,7027 @@
+{
+  "cpu": 0,
+  "load_start": [
+    3.1923828125,
+    9.02099609375,
+    13.55126953125
+  ],
+  "repeats": 4,
+  "selection": "predeclared stride, independent of outcomes",
+  "metrics": {
+    "barcode_public_dev.matrix_both": {
+      "ms": {
+        "ratio": 1.9441409410365693,
+        "ci95": [
+          1.7424974299343963,
+          2.028835428719159
+        ],
+        "baseline_median": 7.8089875,
+        "candidate_median": 15.488157000000001,
+        "status": "REGRESSED",
+        "pairs": 80
+      },
+      "wall_ms": {
+        "ratio": 1.4765981957509582,
+        "ci95": [
+          1.360678509747894,
+          1.5787486073943728
+        ],
+        "baseline_median": 11.88978599384427,
+        "candidate_median": 19.275476690381765,
+        "status": "REGRESSED",
+        "pairs": 80
+      },
+      "failures": {
+        "baseline": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        },
+        "matrix_both": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        }
+      }
+    },
+    "barcode_public_dev.empty_half": {
+      "ms": {
+        "ratio": 1.0059012065328892,
+        "ci95": [
+          0.9987086081435241,
+          1.0108402684088247
+        ],
+        "baseline_median": 8.123175,
+        "candidate_median": 8.578352500000001,
+        "status": "same",
+        "pairs": 80
+      },
+      "wall_ms": {
+        "ratio": 1.00081260989518,
+        "ci95": [
+          0.9926678770261053,
+          1.0060285709414598
+        ],
+        "baseline_median": 12.504600919783115,
+        "candidate_median": 12.528637424111366,
+        "status": "same",
+        "pairs": 80
+      },
+      "failures": {
+        "baseline": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        },
+        "empty_half": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        }
+      }
+    },
+    "barcode_synth_dev.matrix_both": {
+      "ms": {
+        "ratio": 2.0619198251006297,
+        "ci95": [
+          2.0150227871135145,
+          2.106456550576617
+        ],
+        "baseline_median": 148.96016150000003,
+        "candidate_median": 306.35463300000004,
+        "status": "REGRESSED",
+        "pairs": 76
+      },
+      "wall_ms": {
+        "ratio": 1.9469417274563434,
+        "ci95": [
+          1.8856687529350185,
+          1.9960499460210281
+        ],
+        "baseline_median": 161.0144884325564,
+        "candidate_median": 319.18460223823786,
+        "status": "REGRESSED",
+        "pairs": 76
+      },
+      "failures": {
+        "baseline": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        },
+        "matrix_both": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        }
+      }
+    },
+    "barcode_synth_dev.empty_half": {
+      "ms": {
+        "ratio": 1.0053242320058056,
+        "ci95": [
+          1.0005576313364501,
+          1.0130416951802816
+        ],
+        "baseline_median": 149.15522049999998,
+        "candidate_median": 148.53938399999998,
+        "status": "same",
+        "pairs": 76
+      },
+      "wall_ms": {
+        "ratio": 1.0056672340654906,
+        "ci95": [
+          1.0013153280262057,
+          1.0119518548773305
+        ],
+        "baseline_median": 161.9091653265059,
+        "candidate_median": 162.7305680885911,
+        "status": "same",
+        "pairs": 76
+      },
+      "failures": {
+        "baseline": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        },
+        "empty_half": {
+          "timeout": 0,
+          "crash": 0,
+          "error": 0
+        }
+      }
+    }
+  },
+  "pairs": [
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 11.305249,
+          "wall_ms": 16.18851162493229,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 14.385214,
+          "wall_ms": 17.568226903676987,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 53.744025,
+          "wall_ms": 61.06896325945854,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 71.27202700000001,
+          "wall_ms": 78.1491743400693,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 4.671418,
+          "wall_ms": 7.535742595791817,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 9.039076999999999,
+          "wall_ms": 12.575631029903889,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.109527,
+          "wall_ms": 5.273913033306599,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 4.435271,
+          "wall_ms": 7.5605688616633415,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.313213,
+          "wall_ms": 11.273534037172794,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 14.507944,
+          "wall_ms": 18.856859765946865,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.431497,
+          "wall_ms": 7.416664622724056,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 7.826220999999999,
+          "wall_ms": 12.248100712895393,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.901751,
+          "wall_ms": 12.118584476411343,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 16.473899,
+          "wall_ms": 20.895017310976982,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 39.676256,
+          "wall_ms": 49.74682256579399,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 62.824011999999996,
+          "wall_ms": 73.18345457315445,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 15.077771,
+          "wall_ms": 20.326998084783554,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 26.49868,
+          "wall_ms": 31.62914328277111,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 50.871899,
+          "wall_ms": 57.854059152305126,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 68.060619,
+          "wall_ms": 75.2828735858202,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 4.070214,
+          "wall_ms": 8.31593107432127,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 7.460396,
+          "wall_ms": 10.769488289952278,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 50.952998,
+          "wall_ms": 58.0136151984334,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 66.204291,
+          "wall_ms": 73.4632657840848,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 13.147779,
+          "wall_ms": 16.444976441562176,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 27.066643000000003,
+          "wall_ms": 30.4230572655797,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 1.415614,
+          "wall_ms": 4.411784932017326,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 3.014569,
+          "wall_ms": 5.492307245731354,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 8.436015999999999,
+          "wall_ms": 12.596586719155312,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 16.114459,
+          "wall_ms": 20.978265441954136,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.2007390000000004,
+          "wall_ms": 9.373098611831665,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 13.640236999999999,
+          "wall_ms": 16.735016368329525,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 9.515927,
+          "wall_ms": 14.235158450901508,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 18.584590000000002,
+          "wall_ms": 23.04047904908657,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 5.755451,
+          "wall_ms": 8.64371843636036,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 8.274475,
+          "wall_ms": 11.299939826130867,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 74.236691,
+          "wall_ms": 80.8672895655036,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 92.192705,
+          "wall_ms": 99.34392757713795,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.832317,
+          "wall_ms": 5.8713676407933235,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 5.726659000000001,
+          "wall_ms": 8.14017653465271,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 11.348728000000001,
+          "wall_ms": 14.499058946967125,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.7162239999999995,
+          "wall_ms": 10.65872609615326,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 67.39780200000001,
+          "wall_ms": 72.94619921594858,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 49.608675999999996,
+          "wall_ms": 56.716094724833965,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 8.66811,
+          "wall_ms": 11.63289975374937,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.363097,
+          "wall_ms": 7.19794724136591,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 4.788361,
+          "wall_ms": 6.851470097899437,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 2.05907,
+          "wall_ms": 4.1976794600486755,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 14.832397,
+          "wall_ms": 18.62230058759451,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 5.998667,
+          "wall_ms": 9.961511939764023,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 7.349114999999999,
+          "wall_ms": 10.245290584862232,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.310783,
+          "wall_ms": 6.083780899643898,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 15.478816,
+          "wall_ms": 19.465269520878792,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.603414,
+          "wall_ms": 12.188717722892761,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 59.234861,
+          "wall_ms": 68.11287719756365,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 37.541608999999994,
+          "wall_ms": 47.19296842813492,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 25.155936,
+          "wall_ms": 30.112936161458492,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 19.849058,
+          "wall_ms": 26.30689088255167,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 65.33019800000001,
+          "wall_ms": 72.0688421279192,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 47.459227,
+          "wall_ms": 54.09135762602091,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 7.453724,
+          "wall_ms": 10.944117791950703,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.030532,
+          "wall_ms": 7.070898078382015,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 65.214511,
+          "wall_ms": 71.71202264726162,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 50.788888,
+          "wall_ms": 57.811387814581394,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 27.497293,
+          "wall_ms": 31.430529430508614,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 12.740163,
+          "wall_ms": 16.049649566411972,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 3.069686,
+          "wall_ms": 5.9006595984101295,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 1.3346790000000002,
+          "wall_ms": 4.644284024834633,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 16.569817,
+          "wall_ms": 21.460695192217827,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 8.466929,
+          "wall_ms": 13.113527558743954,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 13.758826000000001,
+          "wall_ms": 17.184115946292877,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 6.186391,
+          "wall_ms": 9.986876510083675,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 18.336712000000002,
+          "wall_ms": 22.53727801144123,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 9.227082,
+          "wall_ms": 13.255325146019459,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 8.393784,
+          "wall_ms": 11.876477859914303,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 5.687073,
+          "wall_ms": 8.643998764455318,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 92.73043,
+          "wall_ms": 98.49886316806078,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 74.500231,
+          "wall_ms": 81.03842288255692,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 5.765926,
+          "wall_ms": 8.250062353909016,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 2.799855,
+          "wall_ms": 5.296711809933186,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.906467,
+          "wall_ms": 10.204293765127659,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 11.325835,
+          "wall_ms": 13.884763233363628,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 49.270613,
+          "wall_ms": 55.32252602279186,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 66.71118299999999,
+          "wall_ms": 73.62464815378189,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 4.410964,
+          "wall_ms": 8.41932650655508,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 8.560614,
+          "wall_ms": 12.40566186606884,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.03851,
+          "wall_ms": 5.032961256802082,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 4.321560000000001,
+          "wall_ms": 6.72047957777977,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.092535,
+          "wall_ms": 9.998008608818054,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 13.859155999999999,
+          "wall_ms": 18.332719802856445,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.354543,
+          "wall_ms": 6.633821874856949,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 7.373404,
+          "wall_ms": 10.697225108742714,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.356418,
+          "wall_ms": 11.261691339313984,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 15.505552,
+          "wall_ms": 19.08568385988474,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 37.2397,
+          "wall_ms": 46.724134124815464,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 59.219513,
+          "wall_ms": 69.13872994482517,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 19.059731,
+          "wall_ms": 26.946209371089935,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 28.89644,
+          "wall_ms": 33.800503239035606,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 47.648455,
+          "wall_ms": 54.644886404275894,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 66.281642,
+          "wall_ms": 72.70265929400921,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.9814719999999997,
+          "wall_ms": 6.925458088517189,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 7.632819,
+          "wall_ms": 10.97576878964901,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 55.517769,
+          "wall_ms": 62.37277667969465,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 66.747091,
+          "wall_ms": 72.86286726593971,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 12.901392,
+          "wall_ms": 17.308050766587257,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 27.406064,
+          "wall_ms": 31.532523222267628,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 1.382786,
+          "wall_ms": 4.861943423748016,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 3.064401,
+          "wall_ms": 5.785188637673855,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 8.585574000000001,
+          "wall_ms": 13.077136129140854,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 21.065908,
+          "wall_ms": 26.59385744482279,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.135169,
+          "wall_ms": 11.785220354795456,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 15.691986000000002,
+          "wall_ms": 20.260795950889587,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 10.821705,
+          "wall_ms": 16.15083869546652,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 22.329058,
+          "wall_ms": 26.682300493121147,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 5.735159,
+          "wall_ms": 8.210007101297379,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 8.879493,
+          "wall_ms": 11.131544597446918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.80247399999999,
+          "wall_ms": 82.62568339705467,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 93.164975,
+          "wall_ms": 99.99950043857098,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.849303,
+          "wall_ms": 6.2363604083657265,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 5.701958,
+          "wall_ms": 8.719914592802525,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 11.924183,
+          "wall_ms": 14.349487610161304,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 8.261666000000002,
+          "wall_ms": 11.153049767017365,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 68.724664,
+          "wall_ms": 74.29342158138752,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 48.831786,
+          "wall_ms": 54.6105420216918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 8.630677,
+          "wall_ms": 11.928978376090527,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.399107,
+          "wall_ms": 7.502431981265545,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 4.364648,
+          "wall_ms": 6.736072711646557,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 2.0588759999999997,
+          "wall_ms": 4.3174587190151215,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 13.773616,
+          "wall_ms": 18.34866590797901,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 5.967089,
+          "wall_ms": 10.722235776484013,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 7.5123050000000005,
+          "wall_ms": 10.895181447267532,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.264879,
+          "wall_ms": 7.280426099896431,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 15.497498,
+          "wall_ms": 20.04231233149767,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.4055029999999995,
+          "wall_ms": 11.994351632893085,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 59.493595000000006,
+          "wall_ms": 68.86366754770279,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 37.7191,
+          "wall_ms": 46.877602115273476,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 25.213023,
+          "wall_ms": 30.21513018757105,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 14.469475000000001,
+          "wall_ms": 19.493557512760162,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 65.887829,
+          "wall_ms": 72.28733599185944,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 47.387949,
+          "wall_ms": 53.803618997335434,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 7.673756,
+          "wall_ms": 11.670632287859917,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.9402630000000003,
+          "wall_ms": 7.089470513164997,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 65.19189899999999,
+          "wall_ms": 71.65252137929201,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 50.131733999999994,
+          "wall_ms": 57.2087075561285,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 26.777495,
+          "wall_ms": 31.026136130094528,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 12.873948,
+          "wall_ms": 17.056974582374096,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 3.068657,
+          "wall_ms": 5.708125419914722,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 1.3878359999999998,
+          "wall_ms": 4.448874853551388,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 16.146633,
+          "wall_ms": 20.22617030888796,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 8.551642,
+          "wall_ms": 13.470002450048923,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 13.648498,
+          "wall_ms": 17.703648656606674,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 6.282049,
+          "wall_ms": 10.593789629638195,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 18.471663,
+          "wall_ms": 22.585933096706867,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 9.281486000000001,
+          "wall_ms": 13.29013705253601,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 8.206144,
+          "wall_ms": 11.321689933538437,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.599425,
+          "wall_ms": 10.53137332201004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 99.470806,
+          "wall_ms": 107.95128252357244,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 75.666686,
+          "wall_ms": 82.70758762955666,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 5.719145999999999,
+          "wall_ms": 8.042586967349052,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.677886,
+          "wall_ms": 7.14670866727829,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 11.577397,
+          "wall_ms": 16.747238114476204,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 10.255156,
+          "wall_ms": 13.872743584215641,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 53.79593,
+          "wall_ms": 61.486709862947464,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 48.118986,
+          "wall_ms": 54.41668443381786,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 4.494924,
+          "wall_ms": 8.456069976091385,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 5.461809,
+          "wall_ms": 9.162691421806812,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.706294,
+          "wall_ms": 5.924907512962818,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 2.659693,
+          "wall_ms": 5.967548117041588,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.80229,
+          "wall_ms": 12.740089558064938,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 7.136799999999999,
+          "wall_ms": 12.232907116413116,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.830144,
+          "wall_ms": 8.198934607207775,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 3.851986,
+          "wall_ms": 7.504761219024658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 8.892101,
+          "wall_ms": 13.72512336820364,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 9.071194,
+          "wall_ms": 13.862884603440762,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 39.524775,
+          "wall_ms": 49.726782366633415,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 37.517061,
+          "wall_ms": 46.92772030830383,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 14.339201,
+          "wall_ms": 19.407164305448532,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 18.91737,
+          "wall_ms": 25.35899169743061,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 51.218956000000006,
+          "wall_ms": 58.19074250757694,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 47.786514000000004,
+          "wall_ms": 54.48472406715155,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.837265,
+          "wall_ms": 6.6971201449632645,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 3.921336,
+          "wall_ms": 7.634833455085754,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 50.338157,
+          "wall_ms": 56.54318071901798,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 50.077935,
+          "wall_ms": 56.69334810227156,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 12.688452,
+          "wall_ms": 16.815614886581898,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 12.700695,
+          "wall_ms": 16.63309335708618,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 1.361384,
+          "wall_ms": 4.608269780874252,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 1.315508,
+          "wall_ms": 3.807574510574341,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 8.327442,
+          "wall_ms": 12.269112281501293,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 8.992713,
+          "wall_ms": 13.172161765396595,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.167017,
+          "wall_ms": 9.420976974070072,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 6.273124,
+          "wall_ms": 9.44401789456606,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 9.233573,
+          "wall_ms": 12.984628789126873,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 19.370069,
+          "wall_ms": 27.145561762154102,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 10.108485,
+          "wall_ms": 13.886136002838612,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 8.845723999999999,
+          "wall_ms": 12.952663004398346,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 79.795905,
+          "wall_ms": 87.85659819841385,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 82.50842899999999,
+          "wall_ms": 89.4102780148387,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.786707,
+          "wall_ms": 6.17186538875103,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 2.971035,
+          "wall_ms": 6.407486274838448,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 8.484767000000002,
+          "wall_ms": 11.39339804649353,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.912831000000001,
+          "wall_ms": 10.358337312936783,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 49.495372,
+          "wall_ms": 54.92984876036644,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 48.858230000000006,
+          "wall_ms": 55.17666973173618,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 4.705829,
+          "wall_ms": 8.889826945960522,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.496919,
+          "wall_ms": 7.615801878273487,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 2.054794,
+          "wall_ms": 5.1169563084840775,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 2.0535039999999998,
+          "wall_ms": 5.086719058454037,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 5.879338,
+          "wall_ms": 9.731940925121307,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 5.970472999999999,
+          "wall_ms": 10.466549545526505,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 3.289227,
+          "wall_ms": 6.588575430214405,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.3813850000000003,
+          "wall_ms": 7.22309947013855,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 7.582164,
+          "wall_ms": 11.650425381958485,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.456758,
+          "wall_ms": 11.286663822829723,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 41.621784000000005,
+          "wall_ms": 52.64682415872812,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 41.206454,
+          "wall_ms": 53.50572057068348,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 14.782942,
+          "wall_ms": 19.251501187682152,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 14.809904000000001,
+          "wall_ms": 19.19273566454649,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 49.756433,
+          "wall_ms": 56.558444164693356,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 49.740334999999995,
+          "wall_ms": 56.88290111720562,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 3.9972369999999997,
+          "wall_ms": 7.3624057695269585,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.141437000000001,
+          "wall_ms": 7.962483912706375,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 51.610177,
+          "wall_ms": 57.859073393046856,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 51.726371,
+          "wall_ms": 58.38219542056322,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 12.894445,
+          "wall_ms": 17.264888621866703,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 12.800463,
+          "wall_ms": 16.47662464529276,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 1.345077,
+          "wall_ms": 3.802022896707058,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 1.3684560000000001,
+          "wall_ms": 4.282806999981403,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 8.671938,
+          "wall_ms": 12.689120136201382,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 8.619362,
+          "wall_ms": 13.483917340636253,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 6.46877,
+          "wall_ms": 10.327349416911602,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 6.339578,
+          "wall_ms": 11.247217655181885,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 9.907886,
+          "wall_ms": 13.687162660062313,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 9.915444,
+          "wall_ms": 13.700220733880997,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 5.7503850000000005,
+          "wall_ms": 8.009337820112705,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 6.231078,
+          "wall_ms": 8.456556126475334,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 82.064984,
+          "wall_ms": 88.0336444824934,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 76.70657,
+          "wall_ms": 83.59645120799541,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 2.855849,
+          "wall_ms": 5.163304507732391,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.1302779999999997,
+          "wall_ms": 5.2154939621686935,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.918908000000001,
+          "wall_ms": 10.178442113101482,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 7.9962,
+          "wall_ms": 11.485685594379902,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 49.452691,
+          "wall_ms": 55.250017903745174,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 48.386643,
+          "wall_ms": 55.3340557962656,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 4.390047,
+          "wall_ms": 8.445915766060352,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 4.78006,
+          "wall_ms": 8.661430329084396,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 2.03477,
+          "wall_ms": 5.210159346461296,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 2.047458,
+          "wall_ms": 4.3527353554964066,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.099964,
+          "wall_ms": 10.583956725895405,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 6.271673,
+          "wall_ms": 10.613493621349335,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.246282,
+          "wall_ms": 6.457904353737831,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 3.3380189999999996,
+          "wall_ms": 6.4928364008665085,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 7.429128,
+          "wall_ms": 12.256688438355923,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 7.928718,
+          "wall_ms": 11.890450492501259,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 38.468581,
+          "wall_ms": 47.27873578667641,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 37.488444,
+          "wall_ms": 47.187878750264645,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 14.745415,
+          "wall_ms": 19.749979488551617,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 14.550563,
+          "wall_ms": 18.675511702895164,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 48.518194,
+          "wall_ms": 55.109765380620956,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 48.519303,
+          "wall_ms": 55.04205357283354,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.971792,
+          "wall_ms": 8.028299547731876,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 4.00011,
+          "wall_ms": 8.029135875403881,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 51.242109,
+          "wall_ms": 57.51829221844673,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 53.127725,
+          "wall_ms": 60.159788466989994,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 12.744895,
+          "wall_ms": 16.598490998148918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 12.937017,
+          "wall_ms": 16.551158390939236,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 1.3923150000000002,
+          "wall_ms": 5.242106504738331,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 1.594805,
+          "wall_ms": 5.165905691683292,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 9.253808000000001,
+          "wall_ms": 13.334423303604126,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 9.030893,
+          "wall_ms": 14.317935332655907,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 6.56363,
+          "wall_ms": 10.504668578505516,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 6.400912,
+          "wall_ms": 10.568881407380104,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 9.575675,
+          "wall_ms": 13.564038090407848,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 9.657055,
+          "wall_ms": 13.631371781229973,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 5.791849,
+          "wall_ms": 8.76676570624113,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 5.911993,
+          "wall_ms": 8.80841352045536,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 75.111354,
+          "wall_ms": 81.16982039064169,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 82.37633799999999,
+          "wall_ms": 88.6915298178792,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "baseline": {
+          "ms": 3.576404,
+          "wall_ms": 7.1273865178227425,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 3.695099,
+          "wall_ms": 6.435224786400795,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e9344040f84e30b1900ec4667e66d6ffc54746773cd64b24d606443f0ff77f80",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 10.486777,
+          "wall_ms": 13.608410023152828,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 9.999604,
+          "wall_ms": 13.286255300045013,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "448523053865664e14cce9710994c4f575618e7e33f2af99469905b4be16a768",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 51.175568999999996,
+          "wall_ms": 58.336781337857246,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 48.625414,
+          "wall_ms": 55.22126704454422,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ca2a3b30943da70cd4b3ec268372c3ae2ead6d26c83ebba4cc99d39cc26adc8f",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 4.392852,
+          "wall_ms": 8.459814824163914,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.495537,
+          "wall_ms": 7.771419361233711,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5054b33fb3f034b2f596f0394def61315d30a9e94671af33dea9cc607d2ea1e9",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 2.0478509999999996,
+          "wall_ms": 4.3931398540735245,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 2.046393,
+          "wall_ms": 4.660619422793388,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "abcc7b2033a0c9e199721ddd37da84f0ee150d6a5c514573e67a2cc5f90f7e77",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 5.973489,
+          "wall_ms": 10.70221047848463,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 5.952685,
+          "wall_ms": 10.527921840548515,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0495fe42d0c989622cf1ec6e7a0898531a0d78d97c5d7d89fc5788ea2d1a4d1e",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 3.232243,
+          "wall_ms": 6.3995979726314545,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.3073360000000003,
+          "wall_ms": 6.66427705436945,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a4483ee2934b8154415c323e8d51e07701a1f36fb32099f3c797378b26dbacaa",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 7.6060620000000005,
+          "wall_ms": 11.568553745746613,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.66238,
+          "wall_ms": 11.873286217451096,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f388a29ad257dd32816ab8d0794e3781b396bfa39eaabc2ffff5d0b611ffbc02",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 39.031918999999995,
+          "wall_ms": 47.74265456944704,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 38.656596,
+          "wall_ms": 47.81133495271206,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98963986445d42a5c8faec931bbf9f93bf5c85ba007e073ab7a0385a1d05f041",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 16.038665,
+          "wall_ms": 20.754544995725155,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 16.849304999999998,
+          "wall_ms": 21.13433927297592,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f5f991cb58405b0676140df907900c4930937d229ebc96174a3e3b65157096f0",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 52.627158,
+          "wall_ms": 59.510208666324615,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 48.217211000000006,
+          "wall_ms": 54.8942182213068,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a3551248baef11f7819edbffb5621a16cd2f2f29feff809eddb1ad0d16d6e7d3",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 3.975484,
+          "wall_ms": 7.7902404591441154,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 4.003053,
+          "wall_ms": 8.11043567955494,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "e54c8092b9a4fc54fe85673d59272c52f86909a67280e650e6464e55fb2c039b",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 50.867409,
+          "wall_ms": 57.65848886221647,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 51.972878,
+          "wall_ms": 59.49607864022255,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "44936331dfd1fd3fe8ebf3572facd040a6dd7e17bd8fbed9eff24314218f80ff",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 12.896598000000001,
+          "wall_ms": 16.074989922344685,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 12.854303,
+          "wall_ms": 17.187777906656265,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6e042030e7ec359fd2ff87bb181685c8e0206233fe66d09d5fb5eed91a308fff",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 1.369636,
+          "wall_ms": 4.762494936585426,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 1.3549479999999998,
+          "wall_ms": 4.287257790565491,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ba62af38742d00d7ee99e26f8cdd5bb48289cf761cdd047e18bef142b1455ec1",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 11.412573,
+          "wall_ms": 16.543153673410416,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 10.744943,
+          "wall_ms": 15.363802202045918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "13943feb57da1494799c48bd295bf69f2ad47100703fb3e47355a453187534aa",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 7.585318,
+          "wall_ms": 12.36815471202135,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.860069000000001,
+          "wall_ms": 11.935953982174397,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "ccb3954b9bfd71a26d7ccfd56787a175f2668256adbc095f7bf60511d6da18fa",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 11.658708,
+          "wall_ms": 16.143836081027985,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 11.525218,
+          "wall_ms": 15.90569969266653,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "3c0b0ae09d34f0a73852a1895a9dddc6e872621cdbc56cb60671433b9e6f1233",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 6.888232,
+          "wall_ms": 10.716050863265991,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 7.034001,
+          "wall_ms": 10.284247808158398,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "57e7439ca2d6af0b5c3a3012cffd6e2d5e55697d9da49a1ef230bc874f22d8ac",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 86.590147,
+          "wall_ms": 94.3897720426321,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 78.338063,
+          "wall_ms": 84.59697756916285,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a6f6ab460ea6b8cddd5006d464609efc5f860481614ac8bd2974fc580ce84c66",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_public_dev",
+      "times": {
+        "empty_half": {
+          "ms": 3.057157,
+          "wall_ms": 5.77898882329464,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 3.9744660000000005,
+          "wall_ms": 6.069272756576538,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 39.352314,
+          "wall_ms": 46.15660756826401,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 69.368583,
+          "wall_ms": 75.85901487618685,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 132.751584,
+          "wall_ms": 145.17857693135738,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 246.171095,
+          "wall_ms": 259.3434900045395,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 233.103104,
+          "wall_ms": 255.84896467626095,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 396.526192,
+          "wall_ms": 418.74723695218563,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 186.209116,
+          "wall_ms": 199.75542649626732,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 303.928868,
+          "wall_ms": 316.54453091323376,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 286.48959099999996,
+          "wall_ms": 314.6342933177948,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 494.48398199999997,
+          "wall_ms": 516.0013781860471,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 93.139684,
+          "wall_ms": 106.93932976573706,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 191.682824,
+          "wall_ms": 203.99881340563297,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 150.12146800000002,
+          "wall_ms": 162.05602046102285,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 309.427766,
+          "wall_ms": 322.1863601356745,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 85.558241,
+          "wall_ms": 97.02008124440908,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 175.075014,
+          "wall_ms": 187.09639087319374,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.46476200000001,
+          "wall_ms": 87.30782754719257,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 146.523893,
+          "wall_ms": 158.47333054989576,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 220.613532,
+          "wall_ms": 246.12528830766678,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 367.144637,
+          "wall_ms": 393.05390883237123,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 55.63263,
+          "wall_ms": 72.42135889828205,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 126.08249399999998,
+          "wall_ms": 139.2367398366332,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 160.198408,
+          "wall_ms": 180.77492248266935,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 392.62162,
+          "wall_ms": 415.04276636987925,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 229.30785500000002,
+          "wall_ms": 243.48122719675303,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 474.343096,
+          "wall_ms": 489.58862014114857,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.524123,
+          "wall_ms": 87.38803304731846,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 174.978708,
+          "wall_ms": 186.0486026853323,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 161.863872,
+          "wall_ms": 181.1075983569026,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 340.352438,
+          "wall_ms": 360.3136697784066,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 91.39130800000001,
+          "wall_ms": 102.94018778949976,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 210.476406,
+          "wall_ms": 220.9692820906639,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 235.806245,
+          "wall_ms": 255.88587392121553,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 551.242776,
+          "wall_ms": 570.9250932559371,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 203.58678999999998,
+          "wall_ms": 215.50469007343054,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 328.14841099999995,
+          "wall_ms": 340.187381953001,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 0,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 68.249734,
+          "wall_ms": 80.79919032752514,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 146.169811,
+          "wall_ms": 158.60503166913986,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 69.236474,
+          "wall_ms": 74.69831220805645,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 34.300850000000004,
+          "wall_ms": 39.60998263210058,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 246.49963499999998,
+          "wall_ms": 258.98844841867685,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 134.786625,
+          "wall_ms": 147.39815518260002,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 398.372567,
+          "wall_ms": 421.0275383666158,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 234.204499,
+          "wall_ms": 256.22632447630167,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 302.218166,
+          "wall_ms": 314.7119237110019,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 180.556413,
+          "wall_ms": 193.74692253768444,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 497.193502,
+          "wall_ms": 518.7032064422965,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 277.230289,
+          "wall_ms": 298.41507133096457,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 190.680566,
+          "wall_ms": 203.02344113588333,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 87.57859599999999,
+          "wall_ms": 99.51152466237545,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 314.40925400000003,
+          "wall_ms": 326.74741093069315,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 147.798855,
+          "wall_ms": 159.97295640408993,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 171.17044,
+          "wall_ms": 182.04386346042156,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 84.426811,
+          "wall_ms": 96.20355628430843,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 141.350737,
+          "wall_ms": 152.55615580826998,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 74.07316399999999,
+          "wall_ms": 86.30339428782463,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 361.73958899999997,
+          "wall_ms": 387.3632615432143,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 222.586113,
+          "wall_ms": 249.0660585463047,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 126.18083299999999,
+          "wall_ms": 141.07044786214828,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 55.323335,
+          "wall_ms": 68.60252842307091,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 371.305012,
+          "wall_ms": 393.84317584335804,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 165.05241800000002,
+          "wall_ms": 187.255522236228,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 469.92291,
+          "wall_ms": 482.37684555351734,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 226.326669,
+          "wall_ms": 239.5670134574175,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 187.370631,
+          "wall_ms": 197.8618549183011,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 78.449783,
+          "wall_ms": 89.3406942486763,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 346.60630399999997,
+          "wall_ms": 366.089821793139,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 162.084922,
+          "wall_ms": 181.77551589906216,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 211.17471099999997,
+          "wall_ms": 222.6590048521757,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 89.33894000000001,
+          "wall_ms": 99.6351195499301,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 542.9248279999999,
+          "wall_ms": 562.9519410431385,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 234.287454,
+          "wall_ms": 253.1506447121501,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 327.186985,
+          "wall_ms": 339.38454184681177,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 205.225243,
+          "wall_ms": 217.42178220301867,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 1,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 145.243643,
+          "wall_ms": 157.68933575600386,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 69.34006500000001,
+          "wall_ms": 81.66495803743601,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 34.794128,
+          "wall_ms": 40.05331266671419,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 70.120472,
+          "wall_ms": 75.74677187949419,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 144.79189300000002,
+          "wall_ms": 158.09114091098309,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 248.108904,
+          "wall_ms": 260.54787542670965,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 234.15867100000003,
+          "wall_ms": 255.18732890486717,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 393.696527,
+          "wall_ms": 416.0177381709218,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 181.08190299999998,
+          "wall_ms": 193.43712087720633,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 298.84337999999997,
+          "wall_ms": 312.5623073428869,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 273.554958,
+          "wall_ms": 295.35501450300217,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 497.534483,
+          "wall_ms": 519.0152022987604,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 92.605563,
+          "wall_ms": 104.56725209951401,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 195.37323700000002,
+          "wall_ms": 206.67103584855795,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 147.77959600000003,
+          "wall_ms": 159.42193754017353,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 310.806747,
+          "wall_ms": 323.66450130939484,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 88.23671499999999,
+          "wall_ms": 101.4308501034975,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 174.821814,
+          "wall_ms": 189.19532001018524,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 71.75912,
+          "wall_ms": 82.81399309635162,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 140.84178599999998,
+          "wall_ms": 152.3872585967183,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 219.18616799999998,
+          "wall_ms": 244.85956691205502,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 356.748588,
+          "wall_ms": 382.35025480389595,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 54.116522,
+          "wall_ms": 67.56068393588066,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 126.962156,
+          "wall_ms": 140.77090937644243,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 163.455368,
+          "wall_ms": 185.75518671423197,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 369.585157,
+          "wall_ms": 391.4885800331831,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 224.708845,
+          "wall_ms": 237.85392567515373,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 463.497271,
+          "wall_ms": 476.6067564487457,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.501768,
+          "wall_ms": 86.84757258743048,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 173.29850299999998,
+          "wall_ms": 183.7548390030861,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 165.329566,
+          "wall_ms": 183.92332084476948,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 347.87984900000004,
+          "wall_ms": 367.12013464421034,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 89.828822,
+          "wall_ms": 101.23603790998459,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 211.011452,
+          "wall_ms": 222.6780140772462,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 234.900019,
+          "wall_ms": 254.3047871440649,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 545.368463,
+          "wall_ms": 570.9069287404418,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 215.27325,
+          "wall_ms": 230.38711212575436,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 327.633242,
+          "wall_ms": 338.70729990303516,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 2,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 67.41131,
+          "wall_ms": 79.387491568923,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "matrix_both": {
+          "ms": 146.540598,
+          "wall_ms": 159.08026602119207,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 69.059477,
+          "wall_ms": 74.66976158320904,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 36.815022000000006,
+          "wall_ms": 42.221941985189915,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 323.16416300000003,
+          "wall_ms": 335.5509703978896,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 156.463194,
+          "wall_ms": 169.10916194319725,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 484.41218200000003,
+          "wall_ms": 509.9793253466487,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 278.404399,
+          "wall_ms": 301.6430204734206,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 354.774676,
+          "wall_ms": 368.1796817108989,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 202.971142,
+          "wall_ms": 218.20526756346226,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 517.1524039999999,
+          "wall_ms": 538.6209273710847,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 275.20016200000003,
+          "wall_ms": 295.45789025723934,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 194.646277,
+          "wall_ms": 206.38551376760006,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 87.13789,
+          "wall_ms": 98.76910597085953,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 308.780398,
+          "wall_ms": 321.82467356324196,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 146.28956000000002,
+          "wall_ms": 158.87826308608055,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 170.97590100000002,
+          "wall_ms": 183.129514567554,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 84.129571,
+          "wall_ms": 96.44452575594187,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 155.154261,
+          "wall_ms": 166.40587151050568,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 73.023688,
+          "wall_ms": 84.21259466558695,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 361.81915599999996,
+          "wall_ms": 393.9882982522249,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 218.995403,
+          "wall_ms": 244.18016523122787,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 125.81503899999998,
+          "wall_ms": 139.13035113364458,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 54.291238,
+          "wall_ms": 68.55332665145397,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 372.125282,
+          "wall_ms": 393.67211051285267,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 168.72489800000002,
+          "wall_ms": 190.9740697592497,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 475.896502,
+          "wall_ms": 489.15455397218466,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 233.115399,
+          "wall_ms": 246.54404446482658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 176.479594,
+          "wall_ms": 186.59362196922302,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 78.07366,
+          "wall_ms": 88.80763500928879,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 342.505665,
+          "wall_ms": 364.42298348993063,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 166.788248,
+          "wall_ms": 189.40788134932518,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 215.22423600000002,
+          "wall_ms": 227.0123027265072,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 96.473333,
+          "wall_ms": 110.26303097605705,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 550.308444,
+          "wall_ms": 570.4329442232847,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 236.327769,
+          "wall_ms": 256.2928833067417,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 329.27345,
+          "wall_ms": 340.30821174383163,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 204.26640700000002,
+          "wall_ms": 214.7444672882557,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 3,
+      "variant": "matrix_both",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "matrix_both": {
+          "ms": 146.453506,
+          "wall_ms": 159.16260983794928,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 69.81353999999999,
+          "wall_ms": 80.9752894565463,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 34.691218000000006,
+          "wall_ms": 40.31726531684399,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 33.913048,
+          "wall_ms": 39.2126115038991,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 133.04386200000002,
+          "wall_ms": 145.02135012298822,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 134.100594,
+          "wall_ms": 147.1000099554658,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 228.976303,
+          "wall_ms": 251.5763510018587,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 229.21050000000002,
+          "wall_ms": 251.45721063017845,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 180.378914,
+          "wall_ms": 193.2782055810094,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 179.312074,
+          "wall_ms": 192.45008192956448,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 272.571058,
+          "wall_ms": 293.1956546381116,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 277.400547,
+          "wall_ms": 297.58116509765387,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 88.94207399999999,
+          "wall_ms": 99.7377960011363,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 88.39641900000001,
+          "wall_ms": 100.32224096357822,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 159.57908500000002,
+          "wall_ms": 177.05005407333374,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 146.52124799999999,
+          "wall_ms": 158.92229322344065,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 84.52941299999999,
+          "wall_ms": 95.9768258035183,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 84.73144,
+          "wall_ms": 96.16183862090111,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 72.514001,
+          "wall_ms": 83.64519197493792,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 93.2597,
+          "wall_ms": 104.14404608309269,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 220.78869,
+          "wall_ms": 246.56290840357542,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 218.227693,
+          "wall_ms": 243.22198051959276,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 54.620324,
+          "wall_ms": 67.73128546774387,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 54.072846,
+          "wall_ms": 67.15832185000181,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 160.81352700000002,
+          "wall_ms": 182.45305959135294,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 162.910808,
+          "wall_ms": 184.32707525789738,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 227.56178599999998,
+          "wall_ms": 240.08222669363022,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 230.47876,
+          "wall_ms": 244.1625464707613,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.42349800000001,
+          "wall_ms": 86.78006380796432,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 77.763339,
+          "wall_ms": 87.2192857787013,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 161.590834,
+          "wall_ms": 180.25178648531437,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 166.138238,
+          "wall_ms": 188.07916902005672,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 92.319788,
+          "wall_ms": 103.17938961088657,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 90.278411,
+          "wall_ms": 101.70284379273653,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 286.26678,
+          "wall_ms": 307.01633635908365,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 236.399407,
+          "wall_ms": 255.68689312785864,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 204.80156499999998,
+          "wall_ms": 216.39381535351276,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 239.23276099999998,
+          "wall_ms": 249.81198646128178,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 0,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 68.518258,
+          "wall_ms": 80.49284387379885,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 68.338252,
+          "wall_ms": 80.54942823946476,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 34.746326,
+          "wall_ms": 40.82852229475975,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 34.130584999999996,
+          "wall_ms": 40.38602206856012,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 133.254432,
+          "wall_ms": 146.25088963657618,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 132.531382,
+          "wall_ms": 145.1564272865653,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 230.625587,
+          "wall_ms": 251.75148993730545,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 230.500036,
+          "wall_ms": 251.85549538582563,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 181.946613,
+          "wall_ms": 195.30931767076254,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 181.006686,
+          "wall_ms": 194.9450196698308,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 274.88663099999997,
+          "wall_ms": 296.71915620565414,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 285.37048999999996,
+          "wall_ms": 306.55233934521675,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 93.081708,
+          "wall_ms": 104.6388866379857,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 91.580911,
+          "wall_ms": 103.78903429955244,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 150.524092,
+          "wall_ms": 163.2853066548705,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 150.438256,
+          "wall_ms": 163.3742991834879,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 91.935572,
+          "wall_ms": 109.64846611022949,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 89.28696,
+          "wall_ms": 100.2817191183567,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 101.64932,
+          "wall_ms": 114.55817334353924,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 76.56045,
+          "wall_ms": 87.68904767930508,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 239.569567,
+          "wall_ms": 265.85548371076584,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 245.031063,
+          "wall_ms": 288.9547972008586,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 69.446835,
+          "wall_ms": 82.78875052928925,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 74.397867,
+          "wall_ms": 88.59907742589712,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 211.14806,
+          "wall_ms": 238.09202387928963,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 204.72333500000002,
+          "wall_ms": 234.81489811092615,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 265.114055,
+          "wall_ms": 280.78297059983015,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 267.073042,
+          "wall_ms": 280.2122784778476,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 91.509826,
+          "wall_ms": 104.04653288424015,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 78.993254,
+          "wall_ms": 89.66254815459251,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 177.49993999999998,
+          "wall_ms": 196.52435928583145,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 166.301268,
+          "wall_ms": 185.37228181958199,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 103.62993700000001,
+          "wall_ms": 113.7274345383048,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 109.51362,
+          "wall_ms": 121.09543848782778,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 263.106789,
+          "wall_ms": 289.5993823185563,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 322.240301,
+          "wall_ms": 342.46842190623283,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 244.6354,
+          "wall_ms": 259.57596860826015,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 210.575379,
+          "wall_ms": 222.54591900855303,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 1,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 80.972017,
+          "wall_ms": 93.3568300679326,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 69.06085900000001,
+          "wall_ms": 80.43691981583834,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 35.077906999999996,
+          "wall_ms": 41.63023550063372,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 34.242988000000004,
+          "wall_ms": 40.35044461488724,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 136.630215,
+          "wall_ms": 152.08194684237242,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 131.851362,
+          "wall_ms": 144.92918737232685,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 229.99027999999998,
+          "wall_ms": 251.84629298746586,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 228.546164,
+          "wall_ms": 250.82023907452822,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 179.62159699999998,
+          "wall_ms": 193.21450218558311,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 186.173281,
+          "wall_ms": 199.32991918176413,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 279.388276,
+          "wall_ms": 299.3820374831557,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 274.705549,
+          "wall_ms": 295.1193554326892,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 88.459912,
+          "wall_ms": 100.8083326742053,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 89.80571699999999,
+          "wall_ms": 100.78617464751005,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 147.552002,
+          "wall_ms": 160.4440314695239,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 153.05840600000002,
+          "wall_ms": 165.92736635357141,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 84.113727,
+          "wall_ms": 95.52530385553837,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 83.885945,
+          "wall_ms": 95.19729763269424,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 73.95902099999999,
+          "wall_ms": 85.50479635596275,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 92.838159,
+          "wall_ms": 103.32691855728626,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 219.559744,
+          "wall_ms": 244.66343875974417,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 222.88432899999998,
+          "wall_ms": 248.72250948101282,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 54.380592,
+          "wall_ms": 68.24465375393629,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 54.244968,
+          "wall_ms": 68.87221429497004,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 161.501394,
+          "wall_ms": 192.75113102048635,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 166.80083000000002,
+          "wall_ms": 188.59106861054897,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 225.897636,
+          "wall_ms": 239.57292921841145,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 227.06728,
+          "wall_ms": 240.27516692876816,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 76.054331,
+          "wall_ms": 85.9620152041316,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 76.157335,
+          "wall_ms": 87.07707934081554,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 161.795798,
+          "wall_ms": 180.85969146341085,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 166.084297,
+          "wall_ms": 185.5986723676324,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 91.33630299999999,
+          "wall_ms": 102.61562187224627,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 90.647729,
+          "wall_ms": 103.15707419067621,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 236.676788,
+          "wall_ms": 256.55245315283537,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 235.880693,
+          "wall_ms": 255.81700168550014,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 205.311144,
+          "wall_ms": 216.59009996801615,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 235.257561,
+          "wall_ms": 247.0246059820056,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 2,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "baseline": {
+          "ms": 66.891571,
+          "wall_ms": 79.18919902294874,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "empty_half": {
+          "ms": 67.43089300000001,
+          "wall_ms": 79.62273247539997,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "267eb4cf804b8380e4a20db6cf3c8370b0736b7893fa1b6daf7852dc9b46096c",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 39.697507,
+          "wall_ms": 46.87431175261736,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 36.653015999999994,
+          "wall_ms": 43.12301520258188,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "98e8f5c1f5f5f1f17e7214d0c77a6f7c1bd94699ded6381bb0f58c7cea79e0fa",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 135.342757,
+          "wall_ms": 149.03006609529257,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 132.97152300000002,
+          "wall_ms": 145.86008712649345,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "27799964ee37066d652b743c482f1fd2dac28237c5c78f7e6035f3b6d5628794",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 228.572892,
+          "wall_ms": 250.6070826202631,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 230.485992,
+          "wall_ms": 252.88925506174564,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5813d2f672eb60ff84927517bca0afc51d912455a5e1bf36ab816ea96fa57abf",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 179.69410499999998,
+          "wall_ms": 191.98888074606657,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 184.48413499999998,
+          "wall_ms": 196.7240273952484,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d84fc1668a4ccb2130df52f1a206380d3167b2d26363471170ff08d323d4c96f",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 283.08358,
+          "wall_ms": 303.03751584142447,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 273.579251,
+          "wall_ms": 293.9046397805214,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "af7bf2f0625e0ef6139b57cda2fe068f869ad3b575709a2db276247bbbf3da51",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 89.061663,
+          "wall_ms": 100.29522608965635,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 90.095963,
+          "wall_ms": 102.02157963067293,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c647c663e625ec6a7e9d90fc5bebe8982929f13d136756aa205a745fff1b8eb6",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 146.554676,
+          "wall_ms": 162.1758295223117,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 147.872185,
+          "wall_ms": 160.15165392309427,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "a11fd09d09d2dec45cbd7bad894cae707bac85cf7b0485114a48266c97d98cd8",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 83.900053,
+          "wall_ms": 95.06874345242977,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 101.326894,
+          "wall_ms": 124.02680143713951,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "d0b7c8ed2b4b13dae329ac151aaa63cc6a898e7fb082aa60abff20f25e79e33a",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 93.155011,
+          "wall_ms": 104.53478898853064,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 72.327442,
+          "wall_ms": 83.49158521741629,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "5ecb3685d34a8594db3e5c9bf573f91484895deabfdf5a1c75c4f14608681b38",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 220.292505,
+          "wall_ms": 246.1966909468174,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 219.169549,
+          "wall_ms": 244.16458513587713,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "b3f0383054f027c456cd07905b33511f03c63ac8ad159edf832460fae8a4fc1a",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 54.443881,
+          "wall_ms": 68.12532059848309,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 54.065559,
+          "wall_ms": 67.85405799746513,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9f3927c56de21a6ca8861eb4eba14c1a18f7f3cb3a05beec3755b89f8cac1a04",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 168.003235,
+          "wall_ms": 189.63590916246176,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 163.063085,
+          "wall_ms": 183.73540416359901,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0a3e6965c065001c7cda3580f44f47c468647b41b9543cb74c825f9f936adb08",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 225.15047299999998,
+          "wall_ms": 239.68689423054457,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 225.202654,
+          "wall_ms": 239.721167832613,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "7d2890df539825e3572f1a228e0f9bfc5ede32e452eac2d3975da3f82cd64c39",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 76.75827100000001,
+          "wall_ms": 87.01658062636852,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 76.700974,
+          "wall_ms": 87.77460642158985,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "0d4156064f27ac85cade3e601aab9cd85c927ddff61cad578377737dc0636ca1",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 163.771041,
+          "wall_ms": 183.3067610859871,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 161.910865,
+          "wall_ms": 180.44697679579258,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "c7aaaec9f49931e8fcaf8d6752d6b572512353496649808def211a7322ca83f8",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 90.992481,
+          "wall_ms": 102.82843932509422,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 90.204645,
+          "wall_ms": 101.61483753472567,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "f2b636d4a79f2fa9e1810c90bd393365fa93cb85833bcb46cfe2d2924970a06b",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 249.762976,
+          "wall_ms": 268.9235294237733,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 236.69546499999998,
+          "wall_ms": 256.02709129452705,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "9171db0d0bb23d245782d4ad6bfdaa6ed1fd70312f23debdeb03ec95efd97524",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 240.54456399999998,
+          "wall_ms": 251.6020368784666,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 206.15429,
+          "wall_ms": 218.03979855030775,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    },
+    {
+      "id": "6b4aecbf8d6ff387fb4ffbff79ca8326414dcc81dd682ebeb8ec23453364820d",
+      "repeat": 3,
+      "variant": "empty_half",
+      "dataset": "barcode_synth_dev",
+      "times": {
+        "empty_half": {
+          "ms": 67.811217,
+          "wall_ms": 80.3220383822918,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        },
+        "baseline": {
+          "ms": 67.199511,
+          "wall_ms": 79.45028319954872,
+          "timeout": false,
+          "crash": false,
+          "error": false
+        }
+      }
+    }
+  ],
+  "load_end": [
+    3.01123046875,
+    7.73486328125,
+    12.77197265625
+  ]
+}
