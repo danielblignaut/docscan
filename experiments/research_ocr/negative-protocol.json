@@ -1,0 +1,11 @@
+{
+  "version":"ocr-native-regression-v1",
+  "positive_source":"general-text-dev-v1 frozen 12 pages; same normalizer and character-distance scorer",
+  "negative_size":[640,896],
+  "negative_seed":58123,
+  "negatives":["white","gray","black","table_lines","checkerboard","speckles","rectangles","gradient"],
+  "modes":["tiny-standard","tiny-detail","small-standard","small-detail"],
+  "metric":"Positive normalized CER/word recall/extra words; negative nonempty-text pages and character count. Generated negatives are not proof of real-world hallucination safety.",
+  "threads":1,
+  "timeout_seconds":180
+}
