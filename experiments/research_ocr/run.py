@@ -55,6 +55,8 @@ def ios(a, b):
 
 def boxes_for(pipeline, image, mode):
     base = pipeline.detect(image, mode['max_side'])
+    if len(base)>PROTOCOL['max_lines']:
+        raise ValueError('bounded line count exceeded')
     if not mode['sliced']:
         return base
     height = image.shape[0]
@@ -76,6 +78,8 @@ def boxes_for(pipeline, image, mode):
 
 
 def run(mode, target):
+    if target.exists():
+        raise ValueError('Refusing to overwrite an experiment')
     samples, frozen = score.materialize()
     if frozen != json.loads((score.HERE/'ocr-dev-v1.json').read_text()):
         raise ValueError('Frozen DEV inputs changed')
