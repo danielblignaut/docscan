@@ -1,0 +1,191 @@
+[
+  {
+    "record": "BSI-OFIQ_OFIQ-Project",
+    "revision": "f903e59e2fe1ac48418d253da8c17592464161d2",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/BSI-OFIQ/OFIQ-Project/f903e59e2fe1ac48418d253da8c17592464161d2/README.md",
+        "sha256": "2312adcb3f2b027dc30a0a69a2ac1f94acf52b14359a40d84b6555bbec494291"
+      },
+      {
+        "name": "LICENSE.md",
+        "url": "https://raw.githubusercontent.com/BSI-OFIQ/OFIQ-Project/f903e59e2fe1ac48418d253da8c17592464161d2/LICENSE.md",
+        "sha256": "2f71522167b564572f38ad1a22f30cbf166c031341d181edd0bf67cdcb550055"
+      }
+    ]
+  },
+  {
+    "record": "FaceLiVT-weight-card",
+    "revision": "cec8aee5341fb4fede121a960a418b9e6163cc5c",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://huggingface.co/novendrastywn/FaceLiVT/raw/cec8aee5341fb4fede121a960a418b9e6163cc5c/README.md",
+        "sha256": "3005d2fd8267a4a6a8d32e3be4fad4843710909aa512322c4f7d0c354e85e5b2"
+      }
+    ]
+  },
+  {
+    "record": "Idiap_EdgeFace-XS-GAMMA-weight-card",
+    "revision": "735c1b59bdc798260e56f12533fddfe8a8c4c568",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://huggingface.co/Idiap/EdgeFace-XS-GAMMA/raw/735c1b59bdc798260e56f12533fddfe8a8c4c568/README.md",
+        "sha256": "2e0dbd37c37d8be452df24b932da993037b866cb1cdce195b7614480ef15c17d"
+      }
+    ]
+  },
+  {
+    "record": "IrvingMeng_MagFace",
+    "revision": "99bae614ac2643b9694bf18e0c5645272ff6acfa",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/IrvingMeng/MagFace/99bae614ac2643b9694bf18e0c5645272ff6acfa/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/IrvingMeng/MagFace/99bae614ac2643b9694bf18e0c5645272ff6acfa/README.md",
+        "sha256": "6550995f1aa7a0d9651f894d58d00aba3b848b1b142865fc2bcc073b02b1031f"
+      }
+    ]
+  },
+  {
+    "record": "Wolowolo_fsfm-3c-weight-card",
+    "revision": "59f7b50a1865d53b0cc1c80ec620022c39b11c9a",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://huggingface.co/Wolowolo/fsfm-3c/raw/59f7b50a1865d53b0cc1c80ec620022c39b11c9a/README.md",
+        "sha256": "c5fac5eca991b17aa3fdb08d3a23412fd8606a1a9c6349d2e53fd11a3782140d"
+      }
+    ]
+  },
+  {
+    "record": "deepinsight_insightface",
+    "revision": "c6c3af7bd2d0a0bf4b78c78437357f3521aa5d52",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/deepinsight/insightface/c6c3af7bd2d0a0bf4b78c78437357f3521aa5d52/README.md",
+        "sha256": "1846967d19f2b19845b967e14715c162881e7598360e23ab6646a47c88667758"
+      }
+    ]
+  },
+  {
+    "record": "gurayozgur_ViTNT-FIQA",
+    "revision": "4e9cdd60fe7e1da0cb0f4eebf827f660fe64d957",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/gurayozgur/ViTNT-FIQA/4e9cdd60fe7e1da0cb0f4eebf827f660fe64d957/LICENSE",
+        "sha256": "1349a4b6148492b44f629e64eed676612e234fe9a839e4f3b277c1482c8849f1"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/gurayozgur/ViTNT-FIQA/4e9cdd60fe7e1da0cb0f4eebf827f660fe64d957/README.md",
+        "sha256": "9f9ed87480c2d22ee24acf05227b5fa02bb30370768e933c7df9b97a80f3a9eb"
+      }
+    ]
+  },
+  {
+    "record": "minivision-ai_Silent-Face-Anti-Spoofing",
+    "revision": "b6d5f04ad78778917853b25c778acef6d5626d15",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/minivision-ai/Silent-Face-Anti-Spoofing/b6d5f04ad78778917853b25c778acef6d5626d15/README.md",
+        "sha256": "b53d4c13fde0bb0e96abf1fe8b1fbf3d6493015f1a6ace4f343e1dea11b65554"
+      },
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/minivision-ai/Silent-Face-Anti-Spoofing/b6d5f04ad78778917853b25c778acef6d5626d15/LICENSE",
+        "sha256": "daf94bf1dc9cc5700fe5af2c7c0cbd1836e70d509ed78fd0bebef7432edee6fb"
+      }
+    ]
+  },
+  {
+    "record": "mk-minchul_AdaFace",
+    "revision": "c60eaa786a42c03444f3df7096dbaf9d57ae010d",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/mk-minchul/AdaFace/c60eaa786a42c03444f3df7096dbaf9d57ae010d/LICENSE",
+        "sha256": "95b6e493eb9dba27f2150304e790ae254bab18d1611f4d6e2ade28fa3a271583"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/mk-minchul/AdaFace/c60eaa786a42c03444f3df7096dbaf9d57ae010d/README.md",
+        "sha256": "c3e65e47bb06a6387287bb76efe0fcf835ffbec466c305eb0a9744cc362ff18a"
+      }
+    ]
+  },
+  {
+    "record": "novendrastywn_FaceLiVT",
+    "revision": "d99d86607c7c05540c74e815e5a88847f7e667db",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/novendrastywn/FaceLiVT/d99d86607c7c05540c74e815e5a88847f7e667db/LICENSE",
+        "sha256": "e543ee9c5a4e5af23f67f5ae46751117a85e564ab24bdec5f5678e2f1a2aa5cc"
+      },
+      {
+        "name": "LICENSE_INSIGHTFACE",
+        "url": "https://raw.githubusercontent.com/novendrastywn/FaceLiVT/d99d86607c7c05540c74e815e5a88847f7e667db/LICENSE_INSIGHTFACE",
+        "sha256": "8be185bb59633fb66c5ee6ee3fdcbf0894eba65cce88bb442ec9c2f397a9dec0"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/novendrastywn/FaceLiVT/d99d86607c7c05540c74e815e5a88847f7e667db/README.md",
+        "sha256": "72eb57c5c1f466e0fb515582ff3a79a457cc7882100cfad51b95f0a9ce665e2c"
+      }
+    ]
+  },
+  {
+    "record": "otroshi_edgeface",
+    "revision": "ce86851cfc37979a9cd2558598d0e9bc592cbba3",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE",
+        "url": "https://raw.githubusercontent.com/otroshi/edgeface/ce86851cfc37979a9cd2558598d0e9bc592cbba3/LICENSE",
+        "sha256": "4f4e20d9a69d2faf02a3624c6f37546e1f026a391e33097b24368e7d8d7476c4"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/otroshi/edgeface/ce86851cfc37979a9cd2558598d0e9bc592cbba3/README.md",
+        "sha256": "863d25a251268787a852db4b9643c80c5ade89b2b7be2d5692f5ff84734d5eeb"
+      }
+    ]
+  },
+  {
+    "record": "zizheng-guo_RhythmMamba",
+    "revision": "1533ad21cb4ae0d31e9dbb9afb0b1eefbed54aed",
+    "retrieved_date": "2026-10-24",
+    "sources": [
+      {
+        "name": "LICENSE.txt",
+        "url": "https://raw.githubusercontent.com/zizheng-guo/RhythmMamba/1533ad21cb4ae0d31e9dbb9afb0b1eefbed54aed/LICENSE.txt",
+        "sha256": "cf1b3ce3d89374b2f09351f5288fcbadf8296b13c83abb99a8be4b5a60dc18c2"
+      },
+      {
+        "name": "README.md",
+        "url": "https://raw.githubusercontent.com/zizheng-guo/RhythmMamba/1533ad21cb4ae0d31e9dbb9afb0b1eefbed54aed/README.md",
+        "sha256": "d33cd29803e06c52c4ee64d4230682810946883b3feff614e7049a159be672a5"
+      }
+    ]
+  }
+]

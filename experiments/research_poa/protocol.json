@@ -1,0 +1,17 @@
+{
+  "version": "poa-header-v1",
+  "base_revision": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+  "split": "DEV",
+  "candidates": [
+    {"id": "header_keywords", "mode": "header_keywords", "header_fraction": 0.25, "max_line_words": 12},
+    {"id": "explicit_title", "mode": "explicit_title", "header_fraction": 0.25, "max_line_words": 12}
+  ],
+  "selection": "Both candidates fixed before inference. All 200 synthetic DEV captures / 800 OCR frames; all three Synthesized DEV variants and separate native text diagnostic. No training or parameter fitting. FATURA/Bankstatemently are source-audited follow-ups, not semantic POA truth in this run.",
+  "change": "Only document_type postprocessing. Other fields, frame selection and shipped verification are preserved. No production changes.",
+  "capture_type": "Apply candidate to each shipped picked frame. Replace capture type only if one type has strict majority of picked frames; otherwise preserve baseline. Single frame candidate independent of customer.",
+  "referees": "Use existing unchanged public_poa field_scores/aggregate_rows and bench suites.poa.score. Separate supplemental exact document-type metric because existing synthetic referee does not score that field.",
+  "failures": "Never drop an item; missing prediction fails type and fields. A missing frame votes other, not bank. Process failure records error and retains denominator; no valid negative rejection credited.",
+  "metrics": "Paired per-item exact booleans, recovered/regressed and false-bank classifications, denominators. All candidates reported; no confidence interval over three correlated variants. Existing key-field and customer metrics retained. No speed claim.",
+  "privacy": "No source media/text/embeddings/predicted identity values in repository. Only opaque IDs, hashes, categorical class outcomes and correctness flags.",
+  "scope": "Research-inspired heuristic ablations, not reproductions of Docling, KNN-former, GraphRevisedIE or VLMs. US address schema is unchanged and unsupported. No ZIP truncation or forced ZA province. No TEST/reserved access."
+}
