@@ -1,5 +1,5 @@
 import unittest
-from evaluate import region_text, summary, token_score
+from evaluate import input_lines, region_text, summary, token_score
 
 
 class RefereeTests(unittest.TestCase):
@@ -17,6 +17,12 @@ class RefereeTests(unittest.TestCase):
         result = summary([token_score('a b', 'a b'), token_score('a b', '')])
         self.assertEqual(result['token_recall'], .5)
         self.assertEqual(result['items'], 2)
+
+    def test_working_page_coordinates_map_back_to_input(self):
+        output = {'page_size': [200, 400], 'lines': [
+            {'text': 'customer', 'x': 100, 'y': 200, 'w': 20, 'h': 20}]}
+        lines = input_lines(output, 100, 200)
+        self.assertEqual(region_text(lines, [49, 99, 61, 111]), 'customer')
 
     def test_region_excludes_nearby_issuer(self):
         lines = [{'text':'issuer', 'x':0, 'y':0, 'w':10, 'h':10},

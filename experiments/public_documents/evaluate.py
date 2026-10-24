@@ -38,6 +38,16 @@ def token_score(truth, actual):
             'matched_tokens': hit, 'exact': normal(truth) == normal(actual)}
 
 
+def input_lines(output, width, height):
+    # OCRS returns its working-page coordinates, PP-OCR original-input ones.
+    ow, oh = output.get('page_size', [width, height])
+    if ow <= 0 or oh <= 0:
+        raise ValueError('Invalid OCR page size')
+    return [{**line, 'x': line['x'] * width / ow, 'w': line['w'] * width / ow,
+             'y': line['y'] * height / oh, 'h': line['h'] * height / oh}
+            for line in output['lines']]
+
+
 def region_text(lines, box):
     # Predicted line centres select annotation regions. No annotation-guided OCR.
     x0, y0, x1, y1 = box
@@ -71,7 +81,7 @@ def materialize():
             raise ValueError('FATURA image differs from pinned acquisition')
         truth = json.loads((folder / (row['id'] + '.json')).read_text())
         samples.append({'id': row['id'], 'source': 'fatura', 'path': str(path),
-                        'fields': truth['fields'], 'image_sha256': digest(path),
+                        'fields': truth['fields'], 'width': truth['width'], 'height': truth['height'], 'image_sha256': digest(path),
                         'truth_sha256': digest(folder / (row['id'] + '.json'))})
     render = DATA / 'bankstatemently' / 'rendered-dev-v1'
     render.mkdir(exist_ok=True)
@@ -173,8 +183,9 @@ def main():
             if sample['source'] == 'bankstatemently':
                 scored.append({'label': 'full_page', **token_score(sample['text'], output['text'])})
             else:
+                lines = input_lines(output, sample['width'], sample['height'])
                 for field in sample['fields']:
-                    scored.append({'label': field['label'], **token_score(field['text'], region_text(output['lines'], field['bbox']))})
+                    scored.append({'label': field['label'], **token_score(field['text'], region_text(lines, field['bbox']))})
             for score in scored:
                 groups[sample['source']].append(score)
                 groups[sample['source'] + '.' + score['label']].append(score)
