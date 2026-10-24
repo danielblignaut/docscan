@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "declared_date": "2026-10-24",
+  "revision": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+  "split": "dev",
+  "workers": 2,
+  "id_timeout_seconds": 180,
+  "barcode_timeout_seconds": 30,
+  "id_candidates": [],
+  "barcode_candidates": [
+    "native",
+    "native_plus_cw90",
+    "native_plus_half",
+    "zxingcpp"
+  ],
+  "id_max_width": 1280,
+  "barcode_max_width": 100000,
+  "auto_quad": {
+    "detection_long_side": 960,
+    "gaussian_kernel": 5,
+    "canny": [
+      50,
+      150
+    ],
+    "close_kernel": 5,
+    "approx_perimeter_fraction": 0.02,
+    "area_fraction": [
+      0.08,
+      0.95
+    ],
+    "aspect_ratio": [
+      1.1,
+      2.0
+    ],
+    "minimum_edge": 60,
+    "maximum_candidates": 1,
+    "rank": "largest_convex_quadrilateral_area",
+    "warp_long_side_cap": 1280,
+    "padding_fraction": 0.03,
+    "padding_color": 255,
+    "interpolation": "linear",
+    "fallback": "original_frame"
+  },
+  "rectified_pad_fraction": 0.05,
+  "barcode_half_interpolation": "area",
+  "barcode_merge": "union_exact_format_and_text; no oracle gating; every frame retried",
+  "zxingcpp": {
+    "package_version": "3.1.1",
+    "try_rotate": true,
+    "try_downscale": true,
+    "try_invert": true,
+    "text_mode": "HRI",
+    "binarizer": "LocalAverage",
+    "is_pure": false,
+    "ean_add_on_symbol": "Ignore",
+    "return_errors": false
+  },
+  "decisions": {
+    "promote": "no extra wrong accepts or false decode frames; retain all regressions; no speed claim from accuracy-pass wall times",
+    "id_metric": "unchanged public_id/score_id.py exact kind and ten MRZ fields",
+    "barcode_metric": "unchanged bench/suites/barcode.py scorer v2",
+    "training": "none",
+    "temporal": "deferred: two widely spaced frames per sequence are insufficient for production capture-policy claims"
+  },
+  "harness_revision": "v2: PIL RGB-to-BGR fallback only when OpenCV fails to load pinned input; original aborted attempt and 143 completed private frame records retained"
+}

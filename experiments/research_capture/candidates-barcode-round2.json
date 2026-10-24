@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "declared_date": "2026-10-24",
+  "split": "dev",
+  "reason": "Full DEV exposed added false-decode frames in unrestricted native retries. Test format-scoped retry proposals while preserving every baseline read and all native decoder checks. The default ZXing adapter also uses UPC-E and Code39Extended representations different from the benchmark importer.",
+  "cached_predictions": "All 577 frames from completed barcode-v2; freeze source-result and private prediction hashes before computing candidate scores. No extra inference and no per-frame truth-dependent selection.",
+  "matrix_formats": ["qrcode", "datamatrix", "pdf417", "aztec"],
+  "candidates": ["native_plus_matrix_cw90", "native_plus_matrix_half", "native_plus_matrix_both", "zxingcpp_equivalent_formats"],
+  "retry_rule": "Keep all native baseline decodes. Add only named matrix-format decodes from the specified retry, deduplicate exact format/text. This is an output-only prototype, not a measured format-restricted decoder invocation.",
+  "zxing_equivalence": "Code39Extended -> code39; 13-digit leading-zero UPC-A -> 12 digits; 13-digit leading-zero UPC-E -> 8 digits via pinned import_barcodes_public.py upca_to_upce. Retain HRI strings otherwise; do not repair unknown text or tune to truth.",
+  "promotion": "More exact recovered codes on at least one DEV corpus, no new false-decode frame on either, no lost baseline code. No runtime claim from cached predictions."
+}

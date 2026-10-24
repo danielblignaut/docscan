@@ -1,0 +1,2521 @@
+{
+  "provenance": {
+    "frozen_utc": "2026-10-24T14:05:04.002892+00:00",
+    "suite": "id",
+    "config": {
+      "schema": 1,
+      "declared_date": "2026-10-24",
+      "revision": "dd96ed0d193cbc5e2a316bd9234524a08a44dbfc",
+      "split": "dev",
+      "workers": 2,
+      "id_timeout_seconds": 180,
+      "barcode_timeout_seconds": 30,
+      "id_candidates": [
+        "raw",
+        "rectified_control",
+        "raw_cw90",
+        "auto_quad",
+        "rectified_pad"
+      ],
+      "barcode_candidates": [
+        "native",
+        "native_plus_cw90",
+        "native_plus_half",
+        "zxingcpp"
+      ],
+      "id_max_width": 1280,
+      "barcode_max_width": 100000,
+      "auto_quad": {
+        "detection_long_side": 960,
+        "gaussian_kernel": 5,
+        "canny": [
+          50,
+          150
+        ],
+        "close_kernel": 5,
+        "approx_perimeter_fraction": 0.02,
+        "area_fraction": [
+          0.08,
+          0.95
+        ],
+        "aspect_ratio": [
+          1.1,
+          2.0
+        ],
+        "minimum_edge": 60,
+        "maximum_candidates": 1,
+        "rank": "largest_convex_quadrilateral_area",
+        "warp_long_side_cap": 1280,
+        "padding_fraction": 0.03,
+        "padding_color": 255,
+        "interpolation": "linear",
+        "fallback": "original_frame"
+      },
+      "rectified_pad_fraction": 0.05,
+      "barcode_half_interpolation": "area",
+      "barcode_merge": "union_exact_format_and_text; no oracle gating; every frame retried",
+      "zxingcpp": {
+        "package_version": "3.1.1",
+        "try_rotate": true,
+        "try_downscale": true,
+        "try_invert": true,
+        "text_mode": "HRI",
+        "binarizer": "LocalAverage",
+        "is_pure": false,
+        "ean_add_on_symbol": "Ignore",
+        "return_errors": false
+      },
+      "decisions": {
+        "promote": "no extra wrong accepts or false decode frames; retain all regressions; no speed claim from accuracy-pass wall times",
+        "id_metric": "unchanged public_id/score_id.py exact kind and ten MRZ fields",
+        "barcode_metric": "unchanged bench/suites/barcode.py scorer v2",
+        "training": "none",
+        "temporal": "deferred: two widely spaced frames per sequence are insufficient for production capture-policy claims"
+      }
+    },
+    "config_sha256": "6b31bc0d05f1abf792865060d7db7ba7ebeee7f3686705b991d7274cabc05343",
+    "runner_sha256": "1d0fcedfcdb9cd99dec8def64fc8be921ad88377a476c769a292383b90d5d3ee",
+    "zxing_worker_sha256": "a0070c101698db4ca80171daa059b27a35f00f50b8a82802a432d21156ef690e",
+    "manifests": {
+      "bench/manifests/barcode_public_dev.json": "82fb1dd165acd06e4f962abc14ba74d681c1189bb42a4010a1d3ef88b4362721",
+      "bench/manifests/barcode_synth_dev.json": "83ac7cbfd1c3794690f43b73207c89b0e35e7fdfed937f22dd0722e66a8c3c35",
+      "experiments/public_id/midv500-dev-v1.json": "91c72ee410daa14cd74a9860cf24034ebe3dd64fdb4cb441d5beb02b24da6fb1"
+    },
+    "binary_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+    "snapshot_sha256": "dd81bf796ae20fd009475796a6b3db4cb887a1f83873f9d92e821a4130fd368d",
+    "models": {
+      "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e",
+      "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca"
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "opencv-python-headless": "5.0.0.93",
+      "pillow": "12.3.0",
+      "zxing-cpp": "3.1.1"
+    },
+    "scorers": {
+      "bench/suites/barcode.py": "7893a13808f942aa475dc3e42fe2f769c090f5f4260b001a3fad40ff7cf98f79",
+      "bench/lib/common.py": "c9c7e63a2c011b896c3a429649c74b3c9f781d888a3fc454bbe74eb2e25c0b9a",
+      "bench/lib/stats.py": "4d61b53223fba383352c5083a44c49dc0c5eb5f9eb2f8c543e6f51e05b8373d8",
+      "experiments/public_id/score_id.py": "b280060bdd446dd14ead2ac997e9b3c6c50b7a4cf1e6a9905adfe4793dc6925c"
+    },
+    "thread_environment": {
+      "RAYON_NUM_THREADS": "1",
+      "RTEN_NUM_THREADS": "1",
+      "opencv_threads": 1
+    },
+    "native_flags": {
+      "id": [
+        "--models=/tmp/docscan-research-capture/models"
+      ],
+      "barcode": [
+        "--models=/tmp/docscan-research-capture/models",
+        "--barcodes"
+      ]
+    },
+    "manifest_sha256": "91c72ee410daa14cd74a9860cf24034ebe3dd64fdb4cb441d5beb02b24da6fb1"
+  },
+  "candidates": {
+    "raw": {
+      "input_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+      "input_kind": "raw",
+      "summary": {
+        "passport_frames": 12,
+        "negative_frames": 6,
+        "accepted_correct": 1,
+        "accepted_wrong": 2,
+        "negative_false_accepts": 0,
+        "mrz_fields_correct": 68,
+        "mrz_fields": 120
+      },
+      "items": [
+        {
+          "id": "05_aze_passport/TA05_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "6c9c683d1bfeb0e45ce58d980152ef9e5acb9c2e52ece62f2b78a54c7f02352f",
+          "wall_ms": 3158.379,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/TA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": false
+          },
+          "input_sha256": "b8e201b0ebd84a7034452f60de9537e73bac8ace148e7d7dca997d6b1264860a",
+          "wall_ms": 3081.278,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": false,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "5bf8b8343aeebb172ee5e85b01351335dd0426cf576649c40add8b55affde76c",
+          "wall_ms": 2463.143,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "15ec1f02cb73f15d3a0cfabb0510bed91271b232fa05dd5f6e9a47cf8b2a2e08",
+          "wall_ms": 5858.371,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "330400e6335a692ca8f7395501230b8426dee70a90c8134d3c5b59cd70d94aa6",
+          "wall_ms": 3283.76,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "5d2c3cc36f2d82e4353d11309bc87b102ae8ce9935ddfe3f11a4c5afcc74fd3a",
+          "wall_ms": 8905.024,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "7b089956c8d8723ec6921a0c7bf77b8a3ece8052eb0c0793a90d9e28bd3619c7",
+          "wall_ms": 6236.522,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "9fe28030e6abd5e52a522658cbbb2f9050a862dca44ca6d210bc7e9009a9f0e8",
+          "wall_ms": 5509.74,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": false,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "fa9e2e07edeea6425b0c8a9d0eec1928491cb98a58dfde7ecec0b6314a0c5b69",
+          "wall_ms": 6521.064,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "489afeb0b4bc07d6399df119da63268d3568da09f8dcb356b6c6dc5ff7ae12b3",
+          "wall_ms": 5932.862,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "a89cc8a40026704e179b71a5cb1758318487a7442f7ba0adfe61fee09abcc636",
+          "wall_ms": 4951.495,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "19e68c3a3d5ba017de85c9afdf0e2ec4677103b211a9f71c8b614d2e6cc87f12",
+          "wall_ms": 9212.87,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "84537cdff30bd792cc1e606331f352ef80cbe372ab9e125636b5201524c2a808",
+          "wall_ms": 2625.855,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "a87cf0f1254d25c236f16c7667ef027cd4c4d772d9e20a39ee6b7b103069ca7f",
+          "wall_ms": 3244.943,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "fe1776263809b9186d9dcaa8f94361a44ee453fc95b54c77dfa293d24730a02b",
+          "wall_ms": 2087.197,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "ab1dd73e7d24e732d2213659a57d5e963d29f08f7a5ed591a2c0da9f3bbeb3e8",
+          "wall_ms": 2389.868,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "53d46f7373aa045b4a8927ecbcd4135cb581b23c7814558a2105cf719a26a83c",
+          "wall_ms": 2913.768,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "d4462466a35ab6a8b3fc96fa20d56577dee2d837d67e7dee6f5d0e425cfc1eec",
+          "wall_ms": 2788.159,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        }
+      ]
+    },
+    "rectified_control": {
+      "input_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+      "input_kind": "rectified_control",
+      "summary": {
+        "passport_frames": 12,
+        "negative_frames": 6,
+        "accepted_correct": 5,
+        "accepted_wrong": 0,
+        "negative_false_accepts": 0,
+        "mrz_fields_correct": 50,
+        "mrz_fields": 120
+      },
+      "items": [
+        {
+          "id": "05_aze_passport/TA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "17827ad35a7d7c672a8037be7f27b43433462fb4b55a8fee73af4a79fa3cc3b8",
+          "wall_ms": 4316.818,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/TA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "f3e48b364090f578c9cdff6617f7b97c0f1bf3090ce1b9a261e534c8262da956",
+          "wall_ms": 5363.271,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "d0d6df8b590072698f34a31490ed5ddfff4754006ffcb0d11bd3cfabab9d39fc",
+          "wall_ms": 4181.641,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "7cf44625c1ab8695a59722404a86f6b9ec5a655471901219efce8e9dbf0e8fe0",
+          "wall_ms": 4630.236,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "0277be35ec5d49c98d4a8221437854ab12e3e8cdda30b350f6b3dd2a90ab49d3",
+          "wall_ms": 3264.332,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "6b0c77b0ac30ce0ada74e58d04a3bf9dee453030b29945bfc6e3897d703d89e2",
+          "wall_ms": 3986.24,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "c8fd2c75174e751c5dc94b24be014b1b3b2e64940516a24cda94a24b5972d07d",
+          "wall_ms": 5318.804,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "132a6b1a343ce21dc49670479b79d2d164b6c640f6f259f093982256e4b30068",
+          "wall_ms": 4410.682,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "319aa62f07543cc2841683296bc6de350a3f35987b8b657a1b70de742b6aa403",
+          "wall_ms": 5449.75,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "103c2d99588ebf9fc21f56c1434bd087875e2c70dc674a2790c00209f1310c37",
+          "wall_ms": 4881.06,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "11a2561ebd9bb6a1cd23542d88b9e40046a92d552c96433f2690c7426144eff9",
+          "wall_ms": 4779.377,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "ccd939910e72902d0b87aa141afda1e45822c1c5c5f9b27c42d1e02cc7e88bdf",
+          "wall_ms": 4649.539,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "07aad774ec7d9aba9f984f319b64dcbe34b4d355306707fae1f6d1a68809dbb5",
+          "wall_ms": 3504.008,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "9cd32ccbdffcf4044b11e343590664d6a80e88c6141d8ee4915ba84eea5e961a",
+          "wall_ms": 2726.788,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "57f84d79469284a48828c5508cf0e684f18d7cff08502a7e851ae476e076b0d3",
+          "wall_ms": 2398.463,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "25ea8c324f039ca4e8123954844137714fdcc7a189bdea37ac1539fc92d8b3e7",
+          "wall_ms": 2333.986,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "120993ff2c2c812ed3e6a6234afde32b0a4fafe6fa4300e06e3aab1a76efd5b2",
+          "wall_ms": 3054.74,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "fbdb2760f8c6e2bb2c1191b0d6fe5b9dd78dd0c56e63c3fbadca183e2468cb8d",
+          "wall_ms": 2594.692,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        }
+      ]
+    },
+    "raw_cw90": {
+      "input_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+      "input_kind": "raw_cw90",
+      "summary": {
+        "passport_frames": 12,
+        "negative_frames": 6,
+        "accepted_correct": 2,
+        "accepted_wrong": 3,
+        "negative_false_accepts": 0,
+        "mrz_fields_correct": 60,
+        "mrz_fields": 120
+      },
+      "items": [
+        {
+          "id": "05_aze_passport/TA05_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "73a7408ecc77a0b926bb0a2a78d2f79c704a6ec1939d69512435d9aed810e189",
+          "wall_ms": 2274.727,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/TA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "9068ae748edc46ee3daaff56a442b6ca452d038c19cc2a9048da1f6aada3b074",
+          "wall_ms": 4507.454,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "f4b11e8f35879b2b8a8a63d178188ae91474bd9ccb9f95436f5480c080f9b062",
+          "wall_ms": 5091.221,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": false,
+            "given_names": false,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "db1e32fa4eb46d1a71702daefbbe3c23c9213ebebf7c90e88aeba9c6358d8910",
+          "wall_ms": 4272.642,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "ed6fe2734d94a92c8aaf1078a6439e8f38134a558433dad1bb112e85ca689c9b",
+          "wall_ms": 6032.034,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "0445f638bcf92aabb2120da2b01f07583f659dd8207ba2597cf5e9fa4073f593",
+          "wall_ms": 7782.055,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "be63d8024ea35f48ec62971a5848b49dc331951c2034123652420816801739e6",
+          "wall_ms": 2537.011,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "efdc449b81d1b918e553a4ad34a1a4c69b315e9a7c73d08d608363bd466979ec",
+          "wall_ms": 8984.866,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": false,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "78e88f2a53e3b19e3b914668e698f95ac206167c4b5e0f43981f546f66f64659",
+          "wall_ms": 9792.21,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "afcb5679d14fbffb0197508eb207508079ef14ebccaba5969786a6a77b3bf9e0",
+          "wall_ms": 7910.596,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "f0f07a80b75baa46652789ab85f2704bb602744899fd2ca3f202d2f82dc00f7b",
+          "wall_ms": 8673.931,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "c0da6a8167dcf60d8ef8e4aab8bfa2f1a23cce6ff192d9c0f2f8bf1a11d0f675",
+          "wall_ms": 6775.855,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "4bcc599290ce7afa0bd8cff3d5ceb19e788169a86ddd49f23446ce5ff7d126ae",
+          "wall_ms": 4209.088,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "3b5156cca49115688cf3dee3e50a43ae2de09afccc152bec68c308aa195c6f6d",
+          "wall_ms": 2191.114,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "d396d221281931b8a705395322a36db0b7e3b1db59494b4b0732427793d8d499",
+          "wall_ms": 2484.342,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "649de4ab394b77fdb2308f379bcb23c7620318a334690aa0d8a60e2e8ad56354",
+          "wall_ms": 2450.182,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "a73df2f0fe014317ead25171c0cf9f052b411ba63820c66dda3d841108c78301",
+          "wall_ms": 2744.297,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "de3cf1f265a29a9a54f5d92b86d465df54294c60cf4c6a9a2f91fe473d4e850b",
+          "wall_ms": 2278.376,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        }
+      ]
+    },
+    "auto_quad": {
+      "input_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+      "input_kind": "auto_quad",
+      "summary": {
+        "passport_frames": 12,
+        "negative_frames": 6,
+        "accepted_correct": 4,
+        "accepted_wrong": 1,
+        "negative_false_accepts": 0,
+        "mrz_fields_correct": 78,
+        "mrz_fields": 120
+      },
+      "items": [
+        {
+          "id": "05_aze_passport/TA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "75d347e3656a86feedd7f6bfc1fa65a8a6072dd2bd5bc6b9a4e873a8d2cb6dbd",
+          "wall_ms": 4341.054,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.26998939043209874,
+            "corners": [
+              [
+                32.0,
+                598.0
+              ],
+              [
+                922.0,
+                496.0
+              ],
+              [
+                990.0,
+                1116.0
+              ],
+              [
+                92.0,
+                1216.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/TA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "27b030634e6d371961febf315a7f6b217ef82d3f2254b6cf20ee9eb7cd254abc",
+          "wall_ms": 4177.561,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.2664621913580247,
+            "corners": [
+              [
+                48.0,
+                656.0
+              ],
+              [
+                932.0,
+                554.0
+              ],
+              [
+                1000.0,
+                1172.0
+              ],
+              [
+                104.0,
+                1266.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": false,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "283d9c221bb64fa66782aa3665f325ed760ab85faa378044e5d562971596b0a3",
+          "wall_ms": 2279.695,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "62a6c6639ce1c66830f597fbad8ad6eea348e96578d8d6edda8abffdcc8ba8fb",
+          "wall_ms": 5760.465,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "84f1adb742be5a89be5b12cf8d1ae1e840b5034c245626d45e0769cbef557574",
+          "wall_ms": 2946.733,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.29215567129629627,
+            "corners": [
+              [
+                60.0,
+                640.0
+              ],
+              [
+                964.0,
+                512.0
+              ],
+              [
+                1004.0,
+                1250.0
+              ],
+              [
+                126.0,
+                1254.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "ec68f57614ec00ac16201753e9ab48798ffdab6696ef47bceb6281e69a1ad91c",
+          "wall_ms": 8635.653,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "aa67875a0eac573cdeb87c01be726d1d38a3006fce253d4689417215eb73097d",
+          "wall_ms": 5071.83,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.2693229166666667,
+            "corners": [
+              [
+                74.0,
+                894.0
+              ],
+              [
+                944.0,
+                872.0
+              ],
+              [
+                982.0,
+                1494.0
+              ],
+              [
+                54.0,
+                1514.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "751cef018591561f9db4407e309c94ef6f5f90bbbb4f186921478353ef0a0ad4",
+          "wall_ms": 5771.733,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.30560185185185185,
+            "corners": [
+              [
+                28.0,
+                718.0
+              ],
+              [
+                968.0,
+                698.0
+              ],
+              [
+                994.0,
+                1362.0
+              ],
+              [
+                26.0,
+                1382.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "7e16a688ab233e3c3359d7196fa05ca593294fb6c7e99d647aaf5595884e825a",
+          "wall_ms": 4833.499,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.2668055555555556,
+            "corners": [
+              [
+                56.0,
+                370.0
+              ],
+              [
+                964.0,
+                348.0
+              ],
+              [
+                994.0,
+                938.0
+              ],
+              [
+                20.0,
+                956.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "410626ffc701b29f76eaefef392a8b625ebd15e4d20c5c59723a28a30077f124",
+          "wall_ms": 5712.253,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "5e62f043372458e7fa62e2f8ed092c33952fc38ee5a6ea0ba853d733b12e8136",
+          "wall_ms": 4805.147,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.3040403163580247,
+            "corners": [
+              [
+                40.0,
+                608.0
+              ],
+              [
+                1000.0,
+                548.0
+              ],
+              [
+                1020.0,
+                1222.0
+              ],
+              [
+                86.0,
+                1262.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "940541da31ad5d48a884ea3c36a1fb5d5982272b6de3fa99893211780ccddac8",
+          "wall_ms": 9026.412,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.2790576774691358,
+            "corners": [
+              [
+                70.0,
+                682.0
+              ],
+              [
+                978.0,
+                588.0
+              ],
+              [
+                1026.0,
+                1236.0
+              ],
+              [
+                128.0,
+                1306.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "79b34dfa3fb2c3f0d719fd7346941113680921957761dd263c9ab64abd4b3256",
+          "wall_ms": 2063.554,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.23930555555555555,
+            "corners": [
+              [
+                150.0,
+                572.0
+              ],
+              [
+                1026.0,
+                566.0
+              ],
+              [
+                1002.0,
+                1136.0
+              ],
+              [
+                70.0,
+                1098.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "f02fa681817209b9186409ee72e8cff39b76713d5a5cc91b026b22f6f027f606",
+          "wall_ms": 3370.645,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "f6615763730f4054c2b9839e2f4dd056b731a04542047c7fd634e8d105870619",
+          "wall_ms": 2125.794,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "d7c2e428835a38b2557005b658e75aac6fef66ce11a868d7e81de57c21aff604",
+          "wall_ms": 2368.947,
+          "geometry": {
+            "found": true,
+            "area_fraction": 0.17526620370370372,
+            "corners": [
+              [
+                254.0,
+                658.0
+              ],
+              [
+                916.0,
+                994.0
+              ],
+              [
+                676.0,
+                1446.0
+              ],
+              [
+                30.0,
+                1062.0
+              ]
+            ]
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "7c32f7d0a6dfd1fe9eeaa240eab633a6acde231ff0d114498777928aa5a51ad2",
+          "wall_ms": 2932.099,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "e940cdca0e5804890f8bcdcde0eab1f189d8966d6a94821b833d03c874a6d980",
+          "wall_ms": 2786.068,
+          "geometry": {
+            "found": false
+          },
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        }
+      ]
+    },
+    "rectified_pad": {
+      "input_sha256": "970b8c3f7eefd14411a51567d9859a5c54ce72266a4b17964b2f9edf438ee30a",
+      "input_kind": "rectified_pad",
+      "summary": {
+        "passport_frames": 12,
+        "negative_frames": 6,
+        "accepted_correct": 5,
+        "accepted_wrong": 1,
+        "negative_false_accepts": 0,
+        "mrz_fields_correct": 86,
+        "mrz_fields": 120
+      },
+      "items": [
+        {
+          "id": "05_aze_passport/TA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "80537b75a6a46ed041f155465151ed134dd1d00ee605f5697dde3b314293e0f2",
+          "wall_ms": 4063.712,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/TA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "8c387552a35c0b4e371690bfda84ee4f09df4661db96fd70e104089ba6ec3a0e",
+          "wall_ms": 5482.218,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "7a105a192409a117136cb1b55be497061de79bf3421de8f55024c11cd4437a47",
+          "wall_ms": 4787.518,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/CA05_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "2f9a85e4608226cc19e6fb0a8be5a08087473b9b7679ea001ca40b7fb33bb190",
+          "wall_ms": 4569.224,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "720b69d14c156bbc7f3b068cabe1011aa5125d3524e2e81b12c6a1a3a5e6a5ee",
+          "wall_ms": 3467.634,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "05_aze_passport/HA05_15",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": true,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": true,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "a63656bda5c54eb9b58defd4af893885903fe15b3dfd96cc9d2108da927cf227",
+          "wall_ms": 4351.779,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "4b4c9593b9b095ee1023c1a6eec3f33f31521a9a3cca6d0ab37c2cbef6bb7175",
+          "wall_ms": 4768.923,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/TA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "4d62e72342cdcfcb01ea627b4357515900a889fa7a0ff974151ae0707c24da80",
+          "wall_ms": 5419.322,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_01",
+          "positive": true,
+          "accepted": true,
+          "accepted_correct": false,
+          "accepted_wrong": true,
+          "fields": {
+            "document_code": false,
+            "issuing_state": true,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "57511601f51ceebd96bd65a22eded597c2608e5b217dc5eed17ae872962a1d08",
+          "wall_ms": 5190.074,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/CA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": true,
+            "given_names": true,
+            "document_number": true,
+            "nationality": true,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "b518f3a7887f145f86775cfeddd694e6aafd376e8db95d3f5621b39bce12e00c",
+          "wall_ms": 4232.947,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_01",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": true,
+            "sex": true,
+            "date_of_expiry": true,
+            "optional_data": true
+          },
+          "input_sha256": "b362e878a0a62f5a2623334ebac18d5c2e56f5cfc1dafe084c845fed47f16da1",
+          "wall_ms": 4324.088,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "16_deu_passport_new/HA16_15",
+          "positive": true,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {
+            "document_code": false,
+            "issuing_state": false,
+            "surname": false,
+            "given_names": false,
+            "document_number": false,
+            "nationality": false,
+            "date_of_birth": false,
+            "sex": false,
+            "date_of_expiry": false,
+            "optional_data": false
+          },
+          "input_sha256": "5eefc6c0c1c7e07e0f4f1c4e13baddb670eec80989d9361baf22f4730b9882ef",
+          "wall_ms": 7471.828,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "8f2bb62817034152b475a63b6188cd157316f741ec3870c8a0390476af689c81",
+          "wall_ms": 2263.331,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/TA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "8543800f599d7eb0be78e98edbfe957edf678f17878083dfae0a40190831c0b3",
+          "wall_ms": 2925.393,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "2a62c5606704499986d8bf8f18f70b8d2c6bddb4e0138c02103b58e795256717",
+          "wall_ms": 2415.513,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/CA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "e9eed1351596b074f6abd96532c0cca9257f56d6fa9e7b594bc8668e4977b2c2",
+          "wall_ms": 2427.646,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_01",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "0da9c4000e636a889191914cd03adbb95f73b3696b4885163c61b699209cdb05",
+          "wall_ms": 4376.344,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        },
+        {
+          "id": "22_est_id/HA22_15",
+          "positive": false,
+          "accepted": false,
+          "accepted_correct": false,
+          "accepted_wrong": false,
+          "fields": {},
+          "input_sha256": "5ed00a7ab2c440cb3f7bf8af7b82e7ac3f13eb87b5748f828e0ac932a9a6b9d2",
+          "wall_ms": 2787.318,
+          "geometry": {},
+          "status": {
+            "timeout": false,
+            "crash": false,
+            "error": false
+          }
+        }
+      ]
+    }
+  }
+}

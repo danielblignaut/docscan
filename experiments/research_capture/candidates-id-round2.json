@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "declared_date": "2026-10-24",
+  "split": "dev",
+  "reason": "Round one automatic quadrilateral gave three new exact accepts and no new wrong accepts; oracle padding added a wrong accept. Test crop-margin sensitivity with the automatic proposal unchanged.",
+  "reference": "round1 auto_quad: padding_fraction=0.03",
+  "candidates": [
+    {"name": "auto_quad_pad0", "padding_fraction": 0.0},
+    {"name": "auto_quad_pad6", "padding_fraction": 0.06}
+  ],
+  "zero_margin_semantics": "No padding; do not invoke the v1 padded helper which forces at least one pixel.",
+  "other_parameters": "All from the frozen round-one candidates.json, including timeouts and workers.",
+  "promotion": "Strictly more correct accepts than raw baseline with no new per-item wrong accepts; compare to auto_quad and retain every regression. No latency or generalization claim."
+}
