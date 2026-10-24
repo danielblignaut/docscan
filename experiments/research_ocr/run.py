@@ -142,8 +142,8 @@ def run(mode, target):
 
 def main():
     os.umask(0o077); DATA.mkdir(exist_ok=True,mode=0o700)
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--mode');a=p.parse_args()
-    output=HERE/'results';output.mkdir(exist_ok=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--mode');p.add_argument('--output-dir',type=Path,default=HERE/'results');a=p.parse_args()
+    output=a.output_dir.resolve();output.mkdir(exist_ok=True,parents=True)
     modes=PROTOCOL['modes']
     if a.mode:
         mode=next(m for m in modes if m['id']==a.mode)
@@ -153,7 +153,7 @@ def main():
             target=output/(mode['id']+'.json')
             if target.exists():raise ValueError('Refusing to overwrite an experiment; version it deliberately')
             try:
-                subprocess.run([sys.executable,__file__,'--mode',mode['id']],check=True,timeout=PROTOCOL['timeouts_seconds_per_mode'])
+                subprocess.run([sys.executable,__file__,'--mode',mode['id'],'--output-dir',str(output)],check=True,timeout=PROTOCOL['timeouts_seconds_per_mode'])
             except (subprocess.TimeoutExpired,subprocess.CalledProcessError) as error:
                 target.write_text(json.dumps({'mode':mode,'run_failed':type(error).__name__,'pages':60,'failed_pages':60})+'\n')
 

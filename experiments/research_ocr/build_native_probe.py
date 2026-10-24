@@ -42,6 +42,12 @@ def main():
             if sha(MODELS/kind/name)!=record['sha256']:raise ValueError('Pinned model changed')
     for tier in ['tiny','small']:
         folder=OUT/tier;folder.mkdir(parents=True,exist_ok=True)
+        if (folder/'reader').exists():
+            old=json.loads((folder/'build.json').read_text())
+            if old['binary_sha256']!=sha(folder/'reader') or old['source_sha256']!=sha(REPO/'docscan/src/text_v6.rs'):
+                raise ValueError('Existing immutable probe differs; version a new build directory')
+            print(tier,'existing probe verified; preserved',flush=True)
+            continue
         config=yaml.safe_load((MODELS/f'{tier}_rec/inference.yml').read_text())
         chars=['']+config['PostProcess']['character_dict']+[' ']
         expected=6906 if tier=='tiny' else 18710

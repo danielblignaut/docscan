@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fixed-input native feasibility of tiny detection plus small recognition."""
 from collections import defaultdict
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
 import os
@@ -12,6 +13,9 @@ from run import HERE, REPO, DATA, MODELS, score, artifact_state
 
 def main():
     os.umask(0o077)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-dir',type=Path,default=HERE/'results')
+    args=parser.parse_args();args.output_dir.mkdir(parents=True,exist_ok=True)
     protocol=json.loads((HERE/'native-protocol.json').read_text())
     samples,frozen=score.materialize()
     if frozen!=json.loads((score.HERE/'ocr-dev-v1.json').read_text()):raise ValueError('Inputs changed')
@@ -24,7 +28,7 @@ def main():
         artifacts=[binary,detector,recognizer];before=artifact_state(artifacts)
         for profile in protocol['profiles']:
             mode=f'native-tiny-{tier}-{profile}'
-            target=HERE/'results'/(mode+'.json')
+            target=args.output_dir/(mode+'.json')
             if target.exists():raise ValueError('Refusing to overwrite results')
             raw=DATA/mode;raw.mkdir(exist_ok=True)
             def infer(sample):

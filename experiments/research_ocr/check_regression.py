@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Frozen synthetic regression and non-text page probes for both native models."""
 from collections import Counter
+import argparse
 import json
 import os
 from pathlib import Path
@@ -14,7 +15,8 @@ from run import HERE,REPO,DATA,MODELS,module,score,artifact_state
 def main():
     os.umask(0o077)
     protocol=json.loads((HERE/'negative-protocol.json').read_text())
-    target=HERE/'results/native-regression.json'
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,default=HERE/'results/native-regression.json');args=parser.parse_args()
+    target=args.output;target.parent.mkdir(parents=True,exist_ok=True)
     if target.exists():raise ValueError('Do not overwrite a completed probe')
     scorer=module('synthetic_scorer',REPO/'eval/text_eval.py')
     original=Path('/tmp/docscan-text-dev');baseline=json.loads((original/'results.json').read_text())
