@@ -1,0 +1,32 @@
+{
+  "truth.json": {
+    "url": "https://cdn.prod.website-files.com/6389bf5874f977eedcfb83d3/6acc29a73693a3b4c265927b_bank-statement-syn-0042.json",
+    "sha256": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+    "bytes": 2791
+  },
+  "clean.pdf": {
+    "url": "https://cdn.prod.website-files.com/6389bf5874f977eedcfb83d3/6acccbc44bbd0deb4faa98a6_bank-statement-syn-0042-clean.pdf",
+    "sha256": "30c150986701954b96e8a81b7933f400fab65bc5bc23babd5aae9bd0a50c6a73",
+    "bytes": 34860
+  },
+  "scanned.pdf": {
+    "url": "https://cdn.prod.website-files.com/6389bf5874f977eedcfb83d3/6acccbc436c41e3794706f2f_bank-statement-syn-0042-scanned.pdf",
+    "sha256": "1981023ca52b8d75f2ea490a52fab1e672e15663e8a93ec8ab63ffe9f3143ecf",
+    "bytes": 315995
+  },
+  "fax.pdf": {
+    "url": "https://cdn.prod.website-files.com/6389bf5874f977eedcfb83d3/6acccbc49c10a946934f3b76_bank-statement-syn-0042-fax.pdf",
+    "sha256": "0e698f6a59bedc961ba917f70d3d8f46bbcff8664af9a6e11ff9dc4ed0c1d2b8",
+    "bytes": 31257
+  },
+  "library.html": {
+    "url": "https://www.synthesized.io/sample-documents",
+    "sha256": "01301c40a67a3b757b5425c7aa6c5d866cca60a3c96ea245d615e249b861d242",
+    "bytes": 113611
+  },
+  "bank.html": {
+    "url": "https://www.synthesized.io/sample-bank-statement",
+    "sha256": "dbeb079eb4d07f876c821cdaf1861ca89ff82a707023b762b32810892b879504",
+    "bytes": 116649
+  }
+}

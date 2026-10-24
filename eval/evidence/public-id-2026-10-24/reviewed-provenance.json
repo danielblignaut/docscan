@@ -1,0 +1,66 @@
+{
+  "scope": "Post-review model-binding and trial-accounting check, DEV only",
+  "note": "Legacy artifact reports retained; new CLIs confirm explicit models and evaluators snapshot binaries. Per-item text and field outcomes reproduced.",
+  "frame": {
+    "binary_sha256": "c47503642a2daf59c6922dc6fd1967f61bcd2d6951c975ed6c70ad93ba28c279",
+    "model_hashes": {
+      "poa-tagger.onnx": "f9840fce1896f93dd3a7773c5f1becfd23d2e1d3dbd5e4d0d74e839b7fd45700",
+      "ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+      "ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6",
+      "text-detection-page.onnx": "9af24977ce4038e0c6da914a4acd0578fa07853399d4e8691e97ee4a759e7b5b",
+      "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+      "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e"
+    },
+    "text": {
+      "frames": 18,
+      "fields": 246,
+      "fields_recovered": 120,
+      "field_recovery": 0.4878048780487805,
+      "mrz_fields": 24,
+      "mrz_fields_recovered": 0,
+      "errors": 0
+    },
+    "structured": {
+      "passport_frames": 12,
+      "negative_frames": 6,
+      "accepted_correct": 1,
+      "accepted_wrong": 2,
+      "negative_false_accepts": 0,
+      "mrz_fields_correct": 68,
+      "mrz_fields": 120
+    },
+    "scorer_sha256": "28b6949f5a39e261f6b478ddc9b8d5a8cd9f2c0f86308abcca3aa9159ee29398",
+    "structured_scorer_sha256": "b280060bdd446dd14ead2ac997e9b3c6c50b7a4cf1e6a9905adfe4793dc6925c"
+  },
+  "rectified": {
+    "binary_sha256": "c47503642a2daf59c6922dc6fd1967f61bcd2d6951c975ed6c70ad93ba28c279",
+    "model_hashes": {
+      "poa-tagger.onnx": "f9840fce1896f93dd3a7773c5f1becfd23d2e1d3dbd5e4d0d74e839b7fd45700",
+      "ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+      "ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6",
+      "text-detection-page.onnx": "9af24977ce4038e0c6da914a4acd0578fa07853399d4e8691e97ee4a759e7b5b",
+      "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+      "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e"
+    },
+    "text": {
+      "frames": 18,
+      "fields": 246,
+      "fields_recovered": 130,
+      "field_recovery": 0.5284552845528455,
+      "mrz_fields": 24,
+      "mrz_fields_recovered": 0,
+      "errors": 0
+    },
+    "structured": {
+      "passport_frames": 12,
+      "negative_frames": 6,
+      "accepted_correct": 5,
+      "accepted_wrong": 0,
+      "negative_false_accepts": 0,
+      "mrz_fields_correct": 50,
+      "mrz_fields": 120
+    },
+    "scorer_sha256": "28b6949f5a39e261f6b478ddc9b8d5a8cd9f2c0f86308abcca3aa9159ee29398",
+    "structured_scorer_sha256": "b280060bdd446dd14ead2ac997e9b3c6c50b7a4cf1e6a9905adfe4793dc6925c"
+  }
+}

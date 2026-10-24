@@ -12,6 +12,7 @@ use wasm_bindgen::prelude::*;
 pub const DICTIONARY_JSON: &str = include_str!("text_v6_dictionary.json");
 const CLASSES: usize = 6906;
 const MAX_SIDE: usize = 960;
+const DETAIL_MAX_SIDE: usize = 1600;
 const MAX_PIXELS: usize = 24_000_000;
 const MAX_CANDIDATES: usize = 3000;
 const MAX_LINES: usize = 256;
@@ -42,6 +43,8 @@ pub struct PaddleTextResult {
     pub text: String,
     pub lines: Vec<PaddleTextLine>,
     pub page_size: [u32; 2],
+    pub detection_max_side: usize,
+    pub passes: u8,
     pub timings_ms: PaddleTextTimings,
 }
 #[wasm_bindgen]
@@ -62,6 +65,13 @@ impl PaddleTextScanner {
     }
     pub fn load_recognizer(&mut self, bytes: Vec<u8>, dictionary_json: &str) -> Result<(), JsError> {
         self.load_recognizer_native(bytes, dictionary_json).map_err(|e| JsError::new(&e.to_string()))
+    }
+    /// Optional small-print profile: retains more detector pixels at higher cost.
+    pub fn read_detailed(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let result = self
+            .read_detailed_native(rgba, width as usize, height as usize)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        crate::to_js(&result)
     }
     pub fn read(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let result = self
@@ -120,6 +130,27 @@ impl PaddleTextScanner {
         Ok(())
     }
     pub fn read_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
+        self.read_at_resolution(rgba, width, height, MAX_SIDE)
+    }
+    /// Compare two bounded resolutions for dense documents. More pixels can
+    /// merge lines, so retain the reading with stronger recognized-text evidence
+    /// rather than always replacing the standard pass. This is an OCR heuristic,
+    /// not calibrated accuracy or document verification.
+    pub fn read_detailed_native(&self, rgba: &[u8], width: usize, height: usize) -> Result<PaddleTextResult> {
+        let start = crate::now();
+        let standard = self.read_native(rgba, width, height)?;
+        if width.max(height) <= MAX_SIDE {
+            return Ok(standard);
+        }
+        let detailed = self.read_at_resolution(rgba, width, height, DETAIL_MAX_SIDE)?;
+        let detect = standard.timings_ms.detect + detailed.timings_ms.detect;
+        let recognize = standard.timings_ms.recognize + detailed.timings_ms.recognize;
+        let mut selected = select_reading(standard, detailed);
+        selected.passes = 2;
+        selected.timings_ms = PaddleTextTimings { detect, recognize, total: crate::now() - start };
+        Ok(selected)
+    }
+    fn read_at_resolution(&self, rgba: &[u8], width: usize, height: usize, max_side: usize) -> Result<PaddleTextResult> {
         validate_image(rgba, width, height)?;
         let detector = self.detector.as_ref().context("PP-OCR detector is not loaded")?;
         let recognizer = self.recognizer.as_ref().context("PP-OCR recognizer is not loaded")?;
@@ -130,7 +161,7 @@ impl PaddleTextScanner {
             height,
             channels: 4,
         };
-        let (input, dw, dh) = detection_input(&image);
+        let (input, dw, dh) = detection_input(&image, max_side);
         let value = ValueView::from_shape([1, 3, dh, dw], &input)?;
         let mut outputs = detector.run(vec![(detector.input_ids()[0], value.into())], detector.output_ids(), None)?;
         let map = outputs.remove(0).into_tensor::<f32>().context("non-float detector output")?;
@@ -179,6 +210,8 @@ impl PaddleTextScanner {
             text: lines.iter().map(|l| l.text.as_str()).collect::<Vec<_>>().join("\n"),
             lines,
             page_size: [width as u32, height as u32],
+            detection_max_side: max_side,
+            passes: 1,
             timings_ms: PaddleTextTimings {
                 detect,
                 recognize: total - detect,
@@ -186,6 +219,12 @@ impl PaddleTextScanner {
             },
         })
     }
+}
+fn select_reading(standard: PaddleTextResult, detailed: PaddleTextResult) -> PaddleTextResult {
+    let evidence = |result: &PaddleTextResult| -> f32 {
+        result.lines.iter().map(|line| line.text.chars().filter(|c| c.is_alphanumeric()).count() as f32 * line.confidence).sum()
+    };
+    if evidence(&detailed) > evidence(&standard) { detailed } else { standard }
 }
 fn validate_image(bytes: &[u8], width: usize, height: usize) -> Result<()> {
     ensure!(width > 0 && height > 0, "empty image");
@@ -246,8 +285,8 @@ fn cubic_weight(x: f32) -> f32 {
         0.0
     }
 }
-fn detection_input(image: &Image<'_>) -> (Vec<f32>, usize, usize) {
-    let ratio = (MAX_SIDE as f32 / image.width.max(image.height) as f32).min(1.0);
+fn detection_input(image: &Image<'_>, max_side: usize) -> (Vec<f32>, usize, usize) {
+    let ratio = (max_side as f32 / image.width.max(image.height) as f32).min(1.0);
     let rounded = |size: usize| (((size as f32 * ratio).floor() / 32.0).round_ties_even() as usize * 32).max(32);
     let (w, h) = (rounded(image.width), rounded(image.height));
     let mut out = vec![0.0; 3 * w * h];
@@ -404,8 +443,10 @@ fn homography(quad: &Quad) -> Option<[f64; 8]> {
 }
 fn recognition_input(image: &Image<'_>) -> Result<(Vec<f32>, usize)> {
     let ratio = image.width as f32 / image.height as f32;
-    let width = ((48.0 * ratio).floor() as usize).max(320);
-    ensure!(width <= MAX_REC_WIDTH, "text line is too long at recognition scale; capture a smaller section");
+    // Bound the tensor, not the accepted line length. Dense small print can
+    // legitimately exceed this aspect ratio; compressing it horizontally
+    // matches the reference pipeline and preserves the rest of the page.
+    let width = ((48.0 * ratio).floor() as usize).clamp(320, MAX_REC_WIDTH);
     let resized_width = ((48.0 * ratio).ceil() as usize).min(width).max(1);
     let mut out = vec![0.0; 3 * 48 * width];
     for y in 0..48 {
@@ -512,7 +553,7 @@ mod tests {
             height: 1,
             channels: 4,
         };
-        let (data, w, h) = detection_input(&image);
+        let (data, w, h) = detection_input(&image, MAX_SIDE);
         assert!((data[0] - (-0.485 / 0.229)).abs() < 1e-5);
         assert!((data[2 * w * h] - ((1.0 - 0.406) / 0.225)).abs() < 1e-5);
         let transparent = Image {
@@ -524,13 +565,44 @@ mod tests {
         assert_eq!(transparent.pixel(0, 0), [255.0; 3]);
     }
     #[test]
-    fn long_lines_are_an_explicit_error() {
+    fn detail_does_not_replace_a_richer_standard_reading_or_ties() {
+        let result = |text: &str, confidence: f32, side| PaddleTextResult {
+            engine: "ppocr_v6_tiny", text: text.into(), page_size: [100, 100],
+            detection_max_side: side, passes: 1, timings_ms: PaddleTextTimings::default(),
+            lines: vec![PaddleTextLine { text: text.into(), confidence,
+                quad: [[0.0; 2]; 4], x: 0.0, y: 0.0, w: 10.0, h: 10.0 }],
+        };
+        let base = || result("Complete line of clearly recognized small print", 0.98, MAX_SIDE);
+        assert_eq!(select_reading(base(), result("truncated", 0.99, DETAIL_MAX_SIDE)).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(base(), result("A longer line but with extremely uncertain recognition", 0.1, DETAIL_MAX_SIDE)).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(base(), base()).detection_max_side, MAX_SIDE);
+        assert_eq!(select_reading(result("partial", 0.98, MAX_SIDE), base()).text, base().text);
+    }
+    #[test]
+    fn detailed_detector_retains_pixels_with_a_fixed_bound() {
+        let pixels = vec![255u8; 1600 * 1000 * 4];
+        let image = Image { bytes: &pixels, width: 1600, height: 1000, channels: 4 };
+        let (_, w, h) = detection_input(&image, MAX_SIDE);
+        let (detail, dw, dh) = detection_input(&image, DETAIL_MAX_SIDE);
+        assert_eq!((w, h), (960, 608));
+        assert_eq!((dw, dh), (1600, 992));
+        assert_eq!(detail.len(), 3 * dw * dh);
+        assert!(dw <= DETAIL_MAX_SIDE && dh <= DETAIL_MAX_SIDE);
+        let small = Image { bytes: &pixels[..64 * 64 * 4], width: 64, height: 64, channels: 4 };
+        assert_eq!(detection_input(&small, MAX_SIDE), detection_input(&small, DETAIL_MAX_SIDE));
+    }
+    #[test]
+    fn long_lines_fit_the_bounded_recognition_tensor() {
+        let pixels = vec![255u8; 10000 * 10 * 3];
         let image = Image {
-            bytes: &[],
+            bytes: &pixels,
             width: 10000,
             height: 10,
             channels: 3,
         };
-        assert!(recognition_input(&image).unwrap_err().to_string().contains("too long"));
+        let (input, width) = recognition_input(&image).unwrap();
+        assert_eq!(width, MAX_REC_WIDTH);
+        assert_eq!(input.len(), 3 * 48 * MAX_REC_WIDTH);
+        assert!(input.iter().all(|value| *value == 1.0));
     }
 }

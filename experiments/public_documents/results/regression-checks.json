@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "rust_unit_tests": 99,
+    "python_referee_tests": 5,
+    "typescript": "passed",
+    "single_thread_wasm_build": "passed",
+    "wasm_long_line": {
+      "passed": true,
+      "lines": 36,
+      "memoryBytes": 88932352
+    },
+    "old_wasm_long_line": "fails: text line is too long at recognition scale",
+    "synthetic_12_pages": {
+      "cer": 0.0,
+      "word_recall": 1.0,
+      "extra_words": 0
+    },
+    "pure_helper_script": "passed",
+    "multithread_wasm_build": "passed",
+    "face_flow_node_tests": 7,
+    "browser_text": {
+      "single_thread": "passed: upload, lazy models, capture completion, camera release, capture cancellation, photo cancellation",
+      "two_threads": "passed: same checks"
+    }
+  },
+  "limitations": "Wasm memory is allocated buffer size, not peak process RSS. No phone performance or speedup claim."
+}

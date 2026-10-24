@@ -3,7 +3,9 @@ use docscan::Scanner;
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let default_models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let models = args.iter().find_map(|a| a.strip_prefix("--models=")).unwrap_or(default_models);
+    let model_directory = std::fs::canonicalize(models)?.to_string_lossy().into_owned();
     let mut scanner = Scanner::new();
     scanner.load_ocr_models(
         std::fs::read(format!("{models}/text-detection.rten"))?,
@@ -26,6 +28,7 @@ fn main() -> anyhow::Result<()> {
         };
         out["ms"] = serde_json::json!(start.elapsed().as_secs_f64() * 1000.0);
         out["path"] = serde_json::json!(path);
+        out["model_directory"] = serde_json::json!(model_directory);
         println!("{out}");
     }
     Ok(())

@@ -23,7 +23,7 @@ interface Props {
 }
 
 function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto", textEngine: TextEngine): string {
-  if (s.id === "text" && textEngine === "ppocr_v6_tiny") return "PP-OCRv6 tiny · ~6.3 MB · loaded when used";
+  if (s.id === "text" && textEngine !== "ocrs") return "PP-OCRv6 tiny · ~6.3 MB · loaded when used";
   const ocr = `ocrs OCR · ${catalogueEntry("ocrs").downloadMb} MB`;
   if (s.needs === "none") return "Barcode decoder · no model";
   if (s.needs === "face") return s.id === "facedoc" ? `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB + ${ocr}` : `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB, loaded when opened`;
@@ -70,6 +70,7 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
                   <select data-testid="text-engine" value={textEngine} onChange={(e) => onTextEngine(e.target.value as TextEngine)} disabled={busy !== null}>
                     <option value="ocrs">ocrs · text and word positions</option>
                     <option value="ppocr_v6_tiny">PP-OCRv6 tiny · multilingual, line positions · ~6.3 MB extra</option>
+                    <option value="ppocr_v6_tiny_detail">PP-OCRv6 tiny · small print (slower, more memory)</option>
                   </select>
                 </label>
               )}

@@ -1,0 +1,410 @@
+{
+  "scope": "Post-baseline descriptive diagnostics; no scoring changes or independent samples added.",
+  "freeze_sha256": "5bf5ff1c67724c028e4d8435ac2f81c0625a50f3f0cfb14242fb221209dd99fa",
+  "inputs": {
+    "clean": {
+      "error": "process_failure",
+      "lexical_truth_fields_present": {
+        "holder_name": false,
+        "address.street": false,
+        "address.city": false,
+        "address.postal_code": false,
+        "issuer": false,
+        "account_number": false
+      },
+      "methods": {
+        "rules": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        },
+        "tagger": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        }
+      },
+      "checks": {
+        "matching": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_person": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_address": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "old": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        }
+      }
+    },
+    "scanned": {
+      "error": "process_failure",
+      "lexical_truth_fields_present": {
+        "holder_name": false,
+        "address.street": false,
+        "address.city": false,
+        "address.postal_code": false,
+        "issuer": false,
+        "account_number": false
+      },
+      "methods": {
+        "rules": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        },
+        "tagger": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        }
+      },
+      "checks": {
+        "matching": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_person": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_address": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "old": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        }
+      }
+    },
+    "fax": {
+      "error": "process_failure",
+      "lexical_truth_fields_present": {
+        "holder_name": false,
+        "address.street": false,
+        "address.city": false,
+        "address.postal_code": false,
+        "issuer": false,
+        "account_number": false
+      },
+      "methods": {
+        "rules": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        },
+        "tagger": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        }
+      },
+      "checks": {
+        "matching": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_person": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_address": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "old": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        }
+      }
+    },
+    "text-layer": {
+      "error": "process_failure",
+      "lexical_truth_fields_present": {
+        "holder_name": false,
+        "address.street": false,
+        "address.city": false,
+        "address.postal_code": false,
+        "issuer": false,
+        "account_number": false
+      },
+      "methods": {
+        "rules": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        },
+        "tagger": {
+          "missing_fields": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number",
+            "document_type",
+            "statement_period.from",
+            "statement_period.to"
+          ],
+          "nonempty_wrong_fields": [],
+          "period_order_reversed": false,
+          "blind_verification_accepted": null,
+          "literal_present_but_field_wrong": [],
+          "literal_missing_and_field_wrong": [
+            "holder_name",
+            "address.street",
+            "address.city",
+            "address.postal_code",
+            "issuer",
+            "account_number"
+          ]
+        }
+      },
+      "checks": {
+        "matching": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_person": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "wrong_address": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        },
+        "old": {
+          "valid": false,
+          "accepted": false,
+          "name_score": null,
+          "address_score": null,
+          "holder_linked": null,
+          "date_present": false,
+          "date_recent": null
+        }
+      }
+    }
+  }
+}

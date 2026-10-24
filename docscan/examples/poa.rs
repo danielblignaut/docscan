@@ -19,7 +19,9 @@ fn main() -> anyhow::Result<()> {
     let dump_words = args.iter().any(|a| a == "--words");
     let today = args.iter().find_map(|a| a.strip_prefix("--today=")).unwrap_or("2026-10-15");
     let today = Date::parse_iso(today).ok_or_else(|| anyhow::anyhow!("--today must be YYYY-MM-DD"))?;
-    let models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let default_models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let models = args.iter().find_map(|a| a.strip_prefix("--models=")).unwrap_or(default_models);
+    let model_directory = std::fs::canonicalize(models)?.to_string_lossy().into_owned();
     let mut scanner = Scanner::new();
     scanner.load_ocr_models(
         std::fs::read(format!("{models}/text-detection.rten"))?,
@@ -45,12 +47,12 @@ fn main() -> anyhow::Result<()> {
         let img = match image::open(path) {
             Ok(i) => i.to_rgba8(),
             Err(e) => {
-                println!("{}", serde_json::json!({"path": path, "error": e.to_string()}));
+                println!("{}", serde_json::json!({"path": path, "error": e.to_string(), "model_directory": model_directory}));
                 continue;
             }
         };
         let (w, h) = (img.width() as usize, img.height() as usize);
-        let mut out = serde_json::json!({"path": path, "frame": [w, h]});
+        let mut out = serde_json::json!({"path": path, "frame": [w, h], "model_directory": model_directory});
         // The page: the whole image, or the outline found in it, flattened.
         let (rgba, pw, ph) = if flat {
             (img.into_raw(), w, h)

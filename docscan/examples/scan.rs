@@ -7,7 +7,9 @@ fn main() -> anyhow::Result<()> {
     let labelled = args.iter().any(|a| a == "--labelled");
     // `--expect=green_book` and so on: the step the page would be on.
     let expected = docscan::Expected::parse(args.iter().find_map(|a| a.strip_prefix("--expect=")).unwrap_or(""));
-    let models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let default_models = concat!(env!("CARGO_MANIFEST_DIR"), "/../models");
+    let models = args.iter().find_map(|a| a.strip_prefix("--models=")).unwrap_or(default_models);
+    let model_directory = std::fs::canonicalize(models)?.to_string_lossy().into_owned();
     let mut scanner = Scanner::new();
     scanner.load_ocr_models(
         std::fs::read(format!("{models}/text-detection.rten"))?,
@@ -25,6 +27,7 @@ fn main() -> anyhow::Result<()> {
             let out = scanner.labelled_native(rgba.as_raw(), w, h)?;
             let mut v = serde_json::to_value(&out)?;
             v["path"] = serde_json::json!(path);
+            v["model_directory"] = serde_json::json!(model_directory);
             v["ms"] = serde_json::json!(t.elapsed().as_millis());
             for b in v["dropped"].as_array_mut().unwrap() { b.as_object_mut().unwrap().remove("bytes"); }
             println!("{}", serde_json::to_string(&v)?);
@@ -37,6 +40,7 @@ fn main() -> anyhow::Result<()> {
             let r = scanner.analyse(rgba.as_raw(), w, h, true, expected)?;
             let mut v = serde_json::to_value(&r)?;
             v["path"] = serde_json::json!(path);
+            v["model_directory"] = serde_json::json!(model_directory);
             v["lines"] = serde_json::json!(r.lines.iter().map(|l| l.text.clone()).collect::<Vec<_>>());
             for b in v["barcodes"].as_array_mut().unwrap() { b.as_object_mut().unwrap().remove("bytes"); }
             println!("{}", serde_json::to_string(&v)?);

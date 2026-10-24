@@ -1,0 +1,18 @@
+{
+  "scope": "Full 60-page re-evaluation with staged cache publication and model mutation guards",
+  "all_scored_rows_equal_small_print": true,
+  "pages": 60,
+  "failed_pages": 0,
+  "provenance": {
+    "cache_protocol": 2,
+    "binary_sha256": "e9b55435eb5c800cac718918a3ffea09da315810b04801b5637bf57c3a1ef4d0",
+    "engine": "ppocr_v6_tiny",
+    "detail": true,
+    "models": {
+      "ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+      "ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+    },
+    "scorer_sha256": "440aadbc9715539b5a25cd767632a438662065e596e6057941c95f74da0dfa0b",
+    "manifest_sha256": "ab2c9b371acdf2071d5df8bbeec524ba700f01585dcfea9be1579caaf41664a3"
+  }
+}

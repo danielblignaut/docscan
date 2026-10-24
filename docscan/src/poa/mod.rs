@@ -44,6 +44,22 @@ pub struct Period {
     pub to: Option<String>,
 }
 
+impl Period {
+    fn reversed(&self) -> bool {
+        self.from.as_deref().and_then(Date::parse_iso).zip(self.to.as_deref().and_then(Date::parse_iso)).is_some_and(|(from, to)| from > to)
+    }
+}
+
+/// A reversed period is contradictory date evidence, even when an extractor
+/// also selected a plausible document date. Keep the fields for inspection,
+/// but do not use them to establish recency (including after frame voting).
+pub(crate) fn trusted_date(fields: &Fields) -> Option<Date> {
+    if fields.statement_period.as_ref().is_some_and(Period::reversed) {
+        return None;
+    }
+    fields.document_date.as_deref().or(fields.statement_period.as_ref().and_then(|p| p.to.as_deref())).and_then(Date::parse_iso)
+}
+
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum DocumentType {
@@ -235,6 +251,21 @@ pub fn fields_from_spans(words: &[Word], spans: &[Span], text: &str) -> (Fields,
     let to = dated("PERIOD_TO", "period_to");
     if from.is_some() || to.is_some() {
         f.statement_period = Some(Period { from, to });
+    }
+    // A tagger can call the whole printed range DOC_DATE, omitting its dash.
+    // Preserve both endpoints and use the end as the document date.
+    if let Some(s) = best("DOC_DATE", None)
+        && let Some(period) = span_period(words, s)
+    {
+        // DOC_DATE already contributes a date to capture voting. Use the
+        // period end, retaining that evidence so a recent transaction in
+        // the rules' fallback cannot replace an old statement's date.
+        f.document_date = period.to.clone();
+        if f.statement_period.is_none() {
+            f.statement_period = Some(period);
+            confidence.push(("period_from", s.score));
+            confidence.push(("period_to", s.score));
+        }
     }
     f.document_type = document_type(text);
     infer_province(&mut f);
@@ -468,13 +499,12 @@ pub fn rejoin_date(s: &str) -> String {
 }
 
 /// The date a span tags. The tagger often marks only part of a written date
-/// ("14, 2026" of "June 14, 2026"), so when the span alone does not parse,
-/// the dates printed on its line(s) are read and the one overlapping the
-/// span is taken.
+/// ("14, 2026" of "June 14, 2026"). Read the original line's overlapping
+/// date first, preserving range boundaries and shared years, then fall back
+/// to repairing separators in the span when the line did not parse.
 fn span_date(words: &[Word], s: &Span) -> Option<Date> {
-    if let Some(d) = verify::parse_date(&rejoin_date(&s.text)) {
-        return Some(d);
-    }
+    // Consult the original words first: a span can omit a range separator,
+    // or an endpoint's shared year, and then parse as a different date.
     let lines: Vec<usize> = s.words.iter().map(|&i| words[i].line).collect();
     let on: Vec<usize> = (0..words.len()).filter(|i| lines.contains(&words[*i].line)).collect();
     let texts: Vec<String> = on.iter().map(|&i| words[i].text.clone()).collect();
@@ -483,6 +513,26 @@ fn span_date(words: &[Word], s: &Span) -> Option<Date> {
         .into_iter()
         .find(|(a, b, _)| on[*a..*b].iter().any(|i| s.words.contains(i)))
         .map(|d| d.2)
+        .or_else(|| verify::parse_date(&rejoin_date(&s.text)))
+}
+
+fn span_period(words: &[Word], s: &Span) -> Option<Period> {
+    let first = *s.words.first()?;
+    if s.words.iter().any(|&i| words[i].line != words[first].line) {
+        return None;
+    }
+    let on = line_of(words, first);
+    let refs: Vec<_> = on.iter().map(|&i| words[i].text.as_str()).collect();
+    let dates = verify::find_dates(&refs);
+    let [(a, b, from), (c, d, to)] = dates.as_slice() else { return None };
+    let linked = (*b == *c && b - a == 2) || (*c == b + 1 && verify::range_separator(refs[*b]));
+    if !linked || !s.words.iter().all(|i| on[*a..*d].contains(i))
+        || !on[*a..*b].iter().any(|i| s.words.contains(i))
+        || !on[*c..*d].iter().any(|i| s.words.contains(i))
+    {
+        return None;
+    }
+    Some(Period { from: Some(from.iso()), to: Some(to.iso()) })
 }
 
 /// A province not printed is taken from the postal code when the code
@@ -536,14 +586,13 @@ pub fn verify_fields(f: &Fields, text: &str, confidence: &[(&'static str, f32)],
 
     let postal_code = verify::check_postal_code(f.address.postal_code.as_deref(), f.address.province.as_deref());
     // The document's date; failing that, the end of its statement period.
-    let date = f
-        .document_date
-        .as_deref()
-        .or(f.statement_period.as_ref().and_then(|p| p.to.as_deref()))
-        .and_then(Date::parse_iso);
+    let date = trusted_date(f);
     let age = date.map(|d| verify::age(d, today));
 
     let mut reasons = Vec::new();
+    if f.statement_period.as_ref().is_some_and(Period::reversed) {
+        reasons.push("statement period starts after it ends".into());
+    }
     for (name, v) in [("holder name", &f.holder_name), ("street", &f.address.street), ("postal code", &f.address.postal_code)] {
         if v.is_none() {
             reasons.push(format!("no {name}"));
@@ -568,6 +617,98 @@ pub fn verify_fields(f: &Fields, text: &str, confidence: &[(&'static str, f32)],
 
 #[cfg(test)]
 mod text_tests {
+    use super::*;
+
+    fn date_words(text: &str) -> Vec<Word> {
+        text.split_whitespace().enumerate().map(|(i, text)| Word {
+            text: text.into(), x: i as f32 * 50.0, y: 20.0, w: 45.0, h: 12.0, line: 0,
+        }).collect()
+    }
+
+    fn date_span(words: &[Word], entity: &'static str, indices: Vec<usize>) -> Span {
+        Span { entity, text: indices.iter().map(|&i| words[i].text.as_str()).collect::<Vec<_>>().join(" "), words: indices, score: 0.9 }
+    }
+
+    #[test]
+    fn incomplete_period_spans_share_the_printed_year() {
+        let words = date_words("April 2 April 26, 2024");
+        let spans = [date_span(&words, "PERIOD_FROM", vec![0, 1]), date_span(&words, "PERIOD_TO", vec![2, 3, 4])];
+        let (fields, _) = fields_from_spans(&words, &spans, &page_text(&words));
+        assert_eq!(fields.statement_period, Some(Period { from: Some("2024-04-02".into()), to: Some("2024-04-26".into()) }));
+    }
+
+    #[test]
+    fn document_date_span_omitting_the_dash_remains_a_period() {
+        let words = date_words("April 2 – April 26, 2024");
+        let spans = [date_span(&words, "DOC_DATE", vec![0, 1, 3, 4, 5])];
+        let (fields, conf) = fields_from_spans(&words, &spans, &page_text(&words));
+        assert_eq!(fields.document_date.as_deref(), Some("2024-04-26"));
+        assert_eq!(fields.statement_period, Some(Period { from: Some("2024-04-02".into()), to: Some("2024-04-26".into()) }));
+        let verified = verify_fields(&fields, &page_text(&words), &conf, Date::new(2024, 5, 1).unwrap());
+        assert!(verified.fields.iter().filter(|f| f.field.starts_with("period_")).all(|f| f.found));
+        assert_eq!(capture::doc_date(&fields), Date::new(2024, 4, 26));
+    }
+
+    #[test]
+    fn period_date_checks_preserve_stale_future_and_reversed_evidence() {
+        let today = Date::new(2026, 6, 1).unwrap();
+        for (text, future, recent, reversed) in [
+            ("April 2 – April 26, 2024", false, false, false),
+            ("July 2 – July 26, 2026", true, false, false),
+            ("May 26 – May 2, 2026", false, false, true),
+            ("December 20 – January 5, 2026", false, false, true),
+        ] {
+            let words = date_words(text);
+            let span = date_span(&words, "DOC_DATE", (0..words.len()).collect());
+            let (mut fields, conf) = fields_from_spans(&words, &[span], text);
+            if reversed {
+                // Neither a plausible additional date nor independently voted
+                // endpoints can bypass the period-order guard.
+                fields.document_date = Some("2026-05-02".into());
+            }
+            let checked = verify_fields(&fields, text, &conf, today);
+            assert!(!checked.accepted, "{text}");
+            assert_eq!(checked.age.is_none(), reversed, "{text}");
+            assert_eq!(capture::doc_date(&fields).is_none(), reversed, "{text}");
+            if let Some(age) = checked.age {
+                assert_eq!(age.future, future, "{text}");
+                assert_eq!(age.recent, recent, "{text}");
+            }
+        }
+    }
+
+    #[test]
+    fn separate_issue_and_due_dates_are_not_a_period() {
+        let words = date_words("Statement date: 2 April 2024 Due date: 26 April 2024");
+        let span = date_span(&words, "DOC_DATE", vec![2, 3, 4]);
+        let (fields, _) = fields_from_spans(&words, &[span], &page_text(&words));
+        assert_eq!(fields.document_date.as_deref(), Some("2024-04-02"));
+        assert_eq!(fields.statement_period, None);
+    }
+
+    #[test]
+    fn old_range_tagged_as_document_date_survives_capture_fallback() {
+        let mut words = date_words("April 2 – April 26, 2024");
+        let span = date_span(&words, "DOC_DATE", vec![0, 1, 3, 4, 5]);
+        let mut transaction = date_words("30 May 2026 Transfer");
+        for word in &mut transaction {
+            word.line = 1;
+            word.y = 100.0;
+        }
+        words.extend(transaction);
+        let text = page_text(&words);
+        let today = Date::new(2026, 6, 1).unwrap();
+        let (fields, confidence) = fields_from_spans(&words, &[span.clone()], &text);
+        let verification = verify_fields(&fields, &text, &confidence, today);
+        let reading = AddressResult {
+            method: Method::Tagger, fields, verification, text, words: words.len(), spans: vec![span],
+            page_size: [800, 1000], timings_ms: AddressTimings::default(),
+        };
+        let combined = capture::combine(&[&reading], &[&words], None, today);
+        assert_eq!(capture::doc_date(&combined.fields), Date::new(2024, 4, 26));
+        assert!(!verify::age(capture::doc_date(&combined.fields).unwrap(), today).recent);
+    }
+
     #[test]
     fn clean_preserves_unicode_and_initials() {
         for (input, expected) in [("René", "René"), ("René.", "René"), ("É.", "É."), ("J.", "J."), ("J.P.", "J.P."), ("Benoni.", "Benoni"), ("李", "李")] {

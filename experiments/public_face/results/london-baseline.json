@@ -1,0 +1,184 @@
+{
+  "protocol": "london-neutral-smile-v1-dev-only",
+  "purpose": "research evaluation; no training or shipped calibration",
+  "source_revision": "fa8b78fda2d659bb74ce62fcd99c4407551d2a77",
+  "source_manifest_sha256": "d9ccf058c71a47bcdcdc7c379713804e9b7df087e946bfa8c63719ac83c57195",
+  "protocol_sha256": "549b27d02eaca02cf3f1da0711d98bd16d1a0c642b63d7d6573d5ece1fca84b1",
+  "binary_sha256": "83081f88da492d50fa5ec9473c3465f8e364bff966a048ad8972a11fab424a92",
+  "variant": "iris",
+  "models": {
+    "face_detector.onnx": "ddaf3ca4fa242d93199bde2a190b3f2bc91cfb0535e0ffef68c4ce1af6f88309",
+    "face_landmarks_detector.onnx": "106636735b429f1e626cf76ea1eaab9272b0d08c5df72c8496c8076220b0d4f9",
+    "minifasnet.onnx": "5655d00dfa722bcd766d1584bfcf492d946c1132547cfbc0bfdd204149a241c7",
+    "sface_int8.onnx": "7a1886c2b756089089cabc3ebf6f853f8616354d4588acafd037269cd40cf0a1"
+  },
+  "run": {
+    "cache_key": "6c373d6cd68cff559ff25d69068022109229e36c1726ec0326ca0932464a221e",
+    "elapsed_s": 36.45
+  },
+  "metrics": {
+    "original": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.004705882352941176,
+          "threshold": 0.366
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.004705882352941176,
+          "threshold": 0.366
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "threshold": 0.41150838136672974
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.001568627450980392,
+          "threshold": 0.41150838136672974
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "threshold": 0.34740740060806274
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.00784313725490196,
+          "threshold": 0.34740740060806274
+        }
+      }
+    },
+    "document_gray": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.004705882352941176,
+          "threshold": 0.356
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.005098039215686275,
+          "threshold": 0.356
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "threshold": 0.37267473340034485
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.003137254901960784,
+          "threshold": 0.37267473340034485
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "threshold": 0.3270835280418396
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.011764705882352941,
+          "threshold": 0.3270835280418396
+        }
+      }
+    },
+    "document_small": {
+      "calibration_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "validation_counts": {
+        "identities": 51,
+        "genuine_pairs": 51,
+        "impostor_pairs": 2550,
+        "missing_probe": 0,
+        "missing_reference": 0
+      },
+      "shipped_threshold": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.004313725490196078,
+          "threshold": 0.356
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.00196078431372549,
+          "threshold": 0.356
+        }
+      },
+      "calibrated_far_0.001": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.000784313725490196,
+          "threshold": 0.38589969277381897
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.000392156862745098,
+          "threshold": 0.38589969277381897
+        }
+      },
+      "calibrated_far_0.01": {
+        "calibration": {
+          "tar": 1.0,
+          "far": 0.00980392156862745,
+          "threshold": 0.32266825437545776
+        },
+        "validation": {
+          "tar": 1.0,
+          "far": 0.007450980392156863,
+          "threshold": 0.32266825437545776
+        }
+      }
+    }
+  },
+  "limits": [
+    "51 identities per split; 2550 dependent impostor pairs cannot certify population FAR=0.001",
+    "One photo session and source; no held-out device, age or source validation",
+    "Controlled portrait degradation is not physical ID capture",
+    "No attack data; APCER and liveness effectiveness not estimable",
+    "No model weights trained; no production threshold selected"
+  ]
+}
