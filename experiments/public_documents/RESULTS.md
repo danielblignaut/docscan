@@ -85,3 +85,29 @@ FATURA canvases have the expected unrotated dimensions. New native evaluator
 runs require the executable to confirm its explicit model directory and verify
 model hashes before/after the run. The saved runs used the recorded same-checkout
 models; these guards prevent incorrect provenance in future cross-checkout runs.
+
+## Rust small-print profile
+
+The single 1600-pixel Rust pass improved aggregate bank recall to 91.06%, but
+lost 94 matched tokens on the small-print terms page. That result is retained
+in `ppocr-reviewed-detail.json`; it was not selected as the final profile.
+
+The opt-in profile compares the standard and detailed passes and chooses the
+complete reading with the larger sum of alphanumeric characters weighted by
+mean emitted-symbol confidence. Ties keep the standard reading. It does not
+merge text or consult reference truth. It is a text-coverage heuristic, not a
+calibrated correctness score. Pages already within the standard detector limit
+use one pass; larger pages use two. Both passes retain the existing region,
+line-width and input-memory guards. Reported timings include both passes.
+
+Actual Rust results (`ppocr-small-print.json`): **94.62% bank token recall,
+96.93% precision**, 2497/2639 matched tokens, one exactly transcribed page,
+0/60 failures. The standard profile remains **88.52% / 96.41%**. The terms
+page retains all 392 tokens that the standard pass recovered. Seven bank pages
+improve, two are unchanged, and one loses two matched tokens (198→196).
+All 50 invoice scores remain unchanged. The 12-page synthetic DEV regression
+still has zero normalized character errors, 100% word recall and no extra words.
+
+This optional profile deliberately spends more compute and is labeled slower
+in the demo. It does not replace the standard/default reader. No speedup,
+phone latency, universal improvement or state-of-the-art claim is made.

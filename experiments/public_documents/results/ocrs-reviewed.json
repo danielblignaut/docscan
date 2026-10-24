@@ -1,0 +1,4649 @@
+{
+  "protocol": "public-document-ocr-dev-v1",
+  "provenance": {
+    "binary_sha256": "67e9545af30aa6e34caf535b2a254d74ce022164dc8b7ae989b36f4a5b7655ef",
+    "engine": "ocrs_page",
+    "detail": false,
+    "models": {
+      "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+      "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e",
+      "text-detection-page.onnx": "9af24977ce4038e0c6da914a4acd0578fa07853399d4e8691e97ee4a759e7b5b"
+    },
+    "scorer_sha256": "820674850c2ae1520c1bb29aa0da28ced0f5daa517f661afabe5430ce9e6d293",
+    "manifest_sha256": "ab2c9b371acdf2071d5df8bbeec524ba700f01585dcfea9be1579caaf41664a3"
+  },
+  "source_revision": "4954b12b66ef1008d43f1a03a90ce382b136ec97",
+  "summary": {
+    "bankstatemently": {
+      "truth_tokens": 2639,
+      "predicted_tokens": 2535,
+      "matched_tokens": 2258,
+      "items": 10,
+      "exact": 0,
+      "token_recall": 0.8556271314892004,
+      "token_precision": 0.8907297830374753
+    },
+    "bankstatemently.full_page": {
+      "truth_tokens": 2639,
+      "predicted_tokens": 2535,
+      "matched_tokens": 2258,
+      "items": 10,
+      "exact": 0,
+      "token_recall": 0.8556271314892004,
+      "token_precision": 0.8907297830374753
+    },
+    "fatura": {
+      "truth_tokens": 3196,
+      "predicted_tokens": 3129,
+      "matched_tokens": 2838,
+      "items": 560,
+      "exact": 351,
+      "token_recall": 0.8879849812265331,
+      "token_precision": 0.9069990412272292
+    },
+    "fatura.BILL_TO": {
+      "truth_tokens": 146,
+      "predicted_tokens": 156,
+      "matched_tokens": 132,
+      "items": 10,
+      "exact": 0,
+      "token_recall": 0.9041095890410958,
+      "token_precision": 0.8461538461538461
+    },
+    "fatura.BUYER": {
+      "truth_tokens": 579,
+      "predicted_tokens": 580,
+      "matched_tokens": 547,
+      "items": 40,
+      "exact": 16,
+      "token_recall": 0.9447322970639033,
+      "token_precision": 0.9431034482758621
+    },
+    "fatura.CONDITIONS": {
+      "truth_tokens": 489,
+      "predicted_tokens": 484,
+      "matched_tokens": 479,
+      "items": 20,
+      "exact": 15,
+      "token_recall": 0.9795501022494888,
+      "token_precision": 0.9896694214876033
+    },
+    "fatura.DATE": {
+      "truth_tokens": 127,
+      "predicted_tokens": 137,
+      "matched_tokens": 126,
+      "items": 50,
+      "exact": 39,
+      "token_recall": 0.9921259842519685,
+      "token_precision": 0.9197080291970803
+    },
+    "fatura.DISCOUNT": {
+      "truth_tokens": 60,
+      "predicted_tokens": 60,
+      "matched_tokens": 60,
+      "items": 20,
+      "exact": 20,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.DUE_DATE": {
+      "truth_tokens": 120,
+      "predicted_tokens": 100,
+      "matched_tokens": 82,
+      "items": 30,
+      "exact": 10,
+      "token_recall": 0.6833333333333333,
+      "token_precision": 0.82
+    },
+    "fatura.GST(7%)": {
+      "truth_tokens": 30,
+      "predicted_tokens": 20,
+      "matched_tokens": 10,
+      "items": 10,
+      "exact": 0,
+      "token_recall": 0.3333333333333333,
+      "token_precision": 0.5
+    },
+    "fatura.GST(9%)": {
+      "truth_tokens": 30,
+      "predicted_tokens": 19,
+      "matched_tokens": 9,
+      "items": 10,
+      "exact": 0,
+      "token_recall": 0.3,
+      "token_precision": 0.47368421052631576
+    },
+    "fatura.GSTIN": {
+      "truth_tokens": 20,
+      "predicted_tokens": 20,
+      "matched_tokens": 20,
+      "items": 10,
+      "exact": 10,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.NOTE": {
+      "truth_tokens": 231,
+      "predicted_tokens": 231,
+      "matched_tokens": 231,
+      "items": 30,
+      "exact": 30,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.NUMBER": {
+      "truth_tokens": 120,
+      "predicted_tokens": 119,
+      "matched_tokens": 118,
+      "items": 40,
+      "exact": 39,
+      "token_recall": 0.9833333333333333,
+      "token_precision": 0.9915966386554622
+    },
+    "fatura.PAYMENT_DETAILS": {
+      "truth_tokens": 180,
+      "predicted_tokens": 180,
+      "matched_tokens": 180,
+      "items": 10,
+      "exact": 7,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.SELLER_ADDRESS": {
+      "truth_tokens": 310,
+      "predicted_tokens": 310,
+      "matched_tokens": 277,
+      "items": 40,
+      "exact": 17,
+      "token_recall": 0.8935483870967742,
+      "token_precision": 0.8935483870967742
+    },
+    "fatura.SELLER_EMAIL": {
+      "truth_tokens": 30,
+      "predicted_tokens": 30,
+      "matched_tokens": 30,
+      "items": 30,
+      "exact": 30,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.SELLER_NAME": {
+      "truth_tokens": 100,
+      "predicted_tokens": 100,
+      "matched_tokens": 100,
+      "items": 40,
+      "exact": 40,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.SELLER_SITE": {
+      "truth_tokens": 10,
+      "predicted_tokens": 10,
+      "matched_tokens": 10,
+      "items": 10,
+      "exact": 10,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.SUB_TOTAL": {
+      "truth_tokens": 200,
+      "predicted_tokens": 200,
+      "matched_tokens": 97,
+      "items": 50,
+      "exact": 0,
+      "token_recall": 0.485,
+      "token_precision": 0.485
+    },
+    "fatura.TAX": {
+      "truth_tokens": 80,
+      "predicted_tokens": 77,
+      "matched_tokens": 74,
+      "items": 20,
+      "exact": 18,
+      "token_recall": 0.925,
+      "token_precision": 0.961038961038961
+    },
+    "fatura.TITLE": {
+      "truth_tokens": 64,
+      "predicted_tokens": 64,
+      "matched_tokens": 64,
+      "items": 40,
+      "exact": 40,
+      "token_recall": 1.0,
+      "token_precision": 1.0
+    },
+    "fatura.TOTAL": {
+      "truth_tokens": 160,
+      "predicted_tokens": 122,
+      "matched_tokens": 84,
+      "items": 40,
+      "exact": 2,
+      "token_recall": 0.525,
+      "token_precision": 0.6885245901639344
+    },
+    "fatura.TOTAL_WORDS": {
+      "truth_tokens": 110,
+      "predicted_tokens": 110,
+      "matched_tokens": 108,
+      "items": 10,
+      "exact": 8,
+      "token_recall": 0.9818181818181818,
+      "token_precision": 0.9818181818181818
+    }
+  },
+  "failed_pages": 0,
+  "pages": 60,
+  "rows": [
+    {
+      "id": "Template50_Instance0",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 16,
+          "predicted_tokens": 17,
+          "matched_tokens": 15,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 9,
+          "predicted_tokens": 9,
+          "matched_tokens": 9,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance15",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 15,
+          "predicted_tokens": 16,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 35,
+          "matched_tokens": 34,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance30",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 16,
+          "predicted_tokens": 17,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": false
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance45",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 13,
+          "predicted_tokens": 14,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 35,
+          "matched_tokens": 34,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 10,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance60",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 14,
+          "predicted_tokens": 15,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 35,
+          "matched_tokens": 34,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": false
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 10,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance75",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 15,
+          "predicted_tokens": 16,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance90",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 14,
+          "predicted_tokens": 15,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 6,
+          "predicted_tokens": 6,
+          "matched_tokens": 6,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance105",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 13,
+          "predicted_tokens": 14,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 36,
+          "matched_tokens": 36,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance120",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 16,
+          "predicted_tokens": 17,
+          "matched_tokens": 15,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 35,
+          "matched_tokens": 34,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": false
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template50_Instance135",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BILL_TO",
+          "truth_tokens": 14,
+          "predicted_tokens": 15,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "PAYMENT_DETAILS",
+          "truth_tokens": 18,
+          "predicted_tokens": 18,
+          "matched_tokens": 18,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL_WORDS",
+          "truth_tokens": 11,
+          "predicted_tokens": 11,
+          "matched_tokens": 11,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance0",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 1,
+          "matched_tokens": 0,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance15",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 15,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance30",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 11,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance45",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 16,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance60",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance75",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance90",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance105",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance120",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 13,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template7_Instance135",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_SITE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GST(9%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance0",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 9,
+          "predicted_tokens": 9,
+          "matched_tokens": 9,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance15",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 7,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance30",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance45",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 15,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 6,
+          "predicted_tokens": 6,
+          "matched_tokens": 6,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance60",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 13,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance75",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 7,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance90",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 7,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance105",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 16,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance120",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 15,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 6,
+          "predicted_tokens": 6,
+          "matched_tokens": 6,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 6,
+          "exact": false
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template32_Instance135",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 7,
+          "predicted_tokens": 7,
+          "matched_tokens": 7,
+          "exact": true
+        },
+        {
+          "label": "SELLER_EMAIL",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance0",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 36,
+          "matched_tokens": 36,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 1,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance15",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance30",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 14,
+          "exact": true
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance45",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 6,
+          "predicted_tokens": 6,
+          "matched_tokens": 6,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 1,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 2,
+          "matched_tokens": 0,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance60",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 5,
+          "predicted_tokens": 5,
+          "matched_tokens": 5,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance75",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 36,
+          "matched_tokens": 36,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance90",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance105",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 35,
+          "matched_tokens": 34,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 9,
+          "predicted_tokens": 9,
+          "matched_tokens": 9,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance120",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 13,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 4,
+          "matched_tokens": 3,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 9,
+          "predicted_tokens": 9,
+          "matched_tokens": 9,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template39_Instance135",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "CONDITIONS",
+          "truth_tokens": 36,
+          "predicted_tokens": 36,
+          "matched_tokens": 36,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "DISCOUNT",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "DUE_DATE",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NOTE",
+          "truth_tokens": 6,
+          "predicted_tokens": 6,
+          "matched_tokens": 6,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 7,
+          "exact": false
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TAX",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance0",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 14,
+          "predicted_tokens": 14,
+          "matched_tokens": 14,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 1,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance15",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance30",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance45",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 1,
+          "predicted_tokens": 1,
+          "matched_tokens": 1,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance60",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 14,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance75",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 12,
+          "exact": false
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance90",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 15,
+          "predicted_tokens": 15,
+          "matched_tokens": 15,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance105",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 13,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance120",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 16,
+          "predicted_tokens": 16,
+          "matched_tokens": 16,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "Template2_Instance135",
+      "source": "fatura",
+      "failed": false,
+      "scores": [
+        {
+          "label": "BUYER",
+          "truth_tokens": 13,
+          "predicted_tokens": 13,
+          "matched_tokens": 13,
+          "exact": true
+        },
+        {
+          "label": "DATE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "NUMBER",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 3,
+          "exact": true
+        },
+        {
+          "label": "SELLER_ADDRESS",
+          "truth_tokens": 8,
+          "predicted_tokens": 8,
+          "matched_tokens": 8,
+          "exact": true
+        },
+        {
+          "label": "SELLER_NAME",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 4,
+          "exact": true
+        },
+        {
+          "label": "SUB_TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 4,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "TITLE",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "TOTAL",
+          "truth_tokens": 4,
+          "predicted_tokens": 3,
+          "matched_tokens": 2,
+          "exact": false
+        },
+        {
+          "label": "GSTIN",
+          "truth_tokens": 2,
+          "predicted_tokens": 2,
+          "matched_tokens": 2,
+          "exact": true
+        },
+        {
+          "label": "GST(7%)",
+          "truth_tokens": 3,
+          "predicted_tokens": 2,
+          "matched_tokens": 1,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-001-p1",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 93,
+          "predicted_tokens": 94,
+          "matched_tokens": 71,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-001-p2",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 216,
+          "predicted_tokens": 214,
+          "matched_tokens": 179,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-001-p3",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 418,
+          "predicted_tokens": 411,
+          "matched_tokens": 385,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-002-p1",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 479,
+          "predicted_tokens": 437,
+          "matched_tokens": 389,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-002-p2",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 711,
+          "predicted_tokens": 688,
+          "matched_tokens": 643,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-002-p3",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 339,
+          "predicted_tokens": 322,
+          "matched_tokens": 305,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-002-p4",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 3,
+          "predicted_tokens": 3,
+          "matched_tokens": 0,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-003-p1",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 233,
+          "predicted_tokens": 221,
+          "matched_tokens": 170,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-003-p2",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 50,
+          "predicted_tokens": 49,
+          "matched_tokens": 39,
+          "exact": false
+        }
+      ]
+    },
+    {
+      "id": "bsb-003-p3",
+      "source": "bankstatemently",
+      "failed": false,
+      "scores": [
+        {
+          "label": "full_page",
+          "truth_tokens": 97,
+          "predicted_tokens": 96,
+          "matched_tokens": 77,
+          "exact": false
+        }
+      ]
+    }
+  ],
+  "limitations": "DEV only; synthetic PDFs/invoices. Bank reference is PDF text-layer, not official transaction truth. FATURA scores text inside annotated regions, not predicted field labels or POA verification. No complete-page hallucination metric on FATURA. Template/page correlated; no SOTA or latency claim."
+}
