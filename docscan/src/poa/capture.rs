@@ -238,7 +238,7 @@ pub fn vote_fields(readings: &[&AddressResult]) -> (Fields, Vec<FieldVote>) {
 
 /// The document's date for the age check: its date, or else the end of its period.
 pub fn doc_date(f: &Fields) -> Option<Date> {
-    f.document_date.as_deref().or(f.statement_period.as_ref().and_then(|p| p.to.as_deref())).and_then(Date::parse_iso)
+    super::trusted_date(f)
 }
 
 /// Combines the customer checks of several frames: the best name and the

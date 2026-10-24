@@ -266,6 +266,29 @@ fn date_word(word: &str) -> Option<Date> {
     Date::new(year(p[2])?, month, number(p[0], 31)?)
 }
 
+pub(crate) fn range_separator(word: &str) -> bool {
+    matches!(word, "-" | "–" | "—") || word.eq_ignore_ascii_case("to")
+}
+
+/// A pair of written month/day endpoints with one explicit trailing year.
+/// Repeated months also delimit a range when OCR has lost its dash. Never
+/// borrow a year from elsewhere on the page or infer a New Year rollover.
+fn shared_year_range(words: &[&str]) -> Option<(usize, Date, Date)> {
+    let day_month = |pair: &[&str]| {
+        let [a, b, ..] = pair else { return None };
+        number(a, 31).zip(month_number(b)).or_else(|| number(b, 31).zip(month_number(a)))
+    };
+    let (day, month) = day_month(words)?;
+    let right = if words.get(2).is_some_and(|w| range_separator(w)) { 3 } else { 2 };
+    let (end_day, end_month) = day_month(words.get(right..)?)?;
+    let year_word = words.get(right + 2)?.trim_matches(|c: char| !c.is_alphanumeric());
+    if year_word.len() != 4 {
+        return None;
+    }
+    let y = year(year_word)?;
+    Some((right, Date::new(y, month, day)?, Date::new(y, end_month, end_day)?))
+}
+
 /// Every date in a run of words, with the word span it covers
 /// (`start..end`). Also `15 March 2026`, `15 Mar 2026`, `March 15, 2026`.
 pub fn find_dates(words: &[&str]) -> Vec<(usize, usize, Date)> {
@@ -326,6 +349,14 @@ pub fn find_dates(words: &[&str]) -> Vec<(usize, usize, Date)> {
     let mut out = Vec::new();
     let mut i = 0;
     while i < words.len() {
+        // Resolve the shared year before a short-year triple can consume
+        // the right-hand day ("April 2 April 26, 2024" -> "2 April 26").
+        if let Some((right, from, to)) = shared_year_range(&words[i..]) {
+            out.push((i, i + 2, from));
+            out.push((i + right, i + right + 3, to));
+            i += right + 3;
+            continue;
+        }
         if let Some(d) = date_word(words[i]) {
             out.push((i, i + 1, d));
             i += 1;
@@ -358,6 +389,35 @@ pub fn find_dates(words: &[&str]) -> Vec<(usize, usize, Date)> {
 #[cfg(test)]
 mod ocr_date_tests {
     use super::*;
+
+    #[test]
+    fn shared_year_range_does_not_read_the_second_day_as_a_year() {
+        for text in [
+            "April 2 April 26, 2024", // OCR omitted the dash.
+            "April 2 – April 26, 2024",
+            "2 April - 26 April 2024",
+            "2 Apr to 26 Apr 2024",
+            "April 2, 2024 — April 26, 2024",
+        ] {
+            let words: Vec<_> = text.split_whitespace().collect();
+            let dates: Vec<_> = find_dates(&words).into_iter().map(|d| d.2.iso()).collect();
+            assert_eq!(dates, ["2024-04-02", "2024-04-26"], "{text}");
+        }
+        assert_eq!(parse_date("2 April 24"), Date::new(2024, 4, 2));
+        assert_eq!(parse_date("April 2, 24"), Date::new(2024, 4, 2));
+    }
+
+    #[test]
+    fn range_years_and_word_offsets_are_not_invented() {
+        let words = ["Period:", "28", "February", "to", "2", "March", "2024"];
+        assert_eq!(find_dates(&words), vec![(1, 3, Date::new(2024, 2, 28).unwrap()), (4, 7, Date::new(2024, 3, 2).unwrap())]);
+        let dates = find_dates(&["20", "December", "2023", "-", "5", "January", "2024"]);
+        assert_eq!(dates.iter().map(|d| d.2.iso()).collect::<Vec<_>>(), ["2023-12-20", "2024-01-05"]);
+        assert_eq!(find_dates(&["April", "2", "–", "April", "26"]).len(), 0);
+        let dates = find_dates(&["February", "29", "–", "March", "2,", "2024"]);
+        assert_eq!(dates[0].2, Date::new(2024, 2, 29).unwrap());
+        assert!(find_dates(&["February", "29", "–", "March", "2,", "2025"]).iter().all(|d| d.2.month != 2));
+    }
 
     #[test]
     fn dates_ocr_ran_together() {

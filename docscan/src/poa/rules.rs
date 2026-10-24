@@ -544,6 +544,22 @@ mod tests {
     }
 
     #[test]
+    fn old_issue_date_is_not_replaced_by_a_recent_period_or_payment() {
+        let words = page(&[
+            ("Statement date: 2 April 2024", 60.0, 40.0),
+            ("Period: May 2 – May 26, 2026", 60.0, 100.0),
+            ("Payment date: 30 May 2026", 60.0, 160.0),
+        ]);
+        let today = Date::new(2026, 6, 1).unwrap();
+        let (fields, conf) = extract(&words, 1000.0, &super::super::page_text(&words), today);
+        assert_eq!(fields.document_date.as_deref(), Some("2024-04-02"));
+        assert_eq!(fields.statement_period, Some(Period { from: Some("2026-05-02".into()), to: Some("2026-05-26".into()) }));
+        let checked = super::super::verify_fields(&fields, &super::super::page_text(&words), &conf, today);
+        assert!(!checked.age.unwrap().recent);
+        assert!(!checked.accepted);
+    }
+
+    #[test]
     fn document_date_below_a_column_heading_is_not_the_due_date() {
         let today = Date::new(2026, 10, 15).unwrap();
         for issued in ["2026/07/24", "2025/07/24"] {

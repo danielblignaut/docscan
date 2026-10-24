@@ -12,6 +12,12 @@ even when a `DUE DATE` heading is immediately to its right. A generic `DATE`
 transaction-table heading does not supply this evidence. Old issue dates stay
 old; a recent payment date must not replace them to make a document acceptable.
 
+Written ranges with repeated month names may share one explicit trailing year,
+including when OCR loses the dash. Resolve that year on the original line before
+reading partial tagger spans. A whole range tagged as a document date retains
+both endpoints and uses its end for recency; a reversed period supplies no
+trusted date. Never infer an unprinted year rollover to repair its order.
+
 Field voting has deterministic tie breaks. Agreement that a required field is
 missing does not end a capture after two frames: later frames may recover the
 text, up to the existing four-frame limit. Unicode names are preserved, and
