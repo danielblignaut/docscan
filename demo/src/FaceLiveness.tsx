@@ -10,12 +10,21 @@
 // the face is centred (the session is now counting) through the sweep, done
 // when the session finishes. Each lit segment is pushed to
 // `window.__docscan.events` as `{ type: "segment", index }`.
+//
+// Processing (src/processing.ts, docs/capture-processing.md): the challenge
+// itself is never shortened. Only when the session reaches `done`, every pose
+// seen live, does `docscan:capture-ready` fire; the camera is then released
+// and the processing view shows while the result and its checks are built. A
+// session that fails (time limit) completes with its failing result and
+// fires no capture-ready.
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import type { FaceClient } from "./face-client";
 import type { Check, LivenessProgress, LivenessResult } from "./face-types";
 import { type OutlineState, outlineState } from "./outline";
 import { median } from "./outcome";
+import { createProcessingSession } from "./processing";
+import { ProcessingView } from "./ProcessingView";
 
 /** Session presets: the full enrolment ring, and a quicker pass for returning users. */
 export const LIVENESS_PRESETS = {
@@ -126,12 +135,15 @@ export function FaceLiveness({
   preset,
   label,
   stepNote,
+  scanner = "liveness",
   onDone,
 }: {
   face: FaceClient;
   preset: keyof typeof LIVENESS_PRESETS;
   label: string;
   stepNote?: string;
+  /** The scanner id published in the processing events. */
+  scanner?: string;
   onDone: (o: LivenessOutcome) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -140,12 +152,19 @@ export function FaceLiveness({
   const [error, setError] = useState<string | null>(null);
   const [outlineUi, setOutlineUi] = useState<OutlineState>("grey");
   const [stats, setStats] = useState({ fps: 0, ms: 0 });
+  const [processing, setProcessing] = useState(false);
+  /** Bumped by "Try again": a fresh camera, session and challenge. */
+  const [attempt, setAttempt] = useState(0);
   const n = LIVENESS_PRESETS[preset].segments;
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let stopped = false;
     let started = false;
+    const session = createProcessingSession(scanner, "camera");
+    setProcessing(false);
+    setError(null);
+    setProgress(null);
     const t0 = performance.now();
     const outline = outlineState(setOutlineUi);
     const lit = new Set<number>();
@@ -188,11 +207,27 @@ export function FaceLiveness({
       };
     }
 
-    async function finish() {
+    async function finish(completed: boolean) {
       stopped = true;
-      const { result } = await face.run<LivenessResult>({ kind: "liveness_result" });
-      // The camera is released before the results screen opens.
+      // Every frame the session needed has been analysed: the camera is
+      // released now, before the result is built.
       for (const t of stream?.getTracks() ?? []) t.stop();
+      if (completed) {
+        session.captured({ step: label, inputCount: analysed });
+        docscan().events.push({ type: "capture_ready", operationId: session.id, frames: analysed, sinceStartMs: Math.round(performance.now() - t0) });
+      }
+      session.stage("result");
+      setProcessing(true);
+      let result: LivenessResult;
+      try {
+        ({ result } = await face.run<LivenessResult>({ kind: "liveness_result" }));
+      } catch (e) {
+        session.fail(e);
+        setError(e instanceof Error ? e.message : String(e));
+        return;
+      }
+      // Left while the result was built: nothing is handed on.
+      if (!session.active()) return;
       const integ = integrity();
       const passed = result.passed && integ.check.passed;
       const { portraitUrl } = await import("./face-types");
@@ -221,6 +256,8 @@ export function FaceLiveness({
         msPerFrame: outcome.msPerFrame,
         wasmMemoryMb: Math.round(memoryBytes / 1048576),
       });
+      // The verdict, pass or fail, is the result: the operation completed.
+      session.complete();
       window.dispatchEvent(
         new CustomEvent("docscan:liveness", {
           detail: { passed, result: { ...result, checks: [...result.checks, integ.check] }, integrity: integ, template: result.template, model: result.model, bestFrameUrl: outcome.bestFrameUrl },
@@ -276,10 +313,12 @@ export function FaceLiveness({
             framesInSecond = 0;
           }
           if (p.phase === "done" || p.phase === "failed") {
-            await finish();
+            await finish(p.phase === "done");
             return;
           }
         } catch (e) {
+          // Building the result failed: the operation ends failed.
+          if (stopped) session.fail(e);
           setError(String(e));
         }
         processing = false;
@@ -301,12 +340,27 @@ export function FaceLiveness({
         void video.play();
         video.requestVideoFrameCallback(onFrame);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : String(e)));
+      .catch((e) => {
+        session.fail(e);
+        if (!stopped) setError(e instanceof Error ? e.message : String(e));
+      });
     return () => {
       stopped = true;
       for (const t of stream?.getTracks() ?? []) t.stop();
+      session.cancel();
     };
-  }, [face, preset, onDone]);
+  }, [face, preset, label, scanner, onDone, attempt]);
+
+  if (processing && error) {
+    return (
+      <main className="processing-panel" data-testid="capture-error" role="alert">
+        <h1>{label}</h1>
+        <p>The liveness result could not be built: {error}</p>
+        <button type="button" className="primary" data-testid="capture-again" onClick={() => setAttempt((a) => a + 1)}>Try again</button>
+      </main>
+    );
+  }
+  if (processing) return <ProcessingView title={label} stage="Checking liveness…" />;
 
   const segments = progress?.segments ?? Array.from({ length: n }, () => false);
   const phaseLabel = !progress ? "Starting the camera…" : progress.phase === "centre" ? "Centre your face" : progress.phase === "sweep" ? "Turn your head round the circle" : progress.phase === "finish" ? "Look straight ahead" : "Done";

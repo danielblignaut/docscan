@@ -265,3 +265,15 @@ test("incomplete metadata cannot separate identity sides or suppress their misma
   assert.equal(result.documentEvidence.files[0].status, 'incomplete');
   releasePhotoOutcome(result); assert.equal(env.urls.size, 0);
 });
+
+test('plain barcode imports never run label OCR or wait for OCR model readiness', async () => {
+ env.run = async request => {
+   assert.equal(request.kind, 'barcodes');
+   return { result: [{ format: 'qrcode', text: 'invented-fast-code', points: [] }] };
+ };
+ const result = await analyse('barcodes');
+ assert.equal(result.kind, 'barcodes');
+ assert.deepEqual(result.barcodes, [{ format: 'qrcode', text: 'invented-fast-code', count: 1 }]);
+ assert.deepEqual(result.fields, []); assert.equal(result.meta.ocrFrames, 0);
+ assert.deepEqual(env.calls, ['barcodes']); releasePhotoOutcome(result);
+});

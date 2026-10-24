@@ -1,4 +1,6 @@
 import { modelUrl } from "./model-url";
+import type { PaddlePageText } from "./TextCapture";
+import { compareExposure } from "./exposure-comparison";
 /// <reference lib="webworker" />
 // Runs the docscan WebAssembly off the main thread, so the camera preview
 // never stutters while OCR runs. One request at a time: the page sends the
@@ -9,7 +11,7 @@ import wasmUrl from "docscan/docscan_bg.wasm?url";
 export type WorkerRequest =
   | { id: number; kind: "document"; image: ImageData; runOcr: boolean; expected: string }
   | { id: number; kind: "barcodes"; image: ImageData; formats: string[] }
-  | { id: number; kind: "text_v6"; image: ImageData; detail?: boolean }
+  | { id: number; kind: "text_v6"; image: ImageData; detail?: boolean; exposureCompare?: boolean }
   | { id: number; kind: "text_page"; image: ImageData }
   | { id: number; kind: "text"; image: ImageData }
   | { id: number; kind: "labelled"; image: ImageData }
@@ -18,7 +20,7 @@ export type WorkerRequest =
   | { id: number; kind: "address"; image: ImageData; today: string; method: "" | "rules" | "tagger"; customer?: unknown };
 
 /** The first message: how many threads the OCR may use (1: the single-threaded build). */
-export type WorkerInit = { kind: "init"; threads: number };
+export type WorkerInit = { kind: "init"; threads: number; loadModels?: boolean };
 
 export type WorkerResponse =
   | { kind: "ready"; ocr: boolean; tagger: boolean; loadMs: number; threads: number }
@@ -112,10 +114,14 @@ async function fetchModel(name: string, optional = false): Promise<Uint8Array | 
   return bytes;
 }
 
-async function load(threads: number) {
+async function load(threads: number, loadModels = true) {
   const t0 = performance.now();
   const loaded = await loadScanner(threads);
   scanner = loaded.scanner;
+  if (!loadModels) {
+    post({ kind: "ready", ocr: false, tagger: false, loadMs: performance.now() - t0, threads: loaded.threads });
+    return;
+  }
   const [det, rec, tagger, pageDet] = await Promise.all([
     fetchModel("text-detection.rten"),
     fetchModel("text-recognition.rten"),
@@ -152,7 +158,7 @@ let ready: Promise<void> | null = null;
 
 self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
   if (event.data.kind === "init") {
-    ready = load(event.data.threads).catch((e) => post({ kind: "error", message: String(e) }));
+    ready = load(event.data.threads, event.data.loadModels !== false).catch((e) => post({ kind: "error", message: String(e) }));
     return;
   }
   await ready;
@@ -181,6 +187,9 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
     else if (req.kind === "text_v6") {
       const reader = await paddleScanner();
       result = req.detail ? reader.read_detailed(bytes, width, height) : reader.read(bytes, width, height);
+      if (req.exposureCompare) result = compareExposure(result as PaddlePageText,
+        () => scanner!.exposure_preview(bytes, width, height),
+        corrected => (req.detail ? reader.read_detailed(corrected, width, height) : reader.read(corrected, width, height)) as PaddlePageText);
     }
     else if (req.kind === "text_page") result = scanner.text_page(bytes, width, height);
     else result = scanner.text(bytes, width, height);

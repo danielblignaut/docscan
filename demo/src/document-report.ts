@@ -81,12 +81,21 @@ function reportMeta(meta: CaptureMeta): ReportValue {
   return { ...scalars(meta, ["source", "captureMs", "frames", "ocrFrames", "fastMs", "ocrMs", "memoryBytes"]), input: reportInput(meta.input) };
 }
 function reportOutcome(outcome: Outcome): ReportValue {
-  const base = { kind: outcome.kind, meta: reportMeta(outcome.meta), evidence: reportEvidence(outcome.documentEvidence) };
+  const base = { kind: outcome.kind, operationId: outcome.operationId ?? null, meta: reportMeta(outcome.meta), evidence: reportEvidence(outcome.documentEvidence) };
   switch (outcome.kind) {
     case "batch": return { ...base, scanner: outcome.scanner, pages: outcome.pages.map(reportOutcome) };
     case "file_error": return { ...base, status: outcome.severity === "warning" ? "incomplete" : "failed", severity: outcome.severity ?? "error", message: outcome.message };
     case "id": return { ...base, scanner: outcome.scanner, crossCheck: crossCheck(outcome.captured), captured: outcome.captured.map(c => ({ step: c.step, input: reportInput(c.input ?? outcome.meta.input), fallback: c.fallback, document: reportDocument(c.result) })) };
-    case "text": return { ...base, text: outcome.result.text, lines: outcome.result.lines.map(l => scalars(l, ["text", "x", "y", "w", "h"])), engine: "engine" in outcome.result ? outcome.result.engine : "ocrs" };
+    case "text": {
+      const exposure = "exposure" in outcome.result ? outcome.result.exposure : undefined;
+      return { ...base, text: outcome.result.text, lines: outcome.result.lines.map(l => scalars(l, ["text", "x", "y", "w", "h"])), engine: "engine" in outcome.result ? outcome.result.engine : "ocrs",
+        exposure: exposure ? { ...scalars(exposure, ["version", "status", "applied", "gain", "backgroundP90", "error", "elapsedMs", "ocrPasses"]),
+          selection: "original_retained_no_automatic_selection",
+          interpretation: "Experimental OCR of globally brightened pixels; it can introduce incorrect characters. The frozen study lost exact invoice regions and reduced bank-text precision. This alternative is not certified more accurate or authentic.",
+          alternative: exposure.alternative ? {
+            text: exposure.alternative.text, lines: exposure.alternative.lines.map(l => scalars(l, ["text", "x", "y", "w", "h"])),
+          } : null } : null };
+    }
     case "address": {
       const r = outcome.captured.result, f = r.fields, v = r.verification;
       return { ...base, method: r.method, text: r.text, fields: {
@@ -94,7 +103,7 @@ function reportOutcome(outcome: Outcome): ReportValue {
         address: scalars(f.address, ["street", "suburb", "city", "province", "postal_code"]), statement_period: f.statement_period ? scalars(f.statement_period, ["from", "to"]) : null,
       }, verification: { ...scalars(v, ["postal_code", "accepted"]), reasons: strings(v.reasons), fields: v.fields.map(c => scalars(c, ["field", "value", "found", "match_score", "confidence"])), age: v.age ? scalars(v.age, ["date", "age_days", "recent", "future"]) : null } };
     }
-    case "barcodes": return { ...base, labels: outcome.labels, finishedBy: outcome.finishedBy, barcodes: outcome.barcodes.map(b => scalars(b, ["format", "text", "count"])), fields: outcome.fields.map(f => scalars(f, ["label", "name", "barcode_unread", "value", "kind", "source", "check_digit_valid", "barcode_format"])) };
+    case "barcodes": return { ...base, ...scalars(outcome, ["labelReadStatus", "labelReadError", "labelReadWarning", "labelReadMs"]), labels: outcome.labels, finishedBy: outcome.finishedBy, barcodes: outcome.barcodes.map(b => scalars(b, ["format", "text", "count"])), fields: outcome.fields.map(f => scalars(f, ["label", "name", "barcode_unread", "value", "kind", "source", "check_digit_valid", "barcode_format"])) };
     case "face": return {
       ...base, flow: outcome.flow,
       // Face data is deliberately summarized here; never serialize document.face or liveness.result.

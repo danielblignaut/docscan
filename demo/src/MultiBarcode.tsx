@@ -1,98 +1,60 @@
 import { useEffect, useRef, useState } from "react";
+import { createProcessingSession } from "./processing";
+import { ProcessingView } from "./ProcessingView";
 import { grab, openCamera, snapshot, still } from "./camera";
 import { OUTLINE_COLOUR, outlineState } from "./outline";
 import { type CaptureMeta, median, type Outcome, type SeenCode } from "./outcome";
 import type { ScannerClient } from "./scanner-client";
 import type { Barcode, Labelled, LabelledField } from "./types";
+import { CONFIRM_FRAMES, countFrame, finishCapture, QUIET_FRAMES, QUIET_MS, quietClock, quietDone, quietLeft, STABLE_PASSES } from "./barcode-completion";
 
-/**
- * A code is listed once read in this many frames. rxing occasionally reports
- * a spurious short code (a UPC-E inside a dense symbol) in a single frame; a
- * real code in view is read again in the next.
- */
-export const CONFIRM_FRAMES = 2;
+export { CONFIRM_FRAMES, QUIET_MS, STABLE_PASSES } from "./barcode-completion";
 /** Analyse up to this width: small codes need every pixel the camera gives. */
 const MAX_WIDTH = 1920;
-
-/**
- * Every this many frames is an OCR pass that names the codes: often in
- * device-label mode, where the printed values are the point, and less often
- * in barcodes mode, where OCR mostly adds names and should not slow decoding.
- */
-const LABEL_EVERY = 4;
-const LABEL_EVERY_BARCODES = 6;
-
-/**
- * The scan finishes on its own once at least one code is confirmed and no new
- * one has been confirmed for this long. A sheet of codes held still confirms
- * every readable code within about a second of the first (a fast pass takes
- * 40–200 ms at 1280×720, and each code needs two reads), so 2.5 s of nothing
- * new means the set is complete, while still being short enough that staff do
- * not wonder whether it is stuck. A code that keeps failing to read is not
- * waited for: staff can rescan it on its own.
- *
- * Device labels use the same quiet rule, once at least one field with a check
- * digit (an IMEI's Luhn, an EAN's checksum) has been listed: an OCR pass takes
- * 1–4 s, so in practice it means "the next pass found nothing new".
- */
-export const QUIET_MS = 2500;
-/**
- * Device labels finish sooner when this many consecutive OCR passes list the
- * same fields and every value with a check digit in those passes is valid: a
- * misread digit would fail its check, so two clean, identical passes are a
- * settled reading.
- */
-export const STABLE_PASSES = 2;
-
-/**
- * A labelled field is listed once seen with a passing check digit (or, for a
- * value with none, in two OCR passes): a single misread digit fails the check.
- */
-function fieldKey(f: LabelledField) {
-  return `${f.label ?? ""}|${f.value}`;
-}
 
 type Docscan = { events: unknown[]; frames: unknown[] };
 const docscan = () => (window as unknown as { __docscan: Docscan }).__docscan;
 
 /**
  * Reads every barcode in the full frame, outlines each, and keeps a running
- * list. With `labels`, it also reads the printed text: each code takes its
- * label (`IMEI1`, `SN`), printed values with no barcode are listed, and check
- * digits are verified. It finishes by itself (QUIET_MS, STABLE_PASSES), takes
- * a still of the last frame, releases the camera and hands the set on.
+ * list. It finishes by itself (the quiet rule in barcode-completion.ts) or by
+ * hand, releases the camera, and only then does the slow work: a still of the
+ * frame that read the most codes and, with `labels`, an OCR pass over up to
+ * STABLE_PASSES distinct acquired frames on `reader`, which names each code
+ * (`IMEI1`, `SN`), lists printed values with no barcode and verifies check
+ * digits. A failed still or label read keeps the confirmed codes.
  */
-export function MultiBarcode({ client, labels = false, onDone }: { client: ScannerClient; labels?: boolean; onDone: (o: Outcome) => void }) {
-  const [fields, setFields] = useState<(LabelledField & { seen: number })[]>([]);
+export function MultiBarcode({ client, reader = client, labels = false, onDone }: { client: ScannerClient; reader?: ScannerClient; labels?: boolean; onDone: (o: Outcome) => void }) {
+  const [fields, setFields] = useState<LabelledField[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const [seen, setSeen] = useState<SeenCode[]>([]);
   const [rate, setRate] = useState({ ms: 0, inFrame: 0 });
-  const [quietLeft, setQuietLeft] = useState<number | null>(null);
+  const [quietLeftMs, setQuietLeftMs] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [stage, setStage] = useState<string | null>(null);
   const finishNow = useRef(false);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let stopped = false;
     let disposed = false;
+    const operation = createProcessingSession(labels ? "labels" : "barcodes", "camera");
+    /** Which analysed frame each canvas holds (canvases swap roles). */
+    const snapshots = new WeakMap<HTMLCanvasElement, number>();
     const all = new Map<string, SeenCode>();
-    const labelled = new Map<string, LabelledField & { seen: number }>();
-    let shown: (LabelledField & { seen: number })[] = [];
+    const clock = quietClock();
     let frame = 0;
-    /** When the last new code was confirmed, or the listed fields last changed. */
-    let lastNewAt = 0;
-    let lastSignature = "";
-    let stablePasses = 0;
     const barcodeMs: number[] = [];
-    const ocrMs: number[] = [];
     const t0 = performance.now();
-    // Barcodes: green from the first confirmed code (the quiet rule starts),
-    // and nothing breaks the run: confirmed codes stay confirmed. Device
-    // labels: green from the first listed field with a check digit.
+    // Barcodes: green from the first confirmed code (the quiet rule can then
+    // fire), and nothing breaks the run: confirmed codes stay confirmed.
+    // Device labels stay grey until capture: the label is read afterwards.
     const outline = outlineState(() => {});
-    // The still is the frame that read the most codes, not whatever the
-    // camera shows when the quiet rule fires (staff may already be moving away).
+    // The still is the frame that read the most codes (the latest such), not
+    // whatever the camera shows when the scan finishes: staff may already be
+    // moving away. With no code read yet, `best` is the latest analysed frame
+    // and `frameNow` the one before, so a hand capture still has two frames.
     let frameNow = document.createElement("canvas");
     let best = document.createElement("canvas");
     let bestCount = -1;
@@ -100,43 +62,56 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       for (const t of stream?.getTracks() ?? []) t.stop();
     };
     const confirmed = () => [...all.values()].filter((c) => c.count >= CONFIRM_FRAMES);
-    const hasChecked = () => shown.some((f) => f.check_digit_valid === true);
 
-    async function finish(video: HTMLVideoElement, finishedBy: string) {
+    async function finish(finishedBy: string) {
       stopped = true;
-      // A hand finish before any code counted still goes through green.
       outline.set("green");
       const at = performance.now();
-      const source = bestCount > 0 ? best : video;
-      const blob = await still(source, { x: 0, y: 0, w: video.videoWidth, h: video.videoHeight }).catch(() => null);
+      // Distinct acquired frames, never repeated OCR of one image.
+      const sources = [best];
+      if (snapshots.has(frameNow) && snapshots.get(frameNow) !== snapshots.get(best)) sources.push(frameNow);
+      const labelFrames = labels ? sources.slice(0, STABLE_PASSES).map((canvas) =>
+        grab(canvas, { x: 0, y: 0, w: canvas.width, h: canvas.height }, MAX_WIDTH)) : [];
+      const encodeStill = () => still(best, { x: 0, y: 0, w: best.width, h: best.height });
       release();
-      if (disposed) return;
-      const imageUrl = blob ? URL.createObjectURL(blob) : null;
+      // Frames this step consumes: the still's alone, or each label frame (the still's among them).
+      operation.captured({ inputCount: labels ? labelFrames.length : 1 });
+      operation.stage(labels ? "reading_labels" : "finalizing_barcodes");
+      setStage(labels ? "Reading printed labels…" : "Finishing barcode reading…");
       const barcodes = confirmed();
-      const meta: CaptureMeta = {
-        source: "camera",
-        captureMs: at - t0,
-        frames: barcodeMs.length + ocrMs.length,
-        ocrFrames: ocrMs.length,
-        fastMs: median(barcodeMs),
-        ocrMs: median(ocrMs),
-      };
-      docscan().events.push({ type: "complete", mode: labels ? "labels" : "multi", finishedBy, sinceStartMs: Math.round(meta.captureMs), barcodes: barcodes.map(({ format, text }) => ({ format, text })), fields: shown });
-      // For a host page: the set is final and the camera is off.
-      window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { barcodes, fields: shown, imageUrl, blob } }));
-      outline.set("done");
-      onDone({ kind: "barcodes", labels, barcodes, fields: shown, imageUrl, finishedBy, meta });
-    }
-
-    /** Whether a finishing rule fires now; the reason if so. */
-    function finishReason(now: number): string | null {
-      if (finishNow.current) return "finished by hand";
-      if (labels && stablePasses >= STABLE_PASSES) return `labels stable for ${STABLE_PASSES} OCR passes, check digits valid`;
-      // Barcodes mode starts its quiet clock on a confirmed code or on a
-      // printed field with a valid check digit (bars too fine to decode).
-      const started = labels ? hasChecked() : confirmed().length > 0 || hasChecked();
-      if (started && now - lastNewAt >= QUIET_MS) return `nothing new for ${QUIET_MS / 1000} s`;
-      return null;
+      if (labels && barcodes.length) window.dispatchEvent(new CustomEvent("docscan:partial", {
+        detail: { operationId: operation.id, scanner: "labels", status: "processing", barcodes },
+      }));
+      try {
+        const done = await finishCapture({
+          encodeStill,
+          labelFrames,
+          readLabel: (image) => reader.run<Labelled>({ kind: "labelled", image }),
+          onFields: (shown) => {
+            setFields(shown);
+            window.dispatchEvent(new CustomEvent("docscan:labels", { detail: { operationId: operation.id, fields: shown } }));
+          },
+          cancelled: () => disposed,
+        });
+        if (!done || disposed) return;
+        const { blob, fields: shown, ocrMs, labelReadError, labelReadWarning } = done;
+        const imageUrl = blob ? URL.createObjectURL(blob) : null;
+        const meta: CaptureMeta = { source: "camera", captureMs: at - t0, frames: barcodeMs.length + ocrMs.length,
+          ocrFrames: ocrMs.length, fastMs: median(barcodeMs), ocrMs: median(ocrMs) };
+        docscan().events.push({ type: "complete", mode: labels ? "labels" : "multi", finishedBy,
+          sinceStartMs: Math.round(performance.now() - t0), barcodes: barcodes.map(({ format, text }) => ({ format, text })), fields: shown,
+          ...(labelReadError ? { labelReadError } : {}), ...(labelReadWarning ? { labelReadWarning } : {}) });
+        operation.complete();
+        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { operationId: operation.id, barcodes, fields: shown, imageUrl, blob,
+          ...(labelReadError ? { labelReadError } : {}), ...(labelReadWarning ? { labelReadWarning } : {}) } }));
+        outline.set("done");
+        onDone({ kind: "barcodes", operationId: operation.id, labels, barcodes, fields: shown, imageUrl, ...(blob ? { blob } : {}), finishedBy, meta,
+          ...(labelReadError ? { labelReadError } : {}), ...(labelReadWarning ? { labelReadWarning } : {}) });
+      } catch (error) {
+        if (disposed) return;
+        operation.fail(error);
+        setError(error instanceof Error ? error.message : String(error));
+      }
     }
 
     async function loop() {
@@ -152,89 +127,34 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       snapshot(video, frameNow);
       const scale = image.width / video.videoWidth;
       frame++;
-      // Both modes read the printed labels, so a code is named IMEI1 or SN
-      // (above, below or left of it) and a value whose bars will not decode
-      // still comes through from print.
-      if (frame % (labels ? LABEL_EVERY : LABEL_EVERY_BARCODES) === 0) {
-        try {
-          const { result, ms } = await client.run<Labelled>({ kind: "labelled", image });
-          if (stopped) return;
-          ocrMs.push(ms);
-          for (const f of result.fields) {
-            const key = fieldKey(f);
-            const prev = labelled.get(key);
-            labelled.set(key, { ...f, seen: (prev?.seen ?? 0) + 1 });
-          }
-          const listed = [...labelled.values()].filter((f) => f.check_digit_valid === true || (f.check_digit_valid === null && f.seen >= 2));
-          // A label (IMEI1) keeps only its best-supported value.
-          const byLabel = new Map<string, LabelledField & { seen: number }>();
-          for (const f of listed) {
-            const k = f.label ?? `${f.barcode_format}|${f.value}`;
-            const cur = byLabel.get(k);
-            if (!cur || f.seen > cur.seen) byLabel.set(k, f);
-          }
-          // Number unlabelled codes in reading order across the whole capture.
-          let n = 0;
-          shown = [...byLabel.values()]
-            .sort((a, b) => a.bbox[1] - b.bbox[1] || a.bbox[0] - b.bbox[0])
-            .map((f) => ({ ...f, name: f.label ?? `Barcode ${++n}` }));
-          const now = performance.now();
-          const signature = shown.map(fieldKey).sort().join("\n");
-          // Clean: something with a check digit is listed, and nothing this pass read failed its check.
-          const clean = hasChecked() && result.fields.every((f) => f.check_digit_valid !== false);
-          if (signature !== lastSignature) {
-            lastSignature = signature;
-            lastNewAt = now;
-            stablePasses = clean ? 1 : 0;
-          } else {
-            stablePasses = clean ? stablePasses + 1 : 0;
-          }
-          if (hasChecked()) outline.set("green", { fields: shown.length });
-          setFields(shown);
-          window.dispatchEvent(new CustomEvent("docscan:labels", { detail: { fields: shown } }));
-          docscan().events.push({ type: "labels", fields: shown, stablePasses });
-          docscan().frames.push({ ocr: true, ms, size: [image.width, image.height], fields: shown.length });
-          const why = finishReason(now);
-          if (why) return void finish(video, why);
-        } catch (e) {
-          setError(String(e));
-        }
-        requestAnimationFrame(loop);
-        return;
-      }
+      snapshots.set(frameNow, frame);
       try {
         const { result, ms } = await client.run<Barcode[]>({ kind: "barcodes", image, formats: [] });
         if (stopped) return;
         barcodeMs.push(ms);
-        if (result.length >= bestCount && result.length > 0) {
+        if (result.length > 0 ? result.length >= bestCount : bestCount <= 0) {
           // Swap rather than copy: the frame just analysed becomes the best one.
           [best, frameNow] = [frameNow, best];
           bestCount = result.length;
         }
         const now = performance.now();
-        const fresh: Barcode[] = [];
-        for (const b of result) {
-          const key = `${b.format}|${b.text}`;
-          const s = all.get(key) ?? { format: b.format, text: b.text, count: 0 };
-          s.count++;
-          all.set(key, s);
-          if (s.count === CONFIRM_FRAMES) fresh.push(b);
-        }
+        const fresh = countFrame(all, clock, result, now);
         docscan().frames.push({ ms, size: [image.width, image.height], read: result.length });
         if (fresh.length) {
-          lastNewAt = now;
           docscan().events.push({ type: "barcodes", sinceStartMs: Math.round(now - t0), barcodes: fresh.map(({ format, text }) => ({ format, text })) });
         }
         if (!labels && confirmed().length) outline.set("green", { codes: confirmed().length });
         draw(video, overlay, result, scale, OUTLINE_COLOUR[outline.get()]);
-        setSeen([...all.values()]);
+        setSeen([...all.values()].map((s) => ({ ...s })));
         setRate({ ms: Math.round(ms), inFrame: result.length });
-        const started = labels ? hasChecked() : confirmed().length > 0 || hasChecked();
-        setQuietLeft(started ? Math.max(0, QUIET_MS - (now - lastNewAt)) : null);
-        const why = finishReason(now);
-        if (why) return void finish(video, why);
+        setQuietLeftMs(quietLeft(clock, now));
+        if (finishNow.current) return void finish("finished by hand");
+        if (quietDone(clock, now)) return void finish(`nothing new for ${QUIET_MS / 1000} s and ${QUIET_FRAMES} frames`);
       } catch (e) {
+        if (disposed || stopped) return;
         setError(String(e));
+        // Retry by reopening the scanner, never by spawning workers each frame.
+        return;
       }
       requestAnimationFrame(loop);
     }
@@ -253,10 +173,11 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       .catch((e) => { if (!stopped) setError(e instanceof Error ? e.message : String(e)); });
     return () => {
       disposed = true;
+      operation.cancel();
       stopped = true;
       release();
     };
-  }, [client, labels, onDone]);
+  }, [client, reader, labels, onDone]);
 
   const confirmedCount = seen.filter((s) => s.count >= CONFIRM_FRAMES).length;
   const hint =
@@ -265,10 +186,11 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
       ? labels
         ? "Fill the frame with the label"
         : "Point at the barcodes"
-      : quietLeft !== null
-        ? `${confirmedCount} found · finishing in ${(quietLeft / 1000).toFixed(1)} s unless more appear`
+      : quietLeftMs !== null
+        ? `${confirmedCount} found · finishing in ${(quietLeftMs / 1000).toFixed(1)} s unless more appear`
         : `${confirmedCount} found · reading the label…`);
 
+  if (stage) return <ProcessingView title={labels ? "Device label" : "Barcodes"} stage={error ?? stage} failed={error !== null} />;
   return (
     <div className="capture">
       <div className="viewport">
@@ -304,9 +226,9 @@ export function MultiBarcode({ client, labels = false, onDone }: { client: Scann
           <div className="hint" data-testid="hint">
             {hint}
           </div>
-          {(confirmedCount > 0 || fields.length > 0) && (
+          {(labels || confirmedCount > 0 || fields.length > 0) && (
             <button type="button" className="finish" data-testid="finish" onClick={() => (finishNow.current = true)}>
-              Finish now
+              {labels ? "Capture label now" : "Finish now"}
             </button>
           )}
           <div className="stats">

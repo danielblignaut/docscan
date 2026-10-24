@@ -18,7 +18,7 @@ import { documentMatch, matchEnrolments } from "./face-types";
 import { DOC_THRESHOLD } from "./face-models";
 import { listEnrolments } from "./face-store";
 import type { PhotoFace } from "./face-types";
-import type { AddressResult, DocumentResult, Labelled, PageAnalysis } from "./types";
+import type { AddressResult, Barcode, DocumentResult, Labelled, PageAnalysis } from "./types";
 
 async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<ImageData> {
   const bmp = await createImageBitmap(file);
@@ -98,13 +98,19 @@ async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, file
       return { kind: "face", flow: scanner, liveness: null, match, photos: [photo], meta: meta(1) };
     }
 
-    if (scanner === "barcodes" || scanner === "labels") {
+    if (scanner === "barcodes") {
+      const image = await pixels(files[0], 1920);
+      const imageUrl = createUrl(files[0]);
+      const { result } = await run<Barcode[]>({ kind: "barcodes", image, formats: [] });
+      return { kind: "barcodes", labels: false, barcodes: result.map(({format, text}) => ({format, text, count: 1})),
+        fields: [], imageUrl, blob: files[0], finishedBy: "image decoded", meta: meta(1) };
+    }
+    if (scanner === "labels") {
       const file = files[0];
       // The same analysis width as the camera flow.
       const image = await pixels(file, 1920);
       const imageUrl = createUrl(file);
-      // Both modes read the printed labels too (IMEI1, SN, …), so values whose
-      // bars are too fine to decode still come through from print.
+      // Device-label mode explicitly reads printed IMEI/SN values as well as bars.
       const { result } = await run<Labelled>({ kind: "labelled", image });
       const fields = result.fields.filter((f) => f.check_digit_valid !== false);
       const barcodes = fields.filter((f) => f.barcode_format).map((f) => ({ format: f.barcode_format!, text: f.value, count: 1 }));
@@ -135,7 +141,7 @@ async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, file
       }
       if (scanner === "text") {
         const { result, memoryBytes } = await run<TextResult>(textRequest(textEngine, image));
-        return { kind: "text", result, imageUrl, meta: { ...meta(2, 1), memoryBytes } };
+        return { kind: "text", result, imageUrl, meta: { ...meta(2, "exposure" in result ? result.exposure?.ocrPasses ?? 1 : 1), memoryBytes } };
       }
       const tRead = performance.now();
       const extractor = chooseExtractor((await client.ready).tagger, method);
@@ -221,7 +227,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
   let anyPdf = false;
   let selfieEvidence: FileEvidence | undefined;
   let selfieError: string | undefined;
-  const meta = () => ({ source: anyPdf ? "pdf" as const : "photo" as const, captureMs: performance.now() - started, frames: processed, ocrFrames: processed });
+  const meta = () => ({ source: anyPdf ? "pdf" as const : "photo" as const, captureMs: performance.now() - started, frames: processed, ocrFrames: scanner === "barcodes" ? 0 : processed });
   const message = (error: unknown) => error instanceof Error ? error.message : "File could not be read.";
   const rethrowFatal = (error: unknown) => {
     checkCancelled(signal);

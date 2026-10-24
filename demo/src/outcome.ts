@@ -40,7 +40,7 @@ export interface SeenCode {
   count: number;
 }
 
-export type Outcome = OutcomeData & { documentEvidence?: DocumentEvidence };
+export type Outcome = OutcomeData & { documentEvidence?: DocumentEvidence; operationId?: string };
 
 export type OutcomeData =
   | { kind: "batch"; scanner: ScannerId; pages: Outcome[]; meta: CaptureMeta }
@@ -62,11 +62,17 @@ export type OutcomeData =
   | {
       kind: "barcodes";
       labels: boolean;
+      labelReadError?: string;
+      labelReadWarning?: string;
+      labelReadMs?: number;
+      labelReadStatus?: "pending" | "complete" | "failed" | "cancelled";
       /** Confirmed codes only. */
       barcodes: SeenCode[];
       fields: LabelledField[];
       /** A still of the frame the set was captured from. */
       imageUrl: string | null;
+      /** Retained locally for explicit printed-label reading; excluded from JSON reports. */
+      blob?: Blob;
       /** Why the scan finished: which rule fired, or the staff member did. */
       finishedBy: string;
       meta: CaptureMeta;

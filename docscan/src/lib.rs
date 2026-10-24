@@ -10,6 +10,7 @@
 
 pub mod barcode;
 pub mod document_evidence;
+pub mod exposure;
 pub mod face;
 pub mod geometry;
 pub mod idback;
@@ -199,6 +200,32 @@ pub struct Scanner {
     det: Option<rten::Model>,
 }
 
+/// Owned pixels for an experimental ordinary-OCR alternative. Never an ID verdict.
+#[wasm_bindgen]
+pub struct ExposurePreview {
+    pixels: Vec<u8>,
+    applied: bool,
+    changed: bool,
+    gain: f64,
+    background_p90: f64,
+}
+
+#[wasm_bindgen]
+impl ExposurePreview {
+    #[wasm_bindgen(getter)]
+    pub fn version(&self) -> String { exposure::VERSION.to_owned() }
+    #[wasm_bindgen(getter)]
+    pub fn applied(&self) -> bool { self.applied }
+    #[wasm_bindgen(getter)]
+    pub fn changed(&self) -> bool { self.changed }
+    #[wasm_bindgen(getter)]
+    pub fn gain(&self) -> f64 { self.gain }
+    #[wasm_bindgen(getter)]
+    pub fn background_p90(&self) -> f64 { self.background_p90 }
+    /// Empty when unchanged or already taken. The original input is never mutated.
+    pub fn take_rgba(&mut self) -> Vec<u8> { std::mem::take(&mut self.pixels) }
+}
+
 #[wasm_bindgen]
 impl Scanner {
     #[wasm_bindgen(constructor)]
@@ -217,6 +244,16 @@ impl Scanner {
 
     pub fn has_ocr(&self) -> bool {
         self.ocr.is_some()
+    }
+
+    /// Explicit experimental brightness alternative; retain the original reading.
+    /// This is never called by identity, face or address acceptance paths.
+    pub fn exposure_preview(&self, rgba: &[u8], width: u32, height: u32) -> Result<ExposurePreview, JsError> {
+        let out = exposure::correct(rgba, width as usize, height as usize, exposure::Layout::Rgba)
+            .map_err(|error| JsError::new(&error.to_string()))?;
+        Ok(ExposurePreview { pixels: if out.changed { out.pixels.unwrap_or_default() } else { Vec::new() },
+            applied: out.diagnostics.applied, changed: out.changed,
+            gain: out.diagnostics.gain, background_p90: out.diagnostics.background_p90 })
     }
 
     pub fn quality(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {

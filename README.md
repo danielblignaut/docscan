@@ -16,6 +16,21 @@ pages, token recall is 88.52% with standard PP-OCR and 94.62% with this profile.
 See [the complete external OCR results](experiments/public_documents/RESULTS.md),
 including per-page regressions and the separate larger-model experiment.
 
+The experimental **compare brighter reading** option
+(`?mode=text&textEngine=ppocr_v6_tiny_exposure`) retains the original PP-OCR text
+and shows a separate reading after bounded global exposure correction. It makes
+no automatic text selection or repair. Clean pages are left unchanged; dark
+pages may gain or lose characters. It adds no model, but can run a second OCR
+pass. It does not affect ID, face or proof-of-address acceptance. See the
+[native implementation and limitations](docs/improvements-exposure.md).
+
+The [cross-domain research round](docs/research-cross-domain-2026.md) covers
+lighting/photography, document recapture, handwriting and biometric quality.
+It includes a runnable experimental full-image recapture detector and training
+pipeline. Real-device DEV found missed attacks and false alarms, so that model
+is **not deployed as an originality verdict**; production copy/confidence fields
+remain unknown/null. See the [detector evidence](docs/research-originality-detector.md).
+
 Public-data work also covers [ID specimens](docs/improvements-public-id.md),
 [proof-of-address date ranges](docs/improvements-public-poa.md), and
 [face comparison and replay evaluation](experiments/public_face/README.md).
@@ -177,14 +192,21 @@ the whole document in view. A multi-step flow (the smart ID's front, then its
 back) moves to the next step by itself. After the last step the camera is
 released and the results screen opens.
 
-The barcode scanners finish on their own too (`demo/src/MultiBarcode.tsx`):
+The barcode scanners release the camera before printed-label OCR. Barcodes
+are confirmed from two camera frames; the quiet rule combines elapsed time
+with completed analysis frames so a slower phone has time to confirm newly
+seen codes. Staff can also tap **Finish now** (or **Capture label now**).
 
-- **Barcodes:** once at least one code is confirmed (read in two frames) and no
-  new one has been confirmed for 2.5 s, the set and a still of the frame are
-  captured. Staff can also tap **Finish now**.
-- **Device label:** when two consecutive OCR passes list the same fields and
-  every value with a check digit in them is valid; or by the same 2.5 s quiet
-  rule once at least one field with a valid check digit is listed.
+Barcode uploads and camera captures show decoded codes first. Printed IMEI,
+serial-number and GTIN fields are added automatically in the background while
+the barcode result remains usable. **Stop label reading** cancels only that
+extra work; **Read printed labels too** retries it. OCR failures retain the
+barcode results and show an error. Values without a check digit remain
+explicitly unchecked. A missing field is not a negative identity finding.
+
+The lightweight capture worker loads no OCR models and is independent of
+background OCR. See [capture and processing events](docs/capture-processing.md)
+for the acquisition/validation distinction and per-step ID lifecycle.
 
 The outlines drawn over the camera are grey while it is looking, turn green on
 the first frame that counts towards a capture and stay green through
@@ -204,6 +226,14 @@ addEventListener("docscan:complete", (e) => {
   // side) and e.detail.crossCheck (smart ID: does the front's printed ID
   // number match the back's barcode?). For barcodes and device labels:
   // e.detail.barcodes, e.detail.fields, e.detail.blob (the still).
+});
+addEventListener("docscan:capture-ready", (e) => {
+  // Captured pixels are ready for processing; validation is still pending.
+});
+addEventListener("docscan:processing", (e) => {}); // operationId, stage, terminal status
+addEventListener("docscan:enriched", (e) => {
+  // e.detail.outcome: barcode result plus background printed-label fields.
+  // Initial docscan:file / docscan:complete does not wait for this enrichment.
 });
 addEventListener("docscan:labels", (e) => {}); // device labels: the fields listed so far, after each OCR pass
 addEventListener("docscan:address", (e) => {}); // proof of address: the whole reading, before docscan:complete

@@ -10,6 +10,7 @@ import { SCANNERS, type ScannerId, type ScannerInfo } from "./scanners";
 interface Props {
   ready: ReadyInfo | null;
   status: string;
+  modelsState: "loading" | "idle" | "failed" | "ready";
   failed: boolean;
   method: Extractor | "auto";
   textEngine: TextEngine;
@@ -33,7 +34,7 @@ function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | 
   return used === "tagger" ? `${ocr} + tagger · ${catalogueEntry("poa-tagger").downloadMb} MB` : `${ocr} + layout rules`;
 }
 
-export function Home({ ready, status, failed, method, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
+export function Home({ ready, status, modelsState, failed, method, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
   const state = failed ? "failed" : ready ? "ready" : "loading";
   return (
     <main className="home" data-testid="home">
@@ -45,7 +46,11 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
         </p>
       </header>
       <ul className="cards">
-        {SCANNERS.map((s) => (
+        {SCANNERS.map((s) => {
+          const needsDocuments = s.needs === "ocr" || s.needs === "address" || s.id === "facedoc";
+          const cardState = needsDocuments && ready ? modelsState : state;
+          const cardLabel = cardState === "ready" ? "Ready" : cardState === "failed" ? "Retry models" : cardState === "idle" ? "Load when used" : "Loading…";
+          return (
           <li key={s.id} className="card" data-card={s.id}>
             <button type="button" className="card-main" data-scanner={s.id} onClick={() => onOpen(s.id)}>
               <span className="card-icon" aria-hidden="true">
@@ -55,7 +60,7 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
                 <span className="card-title">{s.title}</span>
                 <span className="card-desc">{s.description}</span>
                 <span className="card-meta">
-                  <span className={`pill pill-${state}`}>{state === "ready" ? "Ready" : state === "failed" ? "Failed" : "Loading…"}</span>
+                  <span className={`pill pill-${cardState}`}>{cardLabel}</span>
                   <span className="muted">{modelLine(s, ready, method, textEngine)}</span>
                 </span>
               </span>
@@ -71,6 +76,7 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
                     <option value="ocrs">ocrs · text and word positions</option>
                     <option value="ppocr_v6_tiny">PP-OCRv6 tiny · multilingual, line positions · ~6.3 MB extra</option>
                     <option value="ppocr_v6_tiny_detail">PP-OCRv6 tiny · small print (slower, more memory)</option>
+                    <option value="ppocr_v6_tiny_exposure">PP-OCRv6 tiny · compare brighter reading (experimental, slower)</option>
                   </select>
                 </label>
               )}
@@ -110,7 +116,7 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
             </div>
             {photoError?.id === s.id && <p className="card-error">{photoError.message}</p>}
           </li>
-        ))}
+        ); })}
       </ul>
       <footer className="home-foot" data-testid="credits">
         <p>

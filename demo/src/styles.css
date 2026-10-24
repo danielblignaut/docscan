@@ -169,3 +169,10 @@ details[open].sub, details[open].metadata { padding-bottom: 12px; }
 .home-foot { margin: 28px 4px 12px; font-size: 12px; line-height: 1.5; color: var(--muted, #9aa7b4); }
 .home-foot p { margin: 0 0 6px; }
 .home-foot a { color: inherit; text-decoration: underline; }
+
+.processing-panel { min-height: 70dvh; box-sizing: border-box; max-width: 560px; margin: auto; padding: 100px 24px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px; }
+.processing-panel h1, .processing-panel p { margin: 0; }
+.processing-panel .primary { padding: 0 28px; }
+.processing-spinner { width: 34px; height: 34px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: processing-spin .8s linear infinite; }
+@keyframes processing-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .processing-spinner { animation: none; } }

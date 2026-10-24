@@ -59,7 +59,7 @@ async function home() {
   await page.locator('[data-testid="results-home"]').click();
   await page.locator('[data-testid="home"]').waitFor();
   await page.waitForFunction(() => window.__objectUrls.size === 0);
-  assert.equal(await page.evaluate(() => window.__workers.size), 1, 'only the reusable OCR worker remains');
+  assert.equal(await page.evaluate(() => window.__workers.size), 2, 'only the reusable capture and OCR workers remain');
 }
 try {
   await page.goto(`http://localhost:4187${process.env.DOCSCAN_TEST_BASE ?? '/'}?threads=${process.env.DOCSCAN_TEST_THREADS ?? '1'}`);
