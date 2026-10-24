@@ -11,6 +11,7 @@ LEXICAL_FIELDS = h.FIELDS[:6]
 
 def diagnose(root):
     h.check_freeze(root)
+    h.completed_evaluation(root)
     truth = h.truth_fields(json.loads((root / 'truth.json').read_text()))
     result = {}
     for variant in (*h.VARIANTS, 'text-layer'):

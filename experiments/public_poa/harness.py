@@ -211,8 +211,34 @@ def verification(root, page, truth, protocol):
     return results
 
 
+def model_state():
+    return {name: (sha(REPO / 'models' / name),
+                   (REPO / 'models' / name).stat().st_mtime_ns,
+                   (REPO / 'models' / name).stat().st_ctime_ns) for name in MODELS}
+
+
+def confirm_model_directory(page, expected):
+    if page.get('error') in ('timeout', 'process_failure', 'launch_error', 'malformed_output'):
+        return
+    if page.get('model_directory') != str(expected.resolve()):
+        raise ValueError('OCR executable did not confirm pinned models; rebuild current poa CLI')
+
+
+def completed_evaluation(root):
+    marker = root / 'baseline/validated.json'
+    if not marker.exists():
+        raise ValueError('Evaluation did not complete model validation')
+    record = json.loads(marker.read_text())
+    if record['freeze_sha256'] != sha(root / 'freeze.json'):
+        raise ValueError('Evaluation completion marker differs from freeze')
+    for name, digest in record['outputs'].items():
+        if sha(root / 'baseline' / name) != digest:
+            raise ValueError('Completed prediction was modified')
+
+
 def evaluate(root):
     check_freeze(root)
+    models_before = model_state()
     protocol = json.loads((HERE / 'protocol.json').read_text())
     truth = json.loads((root / 'truth.json').read_text())
     outdir = root / 'baseline'
@@ -221,8 +247,9 @@ def evaluate(root):
     outdir.mkdir(mode=0o700)
     tagger = '--tagger=' + str(REPO / 'models/poa-tagger.onnx')
     for variant in VARIANTS:
-        page = run_json([root / 'bin/poa', '--flat', '--words', tagger, '--today=' + protocol['today'],
+        page = run_json([root / 'bin/poa', '--flat', '--words', '--models=' + str((REPO / 'models').resolve()), tagger, '--today=' + protocol['today'],
                          root / (variant + '.png')], timeout=protocol['timeout_seconds'])
+        confirm_model_directory(page, REPO / 'models')
         write(outdir / (variant + '.json'), {'page': page, 'verification': verification(root, page, truth, protocol)})
         print(variant + ': recorded', flush=True)
     words = json.loads((root / 'text-layer.json').read_text())
@@ -230,6 +257,10 @@ def evaluate(root):
                       timeout=protocol['timeout_seconds'])
     write(outdir / 'text-layer.json', {'page': result, 'verification': verification(root, words, truth, protocol)})
     check_freeze(root)
+    if model_state() != models_before:
+        raise ValueError('Models changed during evaluation')
+    write(outdir / 'validated.json', {'freeze_sha256': sha(root / 'freeze.json'),
+          'outputs': {p.name: sha(p) for p in outdir.glob('*.json')}})
     aggregate(root)
 
 
@@ -280,6 +311,7 @@ def aggregate_rows(rows, truth):
 
 def aggregate(root):
     record = check_freeze(root)
+    completed_evaluation(root)
     truth = truth_fields(json.loads((root / 'truth.json').read_text()))
     rows = [json.loads((root / 'baseline' / (v + '.json')).read_text()) for v in VARIANTS]
     diagnostic = json.loads((root / 'baseline/text-layer.json').read_text())

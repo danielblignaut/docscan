@@ -84,6 +84,28 @@ class RefereeTests(unittest.TestCase):
         self.assertNotIn('address.province', mapped)
         self.assertNotEqual(h.customer(truth, 'wrong_address')['address']['street'], truth['address']['street'])
 
+    def test_ocr_models_must_be_confirmed(self):
+        expected = Path('/tmp/pinned-models')
+        for output in ({'rules': {}}, {'model_directory': '/tmp/different-models'}):
+            with self.assertRaisesRegex(ValueError, 'pinned models'):
+                h.confirm_model_directory(output, expected)
+        h.confirm_model_directory({'model_directory': str(expected)}, expected)
+        h.confirm_model_directory({'error': 'timeout'}, expected)
+
+    def test_incomplete_or_modified_outputs_cannot_be_aggregated(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder); (root/'baseline').mkdir()
+            (root/'freeze.json').write_text('{}')
+            (root/'baseline/clean.json').write_text('{"value": "unvalidated"}')
+            with self.assertRaisesRegex(ValueError, 'did not complete'):
+                h.completed_evaluation(root)
+            h.write(root/'baseline/validated.json', {'freeze_sha256': h.sha(root/'freeze.json'),
+                    'outputs': {'clean.json': h.sha(root/'baseline/clean.json')}})
+            h.completed_evaluation(root)
+            (root/'baseline/clean.json').write_text('{"value": "changed"}')
+            with self.assertRaisesRegex(ValueError, 'modified'):
+                h.completed_evaluation(root)
+
     def test_repo_data_root_refused(self):
         with self.assertRaises(ValueError):
             h.private_root(h.HERE / 'raw-data')
