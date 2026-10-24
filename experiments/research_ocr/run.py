@@ -77,6 +77,12 @@ def boxes_for(pipeline, image, mode):
     return accepted
 
 
+def artifact_state(paths):
+    # Detector/recognizer releases both use inference.onnx and inference.yml.
+    # Preserve full paths so one role cannot overwrite another in a guard.
+    return {str(path.resolve()): score.model_state([path])[path.name] for path in paths}
+
+
 def run(mode, target):
     if target.exists():
         raise ValueError('Refusing to overwrite an experiment')
@@ -91,7 +97,7 @@ def run(mode, target):
             if score.digest(path)!=entry['sha256']:
                 raise ValueError('Model acquisition hash mismatch')
             model_paths.append(path)
-    model_state=score.model_state(model_paths)
+    model_state=artifact_state(model_paths)
     pipeline=MixedPipeline(mode['detector'],mode['recognizer'])
     groups=defaultdict(list); rows=[]
     raw=DATA/mode['id']; raw.mkdir(exist_ok=True)
@@ -120,7 +126,7 @@ def run(mode, target):
             groups[sample['source']+'.'+item['label']].append(item)
         rows.append({'id':sample['id'],'source':sample['source'],'failed':'error' in output,'scores':scores})
         print(mode['id'],sample['id'],round(time.monotonic()-start,2),flush=True)
-    if score.model_state(model_paths)!=model_state:
+    if artifact_state(model_paths)!=model_state:
         raise ValueError('Models changed during run')
     result={'mode':mode,'summary':{k:score.summary(v) for k,v in sorted(groups.items())},'rows':rows,
             'failed_pages':sum(r['failed'] for r in rows),'wall_seconds_descriptive':time.monotonic()-started,

@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import subprocess
 import time
-from run import HERE, REPO, DATA, MODELS, score
+from run import HERE, REPO, DATA, MODELS, score, artifact_state
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
         if score.digest(binary)!=build['binary_sha256']:raise ValueError('Executable changed')
         detector=MODELS/'tiny_det/inference.onnx';recognizer=MODELS/f'{tier}_rec/inference.onnx'
         if {'detector':score.digest(detector),'recognizer':score.digest(recognizer)}!=build['model_hashes']:raise ValueError('Models changed')
-        artifacts=[binary,detector,recognizer];before=score.model_state(artifacts)
+        artifacts=[binary,detector,recognizer];before=artifact_state(artifacts)
         for profile in protocol['profiles']:
             mode=f'native-tiny-{tier}-{profile}'
             target=HERE/'results'/(mode+'.json')
@@ -52,9 +52,9 @@ def main():
                         groups[sample['source']].append(f);groups[sample['source']+'.'+f['label']].append(f)
                     rows.append({'id':sample['id'],'source':sample['source'],'failed':'error' in output,'scores':fields})
                     print(mode,sample['id'],flush=True)
-            if score.model_state(artifacts)!=before:raise ValueError('Artifacts changed during run')
+            if artifact_state(artifacts)!=before:raise ValueError('Artifacts changed during run')
             report={'mode':mode,'protocol':protocol,'build':build,'scorer_sha256':score.digest(score.__file__),
-                    'runner_sha256':score.digest(__file__),'dataset_sha256':score.digest(score.HERE/'ocr-dev-v1.json'),
+                    'runner_sha256':score.digest(__file__),'helper_sha256':score.digest(HERE/'run.py'),'dataset_sha256':score.digest(score.HERE/'ocr-dev-v1.json'),
                     'summary':{k:score.summary(v) for k,v in sorted(groups.items())},'rows':rows,
                     'failed_pages':sum(r['failed'] for r in rows),'wall_seconds_descriptive':time.monotonic()-start,
                     'limits':'Native isolated probe only; no production/default or browser change; fixed DEV with correlated layouts.'}

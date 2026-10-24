@@ -1,7 +1,19 @@
 import unittest
-from run import starts, ios, ref
+import tempfile
+from pathlib import Path
+from run import starts, ios, ref, artifact_state
 
 class GeometryTests(unittest.TestCase):
+    def test_artifact_guards_do_not_collapse_same_named_models(self):
+        with tempfile.TemporaryDirectory() as folder:
+            paths=[Path(folder)/role/'inference.onnx' for role in ['det','rec']]
+            for p in paths:
+                p.parent.mkdir();p.write_bytes(b'original')
+            before=artifact_state(paths)
+            self.assertEqual(len(before),2)
+            paths[0].write_bytes(b'changed detector')
+            self.assertNotEqual(artifact_state(paths),before)
+
     def test_last_slice_covers_page_end(self):
         points=starts(1650,640,160)
         self.assertEqual(points,[0,480,960,1010])
