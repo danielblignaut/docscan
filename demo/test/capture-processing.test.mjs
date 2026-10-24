@@ -275,3 +275,15 @@ test("the processing lifecycle: capture-ready before slow work, one terminal eve
   read.cancel();
   assert.deepEqual(page, ["docscan:capture-ready:captured", "docscan:processing:captured", "docscan:processing:processing", "docscan:processing:processing", "docscan:processing:complete"]);
 });
+
+test('a flip breaks a futile hold permanently even at the same final position', () => {
+  const corners = [[10,10],[100,10],[100,80],[10,80]], size = [200,200];
+  const start = {corners, size, at:0};
+  assert.equal(id.continueHold(start,corners,size,100),start);
+  let hold = id.continueHold(start,null,size,200);
+  assert.equal(hold,null);
+  hold = id.continueHold(hold,corners,size,300);
+  assert.equal(hold,null,'returning to the same rectangle cannot restore the stale hold');
+  assert.equal(id.continueHold(start,corners.map(([x,y])=>[x+50,y]),size,100),null);
+  assert.equal(id.continueHold(start,corners,[400,200],100),null);
+});

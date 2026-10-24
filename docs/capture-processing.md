@@ -244,3 +244,7 @@ terminal enrichment event for each, with `batchComplete: true`. Successful and
 failed pages retain their terminal states. A successful earlier page reports
 `batchComplete: false` while later pages are still queued. Terminal events also
 fire when navigating away; stale asynchronous OCR cannot publish after them.
+
+A futile hold ends as soon as a fast frame loses the outline, changes its
+position/size, or exceeds the retry interval. Returning the other side of a card
+to the same position cannot restore that hold; its old guidance is cleared.

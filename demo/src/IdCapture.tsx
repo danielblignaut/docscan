@@ -114,6 +114,13 @@ export const BURST_TOLERANCE = 0.04;
  */
 export const FUTILE_HOLD_MS = 10000;
 export const HELD_TOLERANCE = 0.1;
+export interface FutileHold { corners: [number, number][]; size: [number, number]; at: number }
+
+/** A broken hold stays broken even when the other side returns to the same position. */
+export function continueHold(hold: FutileHold | null, corners: [number, number][] | null, size: [number, number], now: number): FutileHold | null {
+  if (!hold || !corners || now - hold.at >= FUTILE_HOLD_MS || hold.size[0] !== size[0] || hold.size[1] !== size[1]) return null;
+  return sameOutline(hold.corners, corners, size, HELD_TOLERANCE) ? hold : null;
+}
 
 /** The run of identical readings so far (the live loop's rule, unchanged). */
 export interface ReadingRun {
@@ -453,7 +460,7 @@ export function IdCapture({
     let retry: { step: number; note: string } | null = null;
     /** Per step: a failed reading's advice, and the hold that gave a futile one (not burst again while held). */
     const advised: (string | null)[] = steps.map(() => null);
-    const held: ({ corners: [number, number][]; size: [number, number]; at: number } | null)[] = steps.map(() => null);
+    const held: (FutileHold | null)[] = steps.map(() => null);
     /** Over the camera: a recapture's reason, and what is being read in the background. */
     const refreshNotice = () => {
       const pending = slots.flatMap((s, i) => (s.status === "validating" ? [steps[i].label] : []));
@@ -693,6 +700,14 @@ export function IdCapture({
           since = now;
         }
         setLast(result);
+        const wasHeld = held[i];
+        held[i] = continueHold(wasHeld, result.document?.corners ?? null, [image.width, image.height], now);
+        if (wasHeld && !held[i]) {
+          advised[i] = null;
+          setAdvice(null);
+          if (retry?.step === i) retry = null;
+          refreshNotice();
+        }
 
         // A reading from barcodes alone (the smart ID back): confirmed here,
         // by two identical readings from separate frames, as before.
