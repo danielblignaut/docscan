@@ -23,6 +23,18 @@ class AccountingTests(unittest.TestCase):
         self.assertEqual(scored['poa.dev.reject_wrong_person']['n'], 1)
         self.assertEqual(scored['poa.dev.single.reject_wrong_person']['n'], 1)
 
+    def test_missing_result_does_not_turn_other_false_accepts_into_rejections(self):
+        caps = [{'id':'missing'}, {'id':'false-accept'}]
+        truths = {row['id']:{'case':'wrong_person','expect_accept':False,'fields':{}} for row in caps}
+        outputs = {
+            'missing': {'capture':{'fields':None,'verify':None}, 'frames':[{'fields':None,'verify':None}]},
+            'false-accept': {'capture':{'fields':{'holder_name':'Fixture'},'verify':{'accepted':True}},
+                             'frames':[{'fields':{'holder_name':'Fixture'},'verify':{'accepted':True}}]},
+        }
+        scored=score_checked(dev,caps,truths,outputs)
+        self.assertEqual(scored['poa.dev.reject_wrong_person']['ok'],'00')
+        self.assertEqual(scored['poa.dev.single.reject_wrong_person']['ok'],'00')
+
     def test_paired_regression_and_false_bank_are_retained(self):
         rows = [type_row('negative', 'utility_bill', 'utility_bill', 'bank_statement'),
                 type_row('missing', 'bank_statement', None, None)]

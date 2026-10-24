@@ -83,7 +83,7 @@ def score_checked(dev, caps, truths, outputs):
     for key, metric in list(metrics.items()):
         if metric.get('kind') == 'rate' and any(i in invalid for i in metric['ids']):
             metrics[key] = dev.poa.m_rate(metric['ids'],
-                [ok and iid not in invalid for iid, ok in zip(metric['ids'], metric['ok'])],
+                [ok == "1" and iid not in invalid for iid, ok in zip(metric['ids'], metric['ok'])],
                 desc=metric['desc'], better=metric['better'], unit=metric['unit'])
     return metrics
 
