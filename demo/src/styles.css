@@ -81,6 +81,7 @@ pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; line-heigh
   box-shadow: 0 2px 10px rgba(0,0,0,.5); backdrop-filter: blur(6px); cursor: pointer; }
 .back span { font-size: 26px; line-height: 1; margin-top: -2px; }
 .back:active { background: rgba(40,40,40,.9); }
+.capture-import { position: absolute; z-index: 10; top: calc(10px + var(--safe-top)); right: calc(10px + var(--safe-right)); min-height: 48px; color: #fff; background: rgba(0,0,0,.78); border-style: solid; }
 .step-label { position: absolute; top: calc(70px + var(--safe-top)); left: 12px; right: 12px; text-align: center; font-weight: 650; font-size: 17px; text-shadow: 0 1px 4px #000, 0 0 2px #000; pointer-events: none; }
 @media (min-width: 600px) { .step-label { top: calc(20px + var(--safe-top)); left: 200px; right: 200px; } }
 .step-count { font-weight: 500; opacity: .8; }

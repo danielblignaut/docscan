@@ -147,6 +147,12 @@ export function App() {
 
   async function onPhoto(id: ScannerId, files: File[]) {
     cancelPhoto();
+    // An import selected from the camera screen must stop its frame loop before
+    // the shared worker reads the file. The home card shows import progress.
+    if (screen.kind === "capture") {
+      changeScreen({ kind: "home" });
+      history.replaceState(null, "", urlFor(null));
+    }
     const request = new AbortController();
     photoRequest.current = request;
     setBusy(id);
@@ -185,6 +191,16 @@ export function App() {
         <button type="button" className="back" data-testid="capture-home" onClick={goHome} aria-label={`Back to home from ${scannerById(s).title}`}>
           <span aria-hidden="true">‹</span> Back to home
         </button>
+        {(s === "barcodes" || s === "labels") && <label className="photo-action capture-import">
+          Import image
+          <input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" multiple disabled={!ready}
+            aria-label="Import barcode images or PDF" data-testid="capture-import"
+            onChange={event => {
+              const files = [...(event.target.files ?? [])];
+              event.target.value = "";
+              if (files.length) void onPhoto(s, files);
+            }} />
+        </label>}
       </div>
     );
   }

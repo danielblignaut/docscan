@@ -142,6 +142,14 @@ file and 32 MiB total; image sources are capped at 16 megapixels and PDF
 rendering at 4 megapixels per page. Face-only imports require a still image,
 which cannot establish liveness.
 
+The multi-barcode and device-label camera screens also have an **Import image**
+control. Selecting a file stops the camera; it remains usable when camera
+permission is denied. Both the menu and camera-screen upload paths support
+multiple codes in one image, and results return to the menu without reopening
+the camera. `node demo/e2e/barcode-import.mjs` checks these transitions against
+the production build; `DOCSCAN_URL=https://danielblignaut.github.io/docscan/`
+targets the deployed site instead.
+
 `docscan/build-threads.sh` makes an optional multithreaded build (nightly,
 `-Z build-std`, [wasm-bindgen-rayon](https://github.com/RReverser/wasm-bindgen-rayon));
 the demo serves the cross-origin isolation headers it needs and uses it when
