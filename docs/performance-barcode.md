@@ -45,10 +45,10 @@ ms natively; JPEG decode ~10 ms).
 `read_all` is 100 ms; the full labelled reading is 9.6 s, of which barcodes are
 102 ms, bar regions 4 ms, pairing <1 ms and OCR 9.53 s. The probe's re-timed
 `full` stages are byte-identical in fields to `Scanner::labelled_native`
-(`same_as_library: true`). Unpinned on 12 cores (rten's rayon pool) the full
-reading is ~2.9 s and the tight ROI ~0.56 s; the browser's single-threaded
-wasm is slower than one native core, which is the 22 s report (`captureMs`
-21 795, one OCR frame).
+(`same_as_library: true`) on the user photo. DEV full readings use the
+probe's corresponding library-equivalent path; that parity assertion was not
+repeated for every DEV frame. The browser's single-threaded WASM is slower
+than one native core, consistent with the 21,795 ms reported capture.
 
 WASM (Node 24, same V8 as Chrome, single-threaded `pkg`, one CPU, PIL-decoded
 RGBA; the browser decodes with `createImageBitmap`):
@@ -60,13 +60,13 @@ RGBA; the browser decodes with `createImageBitmap`):
 | `labelled_near_bars`, frozen `wide` | 23973, 26176, 23773 | 24741 | 5, identical to full (whole-frame fallback) | same as full |
 | `labelled_near_bars`, tight (research only) | 3933, 3824, 3654 | 3003 | 5, same labels and values as full | 2 both, 3 text |
 
-Instantiation ~36 ms and OCR model load ~85–90 ms per process are outside the
+Instantiation ~36 ms and OCR model load ~83–90 ms per process are outside the
 call times. Host load: the run was pinned to CPU 3 but shared memory bandwidth
 with other work on the host (a concurrent unpinned native comparison for part
-of it, and the parent's wasm build on cores 4–11), so treat the wasm numbers as
-±10%; they agree with the parent's in-browser 23.95–25.4 s for the full reading.
+of it, and the parent's wasm build on cores 4–11), so these are indicative measurements without a formal uncertainty bound; they agree with the parent's in-browser 23.95–25.4 s for the full reading.
 A clean repeat was started and stopped unfinished on request; this table is the
-one completed run.
+one completed run. An earlier WASM setup attempt exited unsuccessfully before
+this completed measurement; it supplies no timing or accuracy credit.
 
 ## Fields against the user's 22 s report
 
@@ -173,8 +173,26 @@ detection pass on a label photographed in part of the frame, little on frames
 the label fills (164 vs 239 passes over the DEV set).
 
 Levers left for the full reading itself, outside this experiment and each
-needing its own field-preservation gate: the multithreaded wasm build (the
-12-core native run is ~3.3× faster than one core), and fewer overlapping tiles
+needing its own field-preservation gate: the multithreaded WASM build (not benchmarked here), and fewer overlapping tiles
 for narrow frames (a 720-wide frame takes two tile columns overlapping by 480
 px, so most lines are read twice; that redundancy is also what made the full
 reading's EAN digits exact on this photo).
+
+## Provenance limits and post-run changes
+
+The final runners and README were edited after the recorded runs. In particular,
+the image path became `USER_IMAGE`. Their current hashes are recorded separately
+as retrospective hashes in `evidence/provenance.json`; historical runner bytes
+were not pinned, so that receipt does not establish that the path substitution
+was their only change. Aggregate evidence and binary/model receipts remain
+unchanged.
+
+The native probe's copied `label_regions.rs` hash differs from the final module:
+the final source adds margin defaults and `from_slice`; the native runs pass
+explicit margins. The preserved final WASM candidate source matches the current
+module and its retrospective hash is now recorded. Its default margins equal
+`frozen.json`'s wide variant, but the WASM runner passed an empty margin vector,
+and no pre-execution receipt bound that default source constant to the binary.
+This limitation is retained rather than represented as a contemporaneous freeze.
+None of these retrospective checks promotes a candidate or substitutes for a
+new source-pinned run if the candidate is pursued further.

@@ -69,3 +69,14 @@ Run accuracy and timing phases separately; timing phases pin one CPU
 is the benchmark's materialised `barcode_synth_dev` (`BENCH_DATA`, default
 `/tmp/docscan-bench`), its 72 labelled frames only; calibration reads the even
 index, the held-out evaluation the odd index.
+
+## Historical provenance
+
+The final harness files were edited after execution, including replacing the
+private machine-specific image path with `USER_IMAGE`. Their retrospective hashes
+are recorded in `evidence/provenance.json`, separately from binary/model receipts.
+The historical runner bytes were not pinned; exact post-run differences cannot
+all be independently recovered. The native probe's explicit-margin source and
+the final WASM candidate's default-margin source are recorded separately. See the
+report's provenance section for the missing pre-execution binding of the WASM
+default constant to the frozen configuration. Historical results are unchanged.
