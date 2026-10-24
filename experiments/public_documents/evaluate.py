@@ -8,7 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
+import shutil
 import subprocess
 import time
 import unicodedata
@@ -157,10 +157,16 @@ def main():
     key = hashlib.sha256(json.dumps(provenance, sort_keys=True).encode()).hexdigest()
     cache = DATA / 'document-ocr-cache' / key
     cache.mkdir(parents=True, exist_ok=True)
+    # Snapshot executable so a concurrent build cannot mix versions mid-run.
+    frozen_binary = cache / 'reader'
+    if not frozen_binary.exists():
+        shutil.copy2(binary, frozen_binary)
+    if digest(frozen_binary) != provenance['binary_sha256']:
+        raise ValueError('Executable changed during snapshot')
     groups = defaultdict(list)
     rows = []
     with ThreadPoolExecutor(max_workers=2) as pool:
-        outputs = pool.map(lambda sample: infer(sample, binary, args.engine, cache), samples)
+        outputs = pool.map(lambda sample: infer(sample, frozen_binary, args.engine, cache), samples)
         for sample, output in zip(samples, outputs):
             entry = {'id': sample['id'], 'source': sample['source'], 'failed': 'error' in output}
             scored = []
