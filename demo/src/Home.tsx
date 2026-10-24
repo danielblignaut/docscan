@@ -88,16 +88,16 @@ export function Home({ ready, status, failed, method, textEngine, onTextEngine, 
               )}
               <label className={`photo-action ${busy === s.id ? "busy" : ""}`}>
                 {busy === s.id
-                  ? "Reading the photo…"
+                  ? "Reading the document…"
                   : s.id === "smart_id"
-                    ? "Test with photos (front, back)"
+                    ? "Import images or PDF (front, back)"
                     : s.id === "facedoc"
-                      ? "Test with photos (ID document, selfie)"
-                      : "Test with a photo"}
+                      ? "Import ID image/PDF and selfie image"
+                      : s.needs === "face" ? "Test with a photo" : "Import image or PDF"}
                 <input
                   type="file"
-                  accept="image/*"
-                  multiple={s.id === "smart_id" || s.id === "facedoc"}
+                  accept={s.id === "liveness" || s.id === "faceid" ? "image/jpeg,image/png,image/webp" : "image/jpeg,image/png,image/webp,application/pdf"}
+                  multiple={s.id !== "liveness" && s.id !== "faceid"}
                   disabled={busy !== null || !ready}
                   data-photo={s.id}
                   onChange={(e) => {

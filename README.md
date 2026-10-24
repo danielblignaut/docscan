@@ -21,6 +21,29 @@ Public-data work also covers [ID specimens](docs/improvements-public-id.md),
 [face comparison and replay evaluation](experiments/public_face/README.md).
 These are bounded DEV studies; they do not establish state-of-the-art accuracy.
 
+## Digital files and document evidence
+
+Document scanners accept JPEG, PNG, WebP and PDFs locally. PDFs are rendered
+page by page and read with the selected OCR engine. Original-byte SHA-256,
+selected image/PDF metadata, native PDF text, signature presence and extraction
+errors remain separate structured evidence. A full-page native-text/OCR
+comparison retains differences, including amounts, for review. It never treats
+the native text as verified OCR or a mismatch as proof of tampering.
+
+Identity results include `copy_assessment` with nullable `is_copy` and
+`confidence`. The current detector returns `unknown`: neither camera input nor
+file metadata establishes a physical original. File reports similarly retain
+unknown authenticity and tampering; PDF signatures are **present/unverified**,
+without cryptographic or bank-issuer verification. JSON export includes the
+readings and evidence, but omits images and biometric templates. See
+[digital-file limits and API](docs/digital-document-evidence.md) and
+[original-versus-copy research](docs/document-originality.md).
+
+An opt-in native/WASM matrix-barcode fallback recovers 217/262 public DEV codes
+versus 214/262, with unchanged observed false-decode frames. Existing default,
+ID and labelled readers are unchanged. See
+[the full accuracy and latency evidence](docs/improvements-matrix-retry.md).
+
 
 Real-time identity document and barcode scanning in the browser, written in
 Rust and compiled to WebAssembly. It runs entirely on the device: no image
@@ -95,7 +118,7 @@ whole outline in view, and two identical readings, before capturing.
 ## Build and run
 
 Requirements: Rust (stable) with the `wasm32-unknown-unknown` target,
-[wasm-pack](https://rustwasm.github.io/wasm-pack/), Node 20+ and pnpm.
+[wasm-pack](https://rustwasm.github.io/wasm-pack/), Node 24+ and pnpm.
 
 ```sh
 scripts/fetch-models.sh                 # the ocrs models (~12 MB) into models/, and those, models/poa-tagger.onnx and models/face/ into demo/public/models/
@@ -113,9 +136,11 @@ Open the menu at `/`, or deep-link straight to a scanner's camera:
 `?mode=faceid` or `?mode=facedoc` (`&method=tagger|rules` picks
 the proof-of-address extractor, which the menu also offers). The camera screen's
 **Back to home** button, always shown top left, stops the camera and returns to
-the menu. Each card also has a small **Test with a photo** action that runs the
-same scanner on an uploaded image and shows the same results screen (for the
-smart ID, pick the front and the back photos together).
+the menu. Document cards also offer **Import image or PDF** (for a smart ID,
+select front then back). Imports are limited to 10 inputs/pages, 20 MiB per
+file and 32 MiB total; image sources are capped at 16 megapixels and PDF
+rendering at 4 megapixels per page. Face-only imports require a still image,
+which cannot establish liveness.
 
 `docscan/build-threads.sh` makes an optional multithreaded build (nightly,
 `-Z build-std`, [wasm-bindgen-rayon](https://github.com/RReverser/wasm-bindgen-rayon));
@@ -130,6 +155,7 @@ await init();
 const scanner = new Scanner();
 scanner.load_ocr(detectionModelBytes, recognitionModelBytes); // optional: barcodes work without
 scanner.barcodes(rgba, width, height, []);          // every barcode, with positions
+scanner.barcodes_with_empty_matrix_retry(rgba, width, height, []); // opt-in half-scale matrix retry after an empty read
 scanner.document(rgba, width, height, true, "");    // quality, outline, barcodes, OCR, MRZ, kind, fields
 scanner.flatten(rgba, width, height, corners, w, h); // the document, cropped and squared up
 scanner.labelled(rgba, width, height);              // barcodes + printed labels as named, checked fields

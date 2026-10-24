@@ -82,6 +82,7 @@ const STABLE_READS = 2;
 const STABLE_WINDOW_MS = 12000;
 
 export interface Captured {
+  input?: import("./document-review").InputReference;
   step: string;
   result: DocumentResult;
   imageUrl: string;
