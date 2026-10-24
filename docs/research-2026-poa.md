@@ -271,3 +271,146 @@ address invention; external document APIs; server-side bank benchmark submission
 changing security thresholds; confidence fitted on this DEV report; and reporting
 only the winning candidate. The evidence supports a cheap document-type research
 lead, not a completed general POA extractor.
+
+## Second bounded loop: hostile context and raw recipient blocks
+
+**Recommendation: integrate none of these candidates.** This separately frozen
+counterexample gate exposes new C1 regressions across all six supported classes.
+C2 is more robust on supported pages, but still promotes ambiguous and unsupported
+documents to supported types. The additional raw-block selector produces grounded
+partial text and explicit nulls, but no complete annotated recipient blocks.
+These results do not change or pool with the first-round benchmark above.
+
+The original `protocol.json`, `candidates.py`, candidate freeze, scorers, reports,
+and attribution results remain unchanged. New research code uses only
+`experiments/research_poa/stress_*.py`. All authored probe text, OCR, source-index
+outputs, freezes, per-item reports and run artifacts stay owner-private under
+`/tmp/docscan-research-poa-stress-v2`. Nothing was committed, trained or downloaded;
+no shipping sources were edited and no TEST/reserved content was accessed.
+
+**Counterexample protocol.** Before inference, 71 invented DEV pages and their
+semantic labels were frozen with the runner, original candidate/configuration,
+native binary and model hashes. Freeze SHA-256:
+`136982a2381a3af23f9b72d6e6a632874b70eb1da9cd8e3bfa1f1906a4c8e6c2`.
+Each supported class has eight conditions: clean, misleading issuer organization,
+misleading customer organization, quoted header transaction words, quoted body
+transaction words, split heading, title below the header cutoff, and no explicit
+title. All 15 unordered pairs of conflicting supported titles are independently
+labelled `other`: these are coequal composite examples with no primary document.
+There are also one blank and seven unsupported documents. Author-defined intent
+is the reference, not the classifier's keyword count. These adversarial examples
+are a designed falsification set, not a representative accuracy sample.
+
+The baseline is the same archived native `poa_fields` rules classifier used in
+the original research build; native tagger type and the newline-preserving
+Python port agree on **71/71**. C1/C2 run unchanged on each page, without voting.
+All 71 native outputs are valid. The original exact/recovered/regressed/false-bank
+accounting functions are reused. All predictions and confusion matrices are in
+`stress_report.json`; no failures or inconvenient examples were removed.
+
+- Baseline: **46/71** exact; C1: **33/71**, **5 recovered / 18 regressed**;
+  C2: **52/71**, **6 recovered / 0 regressed**.
+- False-bank classifications among **63 non-bank** pages: baseline **5**, C1
+  **8**, C2 **4**. These are type errors, not measured verifier acceptances.
+- Clean, split-heading, below-cutoff, and absent-title conditions each score
+  **6/6 for all three**. These are end-to-end outcomes with fallback: split or
+  absent titles do not demonstrate successful explicit-title detection.
+- Misleading issuer names, customer organization names, and quoted header words
+  each score baseline **6/6**, C1 **0/6**, C2 **6/6**. These are all **18 C1
+  regressions**: keyword frequency in an organization name or quotation can
+  override the actual title and the stronger body evidence.
+- Quoted body words score baseline **0/6**, C1 **5/6**, C2 **6/6**. C1's remaining
+  failure is insurance: its keyword vocabulary does not recognize the generic
+  insurance-statement heading, so it falls back to the mistaken body classifier.
+- All **15 conflicting-title** pages score **0/15 for all three**. C2's ambiguity
+  fallback preserves a supported baseline type; it is not an `other`/null answer.
+- The blank and three plain unsupported pages score **4/4 for all three**.
+  Two unsupported organization-name examples, one header quotation, and one body
+  quotation score **0/4 for all three**. An explicit-title phrase inside a company
+  name or quotation can trigger C2; a body quotation can survive via fallback.
+- Per supported class (eight pages each), baseline scores **7/8** throughout;
+  C1 scores **5/8** for bank, municipal, utility, cellphone and lease, and **4/8**
+  for insurance; C2 scores **8/8** throughout. On `other`, all score **4/23**.
+
+The predeclared integration gate rejects a candidate with any new regression,
+unsupported/ambiguous promotion, or supported-class failure. Both fail. This
+does not prove C2 worsens the baseline on unsupported pages—it preserves those
+failures—but it does rule out presenting it as a robust title/ambiguity solution.
+The 142 non-type invariance checks passed by construction. No customer acceptance
+or security pipeline was integrated or evaluated on these invented pages.
+
+**Separate raw-block policy.** A single additional mechanism was frozen before
+its inference: explicit recipient labels plus geometric adjacency, with no
+external model, expected customer name, postal rules or annotation inputs.
+Freeze SHA-256:
+`aa096eac6e97b20b1b840d13e1c6f6d020a9dc8be0a74a2bac91e4b68d9ba423`.
+Recognized labels include bill-to, billed-to, invoice-to, sold-to, billing address,
+customer/address, recipient and account holder. It takes the same-line suffix
+and nearest vertically adjacent lines using fixed median-line-height gaps and
+horizontal overlap/alignment. Multiple anchors or competing geometric branches
+return conflict/null; missing labels, invalid geometry, empty adjacency and the
+six-line limit also remain explicit null outcomes. Stop labels are fixed in code.
+No constants or patterns were tuned after either freeze.
+
+The bounded cohort is **one Instance0 invoice from each of 40 eligible TRAIN
+layouts**, **all 50 DEV invoices**, and **all three Synthesized DEV variants**.
+The other 360 TRAIN invoices were excluded by budget before inference. All 90
+invoice images and annotations were verified against the acquisition manifest;
+only their named TRAIN/DEV archive annotation members were opened. Existing
+validated PP-OCR detail output serves DEV; the same pinned reader/models ran
+40 TRAIN pages with two workers, one thread per runtime and 30-second timeouts.
+There were **zero OCR failures**. TRAIN is a diagnostic cohort, not fitted data.
+
+FATURA is eligible when it has `BILL_TO` or `BUYER` annotations. Their union is
+the spatial reference, and their text is scored by the unchanged public-document
+normalization/token referee. All eligible pages, including nulls and conflicts,
+remain in those denominators. An invoice without recipient annotations is
+unscored for accuracy and retained separately; it is not a true negative.
+
+- TRAIN: **28/40 eligible**, **20 selected / 8 no-label nulls**; the 12
+  ineligible pages also return no-label nulls. Complete block text **0/28** and
+  exact source-index sets **0/28**. Text-token precision **212/213 (99.53%)**,
+  recall **212/411 (51.58%)**. Selected indices overlap **213/213** with recipient
+  regions, recovering **213/410** recipient-region source tokens.
+- DEV: **50/50 eligible**, **31 selected / 18 no-label nulls / 1 conflict null**.
+  Complete block text **0/50** and exact source-index sets **0/50**. Text-token
+  precision **320/320 (100%)**, recall **320/725 (44.14%)**. Selected indices
+  overlap **320/320** with recipient regions, recovering **320/734** region
+  source tokens. OCR-token counts and annotated-text counts differ; neither
+  denominator is substituted for the other.
+- No selected token centre falls in an annotated seller region on TRAIN or DEV.
+  This is a limited spatial observation, not proof of perfect attribution on
+  partially annotated invoices or unfamiliar layouts.
+- Synthesized: **3/3 no-label nulls**, **0/3** exact concatenated holder/address
+  blocks and **0/30** reference tokens recovered. Precision has no selected-token
+  denominator (the existing scorer encodes it as zero). No recipient-region
+  annotations exist here, so no spatial score is claimed for these variants.
+
+Every selected token retains its source reference. Synthesized uses the original
+word-array index unchanged. FATURA supplies only OCR line boxes: canonical
+whitespace tokens retain the source line index, token offset and character span,
+and share the actual line box. Word boxes were not invented. Consequently the
+FATURA spatial metric has line-centre resolution; it cannot resolve mixed
+issuer/recipient text within one OCR line. Raw text and all index/null/conflict
+outputs are preserved in `rawblock/raw.json`, with all categorical results in
+`rawblock/report.json`.
+
+High precision on partial blocks is insufficient: the frozen policy has
+substantial missing-label coverage loss and omits parts of every annotated
+recipient block it selects. The stop-label policy can omit contact information
+included in FATURA's block annotation; that does not justify silently shortening
+the reference. This is country-neutral raw selection research only, **not US
+address validation, decomposed-field recovery or full-field POA acceptance**.
+No security thresholds, original benchmarks or scoring rules changed.
+
+**Validation and next decision.** All ten original research tests and ten new
+grounding/null/conflict tests pass. Native/port parity, source/input hashes,
+candidate freezes, append-only documentation and unchanged original tracked
+research files are checked. No speed, significance or independent-identity
+generalization claim follows from these designed and layout-correlated cohorts.
+Keep C1/C2 and the raw selector as frozen research comparators. If work continues,
+a separately declared mechanism must distinguish actual titles from organizational
+names/quotations and handle conflicting evidence explicitly; a block selector
+must improve complete coverage on independently frozen layouts while preserving
+grounding and abstention. This loop supplies counterexamples, not permission to
+retune against them and call the same DEV results validation.

@@ -1,0 +1,2880 @@
+{
+  "freeze": {
+    "frozen_at_utc": "2026-10-24T14:26:06.311097+00:00",
+    "files": {
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/stress_rawblock_run.py": "db6453d74c09c1c902b36fc8d52556b93174f9fdce6bdc4214196f262053f89f",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/stress_rawblock.py": "6f6d1abcb24aaa6f719f33d88ab2075c055c2d17ebd85fea38204772b41a40f4",
+      "/home/dan/scratch/id-scan-spike/experiments/research_poa/run.py": "0d8bade61648e312f7b154a06f50cef8f76ddda9707d9d1615524720160c4827",
+      "/home/dan/scratch/id-scan-spike/experiments/public_documents/manifest.json": "221806094478e80d5ef2b285e5a70660881f304b0f61cb272125cef72427a1f8",
+      "/home/dan/scratch/id-scan-spike/experiments/public_documents/protocol.json": "cc725e53851e77e4e90fbda2946d9153b7c7c4d0c81b3d4fd9d6cbecbacbdbc0",
+      "/home/dan/scratch/id-scan-spike/experiments/public_documents/ocr-dev-v1.json": "ab2c9b371acdf2071d5df8bbeec524ba700f01585dcfea9be1579caaf41664a3",
+      "/home/dan/scratch/id-scan-spike/experiments/public_documents/evaluate.py": "440aadbc9715539b5a25cd767632a438662065e596e6057941c95f74da0dfa0b",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/validated.json": "c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/reader": "e9b55435eb5c800cac718918a3ffea09da315810b04801b5637bf57c3a1ef4d0",
+      "/home/dan/scratch/id-scan-spike/experiments/public_poa/harness.py": "1bae67cc2d2eaa03780223f56ce9f27d0e1d4d2dca2d3e7717371713b155e6c6",
+      "/tmp/docscan-public-data/poa-model-bound-v1/freeze.json": "e164a472d61d36e6a05b337ebb1f454bffe117dec74e9fb9a68142e87c5c8cae",
+      "/tmp/docscan-public-data/poa-model-bound-v1/truth.json": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+      "/home/dan/scratch/id-scan-spike/models/ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+      "/home/dan/scratch/id-scan-spike/models/ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6",
+      "/tmp/docscan-public-data/fatura/train/Template3_Instance0.jpg": "58f0573d8c1e18dad489ab27ecf157a24025f3c83aab80661412862b301fd3ea",
+      "/tmp/docscan-public-data/fatura/train/Template3_Instance0.json": "a991e09f6a6b1fd643ccef5b71fbbd75395290b0b852486c52de2863ad77fa6a",
+      "/tmp/docscan-public-data/fatura/train/Template11_Instance0.jpg": "00fdb2e188491f3a0775302e78969ea8ea3a25b13056a67d96adf82b7a13b877",
+      "/tmp/docscan-public-data/fatura/train/Template11_Instance0.json": "6b562c81db44e37c5ea4b1b9a1753b2f06e485e309d06912451dbd9f81da6814",
+      "/tmp/docscan-public-data/fatura/train/Template30_Instance0.jpg": "dc160ff11d9da2e8f1730b245db84b226e3f82c36d5d1265efe3dd947106e57f",
+      "/tmp/docscan-public-data/fatura/train/Template30_Instance0.json": "c23028a54084c9c532cf7421534a8e1d55ad43e9f4d4de674aa8498d6a39c0f4",
+      "/tmp/docscan-public-data/fatura/train/Template24_Instance0.jpg": "d36df016d72e46815257e025e43621f2cbd10d00bb7367d50c8ceebafd09150d",
+      "/tmp/docscan-public-data/fatura/train/Template24_Instance0.json": "5058e3125773e9e3509e6c5e21553410f180b9183667e2af988bc06d9c4d8b26",
+      "/tmp/docscan-public-data/fatura/train/Template40_Instance0.jpg": "0db570dc037c0074390558159bdc9407c3de8e8d82dd46f15f64ab2ff628d96c",
+      "/tmp/docscan-public-data/fatura/train/Template40_Instance0.json": "508c0451368f1e1d6d03deb75658ff39303ea8f6951d79509beb7e6861652ce8",
+      "/tmp/docscan-public-data/fatura/train/Template48_Instance0.jpg": "92e3001e03ca5143c508a7af085d2ffb62a86e96769d3f4440e462809c42f2d9",
+      "/tmp/docscan-public-data/fatura/train/Template48_Instance0.json": "92ab67cc018b2f559276c91467889a41e0bd6d42ec5af9d76d66b52c9c5bc643",
+      "/tmp/docscan-public-data/fatura/train/Template41_Instance0.jpg": "0a2ad7b39afc07fdde6aca007ed51a2ed9a83ed5c763c88091d94e48a877b649",
+      "/tmp/docscan-public-data/fatura/train/Template41_Instance0.json": "85d172f8fea2d0f4df4a30f1303d94cedad64b1b8b03188c9d5f9278a2c4d81e",
+      "/tmp/docscan-public-data/fatura/train/Template22_Instance0.jpg": "86d5c29bad406023fb79956ff8df306c021e99b24fc2c41d65b8f42df3baa0a4",
+      "/tmp/docscan-public-data/fatura/train/Template22_Instance0.json": "0b09ed3f37c3decacc589c589aa913ca7936168477d5eab069b74e5782953c95",
+      "/tmp/docscan-public-data/fatura/train/Template27_Instance0.jpg": "b00bfdb193c216388426d8f3b7c8c89464f392fc31c661312b9c78b7fda9e35e",
+      "/tmp/docscan-public-data/fatura/train/Template27_Instance0.json": "4d5371e459baa200cc2b0acc0108a756935ac6721565fcb2c76d450b7d07a370",
+      "/tmp/docscan-public-data/fatura/train/Template19_Instance0.jpg": "c57abfdec63facbb4b84ff73d9f82aed064560c54542b85b600c0081829835bc",
+      "/tmp/docscan-public-data/fatura/train/Template19_Instance0.json": "d335fcae2afb6bd5e8c52245f3640c1135688618572ec1dfc52caf3f5e4705fb",
+      "/tmp/docscan-public-data/fatura/train/Template45_Instance0.jpg": "2058da342b1f920f1d434c58bc15df5cf4a079f4d6dd90aa0c009a614e7d2673",
+      "/tmp/docscan-public-data/fatura/train/Template45_Instance0.json": "18a07f0a974e954afb23a9eadc20e7067b5c3347e3bf4736d26df10f7527efbc",
+      "/tmp/docscan-public-data/fatura/train/Template1_Instance0.jpg": "f718ffa54caca7cb658eed64f7624f546d0ed2cbbb62f0ddcf81b31317e8bdca",
+      "/tmp/docscan-public-data/fatura/train/Template1_Instance0.json": "6b9113d7f9afaa6dbef9bff1f086240343697c7329006b121095de5d9c5650b6",
+      "/tmp/docscan-public-data/fatura/train/Template29_Instance0.jpg": "f3961247e824233310a9fbcdedca602347b376f7d95c981f62024fc34e878304",
+      "/tmp/docscan-public-data/fatura/train/Template29_Instance0.json": "e6c6753065310c6ea1f569c26ad95f40c4f51abe51620d35df042a379634d9c4",
+      "/tmp/docscan-public-data/fatura/train/Template44_Instance0.jpg": "1bdc19a5fd3147c1b787248ab86fbc19740e09e377d009ca7608acdf35e4d640",
+      "/tmp/docscan-public-data/fatura/train/Template44_Instance0.json": "f62c34fe579afb6d0dca05c62b42fd9b09ab0df8e24e55000c2294e90522ef84",
+      "/tmp/docscan-public-data/fatura/train/Template9_Instance0.jpg": "fd4e074ae008467271559327a166c0c573cae01ee56a01122faaa1ab8ad334d8",
+      "/tmp/docscan-public-data/fatura/train/Template9_Instance0.json": "b490f8762e340f644b98e130a239f8ec2491a9162dd0846bc0b7a4a62b5b9c5b",
+      "/tmp/docscan-public-data/fatura/train/Template47_Instance0.jpg": "5c8e041894092f75a5da3b8cc70f98096fe33faf096ce0b471a0a48ea322e117",
+      "/tmp/docscan-public-data/fatura/train/Template47_Instance0.json": "9715ad90135433a9d3322abe8b39807a019431c52f1a619d1fc19088a0fd1d61",
+      "/tmp/docscan-public-data/fatura/train/Template36_Instance0.jpg": "0c5e40818e670bf5fc3595a0ee0d1ffe866b455537d39fcabbcaecf95b69bd0f",
+      "/tmp/docscan-public-data/fatura/train/Template36_Instance0.json": "8969d311faa515c7509d0f932ac730d8e8573c716456391cc32e145777e45ece",
+      "/tmp/docscan-public-data/fatura/train/Template23_Instance0.jpg": "9f60cdce57b593ac5eefdb1394ae2cf473f26486f5fcb9dc00ab65dbb7ab3db4",
+      "/tmp/docscan-public-data/fatura/train/Template23_Instance0.json": "a3bf40ea9a5d004e8d2f908ad20d3f1ec847200ff254e3118d21032e4c31c4ff",
+      "/tmp/docscan-public-data/fatura/train/Template18_Instance0.jpg": "c43c9922862fd9f1b518da87a9036abc846f2f546463caf7648904520cee3f3c",
+      "/tmp/docscan-public-data/fatura/train/Template18_Instance0.json": "4907865efb255b33039a1eff8f461a37719d269c5687b81708ad9713ec87dd8f",
+      "/tmp/docscan-public-data/fatura/train/Template42_Instance0.jpg": "058398c5194fb9c201f1e9be91a89891ed9316689b226d4c01c2677bcbb26d4d",
+      "/tmp/docscan-public-data/fatura/train/Template42_Instance0.json": "52f0028511108c8df65df067dd9712ffa8e4a19b22e4775989a227cb1f001389",
+      "/tmp/docscan-public-data/fatura/train/Template15_Instance0.jpg": "146fb4270e7e6b81cfb98f75900714d2c450976f460bf12fc0eda27b0c7b00fa",
+      "/tmp/docscan-public-data/fatura/train/Template15_Instance0.json": "3fcedd14b96587c8fc9dd622d19b8164346e75960e5103e706258daa57aed8e5",
+      "/tmp/docscan-public-data/fatura/train/Template14_Instance0.jpg": "74fabb81b64ed37d41d11e052c5d6e99d93c9eaa68d836e21e3408867ff91a3c",
+      "/tmp/docscan-public-data/fatura/train/Template14_Instance0.json": "56c3e08eea08d603c9539c05267c59eaa8e48907eb3617492a6741623d4d352c",
+      "/tmp/docscan-public-data/fatura/train/Template28_Instance0.jpg": "c37f696354081260eccdc7b77eaa0850f12c7a762c0d2f61535b8e813cbe1526",
+      "/tmp/docscan-public-data/fatura/train/Template28_Instance0.json": "ef40530f524ff9c336b54f98e809bde6f0cc7ddfc449b5e54dcc7c9c930dcd7c",
+      "/tmp/docscan-public-data/fatura/train/Template43_Instance0.jpg": "31bfe3c321744a4127968941e642b67329ed0bebe343030a5230f68669806c5c",
+      "/tmp/docscan-public-data/fatura/train/Template43_Instance0.json": "580d9a9ea020aa5e5a3067f4314cb0b5e0d2327b17fd664875f8ef3dc46dd54c",
+      "/tmp/docscan-public-data/fatura/train/Template33_Instance0.jpg": "64395a2459d085d99ca89f7c588c8e3c1b1a160dcddfb3e518f32ed37d84f181",
+      "/tmp/docscan-public-data/fatura/train/Template33_Instance0.json": "d30ab3b4ba3cf8a96fc11b519fd7ab1da0322ef353dcc676763a99677a8fc2c1",
+      "/tmp/docscan-public-data/fatura/train/Template6_Instance0.jpg": "103604253ab7514836522a7af2ecbe394781739e004c27f512d9e620506cdf50",
+      "/tmp/docscan-public-data/fatura/train/Template6_Instance0.json": "d27c30cc4417dc9f7d20d8e5e4ae93e0e4eb29b84d73b59e82e613481d8e59e1",
+      "/tmp/docscan-public-data/fatura/train/Template38_Instance0.jpg": "802c28fe4912c1d8a2e928c20f3a2082514483baa2337d062c05a3cf9a419cbe",
+      "/tmp/docscan-public-data/fatura/train/Template38_Instance0.json": "09f2ccbff4fade033dc109a5042439eb86b932261102599e08fb4d1e27e3468e",
+      "/tmp/docscan-public-data/fatura/train/Template26_Instance0.jpg": "5a67f378823db26ca98cba7066fa9a3aab215848788dea9fd89d8a0a467a9e0e",
+      "/tmp/docscan-public-data/fatura/train/Template26_Instance0.json": "60d8f194fa4146e4218fd941228044023b9fa07b843697709aef240ad623c6ff",
+      "/tmp/docscan-public-data/fatura/train/Template13_Instance0.jpg": "e87d9cbe09a68915feed3457d1dcf923086d1329df4abbaa7270af5bb6758cb5",
+      "/tmp/docscan-public-data/fatura/train/Template13_Instance0.json": "9b2c477ba8315b0231589c023a1f63b38d38c38444e748e5cd88410e0afe0c0c",
+      "/tmp/docscan-public-data/fatura/train/Template34_Instance0.jpg": "51838684c6df1aa06c013c975185aba6b11ee88a5b3da8f6be8cb32f04092ad2",
+      "/tmp/docscan-public-data/fatura/train/Template34_Instance0.json": "0beb06929f66705cc8d94d9bc082e19418257c6533d51bc421d30a9d88695562",
+      "/tmp/docscan-public-data/fatura/train/Template17_Instance0.jpg": "1e4333bdd603a41dfeb5b445f1f36af69f71270887bd514302f12f559abe24db",
+      "/tmp/docscan-public-data/fatura/train/Template17_Instance0.json": "43f52dddd2b63da8662abde7abba03a20f281054bfe527f275fa581a7629cd4b",
+      "/tmp/docscan-public-data/fatura/train/Template37_Instance0.jpg": "02466e3e5aaa211119f6bb3dc177e15890f18e452695308836f9e3fb4241cceb",
+      "/tmp/docscan-public-data/fatura/train/Template37_Instance0.json": "f3c0a9d95a597265d252d5ca82915aefe4979dea4e530ee67ec95833a99504d4",
+      "/tmp/docscan-public-data/fatura/train/Template5_Instance0.jpg": "540ffcae821e08bddd39fa1c6285aa09bdb644f82ee9345c8023f81f43689f0e",
+      "/tmp/docscan-public-data/fatura/train/Template5_Instance0.json": "8e44ddfee2c120b7f63e6350befb4e1562988264a8f17afd714e291714ef9ab1",
+      "/tmp/docscan-public-data/fatura/train/Template8_Instance0.jpg": "13e9bf37822e0be6577767b189bd6ae873771e274d736b5c4bd460108f373e58",
+      "/tmp/docscan-public-data/fatura/train/Template8_Instance0.json": "31aeeb8eaa0fc44f491755a72c6aedd604923e7cabd7e3b555cf30cb4a80923b",
+      "/tmp/docscan-public-data/fatura/train/Template21_Instance0.jpg": "f89b9ec514b0730df3635bc534464639a59a820806cb228790e3d7ea7f2c853b",
+      "/tmp/docscan-public-data/fatura/train/Template21_Instance0.json": "c8a3573fe809eca675724d636ab086097ee6de8f8fd5c1920e1f79dbd35440c5",
+      "/tmp/docscan-public-data/fatura/train/Template35_Instance0.jpg": "54bca882ef1cb52e7b756deab8324a1e6651f7d81e650a0bccbdfd2f6345d18e",
+      "/tmp/docscan-public-data/fatura/train/Template35_Instance0.json": "e99a112a0c94871dc626e94dce88ec17b4bc9eced97ddcad559937d559bd3aa5",
+      "/tmp/docscan-public-data/fatura/train/Template16_Instance0.jpg": "8d289507e4f18d50979d3560790819b621184f28c63dc75ebd33bfe82528a6da",
+      "/tmp/docscan-public-data/fatura/train/Template16_Instance0.json": "420dbc8616f993c50696b44f0d94c09f86b9d67aca43f0be13fdc9b5351760ab",
+      "/tmp/docscan-public-data/fatura/train/Template20_Instance0.jpg": "ad5f05e444ee90b68eb369057ac971b126990cdf8b20d059c9394e60482969d2",
+      "/tmp/docscan-public-data/fatura/train/Template20_Instance0.json": "6f432eef5ceb1b467ba68bd7a3bbfa976b76f5282913aa01d8f34a6b512c1b14",
+      "/tmp/docscan-public-data/fatura/train/Template31_Instance0.jpg": "ac4e2bdc38901f7df5fadb3a0ebf7c21bf792b64eea47025855f87253ab4e07c",
+      "/tmp/docscan-public-data/fatura/train/Template31_Instance0.json": "837e574a3ed54992fece921c5f9d26b3a6902086e380740f4d5250f0fe6db09e",
+      "/tmp/docscan-public-data/fatura/train/Template46_Instance0.jpg": "d4cd50cdb3c558067b0965ff4d82618f9c914f56fc64f53f4f6310b14dd68e91",
+      "/tmp/docscan-public-data/fatura/train/Template46_Instance0.json": "fa6c75c432f0f3faff26b027f688ed15897c1ac55f32164fa5c6748231044eb6",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance0.jpg": "8466d1e8d23256114684d5dd19dc312ebf133408b166302a57aad186a5fbdbaf",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance0.json": "12f92b6a3aead117ba4b06dcff17d57c40855c9cf2e8227d96725d0eb6ffe0ab",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance0.json": "ece72e2db2c41fa3ef59288011bfb87267cd2d233e5a891b056490d8941eacc8",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance15.jpg": "be572e3f01cdfc9f252791e062e91b277e8c8006d86b603d7354a710a88ef467",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance15.json": "f63c71897b6d0b8515e4ed7a637c5b66ee3f377b87bedd25319c544cf49e115d",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance15.json": "1b91580a17834d1ed74ee3fddcd7a1d025b062f3e0b5b6617fc61a0a94a9ce0f",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance30.jpg": "367c449651a921a386748649f1e9d0585040b70f90ad59f449f8661ee377123c",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance30.json": "38003dab45b25705b869dc0d67e6465a9af519616d3c266f4a3ecdfe3e6746cb",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance30.json": "c2c5499ee2ca28dc41a737ec995eeeecd710d930d717c0f17cf8e55ed8f24546",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance45.jpg": "ea46eff0ddabc392e73471fb7c98359e69672dbe375864d7ef5d5fafd53ba493",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance45.json": "64ef561cb8a8321601499f7a689c1324cf36103f245b875157f420c1dff62a60",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance45.json": "7ab5fd68e4835ad25348fe3a4a1c36661c932025c6c34289feacb8a2b809e030",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance60.jpg": "6bc06c37e63da8d8b33319e6241ddb0cc193673a70030285dab57fb4d58c3433",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance60.json": "4beb719eb07880e79ac97fa46cd206aa47f8f90da1cefb99ca09afab8e6397ec",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance60.json": "94b7ea8700ecd7d795a6101a89cff1502f58081c0957f45109e90f4f0b9307f9",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance75.jpg": "106a0740ce84f1b97191c478c0de8e7f153c12b017ce8d3a2bb77889a3b5e0b0",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance75.json": "ae33240c9b25aa3e5f317a220aaa84411bb0e915730010a253eddd1ad12d9972",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance75.json": "e0d3c9735f8932244db1f01245f4fdc3cdf77652acb69b45fe8333552afdbdf9",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance90.jpg": "2d36cb89ead893a53d01110dfd459762766e656246f01b5e802e9d0221cae9ad",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance90.json": "1e76744216b8a66d1a1a097865cfb28bec9a72e59ba11a70d99fad483a1ba54b",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance90.json": "c2062a845502f47e924e4e8ff7b471a59369f19e32dd49141cc33d591fa14efc",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance105.jpg": "45512665e1df99a60d258aee76a5d565082505535a4612d306624aecb824b376",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance105.json": "54389560496029d0c70dbb9f95f27bc798655ec5951ba03f5fd1fc5c71d203f1",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance105.json": "91534098233777298c4d999b38e8ae29e94cbbf26a201ba906858cb7ee1e4bd2",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance120.jpg": "58d2541a698ca7309b1863e82235c0fcab0c3590ad86aa8252a4f7815a3469b7",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance120.json": "c3a06ec4f4f889d4a5761912a339c13f1a758db7cf66ff91a0a35b7e550c8cae",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance120.json": "cf98af9a4449bc5bfe93603187f67ae8bda8eccb1b1ab599baa0e39e9812151d",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance135.jpg": "986573b413959cb54e1ec928272418fe7803360e4704086ecbbf6ecdb7e2c8c6",
+      "/tmp/docscan-public-data/fatura/dev/Template50_Instance135.json": "bcb95403ce1bee9b254835b87c8fb27246961572fd2a9d0ee1754d512a75aad0",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template50_Instance135.json": "9787a79bfa36e72c930bebb51c4f248e7c974cac994d6c822c6d48847b8f4376",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance0.jpg": "57df947a3d14b1f1aebd8f8523ac36d0067cdfbfbe67cdb0a7fc1718f708a72a",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance0.json": "4a5bf1a6e7b56dfe4ca7a012412c6a8f59dd1cc9f38c8e233660888aee9fe892",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance0.json": "50c0cbdc02a9af6583b8eb04fdf93fd7f6ff76456d6545790b01fd7adef2487a",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance15.jpg": "ab5aadb9868c9497b197e87870db37f57d3c3cc7977a7015590295a7879cd9f2",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance15.json": "d6de089ad0d693abd049efdcd71db82dff1afe4f1c9c0f73019cc3c19314f506",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance15.json": "4e59e04f8ed6ccab2e30caa3afaccbcf946e76f456933376728a190a70afc212",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance30.jpg": "d6215fc10aa53cc5d6128a4129a0e9e560a020f3b049b119f594035936cc1a5f",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance30.json": "698b85f21f5617a4d2c3c03938e696d6dc8b29a5b4aa1b35434b8e902754112c",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance30.json": "cee56f177ec82a4cd0ac2492abe0ffaa25375b4985d99141cd4c5f75b5a49aa0",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance45.jpg": "b93a6a44b362d7cffcad61aa63b85e7d8dd79b9916d9764770397881aa1b0efb",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance45.json": "18cb4435ec71105e960eefe81772ebfd04e3c0febfe86d5787d11f86f61e288a",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance45.json": "6ffe12c0ad3789359948fb402474186f5447077cb58cc913af0babd21feab1e9",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance60.jpg": "4e13e2c56959fd7f869ef3475ef08003fd9f64caa086db048a7707fb6d25faec",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance60.json": "0b5eb0314b4b7acd775ad6a4f1ba2e1eb76f8a26e8b5fa0295cca7c1d1f5aaa3",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance60.json": "f2afcc4061fc6ed4a1021fc1a17e1f43974f3c4660ef79af4dca2330b75b4ba2",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance75.jpg": "72066f0a3a0a291592765c5852e013615c00aadb12bdf74959787da7db7cc5ee",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance75.json": "9c7fb6cdaec492892cf955a45292b237e7bf6e9d82e791a1f85681fe8c1b2929",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance75.json": "3012f5ef097559feab1e9f5318645a985fc303bbf480ed995c139217d336e0d2",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance90.jpg": "b2c5a8596a1b397c8c7e8b8fb3190b8993e04908c04ea316266712bacb9dae08",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance90.json": "c8e2c43f6531b899464cd50cfbb8c17dab3e102503299abe2751ba73758e1741",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance90.json": "18cab6c533a0a6d879283153f3f82ebf6991b18976e5906de38fd35d755ff7ee",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance105.jpg": "b6a2085331f3ef43131ce0228337535459870c2dea58f65f19aa21554cb11ebe",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance105.json": "43678778024274e756c966eee547191aa6fa0cfe6499b0b510fb6b6c663d6682",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance105.json": "9cdccb96a279086e553f60a009c45a081e206e9bffbbce103439e2c2c4a0ce4f",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance120.jpg": "8ca6b234e0fb0c3c0c3ccc1f256fbc2397ab3f2aab473e2e5e629c2f1c919e7d",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance120.json": "5d74576c6ec8db5dab73ba5f561be5d2e2033af374dab510ee2a81fb71f4b182",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance120.json": "0f2f97c24a0f5e5c9d1dec190489ab689c7cd75255835a899bcb313892982c0e",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance135.jpg": "9fb4dc2bb7756be950530fc0451ffed9d2cdbe1cbe818acf2288fbce63e56d2a",
+      "/tmp/docscan-public-data/fatura/dev/Template7_Instance135.json": "8c3980c674fbe5f4bb5f835fa41b58741abf4276bd0b6ecd5116f0b3bd2566bd",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template7_Instance135.json": "c199eca6a433b265c8ca0ec2195e5e278688ee57142e8b5be1539486c320d2ca",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance0.jpg": "2811dd161b0c51b33957ef81b00d6e96dd73ca81185b70cbd421519343b84d39",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance0.json": "d6e9ba906e568b17def625e3e65163b83ae06e54caaf4062c5ab67c0a017370b",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance0.json": "aa7539ca26e016525eee179615946028a1e6957abc4d8eac0a0ed591e5be8d48",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance15.jpg": "7001cee0ca1c71d0fa165ec8ebf597514bd7eb97c1106894420395673947e6e3",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance15.json": "b2cf7db9bc25be1078f5352cc87e0cb1f44c167e8035871d0661d644a3c0a416",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance15.json": "2129ac1c60ed9e841b9b2352e9dbfcad7b8c5cdbbe92934f6368ef496071a8f8",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance30.jpg": "e4cfed2a20e8545fc0180169fd931279fbdf5acfe75f8324761916c535432210",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance30.json": "0c84d94b5fbecbc0ff253466fb0574e184b8e27de3ebe977944e77bd775ace71",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance30.json": "c9cb48cc2b549f14b088b2a1d13006c6de8a2df621e91878eebc5d2ad565f7d3",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance45.jpg": "ed99ce1bab1fd5679a119a9fa1af22e8b286992e40300f03909b65a008bae993",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance45.json": "9c1dd6de4221143d07a03b516b87878f257db5e6757f20f4d6e0c818c724a780",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance45.json": "ab3f0bc95bf0d39c897444a71f765e0511e36af883757098bb92e39c8743d981",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance60.jpg": "f8c66004535a29b83d90ca8eaab207e2e38e3170901602d659881b47ff9032db",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance60.json": "2401c158f8183fc214b84693f8dc7606aac590345f73c1d8faecf3e93a9f66f8",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance60.json": "888b0c75b1730f697ac9c676221785596707650c7677bce765500347847c0081",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance75.jpg": "a6addbf9f1cef0673e88045196c51da26175233bb6ff45e586697957c0c540aa",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance75.json": "e72829ee54fc37398fee8e200812ede914a96bf3cc67674ad2df6495558485b9",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance75.json": "98f131a7829af5eb42fe431005e516ddfdc1b971ddf4d161175ff4978d00a1b6",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance90.jpg": "f75b98eca740a955dfdcb544d37956cb511e85a81f5b73503e5c7d91662a455b",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance90.json": "ed3340ee2ef158195d7672c0164bf4d94623a17e9142a219e9b405bc09cf105d",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance90.json": "3960437255762486d433d4130c8e28b42b84c86833e7feb64b9595e89392590d",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance105.jpg": "b79b5f171b231c9019629916a4981abc16bba7c54d367e7d5747c3d9c5aab35d",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance105.json": "acfff3b252a1f2f844f02fca79252c27325252d7a2012fe7724797f73fc820fe",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance105.json": "ec12effaa29c068c37d9c60a4cdaba658904b00cf5b3b67140fad4e88603ad27",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance120.jpg": "bb1cfd96178b7ae6c9db5e1113166fbefc13780101d65e040c1c22e45ceaef2f",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance120.json": "dca79c4b93e9007604c229c925a43c5f3a4bf9bc917059e3ac914633b0dd73a3",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance120.json": "b43c907f6aac3c6fcf331847fb9351999811101bbe9bd7d1644e725fdac63a20",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance135.jpg": "5facb0e908a6f83581507b71fb3b319431622d5ad2095d6e91b78ca7414863fb",
+      "/tmp/docscan-public-data/fatura/dev/Template32_Instance135.json": "60be0bb6236556214263a36403ba601f5bd67755ec027bec02be3c815f28163b",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template32_Instance135.json": "80333e313b0201ebeddd77ee423265fce12bbf87f752d25a7d67219da64e95a9",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance0.jpg": "a1ab1fb3c38c5539ba51f360a485378927e25310fed47168660c7374ea76546c",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance0.json": "faaa05e227694594bf2cb912d21ece00ec2485f81848425fedbac4fab077615b",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance0.json": "106006d55eaeba842eaa278844cff0efe094c101cc29e5187c0554fde102f22e",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance15.jpg": "e11f65428b3c70a2e5c3962eb2205c10a4efd6c48e0ca51c16b18742781013d6",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance15.json": "3164b3ee79ce5f6813219bdaa263010e71d6f86a52c4f626bc9f0be82baf7b00",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance15.json": "f50540a42027c16f2b0a91781057d69f13ed7c6811d45673d379b45d109e2907",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance30.jpg": "dc8b662ba4c9a17d8e457093c92641695d2117b7abd2c679b80deea284c5c4cb",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance30.json": "b35741d16aa72831b43daa740115a9e98b7883aa3c0d8e3783eade11ec3f3cd6",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance30.json": "34fb35628b033f95100057045a44479bb09064a136d45cd09e154afffd8ce019",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance45.jpg": "14bead078e90f3468c1cf28be289fc1fffe2b4e1403e8d347868c2be6e9e7d31",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance45.json": "63eb9aec7dd5755249165aef267db02995cf8386deb705586314a6e0f1ba3c02",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance45.json": "194473def4f957be00a9009905bb5284155b6e44609b0245831b8ca2bdd6661c",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance60.jpg": "4a1915d3ea398d41a1b2a8938aef10c315e8d6d11e34e0283ad45fa0afadde2a",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance60.json": "737851f5249f40399e156419a6b187d068d756f5d7bb983ba84ba319bbbad486",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance60.json": "34ed6ccbea6830028b56632686e8504735cbee5c717bc58e91695d8a1b93e65b",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance75.jpg": "a54cb2c8d727db6b34447576f2e101ed4fbed06ae886395197f5a9cd1d198723",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance75.json": "c59a7ff7a93eedbbc904c0408a9d04c4e7df0189ae6dbaa2f907d3201fbcc3f3",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance75.json": "2330ed00914070f224675528437ad1bb864302369017083f69657b74826f7c7e",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance90.jpg": "035e78f69f3b8398fe719ce7fd4d8502ad92b06189c580812f9d25e1c1d7b074",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance90.json": "5c68e1e98430b8d49a74c96d83f5436ea215c3f02d7dfd3cb8f483644c3b8c98",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance90.json": "35cef54f39be2756c021d4c130732e36c861fbff0a80e7e71a689a97d928c6b2",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance105.jpg": "c34a69f1194436acfa91e43780854c328b67034092da866a6205c47e7352ec32",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance105.json": "cd5fc6637c50e5c8f02873367dfa00a33d43b7ee744d40f4eaaf977df0da1499",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance105.json": "53246b4dde268e8c4048492ec034983b88ace279f22fb9de2b4d3b1e306804e5",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance120.jpg": "bc4a20aa6ccf40cd5eeeea13b1654d84ff445332be0832e3957b045fd22a7ffa",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance120.json": "c179e4f6524a401c72f3e61d0023f0d1cfa4b487c5a3b0ad0a02681e4c2665fe",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance120.json": "4bb54809f0a9623480664e443863aff821131498663446c2a6f7e6b5e2cd63cd",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance135.jpg": "3b3193c01f6bb22ba417db4be910e4dc3abea5c5801d45aa35484f1764a36f18",
+      "/tmp/docscan-public-data/fatura/dev/Template39_Instance135.json": "05ec3cb6877f9a6cd93a802a1daed1b5be4c8e22ca12d887d69436fa61eaadca",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template39_Instance135.json": "7d3746d1cb357cdda659ef1ba2f18af9b585e351fed9cce69a6a9fdbd49965fe",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance0.jpg": "f39bb5c99bf86f25861e1e987131d87fa55aa0e7f1a9eb2ff35f1bb7e5279c75",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance0.json": "deded144681f14a22efe31c415424074a9ef6f900ee0b878e074feced23f672f",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance0.json": "0888a9ee1facbb85c23e37e36e143953364dcd3a7198bac4d51bd36b1726c7ed",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance15.jpg": "35086c7b53e8125a84d35b726c4d2598ad441c7d28c4a122cd027843ae9930e4",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance15.json": "7516375d494b0769102fadcfe4cb6ab635e768b95e4387b19c3000368f6bdfc3",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance15.json": "869959db4ed9c1bbb0c3eb369e56d889ff45a03f3518f0620f572d0b654724c0",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance30.jpg": "5945bf6c5978f353ed33171846a6a79e1e7c64c2899caeace6cfb0e1f02881fb",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance30.json": "711a8bbb7ab9c169dcf612b035c9720bc27c9e677928ad5cc747059fdd41ff23",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance30.json": "be25a138b2a580e240b7d4dfa5685dae88d3e815f191cd40aac15eacbbe45f7f",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance45.jpg": "5ccfeb226478d563cc7d9f62728fb0b1e9655565fe117d119ed6120891be2bf4",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance45.json": "0fb69280ba6e4b17992827a4730d81528fedf3b5b52b68d2a4da2276bef849ad",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance45.json": "22e228789633cd3e82d6a816fdb29fc891029f58cfdd2bf59dedaa467aa94be1",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance60.jpg": "ad8439a51fdb09cc13c7c54e52a4e19cea8a16bd10a7bab4e58e250224f7bef2",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance60.json": "c86c6cc9db9ec62d1d7e62855c30ef9bd2296c018f83270d444baa4a0897381d",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance60.json": "946a1cadb56cc9ec990107863cb4289536509eae446ab340e4d9d27cc79a6ca1",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance75.jpg": "013a0e140e7e6b865954c2b56f7331dac315d41bcb9dc0237e336b486711ba82",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance75.json": "fb0a223346d94ae0949dda8f98dc151df3f4a4694ae74d215f23f7cab8c1c582",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance75.json": "7ab0f83a668ebca9719bf6fb245e093a6ba16d10239765958d7f5ee4b1059872",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance90.jpg": "bc7d056f2182834b02970b9ca34c446857e2abe1de61e05397e9edff12fa4362",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance90.json": "35ce5adfce50c877a985365355a5f4462fb39f52456abbd609bf816a503ad7a2",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance90.json": "ce9132de45fe23726b10c9f99ed2d2e593abdbcbd6633ef339dde75e52b631fb",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance105.jpg": "7788bc23a47dd990bf1ebc58472215bb0be7ff26c2b7d95be2812d30ff0c02ba",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance105.json": "f28b877dae2bb6c0af13812b5910c81a27bc2ddb401c963214415e342c336fc2",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance105.json": "1d9f2f63e1fe765e68d32ceb77afb4af5fc5877724480544222dd539e0b2c08a",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance120.jpg": "6b810e6c5ae3ae5a2fb1734b7efe74edd54fda156e06d59cbbda2eea96f1e8e5",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance120.json": "0f1acef26f034e792e1a86e00806958811bfdb23b968204903fdcf869e966bb3",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance120.json": "251d88ac4c085ef889b1cfc78e2202c670a83931f16511aadf68aae76e4aa4e4",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance135.jpg": "4c587ace58c925c6d6824e50854446e3a7aece496f0c2ae16226394f1319140a",
+      "/tmp/docscan-public-data/fatura/dev/Template2_Instance135.json": "1022f157182d92902ce4778edccb064296abf64ad67e6ee7d8923bb5c1628a10",
+      "/tmp/docscan-public-data/document-ocr-cache/c29db516a7f3ea091d5e120f31371c887ba8bc952283ab26b1f10ec633866c49/Template2_Instance135.json": "4907343c016a2e93611b0c41acf0c886a46bf671bc1270d88caeb73e320e4d4d",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/clean.json": "2d432b69e08e2eeededf9806e6bd291bb16a95496898e71354e5351ff70e0c02",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/scanned.json": "4ace722883068dd333993742d5536c63c9159df00171de7259f25fb70877b5bf",
+      "/tmp/docscan-public-data/poa-model-bound-v1/baseline/fax.json": "196bb247c2030bad53f9a1f6448213d54b4449d66565b025242d1ba725a92c9a"
+    },
+    "cohort": "Instance0 of each of 40 eligible TRAIN layouts; all 50 DEV invoices; all three Synthesized DEV variants. Other 360 TRAIN invoices excluded by budget before inference. No TEST/reserved members, new downloads or fitted weights.",
+    "selection": "Exactly one explicit recipient-label anchor. Labels and stops fixed in code. Same-line suffix then at most six lines with normalized gaps [-0.25,2] median line heights, overlap >=0.25 of narrower line or left alignment within two heights. Nearest vertical continuation; competing branches within 0.5 heights conflict. Multiple labels conflict. No label, empty adjacency, invalid geometry or cap -> null. Never expected customer, annotated regions/text, issuer dictionaries or postal rules.",
+    "grounding": "Synthesized uses original word-array indices. FATURA cached OCR has only lines: canonical whitespace tokens retain source line index, token offset, character span and entire original line box. No invented word-level geometry. Report this limitation.",
+    "ocr": "Use fixed validated PP-OCR detail cache on DEV, same pinned reader/models on 40 TRAIN pages, two workers, one RTen/Rayon thread, 30s/page timeout. Failures retained as null.",
+    "metrics": "FATURA eligible iff BILL_TO or BUYER annotation exists. Union of those regions; source token centres determine target membership. Exact source-index set requires nonempty target and selected output. Report selection/target/intersection counts, seller-region contamination, null/conflict counts, and unchanged public_documents token_score against recipient region text in y/x order. Ineligible pages retained separately, not negatives. Synthesized has no region truth: text score only against holder + street + city + state + full zip concatenation, no spatial score. No POA acceptance, US validation, field correctness or integration improvement claim.",
+    "no_tuning": "One policy, one run, TRAIN and DEV separately reported; all failures retained."
+  },
+  "items": [
+    {
+      "id": "Template3_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template11_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template30_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template24_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template40_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template48_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template41_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template22_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template27_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template19_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template45_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template1_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template29_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          17,
+          18,
+          19,
+          20,
+          21,
+          24,
+          25,
+          26,
+          27
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template44_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template9_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template47_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template36_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          1,
+          2,
+          8,
+          9,
+          10,
+          11,
+          12,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template23_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template18_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template42_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template15_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template14_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template28_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template43_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template33_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 10,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template6_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template38_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template26_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template13_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template34_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template17_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template37_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template5_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template8_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template21_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template35_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          28,
+          29,
+          30,
+          31,
+          32
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template16_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template20_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": false,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 0,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": true
+      },
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template31_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          9,
+          10,
+          16,
+          17,
+          18,
+          19,
+          20,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template46_Instance0",
+      "split": "train",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          10,
+          11,
+          12,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance0",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          17,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 17,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance15",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance30",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 17,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance45",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          15,
+          16,
+          17,
+          18
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance60",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance75",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance90",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          15,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance105",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance120",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 17,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template50_Instance135",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          15,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance0",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance15",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          14,
+          15,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance30",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance45",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance60",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance75",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          12,
+          13,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance90",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance105",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance120",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          12,
+          13,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template7_Instance135",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          13,
+          14,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance0",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          17,
+          18,
+          19,
+          20
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance15",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance30",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance45",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          15,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance60",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance75",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance90",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance105",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance120",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 12,
+        "matched_tokens": 12,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 12,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template32_Instance135",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          15,
+          16,
+          17,
+          18
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance0",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance15",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance30",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "conflict",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance45",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance60",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance75",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance90",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance105",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance120",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template39_Instance135",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance0",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 14,
+        "predicted_tokens": 10,
+        "matched_tokens": 10,
+        "exact": false
+      },
+      "target_source_tokens": 14,
+      "intersecting_source_tokens": 10,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance15",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance30",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 11,
+        "matched_tokens": 11,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 11,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance45",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance60",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance75",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance90",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 15,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 15,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance105",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance120",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 16,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      },
+      "target_source_tokens": 16,
+      "intersecting_source_tokens": 0,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "Template2_Instance135",
+      "split": "dev",
+      "source": "fatura",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "selected",
+        "indices": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "text_score": {
+        "truth_tokens": 13,
+        "predicted_tokens": 9,
+        "matched_tokens": 9,
+        "exact": false
+      },
+      "target_source_tokens": 13,
+      "intersecting_source_tokens": 9,
+      "spatial_exact": false,
+      "seller_contamination_tokens": 0
+    },
+    {
+      "id": "clean",
+      "split": "dev",
+      "source": "synthesized",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 10,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      }
+    },
+    {
+      "id": "scanned",
+      "split": "dev",
+      "source": "synthesized",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 10,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      }
+    },
+    {
+      "id": "fax",
+      "split": "dev",
+      "source": "synthesized",
+      "eligible": true,
+      "ocr_failed": false,
+      "selection": {
+        "status": "no_label",
+        "indices": []
+      },
+      "text_score": {
+        "truth_tokens": 10,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "exact": false
+      }
+    }
+  ],
+  "summary": {
+    "fatura_train": {
+      "total": 40,
+      "eligible": 28,
+      "ineligible": 12,
+      "status": {
+        "selected": 20,
+        "no_label": 20
+      },
+      "eligible_status": {
+        "selected": 20,
+        "no_label": 8
+      },
+      "ocr_failed": 0,
+      "text": {
+        "truth_tokens": 411,
+        "predicted_tokens": 213,
+        "matched_tokens": 212,
+        "items": 28,
+        "exact": 0,
+        "token_recall": 0.5158150851581509,
+        "token_precision": 0.9953051643192489
+      },
+      "spatial_exact": 0,
+      "spatial_denominator": 28,
+      "selected_source_tokens": 213,
+      "target_source_tokens": 410,
+      "intersecting_source_tokens": 213,
+      "seller_contamination_pages": 0,
+      "any_selection_in_ineligible": 0
+    },
+    "fatura_dev": {
+      "total": 50,
+      "eligible": 50,
+      "ineligible": 0,
+      "status": {
+        "selected": 31,
+        "no_label": 18,
+        "conflict": 1
+      },
+      "eligible_status": {
+        "selected": 31,
+        "no_label": 18,
+        "conflict": 1
+      },
+      "ocr_failed": 0,
+      "text": {
+        "truth_tokens": 725,
+        "predicted_tokens": 320,
+        "matched_tokens": 320,
+        "items": 50,
+        "exact": 0,
+        "token_recall": 0.4413793103448276,
+        "token_precision": 1.0
+      },
+      "spatial_exact": 0,
+      "spatial_denominator": 50,
+      "selected_source_tokens": 320,
+      "target_source_tokens": 734,
+      "intersecting_source_tokens": 320,
+      "seller_contamination_pages": 0,
+      "any_selection_in_ineligible": 0
+    },
+    "synthesized_dev": {
+      "total": 3,
+      "eligible": 3,
+      "ineligible": 0,
+      "status": {
+        "no_label": 3
+      },
+      "eligible_status": {
+        "no_label": 3
+      },
+      "ocr_failed": 0,
+      "text": {
+        "truth_tokens": 30,
+        "predicted_tokens": 0,
+        "matched_tokens": 0,
+        "items": 3,
+        "exact": 0,
+        "token_recall": 0.0,
+        "token_precision": 0.0
+      },
+      "spatial_exact": 0,
+      "spatial_denominator": 0,
+      "selected_source_tokens": 0,
+      "target_source_tokens": 0,
+      "intersecting_source_tokens": 0,
+      "seller_contamination_pages": 0,
+      "any_selection_in_ineligible": 0
+    }
+  },
+  "completed_at_utc": "2026-10-24T14:26:43.931244+00:00"
+}
