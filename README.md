@@ -920,21 +920,24 @@ benchmark and the e2e suite (`python face/synth/clips.py --e2e`).
 
 ### Results (details and protocol in `face/RESULTS.md`)
 
+These historical measurements are tied to the configurations named in each
+row. The shipped session currently requires physical parallax as well as
+passive anti-spoofing; the row with 3-D disabled is not the shipped default.
+
 | Benchmark | Shipped setting | DEV | TEST |
 | --- | --- | --- | --- |
 | LFW, raw images through the on-device pipeline (SFace int8) | threshold 0.366 (FAR 1e-3 on DEV) | TAR 99.41% @ FAR 1e-3 | **99.52 ± 0.33%** 10-fold; TAR 99.03% @ FAR 1e-3; at the DEV threshold FAR 0.07%, FRR 1.0% |
 | LFW, standard pre-aligned crops (lfw.bin) | | | 99.63%; CALFW 94.8%, CPLFW 90.9% |
 | Passive anti-spoofing, CelebA-Spoof (cross-dataset) | | AUC 0.908 | AUC 0.858, ACER 23.2% |
 | Active liveness, synthetic clips (photo, curved photo, screen replay, 2-D video, partial) | 2026-10-21: parallax ≥ 0.06, live ≥ 0.5 | APCER 0%, BPCER 3.3% | **APCER 0%, BPCER 0%** (40 bona fide, 70 attacks) |
-| Active liveness, same clips, current default (no 3-D check; anti-spoofing across poses) | 10th-percentile live ≥ 0.711 | APCER 0%, BPCER 3.3% (`bench/`) | not yet run |
+| Active liveness, same clips, historical experiment (3-D disabled; anti-spoofing across poses) | 10th-percentile live ≥ 0.711 | APCER 0%, BPCER 3.3% (`bench/`) | not yet run |
 | Document photo vs live face (synthetic ID renders of LFW pairs) | threshold 0.356 | TAR 98.5% @ FAR 1e-3 | TAR 98.2% @ FAR 1e-3; FAR 0.03%, FRR 2.1% at the DEV threshold |
 
 Browser (headless Chrome, this machine): a liveness frame takes ~100 ms in the
 single-threaded wasm and ~75 ms multithreaded; a session from centred to done
 takes about 6–10 s; 18.7 MB of face models; ~90–100 MB of wasm heap. The
 recogniser reaches the 99.5% LFW bar of compact on-device models; the passive
-anti-spoofing model is far from state of the art on public data (only
-non-commercial data exists to improve it); the liveness figures are on
+anti-spoofing model is far from state of the art on public data; the liveness figures above are on
 synthetic clips only and support no published-style claim. **The shipped
 recogniser's weights are Apache-2.0 but its training data is undocumented**:
 see `face/MODELS.md` before any commercial use.
