@@ -109,13 +109,15 @@ def materialize():
     return samples, frozen
 
 
-def infer(sample, binary, engine, cache):
+def infer(sample, binary, engine, cache, detail=False):
     out = cache / (sample['id'] + '.json')
     if out.exists():
         return json.loads(out.read_text())
     args = [str(binary)]
     if engine == 'ppocr_v6_tiny':
         args.append('--models=' + str(REPO / 'models'))
+    if detail:
+        args.append('--detail')
     args.append(sample['path'])
     start = time.monotonic()
     try:
@@ -144,6 +146,7 @@ def main():
     p.add_argument('--binary', type=Path)
     p.add_argument('--engine', choices=['ppocr_v6_tiny', 'ocrs_page'])
     p.add_argument('--report', type=Path)
+    p.add_argument('--detail', action='store_true', help='Use the optional PP-OCR small-print profile')
     args = p.parse_args()
     os.umask(0o077)
     samples, frozen = materialize()
@@ -158,10 +161,12 @@ def main():
         raise ValueError('Evaluation data changed from frozen manifest')
     if not args.binary or not args.engine or not args.report:
         p.error('--binary, --engine and --report required for evaluation')
+    if args.detail and args.engine != 'ppocr_v6_tiny':
+        p.error('--detail requires ppocr_v6_tiny')
     binary = args.binary.resolve()
     model_names = (['ppocr-v6-tiny-det.onnx', 'ppocr-v6-tiny-rec.onnx'] if args.engine == 'ppocr_v6_tiny'
                    else ['text-detection.rten', 'text-recognition.rten', 'text-detection-page.onnx'])
-    provenance = {'binary_sha256': digest(binary), 'engine': args.engine,
+    provenance = {'binary_sha256': digest(binary), 'engine': args.engine, 'detail': args.detail,
                   'models': {name: digest(REPO / 'models' / name) for name in model_names},
                   'scorer_sha256': digest(__file__), 'manifest_sha256': digest(manifest)}
     key = hashlib.sha256(json.dumps(provenance, sort_keys=True).encode()).hexdigest()
@@ -176,7 +181,7 @@ def main():
     groups = defaultdict(list)
     rows = []
     with ThreadPoolExecutor(max_workers=2) as pool:
-        outputs = pool.map(lambda sample: infer(sample, frozen_binary, args.engine, cache), samples)
+        outputs = pool.map(lambda sample: infer(sample, frozen_binary, args.engine, cache, args.detail), samples)
         for sample, output in zip(samples, outputs):
             entry = {'id': sample['id'], 'source': sample['source'], 'failed': 'error' in output}
             scored = []
