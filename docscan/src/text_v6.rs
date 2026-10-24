@@ -404,8 +404,10 @@ fn homography(quad: &Quad) -> Option<[f64; 8]> {
 }
 fn recognition_input(image: &Image<'_>) -> Result<(Vec<f32>, usize)> {
     let ratio = image.width as f32 / image.height as f32;
-    let width = ((48.0 * ratio).floor() as usize).max(320);
-    ensure!(width <= MAX_REC_WIDTH, "text line is too long at recognition scale; capture a smaller section");
+    // Bound the tensor, not the accepted line length. Dense small print can
+    // legitimately exceed this aspect ratio; compressing it horizontally
+    // matches the reference pipeline and preserves the rest of the page.
+    let width = ((48.0 * ratio).floor() as usize).clamp(320, MAX_REC_WIDTH);
     let resized_width = ((48.0 * ratio).ceil() as usize).min(width).max(1);
     let mut out = vec![0.0; 3 * 48 * width];
     for y in 0..48 {
@@ -524,13 +526,17 @@ mod tests {
         assert_eq!(transparent.pixel(0, 0), [255.0; 3]);
     }
     #[test]
-    fn long_lines_are_an_explicit_error() {
+    fn long_lines_fit_the_bounded_recognition_tensor() {
+        let pixels = vec![255u8; 10000 * 10 * 3];
         let image = Image {
-            bytes: &[],
+            bytes: &pixels,
             width: 10000,
             height: 10,
             channels: 3,
         };
-        assert!(recognition_input(&image).unwrap_err().to_string().contains("too long"));
+        let (input, width) = recognition_input(&image).unwrap();
+        assert_eq!(width, MAX_REC_WIDTH);
+        assert_eq!(input.len(), 3 * 48 * MAX_REC_WIDTH);
+        assert!(input.iter().all(|value| *value == 1.0));
     }
 }
