@@ -1,0 +1,136 @@
+{
+ "frames": 36,
+ "full": {
+  "false_fields": 11,
+  "label_value": 0.7285,
+  "label_value_hits": 110,
+  "truth_fields": 151,
+  "value": 0.8344,
+  "value_hits": 126
+ },
+ "selected": "wide",
+ "selected_rule": "fewest detection passes with no lost field and no extra false field; else fewest lost, false, passes",
+ "variants": {
+  "medium": {
+   "barcode_to_both": 1,
+   "base": 137,
+   "both_to_barcode": 1,
+   "detections": 90,
+   "false_fields": 12,
+   "frames": 36,
+   "frames_with_loss": [
+    "bc_dev_00068",
+    "bc_dev_00101",
+    "bc_dev_00118",
+    "bc_dev_00126",
+    "bc_dev_00135",
+    "bc_dev_00201"
+   ],
+   "gained": 10,
+   "gained_by_kind": {
+    "imei": 1,
+    "text": 9
+   },
+   "gutter_lines": 0,
+   "label_value": 0.7219,
+   "label_value_hits": 109,
+   "lost": 9,
+   "lost_by_kind": {
+    "imei": 1,
+    "text": 8
+   },
+   "margins": "1.0,0.25,0.5,0.2,40",
+   "mean_ocr_share": 0.7478,
+   "source_changed": 2,
+   "tiles": 92,
+   "truth_fields": 151,
+   "value": 0.8344,
+   "value_hits": 126,
+   "whole_frame": 21,
+   "whole_frame_no_bars": 0
+  },
+  "tight": {
+   "barcode_to_both": 0,
+   "base": 137,
+   "both_to_barcode": 2,
+   "detections": 82,
+   "false_fields": 15,
+   "frames": 36,
+   "frames_with_loss": [
+    "bc_dev_00001",
+    "bc_dev_00043",
+    "bc_dev_00060",
+    "bc_dev_00068",
+    "bc_dev_00101",
+    "bc_dev_00118",
+    "bc_dev_00126",
+    "bc_dev_00135",
+    "bc_dev_00143",
+    "bc_dev_00151",
+    "bc_dev_00201",
+    "bc_dev_00210",
+    "bc_dev_00235",
+    "bc_dev_00285",
+    "bc_dev_00293"
+   ],
+   "gained": 25,
+   "gained_by_kind": {
+    "gtin": 1,
+    "imei": 8,
+    "text": 16
+   },
+   "gutter_lines": 1,
+   "label_value": 0.6954,
+   "label_value_hits": 105,
+   "lost": 26,
+   "lost_by_kind": {
+    "gtin": 1,
+    "imei": 8,
+    "text": 17
+   },
+   "margins": "0.6,0.15,0.3,0.1,32",
+   "mean_ocr_share": 0.5713,
+   "source_changed": 2,
+   "tiles": 85,
+   "truth_fields": 151,
+   "value": 0.8013,
+   "value_hits": 121,
+   "whole_frame": 11,
+   "whole_frame_no_bars": 0
+  },
+  "wide": {
+   "barcode_to_both": 0,
+   "base": 137,
+   "both_to_barcode": 0,
+   "detections": 102,
+   "false_fields": 12,
+   "frames": 36,
+   "frames_with_loss": [
+    "bc_dev_00101",
+    "bc_dev_00118",
+    "bc_dev_00126"
+   ],
+   "gained": 3,
+   "gained_by_kind": {
+    "text": 3
+   },
+   "gutter_lines": 0,
+   "label_value": 0.7152,
+   "label_value_hits": 108,
+   "lost": 4,
+   "lost_by_kind": {
+    "imei": 1,
+    "text": 3
+   },
+   "margins": "1.5,0.4,1.0,0.4,48",
+   "mean_ocr_share": 0.8682,
+   "source_changed": 0,
+   "tiles": 102,
+   "truth_fields": 151,
+   "value": 0.8212,
+   "value_hits": 124,
+   "whole_frame": 27,
+   "whole_frame_no_bars": 0
+  }
+ }
+}

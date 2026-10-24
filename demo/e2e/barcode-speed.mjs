@@ -59,7 +59,7 @@ try {
    assert.equal(terminal.sourceOperationId,measured.result.operationId);
    assert.equal(terminal.status,'complete');assert.equal(terminal.pageIndex,0);assert.equal(terminal.batchComplete,true);
    const baseline=JSON.parse(readFileSync(process.env.DOCSCAN_EXPECTED_REPORT)).outcome;
-   const fields=rows=>digest(rows.map(f=>({format:JSON.stringify([f.label,f.kind,f.check_digit_valid,f.barcode_unread]),text:f.value})));
+   const fields=rows=>digest(rows.map(f=>({format:JSON.stringify([f.label,f.kind,f.source,f.check_digit_valid,f.barcode_unread,f.barcode_format]),text:f.value})));
    assert.equal(digest(final.barcodes),digest(baseline.barcodes),'background read changed decoded codes');
    assert.equal(fields(final.fields),fields(baseline.fields),'labelled IMEI/SN/GTIN output changed');
    assert.equal(final.labelReadError,undefined);

@@ -1,0 +1,159 @@
+{
+ "candidate_vs_full": {
+  "barcode_to_both": 0,
+  "base": 5,
+  "both_to_barcode": 0,
+  "cand": 5,
+  "gained": 0,
+  "gained_by_kind": {},
+  "lost": 0,
+  "lost_by_kind": {},
+  "source_changed": 0
+ },
+ "cpu": "3",
+ "exploratory_tight": {
+  "cold_total_ms": [
+   1285.3,
+   1295.0,
+   1297.6
+  ],
+  "detections": 1,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "plan": {
+   "frame_px": 921600,
+   "ocr_px": 313531,
+   "rects": 3,
+   "tiles": 3,
+   "whole_frame": null
+  },
+  "vs_full": {
+   "barcode_to_both": 0,
+   "base": 5,
+   "both_to_barcode": 1,
+   "cand": 5,
+   "gained": 0,
+   "gained_by_kind": {},
+   "lost": 0,
+   "lost_by_kind": {},
+   "source_changed": 1
+  },
+  "warm_stage_ms_median": {
+   "associate": 0.0,
+   "luma": 1.1,
+   "ocr": 1138.4,
+   "plan": 0.0,
+   "read_all": 101.6,
+   "regions": 4.3,
+   "scale": 0.3
+  },
+  "warm_total_ms_median": 1245.7
+ },
+ "full": {
+  "barcode_formats": [
+   "ean13"
+  ],
+  "barcodes": 2,
+  "cold_total_ms": [
+   9508.5,
+   9429.3,
+   9462.1
+  ],
+  "decode_jpeg_ms_median": 10.2,
+  "detections": 6,
+  "fields_check_failed": 0,
+  "fields_shown": 5,
+  "gutter_lines": 0,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "labelled_shown": 3,
+  "lines": 42,
+  "models_ms_median": 9.8,
+  "plan": {
+   "frame_px": 921600,
+   "ocr_px": 921600,
+   "rects": 1,
+   "tiles": 6,
+   "whole_frame": null
+  },
+  "same_as_library": true,
+  "warm_stage_ms_median": {
+   "associate": 0.0,
+   "luma": 1.1,
+   "ocr": 9533.0,
+   "plan": 0.0,
+   "read_all": 102.5,
+   "regions": 4.5,
+   "scale": 0.3
+  },
+  "warm_total_ms_median": 9641.4
+ },
+ "image": "user photo (private)",
+ "margins": "1.5,0.4,1.0,0.4,48",
+ "mosaic": {
+  "barcode_formats": [
+   "ean13"
+  ],
+  "barcodes": 2,
+  "cold_total_ms": [
+   10060.4,
+   9777.6,
+   9707.9
+  ],
+  "decode_jpeg_ms_median": 10.2,
+  "detections": 6,
+  "fields_check_failed": 0,
+  "fields_shown": 5,
+  "gutter_lines": 0,
+  "kinds_shown": {
+   "gtin": 2,
+   "imei": 2,
+   "text": 1
+  },
+  "labelled_shown": 3,
+  "lines": 42,
+  "models_ms_median": 9.6,
+  "plan": {
+   "frame_px": 921600,
+   "ocr_px": 921600,
+   "rects": 1,
+   "tiles": 6,
+   "whole_frame": "MostOfFrame"
+  },
+  "same_as_library": null,
+  "warm_stage_ms_median": {
+   "associate": 0.0,
+   "luma": 1.0,
+   "ocr": 9564.5,
+   "plan": 0.0,
+   "read_all": 101.5,
+   "regions": 4.4,
+   "scale": 0.3
+  },
+  "warm_total_ms_median": 9673.5
+ },
+ "raw": {
+  "barcode_formats": [
+   "ean13"
+  ],
+  "barcodes": 2,
+  "cold_total_ms": [
+   108.1,
+   107.6,
+   107.8
+  ],
+  "decode_jpeg_ms_median": 11.5,
+  "models_ms_median": 0,
+  "warm_stage_ms_median": {
+   "luma": 1.0,
+   "read_all": 99.2
+  },
+  "warm_total_ms_median": 100.1
+ }
+}

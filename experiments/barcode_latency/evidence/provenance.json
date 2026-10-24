@@ -1,0 +1,51 @@
+{
+  "head": "815db22e4a61a31ea70df3aa44cf96bd039c945d",
+  "copied": {
+    "docscan/src/label_regions.rs": "d1e3f578a5d61340dc1fe8e74b3f6b5fce1e6e2a340bccd094b12c6f4bce4a55",
+    "docscan/examples/latency_probe.rs": "94781cb2da2a55c28731df56d847ffeabb4902b210091d432cb5eb11bd9bc455"
+  },
+  "models": {
+    "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+    "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e"
+  },
+  "binaries": {
+    "bin/latency_probe": "3da856fd6be6b8341376c3947335f650bc1dd87d127fe93c42bfffaa9320876f",
+    "bin/scan-base": "8713a8d5c39509d03bc71a7a49957e3d7e18e6f6745339c3ce7fcfe34f7c8120",
+    "pkg-cand/docscan_bg.wasm": "0f14cd73427b27eb5741eb5fcd3203cb031837d5dac1657b42d2cacd7989fc49"
+  },
+  "snapshot_files": 58,
+  "build": "cargo --locked --release -j2 (native); wasm-pack --release --target web, RUSTFLAGS=+simd128, CARGO_BUILD_JOBS=2, single-threaded",
+  "note": "pkg-cand built from the snapshot with lib-integration.patch and the final label_regions.rs; the probe binary predates the final MARGINS/PREVIEW_MARGINS constants and was always run with explicit --margins",
+  "post_run_harness": {
+    "status": "retrospective_hashes_not_execution_receipts",
+    "sha256": {
+      "prepare.py": "142e00b7729f7465ede2a00b478b91c462947413a78645119ca8cf66ac314515",
+      "run.py": "aa37b42950efda0826a3aa07c820cd1677600af1e85d1a38acb3c337bd583d16",
+      "run_wasm.py": "684c3302909c008a16631f91d5ed8ea1190c1976ffd26cf6a3ccb41c777b73fd",
+      "wasm_probe.mjs": "d1e6babc069665dc2987fb53726f1c0cb19424518496cdc0964edb542cf90f45"
+    },
+    "limitations": [
+      "These final harness files were edited after the recorded inference/timing runs, including replacing a machine-specific image path with USER_IMAGE.",
+      "Historical harness bytes were not frozen before execution; the available receipts cannot independently establish that this was the only change.",
+      "The existing binary/model receipts and aggregate results are retained unchanged."
+    ]
+  },
+  "final_wasm_candidate_source": {
+    "sha256": "933d15df46094372db48adf8d4d429172ccd53ecc4135e8e65022c364abe34a0",
+    "status": "retrospective_hash_of_preserved_candidate_source",
+    "matches_current_module": true,
+    "native_source_receipt_is_distinct": true,
+    "frozen_default_margins": [
+      1.5,
+      0.4,
+      1.0,
+      0.4,
+      48.0
+    ],
+    "frozen_config_sha256": "054c74bb88f85f6178d766b4e32caad1d6c27e12a55cc89db732d38d68088d21",
+    "limitations": [
+      "The native probe used explicit margins and the older copied source hash above.",
+      "The WASM frozen arm passed an empty margin vector and relied on the default constant. The preserved final source default matches frozen.json; no pre-execution source-to-binary receipt was recorded for that constant."
+    ]
+  }
+}
