@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 import subprocess
 
+from artifacts import pinned_run
+
 import cv2
 
 from pad_sample import DATA, REVISION, ROOT, digest, exact_interval
@@ -105,14 +107,19 @@ def summarize(runs):
 
 
 def evaluate(binary, report):
+    with pinned_run(binary, ROOT / 'models/face') as artifacts:
+        _evaluate(artifacts, report)
+
+
+def _evaluate(artifacts, report):
     manifest_path = DATA / 'manifest.json'
     manifest = json.loads(manifest_path.read_text())
     attacks = [r for r in manifest['files'] if r['class'] == 'replay']
     if manifest['revision'] != REVISION or len(attacks) != 5:
         raise ValueError('Expected the five pinned preview attacks')
-    models = {p.name: digest(p) for p in sorted((ROOT / 'models/face').glob('*.onnx'))}
+    models = artifacts.model_hashes
     source_hash = digest(ROOT / 'docscan/src/face/liveness.rs')
-    provenance = {'protocol': PROTOCOL, 'revision': REVISION, 'binary_sha256': digest(binary),
+    provenance = {'protocol': PROTOCOL, 'revision': REVISION, 'binary_sha256': artifacts.binary_sha256, 'artifact_guard_sha256': digest(Path(__file__).with_name('artifacts.py')),
                   'models': models, 'source_manifest_sha256': digest(manifest_path),
                   'scorer_sha256': digest(Path(__file__)), 'liveness_source_sha256': source_hash,
                   'opencv_version': cv2.__version__, 'every_source_frames': EVERY, 'long_side': LONG_SIDE,
@@ -126,19 +133,21 @@ def evaluate(binary, report):
         if digest(source) != attack['sha256']:
             raise ValueError('Pinned preview digest changed')
         output = folder / f'{index}.json'
+        artifacts.verify()
         if not output.exists():
             clip = folder / f'{index}.y4m'
             try:
                 info = write_clip(source, clip)
                 info['clip_sha256'] = digest(clip)
-                command = [str(binary), '--models', str(ROOT / 'models/face'),
-                           '--recogniser', 'sface_int8.onnx:sface_int8:sface', 'liveness', str(clip), '{}']
-                process = subprocess.run(command, env=dict(os.environ, TRACE='1', RTEN_NUM_THREADS='1', RAYON_NUM_THREADS='1'),
-                                         check=True, timeout=600, capture_output=True, text=True)
-                result = json.loads(process.stdout)
-                result['sampling'] = info
-                summarize([result])
-                output.write_text(json.dumps(result) + '\n')
+                with artifacts.staged_output(output) as pending:
+                    command = [str(artifacts.binary), '--models', str(artifacts.models_dir),
+                               '--recogniser', 'sface_int8.onnx:sface_int8:sface', 'liveness', str(clip), '{}']
+                    process = subprocess.run(command, env=dict(os.environ, TRACE='1', RTEN_NUM_THREADS='1', RAYON_NUM_THREADS='1'),
+                                             check=True, timeout=600, capture_output=True, text=True)
+                    result = json.loads(process.stdout)
+                    result['sampling'] = info
+                    summarize([result])
+                    pending.write_text(json.dumps(result) + '\n')
             finally:
                 clip.unlink(missing_ok=True)
         result = json.loads(output.read_text())
@@ -158,6 +167,7 @@ def evaluate(binary, report):
                          'Five owner preview clips with unknown identity/device independence; no population/SOTA claim',
                          'Default thresholds, parallax and identity checks unchanged; no tuning or training']}
     report.parent.mkdir(parents=True, exist_ok=True)
+    artifacts.verify()
     report.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
 
@@ -168,4 +178,4 @@ if __name__ == '__main__':
     parser.add_argument('--binary', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args()
-    evaluate(args.binary.resolve(), args.report)
+    evaluate(args.binary, args.report)

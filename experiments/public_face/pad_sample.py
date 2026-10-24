@@ -12,6 +12,8 @@ import subprocess
 import urllib.parse
 import urllib.request
 
+from artifacts import pinned_run
+
 import cv2
 import numpy as np
 
@@ -156,15 +158,22 @@ def prepare():
 
 
 def evaluate(binary, report):
+    with pinned_run(binary, ROOT / 'models/face') as artifacts:
+        _evaluate(artifacts, report)
+
+
+def _evaluate(artifacts, report):
     rows = prepare()
-    models = {p.name: digest(p) for p in sorted((ROOT / 'models/face').glob('*.onnx'))}
-    folder = DATA / ('run-' + run_key(digest(binary), models, rows))
+    models = artifacts.model_hashes
+    folder = DATA / ('run-' + run_key(artifacts.binary_sha256, models, rows))
     folder.mkdir(exist_ok=True)
     paths = folder / 'images.txt'
     paths.write_text('\n'.join(r['path'] for r in rows) + '\n')
     out = folder / 'scores.json'
     if not out.exists():
-        subprocess.run([str(binary), '--models', str(ROOT / 'models/face'), 'antispoof', str(paths), str(out)], env=dict(os.environ, RTEN_NUM_THREADS='1', RAYON_NUM_THREADS='1'), check=True, timeout=300, capture_output=True)
+        with artifacts.staged_output(out) as pending:
+            subprocess.run([str(artifacts.binary), '--models', str(artifacts.models_dir), 'antispoof', str(paths), str(pending)], env=dict(os.environ, RTEN_NUM_THREADS='1', RAYON_NUM_THREADS='1'), check=True, timeout=300, capture_output=True)
+            media_scores(rows, json.loads(pending.read_text()))
     scores = json.loads(out.read_text())
     media = media_scores(rows, scores)
     constants = (ROOT / 'docscan/src/face/antispoof.rs').read_text()
@@ -178,11 +187,12 @@ def evaluate(binary, report):
         metrics[name]['attacks_accepted'] = int(sum(s >= threshold for s in attack))
         metrics[name]['bpcer_iid_exact95'] = exact_interval(metrics[name]['genuine_rejected'], len(genuine))
         metrics[name]['apcer_iid_exact95'] = exact_interval(metrics[name]['attacks_accepted'], len(attack))
-    result = {'protocol': 'axon-display-public-preview-v1', 'source_revision': REVISION, 'opencv_version': cv2.__version__, 'source_manifest_sha256': digest(DATA / 'manifest.json'), 'binary_sha256': digest(binary), 'model_sha256': digest(ROOT / 'models/face/minifasnet.onnx'), 'sample_unit': 'one genuine selfie or median of three fixed replay-video frames', 'frames': len(rows), 'missing_frames': sum(m['missing_frames'] for m in media), 'metrics': metrics, 'apcer_at_fixed_bpcer': None, 'limitations': ['Only five genuine photos and five attack videos; 20% error-rate steps', 'No verified identity mapping or held-out device split; no fitting or calibration', 'Still bona fide photos versus replay-video frames creates a media/source confound', 'Session threshold here evaluates passive component only, not active challenge/parallax', 'No dynamic bona fide videos, so active-session BPCER cannot be measured', 'No claim of SOTA, certification, or representative commercial accuracy']}
+    result = {'protocol': 'axon-display-public-preview-v1', 'source_revision': REVISION, 'opencv_version': cv2.__version__, 'source_manifest_sha256': digest(DATA / 'manifest.json'), 'binary_sha256': artifacts.binary_sha256, 'artifact_guard_sha256': digest(Path(__file__).with_name('artifacts.py')), 'model_sha256': artifacts.model_hashes['minifasnet.onnx'], 'sample_unit': 'one genuine selfie or median of three fixed replay-video frames', 'frames': len(rows), 'missing_frames': sum(m['missing_frames'] for m in media), 'metrics': metrics, 'apcer_at_fixed_bpcer': None, 'limitations': ['Only five genuine photos and five attack videos; 20% error-rate steps', 'No verified identity mapping or held-out device split; no fitting or calibration', 'Still bona fide photos versus replay-video frames creates a media/source confound', 'Session threshold here evaluates passive component only, not active challenge/parallax', 'No dynamic bona fide videos, so active-session BPCER cannot be measured', 'No claim of SOTA, certification, or representative commercial accuracy']}
     report.parent.mkdir(parents=True, exist_ok=True)
     result.update(protocol=PROTOCOL, protocol_sha256=digest(DATA / 'protocol-v2.json'), models=models,
                   scorer_sha256=digest(Path(__file__)), invalid_frames=sum(m['invalid_frames'] for m in media))
     result['limitations'].append('Exact intervals assume independent media, unverified here; descriptive only')
+    artifacts.verify()
     report.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
 
@@ -199,4 +209,4 @@ if __name__ == '__main__':
     else:
         if not args.binary or not args.report:
             p.error('evaluate requires --binary and --report')
-        evaluate(args.binary.resolve(), args.report)
+        evaluate(args.binary, args.report)

@@ -260,6 +260,62 @@ are in the reports. Production code, model bytes, security thresholds, physical
 checks and the shared `bench/` referee remain unchanged from `f24ad10`. This is
 a referee/evidence improvement, **not a demonstrated production accuracy gain**.
 
+## P2 provenance-only revision, 24 October 2026
+
+All four runners now acquire one private executable snapshot before looking up
+caches or running inference. London shares that same snapshot across every shard
+and both production-pair passes. `artifacts.py` copies once, checks the source's
+file identity/timestamps and SHA-256 before/after copying, checks the copy's
+SHA-256, and rejects a copy race. Cache keys and reports use the acquired digest;
+later rebuilds of the original path cannot change a running evaluation. The
+temporary executable is owner-only, read/execute-only, and removed on exit.
+Reports also record `artifact_guard_sha256` alongside the runner's scorer hash.
+
+Models are neither copied nor rebuilt. Their full ONNX file set, hashes and file
+identities/timestamps are checked at acquisition, around inference/cache use,
+and before writing a report. Detected changes abort. New native outputs are
+staged privately and only published as caches after successful native execution,
+output validation and input verification; partial or changed-input runs do not
+become cache hits. These checks detect concurrent changes; they are not a lock
+against a malicious filesystem writer.
+
+This revision changes provenance and cache publication only. Scoring, thresholds,
+sampling, cache-key formulas, production code and model bytes are unchanged.
+The historical reports keep their original binary/scorer hashes and metrics;
+they have not been relabelled as new inference runs. Active/temporal cache keys
+already include the scorer hash, so future runs naturally use new cache folders.
+London/PAD keys retain their existing binary/model/protocol correspondence.
+
+Validation: **24 Python tests pass** (the prior 18 plus six provenance tests,
+with subcases). The production-pair regression failed before the fix: replacing
+the original executable between simulated native passes changed the reported
+digest. It now proves all four shard launches use one snapshot, the vectors
+remain from the original executable, and both cache keys and the report retain
+its digest. Additional cases cover all three replay/PAD entry points, source
+replacement/in-place mutation during copying, corrupt copies/snapshots, model
+replacement/mutation/addition/removal, and interrupted cache writes. Fixtures
+are synthetic; no biometric test fixtures were added.
+
+Read-only validation of existing private caches reproduced every metric and
+capture-quality count in all six `london-v2-*.json` reports, including iris and
+production-pair, after checking their cache keys, model hashes and manifest/
+protocol digests. The PAD v2 baseline also matched every metric/count from its
+keyed cache. Active and temporal replay reports matched their historical
+provenance keys, cached summaries and derived-sampling hashes. AST comparisons
+confirmed scoring, sampling, validation and cache-key functions were unchanged.
+This verifies cached-result correspondence, not retroactive proof that an old
+run could never have encountered the race. The executable currently at the
+build path has a different digest from these reports; no new model inference or
+build was needed, and no TEST data was accessed. Source media, templates and
+per-media outputs remain outside git. No production accuracy or SOTA gain is
+claimed.
+
+```sh
+/tmp/docscan-bench/venv/bin/python -m unittest discover \
+  -s experiments/public_face -p 'test_*.py' -v
+git diff --check -- experiments/public_face
+```
+
 ## External-source review and the SOTA evidence gap
 
 Reviewed official sources on 24 October 2026, without acquiring additional
