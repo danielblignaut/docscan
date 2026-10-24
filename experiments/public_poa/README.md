@@ -112,3 +112,16 @@ that a record is a utility bill suitable as proof of address. A future protocol
 must audit document class, customer/billing address semantics and printed-field
 availability, pin the revision, and group complete file identities across quality
 variants. Already cached Bankstatemently material was not added to this round.
+
+Post-review provenance revision: the native OCR CLI now receives `--models=DIR`
+and confirms its canonical directory. The harness rejects successful outputs
+from older CLIs that cannot confirm it; the tagger paths were already explicit.
+A completed-run marker is written only after source/binary/model checks succeed,
+and records hashes of each prediction. Aggregation and diagnostic reports refuse
+incomplete runs or later-modified predictions. Model timestamps also detect
+changes restored to the original bytes before completion.
+
+Historical reports preserve their original referee hashes (use the corresponding
+commit to reproduce those frozen rounds). A fresh guarded round under
+`/tmp/docscan-public-data/poa-model-bound-v1` reproduced all aggregate outcomes
+of the date fix; `results/reviewed-provenance.json` records that check.

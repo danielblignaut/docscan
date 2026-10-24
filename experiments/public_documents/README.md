@@ -73,3 +73,9 @@ before/after reproduction. The old port rejects the whole page when a genuine
 the resized width at 3200, as the Python reference already does, retains that
 line without increasing the allocation limit. Extremely compressed text can
 still misread; there is no promise of perfect long-line recognition.
+
+Cache protocol v2 stages new predictions privately until model content and
+modification metadata pass the end-of-run guard. Only a cache with a matching
+validation marker is reusable; failed runs cannot poison a later run after
+models are restored. `results/reviewed-cache-guard.json` confirms a full rerun
+reproduced the final small-print scores under this guard.

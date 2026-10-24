@@ -1,0 +1,42 @@
+{
+  "rust": {
+    "library": 113,
+    "native_example": 3
+  },
+  "python": {
+    "document_referee": 7,
+    "public_id_referee": 2,
+    "public_face_referee": 24,
+    "public_poa_referee": 10
+  },
+  "node_face_and_text_tests": 9,
+  "typescript": "passed",
+  "wasm_builds": [
+    "single-thread",
+    "multithread"
+  ],
+  "browser": {
+    "standard_text_one_and_two_threads": "passed before optional profile integration",
+    "small_print_one_and_two_threads": "passed: lazy load, upload, capture, completion, camera release, cancellations",
+    "single_thread_capture_cases": [
+      "smart-id-front-then-back",
+      "za-passport",
+      "poa-bank-recent",
+      "poa-municipal-old"
+    ]
+  },
+  "small_print_bank_wasm": {
+    "passed": true,
+    "lines": 36,
+    "passes": 2,
+    "detectionMaxSide": 960,
+    "memoryBytes": 210960384
+  },
+  "synthetic_small_print": {
+    "cer": 0.0,
+    "word_recall": 1.0,
+    "extra_words": 0
+  },
+  "review": "Three independent review rounds; all six P2 findings fixed, final targeted review no actionable findings",
+  "scope": "DEV and targeted browser regressions only; no TEST or phone benchmark"
+}
