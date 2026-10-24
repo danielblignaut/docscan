@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-24",
+  "rust_tests_passed": 7,
+  "python_tests_passed": 4,
+  "clippy_warnings_denied": "passed",
+  "rustfmt": "passed",
+  "wasm32_unknown_unknown_compile": "passed",
+  "browser_runtime_parity": "not_run",
+  "evidence_audit": "48 fixture rows, counts, warning bits, hashes and deterministic re-execution agree",
+  "real_copy_detection_accuracy": "not_measured",
+  "test_reserved_access": false,
+  "source_sha256": {
+    "docscan/src/document_evidence.rs": "9d377255712be8de553e94fa22607a43b119c98c4849f91e0b7cbedb4d4587c2",
+    "experiments/document_originality/src/lib.rs": "4e5c41391f07bceac665e812f1931dc22824e61e13fc3ce1c5402377fa67ddb4",
+    "experiments/document_originality/Cargo.lock": "f1609d6b8c46aa82fd62911a83ef83c903f1c1a2dc215788a75e512651a1d0e5",
+    "experiments/document_originality/test_probe.py": "c147fb19bf913905ec40a5ad45196c8116eeeccf42dd7a8a7b75ff32b98e5cf2"
+  }
+}

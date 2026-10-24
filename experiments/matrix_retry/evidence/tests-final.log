@@ -1,0 +1,15 @@
+   Compiling docscan v0.1.0 (/tmp/docscan-matrix-retry-v1/after/docscan)
+    Finished `release` profile [optimized] target(s) in 56.62s
+     Running unittests src/lib.rs (/tmp/docscan-matrix-retry-v1/target/release/deps/docscan-abde693e6a48c08d)
+
+running 8 tests
+test barcode::tests::a_weak_code_inside_another_is_dropped ... ok
+test barcode::tests::redraws_blurred_bars ... ok
+test barcode::tests::retry_transforms_cover_non_square_and_odd_images ... ok
+test barcode::tests::retries_reject_invalid_buffers_and_skip_too_small_half_images ... ok
+test barcode::tests::finds_an_off_centre_bulls_eye ... ok
+test barcode::tests::retries_do_not_expand_linear_or_unsupported_matrix_requests ... ok
+test barcode::tests::finds_bar_patches_at_any_angle ... ok
+test barcode::tests::retry_coordinates_and_payload_are_in_the_original_image ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 109 filtered out; finished in 0.02s

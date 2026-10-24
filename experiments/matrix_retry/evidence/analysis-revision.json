@@ -1,0 +1,7 @@
+{
+  "reason": "The initial derived new/lost-ID lists treated compact scorer bit strings as booleans. Corrected int conversion; all scorer metrics, confidence intervals, native predictions, candidates and timing are unchanged. Original aggregate and measured runner remain in private workspace.",
+  "original_accuracy_sha256": "f1c1a8958a8c3baf3030b72e49753d38562fa818dad9f08305893f5373cf7e0d",
+  "corrected_accuracy_sha256": "7cf14ea79506001a2c47c13ece8dc7c7f0922d4ab73bcfba1f882af61dd969a9",
+  "measured_runner_sha256": "9c46bd6976034e872cff1b8c3b20039ea8870119f04f61b6f521a41a82a0b1fa",
+  "corrected_analysis_runner_sha256": "3bf794543af0500ddf371eadce906adc4e4f5a23e0e69466811a43772946e1fd"
+}

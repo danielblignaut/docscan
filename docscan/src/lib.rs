@@ -9,6 +9,7 @@
 //! - [`Scanner::quality`]: sharpness, glare and exposure only, for every frame.
 
 pub mod barcode;
+pub mod document_evidence;
 pub mod face;
 pub mod geometry;
 pub mod idback;
@@ -102,6 +103,9 @@ pub struct DocumentResult {
     /// the MRZ check digits pass, the barcode parsed, or the printed ID
     /// number passes Luhn with the anchors found.
     pub accepted: bool,
+    /// Physical originality is separate from readable/self-consistent fields.
+    /// Unknown is serialized as null, never treated as an original document.
+    pub copy_assessment: document_evidence::CopyAssessment,
     pub reasons: Vec<String>,
     pub quality: quality::Quality,
     pub barcodes: Vec<barcode::Barcode>,
@@ -232,6 +236,22 @@ impl Scanner {
         let luma = quality::rgba_to_luma(rgba);
         let formats = (!formats.is_empty()).then_some(formats.as_slice());
         to_js(&barcode::read_all(&luma, width, height, formats))
+    }
+
+    /// Opt-in matrix fallback: after an empty baseline, try one half-scale
+    /// QR/Data Matrix/Aztec/PDF417 read, restricted to the requested formats.
+    /// Coordinates refer to the original frame. This bounds passes, not time.
+    /// The default reader and identity/labelled acceptance paths are unchanged.
+    pub fn barcodes_with_empty_matrix_retry(
+        &self,
+        rgba: &[u8],
+        width: u32,
+        height: u32,
+        formats: Vec<String>,
+    ) -> Result<JsValue, JsError> {
+        let luma = quality::rgba_to_luma(rgba);
+        let formats = (!formats.is_empty()).then_some(formats.as_slice());
+        to_js(&barcode::read_all_with_empty_matrix_retry(&luma, width, height, formats))
     }
 
     /// Reads an identity document. `run_ocr` false reads only barcodes and
@@ -442,7 +462,7 @@ pub fn prepare_page(rgba: &[u8], w: usize, h: usize) -> (Vec<u8>, usize, usize) 
 
 fn to_js<T: Serialize>(value: &T) -> Result<JsValue, JsError> {
     value
-        .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+        .serialize(&serde_wasm_bindgen::Serializer::json_compatible().serialize_missing_as_null(true))
         .map_err(|e| JsError::new(&e.to_string()))
 }
 
@@ -1183,6 +1203,7 @@ impl Scanner {
         } else {
             classify(q, barcodes, smart_id_barcode, OcrOutput::default(), expected, shape)
         };
+        result.copy_assessment = document_evidence::assess_pixels(rgba, w, h);
         let t3 = now();
 
         result.timings_ms = Timings { quality: t1 - t0, barcodes: t2 - t1, ocr: t3 - t2, total: t3 - t0 };
@@ -1283,6 +1304,7 @@ fn classify(
     let mut out = DocumentResult {
         kind: DocumentKind::Unknown,
         accepted: false,
+        copy_assessment: document_evidence::CopyAssessment::default(),
         reasons: Vec::new(),
         quality,
         barcodes,
