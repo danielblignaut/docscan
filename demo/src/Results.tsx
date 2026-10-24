@@ -11,7 +11,10 @@ import { crossCheck } from "./IdCapture";
 import { catalogueEntry } from "./models";
 import type { CaptureMeta, Outcome, ReadyInfo } from "./outcome";
 import { scannerById } from "./scanners";
-import type { AddressResult, DocumentResult, LabelledField } from "./types";
+import type { AddressResult, CopyAssessment, DocumentResult, LabelledField } from "./types";
+import type { CountCheck, FileEvidence } from "./document-files/types";
+import type { DocumentEvidence, InputReference } from "./document-review";
+import { documentReportJson, sourceLabel } from "./document-report";
 
 type Status = "ok" | "warn" | "bad";
 
@@ -101,9 +104,9 @@ function backend(ready: ReadyInfo | null): string {
 
 function captureFacts(meta: CaptureMeta, ready: ReadyInfo | null): [string, ReactNode][] {
   return [
-    ["Source", meta.source === "camera" ? "camera, hands-free" : "uploaded photo"],
+    ["Source", meta.source === "camera" ? "camera, hands-free" : meta.source === "pdf" ? "rendered PDF page" : "uploaded photo"],
     ["Time to capture", meta.source === "camera" ? secs(meta.captureMs) : null],
-    ["Time to read", meta.source === "photo" ? secs(meta.captureMs) : null],
+    ["Time to read", meta.source !== "camera" ? secs(meta.captureMs) : null],
     ["Frames analysed", meta.frames],
     ["OCR passes", meta.ocrFrames],
     ["Median fast pass", ms(meta.fastMs)],
@@ -251,6 +254,8 @@ function IdResults({ outcome, ready }: { outcome: Extract<Outcome, { kind: "id" 
             {human(c.result.kind)} · {c.result.accepted ? "accepted" : `not accepted: ${c.result.reasons.join("; ")}`}
           </Verdict>
           <img className="captured" src={c.imageUrl} alt={c.step} />
+          <InputSource input={c.input} />
+          <CopyEvidence assessment={c.result.copy_assessment} />
           <DocumentFields result={c.result} />
           <details className="sub">
             <summary>OCR lines ({c.result.lines.length})</summary>
@@ -547,6 +552,7 @@ function FaceResults({ outcome, face }: { outcome: Extract<Outcome, { kind: "fac
           <img key={p.label} className="captured face-portrait" src={p.imageUrl} alt={p.label} />
         ))}
       </div>
+      {outcome.document ? <CopyEvidence assessment={outcome.document.copy_assessment} /> : null}
       {l ? (
         <Group title="Liveness checks" testid="liveness-checks">
           {checks.map((c) => (
@@ -597,25 +603,22 @@ function FaceResults({ outcome, face }: { outcome: Extract<Outcome, { kind: "fac
   );
 }
 
-export function Results({ outcome, ready, onHome, face = null }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null }) {
-  const title =
-    outcome.kind === "id"
-      ? scannerById(outcome.scanner).title
-      : outcome.kind === "face"
-        ? scannerById(outcome.flow).title
-        : outcome.kind === "address"
-          ? "Proof of address"
-          : outcome.kind === "text" ? "Document text"
-          : outcome.labels
-            ? "Device label"
-            : "Barcodes";
-  return (
-    <main className="results" data-testid="results" data-kind={outcome.kind}>
-      <header className="results-head">
-        <h1>{title}</h1>
-        <span className="muted">{outcome.meta.source === "photo" ? "from a photo" : `captured in ${secs(outcome.meta.captureMs)}`}</span>
-      </header>
-      <form className="results-form" onSubmit={(e) => e.preventDefault()}>
+/** A body can render a batch page without nesting forms or home controls. */
+function OutcomeBody({ outcome, ready, face, sourceInHeading = false }: { outcome: Outcome; ready: ReadyInfo | null; face: FaceClient | null; sourceInHeading?: boolean }) {
+  return <>
+    <InputSource input={outcome.meta.input} hideLabel={sourceInHeading} />
+    {outcome.kind === "batch" && <>
+      <p>{outcome.pages.length} results. Page readings and file-inspection warnings are listed separately.</p>
+      {outcome.pages.map((page, i) => <section className="step" key={i} data-testid="batch-page">
+        <h2>{page.meta.input ? sourceLabel(page.meta.input) : `Page result ${i + 1}`}</h2>
+        <OutcomeBody outcome={page} ready={ready} face={face} sourceInHeading />
+      </section>)}
+    </>}
+    {outcome.kind === "file_error" && <section role="alert" data-testid="file-error">
+      {outcome.severity === "warning" ? <p><strong>Incomplete file inspection:</strong> {outcome.message}</p>
+        : <Verdict ok={false}>File or page could not be read: {outcome.message}</Verdict>}
+      <p>See the file evidence and any separate page readings. This is not an authenticity verdict.</p>
+    </section>}
         {outcome.kind === "text" && <section>
           <Group title="Extracted text">
             <p className="muted">{outcome.result.text ? "Check the reading against the page before using it." : "No text found. Try a closer, sharper photo with the text upright."}</p>
@@ -633,11 +636,131 @@ export function Results({ outcome, ready, onHome, face = null }: { outcome: Outc
         {outcome.kind === "address" && <AddressResults outcome={outcome} ready={ready} />}
         {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} />}
         {outcome.kind === "face" && <FaceResults outcome={outcome} face={face} />}
+
+    {outcome.documentEvidence ? <EvidenceResults evidence={outcome.documentEvidence} /> : null}
+  </>;
+}
+
+export function Results({ outcome, ready, onHome, face = null }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null }) {
+  const title = outcome.kind === "batch" ? `${scannerById(outcome.scanner).title} · document batch`
+    : outcome.kind === "file_error" ? "Document could not be read"
+    : outcome.kind === "id" ? scannerById(outcome.scanner).title
+    : outcome.kind === "face" ? scannerById(outcome.flow).title
+    : outcome.kind === "address" ? "Proof of address"
+    : outcome.kind === "text" ? "Document text"
+    : outcome.labels ? "Device label" : "Barcodes";
+  return (
+    <main className="results" data-testid="results" data-kind={outcome.kind}>
+      <header className="results-head">
+        <h1>{title}</h1>
+        <span className="muted">{outcome.meta.source === "photo" ? "from uploaded images" : outcome.meta.source === "pdf" ? "from a digital document" : `captured in ${secs(outcome.meta.captureMs)}`}</span>
+      </header>
+      <p className="muted">Authenticity, issuer and physical originality are not verified.</p>
+      <form className="results-form" onSubmit={(e) => e.preventDefault()}>
+        <OutcomeBody outcome={outcome} ready={ready} face={face} />
       </form>
-      <button type="button" className="primary home-button" data-testid="results-home" onClick={onHome}>
-        Back to home
-      </button>
+      <ReportExport outcome={outcome} />
+      <button type="button" className="primary home-button" data-testid="results-home" onClick={onHome}>Back to home</button>
     </main>
   );
 }
 
+function InputSource({ input, hideLabel = false }: { input?: InputReference; hideLabel?: boolean }) {
+  if (!input) return null;
+  return <div data-testid="input-source">{!hideLabel && <p>{sourceLabel(input)}</p>}<Field label="Original file SHA-256" value={input.sha256 ?? "unknown"} /></div>;
+}
+
+function CopyEvidence({ assessment }: { assessment?: CopyAssessment }) {
+  return <Group title="Physical original or copy" testid="copy-assessment">
+    <Facts rows={[
+      ["Assessment", human(assessment?.status ?? "unknown")],
+      ["Is copy", assessment?.is_copy == null ? "unknown (null)" : assessment.is_copy ? "yes (heuristic indication)" : "no (heuristic indication)"],
+      ["Confidence", assessment?.confidence == null ? "unknown (null); not calibrated" : `${assessment.confidence} (uncalibrated heuristic score)`],
+    ]} />
+    <p className="muted">Physical originality is not established. The pixel heuristic abstains: periodic security patterns can resemble copying artifacts. Upload type and successful reading do not resolve this.</p>
+    {assessment?.signals.length ? <details className="sub"><summary>Observed pixel signals</summary><Facts rows={assessment.signals.map((s, i) => [`${s.code} (${i + 1})`, s.value])} /></details> : null}
+    {assessment?.limitations.length ? <ul>{assessment.limitations.map((l, i) => <li key={i}>{human(l)}</li>)}</ul> : null}
+  </Group>;
+}
+const countLabel = (c: CountCheck) => `${c.count ?? "unknown"} · ${human(c.status)}${c.capped ? " · capped" : ""} · ${c.scope}`;
+
+function FileEvidenceResults({ file, index }: { file: FileEvidence; index: number }) {
+  const pdf = file.pdf;
+  return <section className="step" data-testid="file-evidence">
+    <h3>File {index + 1}: {file.original.name ?? "unnamed file"}</h3>
+    <p><strong>Evidence: {file.status}</strong>{file.status !== "complete" ? ". Missing checks are unknown, not evidence of absence." : ". Complete inspection does not establish authenticity."}</p>
+    <Field label="SHA-256 of original bytes" value={file.original.sha256 ?? "unknown"} note="Identifies these bytes; does not authenticate their source." />
+    <Facts rows={[
+      ["Size", `${file.original.sizeBytes} bytes`], ["Declared / detected type", `${file.original.declaredMime || "unknown"} / ${file.original.detectedMime ?? "unknown"}`],
+      ["MIME check", `${human(file.original.mimeCheck)}${file.original.mimeMismatch ? " · mismatch" : ""}`],
+      ["Image dimensions", file.image ? `${file.image.width} × ${file.image.height}` : null],
+      ["Metadata", `${human(file.metadata.status)} · self-reported, unverified${file.metadata.truncated ? " · truncated" : ""}`],
+      ["PDF pages", pdf ? `${pdf.numPages} total · ${pdf.inspectedPages} inspected · ${pdf.omittedPages} omitted from inspection` : null],
+    ]} />
+    {pdf ? <Group title="PDF signatures and active content">
+      <Facts rows={[
+        ["Signature evidence", `${human(pdf.signatures.status)} · ${human(pdf.signatures.check)}`],
+        ["Signature fields", pdf.signatures.fieldCount ?? "unknown"],
+        ["Signed values observed", pdf.signatures.count ?? "unknown"],
+        ["Cryptographic verification", "not supported"], ["Issuer trust", "not verified / not supported"],
+        ["Annotations", countLabel(pdf.annotations)], ["Form fields", countLabel(pdf.formFields)], ["Attachments", countLabel(pdf.attachments)],
+        ["Document JavaScript actions", countLabel(pdf.documentJavaScriptActions)],
+        ["Form JavaScript presence", `${pdf.formJavaScriptPresence.present === null ? "unknown" : pdf.formJavaScriptPresence.present ? "present" : "not observed"} · ${human(pdf.formJavaScriptPresence.status)}`],
+      ]} />
+      <p>A signature field may be empty. A signed value's presence does not verify its cryptography, signer, issuer or coverage.</p>
+    </Group> : null}
+    {file.errors.length ? <div role="alert"><h4>Evidence errors</h4><ul>{file.errors.map((e, i) => <li key={i}>{e.stage} · {e.code}{e.pageIndex === undefined ? "" : ` · page ${e.pageIndex + 1}`}: {e.message}</li>)}</ul></div> : null}
+    {file.signals.length ? <><h4>Observed signals</h4><ul>{file.signals.map((s, i) => <li key={i}><strong>{s.code}</strong> · {s.severity} · {s.source}: {s.observed}<p className="muted">{s.limitations}</p></li>)}</ul></> : null}
+    <details className="sub"><summary>File metadata and inspection limits</summary>
+      <p>File names, modification dates and metadata are untrusted claims.</p>
+      <Facts rows={[["File last modified (milliseconds since epoch)", file.original.lastModified ?? "unknown"], ["GPS presence", human(file.metadata.gpsPresence)], ...Object.entries(file.metadata.fields).map(([k, v]): [string, ReactNode] => [k, String(v)])]} />
+      <ul>{file.limitations.map((l, i) => <li key={i}>{l}</li>)}</ul>
+    </details>
+    {pdf?.pages.map(page => <details className="sub" key={page.index}>
+      <summary>PDF page {page.index + 1}: {page.status} · native text {human(page.text.status)}{page.text.truncated ? " (truncated)" : ""}</summary>
+      <p>Native PDF text is untrusted and is not OCR of visible pixels. It may be hidden or differ from the rendered page.</p>
+      <Facts rows={[["Page dimensions", `${page.width ?? "unknown"} × ${page.height ?? "unknown"}`], ["Rotation", page.rotation ?? "unknown"], ["Annotations", countLabel(page.annotations)], ["JavaScript actions", countLabel(page.javaScriptActions)]]} />
+      <pre>{page.text.items.map(t => t.text).join("\n") || "No native text available"}</pre>
+      <details><summary>Native text positions and fonts</summary><pre>{JSON.stringify(page.text.items, null, 2)}</pre></details>
+    </details>)}
+  </section>;
+}
+
+function EvidenceResults({ evidence }: { evidence: DocumentEvidence }) {
+  return <section data-testid="document-evidence">
+    <h2>Original file evidence</h2>
+    <p>Authenticity and tampering: unknown. Issuer not verified. No cryptographic signature verification is performed.</p>
+    {!evidence.files.length ? <p>No original-file inspection is available.</p> : evidence.files.map((file, i) => <FileEvidenceResults key={i} file={file} index={i} />)}
+    {evidence.comparisons.map((c, i) => <Group key={i} title={`Native text ↔ rendered-page OCR · ${sourceLabel(c.input)}`}>
+      <p><strong>{human(c.result.status)}</strong>: {c.result.reason}</p>
+      <Facts rows={[
+        ["Method", c.result.method], ["Native tokens / OCR tokens", `${c.result.nativeTokens} / ${c.result.ocrTokens}`], ["Shared tokens", c.result.sharedTokens ?? "unknown"],
+        ["Native token coverage", c.result.nativeTokenCoverage === null ? "unknown" : pct(c.result.nativeTokenCoverage)],
+        ["OCR token support", c.result.ocrTokenSupport === null ? "unknown" : pct(c.result.ocrTokenSupport)],
+      ]} />
+      <p className="muted">These are text agreement measures, not authenticity probabilities. OCR errors, reading order and legitimate hidden text can explain discrepancies.</p>
+      <details className="sub"><summary>Discrepancy samples (bounded)</summary><Facts rows={[
+        ["Native only", c.result.nativeOnlySample.join(" · ") || "none reported"], ["OCR only", c.result.ocrOnlySample.join(" · ") || "none reported"],
+        ["Numeric native only", c.result.numericDisagreements.nativeOnly.join(" · ") || "none reported"], ["Numeric OCR only", c.result.numericDisagreements.ocrOnly.join(" · ") || "none reported"],
+      ]} /></details>
+    </Group>)}
+  </section>;
+}
+
+function ReportExport({ outcome }: { outcome: Outcome }) {
+  const [error, setError] = useState<string | null>(null);
+  return <section>
+    <button type="button" className="copy" data-testid="export-document-report" onClick={() => {
+      try {
+        const url = URL.createObjectURL(new Blob([documentReportJson(outcome)], { type: "application/json" }));
+        const anchor = document.createElement("a");
+        anchor.href = url; anchor.download = "document-report.json";
+        document.body.append(anchor);
+        try { anchor.click(); } finally { anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+        setError(null);
+      } catch (e) { setError(`Report export failed: ${e instanceof Error ? e.message : String(e)}`); }
+    }}>Export JSON report</button>
+    <p className="muted">Includes extracted document data and evidence. Excludes face templates, images and original file bytes.</p>
+    {error ? <p role="alert">{error}</p> : null}
+  </section>;
+}

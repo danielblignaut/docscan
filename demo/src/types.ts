@@ -80,9 +80,19 @@ export interface Line {
   h: number;
 }
 
+/** No classifier has established a calibrated physical-originality probability. */
+export interface CopyAssessment {
+  status: "unknown" | "copy_indicated" | "original_indicated";
+  is_copy: boolean | null;
+  confidence: number | null;
+  signals: { code: string; value: number }[];
+  limitations: string[];
+}
+
 export interface DocumentResult {
   kind: DocumentKind;
   accepted: boolean;
+  copy_assessment: CopyAssessment;
   reasons: string[];
   quality: Quality;
   barcodes: Barcode[];

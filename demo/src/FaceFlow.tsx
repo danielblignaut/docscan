@@ -23,6 +23,7 @@ export type { FaceMatch } from "./face-types";
 export type FaceFlowId = "liveness" | "faceid" | "facedoc";
 
 export interface DocumentFace {
+  copy_assessment: import("./types").CopyAssessment;
   imageUrl: string;
   kind: string;
   face: PhotoFace;
@@ -121,10 +122,10 @@ export function FaceFlow({ flow, face, scanner, onDone }: { flow: FaceFlowId; fa
         if (!c) throw new Error("No document was captured. Please try again.");
         const result = await readDocumentFace(c.imageUrl, imagePixels, async (image) => (await face.run<PhotoFace>({ kind: "photo", image })).result, signal);
         if (!result || signal.aborted) { URL.revokeObjectURL(c.imageUrl); return; }
-        const doc: DocumentFace = { imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
+        const doc: DocumentFace = { copy_assessment: c.result.copy_assessment, imageUrl: c.imageUrl, kind: c.result.kind, face: result, alignedUrl: result.found ? portraitUrl({ width: 112, height: 112, rgba: result.aligned }) : null };
         const match = live.passed ? documentMatch(live.result.template, live.result.model, result, DOC_THRESHOLD) : null;
         docscan().events.push({ type: "facedoc", found: result.found, match });
-        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
+        window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { liveness: live.result, passed: verificationPassed(live.passed, match), document: { copy_assessment: c.result.copy_assessment, kind: c.result.kind, found: result.found, quality: result.quality }, match } }));
         onDone({ kind: "face", flow, liveness: live, match, document: doc, meta: meta(live) });
       } catch (error) {
         if (c) URL.revokeObjectURL(c.imageUrl);

@@ -48,6 +48,30 @@ export function App() {
   const [ready, setReady] = useState<ReadyInfo | null>(null);
   const [failed, setFailed] = useState(false);
   const [screen, setScreen] = useState<Screen>(screenFromUrl);
+  const resultRef = useRef<Outcome | null>(null);
+  // Release on explicit transitions, outside React's replayable state updaters
+  // and effect cleanups. StrictMode must never revoke a displayed preview.
+  const changeScreen = useCallback((next: Screen) => {
+    const previous = resultRef.current;
+    resultRef.current = next.kind === "results" ? next.outcome : null;
+    if (previous && previous !== resultRef.current) releasePhotoOutcome(previous);
+    setScreen(next);
+  }, []);
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      // React replays mount effects synchronously in StrictMode. Defer actual
+      // disposal until that replay has had a chance to reclaim the result.
+      queueMicrotask(() => {
+        if (!mounted.current && resultRef.current) {
+          releasePhotoOutcome(resultRef.current);
+          resultRef.current = null;
+        }
+      });
+    };
+  }, []);
   const [textEngine, setTextEngine] = useState<TextEngine>(textEngineFromUrl);
   const [method, setMethod] = useState<Extractor | "auto">(methodFromUrl);
   const [busy, setBusy] = useState<ScannerId | null>(null);
@@ -84,10 +108,10 @@ export function App() {
 
   // The browser's own Back (and Android's) follows the URL.
   useEffect(() => {
-    const onPop = () => { cancelPhoto(); setTextEngine(textEngineFromUrl()); setScreen(screenFromUrl()); };
+    const onPop = () => { cancelPhoto(); setTextEngine(textEngineFromUrl()); changeScreen(screenFromUrl()); };
     addEventListener("popstate", onPop);
     return () => removeEventListener("popstate", onPop);
-  }, [cancelPhoto]);
+  }, [cancelPhoto, changeScreen]);
 
   // Each screen starts at the top.
   useEffect(() => {
@@ -98,25 +122,25 @@ export function App() {
     (scanner: ScannerId) => {
       cancelPhoto();
       history.pushState(PUSHED, "", urlFor(scanner, method, textEngine));
-      setScreen({ kind: "capture", scanner });
+      changeScreen({ kind: "capture", scanner });
     },
-    [method, textEngine, cancelPhoto],
+    [method, textEngine, cancelPhoto, changeScreen],
   );
 
   /** Unmounting the capture screen stops its camera. */
   const goHome = useCallback(() => {
     cancelPhoto();
-    setScreen({ kind: "home" });
+    changeScreen({ kind: "home" });
     if (history.state === PUSHED) history.back();
     else history.replaceState(null, "", urlFor(null));
-  }, [cancelPhoto]);
+  }, [cancelPhoto, changeScreen]);
 
   const onId = useCallback(
-    (scanner: ScannerId) => (captured: Captured[], meta: CaptureMeta) => setScreen({ kind: "results", outcome: { kind: "id", scanner, captured, meta } }),
-    [],
+    (scanner: ScannerId) => (captured: Captured[], meta: CaptureMeta) => changeScreen({ kind: "results", outcome: { kind: "id", scanner, captured, meta } }),
+    [changeScreen],
   );
-  const onAddress = useCallback((captured: AddressCaptured, meta: CaptureMeta) => setScreen({ kind: "results", outcome: { kind: "address", captured, meta } }), []);
-  const onOutcome = useCallback((outcome: Outcome) => setScreen({ kind: "results", outcome }), []);
+  const onAddress = useCallback((captured: AddressCaptured, meta: CaptureMeta) => changeScreen({ kind: "results", outcome: { kind: "address", captured, meta } }), [changeScreen]);
+  const onOutcome = useCallback((outcome: Outcome) => changeScreen({ kind: "results", outcome }), [changeScreen]);
   const capturing = screen.kind === "capture" ? screen.scanner : null;
   // Stable per scanner: the capture restarts when its callback changes.
   const idDone = useMemo(() => (capturing ? onId(capturing) : null), [capturing, onId]);
@@ -128,13 +152,14 @@ export function App() {
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos(client, id, files, method, faceClient, textEngine);
+      const outcome = await analysePhotos(client, id, files, method, faceClient, textEngine, request.signal);
       if (request.signal.aborted) { releasePhotoOutcome(outcome); return; }
       history.pushState(PUSHED, "", urlFor(id, method, textEngine));
-      setScreen({ kind: "results", outcome });
+      changeScreen({ kind: "results", outcome });
+      window.dispatchEvent(new CustomEvent("docscan:file", { detail: { outcome } }));
     } catch (e) {
       if (request.signal.aborted) return;
-      setPhotoError({ id, message: `Could not read the photo: ${e instanceof Error ? e.message : String(e)}` });
+      setPhotoError({ id, message: `Could not read the document: ${e instanceof Error ? e.message : String(e)}` });
     } finally {
       if (photoRequest.current === request) { photoRequest.current = null; setBusy(null); }
     }

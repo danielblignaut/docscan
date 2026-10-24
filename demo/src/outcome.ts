@@ -1,5 +1,6 @@
 // What a finished scan hands to the results screen: the captured data, and
 // how it was captured (for the Metadata section).
+import type { DocumentEvidence, InputReference } from "./document-review";
 import type { TextResult } from "./TextCapture";
 import type { AddressCaptured } from "./AddressCapture";
 import type { DocumentFace, FaceFlowId, FaceMatch } from "./FaceFlow";
@@ -18,7 +19,8 @@ export interface ReadyInfo {
 }
 
 export interface CaptureMeta {
-  source: "camera" | "photo";
+  source: "camera" | "photo" | "pdf";
+  input?: InputReference;
   /** From the camera opening (or the photo being chosen) to the capture. */
   captureMs: number;
   /** Frames analysed, and how many of them were OCR passes. */
@@ -38,7 +40,11 @@ export interface SeenCode {
   count: number;
 }
 
-export type Outcome =
+export type Outcome = OutcomeData & { documentEvidence?: DocumentEvidence };
+
+export type OutcomeData =
+  | { kind: "batch"; scanner: ScannerId; pages: Outcome[]; meta: CaptureMeta }
+  | { kind: "file_error"; message: string; severity?: "warning" | "error"; meta: CaptureMeta }
   | { kind: "text"; result: TextResult; imageUrl: string; meta: CaptureMeta }
   | { kind: "id"; scanner: ScannerId; captured: Captured[]; meta: CaptureMeta }
   | {
