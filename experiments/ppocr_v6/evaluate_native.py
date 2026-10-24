@@ -20,6 +20,7 @@ p.add_argument('--scorer', type=Path, default=ROOT / 'eval/text_eval.py')
 p.add_argument('--data', type=Path, default=Path('/tmp/docscan-text-dev'))
 p.add_argument('--out', type=Path, required=True)
 p.add_argument('--jobs', type=int, default=2, choices=[1, 2])
+p.add_argument('--detail', action='store_true')
 args = p.parse_args()
 
 def digest(path):
@@ -37,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix='ppocr-native-dev-') as folder:
     for name, image, truth in samples:
         assert digest(image) == hashes[name] == digest(args.data / f'{name}.png'), name
 binary = args.binary.resolve()
-result = subprocess.run([str(binary), *[str(args.data / f'{name}.png') for name, _, _ in samples]],
+result = subprocess.run([str(binary), *(['--detail'] if args.detail else []), *[str(args.data / f'{name}.png') for name, _, _ in samples]],
                         capture_output=True, text=True, check=True, timeout=180,
                         env={**os.environ, 'RTEN_NUM_THREADS': str(args.jobs), 'RAYON_NUM_THREADS': str(args.jobs)})
 outputs = [json.loads(line) for line in result.stdout.splitlines()]
@@ -56,7 +57,7 @@ summary = {'cer': sum(r['edits'] for r in rows) / sum(r['characters'] for r in r
            'mean_ms_unpaired': sum(r['output']['timings_ms']['total'] for r in rows) / len(rows)}
 report = {'protocol': 'general-text-dev-v1-ppocr-native', 'synthetic_only': True,
           'runtime': 'RTen0.26 native, Rust preprocessing/DB/CTC; not browser', 'threads': args.jobs,
-          'binary_sha256': digest(binary), 'source_scorer_sha256': digest(args.scorer),
+          'binary_sha256': digest(binary), 'detail': args.detail, 'source_scorer_sha256': digest(args.scorer),
           'source_revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
           'model_manifest': json.loads((ROOT / 'scripts/ppocr-v6-models.json').read_text()),
           'summary': summary, 'rows': rows, 'baseline': baseline,
