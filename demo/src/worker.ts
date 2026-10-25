@@ -5,7 +5,7 @@ import { compareExposure } from "./exposure-comparison";
 // Runs the docscan WebAssembly off the main thread, so the camera preview
 // never stutters while OCR runs. One request at a time: the page sends the
 // next frame only when the previous answer is back.
-import init, { Scanner, PaddleTextScanner } from "docscan";
+import init, { Scanner } from "docscan";
 import wasmUrl from "docscan/docscan_bg.wasm?url";
 
 export type WorkerRequest =
@@ -24,40 +24,20 @@ export type WorkerInit = { kind: "init"; threads: number; loadModels?: boolean }
 
 export type WorkerResponse =
   | { kind: "ready"; ocr: boolean; tagger: boolean; loadMs: number; threads: number }
+  | { kind: "reader_state"; reader: "paddle"; state: "loading" | "ready" | "failed"; message?: string }
   | { kind: "progress"; file: string; loaded: number; total: number; cached: boolean }
   | { kind: "error"; id?: number; message: string }
   | { kind: "result"; id: number; request: WorkerRequest["kind"]; ms: number; result: unknown; memoryBytes: number };
 
 let scanner: Scanner | null = null;
-let createPaddle = () => new PaddleTextScanner();
-let paddleReady: Promise<PaddleTextScanner> | null = null;
-
-/** The optional reader downloads only on its first actual text request. */
-function paddleScanner(): Promise<PaddleTextScanner> {
-  paddleReady ??= (async () => {
-    const [det, rec, dictionary] = await Promise.all([
-      fetchModel("ppocr-v6-tiny-det.onnx"),
-      fetchModel("ppocr-v6-tiny-rec.onnx"),
-      fetchModel("ppocr-v6-tiny-dictionary.json"),
-    ]);
-    const reader = createPaddle();
-    try {
-      reader.load_detector(det!);
-      reader.load_recognizer(rec!, new TextDecoder().decode(dictionary!));
-      return reader;
-    } catch (error) {
-      reader.free();
-      throw error;
-    }
-  })().catch((error) => { paddleReady = null; throw error; });
-  return paddleReady;
-}
 let fastLabelsReady: Promise<void> | null = null;
 function loadFastLabels(): Promise<void> {
   fastLabelsReady ??= (async () => {
+    post({kind:"reader_state",reader:"paddle",state:"loading"});
     const [det, rec] = await Promise.all([fetchModel("ppocr-v6-tiny-det.onnx"), fetchModel("ppocr-v6-tiny-rec.onnx")]);
     scanner!.load_label_reader(det!, rec!);
-  })().catch(error => { fastLabelsReady = null; throw error; });
+    post({kind:"reader_state",reader:"paddle",state:"ready"});
+  })().catch(error => { fastLabelsReady = null; post({kind:"reader_state",reader:"paddle",state:"failed",message:String(error)}); throw error; });
   return fastLabelsReady;
 }
 /** The wasm linear memory, to report how large it has grown (it never shrinks). */
@@ -73,7 +53,6 @@ async function loadScanner(threads: number): Promise<{ scanner: Scanner; threads
     memory = (await mt.default()).memory;
     if (typeof mt.initThreadPool === "function") {
       await mt.initThreadPool(threads);
-      createPaddle = () => new mt.PaddleTextScanner() as PaddleTextScanner;
       return { scanner: new mt.Scanner() as Scanner, threads };
     }
   }
@@ -196,11 +175,11 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
       } else result = scanner.address(bytes, width, height, req.today, req.method);
     }
     else if (req.kind === "text_v6") {
-      const reader = await paddleScanner();
-      result = req.detail ? reader.read_detailed(bytes, width, height) : reader.read(bytes, width, height);
+      await loadFastLabels();
+      result = scanner.text_v6(bytes, width, height, !!req.detail);
       if (req.exposureCompare) result = compareExposure(result as PaddlePageText,
         () => scanner!.exposure_preview(bytes, width, height),
-        corrected => (req.detail ? reader.read_detailed(corrected, width, height) : reader.read(corrected, width, height)) as PaddlePageText);
+        corrected => scanner!.text_v6(corrected, width, height, !!req.detail) as PaddlePageText);
     }
     else if (req.kind === "text_page") result = scanner.text_page(bytes, width, height);
     else result = scanner.text(bytes, width, height);

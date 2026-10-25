@@ -1,0 +1,5 @@
+# Machine-generated aggregate evidence remains versioned and expandable in PRs.
+experiments/financial_external/results/**/*.json linguist-generated=true
+experiments/item_stress/evidence/*.json linguist-generated=true
+experiments/label_robustness/evidence/*.json linguist-generated=true
+experiments/runtime_loading/*.json linguist-generated=true

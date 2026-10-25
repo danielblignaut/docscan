@@ -1,3 +1,4 @@
+import {readerRoute, paddleThreadCount} from "./reader-routing";
 import { type LabelEngine, labelEngineFromUrl } from "./label-engine";
 // Three screens: home (a card per scanner), the full-screen camera, and the
 // results form. The URL names the scanner (`?doc=…`, `?mode=…`), so a deep
@@ -47,6 +48,7 @@ const PUSHED = "docscan";
 
 export function App() {
   const client = useMemo(() => new ScannerClient(threadCount()), []);
+  const paddleClient = useMemo(() => new ScannerClient(paddleThreadCount(), {loadModels:false}), []);
   const fastClient = useMemo(() => new ScannerClient(1, { loadModels: false }), []);
   // The face models (~18 MB) load only once a face scanner is opened.
   const faceRef = useRef<FaceClient | null>(null);
@@ -57,7 +59,8 @@ export function App() {
   const [status, setStatus] = useState("Loading the scanner…");
   const [ready, setReady] = useState<ReadyInfo | null>(null);
   const [failed, setFailed] = useState(false);
-  const [modelsState, setModelsState] = useState<"loading" | "idle" | "failed" | "ready">("loading");
+  const [modelsState, setModelsState] = useState<"loading" | "idle" | "failed" | "ready">("idle");
+  const [paddleState, setPaddleState] = useState<"loading" | "idle" | "failed" | "ready">("idle");
   const [readingLabels, setReadingLabels] = useState(false);
   const [screen, setScreen] = useState<Screen>(screenFromUrl);
   const resultRef = useRef<Outcome | null>(null);
@@ -86,11 +89,11 @@ export function App() {
           }
           if (resultRef.current) releasePhotoOutcome(resultRef.current);
           resultRef.current = null;
-          client.dispose(); fastClient.dispose(); faceRef.current?.dispose();
+          client.dispose(); paddleClient.dispose(); fastClient.dispose(); faceRef.current?.dispose();
         }
       });
     };
-  }, [client, fastClient]);
+  }, [client, paddleClient, fastClient]);
   const [financialEngine, setFinancialEngine] = useState<TextEngine>(financialEngineFromUrl);
   const [labelEngine, setLabelEngine] = useState<LabelEngine>(labelEngineFromUrl);
   const [textEngine, setTextEngine] = useState<TextEngine>(textEngineFromUrl);
@@ -117,13 +120,14 @@ export function App() {
     photoRequest.current = null;
     photoProcessing.current?.cancel(); photoProcessing.current = null;
     client.cancelPending();
+    paddleClient.cancelPending();
     // A live camera pass may finish normally; only kill an abandoned file read.
     if (photoClient.current === fastClient) fastClient.cancelPending();
     photoClient.current = null;
     labelOperation.current = null;
     setReadingLabels(false);
     setBusy(null);
-  }, [client, fastClient]);
+  }, [client, paddleClient, fastClient]);
   useEffect(() => () => { photoRequest.current?.abort(); photoProcessing.current?.cancel(); }, []);
 
 
@@ -131,6 +135,7 @@ export function App() {
     fastClient.onReady = r => {
       setReady(previous => previous ?? r);
       setFailed(false);
+      setStatus("Barcode scanner ready. Other readers load when selected.");
       (window as unknown as { __docscan: { captureReady?: unknown } }).__docscan.captureReady = r;
     };
     fastClient.onState = (state, error) => {
@@ -146,18 +151,30 @@ export function App() {
       setStatus(`Scanner ready in ${Math.round(r.loadMs)} ms · ${r.threads} thread${r.threads > 1 ? "s" : ""}${r.tagger ? " · tagger" : ""}`);
       (window as unknown as { __docscan: { ready?: unknown } }).__docscan.ready = r;
     };
+    paddleClient.onState = (state, error) => {
+      setPaddleState(state);
+      if (state === "failed") setStatus(`Lightweight reader unavailable; retry the scan. ${error?.message ?? ""}`);
+    };
+    paddleClient.onReady = r => {
+      setPaddleState("idle"); // Runtime-only operations such as flattening do not load weights.
+      (window as unknown as {__docscan:{paddleRuntimeReady?:unknown}}).__docscan.paddleRuntimeReady = r;
+    };
+    paddleClient.onReaderState = (state, message) => {
+      setPaddleState(state);
+      if (state === "failed") setStatus(`Lightweight models unavailable; retry the scan. ${message ?? ""}`);
+      else if (state === "ready") setStatus("Lightweight text and label reader ready.");
+    };
     void fastClient.ready.catch(() => {});
-    void client.ready.catch(() => {});
-    return () => { fastClient.onReady = null; fastClient.onState = null; client.onReady = null; client.onState = null; };
-  }, [client, fastClient]);
+    return () => { fastClient.onReady = null; fastClient.onState = null; client.onReady = null; client.onState = null; paddleClient.onState = null; paddleClient.onReady = null; paddleClient.onReaderState = null; };
+  }, [client, paddleClient, fastClient]);
 
   // Model download progress, and a request that the browser keep the cached models.
   useEffect(() => {
-    client.onProgress = (p) => {
+    client.onProgress = paddleClient.onProgress = (p) => {
       if (!p.cached && p.total) setStatus(`Downloading ${p.file}: ${Math.round((100 * p.loaded) / p.total)}%`);
     };
     void navigator.storage?.persist?.().catch(() => false);
-  }, [client]);
+  }, [client, paddleClient]);
 
   // The browser's own Back (and Android's) follows the URL.
   useEffect(() => {
@@ -198,6 +215,11 @@ export function App() {
   // Stable per scanner: the capture restarts when its callback changes.
   const idDone = useMemo(() => (capturing ? onId(capturing) : null), [capturing, onId]);
 
+  function readerFor(id: ScannerId) {
+    const route=readerRoute(id,textEngine,financialEngine,labelEngine);
+    return route === "capture" ? fastClient : route === "paddle" ? paddleClient : client;
+  }
+
   async function onPhoto(id: ScannerId, files: File[]) {
     cancelPhoto();
     // An import selected from the camera screen must stop its frame loop before
@@ -208,7 +230,7 @@ export function App() {
     }
     const request = new AbortController();
     photoRequest.current = request;
-    photoClient.current = (id === "barcodes" || id === "items") ? fastClient : client;
+    photoClient.current = readerFor(id);
     const processing = createProcessingSession(id, "file");
     photoProcessing.current = processing;
     processing.captured({ inputCount: files.length });
@@ -217,7 +239,7 @@ export function App() {
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos((id === "barcodes" || id === "items") ? fastClient : client, id, files, method, faceClient, id === "tables" ? financialEngine : textEngine, request.signal, labelEngine);
+      const outcome = await analysePhotos(readerFor(id), id, files, method, faceClient, id === "tables" ? financialEngine : textEngine, request.signal, labelEngine);
       if (request.signal.aborted) { releasePhotoOutcome(outcome); return; }
       if (outcome.kind === "file_error" && outcome.severity !== "warning") processing.fail(outcome.message);
       else processing.complete();
@@ -242,7 +264,7 @@ export function App() {
     attemptedLabels.current.add(target);
     cancelPhoto(false);
     const request = new AbortController();
-    photoRequest.current = request; photoClient.current = client;
+    photoRequest.current = request; photoClient.current = readerFor("labels");
     const session = createProcessingSession("labels", target.meta.source === "camera" ? "camera" : "file");
     photoProcessing.current = session; labelOperation.current = session.id;
     const originalTarget = target;
@@ -254,7 +276,7 @@ export function App() {
     const start = performance.now();
     let reading: Outcome | undefined;
     try {
-      reading = await analysePhotos(client, "labels", [blob instanceof File ? blob : new File([blob], "captured-label.jpg", { type: blob.type || "image/jpeg" })], method, faceClient, textEngine, request.signal, labelEngine);
+      reading = await analysePhotos(readerFor("labels"), "labels", [blob instanceof File ? blob : new File([blob], "captured-label.jpg", { type: blob.type || "image/jpeg" })], method, faceClient, textEngine, request.signal, labelEngine);
       if (request.signal.aborted || resultRef.current !== root) return;
       const replacement = mergeLabelReading(target, reading, performance.now() - start);
       const next = replaceOutcome(root, target, replacement);
@@ -318,13 +340,13 @@ export function App() {
         {s === "liveness" || s === "faceid" || s === "facedoc" ? (
           <FaceFlow flow={s as FaceFlowId} face={faceClient()} scanner={client} captureClient={fastClient} onDone={onOutcome} />
         ) : s === "tables" ? (
-          <FinancialCapture client={client} captureClient={fastClient} engine={financialEngine === "ppocr_v6_tiny_exposure" ? "ppocr_v6_tiny" : financialEngine} onDone={onOutcome} />
+          <FinancialCapture client={readerFor("tables")} captureClient={fastClient} engine={financialEngine === "ppocr_v6_tiny_exposure" ? "ppocr_v6_tiny" : financialEngine} onDone={onOutcome} />
         ) : s === "items" ? (
           <ItemsCapture client={fastClient} onDone={onOutcome} />
         ) : s === "barcodes" || s === "labels" ? (
-          <MultiBarcode client={fastClient} reader={client} labelEngine={labelEngine} labels={s === "labels"} onDone={onOutcome} />
+          <MultiBarcode client={fastClient} reader={readerFor("labels")} labelEngine={labelEngine} labels={s === "labels"} onDone={onOutcome} />
         ) : s === "text" ? (
-          <TextCapture client={client} captureClient={fastClient} engine={textEngine} onDone={onOutcome} />
+          <TextCapture client={readerFor("text")} captureClient={fastClient} engine={textEngine} onDone={onOutcome} />
         ) : s === "address" ? (
           <AddressCapture client={client} captureClient={fastClient} method={method} onDone={onAddress} />
         ) : (
@@ -352,6 +374,7 @@ export function App() {
       ready={ready}
       status={status}
       modelsState={modelsState}
+      paddleState={paddleState}
       failed={failed}
       method={method}
       financialEngine={financialEngine}

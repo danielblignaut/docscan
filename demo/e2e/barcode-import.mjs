@@ -32,7 +32,7 @@ async function checkResults(){
 }
 try {
   await page.goto(root+'?threads=1');
-  await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:60000});
+  await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:60000});
   await page.locator('[data-photo=barcodes]').setInputFiles(fixture);await checkResults();
   console.log('PASS home image upload: all eight synthetic barcodes');
   await page.locator('[data-scanner=barcodes]').click();

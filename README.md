@@ -172,6 +172,12 @@ present.
 
 ### Structured barcode and document workflows
 
+Home starts only the model-free capture worker. The selected OCR reader loads
+when used: Fast labels and PP-OCR text/tables share one tiny model pair, while
+identity, address, Detailed labels and ocrs text retain the full document reader.
+The tiny reader defaults to one CPU thread; explicit supported thread overrides
+and cross-origin isolation still apply. See [loading and reuse measurements](docs/research-runtime-loading.md).
+
 - **Printed label reader:** choose Detailed (the existing default) or experimental
   Fast on the barcode, label or item card. `&labelReader=fast` selects the same
   PP-OCRv6 tiny reader. Raw barcode results remain available during background

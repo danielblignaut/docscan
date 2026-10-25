@@ -27,6 +27,7 @@ export class ScannerClient {
   private pending = new Map<number, Pending>();
   busy = false;
   onProgress: ((p: { file: string; loaded: number; total: number; cached: boolean }) => void) | null = null;
+  onReaderState: ((state: "loading" | "ready" | "failed", message?: string) => void) | null = null;
   onReady: ((r: Ready) => void) | null = null;
   onState: ((state: ScannerState, error?: Error) => void) | null = null;
 
@@ -61,6 +62,7 @@ export class ScannerClient {
         gen.resolve(r);
         this.emit(() => this.onReady?.(r));
       } else if (msg.kind === "progress") this.emit(() => this.onProgress?.(msg));
+      else if (msg.kind === "reader_state") this.emit(() => this.onReaderState?.(msg.state, msg.message));
       // An error without an id is the worker's own: its init failed and it can serve nothing.
       else if (msg.kind === "error" && msg.id === undefined) this.stop(new Error(msg.message), "failed");
       else if (msg.kind === "error" || msg.kind === "result") {

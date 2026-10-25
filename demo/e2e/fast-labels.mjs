@@ -22,12 +22,12 @@ try{
    window.Worker=class extends NativeWorker{postMessage(msg,...args){if(msg.kind==='labelled')window.__labels.requests.push({kind:msg.kind,profile:msg.profile});super.postMessage(msg,...args);}};
   });
   await page.goto((process.env.DOCSCAN_URL??'http://localhost:4197/')+`?threads=${threads}`);
-  await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:90000});
+  await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:90000});
   await page.getByTestId('label-engine-barcodes').selectOption('fast');
   await page.locator('[data-photo=barcodes]').setInputFiles(image);
   await page.getByTestId('barcode-results').waitFor({timeout:10000});
   await page.waitForFunction(()=>window.__labels.final?.status==='complete',null,{timeout:60000});
-  const data=await page.evaluate(()=>({ ...window.__labels, ready:window.__docscan.ready, isolated:crossOriginIsolated }));
+  const data=await page.evaluate(()=>({ ...window.__labels, ready:window.__docscan.paddleRuntimeReady??window.__docscan.ready, isolated:crossOriginIsolated }));
   assert.equal(data.final.sourceOperationId,data.initial.operationId);assert.equal(data.final.batchComplete,true);
   assert.equal(data.initial.outcome.fields.length,0);assert.equal(data.initial.outcome.meta.ocrFrames,0);
   assert.equal(codes(data.final.outcome.barcodes),codes(baseline.barcodes));
@@ -47,7 +47,7 @@ try{
  await page.addInitScript(()=>{window.__retry={initial:null,final:null};addEventListener('docscan:file',e=>window.__retry.initial=e.detail);addEventListener('docscan:enriched',e=>window.__retry.final=e.detail);});
  await page.route('**/models/ppocr-v6-tiny-*',r=>r.abort());
  await page.goto((process.env.DOCSCAN_URL??'http://localhost:4197/')+'?threads=1&labelReader=fast');
- await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:90000});
+ await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:90000});
  await page.locator('[data-photo=barcodes]').setInputFiles(image);
  await page.waitForFunction(()=>window.__retry.final?.status==='failed',null,{timeout:30000});
  const failed=await page.evaluate(()=>window.__retry);

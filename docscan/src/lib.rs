@@ -359,6 +359,13 @@ impl Scanner {
         to_js(&out)
     }
 
+    /// Reads ordinary text with the same optional PP-OCR models as `labelled_fast`.
+    /// Sharing the reader avoids a second model copy when switching workflows.
+    pub fn text_v6(&self, rgba: &[u8], width: u32, height: u32, detailed: bool) -> Result<JsValue, JsError> {
+        let out = self.text_v6_native(rgba, width, height, detailed).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&out)
+    }
+
     /// Loads the proof-of-address field tagger (`poa-tagger.onnx` or `.rten`).
     pub fn load_tagger(&mut self, model: Vec<u8>) -> Result<(), JsError> {
         self.tagger = Some(poa::tagger::Tagger::load(model).map_err(|e| JsError::new(&e.to_string()))?);
@@ -1028,6 +1035,13 @@ impl Scanner {
         Ok(())
     }
 
+    pub fn text_v6_native(&self, rgba: &[u8], width: u32, height: u32, detailed: bool) -> anyhow::Result<text_v6::PaddleTextResult> {
+        text_v6::validate_image(rgba, width as usize, height as usize)?;
+        let reader = self.label_reader.as_ref().ok_or_else(|| anyhow::anyhow!("PP-OCR reader not loaded"))?;
+        if detailed { reader.read_detailed_native(rgba, width as usize, height as usize) }
+        else { reader.read_native(rgba, width as usize, height as usize) }
+    }
+
     pub fn labelled_fast_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
         text_v6::validate_image(rgba, width as usize, height as usize)?;
         let reader = self.label_reader.as_ref().ok_or_else(|| anyhow::anyhow!("label reader not loaded"))?;
@@ -1662,4 +1676,13 @@ mod fast_label_input_tests {
         }
         assert!(scanner.labelled_fast_native(&[0; 4], 1, 1).unwrap_err().to_string().contains("not loaded"));
     }
+    #[test]
+    fn shared_paddle_text_checks_input_before_model_access() {
+        let scanner = Scanner::default();
+        assert!(!scanner.text_v6_native(&[], 0, 1, false).unwrap_err().to_string().contains("not loaded"));
+        for detail in [false, true] {
+            assert!(scanner.text_v6_native(&[0; 4], 1, 1, detail).unwrap_err().to_string().contains("not loaded"));
+        }
+    }
+
 }

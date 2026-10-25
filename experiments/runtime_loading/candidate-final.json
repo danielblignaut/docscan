@@ -1,0 +1,76 @@
+{
+  "inputSha256": "0d7aea59304052b11e6bfc5b24d605632ac73b6517b37e45ac0363f25c75215f",
+  "idle": {
+    "models": [],
+    "workers": 1
+  },
+  "phases": [
+    {
+      "mode": "labels",
+      "digest": "2ab98ad2fd873cd8449505848fe5026d9cebd4dc9086b13f0409e887b81b1772",
+      "fields": 4,
+      "lastResponse": {
+        "request": "labelled",
+        "ms": 1424.585000038147,
+        "memoryBytes": 64290816
+      },
+      "models": [
+        {
+          "file": "ppocr-v6-tiny-rec.onnx",
+          "bytes": 4462639,
+          "status": 200
+        },
+        {
+          "file": "ppocr-v6-tiny-det.onnx",
+          "bytes": 1780590,
+          "status": 200
+        }
+      ]
+    },
+    {
+      "mode": "text",
+      "digest": "453554570bee375f2321186e760e0e941211830a829e18604c7ba9a31397ff5f",
+      "fields": null,
+      "lastResponse": {
+        "request": "text_v6",
+        "ms": 797.7250003814697,
+        "memoryBytes": 64290816
+      },
+      "models": [
+        {
+          "file": "ppocr-v6-tiny-rec.onnx",
+          "bytes": 4462639,
+          "status": 200
+        },
+        {
+          "file": "ppocr-v6-tiny-det.onnx",
+          "bytes": 1780590,
+          "status": 200
+        }
+      ]
+    },
+    {
+      "mode": "labels",
+      "digest": "2ab98ad2fd873cd8449505848fe5026d9cebd4dc9086b13f0409e887b81b1772",
+      "fields": 4,
+      "lastResponse": {
+        "request": "labelled",
+        "ms": 988.7000007629395,
+        "memoryBytes": 64290816
+      },
+      "models": [
+        {
+          "file": "ppocr-v6-tiny-rec.onnx",
+          "bytes": 4462639,
+          "status": 200
+        },
+        {
+          "file": "ppocr-v6-tiny-det.onnx",
+          "bytes": 1780590,
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

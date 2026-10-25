@@ -29,7 +29,7 @@ async function report(){
  return JSON.parse(readFileSync(await file.path(),'utf8'));
 }
 try{
- await page.goto(root+'?threads=1&textEngine='+(process.env.DOCSCAN_FINANCIAL_ENGINE??'ppocr_v6_tiny'));await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:60000});
+ await page.goto(root+'?threads=1&textEngine='+(process.env.DOCSCAN_FINANCIAL_ENGINE??'ppocr_v6_tiny'));await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:60000});
  if(process.env.DOCSCAN_FEATURE_CASES!=='tables'){
  for(const name of ['gs1-dm','gs1-128']){
   await page.locator('[data-photo=barcodes]').setInputFiles(`${dir}/${name}.png`);

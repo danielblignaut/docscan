@@ -17,7 +17,7 @@ async function read(file){
 async function home(){await page.locator('[data-testid=results-home]').click();await page.locator('[data-testid=home]').waitFor();}
 try {
  await page.goto(`http://localhost:4192/?threads=${process.env.DOCSCAN_TEST_THREADS??'1'}&textEngine=ppocr_v6_tiny`);
- await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:60000});
+ await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:60000});
  const original=await read('/tmp/docscan-exposure-browser/dark.png');await home();
  await page.getByTestId('text-engine').selectOption('ppocr_v6_tiny_exposure');
  const compared=await read('/tmp/docscan-exposure-browser/dark.png');
