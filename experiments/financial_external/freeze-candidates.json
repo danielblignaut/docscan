@@ -1,0 +1,15 @@
+{
+ "note": "Written after discovery (Bankstatemently, FATURA TRAIN) and before any confirmation run (Synthesized OCR, FATURA DEV) of candidate B. Candidate A had already been scored on all sets when this was written; its confirmation result is therefore not blind.",
+ "candidates": {
+  "a": {
+   "engine_sha256": "5db46bfcbc32abc0dc693d4086b6f910b7da7c03a5d4bc347ef73a53f0358513",
+   "patch_sha256": "e90599eb9fbbaa53c77e04c725330e9ff1ad79739bc4c19adea155635144af83",
+   "test_sha256": "9981fde21cc3f405091b8ede5e1dbecfce3dedce10d2958f936f05cecd42862d"
+  },
+  "b": {
+   "engine_sha256": "695537dd30cfc08cbd0210c5fe8a0d5e26f324fd83dba68c38da119666b7a1ea",
+   "patch_sha256": "d9c8a7ec22b31f02faea67aae0dc8b4a0ce950a960412efa57eedd1321291562",
+   "test_sha256": "aca4950bc7250c712b4382b295a7cae087090a3113b0df82e696eaaa5d476598"
+  }
+ }
+}

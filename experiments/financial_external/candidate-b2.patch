@@ -1,0 +1,99 @@
+--- a/demo/src/financial-tables/summary.ts
++++ b/demo/src/financial-tables/summary.ts
+@@ -25,6 +25,24 @@
+   { key: "page_number", kinds: "all", phrases: ["page"] },
+ ];
+ 
++/**
++ * OCR often drops the space after a label's colon (`TOTAL:1,250.00`, `GST(9%):45.10`). A single-box token of that shape
++ * is split into the label, its bracketed rate, the colon and the value, with boxes interpolated from character offsets
++ * and marked approximate. Nothing else is split: the label must be letters only and the value numeric, so dates
++ * (`Date:12-Mar-2024`), times and references stay whole, and a split label still has to match a phrase below.
++ */
++const GLUED_LABEL = /^([A-Za-z][A-Za-z_-]*)(\(\d{1,3}(?:[.,]\d{1,4})?\s?%\))?:(.+)$/;
++function splitGluedLabel(t: Token): Token[] {
++  const m = GLUED_LABEL.exec(t.text);
++  if (!m || t.parts.length !== 1 || looksNumeric(m[3]) === null || recognizeDate(m[3])) return [t];
++  let offset = 0;
++  return [m[1], ...(m[2] ? [m[2]] : []), ":", m[3]].map((text) => {
++    const x = Math.round((t.x + offset * t.cw) * 100) / 100, w = Math.round(text.length * t.cw * 100) / 100;
++    offset += text.length;
++    return { ...t, text, x, w, parts: [{ ...t.parts[0], text, bbox: { ...t.parts[0].bbox, x, w }, approximate: true }] };
++  });
++}
++
+ const norm = (s: string) => s.toLowerCase().replace(/[:]+$/, "").replace(/^[(]+|[)]+$/g, "");
+ const right = (t: Token) => t.x + t.w;
+ 
+@@ -62,7 +80,7 @@
+ /** Every label → value pair in a row. A label must start a phrase and its value must follow with only marks in between. */
+ export function summariesInRow(row: Row, kinds: Set<FinancialDocumentKind>): RawSummary[] {
+   const out: RawSummary[] = [];
+-  const ts = row.tokens;
++  const ts = row.tokens.flatMap(splitGluedLabel);
+   for (let j = 0; j < ts.length; j++) {
+     const prev = ts[j - 1];
+     const startsPhrase = !prev || looksNumeric(prev.text) !== null || ts[j].x - right(prev) > 2.5 * Math.max(prev.cw, ts[j].cw);
+--- a/demo/src/financial-tables/tables.ts
++++ b/demo/src/financial-tables/tables.ts
+@@ -49,6 +49,8 @@
+   fileIndex: number | null;
+   /** A row cap stopped the table: what follows it was not read. */
+   truncated?: boolean;
++  /** Reading decisions to report on the table (e.g. a summary-labelled row that could have been a line item). */
++  notes?: string[];
+ }
+ 
+ const FOOTER = /^(page \d+(\s*(of|\/)\s*\d+)?|continued( overleaf| on next page)?|\.\.\.continued|p\.? ?\d+\/\d+)$/i;
+@@ -96,7 +98,19 @@
+       // Caps count every segment of the table and every table: a long statement cannot grow a page at a time.
+       const tableRows = table.segments.reduce((a, x) => a + x.records.length, 0) + seg.records.length;
+       if (tableRows >= maxRows || totalRows + seg.records.length >= maxTotalRows) { seg.endReason = "row_limit"; table.ended = true; table.truncated = true; capped = true; truncatedFiles.add(String(layout.fileIndex)); break; }
+-      if (summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key))) { seg.endReason = "summary_row"; table.ended = true; break; }
++      // A summary label ends the table, unless the row is plainly a line item: an invoice row printing a quantity,
++      // a unit price and an amount in those header columns keeps a label-like description ("Shipping:15.00 kit",
++      // "Tax:0.00 adjustment") as an item, flagged on the row. With only one of quantity and unit price the row is
++      // ambiguous: it still ends the table, and the table says so.
++      let labelLikeItem = false;
++      if (summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key))) {
++        const shape = table.kind === "invoice" ? itemShape(assignRow(row.tokens, columns), columns) : "none";
++        if (shape === "item") labelLikeItem = true;
++        else {
++          if (shape === "ambiguous") (table.notes ??= []).push(`summary_label_row_may_be_line_item_page_${layout.pageIndex + 1}`);
++          seg.endReason = "summary_row"; table.ended = true; break;
++        }
++      }
+       const gapAbove = prev ? row.top - prev.bottom : 0;
+       const asg = assignRow(row.tokens, columns);
+       if (!asg.cells.length) { seg.endReason = "layout_break"; break; }
+@@ -200,6 +214,7 @@
+         const last = seg.records[seg.records.length - 1];
+         if (hasNumeric(all) || unresolved) {
+           const rec = record("line_item", all, null);
++          if (labelLikeItem) rec.issues.push("summary_label_in_line_item_description");
+           if (pending.length) {
+             const descCol = columns.findIndex((c) => c.role === "description");
+             if (descCol >= 0) { rec.cells.set(descCol, [...pending, ...(rec.cells.get(descCol) ?? [])]); rec.continuation.push(...pending); }
+@@ -358,7 +373,7 @@
+   const columns: TableColumn[] = raw.columns.map((c, k) => ({ key: `c${k}`, role: c.role, group: c.group, label: c.label, currency: c.currency, source: sourceOf(c.tokens) }));
+   const rows: TableRow[] = [];
+   const segments: TableSegment[] = [];
+-  const tableIssues: string[] = [];
++  const tableIssues: string[] = [...(raw.notes ?? [])];
+   for (const seg of raw.segments) {
+     const cellCtx: ParseContext = { ...ctx, date: dateFor(seg.pageOrder) };
+     const ids: string[] = [];
+@@ -427,6 +442,13 @@
+  * is a credit only under an explicit minus convention: the column prints minus-signed debits and no CR/DR marker
+  * anywhere. A CR (or DR) on some amounts says nothing about the unmarked ones, which stay `unknown`.
+  */
++/** Which item columns a row fills with a number: all of quantity, unit price and amount is an item; amount with one of them is ambiguous. */
++function itemShape(asg: ReturnType<typeof assignRow>, columns: HeaderColumn[]): "item" | "ambiguous" | "none" {
++  const filled = (role: ColumnRole) => asg.cells.some((c) => columns[c.column].role === role && c.tokens.some((t) => looksNumeric(t.text) !== null));
++  const qty = filled("quantity"), unit = filled("unit_price"), amount = filled("amount");
++  return amount && qty && unit ? "item" : amount && (qty || unit) ? "ambiguous" : "none";
++}
++
+ function assignDirections(rows: TableRow[], tableIssues: string[]) {
+   const amountCells = rows.map((r) => cellOf(r, "amount")).filter((c): c is TableCell => !!c && c.value.type === "money" && c.value.status === "parsed");
+   const minusConvention = amountCells.some((c) => (c.value as MoneyValue).negative) && !amountCells.some((c) => (c.value as MoneyValue).marker);

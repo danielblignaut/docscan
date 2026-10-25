@@ -137,10 +137,22 @@ into that page's input `lines`, and `parts[]` holds each original box and the te
    a page-level "Opening balance" box is printed: that opening is the page's, not the statement's.
 
    A table ends at:
-   - a summary label (subtotal, total, gross, net, total debits);
+   - a summary label (subtotal, total, gross, net, total debits), including one OCR glued to its value
+     (`TOTAL:132.00`, `GST(9%):12.00`; the split boxes are `approximate`);
    - a page footer;
    - a new header;
    - a layout break.
+
+   **Label-like invoice rows.** An invoice row whose description reads like a summary label (`Shipping`,
+   `Tax:0.00 adjustment`, a description that is only `Total`) is judged by what it prints in the header's item
+   columns:
+   - quantity, unit price and amount: a `line_item`, with row issue `summary_label_in_line_item_description`;
+   - an amount with only one of quantity and unit price (a three-column item, an item missing a value, a footer
+     printing a total quantity): row kind **`unresolved`**, with row issue `summary_or_line_item_unresolved`. Its
+     cells are kept as read. It is not summed, no summary value is read from it, the table is `partial` with issue
+     `unresolved_rows_totals_not_evaluated`, its total-level checks (subtotal, tax, total) are `not_evaluable`, and
+     the table goes on reading the rows after it;
+   - anything else: a summary label, which ends the table as before.
 
    **Multi-page tables:** a repeated header with the same column roles continues the same table. A
    continuation page with no header reuses the previous page's column geometry, and the segment says

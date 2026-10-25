@@ -1,0 +1,4169 @@
+{
+ "protocol": "financial-external-v1",
+ "protocol_sha256": "418960ace13d021dd9d56e3515643921f4d2267a5d34e0c90c75f9d39c2d634e",
+ "prepare_sha256": "3a5875049bb82b30ffbabfa4280d2bb9d6e4c95b09fc4eaedaa4729a0905a440",
+ "repository_head": "0526c5de296bd5e07350050b15f54edcf93a2f0a",
+ "gold_sha256": "048e0afe3f365ae74878f1142cd9065ede3adc527c52596fdf1dc96ab274c5b1",
+ "baseline_engine_sha256": "b8526b6ae6597a98f226d05f1eb24edcde51ff026ce22743e8db1e69e29b823d",
+ "baseline_engine_source": "demo/src/financial-tables at 0526c5d (copied to private snapshot)",
+ "counts": {
+  "synthesized": {
+   "documents": 3,
+   "pages": 3,
+   "gold_rows": 24,
+   "summary_opportunities": 12
+  },
+  "bankstatemently": {
+   "documents": 3,
+   "pages": 10,
+   "gold_rows": 49,
+   "summary_opportunities": 8
+  },
+  "fatura_dev": {
+   "documents": 50,
+   "pages": 50,
+   "gold_rows": 0,
+   "summary_opportunities": 150
+  },
+  "fatura_train": {
+   "documents": 400,
+   "pages": 400,
+   "gold_rows": 0,
+   "summary_opportunities": 840
+  }
+ },
+ "fatura_gold_total_arithmetic": {
+  "fatura_dev": {
+   "consistent": 0,
+   "inconsistent": 40,
+   "None": 10
+  },
+  "fatura_train": {
+   "consistent": 0,
+   "inconsistent": 220,
+   "None": 180
+  }
+ },
+ "documents": [
+  {
+   "set": "synthesized",
+   "id": "synth-clean",
+   "pages": 1,
+   "source_sha256": {
+    "truth": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+    "image": "baf86f309009c6c9195c3e0cbb26655ff89c017f04b58751139931712932e6c9"
+   }
+  },
+  {
+   "set": "synthesized",
+   "id": "synth-scanned",
+   "pages": 1,
+   "source_sha256": {
+    "truth": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+    "image": "9976a8b5c0a12117ff35bdb578ff18c80b9fb4386c4ff51a9cb1b60a67abd08a"
+   }
+  },
+  {
+   "set": "synthesized",
+   "id": "synth-fax",
+   "pages": 1,
+   "source_sha256": {
+    "truth": "daefdf8007b0173a1cf81e058703e2502d2d3093e62ec4f6091efcc53287a4a4",
+    "image": "d1bc055f6b9e26628ea9517c1ff734169b6def6cb32d5f79cbdd16ee8d218597"
+   }
+  },
+  {
+   "set": "bankstatemently",
+   "id": "bsb-001",
+   "pages": 3,
+   "source_sha256": {
+    "pdf": "d3d5071b90a33272f31bab5c5660d78b2ae29d2c6e1720477f5e8b167f73e843",
+    "transcription": "08533b54634458a6b6d992e5ae0833f0f6acdabac82c18100ba8a95ef429690b",
+    "images": [
+     "557c536700baa1fdfd5c1ae459b45019ada9842faefec5e4cc83359f92894b13",
+     "3582fefc89dbd0866d9fd181b584b9a469de786feba5db241ae19182d4f4148e",
+     "8afd0a252fbdd36be7843120c77f4df9eed79a8744bad20d7e044dd5208c45cb"
+    ]
+   }
+  },
+  {
+   "set": "bankstatemently",
+   "id": "bsb-002",
+   "pages": 4,
+   "source_sha256": {
+    "pdf": "3700a073ac1262173cbabbd5667cd3a59e04cf0b14e3a865ae25ce21089ab97d",
+    "transcription": "6dc49c949acf6bd8e18812b8569dba0cc6c059c81b54ad51d21a50994e25228f",
+    "images": [
+     "f3b50c2421ad14510ba27abc8f3c80f386e3f0220f556f661c0c04fc233dab9d",
+     "a51d0a14cd44c73911a1ddc93b4c0b72dc2001189e4f98d2fe72fd2201e2044b",
+     "a365b7cbe3acf8c1f4afa5bead9593b5aae9f5c58eebffcb17781ad03ba041c8",
+     "6eb76361151e6a9d3102ad9cd8fcf7a14569f1f04052d716366f4e6b1e7430c0"
+    ]
+   }
+  },
+  {
+   "set": "bankstatemently",
+   "id": "bsb-003",
+   "pages": 3,
+   "source_sha256": {
+    "pdf": "4945bcda107e6d7845850e728b90c4dba1cb11de5a13356b0794df349e5527c2",
+    "transcription": "51594cfdc779969d2769192741be002c4fca40cb16cd85bb52018877b26f0b7f",
+    "images": [
+     "4af0870644fa8296773dac3d65adf4b726d6a700d75a76e358d95be7f8c062a3",
+     "fdb6dd5b054ce2cafd7ec28c11c3e2266548512e895899aacf9eb44e56d6c11b",
+     "e45c0a65192d44543ab5b1f249ebb90af6d8740b4d28e9aa891b8130fdd75391"
+    ]
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8466d1e8d23256114684d5dd19dc312ebf133408b166302a57aad186a5fbdbaf",
+    "annotation": "12f92b6a3aead117ba4b06dcff17d57c40855c9cf2e8227d96725d0eb6ffe0ab"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "be572e3f01cdfc9f252791e062e91b277e8c8006d86b603d7354a710a88ef467",
+    "annotation": "f63c71897b6d0b8515e4ed7a637c5b66ee3f377b87bedd25319c544cf49e115d"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "367c449651a921a386748649f1e9d0585040b70f90ad59f449f8661ee377123c",
+    "annotation": "38003dab45b25705b869dc0d67e6465a9af519616d3c266f4a3ecdfe3e6746cb"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ea46eff0ddabc392e73471fb7c98359e69672dbe375864d7ef5d5fafd53ba493",
+    "annotation": "64ef561cb8a8321601499f7a689c1324cf36103f245b875157f420c1dff62a60"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6bc06c37e63da8d8b33319e6241ddb0cc193673a70030285dab57fb4d58c3433",
+    "annotation": "4beb719eb07880e79ac97fa46cd206aa47f8f90da1cefb99ca09afab8e6397ec"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "106a0740ce84f1b97191c478c0de8e7f153c12b017ce8d3a2bb77889a3b5e0b0",
+    "annotation": "ae33240c9b25aa3e5f317a220aaa84411bb0e915730010a253eddd1ad12d9972"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2d36cb89ead893a53d01110dfd459762766e656246f01b5e802e9d0221cae9ad",
+    "annotation": "1e76744216b8a66d1a1a097865cfb28bec9a72e59ba11a70d99fad483a1ba54b"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "45512665e1df99a60d258aee76a5d565082505535a4612d306624aecb824b376",
+    "annotation": "54389560496029d0c70dbb9f95f27bc798655ec5951ba03f5fd1fc5c71d203f1"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "58d2541a698ca7309b1863e82235c0fcab0c3590ad86aa8252a4f7815a3469b7",
+    "annotation": "c3a06ec4f4f889d4a5761912a339c13f1a758db7cf66ff91a0a35b7e550c8cae"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template50_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "986573b413959cb54e1ec928272418fe7803360e4704086ecbbf6ecdb7e2c8c6",
+    "annotation": "bcb95403ce1bee9b254835b87c8fb27246961572fd2a9d0ee1754d512a75aad0"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "57df947a3d14b1f1aebd8f8523ac36d0067cdfbfbe67cdb0a7fc1718f708a72a",
+    "annotation": "4a5bf1a6e7b56dfe4ca7a012412c6a8f59dd1cc9f38c8e233660888aee9fe892"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ab5aadb9868c9497b197e87870db37f57d3c3cc7977a7015590295a7879cd9f2",
+    "annotation": "d6de089ad0d693abd049efdcd71db82dff1afe4f1c9c0f73019cc3c19314f506"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d6215fc10aa53cc5d6128a4129a0e9e560a020f3b049b119f594035936cc1a5f",
+    "annotation": "698b85f21f5617a4d2c3c03938e696d6dc8b29a5b4aa1b35434b8e902754112c"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b93a6a44b362d7cffcad61aa63b85e7d8dd79b9916d9764770397881aa1b0efb",
+    "annotation": "18cb4435ec71105e960eefe81772ebfd04e3c0febfe86d5787d11f86f61e288a"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4e13e2c56959fd7f869ef3475ef08003fd9f64caa086db048a7707fb6d25faec",
+    "annotation": "0b5eb0314b4b7acd775ad6a4f1ba2e1eb76f8a26e8b5fa0295cca7c1d1f5aaa3"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "72066f0a3a0a291592765c5852e013615c00aadb12bdf74959787da7db7cc5ee",
+    "annotation": "9c7fb6cdaec492892cf955a45292b237e7bf6e9d82e791a1f85681fe8c1b2929"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b2c5a8596a1b397c8c7e8b8fb3190b8993e04908c04ea316266712bacb9dae08",
+    "annotation": "c8e2c43f6531b899464cd50cfbb8c17dab3e102503299abe2751ba73758e1741"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b6a2085331f3ef43131ce0228337535459870c2dea58f65f19aa21554cb11ebe",
+    "annotation": "43678778024274e756c966eee547191aa6fa0cfe6499b0b510fb6b6c663d6682"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8ca6b234e0fb0c3c0c3ccc1f256fbc2397ab3f2aab473e2e5e629c2f1c919e7d",
+    "annotation": "5d74576c6ec8db5dab73ba5f561be5d2e2033af374dab510ee2a81fb71f4b182"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template7_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9fb4dc2bb7756be950530fc0451ffed9d2cdbe1cbe818acf2288fbce63e56d2a",
+    "annotation": "8c3980c674fbe5f4bb5f835fa41b58741abf4276bd0b6ecd5116f0b3bd2566bd"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2811dd161b0c51b33957ef81b00d6e96dd73ca81185b70cbd421519343b84d39",
+    "annotation": "d6e9ba906e568b17def625e3e65163b83ae06e54caaf4062c5ab67c0a017370b"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7001cee0ca1c71d0fa165ec8ebf597514bd7eb97c1106894420395673947e6e3",
+    "annotation": "b2cf7db9bc25be1078f5352cc87e0cb1f44c167e8035871d0661d644a3c0a416"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e4cfed2a20e8545fc0180169fd931279fbdf5acfe75f8324761916c535432210",
+    "annotation": "0c84d94b5fbecbc0ff253466fb0574e184b8e27de3ebe977944e77bd775ace71"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ed99ce1bab1fd5679a119a9fa1af22e8b286992e40300f03909b65a008bae993",
+    "annotation": "9c1dd6de4221143d07a03b516b87878f257db5e6757f20f4d6e0c818c724a780"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f8c66004535a29b83d90ca8eaab207e2e38e3170901602d659881b47ff9032db",
+    "annotation": "2401c158f8183fc214b84693f8dc7606aac590345f73c1d8faecf3e93a9f66f8"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a6addbf9f1cef0673e88045196c51da26175233bb6ff45e586697957c0c540aa",
+    "annotation": "e72829ee54fc37398fee8e200812ede914a96bf3cc67674ad2df6495558485b9"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f75b98eca740a955dfdcb544d37956cb511e85a81f5b73503e5c7d91662a455b",
+    "annotation": "ed3340ee2ef158195d7672c0164bf4d94623a17e9142a219e9b405bc09cf105d"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b79b5f171b231c9019629916a4981abc16bba7c54d367e7d5747c3d9c5aab35d",
+    "annotation": "acfff3b252a1f2f844f02fca79252c27325252d7a2012fe7724797f73fc820fe"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bb1cfd96178b7ae6c9db5e1113166fbefc13780101d65e040c1c22e45ceaef2f",
+    "annotation": "dca79c4b93e9007604c229c925a43c5f3a4bf9bc917059e3ac914633b0dd73a3"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template32_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5facb0e908a6f83581507b71fb3b319431622d5ad2095d6e91b78ca7414863fb",
+    "annotation": "60be0bb6236556214263a36403ba601f5bd67755ec027bec02be3c815f28163b"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a1ab1fb3c38c5539ba51f360a485378927e25310fed47168660c7374ea76546c",
+    "annotation": "faaa05e227694594bf2cb912d21ece00ec2485f81848425fedbac4fab077615b"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e11f65428b3c70a2e5c3962eb2205c10a4efd6c48e0ca51c16b18742781013d6",
+    "annotation": "3164b3ee79ce5f6813219bdaa263010e71d6f86a52c4f626bc9f0be82baf7b00"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "dc8b662ba4c9a17d8e457093c92641695d2117b7abd2c679b80deea284c5c4cb",
+    "annotation": "b35741d16aa72831b43daa740115a9e98b7883aa3c0d8e3783eade11ec3f3cd6"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "14bead078e90f3468c1cf28be289fc1fffe2b4e1403e8d347868c2be6e9e7d31",
+    "annotation": "63eb9aec7dd5755249165aef267db02995cf8386deb705586314a6e0f1ba3c02"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4a1915d3ea398d41a1b2a8938aef10c315e8d6d11e34e0283ad45fa0afadde2a",
+    "annotation": "737851f5249f40399e156419a6b187d068d756f5d7bb983ba84ba319bbbad486"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a54cb2c8d727db6b34447576f2e101ed4fbed06ae886395197f5a9cd1d198723",
+    "annotation": "c59a7ff7a93eedbbc904c0408a9d04c4e7df0189ae6dbaa2f907d3201fbcc3f3"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "035e78f69f3b8398fe719ce7fd4d8502ad92b06189c580812f9d25e1c1d7b074",
+    "annotation": "5c68e1e98430b8d49a74c96d83f5436ea215c3f02d7dfd3cb8f483644c3b8c98"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c34a69f1194436acfa91e43780854c328b67034092da866a6205c47e7352ec32",
+    "annotation": "cd5fc6637c50e5c8f02873367dfa00a33d43b7ee744d40f4eaaf977df0da1499"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bc4a20aa6ccf40cd5eeeea13b1654d84ff445332be0832e3957b045fd22a7ffa",
+    "annotation": "c179e4f6524a401c72f3e61d0023f0d1cfa4b487c5a3b0ad0a02681e4c2665fe"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template39_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3b3193c01f6bb22ba417db4be910e4dc3abea5c5801d45aa35484f1764a36f18",
+    "annotation": "05ec3cb6877f9a6cd93a802a1daed1b5be4c8e22ca12d887d69436fa61eaadca"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f39bb5c99bf86f25861e1e987131d87fa55aa0e7f1a9eb2ff35f1bb7e5279c75",
+    "annotation": "deded144681f14a22efe31c415424074a9ef6f900ee0b878e074feced23f672f"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "35086c7b53e8125a84d35b726c4d2598ad441c7d28c4a122cd027843ae9930e4",
+    "annotation": "7516375d494b0769102fadcfe4cb6ab635e768b95e4387b19c3000368f6bdfc3"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5945bf6c5978f353ed33171846a6a79e1e7c64c2899caeace6cfb0e1f02881fb",
+    "annotation": "711a8bbb7ab9c169dcf612b035c9720bc27c9e677928ad5cc747059fdd41ff23"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5ccfeb226478d563cc7d9f62728fb0b1e9655565fe117d119ed6120891be2bf4",
+    "annotation": "0fb69280ba6e4b17992827a4730d81528fedf3b5b52b68d2a4da2276bef849ad"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ad8439a51fdb09cc13c7c54e52a4e19cea8a16bd10a7bab4e58e250224f7bef2",
+    "annotation": "c86c6cc9db9ec62d1d7e62855c30ef9bd2296c018f83270d444baa4a0897381d"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "013a0e140e7e6b865954c2b56f7331dac315d41bcb9dc0237e336b486711ba82",
+    "annotation": "fb0a223346d94ae0949dda8f98dc151df3f4a4694ae74d215f23f7cab8c1c582"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bc7d056f2182834b02970b9ca34c446857e2abe1de61e05397e9edff12fa4362",
+    "annotation": "35ce5adfce50c877a985365355a5f4462fb39f52456abbd609bf816a503ad7a2"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7788bc23a47dd990bf1ebc58472215bb0be7ff26c2b7d95be2812d30ff0c02ba",
+    "annotation": "f28b877dae2bb6c0af13812b5910c81a27bc2ddb401c963214415e342c336fc2"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6b810e6c5ae3ae5a2fb1734b7efe74edd54fda156e06d59cbbda2eea96f1e8e5",
+    "annotation": "0f1acef26f034e792e1a86e00806958811bfdb23b968204903fdcf869e966bb3"
+   }
+  },
+  {
+   "set": "fatura_dev",
+   "id": "Template2_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4c587ace58c925c6d6824e50854446e3a7aece496f0c2ae16226394f1319140a",
+    "annotation": "1022f157182d92902ce4778edccb064296abf64ad67e6ee7d8923bb5c1628a10"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "58f0573d8c1e18dad489ab27ecf157a24025f3c83aab80661412862b301fd3ea",
+    "annotation": "a991e09f6a6b1fd643ccef5b71fbbd75395290b0b852486c52de2863ad77fa6a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f70381959954abfecc08a965b3b7186db2599c98cf8984b4bf4bc4adfc9e8606",
+    "annotation": "d22e18ba954290980e3ee39dc412adcb3a1c619125dfaed5bb9fae0785ca2434"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8004abb0d04aeb630f1efc0cfee3c001f6175fe3186cf5ac3e664968ba3e688a",
+    "annotation": "c39c331ebab399c8e1b7e89ff7704d6a3628e86beb1bb00e667c07bd3b819c0c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "af547acf45fc92b7820318c33ee5b01b7702ca63158e17795d9fa3a9eaa26f32",
+    "annotation": "0d5ff0b9cbc1970e2095ce799315216f761c4d8b79dd348519e99abeafcdcc11"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "72ebf05efda618a3a138ab49938aa87b51c39352721056bc9c5eeb114e8d2d32",
+    "annotation": "eace0247b72adfd64f88033476501180a424d4aa897074ba59b5977c33e0483b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "12e84c93ba04a11d7676a4ad172d6a6e2a7bfd38dd1de8a5326ae50caf865be7",
+    "annotation": "9107859c0d6cdedb6e3dab9a537f530bc106708c9a385ef08589c69b55fbaa44"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e9ac11b1de01edec4e14e6a0d266f04d06b9ca03e125b2185910f4e808f2662e",
+    "annotation": "907408003cb8f521e272f983034b0948bd16716bd93ec6e073fd64bd6496740a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a15e1abd3a87bc776115fdcf7c7dcd47187b6458cf9396296bfc753bb91be65",
+    "annotation": "5dcc9793642b0a0045600969431dc82f9f5881503ac86654dabf0fd306e6e552"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06a0681420d4cf783c08fe93317b7421f280acba46b2c7beb0c9f3b289cdaa68",
+    "annotation": "69a742b2e152a47de2ffe6b0ad91ec83d5e3e386b9833992aee1babc8749bf51"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template3_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "11d1e6513126627030176a69b939a3b7563a5d378aedc5f018432ef5a71c38de",
+    "annotation": "ed8c6f3737f6791a9de4ff47382ec528bc4d3f2c2f4e98784dcdf1ba79d02881"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "00fdb2e188491f3a0775302e78969ea8ea3a25b13056a67d96adf82b7a13b877",
+    "annotation": "6b562c81db44e37c5ea4b1b9a1753b2f06e485e309d06912451dbd9f81da6814"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "311f068a5e6cf1c8380ed20b7696af27f0511b845d7e71dafa5e4464aef8b7e5",
+    "annotation": "3b033ce4d540e04e2e10129615d57f2550231f2ce15fa7a223389f4317646b41"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "604766f07bdfe1bb706211e439b3ea711df10a2736cb02a23cb5de959eaa1652",
+    "annotation": "e8a37c3258007cbb024b9866df8a9c0078a9f5ac824db74fb7c43e6d30789f71"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "fbf22fafda33c983bbf0521fc69b78fe10e4ca41be3c961a9368b0802b37ef2d",
+    "annotation": "6f9cf3501022f395d2440a37a9a3b450966f6dfee7fc95ba6b0999b0c1798ea5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f18e1558d1fed04e23fb6ced1564b01a403a2a016881da660b2a83af119b2ef7",
+    "annotation": "0d3575fa9fc93715c8174e7a72921093ae7df327a43166296b8d5bf76fb79cb7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4bcc66de1b988f66d8b2afff0cd5bfc422e3dbf1cf35c30c2f8f305cadf5f50d",
+    "annotation": "f520307d16da35e89e49b5ad2bce75a8cc01f343283c2bb03cab145253fa9784"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "00bb758f0765ef5acf5abb875743442505bd63ef17fd74fbba30f8383d9f11cf",
+    "annotation": "3861ab30e0102ea1c97fb862551ec4c4a946f15be9a08b9e218bb06e9771ed6f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5cc66b0adcc62116476cb653a321489899499015fd69672433940d4d702e8b08",
+    "annotation": "df0303bba736717d8f5790c209e65718a80e2fe1d09bb44559fd1b435544a3e0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b05ba0c92c6b96a289fc2701af2b48f7a8a48ed068d23d5400849d6d2dc0e005",
+    "annotation": "9bd5343932d0670d19e6e2e548d937496a1feba6674c3ab27040df4295905d58"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template11_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "25df909316ffa829d4b15135cfb85245106fddab113b9fa4d69a00ece3371dca",
+    "annotation": "120a918fcba014f6735dc7b16d4efd74cb094e639b4116e25c0df34ca4194752"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "dc160ff11d9da2e8f1730b245db84b226e3f82c36d5d1265efe3dd947106e57f",
+    "annotation": "c23028a54084c9c532cf7421534a8e1d55ad43e9f4d4de674aa8498d6a39c0f4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a6e6ffd74e1a3cc3a18e34949302c21ec5d2794e7d05ff22c1d2df4d19bdf916",
+    "annotation": "0cb3978246e126fba260e8971bdd030824d5f888a3fafacab563daee2488cf3b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f31f9080068d31a23fb7274e33b8758ac5d8cf8f6c42fa98b557b373ec975911",
+    "annotation": "ee83cc0f58633648580fdc8c0b48dc63fe2fdabc8009a38aec08175c0d80e4b6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "94f205993b043334f56b71ecd707067ca480232fcba4f9ee62ea5d4a0772bbfd",
+    "annotation": "6e87e980ee222199d83592a8536bf996dd0cbbc19850c8bcb03a7604bfbc097a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8130f03ebd945cbce078e0c6a46e27addf2eca65cf19857e21823d16af1967ee",
+    "annotation": "7f9c8a4d5afd2868ccbcde440313ea9e4d07e4aac0a7825d71253ebaaa11ab7d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7976a3668f4d37074ca31d6e22a30b16128ff9bcfc2ce7f4045eeec355dfb5b2",
+    "annotation": "bf13f1fabc803287dcb42e01b424d1e37bdea9a302f5660946e447f578239d4a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c8385c3bcd966e53e64ae34760bab8e0c46131d7489b86cad945d83ffcf2eb0b",
+    "annotation": "0d00a702a4c1f0391bb5d7ef3124a3bf441d13504ef0de59c17beb090a8e4b5e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c536082de9d37c9fcfcbb2f48d9a915cb61a9a5c100957d3b1ace7f6efa8b2a1",
+    "annotation": "57a057827a2775e46aafbbb0831f2342b7342afc5beb5fe2fd17626d8087481f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8f53a468757079d1ab24f87afcdab2a0e5f6e7d7a7d98ac7db27162f896da4c0",
+    "annotation": "f928989b4b2df47c69a6d9311f04458005750ffa23fb1f5815cff19a5ca2dadd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template30_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "746ab187a41a6496deaad216fe23a5eda31b9a89a43de1489da067634e033069",
+    "annotation": "f5369e34dc94a00303d19fc3547226987e2e6fa0ff3a55f6bc28a67c2d842c8e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d36df016d72e46815257e025e43621f2cbd10d00bb7367d50c8ceebafd09150d",
+    "annotation": "5058e3125773e9e3509e6c5e21553410f180b9183667e2af988bc06d9c4d8b26"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b5a465956d6e409bc83cd5ed1e01f6053cbb82c16bc3d88a7d2595edf5dc21c0",
+    "annotation": "9434dede90af4bae87c0618886d7caad6c3a38544cd37dc4e3dca0a2722c23f8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "afa8be085f38e0ef60b5510c5ba2d7f2a6cfa0cc98ec33fa3387150d4e72cfcc",
+    "annotation": "fb3d4654555d390da0b342d980f2b80d0d483145c183dfcc99e17c79f1030682"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "644b30d02ceca9424648e2a47957d7fe33121640a54d6470550c3ba32150f58e",
+    "annotation": "dc0abe89c4fa91ba8070d96e560c96e6fd0de71c03a4dbdd92bbbca2f1f0b6a6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a36425032ea623bab76a8f5a88cabaeb53df76cd17580126a48270d09ffddf19",
+    "annotation": "afa84c6a2862f94b9f08fa2e3cf4130842d44aca3b58d01a389acca2d41f0d78"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9401be5d9930f41e8337d31f9340b1ade8c4a2bc07d862caab9e7a4d63277634",
+    "annotation": "2fa8d86bf3fc7a0e884be0a1def58dc8475ec7aaf0d77c366631ce56c9667d07"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "36dc318d7e829a253738ea93fec60412aa2bff828d08f88d1bfdf22d6d134bd7",
+    "annotation": "535adf656314192bfa34b9d5bf511610f65c448cfcc638ad9227e7ce828015d9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ddcff312145d5f2b18485e236dafd9978a858390c70b2a28e69625bc4c3b5911",
+    "annotation": "680064d3ca9e6fcc2cb0137bc102782daf1a2b622904b33b9567a0462c8ba0b8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ea5b655864c6aa36de0cfaaa0b6deeebc31c170118799888be0783669bc73510",
+    "annotation": "9357256ca5bb4179607a69f3db28feab5100ff4cece0586b3449ab69a674877d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template24_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6f78adeb7335e8c3c1e68f398fa0be9ce662d731cbfec2d132ee79d23f382fe4",
+    "annotation": "07c1b25c3bafeaefcbf0ae272e2402a56eb316c0a45a55c25903da3863952517"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0db570dc037c0074390558159bdc9407c3de8e8d82dd46f15f64ab2ff628d96c",
+    "annotation": "508c0451368f1e1d6d03deb75658ff39303ea8f6951d79509beb7e6861652ce8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "48157456d99a70b0cfe069a8b1627a887637d9f68a51e8a3305e6acde30bb37b",
+    "annotation": "785d2d17c37beb732b65a46e9fa06e7e6a4506b4b08dc612d77da3f81bf638f6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "23ab8260b84561ef8940e175398530a37a34a5e4f54780d8bdbca4b1e4d218ae",
+    "annotation": "dc62530ed237644e7cd89212b8692ffa530c8a43249271e627dbdfe1e0379ce2"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7db853c8b270adb30b842a86a851c1905239fad5d733b4d29f476e402854ca8a",
+    "annotation": "3fbabc2a081027d68a6b2d97f04726ab141fc987283042adc196a800b5aa45e7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4ee59f7d88f0d17ed16c172098d347066367a934c74c5c4e5519a2a3c32dd3a2",
+    "annotation": "b979c6cbf0d7a7b939a9f193534ffd5e7e3a45b4d414eb1e72256ed2d8ef05c8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8fc75cb1b2759db3e8a01b42b73a1d8207074bd7535da555b82a2a0486739e53",
+    "annotation": "14a5381d10d1dea8a24866b4e8f1d55cf4fa642795b8597ca8ac7ac509e0da64"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "91617e83d2c80d9c00664d5996f21501d236bc7aa4a71c3231e6842ffdf0274c",
+    "annotation": "42e2f2a75c15e46e088396b8f2c2fc60703388d514165022e84efd3be1ac11e5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "dddc03c55607d5d09587a6f8f8696b9143c03134d9c3a09083f1921320adcdc9",
+    "annotation": "562b650b7e1edd445569b128a1673b5e83d2065e2e7cad7c6080f44f6e855dd6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e716929bbe735084e6aeecaf270416e5d9d261683a7be7fd9267fd8d6ab2100a",
+    "annotation": "892b86324ea6a79d643b10f6b4efa39bb97a8decae560679d1ff7615db859b33"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template40_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f7916256e7cfbbe1dfbfb13b77efc96da5c8b105e76f1c390d37554d3bdc17e0",
+    "annotation": "2e69b4c72bedda0466b0ce9709e1591639642fb9c1c327f1e17e13aadd585541"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "92e3001e03ca5143c508a7af085d2ffb62a86e96769d3f4440e462809c42f2d9",
+    "annotation": "92ab67cc018b2f559276c91467889a41e0bd6d42ec5af9d76d66b52c9c5bc643"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2150fbba597e21d8b11276563153eb9be59203b718ddc0936ae099ae0410578d",
+    "annotation": "020c1afdeeffdc1bfc8379837bb197be116a73e289e1e141752c0b0c489ec981"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "964ff28a227d9078721a2fed958843d4fbabb92a4d83f286164f0621181e4a89",
+    "annotation": "04a1627d3f9804d4e1041e5bdbda7a655b19283f1c916870cdbf34e25f6c0f2a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b6eeaaa0eac0f16379b608469cf9357c9522206c19facc79f038174cca4d2df2",
+    "annotation": "a13a7fbefc665378fc070015989cf68fa48a7bd468b7abc6ab4440efb5ede9bc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "051e724bf1708f90a6a9beaddd8773614edc86023e391e4537e6d3818ba2ecac",
+    "annotation": "6b2acb5052858bbcaf9798677ebb0fd84e482a9c87d851453069dbf4dec3034b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "df5393cb9ccbb74d4ea450aa323ebcca2e005bd39ae8d7689f26e262d93248ee",
+    "annotation": "d6914b52467d9cced019115042122573b6b1e130f013446de78380bf62637899"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3cc5d5f0e5521faae5f037d6aa5f036401fcf60c3fa6899ada54121dbd02cb83",
+    "annotation": "9fbcdc6397519c5e8d4d11e121617431b6e947f6adc5432882b00592b020fd74"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bde41d3f9d132554f437ff362c6545419c60a2661c356979ff07c2378e3aa413",
+    "annotation": "8e60f3643c2f7cfabbedd9c3e636621aa7a6cbfcfad21be0716d449380e2ffcc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "eae9705628d5da4e324137b89cd046532fb6873d3c8ac10830e90bbf9d3fb59d",
+    "annotation": "d05a38b5a81c376144d1f95bd3c82f55790a2cbb4ae8a94f46091009163a9f42"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template48_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "64d2d04090492cb4bf51968b5377298297a1c9bc3436023430a524c9cedab77d",
+    "annotation": "6ba20ca011dd2ef22386d812cb83a351b8c377abd3eaf9aa3d087c011af39dcc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0a2ad7b39afc07fdde6aca007ed51a2ed9a83ed5c763c88091d94e48a877b649",
+    "annotation": "85d172f8fea2d0f4df4a30f1303d94cedad64b1b8b03188c9d5f9278a2c4d81e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4ec6dc4cd180d5715968a990b769127f8547e8946c37574c287ddff11ed2a17e",
+    "annotation": "835b70f9b6ddda21a1c23de5f504e0b80f1899e60cb7e72e96ffbf67810aa41d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f412de24dfd51e59f8c03fb5ba181c1cc645e18b79715a1878ac3345aec155fc",
+    "annotation": "2cea6f179e196aff1e925a65508b08c0fc5e80fa837a83a1659519c33703bb56"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "299b9b846f2adc59c6e235896090dcf5e049ac43255debc93d7e8f3d7ee1c852",
+    "annotation": "4955f34c3b0934de12ad8445acdd63d5f1c8ec761d2383b7d3484aff4e10c7c4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9902ff5c88bad2e690fcc2de8348c9fb3bb0229ad360596dc00728f318e6db58",
+    "annotation": "4c48520af310f2a4abf74170fe0403f9568b8bf435a9a56a9a439999a089d4a4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f46a70345d7c2a9b874ecff9c0780844706288212381af2f959530b23c32261c",
+    "annotation": "2cf1431651a6a53e9c79fbbc3e56f1a2aa8b765dd867dc7e2f182c2ae5587805"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4ce115ef487036b91a8674aafa436032e074be5102659fad41946f665525f739",
+    "annotation": "58632afb88972a9ce2d007c1327edbc5ca4925c86d488990e940acc19fb77f9f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6730ee27d6798d490e6be091af35287dddef422660c181246d863331303802c2",
+    "annotation": "2bb6a547a28f3e87cbc9531e0968499e7e50f9b2c780d98b08bdcec955bf74cc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9a0e98e092ce6a6834afdd2de5a839650721bdcb7634e6f69611d414ae79a63d",
+    "annotation": "47ed5017b68a7b624dac68d197cdb1fa6f83fea1f00185ba11fbf3ae7c053a2f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template41_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1cab55a01c6217450487ca5f13113e548dfbb2744853ad0ccd70c066f9c6d356",
+    "annotation": "ef72bf66e5d423d01fd46854387c4425dc6bac27e79a10a394bc831583d90257"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "86d5c29bad406023fb79956ff8df306c021e99b24fc2c41d65b8f42df3baa0a4",
+    "annotation": "0b09ed3f37c3decacc589c589aa913ca7936168477d5eab069b74e5782953c95"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b4aa15de358322010cf1ecf7c5c4780bdf71f4a48532fc3abd3a1dcf7b65882d",
+    "annotation": "8915e86f5e64aeecc046b4e190d0446358d486082c5e247b80dc0ca33f328d95"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ac84d7d3b792a9248a45d7df667c6ce9bea177b4f93d1e36ba4fbb222ee638a5",
+    "annotation": "6157d8d7fb7f274f1d2a0960ca3f01e709dbf8f4757e797dff83680682edce1c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06e8c88550f9c264e26af8f5ac41e97a8bfea063793f39fd680425cf310e47ff",
+    "annotation": "0cd2576aed0e4af5beb09e56a2ed937a6e6aac39a1a447568ba14dd63c8a67cd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a129fe385ea4bdb94a9c2be0989686b19dffbf329c741c457c78f7e32418bd28",
+    "annotation": "dff82514653da7a705e8439f51636f3a8f424d0f0dbd0dc465e7326bb1793d99"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e5c6fd623be8b8a8bb216bc0fd5bef29f0294974525e93f9b19dd32f8d258893",
+    "annotation": "c77bc887807ba51856308a33aaf38d9256aa58ec638da2df91a95edde7230f03"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "396f52701f66139b4c4a9090c469a47659abea4009a0bcf746c3f30ed3159f89",
+    "annotation": "61dd8d88e7a2b5af8d0a7d2e5e22ce9d9a8fbf6894abdb028cbeed4e28a93162"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "561e9a639883064b36bf112820bb118c00c3cb8708620de54ae9d111a3d3a667",
+    "annotation": "2a606330623bf11106cce15aa3e52497f3ca9930b03df546c6f51e7027d68807"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7778b621f9e19d4d7c625dd10fbb989053b6117b036a54d3f024349aae8f8482",
+    "annotation": "a7cb3f2dc4175e77ce4f1bafcae7d1c8755bf46c73ba9f3793f7755067672ba2"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template22_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "016bfeb45ffbec71580f2e21e3c56e75869df956b4fd5e02a0fe9168ef62da62",
+    "annotation": "2bd360a0460a1c373cf1b7749d8dd2c4e827fba7cbf46793fd7a283042e40b87"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b00bfdb193c216388426d8f3b7c8c89464f392fc31c661312b9c78b7fda9e35e",
+    "annotation": "4d5371e459baa200cc2b0acc0108a756935ac6721565fcb2c76d450b7d07a370"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4f19845511751d29613252c7be4a8a867018380e6a0e9e1705ee2b48f05207f3",
+    "annotation": "5f5e7fb66f7554c8bff926170e6fefc015ba2ab43aa8c62b41258a1d454d912a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ae75079653452f453cd0d1c6e45c9c2eb23cff914a9770e3b0377d864da4011d",
+    "annotation": "328688ebe1127b4b1cbde6ba388ebae18d4f07106bfb816e4cbd9d28d28c820c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "78716c60c5fa6f6abd1a550b539ce67d559a80036b3ddc1d2e14ab799b449bdf",
+    "annotation": "b424355c44106924ff25c5f8a1e1d78a743806f8e18ccdf94c7495bbf21bc502"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "137b474c032c7c97db89d9c2ac3ddcfb567a56b3265c98c5b93f582e10777259",
+    "annotation": "7cf4e3d87e882e8779145944673bd6a6f86cf853020528ebd8cffe3a3b8cff58"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "871ff102da65c4c2562387561730085544b698bf5ace61e2b3bca871d0236f6f",
+    "annotation": "9c8e1edd3d1021a34ae00203d4328b7301248a0d63e36f39b1ebe3ab3f1a89b5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c2811de8a697969378b27eb6ea4d0f45610cbc2d56323175017f149779ffb30c",
+    "annotation": "290748ec4a496bc353ab1fac3de6777b3b7bd1d9bb85a041dcd297e1b197e95d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "19cddcafa62a1111e3b304d05ba479c344ef7d059f5729e652e7ac13517ebf94",
+    "annotation": "9d8b2422af2ed54cdf1dc7bcc34b7127ce5592b00bff3a2a7df8fe36fdc43126"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c4a03605a478c5c759671db4901e5a3341efd3a1a98c6b5d17f417041deb3cd9",
+    "annotation": "bd72b3fce55092738674a0da18eb71142b631232ae471dbaf208cd4d6780aecf"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template27_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3163ef0f5aa348945a96167d1cb1c8710150ba406e273e000f25c39141069f19",
+    "annotation": "c59aabb6bbbe419cd0ecee8036cc35b298842c0b5ce65c48311912b387e5960e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c57abfdec63facbb4b84ff73d9f82aed064560c54542b85b600c0081829835bc",
+    "annotation": "d335fcae2afb6bd5e8c52245f3640c1135688618572ec1dfc52caf3f5e4705fb"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "be75d6d6e1be12aded41742e87c5eee52e533db3d0a973494d8c6263dcaf5a1a",
+    "annotation": "f28afd0c8375d149207114e2c7693aad380e3a2f4b1b3d3a0520f4f45b90f3a8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8c6881e7822c204dce086e2b685c9271964b20f7af913f203b8a1cb67413f18e",
+    "annotation": "4ab8456092cd65cb78a72654e084dee667330aa3a3b682f4b9aa35b80222c078"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "753f42d7b8c722746441ae2b157d52e55a364dbc6103cf9cc18320e3e357eb05",
+    "annotation": "f9b99023ce09a2d1be436ef9bcce63a803cf8c85f6d4d85983076f84cfe12571"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0dea28c3c3f989b6074416d46a7aed65311b024b77063e904ddcd04585454fb1",
+    "annotation": "b3144eb51264b0b01d8507fad69a518290350d46adf3799bcb9847394ede089e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "967cefaa9e36e0daa4e6e4a1ff67602b613eb0ec868436eb2a5b5eb0f72db045",
+    "annotation": "afaa8993b4b0571df83bafd874c10c8c4ba49221c3b33c0ea6fc1d0899ce5212"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "cfab4387ff5cd124ef47ed4950e1570cabe1235648496b4581c5e79bdb31dce5",
+    "annotation": "9089997dd49fbda1d30e19c3cd0b9219c80477e0174445ab44c5713b54efac41"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "88cb5e3cb3da57b3059e085250569570a73d244d382a8f5425b36050a9587e10",
+    "annotation": "c9970111cb895b5c11d386233798ac9d1d6296759976ae10785ca231e1133b6e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6dc010d550af37938aa6c26cfc6b46fe3cbdf4eea28c0aaaea6f3e31272a10f7",
+    "annotation": "2c801c05189dbfd3185f23ed617039123569848e9c147b8ddc92f726303cce05"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template19_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6616e67309c3c684353944fd666ea0b1ebe6fb9d735e6d611999723eb9bcd632",
+    "annotation": "7da34b31cec15a5436effdec7c444309ea180072272df98c3e6d3dd05f9d2f3d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2058da342b1f920f1d434c58bc15df5cf4a079f4d6dd90aa0c009a614e7d2673",
+    "annotation": "18a07f0a974e954afb23a9eadc20e7067b5c3347e3bf4736d26df10f7527efbc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "13ba97ef925f4ccfce2ca250bdc91376fc0baab51b4eed5eb738adcd161febae",
+    "annotation": "b4fa05394370907e48696e5619bdb4f176f39154c866e32b7c2ab8509b691f19"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b542e2fd17629432fb4b5f69d2048efb5045a8ba6604902f6d05a308c11da8de",
+    "annotation": "0cd691853cec296149200dc79aa5118d23a999a34cf881b647c658fc7eefd056"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a7d01f2958212ffb853a0cbee812ae56c70add145ab7baf9a86faf8e3dac77f7",
+    "annotation": "3559351a0d2e298d2a053760d36a261ae4006635ba2649aeef8450766d7dd7e9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "029d42be0498285a77101ca06cd683765a811d5a57a90b9e7aca4bb75588e063",
+    "annotation": "cc05922ab2a4244ba1c8595cfd7f42b2f332274481b058a091e423814eee2b84"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9249fc95ec544032b0e3ae68926d8a48a68407fa4ffd9c03ae4cca62f21c5987",
+    "annotation": "3802d81f82227ece82a1db03d97d8c120e405c148d4575a98a29842f8efe4c55"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "07042b8db7bfb087b3d9a28f140d99b206b666439f43446b37e91dfbe07b25c3",
+    "annotation": "595a50ee762f7e3d8deb03937ca03b019ebc6521073b1aecff2670923c7ec2d8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "11b0e04fde63034d4d1528c9ca97d6c23f52a36ef838b57cf6d3bae26f8847ad",
+    "annotation": "c4ab69e362c537d646d553386e5cf70a07542f70364e2af90a3aa2863d41c185"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "213e834ffbd86be47572f473372c619242fc768d52f453871853d0b9045640d7",
+    "annotation": "9f1cf010efe9815912d7e29969575a970a8c399a7742adb7ccdd2420b4509d0b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template45_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "940521c65229dc0b45c20bd442a71cecbf64e686cb10bbedab1d14126b77f456",
+    "annotation": "e731366da7228aa41200d1192ee4e941134e6f8266baa790fbffe853cef586f7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f718ffa54caca7cb658eed64f7624f546d0ed2cbbb62f0ddcf81b31317e8bdca",
+    "annotation": "6b9113d7f9afaa6dbef9bff1f086240343697c7329006b121095de5d9c5650b6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "49914e7c41ce47851cc21e8b0e716c9f872b39288e85d3ce15b7a6459a10db37",
+    "annotation": "6342aa36a2d69eb8634be80b42f01db3b3ecec27d916a2bdb27ebc6b81a47906"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2ca0e9151512477cb6b8bbc7f57939577fee9e2995d6b0316431c42b566308e1",
+    "annotation": "8b6c74a72afa3b671d85ead427f9c24e0987bbec6b7f1bf83566a6cb83909a5c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "421e11a0982d3259aaa0a095df7f7b5debef2163986ed91a6e05420b01897874",
+    "annotation": "83fa19e6d474657036c985ccb2fb96af5de2b1f11dbf20392036e5be3094f5e8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c0f1f672b7b944cc573c9583462979b2ba2cc5ad332b5aed119411b507025500",
+    "annotation": "578a3439e919f2d0e10fa2cbab2dcbe498d5ea5f8fca20f19aca05ae4477a0e7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "739b053b17644f0f21c88bb11a2a333027d9994656788c509778bf6a87b33baa",
+    "annotation": "035d5243a82cf1a79ca8e35713265214ca43aa15d87758b6752217a49455655e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7df0650a9eb3a4370b8236ba283195eee4bdf7bc7e884e5f4c03a7b4d997dcff",
+    "annotation": "c4bc15b7c5fae48697a0ad42d8ff418eece9c1f2b8eb00ca1adb9f15b782fb11"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d0975482e9d50a59fc793d256b7642fae0ecaa49d2cdd404638070e3d489bef8",
+    "annotation": "571cf265b879eab7c50770d0ca85e12efb63f874bca0e4bec94a8a2565c62765"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ec42b65df3de898b04b08b1a21ebe7f683c34c9c59f8eaacdda542993ae49092",
+    "annotation": "bf7e28e0e0054d1ba1838824fb84050d6b576b7afc8f805108280f6b1247591d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template1_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bfd28acbb8a6fc42a41a52cb9caa39a21c6eb7fc696c1292acce63dc23f20705",
+    "annotation": "793725a3eaee5d4795f2e6c13df241426635b53df1e75b51a41c16e050bf8fb1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f3961247e824233310a9fbcdedca602347b376f7d95c981f62024fc34e878304",
+    "annotation": "e6c6753065310c6ea1f569c26ad95f40c4f51abe51620d35df042a379634d9c4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5d494621a21ca81ecdf1d32754c0e18a67af60db6970aebd28bfb1227867b662",
+    "annotation": "31c3f0425d9db04ec1fab67cd4d9fc98e5ca36ab7261fe5fbf5b09220b169b38"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1355507280c70c6941d4235583aa932228ec35cfbfb9e23036687b00afa5556f",
+    "annotation": "543835e2c94cf16370f57ac9a45644e4fff53556a4bc6ccabadca83aec52e334"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "76816b6924a96a47d231e385a8a2dbd24813948b2c2a56ee63e27828ff79300a",
+    "annotation": "b7dd72aa789ef3b508dcb2c47c2fbaca949b14a7d9b258a8417948d3ed97512d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "03b6c8f6e6a089b1fe18a879778910be24ee007c59dfc354d9a360682c481990",
+    "annotation": "f0faf6b679f35d86ddaa875a95123cc115bd30a17fde80081c387cb4f06a11a9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "61a70f5f4d371b87588ef54be8d7f4e6812bafbf87bd318e4c0eff534806bf3d",
+    "annotation": "912758e16db9f6cca68bb71890d58905b564dd16562bf42aaba7ae962a5b290c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "cc8532624d98aaf20bc807304300b524f9ff1c4ba50147e657c25d1139049ea2",
+    "annotation": "14bdcc06623e155100a8e0de9bdc86f4940514803783e5dd015131652b1796ee"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "26b089d6fe2b93c52b555da5f55ad49986ae91f72fa29c2a344a8ac2e8b148a2",
+    "annotation": "a79d3fd4fc6a6339ddd979554ee4abdec99746c821fe0d967cca20dbce4e3f6c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d337d0d4fc0c2de6ff8b54500fddac8e9494af8e5f1374583b91730640bc22fe",
+    "annotation": "ce8772e8f1b3e64085a680178b1423e84242d2dbe5fe1d1996435480d5c3f38d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template29_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c4fa0136baea874fe4c865a6a13e6c25e17138d7244a1ab91bb70c39a34e4591",
+    "annotation": "e90c8b6a383108a0451a3f33b8a51f10e5f78e27c223b68da41ac98b9881cdf0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1bdc19a5fd3147c1b787248ab86fbc19740e09e377d009ca7608acdf35e4d640",
+    "annotation": "f62c34fe579afb6d0dca05c62b42fd9b09ab0df8e24e55000c2294e90522ef84"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3c0c48202c70f8d774087a82162ec81ed0decf052b99a42b47958c1d6f7f3fc6",
+    "annotation": "3445c09b65dd5ee24116d6c46781ae7310878a5cb559d723212636325e36e9db"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f18b786d17e1a062c67e80509f066a1e5deef82d19161b08b02857a66669be53",
+    "annotation": "c9f4e6b3cabcc010cbddb957e01a57c57ed2f221c034e20af5d120512542459d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f98177181ea086ba329eed1ace61afdda1003aab176e861e7ac4077cf52bdbe0",
+    "annotation": "767878d007e868fe2c4737856616e5365ac6e92dbc4c78399ecae744bf950ae3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "831bfae8b825b1fbc747e9e61a71a781ce4cd16578aa1862edb7599d97639f08",
+    "annotation": "1c4aa03c097a90091af89f6f9870471df24fdb08789158c45d9f5f6def25f574"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3006d67680414400105edffb7606f524012ef673cb4f29947b6d3aacfa5d89e5",
+    "annotation": "6b721d574f25ef88860bd8241677c36c1796ef7405b5cddddc610376953e2378"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f216058c2b359d428b814de7e03c5f2d78a4ca6afe453a9812894d17288bdc6c",
+    "annotation": "418ae35cf748d1bef54591d6c8420e51d13a097aed7389528d04a7d75bd607ae"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ccf1b5fa310cc5c446eed7f45d5b57f5f92065f18302c9c3cf9ed127d2f69fde",
+    "annotation": "01eacf7201601f3681e6e74a6b0baf87f58c0d2e40929f5795c4ddbadd1076e9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d3e24094d5d1e5797b5adfd91c0c4598a63ea8b22ae0b1d6efee3d132fe7b702",
+    "annotation": "d6c7a61fa39b5f7e1e8b90489e92200fe693c1b273664d9ef38336c721d4c521"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template44_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9487000faaa64d9fb1ae3bd9ec4c5ee2b90348e094946a2605ebb3b95eef1a15",
+    "annotation": "721a46b1240b7b94b5b6cf4ff3e4bfd438d709e854bd22fb27d4456b3634c0d7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "fd4e074ae008467271559327a166c0c573cae01ee56a01122faaa1ab8ad334d8",
+    "annotation": "b490f8762e340f644b98e130a239f8ec2491a9162dd0846bc0b7a4a62b5b9c5b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bdd5c27e4d8fc1fcfd85faad8a5a47bade5adfb6ea71e18b84606f680007846a",
+    "annotation": "37ed40bb2e8efe2fde59af5c9926066412cc696ae02289c43084175b19705dda"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06490b7ccc41eba63922a525ce68507db651df17e726a4cda4ff5d1f5d6c0b8c",
+    "annotation": "dab3bbb85a1c7b0c1b805190a74d45e1cfa2ba2b36f5fd0694b3a91b1938a51e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bb071bdf953374ae69adf007712a1dbfdaedfb98593ce045a2ee03062be089e5",
+    "annotation": "7f5b4f4763e656d89f23231d2b0de7fa2f00fed8070d76dd1f92d5ccf881b821"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a0e488de4b0a2060815cee94b99c002bf10ca20e75755c51031be3e9f2cfcc6c",
+    "annotation": "cd545911d85464fa4fc7bfa5be170aa27f846162776812168a9d63c4ff4036e0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b9d36addde6da76683e7c446eb550c56724f7fe3f4e4e8291183b748e6a034a7",
+    "annotation": "7b7d69eb5f491b80eb5714040f1cb9c64ac0051c7a3524f066198026e791c0a4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b53c200a80afa91e564652dd79bfbe3c7e885132b419c316a379f24eb599ac85",
+    "annotation": "dac126fc810885c110e8baae1c25aab03a12a35ace329c04f18765123b4f331d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "cb2593542cc9f818e6b344e808b57c72a26350d50bfe1900ea6a7570c38041e1",
+    "annotation": "7e7ab4067de885ab77f0fe74da4f94a4435bb4d7e27c8a69b3daaf473226e72d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "53039a4c1120d87290dabfd3d961670241a605c63531ec841bb3444bc47737b8",
+    "annotation": "fa93efdb86a47c0030bb05f75ffa389ad1934889e519f68a7be8722941c44654"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template9_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9c291ca6c80a059bcab46b058442f71807c95a70d67b5e3c80d5d4e195f66d03",
+    "annotation": "22d863c152f4b4f989cc9dcf38e31619a04e14d0c89c8bab3c5aa41c9f97e147"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5c8e041894092f75a5da3b8cc70f98096fe33faf096ce0b471a0a48ea322e117",
+    "annotation": "9715ad90135433a9d3322abe8b39807a019431c52f1a619d1fc19088a0fd1d61"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f134b938eb86950371b8d2f7122af154f5df2595ecb16adf698edae7fdef3677",
+    "annotation": "150ed1925cab0ed010d5f44bf444796b4f1734a20869000bd246a714cad770c7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b317ce8b50cda6a349f12a5ef6b7bc61584caecd67ebf99b9bdcc26d0b2f741b",
+    "annotation": "cc53e8c15609c7d8aa4a4ff567718fdede9f6a89f19b3ca220c54647d9c98999"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5dc1cfbafb08be33cdb6730d047190ac29ab615aceaf6897a43ca15ab3bdcc36",
+    "annotation": "1b3d317ce61cac8b5fc0eed4518be5610950e5b4c4e4d447ca52294c30fe1473"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "759b7a569479721e4eb4000c18c34f3bf0004d0bc19113547e646dbc1cf8b417",
+    "annotation": "064a79d3809d0db8577611fbba379dda3364503054da899fbfacd5bb6e6b6760"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "33a69f25d53f3dcccb827cad0346a0c46e42b3ad6a65d617639bcacb94d5f95c",
+    "annotation": "82cfd4081a29759d3ded8bc4be78b9e27cd71d30b0a534d4869d10c97ae56cc1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "35304f4afeb843047e5368924c88ac92f6aa05fd5d0650af544087e694064404",
+    "annotation": "ebb4af462583ece8b14a04337292fbaafe71ffc0c3dcde00a2ae55c7fc3ee9a5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "eba576633f270448753d817921f3535f36d4b25e543fbe148ddb3dde43fc181e",
+    "annotation": "940a0677632381e76699dc03dbb65865516f1e1061af8cfdfe378884019d8e24"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "20364afc8658ae6705b79f257136b1e7747e1641f10f3b7c50d51c7e49880c59",
+    "annotation": "d79842fe331c6373d5429c63ef7dadb9e2158c8a8b0d65b698ac87b250c44fc4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template47_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "92aea903c14da5b2dcd6bc7acfcd343787285501629f3d662ef608ffb38c8cc7",
+    "annotation": "9ccd687f049cafbfb22af219bc3aa056c9d9df070833dfe68d5114b86a597a31"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0c5e40818e670bf5fc3595a0ee0d1ffe866b455537d39fcabbcaecf95b69bd0f",
+    "annotation": "8969d311faa515c7509d0f932ac730d8e8573c716456391cc32e145777e45ece"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f5e3277b4de8ba395785aa8cf3b997d384c27fd1711341d13153209a61ab563d",
+    "annotation": "c6528f9adb43148752ba27e4bf244e76681a1a267f1b0281201504ee4eace468"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8f7fa4da7d3b731b25db28d19d59dee37c0c5f017380a3471127495d31f2da52",
+    "annotation": "12a00331bcec9091e437b32a80b68869150f9e4e30adcf469d3cbc5369b1f943"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7e2cea866f6ec485bae8e76b03c9125455e961251467ce6b04f72557b36f44d5",
+    "annotation": "e7c1335488ab342d73b10e0f61bdf28ed6c83764b95434a2b651f97c33a7845e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6a50d2937bdd660eefe6ab30f10cc2b7df91b3e5b81e91ec623fedf9848b292c",
+    "annotation": "89dd6bcae883cf138cff092bdd896ed514d1a25de0da1b535c2914b57acf040f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6563667e69924f0821a1c1f6f0a47a24f522e5312ee5bd764f3495d5b6629d40",
+    "annotation": "b78a0589015192673e2848b279e17447e0ff93f1cd2f62bca59903350536cc60"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "307800878af71feabf54957e65e171a4d8d1fb31099962eb44f89ca013c1e7cd",
+    "annotation": "ed00409ed56b5305b55f8462fe969de3d88f915ce723288deeccb646d43a8f95"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8f8e8889093abd27d7abbc413c88f1082e90bca3a6694eacf29ed1258772be75",
+    "annotation": "869f35c760ae9dae8c43a50eac59515c1f31d0d0188d238a86baf2cc06ca6322"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e368706837f167c91120c645357f0c0909ae3d9cdbdb2d2667fed1ada6a6d1c7",
+    "annotation": "ee85be402a5a0b3d3d3146ddaec99d02a9b14ac1b152e1b322a2c28af3f441c8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template36_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5d62647546614036619c538ae2f247d4ab85d6166780b31728257c00fd58e742",
+    "annotation": "3d08808385bc45b7331d3cef4529b991541e026e2e6cd8fd1f7fc92c288ef28f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9f60cdce57b593ac5eefdb1394ae2cf473f26486f5fcb9dc00ab65dbb7ab3db4",
+    "annotation": "a3bf40ea9a5d004e8d2f908ad20d3f1ec847200ff254e3118d21032e4c31c4ff"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "84873a44a0c7909f2d4805be9d43f35fe1da973e1bfc4afd3a0922983eae7e86",
+    "annotation": "1566a4f92abb42ee47f220d16d0fe673f797c6435e8f41aea71ed66ee8c9386c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b0218ecc2a52339bac4b05c4ac245e6b5e718cddc62089d1ab4862800e1f9f3e",
+    "annotation": "e2007d46b20d03e26220003fad835658fb4b4b4a0d3c13d1e9f5e50fce607f2c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2136d301b9820355bcf4bc8d290a77d8630720b4bb4e770d6c67d494d20f26bd",
+    "annotation": "99c9c4415147e5ed5c013fd6cc2d373a7b755149be159aa02cf8358421919554"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "50130a61faf0aee8236bada16ce34079b5974aa59d706a6847b6b6ffcbc95e92",
+    "annotation": "96233a9db2ac181414a9c352b8639a866b62a752d96f40578f09beae31e1d9f9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "94c004b72ac833413dd14285edb8f18d384e4bd590ce46249ba2bf5dc9c3306e",
+    "annotation": "bb282e27cc31bd70e7e941c069f6fe5168bb181eff7aa543f30f6940aa65c50d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "278479d1b9a3a376e30a40e486eb960b9f58454100ab763e88519ef0295aa882",
+    "annotation": "10dd803f132deffea329109af45e81657cb9d641b96224558823db36a11bfba4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "58318c4e072f15dfc3f9691ce023279a317301f9c3cd62b6eaa5ebb2ed82d5ff",
+    "annotation": "3777e50cb9928a84cbcc7a793d52317eef36afc23fb5d03f54cd4d5c789944e7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "056b4d10e51b5ebd176f20bea5d267e8f3beda9d0f5d2352613e50149563fe73",
+    "annotation": "91990fce69cb6f295b266550bf07ab8962b91b3836e477a1343a3accdb1cf23d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template23_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "256ede35426eac5b72747e4248e0dbfc3445c2891fdf8af22c60e25baeb4d94d",
+    "annotation": "fb2e5c27a48b864a88d55fb056c47a31a44c458bf6d8cb797c62ddce828b6650"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c43c9922862fd9f1b518da87a9036abc846f2f546463caf7648904520cee3f3c",
+    "annotation": "4907865efb255b33039a1eff8f461a37719d269c5687b81708ad9713ec87dd8f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5c0a450c8c602a332961f61e5155d7e44bc44e07dc549d6f45684a333cc6cef7",
+    "annotation": "119f625d4060156166fdcf3279fc1d445b81ae0e417e26437d3bf366b463dd51"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7edecb7870531990f9502c69b06ce003c92e7d83c043eb404b4e4fd5f3552475",
+    "annotation": "45795fe6366323ac3dd9a9e503456e5d1acf55b43387f5212153051163d156c7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c75a322b7c78b6df1b6c408d78228d0ad1c1113f3d13f42833d46b657f42dbcb",
+    "annotation": "f5bf353226b7b51dfdb0805c9f50e0bed26e9a451ae565ce8d491f8d1b095792"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "982b52d5df1d5020037576457bbc98c959c1382245295b8c4996b02c11125697",
+    "annotation": "6a455400b7b4ce8a687d0b4e908e1e511902f689d4a949aff4a7a80e0b12e0b3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ad45b6c0995c13fc1cd3c55b77ff604756a14c60ef1df0bb2aa290894a9e80a7",
+    "annotation": "7d346550bc4a38dc29d9329f770beb1e8c3911077fda1d341a0eafe130303a5e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c1c180ea1097196b50c5b25578046856aafc510fc70a92b64184fb8f4ff1942a",
+    "annotation": "d2eaf0d249a7af824e71d762326bcd41efa1a9d38e5494c433fa2cc7bfd2fe63"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8f2a4377ff2b7dd69d664f72cd43804867da72aec4e8d2955c57400662c3f544",
+    "annotation": "0195bd26ac5aa053a80c782756e8dacc0ab730bc225bf9817fea6e0f578a11a1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a92b983f66d2eae0d9965d0d0018c68758cebfcce6016dbd505e6a7c988e7182",
+    "annotation": "3d9fbc1bcf839a16e89741e76d932aeb6a694d83b705e0e6d578e5884c609d60"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template18_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e7dee96817020bcfeb40bf45032345c672d0df7ff34d2c2e511c2c34e7674b87",
+    "annotation": "e383bdd50c4ad9d66d6857957545d25c11d27f7c7ecd16391a52d3d758d84ced"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "058398c5194fb9c201f1e9be91a89891ed9316689b226d4c01c2677bcbb26d4d",
+    "annotation": "52f0028511108c8df65df067dd9712ffa8e4a19b22e4775989a227cb1f001389"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "158f4a33aa2c42508bf85108ee968c84b8fcacf7d54a3902fe8bf8b385b32074",
+    "annotation": "c59eb5f8c94c8c806a4886cd7408eb2782ec5929320abd819bc34f0763e5abb6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e8dc46d5017d5cc2a429db0806b565befac735129b6c73ac67d6cbf35aa4c07f",
+    "annotation": "184b0dae84633229d892a8275d1d9d91e81cd75d7762eaac1acaed04e5729755"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0ba3c09626198d515547ed05e7886809742275505ab7fdb444b81a8434f149c0",
+    "annotation": "1bd8af48527f8368b52f08efa62ef83450d69d742fea29e179d0fd36f4c93acb"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "721135f751ec590a843aefd0bee263f8db5d0c6f7b9ca34463d6d3866ba6df3a",
+    "annotation": "9382a01682488bdb36204a6527fc1f76a43c86eace410407db8e7acf2e37c2a5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "770ad6ae2871cbd427c325529910609334a5d795c4ec45c6cba0ee7f767ab1c0",
+    "annotation": "ebe896fcf5ba1e9fd0613c21c775d821f50b13fc377d1226ed2eebb0e4aea72b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8378b5e265faf21c0a24f6dc28744d46d0ceee574da525d38a5851016546d012",
+    "annotation": "d14b7f1a8cefa1455f8d1667e303606733fc14afa9e571ecb873ad058f530d5a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "41f6d2593b883d9427414d633649e470c923e960d57682d1ccfe9821713b189d",
+    "annotation": "3421eefde954df799bc937f352c615b80e95bd733863cc91a15b76ef8e696af1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e6b7fcb9bdb296bd8ab3fce3ed1feaa84c23d04697ae88923ba706720cee4774",
+    "annotation": "9d0d5bedb2208c1a0188659f9440658ffe4c446bc1a55fb3a20e6b58b663f2fc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template42_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3d2fb0dc7d8055dd171b3c60a254204739a6e79ab3d95456101007bbf025f0b3",
+    "annotation": "11d8c560e54f6cf9ba6e6a65c1f5f67524f3515e56b8757a605af0abe216e265"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "146fb4270e7e6b81cfb98f75900714d2c450976f460bf12fc0eda27b0c7b00fa",
+    "annotation": "3fcedd14b96587c8fc9dd622d19b8164346e75960e5103e706258daa57aed8e5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8e8949baf81ba95ed66b726334f9592ce59f3c9f00724902f247ef85b0d249fc",
+    "annotation": "e1936b94b68b02560b8b04428fd5ec5aa1231a3713150a0383e6fcca9b64a07c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2d1bfdc59b2983dcf55dbae4e4fc8f9b0fdb850ca42ca776f36b9c7acbdc634e",
+    "annotation": "371d09e857b8947fea5048e6c69ab06c01750fdd5084380454fda55c0f5da956"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2755380945c47c186f20e04c5fab5fbfddb1ebf1df1374d253bb7f5e429e78e2",
+    "annotation": "8b9ae47b8e12c4e3c993ab3b8e076681636c858c7c3972a6ac695b12973effb4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3f43f4448c777a2e0986b856c93cf6e01f7ef584b7ad09d399f7be6c7238f8c2",
+    "annotation": "23f6bb9739d86e87be62962189a9532cae93baa74dd2d1f2ffd526e452320cc8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f7c1866b7ae680d6f84250ca740906412a481f41597425529aab21fae511b4ab",
+    "annotation": "ca60746f8324dd78eaf386bde704ce59be503ae16d71c548166943d12fef8e34"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3c81fa366f1488baba5febf2227811d238181d9d9342c491c6ab8a7bfbc57e9d",
+    "annotation": "9528d487ede30e669a9f53b704d2d366f94d4bd27808299596623444c26f43d8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9f9c7ab958fdb95eb9533aa9b70689843b9c1ee1bfa4bfc246d029311383d49e",
+    "annotation": "d836e2463fcd5a7b38a6c06a1f40c2f4e60d1628214300b711911a30ff854ba6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "560cde125781f89074ed2e6e3dc0d8c8b7325ab7b3866e8eb68c7e8eb6c4eba8",
+    "annotation": "9726ec3a8ae4b4a5f296abef059190cc757653f379646fccb31ea4ae9385d9d1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template15_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "55a5df604494efef7f9f2af2c1ecaa1ba3e63e54d328e2d72a3f68086d72cc5a",
+    "annotation": "c015c2259989791589e05508701c892fc658cd1ff02601b4bedad8f744326000"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "74fabb81b64ed37d41d11e052c5d6e99d93c9eaa68d836e21e3408867ff91a3c",
+    "annotation": "56c3e08eea08d603c9539c05267c59eaa8e48907eb3617492a6741623d4d352c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ea358e35e7454cc5178af7a0870a3bdae53ded3a63857930af2e5c303af1dab8",
+    "annotation": "cf5937dbcd76e74031e08f3fcd141bc0c3c3b25ea7ec9ce4f7a2e7f456ff8f2a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ca3851489d461f175c6720e2c1051b48d4bbc308f1fb2ff3ef463a4656eec98c",
+    "annotation": "ca127add9f0818f6741c2a0e79379d6d150a9dc38fe3404cde3d13d839ee1d3a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1cb9f23a4cd4aa3740e3f3a130f8de49cffc5132804fd8efeaced7d1edc7575d",
+    "annotation": "31a6ca2d193981093adae290bd99f8e34095fb6e6e2e2bac5109275b8c5f3171"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2c2d52802389f3ab30a9bf710b2183b58d40395d7467d3d71c6a996ab8535d6b",
+    "annotation": "4abd49b1005626c5350f76193fafd25afda341201dea5e4113c2b44cb2fd808f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d82483eb86ef3361c90fcf6981c3bee8d1a51da088813f4409ba373136e0df11",
+    "annotation": "e437836e0fa4c0a23bf86843666e09df3fc983387bfb52befc513b8a9af88133"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4eca5424513a2f5034e02b80f30c8ea20d8094378e68b625207311bf1a55bcbc",
+    "annotation": "4081efd35ffacf0a49fa44da05e2f903b098ec605a436800f97f26f9156604d1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "23c53b9719201895018dafaf784084b5f1f5495b5169311d680b56c26e77c4bb",
+    "annotation": "fda7e9250bd2fe8b772102c4cbdf70943ff269701f6608fb836871753c58dca6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d097f6c6cc7fd3fb7fb57914020b79ba190150a20ddc96927e69b812715c69a5",
+    "annotation": "24eab397c61dcb59d409259c5a268abdbd25b1108b0332b1177da42386528ccd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template14_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7def9afc656c624f112d07d4c7c2968421c9fe72bd78d4e2c900c81509679602",
+    "annotation": "20b110aa0f7cee2bd6a9812d14e0e0c4fcb2e295821ca119fc339e2963017341"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c37f696354081260eccdc7b77eaa0850f12c7a762c0d2f61535b8e813cbe1526",
+    "annotation": "ef40530f524ff9c336b54f98e809bde6f0cc7ddfc449b5e54dcc7c9c930dcd7c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "02d77b057b1271cefd060c935605f77c7ba52c870fb0b0e254886a0f741ac038",
+    "annotation": "70525df41a0402e32d97e4ea2fc970977f426f6d69034721596d3806b1f2ce92"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "736043b391604cfe4e4fecb17f88d34997f61b57fa605bbcec25aa26c10243b0",
+    "annotation": "3d58cef60d0acb85cedc71cf0d627e024b10da02ebe53cdb2b696c3bc016acc4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "00b28c3e4c51eb0efdf87f4aca06a97fec5f02ec73920e7e36cea18751f3b7f0",
+    "annotation": "cebb661168cdf749d57bb9d487f6703050181be6c409524b7a352c0a80638a34"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "dd33ed0a72e2aac99ef4a1a1cf56460f61e95e03107d75d1ee1ba1223fd4f43c",
+    "annotation": "e8f41d2de36a0f777a951b42ab756f4ffb6b974870d3079cc65ae6185b33dcdd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5607c90244a64a42b021aaba8820a1fb50bd4e135709f46994b0c70537c2a729",
+    "annotation": "1e4a772054aaca1bc8213af9f845bdf6dbf9de1d0b5b8f7a9c8492d0c96c0056"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9799dce3aa69e3c28d479629f05e90bd6982bd734deb95cc03b07baa0998bab1",
+    "annotation": "ba427e7ac5fa207a9949a19728bc79314edd60d7b2053b3e6202db0e19ab9912"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6ea746b2ab344f19357184aedcc3b1451d92ec2f5234614bc2fc6008973db1f7",
+    "annotation": "a48cc2f75b52644dc7726d3eaa17bb26dcaafd9f6ccc336017955862dd0097b7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "941ef3a26d4ae9f9e2c0e8300ca20ee0cbe321192479f8e34a4a5ccf8b4ae3ca",
+    "annotation": "f383555e07bde3a1aa2668899d6c4ebca67242d31828d2670570f469da4d1df5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template28_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "905b6633666e5a29178e3d4c4c988c6594b69fb52a3c7495e0c2edfb546526eb",
+    "annotation": "5847713cfe2df008f0926a2b516eccc1407ef63fcacc2be1a9d2261bd42ecf24"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "31bfe3c321744a4127968941e642b67329ed0bebe343030a5230f68669806c5c",
+    "annotation": "580d9a9ea020aa5e5a3067f4314cb0b5e0d2327b17fd664875f8ef3dc46dd54c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f4736ec1b4cb67571e8fa76abda6ea709c30c63073b00a9eb4850fb0b65a22e3",
+    "annotation": "3e191552796eadb935b96f27a7d77f5672e1cfcbbba48e2fc26190ae670019db"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "90bdd7b416dc875a2e227cc0d8067b39f59424d5a459b5a0f6a34a852de06636",
+    "annotation": "e325533b6fc5e677c6ae55f72b2e2e79d87d10ed8076b958d333970ac6737402"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "38a5d426cdeda943352132f05c005ac741de773d0a89e0466a639eb57c01b415",
+    "annotation": "da07c63b24ec6cf35f59604a94e611d50a9912ed0f55c62b1a02bc52ac9af350"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "620424a6e7ba5c357d386491511a2c93d974e3a93aed9762381ae949f74e1b32",
+    "annotation": "061844d9c19f7b5f68d54ad833b356e58b3c80a38aa51d7ea7ef7aa697c679a9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c16e1d3991dfd93f9b9683fe5e041724ec1b7d9c83e8774e1580c64af137356a",
+    "annotation": "6a7a8458e10bda56e898402769d8b43db399164fed168a35a400264b058dc405"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0e0892d5af6d50a50c1aa8df14e45a7ceededc6708ebd2b17be180a98de60b1a",
+    "annotation": "1e7170d5067de87f744c3fdc6ed20fb9626c630f4abe443a6c21382d0f5a911b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6718c88f618d05a078b493788e82d0ed5899f071f73f8a5af8f9d16d295da8da",
+    "annotation": "dcf2da6cd75727f8ee333419a9bb7a69bd5ca3e13a38a4ee6a5a0e0cfb2fc482"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f14bdc4cd745afe97816124be3e7f3d6f9a88fad1d5d5bd5e378329caa4a6357",
+    "annotation": "7b1c272aa74e4193a4285e417c41016b166b172c1601043350ed3225f2638457"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template43_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f719c0dfef3444f5d421806e4909f48b1e30010bdaf4734abf30ab8ed18653cf",
+    "annotation": "ca5cfe84e1e0abcca8780482db196c5e386fb28b2e8ebf8fb91c1107309c5d4c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "64395a2459d085d99ca89f7c588c8e3c1b1a160dcddfb3e518f32ed37d84f181",
+    "annotation": "d30ab3b4ba3cf8a96fc11b519fd7ab1da0322ef353dcc676763a99677a8fc2c1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f6892b6c08326fc733329ec6ca1385b5b6e096eae6bed7fab18aa2824ab50732",
+    "annotation": "6ec6b4d179d845af6f7da113885eb480fef8a83d17c9e5fa26e2926942ee1360"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f23eda19f16ce807dfe04650e9ffd43620c5295607e3b30d6071991a5b78b69d",
+    "annotation": "fbc0048d199feb0927fc92edd1d952eaff901e83332a85f3ab5937b11168e39f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8b7552be542afd7ad34bf4091c1d13a195e1893d6fde21aba79946d20cfbb87c",
+    "annotation": "88da897ea1d068b4081510389aca247c4ce75068e1c6454fe643838065363a33"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "603ee9406bce6e064ee9a656fe7d11af09f0996a9ab3b4b16099701d0d91f481",
+    "annotation": "53c94e4ca4c6deee73b82d3aa7999e414d08bd2a84fdf304614a32b7ab4a4495"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "12e70e210d92e29513d6d1e927102f350870736e4cdc7fe7ec583a130770b672",
+    "annotation": "6cbf8c77f7ab7a168e53f77d99909c542b577788fb377f8217a60f42b2d591f0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7a469e4f2afb232a25e7e6d245e6bce846007d574c9b141385097e90d70074a7",
+    "annotation": "053091ce2698726c35f8dece45f345edb0836c13daea529042b9eee5b6ad3f61"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8dbdcb1c4907146ed0f10360c997a656736d5c72e4ba5cb934ff9a9418fe811b",
+    "annotation": "0bb16c87dcc1a3af9f4b186ec62183c2af9677aae5da3b83e37012d0ca62733f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c221a7ce1c1e0511b94fff982792daca2b167d04a3e080cbeb28a588eb53efee",
+    "annotation": "b76e01aac80ad91350cbaae2c76fa0e8853cc4f3104b06152beec19faca9b0ac"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template33_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4584527efa4098ba465446cf9f7db799cd2cee0b7cc20374e18a069aed3e368b",
+    "annotation": "75ee6e2486767d30f320a5eebaecf2f481f84e484f03bd0f65266255b89b915a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "103604253ab7514836522a7af2ecbe394781739e004c27f512d9e620506cdf50",
+    "annotation": "d27c30cc4417dc9f7d20d8e5e4ae93e0e4eb29b84d73b59e82e613481d8e59e1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "af0bc55103cdebb870ac75ffe0b6e2101586b6fae0e01756d0205209217bdf06",
+    "annotation": "e76654de01d7e891dd4a35fe1338e8e95646080968a912ff816f4e95761ce854"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06c221f9f69425e6a3e9d9627b29122d92e8657a74485318506b12bac8ea4e2a",
+    "annotation": "00e45082c0baa6b1058c6bbb95c57da194d742f714986082023aa35f28539758"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e70dd788fc7d3b00e35302f9e5159e27f287e6967cee1863653830fc0e9ca80d",
+    "annotation": "76eb6ee4b04d9d587d991e98174d3ac721b47a6411ff234f1e55e8b4a938fd6b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e94c45b8aec66e66542b77a526ca1223b2c76d8deaca32782294b35568e27a26",
+    "annotation": "9e4d1ca276642d1e32d9a8d56656e792918f190b83decdbc2299e75a235f9c86"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1b132d84f5c333ef17b82e08094d2c558333dd4930da4d0c88e3d1fa5ccc9ffb",
+    "annotation": "5618eae6baaa28609a3f045e12061291fb356e38704eaaf79ab543d9ee84f119"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "07db3b3a5b45e1754a24ea5d9c6672c5104894780cb420dd547e1323baf53085",
+    "annotation": "d42c84846ccc430777f78b25e1429b0abc64293a193dd57c9bf530878abc32ae"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "36c3f4afdd43760dcc5b19d673cd0f462ce6032017e708e4942f0248379ca6d8",
+    "annotation": "ac4a191446b304ec4471598374b08737324d63a5da8ea06004b08f66109b741e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8280c8312bd6ecc5d67b144999321e67a295cd101ec3e689c13e1ef6d52fc0cc",
+    "annotation": "038773ec739bfd0d9a9a951caf4e9e32303fcdb0d58184d92fb4d1be3b8abb49"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template6_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c0c8e54030771f504372ae0443f2b89114ee58b8e5840a3ebcdd491ea7bc12c6",
+    "annotation": "1aa8c1d4a5a7dc8dae3ea3f5e987f129252948e20114c9abc93f8ac9ac0b8cd4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "802c28fe4912c1d8a2e928c20f3a2082514483baa2337d062c05a3cf9a419cbe",
+    "annotation": "09f2ccbff4fade033dc109a5042439eb86b932261102599e08fb4d1e27e3468e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e0777b5296ba3aa005c39ee2e75921f6924805b9438920a766ca33f492da91ce",
+    "annotation": "dac3c1f7f10622ffe537b6021428fc6c67f51d0a80d8efb7b673ecaa6e0d4e3e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0787705b8c8907cf8855884f142fe0bf3eb72168923feb73ce873869abef230d",
+    "annotation": "b7e4f4a10c6db525983a0d35388251683a3f72e87edcdf53aec367618cb9fc84"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "cec1b16ff8b95edb3a1e1a615d45fab9e2282b18eae8058f35aed5a4cce23817",
+    "annotation": "380049f901b78c59dbdab9f955a41850a89d865cb677fec0597db152c04d1d8c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "afe686c9cdb06bcb0d7110b134bf9ab3fd88c4148f2e49ef1708137e241a97b2",
+    "annotation": "49b1e906be4d974fb166e3ed83f8759ea322153692c47e66b956448bf27455ea"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1882d64e9d88595f691a7729abb07ea3fbba4b42475a34a71027e68afd89b4bb",
+    "annotation": "861d4bad3444f68d3020635dc5c5d7bc6a51d511d0fdbb1e687f2f63d0e2b6bd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8984ca97795a93493760a9dba295918e551e64300a724ddd2d9275c6348e00d3",
+    "annotation": "be8ed8dbd8ce972e69efb490d5b2d9474f80f36075b43c375892906c0eef9cfa"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4241db8ec75a362cbbd5bd5d24c6811c2e166e733c5a5e5733d60d570a6b3042",
+    "annotation": "ac55dc36187a6e328bdf1204e2ad9a1ca92d5ac966ce8d94ee29c927198ee6c8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "70abeeadefd4ff4506dc20033e2988952efcfd2eb6023c346e3e442f4b77c242",
+    "annotation": "9174aa614b65586a16e1f9d14729a5b8761f7b54f7eb8ce1e353506798bd6e2d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template38_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1e855c49fc32507d7bdc5430d5ba38965c4366dded40aaf601f1bcf0de505e4f",
+    "annotation": "11bdafc56a9f97fe4ac197ec999bbb520c0e19d01e68c2ef691adc1bbf88552d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a67f378823db26ca98cba7066fa9a3aab215848788dea9fd89d8a0a467a9e0e",
+    "annotation": "60d8f194fa4146e4218fd941228044023b9fa07b843697709aef240ad623c6ff"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a361a3ecedd79c40737861f276c6ae04a661c73ec940d41764fd1a689fd802a",
+    "annotation": "b82862b21311bbcebcd73d8b33f62b706e8593397efa219ca769e610f95ada76"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d0d968004b253339e0f4e47605a5aaf41a4a6eeea526032d7e4e4de8b6b221ff",
+    "annotation": "e6e178f95e1f42998b4024adee28bf73f193b6eec277d1b72161bd766444bd71"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1b8c77ebd84ed89d5d3209028d480138ae924f460b79d33ae56d2ea0095cddb1",
+    "annotation": "30f6c31d9eeabe11a44bf94b5f63e4d9e6969796eebdba0b993c36e3ca23d578"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f20a0944b4231485355e356c33ae857e05012676104cab2c3397fc4936b9bbbd",
+    "annotation": "79839c72583339dfe31a0363ecbed4965d8fb08e23b648f7cd94d826ff54ae4b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "fb188ef7b034dd38d537171b7ca89c2db0c164768bdcee84b6930868d6d0f05e",
+    "annotation": "2697809abd9ebe2ba91488aa019b8d146e22eedb45ad89d62d0d23d2b3b84378"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "679bf588f6c5065c6342e495d4bbb2553148dcdd6bed7b34aaf3d75b380466d1",
+    "annotation": "590a7d725c0f702a7003c5faf8a6f5cda0c12dfa8237cc91f12f0fafe6237374"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "26a0b534b015a32515989067726e63b12d6b2ea91dc822add2ed7b6f0f849042",
+    "annotation": "a17d223a0b621d69418b59112095f039083516856f056409ec7966a2cdd2b336"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c34a3d56c46cef8e933ce4c6619c86b23a10d721e3cdabcddd7d1aba7301db50",
+    "annotation": "f00ce58d523cbc39be323a4e1b093790112531ef0977c9f34f837813763932ab"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template26_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e117912746a9eac1505bf8645b03fc168ffe244104de96b3db5277a25a5e1530",
+    "annotation": "20f62918c02cbe9471e74a4de3b36b57f6d046400f891b5702284eecabd5d3bd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e87d9cbe09a68915feed3457d1dcf923086d1329df4abbaa7270af5bb6758cb5",
+    "annotation": "9b2c477ba8315b0231589c023a1f63b38d38c38444e748e5cd88410e0afe0c0c"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "856435288aee08524e5736783b9dc3752a0a81e045a2ff0ef89e042307246a23",
+    "annotation": "e565a64d9bfadbbc89a6707d41c532e8ce7f5eb3d21e9adaeb02d0d9b6152489"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f65202cc45f252dfb593c87fbb653ca0398d930aa46d20ad1bc30c6c9b1bbecc",
+    "annotation": "7497a9eda42336faf390db2d31957749c7b340cfd67d99606bcba71d47e66c1b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0dfc9b6a15d6d78c2bebc9a14139c1cc7c8c50698c753589f17774f006539a74",
+    "annotation": "446786ef5078a1579e1dfc59fca4c8a535cdefeccf8d548937f8393deab0c64f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "10e919108f7fe084b619ce1afd4bd0cfc6eabd89041c3791f73461a62be92fe9",
+    "annotation": "e12e9732e19130efa037ff971b925e6c690b8ba999cac847b5cc2847e0c55987"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d3a3608789e3687496cc8e0344b65bf9fd3729330fd4b86ce9f5d59ab8a15157",
+    "annotation": "17380bcb996026fbf0e7991d77efea880cfcb7557544b34ec0531040569131b8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8f543c034a4a02ca1beccbbc87110d963423a273e04cd779078185f55c48fbad",
+    "annotation": "fe84591f74a4bb8db4e7cb7103b54498226c2233d17be4cbb23dd9d33535cf53"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e47bc9654746cbb7077b7e6875ae7d974ffaca2d5237fe216adc7f92d8a6e7ca",
+    "annotation": "ddc99ed9e472977937aa5540fd63282ec67869408209b7dff3863ce5ba1d3b67"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f48bcb8754fb4b7fa31a08fd74bdaf59b4c8d17bd13f8f75ca03f4da960b4e0d",
+    "annotation": "66aa540226f3394704b26722d3938543a36eeb804df325c14a6be18a70edf806"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template13_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "893221bd62bceb601e45ac6bbcb765d7e0d0f6ab9c05d8ea0fb8e0387b63bf14",
+    "annotation": "9d8d48362d21ee78b2f093cb33c6c29c614c04703b9e179a315db2602fc65a2f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "51838684c6df1aa06c013c975185aba6b11ee88a5b3da8f6be8cb32f04092ad2",
+    "annotation": "0beb06929f66705cc8d94d9bc082e19418257c6533d51bc421d30a9d88695562"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "66430e3445c5a8bad92f960dd6ce498ec73c30d4bebb822168c0273ccdeabd08",
+    "annotation": "661513ababafb4ebd1b1e6e27d068bfedbe21256573b19680201195328f77345"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "188adc0d7ace52f0b669faa50b17916a885f67d7ade63e6aa1ddbe24f355b1d3",
+    "annotation": "0fe177bf7a70db258a5ba05c1b334ddef61aa7c5e1a34995094ec6af7664e247"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c83984a99f4a31cbd6c3597eab22d2ad287bed565b8857fd38b922ec4f5a25e2",
+    "annotation": "1028c11963ec78bb3b3ad7e2565d263392e2ec14c21ace0f4b9da17b42cabd46"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5c47c292c410cff497c6343e77b71e06eda127e28fa07d02db30ad7a476a6aca",
+    "annotation": "02b9a2e990e70cbd1dad016c86bc0490d1b46afcc4b4389e2a8babee94fe5ff3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "11858c67c8205fb62c585324e05283f069d94f0bea343b554356b0b03c566d02",
+    "annotation": "da00d09399852b531881a91e55712e3e72034aaf34da1a106c8f50faf64c0f9a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7046e5700a6749a1336b7701cd96895a09f654a033c6972d5689dbd92e6aea5c",
+    "annotation": "0a734a4b71548a36a5153d1c4bc03714cf50d50118547fcbc61e93d2899551e3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b2dd5f2e0e85db42cb0b42d467990ad90eeaf26dcce6442a4f5a9b83330168a5",
+    "annotation": "03bd3e129edbefb11bf464cfde5c79e5c38e34592f248813b8f60860c62eeeb0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bc9f82e0d7cc45773a0bfd203fcdc6b209f925cbea1dcafd8463cfb2fd53255e",
+    "annotation": "6172c29a7febee5a19d2300d0d7dee88f3052ae337687bc401fda80503e4fdf6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template34_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3f224ae15cf4fe07de7a4b46a00538310cbaceb0209ae643af8fc4b0a1bfe0d0",
+    "annotation": "2232b780e3419fc7d8bc3ced762730c9a5396315205a00051fd2b4f3e1e043dd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1e4333bdd603a41dfeb5b445f1f36af69f71270887bd514302f12f559abe24db",
+    "annotation": "43f52dddd2b63da8662abde7abba03a20f281054bfe527f275fa581a7629cd4b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "03820260dc05f20fe8af74b94213d76028453d976feab562b6c8f7a38f4982da",
+    "annotation": "5bf2b1ae485ee8dead3ff3a8eae55226a74f16fb03513710b08a00e0976457e7"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c773197b62dc9ba5087e058410f747263cc242c1e7f71a719b165f729eff8cc7",
+    "annotation": "0396a182a92acb5ecd2d27145a617cfb18e620f31e239bfaba284b84fd2cb5c8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "a0a4515c1dfffc7306d9d45e3c6584eb53298fccadb7ac07c4f32aa4aff5a1e2",
+    "annotation": "82a3bd86fdd496ff08e227fecdda45fd153184d4665eedd663c68e6f20d6248d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ef3df9216f20f40d272c83683cd7b793b6be348b097df171b1fe0947b62dbe76",
+    "annotation": "5c4fc674cf2b721c9decf67008e3676226c1e07488444b0970cf32029488c4d5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "07e20a268c33edd3a2fb3483091cc9089cbc362179adc580bb6ae6a2ca4c59df",
+    "annotation": "953d54b89ad83877e8222827fcfc9ab24186bb742d7b2ab63baf666f6dd38eb3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "dc0f07b2c5bc86f6de17f1c2383e21c0ed4f1860314d618b72bdd6544f7f4564",
+    "annotation": "92e347824edda06302f26ef8ed1fde20d02f4c60cc8b12114619241cf9f3817a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f97ced5513181d3ff947c764d197f3bc00f2ba65db5d7880c6e17f05108bd0da",
+    "annotation": "f8baafbadb46e8e90355259292bc7e562a6ada4af8940a1253e9b73b4384a326"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a006fad9bfd559045f7fde5867bb2b73b2c1b75400eac95f41eb7eee49f9538",
+    "annotation": "7958f6626ffc3bd1a7329e778f1cef1edda185b6462783f37b138046ea935392"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template17_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bceb031196515d652bc8cdb7f0eedd0dcb3b589cff40fe1136278d30e44a2758",
+    "annotation": "780afa341d96a6e8fecb9fe4470a91481da70b9acd129e0403eb710806d649dc"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "02466e3e5aaa211119f6bb3dc177e15890f18e452695308836f9e3fb4241cceb",
+    "annotation": "f3c0a9d95a597265d252d5ca82915aefe4979dea4e530ee67ec95833a99504d4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "628e45dd3462a574014f0a148dd44140ee158fa622c2004472b463e59c356f32",
+    "annotation": "b7f58ebd0224f1c6a2e3cf9fb31f1e63a7314b7ab6f7ab14e5187d84df898b14"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "14ce3d6a51ffad11e9f9b7e504ffe3d77cb73357ca9e8ac063f51adda0d37c19",
+    "annotation": "ecc8926dccc459dcd9817e9a554c5691671184ef86867d8c90110f4a7e98545f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d9388e243f91c0ec7a57bd86baa14368077c515032016b104d0d152d9e931a1b",
+    "annotation": "34ef233a3863ec9b5fed662ab995bc82dcab5e8eb5fc403a0338bfdcf8b8dce1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3e084162a32806803fa43725133fb4c7f5e42710a5630a59ed4508b64e1fbef1",
+    "annotation": "3e3e1e55ff882074a2fcf37b2d2335ac37873bb7793641532189f6239cbf6816"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c6b52fbf9e4a9dfeb752e9ddcc72cf7fad272fbabc2fdfa62a36c5212ca8e863",
+    "annotation": "512766c9b076e9c52ae9283db1362ec5665f52fea9caa32a186ac3df6bbc7f75"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7b6249a9434e704ec9593fd6dba8b2e485718630e5ca48806750159adad79f10",
+    "annotation": "b05f28ed6eafa863995ddb554287dfed38f749bf0db71b3b12a079211dd03077"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06f9f0a083eb3e3820284aa1902299f9f406ed2d03ecfc76962bc4b17f551a43",
+    "annotation": "1081b0237daeca64bd82a4ce95dcdb69502964768a053677a9a5b1c8f99ccb1f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a04c8c8c8a3e1eaa722476c99018f4a90b8e1959d6850d915912f23f6055366",
+    "annotation": "07a0dd74742298f15cf966a2a343cba4aa33533684b7bd21d43613a8c97b0eba"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template37_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2859c6a213c68b2dcc2d46fb315bc748b4f20b07c4ef4166818ac9741d1fbecd",
+    "annotation": "dad32a536f957f7bec1b2e9801f68259a1190ea2839e0cb004d75d3ef118ec4f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "540ffcae821e08bddd39fa1c6285aa09bdb644f82ee9345c8023f81f43689f0e",
+    "annotation": "8e44ddfee2c120b7f63e6350befb4e1562988264a8f17afd714e291714ef9ab1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1deeb491d2555a144b8adff2ae98286f8288e89735120fe05c0a5f67b801ef20",
+    "annotation": "30a9ab0a0f645b3d61fa2e9e4e206c126005dcebcb02491a303b3526d45cb763"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e63af0d9c22c1fd247d7fff5e6c312dd8249eca684abc7bd1be1cb850f48934a",
+    "annotation": "28aa1c1612c3021e6286df72ea392ed220980f639b8ca9a1605006919f857d75"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "06b0558ebe81a089ddb4e683069b22ad7eec269be6c6d358f86f9519ff18f6f1",
+    "annotation": "504bc291715b01b8312360203a7d30afc088187d28c37776f08c34d512de6ae8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f1e00b065873009dec33874991f363c2b0d4a6ccc7de701ee047a2f41bc29fa1",
+    "annotation": "2ce1107b089c6781c44e50596e7206843b3b0e0c822b940561836cd7367fc58f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c8560ec93ee00dc0ed62e63d7c43a2e2bcb7892d2b42ca2ab268568b3697fa7d",
+    "annotation": "8b9cd7392a47b4d4a665921ce94e7d3ddb1d4381448c8e6375f8145430c05756"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e840ef79f1b263f09446270d512fefc6ae787572a97865c06ff8a54f154d5fc4",
+    "annotation": "09e717134ce6cfefbf7bc0f7bdd7657cdde69ee2c09321cdbc5ba8bbfd2d8150"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c1f570e888dc5f875b1b62105d13aa7cb8cdb8d3ef13cdb90b528e2aae3ca8ca",
+    "annotation": "1c333a8f30965b09d54903b893bbaec0b2a9f09a37502f4c6a1006d7040c5f0b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3dc028075abbdef1e8f3c9545b7aab22ddf7db51b85409e42dcea9bb4b96b2c2",
+    "annotation": "fc8b54c7c5d6d233e6c11cbf1d340fb4ee21870ff7641b16009a7c3f98de863b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template5_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ba1c47ecc8802be3072268f09b2cf74a7318a21c74e9f9a058f9c65bdd9eafce",
+    "annotation": "71c6e44a2243b7d679220cfeec6d727daf396476114b2c2d37829aaa2bef7ca0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "13e9bf37822e0be6577767b189bd6ae873771e274d736b5c4bd460108f373e58",
+    "annotation": "31aeeb8eaa0fc44f491755a72c6aedd604923e7cabd7e3b555cf30cb4a80923b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "04b87f67b6b709762c7aedca52493dbb744f88afacda1a476b37d8642e8d21ae",
+    "annotation": "cb3dfe260150bea0fa27d7e85d78873d7ac9236afe70f2b8e3571d19d632990e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "28ae0324c579b5bce83a3eef14b1aacaba30aff7ab05e6c428a0c834cb42c77e",
+    "annotation": "07cd53a9a5dbebc6674f1fd8b72e85ac2da59d95abd72705b1074245acfed548"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2c5de2811943c816a14fa319a1629ab279432d141f05f87fbdc178157cef9f96",
+    "annotation": "526157c990599b5bd3072bb8f24014887e0b046357f20f0d61ac45ca85ea44a3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c192a54cb49a6e453cb58bd5d57a414c5b237bbe538646704b60eb60edb85d89",
+    "annotation": "fe1b70a0b77fa561982ac896ddc748c430f1992dfc814bc0a379aaaaf67e9e45"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7b8082d01eeb8c31a32d678536972d056f63c0ee47e31d0b72f2e9b120419265",
+    "annotation": "37d9fc2b14264b71bb9e58bc78a2bf0a65323506d9c2ee48dcc9f7bbb51ce86f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e6610e5f7e24769ba1d9fd1e1e1d9f8a43097cefb759ef66bf7fbaa5e1954717",
+    "annotation": "302a8dade9f2cec0138b162698eb10edb38f1b67481435074f4ba7447a2543cd"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e8a0dad7ca0820be7744a8711d360e1835d3fbf5e0a55f43cd06109c747706ed",
+    "annotation": "86399b1a5ae801287227ce887a17ec8188290bb394429caf47d33b4d174a3992"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "0e5467f493a5370e401e5bae8f5b87cbfcd0b53717bab190b1095708b3c4d4c2",
+    "annotation": "019cd7eb3d60b44ee271365a1de3a68e03091593a99ecf810633d23fd84aa6e5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template8_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "053d7f9bb50d969d99ab3abd4cc9c5c09b870f780baf2a0e4c9dae989408af24",
+    "annotation": "a5791ff26c31c8240e18837c800a79fbe18ab25f3078e49a30f4188037dbce66"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "f89b9ec514b0730df3635bc534464639a59a820806cb228790e3d7ea7f2c853b",
+    "annotation": "c8a3573fe809eca675724d636ab086097ee6de8f8fd5c1920e1f79dbd35440c5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "9056247d5e6cde468c04c3a9169add5c11949d5564539d0184a380f32e841fba",
+    "annotation": "ed6e6b45f5bb72ec9ed59aad6ef01c81b7a4081af79eaf0d4bf1ffab7b9edcb0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d345d0d9935d1c204f25f7bdc7d892d8958fb5c276229e111a4c36a0a264fab0",
+    "annotation": "9e8f4685b5c4e8635e33cf3e6262d1b3fde899495b66776af5a944fb12df4b71"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "919e7e4300b9f926045ad8ce6b9f7e3f72ff84d43dfa8e5fb75ca04a55086560",
+    "annotation": "4e7b2600dedfee8b204c14eb87ab14144459d0f2b03889a79e2b34a013f2bae6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "71783425ad794530c27d54aaeb1b7bcab00d8d41c56eb6e69aa25c37db86b4ae",
+    "annotation": "ea755f567352a86327131ec8db844690ee0ed520501082e6a3c1b9e46111ebc4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "fecb548866f62205ed178dc83fa31a776336ca9848818ee7ed7ca78b14788713",
+    "annotation": "0458f48829679df65f258fddcf8fae6a64ae7f7545e2f9629ac467e2ce5fd95b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1b671d189c30593cbd1c4ada8e2cc88379510197d86dd3784552747d417d4a62",
+    "annotation": "e09904c4da3fe48371d7ed2663847aebed012ca88546e1465f559d64600dc162"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bea047df4330a27d57e231a379b5ecf56947073bb3742a80097c2168c2a2aa5f",
+    "annotation": "a27eb1f4970ba0ce9d1a7cf7f35f2f9cbd1eda7a0ffac7ab1012622ee367cd65"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2b1d3e5299c87f55829ed207f86864a4f68c7fb218611e4e3139f650bd49303f",
+    "annotation": "cfe2be049f60921e456cdc2033fd8ffa841197c70fd50c9bd759d9d60e134202"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template21_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "df532a14fcaf22744e9e7d285c272b8c72ff1dbb5cca4252316690c8f23e140b",
+    "annotation": "a79807de770cf0adf6b1827a31feff4357b5d1ba2376dfa260405f5f591c2806"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "54bca882ef1cb52e7b756deab8324a1e6651f7d81e650a0bccbdfd2f6345d18e",
+    "annotation": "e99a112a0c94871dc626e94dce88ec17b4bc9eced97ddcad559937d559bd3aa5"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "acbbe7f97ddcf2430ba031936cedecbac4393751f65cb1ddd6764b34a751cb86",
+    "annotation": "c87157e1c44004825d0ec864c58cb135490196202b2a1858fcb8159b8d954bca"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ccafc19ce43571dc9b1c38992edb80afe7f1236113f7d1059e828b504d50cca3",
+    "annotation": "937a852fc2651a912d93fe1b237c381454428f26a5497d365570159862e98746"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ffc0deaa2a5b146d55762fb5b966ec696c62866542982114c1f0748a045f7dec",
+    "annotation": "08d8b9a43d1e8d70666b5fad48721383c2823855cf7c1c91127ed36d10c1453d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5f5aada273411512463ada978e8d3816ef84e66cfff7ec897cbeab8cf7d5a307",
+    "annotation": "808e00df145030a7f2e791aa12e0397eb3a7ba1874386837d7c234d2a8dcaaa1"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ef677f86d0ba71a6bef3481f036d08bb20d32c47f15ccb645fcd25bf6c153df5",
+    "annotation": "c02d36350ae7fd60aa3b58e737b3c8b05178e659b15a7a4da95f4b6e65aa182e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "436e973a463ad4c0d24bd4990b253570a11298dcc8760a2fdd0e1386f91bc431",
+    "annotation": "45ccbda0f8dec9bccdede50607f96466f7e9c7bc8a210fd6f3eac122efbdd13b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8ab4fe9eba5387900c73c8c2a98059333ae5f0b0020bdf9ac90eebf6795e98b5",
+    "annotation": "0c9ec9a7f0fb1f824b23ac7ed5602c699a4b5f7ca98b46d75118a7424cbd8b13"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3d2af1738e9a61c885a7313f6ab622fc93dc1a8da86283f0332b3339f9f2a780",
+    "annotation": "f2ee4594680a91d7deb8fffdbf538eb11d111bc947ce49bbfca1e2d4280dea3b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template35_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "c27f18fd5cae0e3b71f791610ff4973d255a97242f861e99edb8dcd07c2a02b6",
+    "annotation": "ac7237b6cd54a00003060d4ae2cbe65cdac519dcc92064dd9be82f410c917d43"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8d289507e4f18d50979d3560790819b621184f28c63dc75ebd33bfe82528a6da",
+    "annotation": "420dbc8616f993c50696b44f0d94c09f86b9d67aca43f0be13fdc9b5351760ab"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5fba589978aa87e24bedd8485641ff8a5d054674744d1a093aebb8c26c9840bd",
+    "annotation": "06630c27327485bd42d23ba36ed379df2996fdf7453bcd2b090110138cb1b151"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "89d102cefa6ccdd19199429fd77b86d35b1d0a53e5c37081f3052fee9d1defbe",
+    "annotation": "83c0cbdfe963aac0bf43a75e0640389abbc9297a5da708ba04b03da5e888156e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e377b9d17e53b3c279cf3e5dfa1befdf40622cc358ea010b43e9e22df63f3ecc",
+    "annotation": "1864c6a57d179a2c369eca5bcc9edbab89f142088e84a2654d3f963b6c600f1b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "90a2948563b5bd1364f67584c5a24dbd35509c445bf2599aa7f6008e6242ed01",
+    "annotation": "865dc7fa40676101a1a1d41f06f831c03a6aa4bac7b4bcab93a530b4facc7752"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "276ad2f68f16180c4a0439b60514c4cee8f41b8b4896946f2b86cfe3a13b4877",
+    "annotation": "6092b2963848e9c00b16c215748f58f68405422e283aa306ad43c0d144300d14"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "025216535ccb28b45587929d7d8d1c32b8f6cabe1c50dc86a8a565c4de6317ec",
+    "annotation": "ca590f7ac8e7e033629a5e450fdc6f05c9d763bf852b7988865bc7e75522adb8"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "40ca4c0203b6a6705e9c0e7a9213283b6e7a0f71093620b43ac18fffbd99c1b5",
+    "annotation": "8bab81af5ee374234c50989befffbd8a13c574f5ce09986c478d9d973c54e105"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "73513f50dc87a854547abac8a67237b212a28bbfe8dfdeb007a1342f58564a12",
+    "annotation": "c1ea4e52b4d6e0e23694df968024617bab74ec605dfbbf2f36d3460f81302cd9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template16_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "8d773b7dd8da739e6c700efbda779d0f854e36e4b08fb627d41d54a73d7820fb",
+    "annotation": "f24e64bc7158f6a7cb0d169430880b68548e8fc1a2957da486a608c7690dcd65"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ad5f05e444ee90b68eb369057ac971b126990cdf8b20d059c9394e60482969d2",
+    "annotation": "6f432eef5ceb1b467ba68bd7a3bbfa976b76f5282913aa01d8f34a6b512c1b14"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "84135067767d19876f470475a996360cc78571f5db05d254272e1d3db836edf1",
+    "annotation": "bdd04c1bf3b3ac2434d00664ff600f95d0f1141f341317cd6d48a7e3c7e8cafb"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4358c42d17b08df9628d5b34cb103e778a54c895a3564d7cf963653998d7f6c3",
+    "annotation": "059ade9c7298da816813a6dc61e9fe297af022347ce3b87de363403b009ab296"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b696edf8275bdf59527d6e548f367f528ae68bfaef768869e86c44728d5897e1",
+    "annotation": "5b11f788b8e5572072dcf249797b352a153aa9a3cfba745d09e7c7d0d406160d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "6508a7428b3ae7aba9f1c202933bec655c7dbbb149f579dde74aedd960811166",
+    "annotation": "fbed54e34b991c88d9acf90778a4d4c8873f73e41cc3aac467a261843f663d1d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b64fb6a87d8b51bec1636131becc97653e48db9f3f4c917b45e10a5165215f12",
+    "annotation": "7e8b1f0d40290c02214caf4f8a7a8a6ad715ddfe39be440da6baf1effdca0d7a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "279ac22e8edd3e07e67f062895f0dd6959cd81b1da9adef17860beefd42e2eb0",
+    "annotation": "d9f02a4e26faff3690384f42c466c5d02138a4f38ff07e41f8cf07d4ab8a484f"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "796dcdda0979699f5df42c6130f84a7b0a30c6a6244accd1576c5e9ec92b16fe",
+    "annotation": "760be9e1161c7f22ef29a5dec6e976462c9907b56a0728163ad54f298da4f4fe"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "fe31a2985892e24fb2c4d6d88da47fd2b0fa11163f7c40872adde5aaab760e61",
+    "annotation": "c25725288c66b23223890d801a10c08d0d23837e8f04d5e4ec51c98f1bcc27b3"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template20_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3664966684dffd2fa99d8ec5dd811a241e234377d506234c7966f99d95279f0b",
+    "annotation": "a52550e31c251b41b31bd099dafb4f5051e656eb33edad4e7d1c65bdbc56941a"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "ac4e2bdc38901f7df5fadb3a0ebf7c21bf792b64eea47025855f87253ab4e07c",
+    "annotation": "837e574a3ed54992fece921c5f9d26b3a6902086e380740f4d5250f0fe6db09e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "3642d83ff6716e9e0229cee46035204f23d8408a689e5a88ba68d74bb0e97ea8",
+    "annotation": "c5c518000deafdba1d65ad409826c257a35c930ffba936c4ac0df1ad990bc387"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1e2b1ef8cfa120ec52aa09ddbdb9aa0f5ac8bdf0e555ff8d1b5cee578c8955ec",
+    "annotation": "a3154ae5940ec7f9d75b467674733c93f648bd069c57b7b355de52660ceb1b00"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "47b87e3df9d9bcaa4a202bd2b4d4288c4e06f0688930d9e6a29ee0a46b73947a",
+    "annotation": "4f6e2bd3849412e203d171a9b7d8ea4474bb97dc003397e7a1cdb65c68353cc6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "207fed405824e21af6bd4ffbadc92fdd1b72d7815539fcf332fe6ebe18799948",
+    "annotation": "439b712808d7352edc71943208990ba6530f2678483d2eb4b55b490724cae32d"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "369a48368bac7cf039df231abb38b44addc43bdcd38f5249fb9804e1bb79cee1",
+    "annotation": "f061a70fbe409b0f2bab388cd29bf179383b4332ea583b8606592a3a775b0c23"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "09c20c4410f366d1ae7bf4e9a8938cf0a9bb81969a5cfae45383dc71b2ac064d",
+    "annotation": "83102376cc4da412fb4a2df7ece9b23a63ed8401da47d9fc5b87a99964e3030b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2f67cd8112b9a9d7f9e176dfdd2937ae11d5e661d9c51a72b8fe643b93ec81fb",
+    "annotation": "bf5d01e15bf12c86768c7ae9cc2eda528fa41ccfd466c4abd4c79299deb2ec84"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "7150a4cbff67dea4c588cdbdf0584de5d125963b8f5f2863c4985a503090eab3",
+    "annotation": "7be28a0ec4108988ee4f32bfad97d63cfd581328a320fee0b963e12f27929bf4"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template31_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b0555534495dd2bc599db61353465be3300da63980c4b26e296d3c601957edd7",
+    "annotation": "f12a27ad439feafd56cf652883541d6489c1a2a2406065e7f253700c4dcb7024"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance0",
+   "pages": 1,
+   "source_sha256": {
+    "image": "d4cd50cdb3c558067b0965ff4d82618f9c914f56fc64f53f4f6310b14dd68e91",
+    "annotation": "fa6c75c432f0f3faff26b027f688ed15897c1ac55f32164fa5c6748231044eb6"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance15",
+   "pages": 1,
+   "source_sha256": {
+    "image": "b26f0a2015cbb51166fbf8a7596818eed7a9da9734cdcf976a8a65f0a3877319",
+    "annotation": "e783c4508130dad1be7818d3f72121e753c5fa5a0a3e4ebb850befc9ba8ae178"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance30",
+   "pages": 1,
+   "source_sha256": {
+    "image": "bd9eef2beed9e10717771313cdaec4927aa2fda4fc8fcf9efc9cb5abefbab152",
+    "annotation": "cb3f4fc45d1bbf12dfeacbeb7c0a744abd85e9ffbeaa70f9574ae48d2eac063b"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance45",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5099f9ecd814fc5137f5c37d10182a15279431b945975059232bbbdd61a45bd8",
+    "annotation": "5c90dacaebe8dfd50ba9102829b4eb78df897e8addcd6b2f288d150797f32c52"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance60",
+   "pages": 1,
+   "source_sha256": {
+    "image": "1d057ff5f9d08d72f33d6ab6a8311ce8875aac936d0893c5cd5aa87f71cecc9a",
+    "annotation": "2e1212549e26c34881070ba4b54b17a993087e65196deed67330f2f872c75a47"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance75",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2ccbf1923624c07919cd515ea1056da963097cc1fb42e6b133b74ddd8058682b",
+    "annotation": "53fe0764ced78347ce635ba760801a4a2993c6fa77771f3504618f7d7b5a0c9e"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance90",
+   "pages": 1,
+   "source_sha256": {
+    "image": "2f68bc7cf994695335e77a47d545a87c7c56784794caf61d427d1ff05842086e",
+    "annotation": "5d31ef947798e312ff0cf705d0d439e9543ed6d08d346cb68069b3b57a7dbbf9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance105",
+   "pages": 1,
+   "source_sha256": {
+    "image": "4e9e7336b90d9bc0be3155fceefe8eeafe552b83200b908896714b78d12a2840",
+    "annotation": "e49bad5a9c0f4d0fa753b9e08c4905efdebb1439590a5b21d865c22aae53aea0"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance120",
+   "pages": 1,
+   "source_sha256": {
+    "image": "e6b49a0e99af7459efb3fb656da3a23a353b6c7fe24fc1a1c3ffad5241357513",
+    "annotation": "2307797ffcf981182320368bcb179a02a09bf46edd77d28934e4d79e31c257a9"
+   }
+  },
+  {
+   "set": "fatura_train",
+   "id": "Template46_Instance135",
+   "pages": 1,
+   "source_sha256": {
+    "image": "5a69ce2df9401910bcf42de438247c2b34d89c3d7943d51c531a54ceba6e9522",
+    "annotation": "610ae0702e1396f2d4fc48e0a2cdbbfddda5f924530feb4f90129d6161e0fe64"
+   }
+  }
+ ]
+}

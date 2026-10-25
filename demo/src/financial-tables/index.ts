@@ -286,7 +286,10 @@ export function extractFinancialTables(pages: FinancialPageInput[], options: Fin
   for (const t of tables) if (built.truncatedFiles.has(String(t.segments[0]?.fileIndex)) && !t.issues.includes("file_truncated_by_limit")) { t.issues.push("file_truncated_by_limit"); if (t.status === "parsed") t.status = "partial"; }
   const blocked = new Set(tables.filter((t) => t.issues.includes("row_limit_reached") || t.issues.includes("file_truncated_by_limit") || unknownFile || t.segments.some((sg) => failedFiles.has(String(sg.fileIndex)))).map((t) => t.id));
   for (const id of blocked) incomplete.add(id);
-  report.checks = runChecks(tables, report.summaryFields, { incompleteTables: incomplete, totalsBlocked: blocked });
+  // A row that could be a line item or a summary line leaves every total of its table unknown either way.
+  const unresolvedRows = new Set(tables.filter((t) => t.rows.some((r) => r.kind === "unresolved")).map((t) => t.id));
+  for (const id of unresolvedRows) incomplete.add(id);
+  report.checks = runChecks(tables, report.summaryFields, { incompleteTables: incomplete, totalsBlocked: blocked, totalsUnresolved: unresolvedRows });
   report.classifications = classify(tables);
   const accountGroups = new Map<string, string>();
   (Array.isArray(options.sameAccountFiles) ? options.sameAccountFiles : []).slice(0, limits.maxPages).forEach((g, i) => {

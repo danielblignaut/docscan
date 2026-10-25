@@ -25,6 +25,24 @@ const LABELS: { key: SummaryKey; kinds: FinancialDocumentKind[] | "all"; phrases
   { key: "page_number", kinds: "all", phrases: ["page"] },
 ];
 
+/**
+ * OCR often drops the space after a label's colon (`TOTAL:1,250.00`, `GST(9%):45.10`). A single-box token of that shape
+ * is split into the label, its bracketed rate, the colon and the value, with boxes interpolated from character offsets
+ * and marked approximate. Nothing else is split: the label must be letters only and the value numeric, so dates
+ * (`Date:12-Mar-2024`), times and references stay whole, and a split label still has to match a phrase below.
+ */
+const GLUED_LABEL = /^([A-Za-z][A-Za-z_-]*)(\(\d{1,3}(?:[.,]\d{1,4})?\s?%\))?:(.+)$/;
+function splitGluedLabel(t: Token): Token[] {
+  const m = GLUED_LABEL.exec(t.text);
+  if (!m || t.parts.length !== 1 || looksNumeric(m[3]) === null || recognizeDate(m[3])) return [t];
+  let offset = 0;
+  return [m[1], ...(m[2] ? [m[2]] : []), ":", m[3]].map((text) => {
+    const x = Math.round((t.x + offset * t.cw) * 100) / 100, w = Math.round(text.length * t.cw * 100) / 100;
+    offset += text.length;
+    return { ...t, text, x, w, parts: [{ ...t.parts[0], text, bbox: { ...t.parts[0].bbox, x, w }, approximate: true }] };
+  });
+}
+
 const norm = (s: string) => s.toLowerCase().replace(/[:]+$/, "").replace(/^[(]+|[)]+$/g, "");
 const right = (t: Token) => t.x + t.w;
 
@@ -62,7 +80,7 @@ function matchLabelAt(tokens: Token[], j: number, kinds: Set<FinancialDocumentKi
 /** Every label → value pair in a row. A label must start a phrase and its value must follow with only marks in between. */
 export function summariesInRow(row: Row, kinds: Set<FinancialDocumentKind>): RawSummary[] {
   const out: RawSummary[] = [];
-  const ts = row.tokens;
+  const ts = row.tokens.flatMap(splitGluedLabel);
   for (let j = 0; j < ts.length; j++) {
     const prev = ts[j - 1];
     const startsPhrase = !prev || looksNumeric(prev.text) !== null || ts[j].x - right(prev) > 2.5 * Math.max(prev.cw, ts[j].cw);
@@ -127,3 +145,9 @@ const WHOLE_UNIT_KEYS = new Set<SummaryKey>(["subtotal", "invoice_total", "gross
 
 /** Rows a summary-row label ends a table with (subtotal/total, gross/net, total debits). Bank balance rows stay table rows. */
 export const ENDING_KEYS = new Set<SummaryKey>(["subtotal", "tax_total", "discount", "shipping", "invoice_total", "gross_pay", "total_deductions", "net_pay", "total_debits", "total_credits"]);
+
+/** Is this text, and nothing else, a label that ends a table ("Total", "Shipping:", "Sub total")? */
+export function isEndingLabelOnly(text: string, kinds: Set<FinancialDocumentKind>): boolean {
+  const t = text.toLowerCase().replace(/[:\s]+$/, "").replace(/\s+/g, " ").trim();
+  return !!t && LABELS.some((l) => ENDING_KEYS.has(l.key) && (l.kinds === "all" || l.kinds.some((k) => kinds.has(k))) && l.phrases.includes(t));
+}

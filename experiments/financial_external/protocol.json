@@ -1,0 +1,60 @@
+{
+  "version": "financial-external-v1",
+  "frozen_before_inference": true,
+  "purpose": "Small externally sourced evaluation of demo/src/financial-tables on transaction rows and invoice summary values. Not a deployment, authenticity, income or SOTA claim.",
+  "access": "TRAIN/DEV only. Bankstatemently bsb-001..003 (bsb-004/005 reserved, unfetched). Synthesized bank-statement-syn-0042 clean/scanned/fax. FATURA TRAIN and DEV layouts from experiments/public_documents/protocol.json; reserved layouts are never extracted. No TEST, reserved media or lists.",
+  "sets": {
+    "synthesized": {
+      "split": "confirmation",
+      "documents": ["clean", "scanned", "fax"],
+      "gold": "Publisher truth.json (CC BY 4.0, synthetic): transactions[date, description, amount], running_balances, opening_balance, closing_balance, total_deposits, total_withdrawals. Amounts converted float->decimal via repr, two decimals. Account perspective: positive = money in.",
+      "independence": "Publisher annotation; never derived from OCR, text layer or extractor."
+    },
+    "bankstatemently": {
+      "split": "discovery",
+      "documents": ["bsb-001", "bsb-002", "bsb-003"],
+      "gold": "Explicit transcription of every transaction row from the pinned 144 dpi renders by visual reading, recorded 2026-10-25 before any OCR or extractor run on this protocol. Checked before freezing against publisher statement-info transactionCount (12/15/22), the printed opening/closing balances and totals (exact decimal), and line presence in the publisher text layer (148/148 lines present, zero gold changes).",
+      "independence": "Publisher server-side transaction truth is NOT available locally and is not claimed. This is single-annotator transcription with arithmetic closure; descriptions are second-checked only by text-layer presence.",
+      "direction": "bsb-002 is a credit card: printed positive = charge = money out for the cardholder; account-perspective sign is the negation of the printed amount. bsb-002 undated 0.00 continuation lines are decoys, not transactions."
+    },
+    "fatura_dev": {
+      "split": "confirmation",
+      "documents": "50 DEV invoices (5 layouts x 10 instances) from experiments/public_documents/manifest.json",
+      "gold": "Publisher region annotations SUB_TOTAL, TAX and GST(n%), DISCOUNT, TOTAL (else AMOUNT_DUE). Value = last decimal number in the annotation text. TABLE annotations are geometry only: there is NO line-item truth, so no row/cell precision is reported for invoices.",
+      "arithmetic": "Gold total arithmetic is computed from the annotations (subtotal - discount + taxes). Where it does not equal the annotated total the gold invoice_total check is inconsistent; an extractor 'consistent' on it is a false consistent."
+    },
+    "fatura_train": {
+      "split": "discovery",
+      "documents": "400 TRAIN invoices (40 layouts x 10 instances)",
+      "gold": "As fatura_dev. Used only to look for failures; never reported as accuracy."
+    }
+  },
+  "arms": {
+    "ocr_ppocr_v6_tiny": "Native text_v6 CLI (PP-OCRv6 tiny, the demo's financial default reader) built from HEAD 0526c5d into a private target, without --detail, on the pinned renders: Synthesized 150 dpi PNGs, Bankstatemently 144 dpi PNGs, FATURA JPGs. Lines in original pixels, as demo/src/financial-data.ts passes them. One process per page, at most two processes, RTEN/RAYON threads 1, 180 s timeout. A failed page is passed as failedPages and its gold stays in the denominator.",
+    "native_text_diagnostic": "PDF.js (demo's pdfjs-dist 6.4.299, legacy build) getTextContent items -> linesFromPdfTextItems, for the Synthesized clean PDF and the three Bankstatemently PDFs. A localisation diagnostic only: never pooled with OCR, never trusted, never authentication."
+  },
+  "extractor_call": "One extractFinancialTables call per document with every page in order, fileIndex 0, options {} (auto, as the demo calls it) plus source/trustStatus. No per-document options, no gold-derived hints.",
+  "scoring": {
+    "rows": "Predicted transaction rows = rows of kind 'transaction' in bank tables, in report order. Gold rows in printed order. Alignment = longest common subsequence where a pair matches iff the predicted parsed magnitude (amount, debit or credit cell) equals the gold magnitude exactly. Unaligned gold rows are missed; unaligned predicted transaction rows are extra (false rows). No bag-of-values matching: every cell is scored on its aligned row only.",
+    "cells": {
+      "date": "Predicted iso equals gold date or alt_date (bsb-002 post/trans date). Null iso is a miss.",
+      "amount": "Signed account-perspective value: direction credit -> +, debit -> -, unknown/none -> abstained (counted, not correct).",
+      "balance": "Exact decimal equality where gold has a running balance (Synthesized, bsb-001).",
+      "description": "Normalised (NFKC, casefold, non-alphanumeric -> space, collapsed) gold primary line contained in the normalised predicted description. Strict full-text equality reported separately as a diagnostic."
+    },
+    "row_exact": "Aligned and every applicable cell correct.",
+    "summary": "Bank: opening (opening_balance|brought_forward), closing (closing_balance|carried_forward), total_debits, total_credits where gold has them. Invoices: subtotal, tax_total (one opportunity per gold tax annotation), discount (magnitude), invoice_total. Correct iff some predicted field of the key equals gold (Decimal); wrong iff fields exist and none equal; missing otherwise. Conflicting distinct values are counted.",
+    "checks": {
+      "supported_consistent": "A predicted 'consistent' check whose every cited row is aligned with correct amount (and balance where applicable) and whose every cited summary field equals gold, and whose gold arithmetic holds.",
+      "false_consistent": "A predicted 'consistent' check citing an extra row, a misread cited cell, a summary value differing from gold, or a relation the gold says is inconsistent (FATURA totals).",
+      "unverifiable_consistent": "A 'consistent' check that cites unannotated rows (invoice line items). Counted, never called precision.",
+      "gold_coverage": "For each bank document, gold-evaluable relations (running_balance where printed, opening_plus_credits_minus_debits_equals_closing): predicted status consistent / inconsistent / not_evaluable / absent."
+    },
+    "false_income": "false_credit_rows: aligned rows predicted credit whose gold amount is negative. false_income_candidates: recurring_credit_candidate observations or salary_like classifications citing any row that is not an aligned gold credit row.",
+    "abstentions": "Report-level abstentions, failed pages and documents with no bank table keep all their gold rows in the denominator.",
+    "denominators": "Every gold row, cell, summary opportunity and check of every listed document, per arm. Nothing is excluded after inference."
+  },
+  "candidate": "One generalised failure is chosen from discovery outputs (Bankstatemently, FATURA TRAIN). The candidate lives only in a private snapshot plus experiments/financial_external/candidate.patch. It is reported paired against baseline on every set, plus the authored regression (experiments/financial_tables fixtures main/stress/review/review3 and demo/test/financial-tables.test.mjs) run in a private mirror. Synthesized and FATURA DEV are confirmation sets: in-sample discovery effects are labelled as such.",
+  "privacy": "Raw media, gold values, OCR text and predictions stay owner-private under /tmp/docscan-public-data/financial-external-v1 (umask 077). Committed-eligible files hold hashes, counts and ids only.",
+  "limits": "Three Bankstatemently layouts, one Synthesized identity (three correlated variants), five FATURA DEV layouts without line-item truth. No confidence intervals, no population, deployment, South African or real-document claims."
+}

@@ -1,0 +1,35 @@
+--- a/demo/src/financial-tables/tables.ts
++++ b/demo/src/financial-tables/tables.ts
+@@ -4,7 +4,7 @@
+ import {
+   type HeaderColumn, type PageLayout, type Row, type Token, assignRow, headerCandidates, NUMERIC_ROLES, rowText, sourceOf, TEXT_ROLES,
+ } from "./layout.js";
+-import { balanceSemantics, currencyKey, looksNumeric, moneyDec, type NumberContext, parseMoney, parsePercent, parseQuantity, symbolFits, withCurrency } from "./money.js";
++import { balanceSemantics, currencyFromToken, currencyKey, looksNumeric, moneyDec, type NumberContext, parseMoney, parsePercent, parseQuantity, symbolFits, withCurrency } from "./money.js";
+ import { ENDING_KEYS, summariesInRow } from "./summary.js";
+ import type {
+   Abstention, Ambiguity, CellValue, ColumnRole, CurrencyMark, FinancialDocumentKind, FinancialTable, MoneyValue, RowKind, TableCell, TableColumn, TableRow, TableSegment,
+@@ -63,6 +63,12 @@
+ ];
+ /** Table issues that describe how the table was read rather than a reading problem. */
+ const INFORMATIONAL = /^(header_carried_to_page_|unmarked_amounts_read_as_credits_by_minus_convention)/;
++/** A balance label may name the currency it is in ("Balance carried forward in SGD", "Closing balance (ZAR)"). Only a
++ * recognised ISO code is removed, so the label must still be the whole description apart from it. */
++const withoutCurrencyQualifier = (label: string): string => {
++  const m = /^(.*?)\s*(?:\bin\s+|\()([A-Za-z]{3})\)?$/i.exec(label) ?? /^(.*?)\s+([A-Z]{3})$/.exec(label);
++  return m && m[1] && currencyFromToken(m[2].toUpperCase(), "cell")?.code ? m[1] : label;
++};
+ const rolesSig = (cols: HeaderColumn[]) => cols.map((c) => `${c.group ?? ""}:${c.role}`).join("|");
+ 
+ /** `truncatedFiles`: files whose remaining content a cap left unread (their totals must not be evaluated). */
+@@ -152,7 +158,9 @@
+       if (table.kind === "bank_statement") {
+         const descText = all.filter((c) => TEXT_ROLES.has(roleOf(c.column))).flatMap((c) => c.tokens.map((t) => t.text)).join(" ").trim();
+         const label = descText.replace(/[:.\s]+$/, "").replace(/\s+/g, " ");
+-        const matched = SPECIAL.find(([re]) => re.test(label))?.[1] ?? null;
++        // The currency-qualified form is accepted only on an undated row: it extends the exact-label rule, never a dated one.
++        const unqualified = hasDate(all) ? label : withoutCurrencyQualifier(label);
++        const matched = SPECIAL.find(([re]) => re.test(label) || re.test(unqualified))?.[1] ?? null;
+         // A dated row is a transaction. An undated "Total(s)" row is a totals row when it prints two nonzero
+         // amounts (debit and credit), or when its balance equals the previous printed balance although it prints
+         // a nonzero amount (a summary does not move the balance). A zero or dash beside one amount is not a

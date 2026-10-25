@@ -1,0 +1,199 @@
+--- a/demo/src/financial-tables/checks.ts
++++ b/demo/src/financial-tables/checks.ts
+@@ -52,6 +52,8 @@
+   incompleteTables: Set<string>;
+   /** Tables of a document with pages that failed to read: their total-level checks are not evaluated. */
+   totalsBlocked?: Set<string>;
++  /** Tables with an `unresolved` row (line item or summary line): their total-level checks are not evaluated. */
++  totalsUnresolved?: Set<string>;
+ }
+ 
+ const TOTAL_LEVEL = new Set<CheckCode>(["opening_plus_credits_minus_debits_equals_closing", "statement_totals", "invoice_subtotal", "invoice_tax", "invoice_total", "payslip_gross", "payslip_deductions", "payslip_net"]);
+@@ -378,5 +380,7 @@
+   // Pages of the document failed to read: a total over what was read is not a total of the document.
+   return out.map((c) => (c.tableId && ctx.totalsBlocked?.has(c.tableId) && TOTAL_LEVEL.has(c.code)
+     ? { ...c, status: "not_evaluable", completeness: "incomplete", basis: null, reason: `Not evaluated: pages of this document failed to read. (Over the pages read: ${c.status}; ${c.reason})` }
+-    : c));
++    : c.tableId && ctx.totalsUnresolved?.has(c.tableId) && TOTAL_LEVEL.has(c.code)
++      ? { ...c, status: "not_evaluable", completeness: "incomplete", basis: null, reason: `Not evaluated: a row of this table could be a line item or a summary line, so no total over it is known. (Ignoring that row: ${c.status}; ${c.reason})` }
++      : c));
+ }
+--- a/demo/src/financial-tables/index.ts
++++ b/demo/src/financial-tables/index.ts
+@@ -286,7 +286,10 @@
+   for (const t of tables) if (built.truncatedFiles.has(String(t.segments[0]?.fileIndex)) && !t.issues.includes("file_truncated_by_limit")) { t.issues.push("file_truncated_by_limit"); if (t.status === "parsed") t.status = "partial"; }
+   const blocked = new Set(tables.filter((t) => t.issues.includes("row_limit_reached") || t.issues.includes("file_truncated_by_limit") || unknownFile || t.segments.some((sg) => failedFiles.has(String(sg.fileIndex)))).map((t) => t.id));
+   for (const id of blocked) incomplete.add(id);
+-  report.checks = runChecks(tables, report.summaryFields, { incompleteTables: incomplete, totalsBlocked: blocked });
++  // A row that could be a line item or a summary line leaves every total of its table unknown either way.
++  const unresolvedRows = new Set(tables.filter((t) => t.rows.some((r) => r.kind === "unresolved")).map((t) => t.id));
++  for (const id of unresolvedRows) incomplete.add(id);
++  report.checks = runChecks(tables, report.summaryFields, { incompleteTables: incomplete, totalsBlocked: blocked, totalsUnresolved: unresolvedRows });
+   report.classifications = classify(tables);
+   const accountGroups = new Map<string, string>();
+   (Array.isArray(options.sameAccountFiles) ? options.sameAccountFiles : []).slice(0, limits.maxPages).forEach((g, i) => {
+--- a/demo/src/financial-tables/summary.ts
++++ b/demo/src/financial-tables/summary.ts
+@@ -25,6 +25,24 @@
+   { key: "page_number", kinds: "all", phrases: ["page"] },
+ ];
+ 
++/**
++ * OCR often drops the space after a label's colon (`TOTAL:1,250.00`, `GST(9%):45.10`). A single-box token of that shape
++ * is split into the label, its bracketed rate, the colon and the value, with boxes interpolated from character offsets
++ * and marked approximate. Nothing else is split: the label must be letters only and the value numeric, so dates
++ * (`Date:12-Mar-2024`), times and references stay whole, and a split label still has to match a phrase below.
++ */
++const GLUED_LABEL = /^([A-Za-z][A-Za-z_-]*)(\(\d{1,3}(?:[.,]\d{1,4})?\s?%\))?:(.+)$/;
++function splitGluedLabel(t: Token): Token[] {
++  const m = GLUED_LABEL.exec(t.text);
++  if (!m || t.parts.length !== 1 || looksNumeric(m[3]) === null || recognizeDate(m[3])) return [t];
++  let offset = 0;
++  return [m[1], ...(m[2] ? [m[2]] : []), ":", m[3]].map((text) => {
++    const x = Math.round((t.x + offset * t.cw) * 100) / 100, w = Math.round(text.length * t.cw * 100) / 100;
++    offset += text.length;
++    return { ...t, text, x, w, parts: [{ ...t.parts[0], text, bbox: { ...t.parts[0].bbox, x, w }, approximate: true }] };
++  });
++}
++
+ const norm = (s: string) => s.toLowerCase().replace(/[:]+$/, "").replace(/^[(]+|[)]+$/g, "");
+ const right = (t: Token) => t.x + t.w;
+ 
+@@ -62,7 +80,7 @@
+ /** Every label → value pair in a row. A label must start a phrase and its value must follow with only marks in between. */
+ export function summariesInRow(row: Row, kinds: Set<FinancialDocumentKind>): RawSummary[] {
+   const out: RawSummary[] = [];
+-  const ts = row.tokens;
++  const ts = row.tokens.flatMap(splitGluedLabel);
+   for (let j = 0; j < ts.length; j++) {
+     const prev = ts[j - 1];
+     const startsPhrase = !prev || looksNumeric(prev.text) !== null || ts[j].x - right(prev) > 2.5 * Math.max(prev.cw, ts[j].cw);
+@@ -127,3 +145,9 @@
+ 
+ /** Rows a summary-row label ends a table with (subtotal/total, gross/net, total debits). Bank balance rows stay table rows. */
+ export const ENDING_KEYS = new Set<SummaryKey>(["subtotal", "tax_total", "discount", "shipping", "invoice_total", "gross_pay", "total_deductions", "net_pay", "total_debits", "total_credits"]);
++
++/** Is this text, and nothing else, a label that ends a table ("Total", "Shipping:", "Sub total")? */
++export function isEndingLabelOnly(text: string, kinds: Set<FinancialDocumentKind>): boolean {
++  const t = text.toLowerCase().replace(/[:\s]+$/, "").replace(/\s+/g, " ").trim();
++  return !!t && LABELS.some((l) => ENDING_KEYS.has(l.key) && (l.kinds === "all" || l.kinds.some((k) => kinds.has(k))) && l.phrases.includes(t));
++}
+--- a/demo/src/financial-tables/tables.ts
++++ b/demo/src/financial-tables/tables.ts
+@@ -5,7 +5,7 @@
+   type HeaderColumn, type PageLayout, type Row, type Token, assignRow, headerCandidates, NUMERIC_ROLES, rowText, sourceOf, TEXT_ROLES,
+ } from "./layout.js";
+ import { balanceSemantics, currencyKey, looksNumeric, moneyDec, type NumberContext, parseMoney, parsePercent, parseQuantity, symbolFits, withCurrency } from "./money.js";
+-import { ENDING_KEYS, summariesInRow } from "./summary.js";
++import { ENDING_KEYS, isEndingLabelOnly, summariesInRow } from "./summary.js";
+ import type {
+   Abstention, Ambiguity, CellValue, ColumnRole, CurrencyMark, FinancialDocumentKind, FinancialTable, MoneyValue, RowKind, TableCell, TableColumn, TableRow, TableSegment,
+ } from "./types.js";
+@@ -96,7 +96,24 @@
+       // Caps count every segment of the table and every table: a long statement cannot grow a page at a time.
+       const tableRows = table.segments.reduce((a, x) => a + x.records.length, 0) + seg.records.length;
+       if (tableRows >= maxRows || totalRows + seg.records.length >= maxTotalRows) { seg.endReason = "row_limit"; table.ended = true; table.truncated = true; capped = true; truncatedFiles.add(String(layout.fileIndex)); break; }
+-      if (summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key))) { seg.endReason = "summary_row"; table.ended = true; break; }
++      // A summary label ends the table, unless the row is shaped like a line item. An invoice row printing a
++      // quantity, a unit price and an amount in those header columns keeps a label-like description ("Shipping:15.00
++      // kit", "Tax:0.00 adjustment") as an item, flagged on the row. An amount with only one of quantity and unit
++      // price (a three-column item, an item missing a value, or a footer printing a total quantity) could be either:
++      // it becomes an `unresolved` row that keeps its cells, is neither summed nor read as a summary, blocks the
++      // table's totals, and does not end the table, so the items after it are still read.
++      // A description that is a summary label and nothing else ("Total" over a total quantity and amount) is
++      // label-like too, even when the value after it (a quantity) is not one a summary reads.
++      let labelLikeItem = false, unresolvedRow = false;
++      const ending = summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key));
++      const early = table.kind === "invoice" ? assignRow(row.tokens, columns) : null;
++      const labelOnly = !!early && !ending && isEndingLabelOnly(early.cells.filter((c) => columns[c.column].role === "description").flatMap((c) => c.tokens.map((t) => t.text)).join(" "), kindSet);
++      if (ending || labelOnly) {
++        const shape = early ? itemShape(early, columns) : "none";
++        if (shape === "item") labelLikeItem = true;
++        else if (shape === "ambiguous") unresolvedRow = true;
++        else if (ending) { seg.endReason = "summary_row"; table.ended = true; break; }
++      }
+       const gapAbove = prev ? row.top - prev.bottom : 0;
+       const asg = assignRow(row.tokens, columns);
+       if (!asg.cells.length) { seg.endReason = "layout_break"; break; }
+@@ -198,8 +215,13 @@
+         else { seg.endReason = "layout_break"; break; }
+       } else if (table.kind === "invoice") {
+         const last = seg.records[seg.records.length - 1];
+-        if (hasNumeric(all) || unresolved) {
++        if (unresolvedRow) {
++          const rec = record("unresolved", all, null);
++          rec.issues.push("summary_or_line_item_unresolved");
++          seg.records.push(rec);
++        } else if (hasNumeric(all) || unresolved) {
+           const rec = record("line_item", all, null);
++          if (labelLikeItem) rec.issues.push("summary_label_in_line_item_description");
+           if (pending.length) {
+             const descCol = columns.findIndex((c) => c.role === "description");
+             if (descCol >= 0) { rec.cells.set(descCol, [...pending, ...(rec.cells.get(descCol) ?? [])]); rec.continuation.push(...pending); }
+@@ -402,6 +424,7 @@
+   const unmarked = rows.some((r) => r.cells.some((c) => c.value.type === "money" && c.value.status === "parsed" && !currencyKey(c.value.currency)));
+   const currency: FinancialTable["currency"] = { status: marks.size > 1 ? "mixed" : marks.size === 1 ? "single" : "unspecified", marks: [...marks.values()] };
+   if (marks.size === 1 && unmarked) tableIssues.push("some_amounts_unmarked_assumed_same_currency_not_applied");
++  if (rows.some((r) => r.kind === "unresolved")) tableIssues.push("unresolved_rows_totals_not_evaluated");
+   const bad = rows.filter((r) => r.issues.length).length;
+   const status: FinancialTable["status"] = rows.length && bad / rows.length > 0.5 ? "unreliable" : bad || tableIssues.some((x) => !INFORMATIONAL.test(x)) ? "partial" : "parsed";
+   const table: FinancialTable = {
+@@ -427,6 +450,13 @@
+  * is a credit only under an explicit minus convention: the column prints minus-signed debits and no CR/DR marker
+  * anywhere. A CR (or DR) on some amounts says nothing about the unmarked ones, which stay `unknown`.
+  */
++/** Which item columns a row fills with a number: all of quantity, unit price and amount is an item; amount with one of them is ambiguous. */
++function itemShape(asg: ReturnType<typeof assignRow>, columns: HeaderColumn[]): "item" | "ambiguous" | "none" {
++  const filled = (role: ColumnRole) => asg.cells.some((c) => columns[c.column].role === role && c.tokens.some((t) => looksNumeric(t.text) !== null));
++  const qty = filled("quantity"), unit = filled("unit_price"), amount = filled("amount");
++  return amount && qty && unit ? "item" : amount && (qty || unit) ? "ambiguous" : "none";
++}
++
+ function assignDirections(rows: TableRow[], tableIssues: string[]) {
+   const amountCells = rows.map((r) => cellOf(r, "amount")).filter((c): c is TableCell => !!c && c.value.type === "money" && c.value.status === "parsed");
+   const minusConvention = amountCells.some((c) => (c.value as MoneyValue).negative) && !amountCells.some((c) => (c.value as MoneyValue).marker);
+--- a/demo/src/financial-tables/types.ts
++++ b/demo/src/financial-tables/types.ts
+@@ -216,9 +216,14 @@
+   issues: string[];
+ }
+ 
++/**
++ * `unresolved` (invoices): a row whose description reads like a summary label (shipping, tax, total…) but which prints
++ * an amount with a quantity or a unit price, so it could be a line item or a summary line. Its cells are kept as read;
++ * it is not summed, not read as a summary value, and the table's total-level checks are `not_evaluable`.
++ */
+ export type RowKind =
+   | "transaction" | "opening_balance" | "closing_balance" | "carried_forward" | "brought_forward" | "total"
+-  | "line_item" | "earning" | "deduction" | "contribution" | "summary";
++  | "line_item" | "earning" | "deduction" | "contribution" | "summary" | "unresolved";
+ 
+ export interface TableRow {
+   id: string;
+--- a/docs/financial-tables.md
++++ b/docs/financial-tables.md
+@@ -137,11 +137,23 @@
+    a page-level "Opening balance" box is printed: that opening is the page's, not the statement's.
+ 
+    A table ends at:
+-   - a summary label (subtotal, total, gross, net, total debits);
++   - a summary label (subtotal, total, gross, net, total debits), including one OCR glued to its value
++     (`TOTAL:132.00`, `GST(9%):12.00`; the split boxes are `approximate`);
+    - a page footer;
+    - a new header;
+    - a layout break.
+ 
++   **Label-like invoice rows.** An invoice row whose description reads like a summary label (`Shipping`,
++   `Tax:0.00 adjustment`, a description that is only `Total`) is judged by what it prints in the header's item
++   columns:
++   - quantity, unit price and amount: a `line_item`, with row issue `summary_label_in_line_item_description`;
++   - an amount with only one of quantity and unit price (a three-column item, an item missing a value, a footer
++     printing a total quantity): row kind **`unresolved`**, with row issue `summary_or_line_item_unresolved`. Its
++     cells are kept as read. It is not summed, no summary value is read from it, the table is `partial` with issue
++     `unresolved_rows_totals_not_evaluated`, its total-level checks (subtotal, tax, total) are `not_evaluable`, and
++     the table goes on reading the rows after it;
++   - anything else: a summary label, which ends the table as before.
++
+    **Multi-page tables:** a repeated header with the same column roles continues the same table. A
+    continuation page with no header reuses the previous page's column geometry, and the segment says
+    `headerSource: "carried_from_page"`.

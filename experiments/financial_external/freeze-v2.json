@@ -1,0 +1,31 @@
+{
+ "written": "2026-10-25T16:20:38.490Z",
+ "note": "Scorer v2 and candidate B2 pinned before any v2 scoring run and before any external run of B2. v1 files and outputs are unchanged (freeze-referee.json, results/*.json). B2 was designed from the reviewer finding and authored tests only; it has not been run on external data.",
+ "v1_unchanged": {
+  "score.mjs": "5c97004e47e09427a741e32a4dcbeb8624edffac08fdcdaea3bac7f52a150db5",
+  "scoring.mjs": "f338649c7f2e81e0b1fdb7c17fb68f836bb5dc7c095be8d0fdc5b5e76520121c",
+  "test_scoring.mjs": "8f531a8f271d1b20f162e8565b91e1efb7dd1a1b6a66ff755d4a4af26f80b159"
+ },
+ "scorer_v2": {
+  "score_v2.mjs": "f4edd3b9df7ac278a010579975600281a208d91552c0030c1767295d3179ab57",
+  "scoring_v2.mjs": "82fa85f4f7db384f1d09f1a2c6ea4815e6137b7fe35645a6c4d6afa2fd483002",
+  "test_scoring_v2.mjs": "f224bdb0f090ac8f8f42257b75fc894fabfd8f5d8aaa61a68d27fae50559831d",
+  "verify.py": "77d04d235ac81854e45074739560a8f6a8ac769289014d1e88a551a762edc286"
+ },
+ "engines": {
+  "baseline": "b8526b6ae6597a98f226d05f1eb24edcde51ff026ce22743e8db1e69e29b823d",
+  "b1": "695537dd30cfc08cbd0210c5fe8a0d5e26f324fd83dba68c38da119666b7a1ea",
+  "b2": "4ec9f7ac854dc8bc4cefaa4e0a17167d1aba009f4db2be3fe750f09e8c891ff2",
+  "a": "5db46bfcbc32abc0dc693d4086b6f910b7da7c03a5d4bc347ef73a53f0358513"
+ },
+ "b2": {
+  "patch_sha256": "9bace0934b74c020c17bb2b44a7b3f40013489edeeded8a123fca8681faeaa30",
+  "test_sha256": "90cc047f9ee4c5a53372375d4bc08879117b5b7816c61a265a099a9b5814c415",
+  "scope": "candidate-b.patch (summary.ts glued-label split) plus a tables.ts guard: an invoice row with numeric quantity, unit price and amount in those header columns stays a line item despite a summary label (row issue summary_label_in_line_item_description); amount with only one of them still ends the table with table issue summary_label_row_may_be_line_item_page_N."
+ },
+ "a_preguard": {
+  "engine_sha256_prefix": "02b3dd53bfa8",
+  "private_aggregate": "scores/aggregate-dev-candidate-a-pre-date-guard.json",
+  "scope": "native arm, bankstatemently only; superseded by the dated-row guard (5db46bfcbc32). A stays unshipped."
+ }
+}

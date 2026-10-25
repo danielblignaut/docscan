@@ -1,0 +1,66 @@
+{
+ "label": "candidate-b2",
+ "unit_tests": {
+  "tests": 48,
+  "pass": 48,
+  "fail": 0
+ },
+ "sets": {
+  "main": {
+   "cells": "464/464",
+   "extraCells": 0,
+   "rows": "138/138",
+   "checks": "55/55",
+   "falseConsistent": 0,
+   "unscoredChecks": 0,
+   "abstention": "2/2",
+   "falseAbstentions": 0,
+   "falseTables": 0,
+   "unexpectedObservations": 0,
+   "falseIncomeCandidates": 0,
+   "fixturesWithFailures": 0
+  },
+  "stress": {
+   "cells": "151/151",
+   "extraCells": 0,
+   "rows": "46/46",
+   "checks": "20/20",
+   "falseConsistent": 0,
+   "unscoredChecks": 0,
+   "abstention": "0/0",
+   "falseAbstentions": 0,
+   "falseTables": 0,
+   "unexpectedObservations": 0,
+   "falseIncomeCandidates": 0,
+   "fixturesWithFailures": 0
+  },
+  "review": {
+   "cells": "129/130",
+   "extraCells": 0,
+   "rows": "37/37",
+   "checks": "22/22",
+   "falseConsistent": 0,
+   "unscoredChecks": 0,
+   "abstention": "0/0",
+   "falseAbstentions": 0,
+   "falseTables": 0,
+   "unexpectedObservations": 0,
+   "falseIncomeCandidates": 0,
+   "fixturesWithFailures": 1
+  },
+  "review3": {
+   "cells": "101/101",
+   "extraCells": 0,
+   "rows": "29/29",
+   "checks": "15/15",
+   "falseConsistent": 0,
+   "unscoredChecks": 0,
+   "abstention": "0/0",
+   "falseAbstentions": 0,
+   "falseTables": 0,
+   "unexpectedObservations": 0,
+   "falseIncomeCandidates": 0,
+   "fixturesWithFailures": 0
+  }
+ }
+}

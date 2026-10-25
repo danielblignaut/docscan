@@ -216,9 +216,14 @@ export interface TableCell {
   issues: string[];
 }
 
+/**
+ * `unresolved` (invoices): a row whose description reads like a summary label (shipping, tax, total…) but which prints
+ * an amount with a quantity or a unit price, so it could be a line item or a summary line. Its cells are kept as read;
+ * it is not summed, not read as a summary value, and the table's total-level checks are `not_evaluable`.
+ */
 export type RowKind =
   | "transaction" | "opening_balance" | "closing_balance" | "carried_forward" | "brought_forward" | "total"
-  | "line_item" | "earning" | "deduction" | "contribution" | "summary";
+  | "line_item" | "earning" | "deduction" | "contribution" | "summary" | "unresolved";
 
 export interface TableRow {
   id: string;
