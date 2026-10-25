@@ -32,8 +32,12 @@ prefix, IMEIs in the `00` test range, serials prefixed `FICT`).
 - **Conflicts are listed, not resolved.** Two different IMEI1s (or SNs, or
   GTINs) in one region are a `conflict`, both values kept with their sources.
   In proximity grouping they are a *cannot-link*: they split the cluster
-  instead of merging.
-- **A GTIN is a product, not a unit.** Two boxes of the same model share it.
+  instead of merging. Across frames, such a group adds neither value to a
+  track (both are logged as disagreements), so a neighbour's serial inside
+  an outline never becomes this unit's alias.
+- **A GTIN is a product, not a unit.** GTINs compare in their 14-digit form
+  (GS1): an EAN-13 or UPC-A and the GS1 AI (01) GTIN-14 of the same product
+  are one value, never a conflict or a cannot-link. Two boxes of the same model share it.
   It never identifies an item across frames, and repeated GTINs are not a
   count. A group with only a GTIN is a product sighting
   (`unanchored`), never a new unit.
@@ -282,7 +286,9 @@ Rules:
   anchor — never with its own members (a serial read from its own barcode beside
   an IMEI is still `unverified`).
 - **A group that disagrees with its track adds nothing**: a unique role read as
-  a value the track does not have, an IMEI under the other index, or a third
+  a value the track does not have, a unique role the group itself read as two
+  different values (a region holding two serials; on a new track too, which
+  then keeps only its identity), an IMEI under the other index, or a third
   distinct IMEI. Values the track already has are re-counted (the unit was
   seen); the disagreeing values are logged in `conflicts` with frame counts.
 - **A group with no associated anchor of any track** is a new unit, even if
@@ -349,3 +355,29 @@ Rules:
 - `linkGap`, `tieRatio` and `poseTolerance` are chosen against the fictional
   fixtures, not measured on real shelves. Retune them against recorded frames
   before trusting the proximity mode.
+
+Measured on the procedural stress benchmark
+([research-item-stress.md](research-item-stress.md), `experiments/item_stress`):
+
+- **An explicit region trusts what OCR read.** A printed serial (no check
+  digit), or a printed IMEI whose misread still passes Luhn (a 09/90
+  transposition), inside a truthful region is `explicit`. When the misread
+  equals another unit's value, that unit's identifier sits on this row with
+  association and anchors it. Proximity grouping never did this in the
+  benchmark; regions did, on 43 of 989 region rows of the two adversarial
+  specimens. One additional scripted OCR collision makes 44 across the whole benchmark; a separate incorrectly drawn region brings the total to 45. An OCR-only value is only as good as its read.
+- **A region is an assertion.** A region drawn over two boxes (or an
+  axis-aligned box over tilted, touching boxes) merges their tracks when they
+  are compatible; nothing here can tell.
+- **Bars-only frames of touching same-model boxes abstain.** Unindexed IMEIs
+  do not cannot-link and identical GTINs collapse to one code, so touching
+  boxes' IMEIs link and are refused (`imei_excess`): in live mode 51–60% of
+  the units on touching or dense shelves got no row; saved views with labels
+  missed 0.5–1.8% of them.
+- **A unit's other identifiers read alone start a row.** Values beside the
+  identity in a proximity group are `unverified`, so a frame that reads only
+  them makes a new row (live: 0.4 extra rows per unit found, two thirds of
+  them linked by `possiblySameAs`).
+- **Capacity.** A live tracker full of 64 confirmed tracks refuses new units
+  (`capacityReached`, `refused`); a saved session past 1024 units evicts
+  tentative ones and is `partial`. Show both.

@@ -229,9 +229,13 @@ const MATRIX_FORMATS = new Set(["qrcode", "microqrcode", "rmqrcode", "datamatrix
 const normFormat = (f: string | null | undefined) => (f ?? "").toLowerCase().replace(/[\s_-]/g, "");
 const digitsOf = (s: string) => s.replace(/\D/g, "");
 
-/** Comparison key of a value for its role: digits for codes, upper case without spaces for text. */
+/**
+ * Comparison key of a value for its role: digits for codes, upper case without spaces for text.
+ * A GTIN compares in its 14-digit form (GS1): an EAN-13 and the GS1 AI (01) GTIN-14 of one product are one value.
+ */
 export function valueKey(role: ItemRole, value: string): string {
-  return role === "gtin" || role === "imei1" || role === "imei2" || role === "imei" ? digitsOf(value) : value.toUpperCase().replace(/\s+/g, "");
+  if (role === "gtin") { const d = digitsOf(value); return d.length > 0 && d.length < 14 ? d.padStart(14, "0") : d; }
+  return role === "imei1" || role === "imei2" || role === "imei" ? digitsOf(value) : value.toUpperCase().replace(/\s+/g, "");
 }
 
 export function luhnValid(digits: string): boolean {
@@ -919,18 +923,20 @@ const trackImeis = (t: Track) => new Set((["imei1", "imei2", "imei"] as const).f
 
 /**
  * What in `item` disagrees with `t`: a unique role read as a value the track
- * does not have (where it has one), an IMEI under the other index, or a third
- * distinct IMEI.
+ * does not have (where it has one, or where the group itself read that role
+ * as two values: a region holding two serials), an IMEI under the other
+ * index, or a third distinct IMEI.
  */
 function disagreements(t: Track, item: FrameItem): { role: KeyedRole; candidate: Candidate }[] {
   const out: { role: KeyedRole; candidate: Candidate }[] = [];
   for (const role of UNIQUE_ROLES) {
     const have = validKeys(t.roles[role]);
+    const several = item.roles[role].candidates.filter(c => c.check_digit_valid !== false).length > 1;
     for (const c of item.roles[role].candidates) {
       if (c.check_digit_valid === false) continue;
       const key = valueKey(role, c.value);
       const other = role === "imei1" ? "imei2" : role === "imei2" ? "imei1" : null;
-      if ((have.length && !have.includes(key)) || (other && validKeys(t.roles[other]).includes(key))) out.push({ role, candidate: c });
+      if (((have.length || several) && !have.includes(key)) || (other && validKeys(t.roles[other]).includes(key))) out.push({ role, candidate: c });
     }
   }
   const imeis = trackImeis(t);
@@ -1308,7 +1314,7 @@ export function updateItemTracker(prev: ItemTrackerState, frame: TrackerFrame): 
     }
     if (candidates.length > 1) { update.ambiguous.push({ groupKey: item.key, reason: "pose_tie", trackIds: candidates.map(t => t.id) }); continue; }
     update.unanchored.push({ groupKey: item.key, gtin });
-    const p = s.unanchored.find(x => x.gtin === gtin);
+    const p = s.unanchored.find(x => valueKey("gtin", x.gtin) === valueKey("gtin", gtin));
     if (p) { if (p.lastSeq !== frame.seq) { p.frames++; p.lastSeq = frame.seq; } }
     else if (s.unanchored.length < o.maxProducts) s.unanchored.push({ gtin, frames: 1, firstSeq: frame.seq, lastSeq: frame.seq });
     else s.unanchoredOverflow++;

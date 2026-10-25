@@ -1,0 +1,17 @@
+{
+ "note": "G5: each run repeated in full; digests exclude timings. The repeat files were deleted after comparison.",
+ "runs": [
+  {
+   "run": "baseline-dev.json",
+   "digest": "9d14ed70044e3c4e95747309adbf249aa21b7768eba353d0b3a07287d30c8bf3",
+   "repeatDigest": "9d14ed70044e3c4e95747309adbf249aa21b7768eba353d0b3a07287d30c8bf3",
+   "equal": true
+  },
+  {
+   "run": "candidate-holdout.json",
+   "digest": "5aa7123732fd3c3c33e635a2e798befa34924dfdba44f838a1d70188b6b0a85f",
+   "repeatDigest": "5aa7123732fd3c3c33e635a2e798befa34924dfdba44f838a1d70188b6b0a85f",
+   "equal": true
+  }
+ ]
+}

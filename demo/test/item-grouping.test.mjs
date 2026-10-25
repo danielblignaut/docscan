@@ -706,3 +706,73 @@ test("the unit ruler: printed lines, else linear bar heights; matrix codes only 
   const printed = groupItems({ ...frame(box(40, 100, A)), barcodes: [...frame(box(40, 100, A)).barcodes, ...qrs.map(q => ({ ...q, points: q.points.map(([x, y]) => [x + 600, y]) }))] });
   assert.equal(printed.unit, 50, "printed label boxes win over everything");
 });
+
+test("a GTIN-13 and the same GTIN as a GS1 GTIN-14 are one value: one box, no conflict, no split", () => {
+  // EAN-13 bars, a GS1-128 (01)(21) code holding the same GTIN with its leading zero, and two IMEI codes.
+  const line = (text, y, format = "code128") => ({ format, text, points: [[50, y], [230, y]] });
+  const gs1 = line(`01${"0" + A.gtin}21FICTG0007`, 325);
+  const fromCode = (ai, element, value, extra) => ({ label: null, name: ai, barcode_unread: false, value, source: "barcode", check_digit_valid: null,
+    barcode_format: "code128", ...barcodeBox(gs1.points), origins: [{ kind: "gs1", barcode: 3, ai, element }], ...extra });
+  const input = { barcodes: [line(A.gtin, 130, "ean13"), line(A.imei1, 195), line(A.imei2, 260), gs1], width: 1280, height: 960,
+    fields: [fromCode("01", 0, "0" + A.gtin, { kind: "gtin", check_digit_valid: true }), fromCode("21", 1, "FICTG0007", { kind: "text", role: "serial" })] };
+  const r = groupItems(input);
+  assert.equal(r.items.length, 1);
+  assert.equal(r.items[0].roles.gtin.status, "found");
+  assert.deepEqual(r.items[0].conflicts, []);
+  assert.equal(r.items[0].repeated.length, 1, "the second form is the same value read again");
+  const inRegion = groupItems({ ...input, regions: [{ id: "r", bbox: [30, 90, 240, 280], origin: "manual" }] });
+  assert.deepEqual(inRegion.items[0].conflicts, []);
+  const { rows } = run([input, input]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].gtin.status, "found");
+});
+
+test("a region holding two serials adds neither: a neighbour's serial never becomes this unit's alias", () => {
+  // A's outline also takes in B's SN line (two boxes touching): the item lists the conflict…
+  const both = { ...frame([...box(40, 100, { imei1: A.imei1, sn: A.sn }), { label: "SN", kind: "text", value: B.sn, bbox: [40, 200, 200, 20], format: null, source: "text" }]),
+    regions: [{ id: "a", bbox: [30, 90, 230, 140], origin: "manual" }] };
+  const r = groupItems(both);
+  assert.ok(r.items[0].conflicts.includes("serial: 2 different values"));
+  // …and the track takes neither serial: the row is A's identity, with both serials disputed, not associated.
+  let { state, rows } = run([both]);
+  assert.equal(rows.length, 1);
+  assert.deepEqual(rows[0].serial.values, []);
+  assert.deepEqual(rows[0].serial.disputedBy.map(d => d.value).sort(), [A.sn, B.sn].sort());
+  // B on its own is a new unit, never matched to A's track through its serial.
+  const b = updateItemTracker(state, { seq: 2, at: 200, grouping: groupItems({ ...frame(box(700, 100, { imei1: B.imei1, sn: B.sn })), regions: [{ id: "b", bbox: [690, 90, 220, 110], origin: "manual" }] }) });
+  assert.equal(b.update.created.length, 1);
+  assert.deepEqual(b.update.matched.map(m => m.trackId), b.update.created);
+  assert.deepEqual(b.update.conflicts, []);
+  assert.equal(trackedRows(b.state).length, 2);
+});
+
+test("conflicting serials in a region: a new track keeps its read identity, an existing one is re-counted, none is invented", () => {
+  const region = id => [{ id, bbox: [30, 90, 230, 140], origin: "manual" }];
+  const snB = { label: "SN", kind: "text", value: B.sn, bbox: [40, 200, 200, 20], format: null, source: "text" };
+  const both = { ...frame([...box(40, 100, { imei1: A.imei1, sn: A.sn }), snB]), regions: region("a") };
+  // New track: its identity is the IMEI, read in this frame (counted once), never an empty row.
+  let { state, rows, updates } = run([both]);
+  assert.deepEqual(updates[0].created, ["item-1"]);
+  assert.deepEqual(rows[0].identity, { role: "imei1", value: A.imei1 });
+  assert.equal(rows[0].imei1.values[0].frames, 1);
+  assert.equal(rows[0].imei1.association, "anchor");
+  assert.equal(rows[0].framesSeen, 1);
+  // Already tracked (A's serial associated earlier): the conflict re-counts what A has and adds nothing.
+  const clean = { ...frame(box(40, 100, { imei1: A.imei1, sn: A.sn })), regions: region("a") };
+  ({ state, rows, updates } = run([clean, both]));
+  assert.equal(rows.length, 1);
+  assert.deepEqual(updates[1].matched.map(m => m.trackId), ["item-1"]);
+  assert.deepEqual(rows[0].serial.values.map(v => [v.value, v.association, v.frames]), [[A.sn, "explicit", 2]]);
+  assert.deepEqual(rows[0].serial.disputedBy, [{ value: B.sn, frames: 1 }]);
+  // B already tracked by its serial: one region naming both units is refused, not merged.
+  const bAlone = { ...frame(box(700, 100, { sn: B.sn })), regions: [{ id: "b", bbox: [690, 90, 220, 50], origin: "manual" }] };
+  ({ rows, updates } = run([clean, bAlone, both]));
+  assert.equal(rows.length, 2);
+  assert.deepEqual(updates[2].ambiguous.map(a => a.reason), ["anchors_of_different_items"]);
+  assert.deepEqual(updates[2].created, []);
+  // Only conflicting serials, nothing else to identify the unit: no track at all.
+  const onlySerials = { ...frame([...box(40, 100, { sn: A.sn }), { ...snB, bbox: [40, 135, 200, 20] }]), regions: region("a") };
+  ({ rows, updates } = run([onlySerials]));
+  assert.equal(rows.length, 0);
+  assert.deepEqual(updates[0].ambiguous.map(a => a.reason), ["anchors_of_different_items"]);
+});

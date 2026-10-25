@@ -1,3 +1,4 @@
+import {fingerprintCapture,type CaptureFingerprint} from "./capture-fingerprint";
 import { useEffect, useRef, useState } from 'react';
 import { grab, openCamera, snapshot, toJpeg } from './camera';
 import { describeBarcodes } from './barcode-data';
@@ -10,7 +11,7 @@ import type { Barcode } from './types';
 import type { Outcome, SeenCode } from './outcome';
 
 const MAX_VIEWS=6, MAX_WIDTH=1280, MAX_BYTES=20*1024*1024;
-interface View { blob:Blob; codes:SeenCode[]; size:[number,number]; frame:number; at:number }
+interface View { fingerprint:CaptureFingerprint; blob:Blob; codes:SeenCode[]; size:[number,number]; frame:number; at:number }
 
 /** Continuous acquisition: physical views are saved; each gets one later OCR read. */
 export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outcome:Outcome)=>void}) {
@@ -18,6 +19,7 @@ export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outco
   const finishNow=useRef<()=>void>(()=>{});
   const saveRequested=useRef(false),finishRequested=useRef(false);
   const [saved,setSaved]=useState(0),[rows,setRows]=useState<TrackedRow[]>([]),[productCount,setProductCount]=useState(0);
+  const [capacityReached,setCapacityReached]=useState(false);
   const [error,setError]=useState<string|null>(null),[started,setStarted]=useState(false);
   useEffect(()=>{
     let stopped=false,finishing=false,stream:MediaStream|null=null;
@@ -30,10 +32,12 @@ export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outco
       if(views.length>=MAX_VIEWS)return;
       // Sample before awaiting JPEG encoding: the camera cannot replace these pixels.
       const pixels=grab(canvas,{x:0,y:0,w:canvas.width,h:canvas.height},MAX_WIDTH);
+      const fingerprint=await fingerprintCapture(pixels);
+      if(stopped)return;
       const blob=await toJpeg(pixels);
       if(stopped)return;
       if(totalBytes+blob.size>MAX_BYTES)throw Error('Saved views reached the 20 MiB limit. Finish this session.');
-      totalBytes+=blob.size;views.push({blob,codes,size,frame,at});
+      totalBytes+=blob.size;views.push({fingerprint,blob,codes,size,frame,at});
       for(const c of codes)covered.add(`${c.format}|${c.text}`);
       lastSaved=at;setSaved(views.length);
       window.dispatchEvent(new CustomEvent('docscan:item-view',{detail:{operationId:session.id,viewIndex:views.length-1,frameId:frame,status:'captured',validation:'pending'}}));
@@ -45,7 +49,7 @@ export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outco
       try{
         const pages:Outcome[]=views.map((v,index)=>{
           const imageUrl=URL.createObjectURL(v.blob);urls.push(imageUrl);
-          return {kind:'barcodes',labels:false,itemMode:true,operationId:session.id,barcodes:v.codes,observations:v.codes,imageSize:v.size,
+          return {kind:'barcodes',labels:false,itemMode:true,captureFingerprint:v.fingerprint,operationId:session.id,barcodes:v.codes,observations:v.codes,imageSize:v.size,
             fields:[],blob:v.blob,imageUrl,finishedBy:`saved view ${index+1}`,meta:{source:'camera',captureMs:v.at-t0,frames:1,ocrFrames:0}};
         });
         const outcome:Outcome={kind:'batch',scanner:'items',operationId:session.id,pages,meta:{source:'camera',captureMs:performance.now()-t0,frames:frame,ocrFrames:0}};
@@ -69,8 +73,9 @@ export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outco
         countFrame(seen,clock,codes,at);
         const grouping=groupBarcodeReadings(codes,[],size);
         const tracked=updateItemTracker(tracker,{seq:frame,at,grouping});tracker=tracked.state;
+        if(tracked.update.capacityReached)setCapacityReached(true);
         setRows(trackedRows(tracker));setProductCount(tracker.unanchored.length);
-        window.dispatchEvent(new CustomEvent('docscan:items',{detail:{operationId:session.id,frameId:frame,rows:trackedRows(tracker),ambiguities:tracked.update.ambiguous,interpretation:'identifier_observations_not_stock_quantity'}}));
+        window.dispatchEvent(new CustomEvent('docscan:items',{detail:{operationId:session.id,frameId:frame,rows:trackedRows(tracker),ambiguities:tracked.update.ambiguous,capacityReached:tracked.update.capacityReached,refusedGroups:tracked.update.refused.length,interpretation:'identifier_observations_not_stock_quantity'}}));
         const newCodes=codes.some(c=>(seen.get(`${c.format}|${c.text}`)?.count??0)>=2&&!covered.has(`${c.format}|${c.text}`));
         if(saveRequested.current||(newCodes&&at-lastSaved>=1000)){
           saveRequested.current=false;await save(codes,size,at);
@@ -93,6 +98,7 @@ export function ItemsCapture({client,onDone}:{client:ScannerClient;onDone:(outco
     <video ref={video} playsInline muted />
     <div className="step-label">Item scan session · {saved}/{MAX_VIEWS} views saved</div>
     <div className="capture-foot"><div className="hint" data-testid="hint">{error??'Pan slowly across the boxes. New codes save a view; printed labels are read after Finish.'}</div>
+      {capacityReached&&<p role="status">Live tracking reached its limit. Some new groups were not tracked; finish and review the saved views.</p>}
       <p>{rows.length} identifier tracks · {productCount} product-only sightings. These are not quantities.</p>
       <button type="button" data-testid="save-item-view" disabled={!started||!!error||saved>=MAX_VIEWS} onClick={()=>{saveRequested.current=true;}}>Save this view</button>
       <button type="button" data-testid="finish-items" disabled={!saved} onClick={()=>{if(error)finishNow.current();else finishRequested.current=true;}}>Finish and read labels</button>

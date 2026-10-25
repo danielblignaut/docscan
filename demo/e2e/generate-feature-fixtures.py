@@ -45,6 +45,9 @@ with (OUT/'items-pan.y4m').open('wb') as f:
  f.write(b'YUV4MPEG2 W1280 H720 F10:1 Ip A1:1 C420jpeg\n')
  for v in views:
   for _ in range(35):f.write(b'FRAME\n'+v)
+with (OUT/'items-static.y4m').open('wb') as f:
+ f.write(b'YUV4MPEG2 W1280 H720 F10:1 Ip A1:1 C420jpeg\n')
+ for _ in range(10):f.write(b'FRAME\n'+views[0])
 def pdf_fixture(name):
  fixture=json.loads((ROOT/f'experiments/financial_tables/fixtures/{name}.json').read_text())
  objs=['','','<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>'];kids=[]
