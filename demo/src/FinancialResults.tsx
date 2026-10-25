@@ -34,7 +34,7 @@ export function FinancialResults({outcome,onOptions}:{outcome:Financial;onOption
       <h2>{table.documentKind.replaceAll('_',' ')} · {table.rows.length} rows · {table.status}</h2>
       <button type="button" onClick={()=>download(financialTableCsv(table),`${table.kind}-${table.id}.csv`)}>Download this table as CSV</button>
       <div className="table-scroll"><table><thead><tr><th>Page</th>{table.columns.map(c=><th key={c.key}>{c.label}</th>)}</tr></thead><tbody>
-        {table.rows.map(row=><tr key={row.id}><td>{row.pageIndex+1}</td>{table.columns.map(column=>{
+        {table.rows.map(row=><tr key={row.id}><td className={row.kind === "unresolved" ? "cell-review" : undefined}>{row.pageIndex+1}{row.kind === "unresolved" && <p>Item or summary — unresolved. Values retained; totals not checked.</p>}</td>{table.columns.map(column=>{
           const cell=row.cells.find(c=>c.column===column.key);if(!cell)return <td key={column.key}/>;
           const value=normalized(cell.value),bad=cell.issues.length||('status' in cell.value&&cell.value.status!=='parsed');
           return <td key={column.key} className={bad?'cell-review':undefined}><span>{value??cell.text}</span>

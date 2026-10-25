@@ -38,7 +38,7 @@ for (const [vp, viewport] of Object.entries(VIEWPORTS)) {
     });
     const page = await browser.newPage({ viewport, ...DEVICE[vp] });
     await page.goto("http://localhost:4173/");
-    await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 30000 });
+    await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: 30000 });
     if (flow === FLOWS[0]) {
       const path = `${OUT}screen-${vp}-home.png`;
       await page.screenshot({ path, fullPage: vp === "desktop" });

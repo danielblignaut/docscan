@@ -44,7 +44,7 @@ mkdirSync(OUT, { recursive: true });
 
 const chrome = ["/usr/bin/google-chrome"].find(existsSync);
 // vite itself, in its own process group, so killing the group leaves nothing behind.
-const server = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", "4173", "--strictPort"], {
+const server = spawn("node", ["node_modules/vite/bin/vite.js", "preview", "--port", "4173", "--strictPort", ...(process.env.E2E_BUILD ? ["--outDir", process.env.E2E_BUILD] : [])], {
   stdio: "pipe",
   detached: true,
   cwd: new URL("../", import.meta.url).pathname,
@@ -115,6 +115,7 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
     ],
   });
   const page = await browser.newPage({ viewport: c.viewport ?? { width: 1280, height: 860 } });
+  if(process.env.E2E_BLOCK_WASM === "1") await page.route("**/*.wasm*", route=>route.abort());
   const logs = [];
   page.on("console", (m) => logs.push(m.text()));
   page.on("pageerror", (e) => logs.push(`pageerror: ${e.message}`));
@@ -141,9 +142,9 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
   const want = c.expect;
   let outcome;
   try {
-    await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 30000 });
+    await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: Number(process.env.E2E_READY_TIMEOUT_MS ?? 30000) });
     const ready = Date.now() - t0;
-    var threads = await page.evaluate(() => window.__docscan.ready.threads);
+    var threads = await page.evaluate(() => window.__docscan.captureReady.threads);
     if (want.type === "not_captured") {
       await page.waitForTimeout(want.waitMs);
     } else if (want.type === "abandon") {
@@ -330,10 +331,12 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
       const h = await host();
       if (h.live) problems.push(`${h.live} camera track(s) still live after Back to home`);
     }
+    threads = await page.evaluate(() => (window.__docscan.paddleRuntimeReady ?? window.__docscan.ready ?? window.__docscan.captureReady).threads);
     outcome = {
       ok: problems.length === 0,
       threads,
-      readyMs: ready,
+      captureReadyMs: ready,
+      readyMs: ready, // legacy alias; now capture-worker readiness, not OCR-model readiness
       doneMs,
       captures: captured.map((e) => ({ kind: e.kind, stepMs: e.stepMs, sinceStartMs: e.sinceStartMs, fallback: e.fallback, readMs: e.readMs, method: e.result?.method, wasmMemoryMb: e.wasmMemoryMb, ocrMs: e.result?.timings_ms?.ocr })),
       problems,
@@ -346,8 +349,8 @@ for (const c of CASES.filter((c) => !only.length || only.includes(c.name))) {
     };
   } catch (e) {
     const ds = await page.evaluate(() => window.__docscan ?? { events: [], frames: [] }).catch(() => ({ events: [], frames: [] }));
-    const hint = await page.locator("[data-testid=hint]").textContent().catch(() => null);
-    const stats = await page.locator(".stats").textContent().catch(() => null);
+    const hint = await page.locator("[data-testid=hint]").textContent({timeout:1000}).catch(() => null);
+    const stats = await page.locator(".stats").textContent({timeout:1000}).catch(() => null);
     outcome = {
       ok: false,
       why: String(e).split("\n")[0],

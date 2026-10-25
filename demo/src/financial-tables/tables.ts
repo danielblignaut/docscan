@@ -5,7 +5,7 @@ import {
   type HeaderColumn, type PageLayout, type Row, type Token, assignRow, headerCandidates, NUMERIC_ROLES, rowText, sourceOf, TEXT_ROLES,
 } from "./layout.js";
 import { balanceSemantics, currencyKey, looksNumeric, moneyDec, type NumberContext, parseMoney, parsePercent, parseQuantity, symbolFits, withCurrency } from "./money.js";
-import { ENDING_KEYS, summariesInRow } from "./summary.js";
+import { ENDING_KEYS, isEndingLabelOnly, summariesInRow } from "./summary.js";
 import type {
   Abstention, Ambiguity, CellValue, ColumnRole, CurrencyMark, FinancialDocumentKind, FinancialTable, MoneyValue, RowKind, TableCell, TableColumn, TableRow, TableSegment,
 } from "./types.js";
@@ -96,7 +96,24 @@ export function buildTables(layouts: PageLayout[], kinds: FinancialDocumentKind[
       // Caps count every segment of the table and every table: a long statement cannot grow a page at a time.
       const tableRows = table.segments.reduce((a, x) => a + x.records.length, 0) + seg.records.length;
       if (tableRows >= maxRows || totalRows + seg.records.length >= maxTotalRows) { seg.endReason = "row_limit"; table.ended = true; table.truncated = true; capped = true; truncatedFiles.add(String(layout.fileIndex)); break; }
-      if (summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key))) { seg.endReason = "summary_row"; table.ended = true; break; }
+      // A summary label ends the table, unless the row is shaped like a line item. An invoice row printing a
+      // quantity, a unit price and an amount in those header columns keeps a label-like description ("Shipping:15.00
+      // kit", "Tax:0.00 adjustment") as an item, flagged on the row. An amount with only one of quantity and unit
+      // price (a three-column item, an item missing a value, or a footer printing a total quantity) could be either:
+      // it becomes an `unresolved` row that keeps its cells, is neither summed nor read as a summary, blocks the
+      // table's totals, and does not end the table, so the items after it are still read.
+      // A description that is a summary label and nothing else ("Total" over a total quantity and amount) is
+      // label-like too, even when the value after it (a quantity) is not one a summary reads.
+      let labelLikeItem = false, unresolvedRow = false;
+      const ending = summariesInRow(row, kindSet).some((s) => ENDING_KEYS.has(s.key));
+      const early = table.kind === "invoice" ? assignRow(row.tokens, columns) : null;
+      const labelOnly = !!early && !ending && isEndingLabelOnly(early.cells.filter((c) => columns[c.column].role === "description").flatMap((c) => c.tokens.map((t) => t.text)).join(" "), kindSet);
+      if (ending || labelOnly) {
+        const shape = early ? itemShape(early, columns) : "none";
+        if (shape === "item") labelLikeItem = true;
+        else if (shape === "ambiguous") unresolvedRow = true;
+        else if (ending) { seg.endReason = "summary_row"; table.ended = true; break; }
+      }
       const gapAbove = prev ? row.top - prev.bottom : 0;
       const asg = assignRow(row.tokens, columns);
       if (!asg.cells.length) { seg.endReason = "layout_break"; break; }
@@ -198,8 +215,13 @@ export function buildTables(layouts: PageLayout[], kinds: FinancialDocumentKind[
         else { seg.endReason = "layout_break"; break; }
       } else if (table.kind === "invoice") {
         const last = seg.records[seg.records.length - 1];
-        if (hasNumeric(all) || unresolved) {
+        if (unresolvedRow) {
+          const rec = record("unresolved", all, null);
+          rec.issues.push("summary_or_line_item_unresolved");
+          seg.records.push(rec);
+        } else if (hasNumeric(all) || unresolved) {
           const rec = record("line_item", all, null);
+          if (labelLikeItem) rec.issues.push("summary_label_in_line_item_description");
           if (pending.length) {
             const descCol = columns.findIndex((c) => c.role === "description");
             if (descCol >= 0) { rec.cells.set(descCol, [...pending, ...(rec.cells.get(descCol) ?? [])]); rec.continuation.push(...pending); }
@@ -402,6 +424,7 @@ export function parseTable(raw: RawTable, id: string, ctx: Omit<ParseContext, "d
   const unmarked = rows.some((r) => r.cells.some((c) => c.value.type === "money" && c.value.status === "parsed" && !currencyKey(c.value.currency)));
   const currency: FinancialTable["currency"] = { status: marks.size > 1 ? "mixed" : marks.size === 1 ? "single" : "unspecified", marks: [...marks.values()] };
   if (marks.size === 1 && unmarked) tableIssues.push("some_amounts_unmarked_assumed_same_currency_not_applied");
+  if (rows.some((r) => r.kind === "unresolved")) tableIssues.push("unresolved_rows_totals_not_evaluated");
   const bad = rows.filter((r) => r.issues.length).length;
   const status: FinancialTable["status"] = rows.length && bad / rows.length > 0.5 ? "unreliable" : bad || tableIssues.some((x) => !INFORMATIONAL.test(x)) ? "partial" : "parsed";
   const table: FinancialTable = {
@@ -427,6 +450,13 @@ export function parseTable(raw: RawTable, id: string, ctx: Omit<ParseContext, "d
  * is a credit only under an explicit minus convention: the column prints minus-signed debits and no CR/DR marker
  * anywhere. A CR (or DR) on some amounts says nothing about the unmarked ones, which stay `unknown`.
  */
+/** Which item columns a row fills with a number: all of quantity, unit price and amount is an item; amount with one of them is ambiguous. */
+function itemShape(asg: ReturnType<typeof assignRow>, columns: HeaderColumn[]): "item" | "ambiguous" | "none" {
+  const filled = (role: ColumnRole) => asg.cells.some((c) => columns[c.column].role === role && c.tokens.some((t) => looksNumeric(t.text) !== null));
+  const qty = filled("quantity"), unit = filled("unit_price"), amount = filled("amount");
+  return amount && qty && unit ? "item" : amount && (qty || unit) ? "ambiguous" : "none";
+}
+
 function assignDirections(rows: TableRow[], tableIssues: string[]) {
   const amountCells = rows.map((r) => cellOf(r, "amount")).filter((c): c is TableCell => !!c && c.value.type === "money" && c.value.status === "parsed");
   const minusConvention = amountCells.some((c) => (c.value as MoneyValue).negative) && !amountCells.some((c) => (c.value as MoneyValue).marker);

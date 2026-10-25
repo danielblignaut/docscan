@@ -1,3 +1,4 @@
+import {readerRoute} from "./reader-routing";
 import { FAST_LABEL_LIMITATION, type LabelEngine } from "./label-engine";
 // The home screen: one large card per scanner, with whether it is ready and
 // the model it uses, a model choice for proof of address, and on each card a
@@ -12,6 +13,7 @@ interface Props {
   ready: ReadyInfo | null;
   status: string;
   modelsState: "loading" | "idle" | "failed" | "ready";
+  paddleState: "loading" | "idle" | "failed" | "ready";
   failed: boolean;
   method: Extractor | "auto";
   financialEngine: TextEngine;
@@ -40,7 +42,8 @@ function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | 
   return used === "tagger" ? `${ocr} + tagger · ${catalogueEntry("poa-tagger").downloadMb} MB` : `${ocr} + layout rules`;
 }
 
-export function Home({ ready, status, modelsState, failed, method, financialEngine, onFinancialEngine, labelEngine, onLabelEngine, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
+export function Home({ ready, status, modelsState, paddleState, failed, method, financialEngine, onFinancialEngine, labelEngine, onLabelEngine, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
+  const documentReady = modelsState === "ready" ? ready : null;
   const state = failed ? "failed" : ready ? "ready" : "loading";
   return (
     <main className="home" data-testid="home">
@@ -54,7 +57,8 @@ export function Home({ ready, status, modelsState, failed, method, financialEngi
       <ul className="cards">
         {SCANNERS.map((s) => {
           const needsDocuments = s.needs === "ocr" || s.needs === "address" || s.id === "facedoc";
-          const cardState = needsDocuments && ready ? modelsState : state;
+          const route=readerRoute(s.id,textEngine,financialEngine,labelEngine);
+          const cardState = route === "paddle" ? paddleState : needsDocuments && ready ? modelsState : state;
           const cardLabel = cardState === "ready" ? "Ready" : cardState === "failed" ? "Retry models" : cardState === "idle" ? "Load when used" : "Loading…";
           return (
           <li key={s.id} className="card" data-card={s.id}>
@@ -67,7 +71,7 @@ export function Home({ ready, status, modelsState, failed, method, financialEngi
                 <span className="card-desc">{s.description}</span>
                 <span className="card-meta">
                   <span className={`pill pill-${cardState}`}>{cardLabel}</span>
-                  <span className="muted">{modelLine(s, ready, method, s.id === "tables" ? financialEngine : textEngine, labelEngine)}</span>
+                  <span className="muted">{modelLine(s, s.id === "address" ? documentReady : ready, method, s.id === "tables" ? financialEngine : textEngine, labelEngine)}</span>
                 </span>
               </span>
               <span className="card-go" aria-hidden="true">
@@ -98,9 +102,9 @@ export function Home({ ready, status, modelsState, failed, method, financialEngi
                 <label className="model-select">
                   <span>Model</span>
                   <select data-testid="address-method" value={method} onChange={(e) => onMethod(e.target.value as Extractor | "auto")}>
-                    <option value="auto">Automatic{ready ? ` (${chooseExtractor(ready.tagger, "auto") === "tagger" ? "tagger" : "rules"})` : ""}</option>
-                    <option value="tagger" disabled={ready !== null && !ready.tagger}>
-                      Trained tagger ({catalogueEntry("poa-tagger").downloadMb} MB){ready && !ready.tagger ? " — not loaded" : ""}
+                    <option value="auto">Automatic{documentReady ? ` (${chooseExtractor(documentReady.tagger, "auto") === "tagger" ? "tagger" : "rules"})` : ""}</option>
+                    <option value="tagger" disabled={documentReady !== null && !documentReady.tagger}>
+                      Trained tagger ({catalogueEntry("poa-tagger").downloadMb} MB){documentReady && !documentReady.tagger ? " — not loaded" : ""}
                     </option>
                     <option value="rules">Layout rules (no model)</option>
                   </select>

@@ -52,6 +52,8 @@ export interface CheckContext {
   incompleteTables: Set<string>;
   /** Tables of a document with pages that failed to read: their total-level checks are not evaluated. */
   totalsBlocked?: Set<string>;
+  /** Tables with an `unresolved` row (line item or summary line): their total-level checks are not evaluated. */
+  totalsUnresolved?: Set<string>;
 }
 
 const TOTAL_LEVEL = new Set<CheckCode>(["opening_plus_credits_minus_debits_equals_closing", "statement_totals", "invoice_subtotal", "invoice_tax", "invoice_total", "payslip_gross", "payslip_deductions", "payslip_net"]);
@@ -378,5 +380,7 @@ export function runChecks(tables: FinancialTable[], fields: SummaryField[], ctx:
   // Pages of the document failed to read: a total over what was read is not a total of the document.
   return out.map((c) => (c.tableId && ctx.totalsBlocked?.has(c.tableId) && TOTAL_LEVEL.has(c.code)
     ? { ...c, status: "not_evaluable", completeness: "incomplete", basis: null, reason: `Not evaluated: pages of this document failed to read. (Over the pages read: ${c.status}; ${c.reason})` }
-    : c));
+    : c.tableId && ctx.totalsUnresolved?.has(c.tableId) && TOTAL_LEVEL.has(c.code)
+      ? { ...c, status: "not_evaluable", completeness: "incomplete", basis: null, reason: `Not evaluated: a row of this table could be a line item or a summary line, so no total over it is known. (Ignoring that row: ${c.status}; ${c.reason})` }
+      : c));
 }

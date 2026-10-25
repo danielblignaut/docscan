@@ -35,7 +35,6 @@ try {
   });
   await page.goto(root+'?threads=1');
   await page.waitForFunction(()=>window.__docscan?.captureReady,null,{timeout:60000});
-  if(!cold)await page.waitForFunction(()=>window.__docscan?.ready,null,{timeout:60000});
   await page.locator('[data-photo=barcodes]').setInputFiles(image);
   await page.locator('[data-testid=results][data-kind=barcodes]').waitFor({timeout:10000});
   const measured=await page.evaluate(()=>window.__speed);

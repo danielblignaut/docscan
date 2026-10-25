@@ -36,16 +36,34 @@ export function savedItemSession(root: Outcome) {
   const visit=(o:Outcome)=>{if(o.kind==='barcodes')pages.push(o);else if(o.kind==='batch')o.pages.forEach(visit);};visit(root);
   let state=createItemTracker({maxGapMs:0,poseHistory:0,tentativeTtlFrames:10_000,maxTracks:1024});
   const views:{page:number;grouping:FrameGrouping;duplicateOf:number|null}[]=[];
-  const fingerprints=new Map<string,number>();
   const losses={droppedTracks:0,refusedGroups:0,rejectedFrames:0,limitedFrames:0};
-  for(const [page,outcome] of pages.entries()){
-    const grouping=outcomeGrouping(outcome);if(!grouping)continue;
-    const input=outcome.meta.input;
-    const fingerprint=input?.sha256?`${input.sha256}|${input.pageIndex??0}`:null;
-    const duplicateOf=fingerprint?fingerprints.get(fingerprint)??null:null;
-    views.push({page,grouping,duplicateOf});
-    if(duplicateOf!==null)continue;
-    if(fingerprint)fingerprints.set(fingerprint,page);
+  const candidates=pages.flatMap((outcome,page)=>{
+    const grouping=outcomeGrouping(outcome);if(!grouping)return [];
+    const input=outcome.meta.input,capture=outcome.captureFingerprint;
+    const pixelKey=capture?.kind === 'sha256_rgba8' && /^[a-f0-9]{64}$/.test(capture.sha256) &&
+      outcome.imageSize?.[0]===capture.width && outcome.imageSize?.[1]===capture.height
+      ? `rgba:${capture.width}x${capture.height}:${capture.sha256}` : null;
+    const fingerprint=pixelKey??(input?.sha256?`file:${input.sha256}|${input.pageIndex??0}|${outcome.imageSize?.join('x')}`:null);
+    // Never silently discard a manual boundary to get more OCR fields. Otherwise a completed reading
+    // is more useful than a failed/cancelled copy. Retain every original per-view result without unioning fields.
+    const rank=(outcome.itemRegions?.length?2:0)+(outcome.labels||outcome.labelReadStatus==='complete'?1:0);
+    return [{page,grouping,fingerprint,rank}];
+  });
+  const representatives=new Map<string,typeof candidates[number]>();
+  const firstSeen=new Map<string,number>();
+  for(const candidate of candidates)if(candidate.fingerprint){
+    if(!firstSeen.has(candidate.fingerprint))firstSeen.set(candidate.fingerprint,candidate.page);
+    const old=representatives.get(candidate.fingerprint);
+    if(!old||candidate.rank>old.rank)representatives.set(candidate.fingerprint,candidate);
+  }
+  for(const candidate of candidates){
+    const {page,fingerprint}=candidate;
+    const selected=fingerprint?representatives.get(fingerprint)??candidate:candidate;
+    const duplicateOf=selected.page!==page?selected.page:null;
+    views.push({page,grouping:candidate.grouping,duplicateOf});
+    // Enrichment must not reorder item identities: apply the best reading at the first appearance of these pixels.
+    if(fingerprint&&firstSeen.get(fingerprint)!==page)continue;
+    const grouping=selected.grouping;
     const next=updateItemTracker(state,{seq:page+1,at:page*1000,grouping});
     state=next.state;
     losses.droppedTracks+=next.update.dropped.length;

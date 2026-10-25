@@ -1,0 +1,93 @@
+{
+ "note": "Authored gates per engine (invented values). B2 gate \"ambiguous ends the table\" is superseded by B3 by design.",
+ "gates": {
+  "baseline": {
+   "test_candidate_a": {
+    "pass": 2,
+    "fail": 4,
+    "failing": []
+   },
+   "test_candidate_b": {
+    "pass": 1,
+    "fail": 2,
+    "failing": []
+   },
+   "test_candidate_b2": {
+    "pass": 3,
+    "fail": 8,
+    "failing": []
+   },
+   "test_candidate_b3": {
+    "pass": 0,
+    "fail": 7,
+    "failing": []
+   }
+  },
+  "candidate-b": {
+   "test_candidate_a": {
+    "pass": 2,
+    "fail": 4,
+    "failing": []
+   },
+   "test_candidate_b": {
+    "pass": 3,
+    "fail": 0,
+    "failing": []
+   },
+   "test_candidate_b2": {
+    "pass": 2,
+    "fail": 9,
+    "failing": []
+   },
+   "test_candidate_b3": {
+    "pass": 2,
+    "fail": 5,
+    "failing": []
+   }
+  },
+  "candidate-b2": {
+   "test_candidate_a": {
+    "pass": 2,
+    "fail": 4,
+    "failing": []
+   },
+   "test_candidate_b": {
+    "pass": 3,
+    "fail": 0,
+    "failing": []
+   },
+   "test_candidate_b2": {
+    "pass": 11,
+    "fail": 0,
+    "failing": []
+   },
+   "test_candidate_b3": {
+    "pass": 3,
+    "fail": 4,
+    "failing": []
+   }
+  },
+  "candidate-b3": {
+   "test_candidate_a": {
+    "pass": 2,
+    "fail": 4,
+    "failing": []
+   },
+   "test_candidate_b": {
+    "pass": 3,
+    "fail": 0,
+    "failing": []
+   },
+   "test_candidate_b2": {
+    "pass": 10,
+    "fail": 1,
+    "failing": []
+   },
+   "test_candidate_b3": {
+    "pass": 7,
+    "fail": 0,
+    "failing": []
+   }
+  }
+ }
+}

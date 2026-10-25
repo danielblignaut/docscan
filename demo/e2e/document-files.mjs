@@ -63,7 +63,7 @@ async function home() {
 }
 try {
   await page.goto(`http://localhost:4187${process.env.DOCSCAN_TEST_BASE ?? '/'}?threads=${process.env.DOCSCAN_TEST_THREADS ?? '1'}`);
-  await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
+  await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: 60000 });
   const bytes = pdf();
   const result = await upload('text', bytes, 'misnamed.jpg', 'image/jpeg');
   assert.equal(result.kind, 'batch'); assert.equal(result.pages.length, 2);

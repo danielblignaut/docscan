@@ -37,3 +37,32 @@ test('grouping limits make the saved session explicitly partial',()=>{
  const result=D.savedItemSession(value);
  assert.equal(result.status,'partial');assert.equal(result.losses.limitedFrames,1);
 });
+test('identical decoded camera views do not become independent confirmations',()=>{
+ const a={...leaf(),meta:{source:'camera'},captureFingerprint:{kind:'sha256_rgba8',sha256:'a'.repeat(64),width:1280,height:960}};
+ const b=structuredClone(a);
+ const result=D.savedItemSession({kind:'batch',pages:[a,b]});
+ assert.equal(result.views[1].duplicateOf,0);assert.ok(result.rows.every(r=>r.framesSeen===1&&r.status==='tentative'));
+ b.captureFingerprint.sha256='b'.repeat(64);
+ const independent=D.savedItemSession({kind:'batch',pages:[a,b]});
+ assert.equal(independent.views[1].duplicateOf,null);assert.ok(independent.rows.every(r=>r.framesSeen===2));
+});
+test('a successful label read is used instead of an identical failed copy, without double counting',()=>{
+ const first={...leaf(),labelReadStatus:'failed'},second={...leaf(),labelReadStatus:'complete'};
+ second.fields=[{label:'IMEI1',name:'IMEI1',value:imei(11),kind:'imei',source:'both',check_digit_valid:true,barcode_format:'code128',barcode_unread:false,bbox:[40,75,200,50]}];
+ const result=D.savedItemSession({kind:'batch',pages:[first,second]});
+ assert.equal(result.views[0].duplicateOf,1);assert.equal(result.views[1].duplicateOf,null);
+ assert.ok(result.rows.some(r=>r.imei1.value===imei(11)));assert.ok(result.rows.every(r=>r.framesSeen===1));
+ first.itemRegions=[{id:'reviewed',bbox:[20,70,260,120],origin:'manual'}];
+ const reviewed=D.savedItemSession({kind:'batch',pages:[first,second]});
+ assert.equal(reviewed.views[0].duplicateOf,null);assert.equal(reviewed.views[1].duplicateOf,0);
+ assert.equal(reviewed.views[0].grouping.items.filter(i=>i.strength==='explicit').length,1);
+});
+test('choosing a later successful duplicate preserves the first-observed track order',()=>{
+ const first={...leaf(),observations:[line(imei(11),40,100)],labelReadStatus:'failed'};
+ const other={...leaf(),observations:[line(imei(21),40,100)],meta:{source:'photo',input:{sha256:'other-fixture',pageIndex:0}}};
+ const last={...first,labelReadStatus:'complete'};
+ const result=D.savedItemSession({kind:'batch',pages:[first,other,last]});
+ assert.deepEqual(result.rows.map(r=>r.identity.value),[imei(11),imei(21)]);
+ assert.deepEqual(result.rows.map(r=>r.framesSeen),[1,1]);
+ assert.equal(result.views[0].duplicateOf,2);
+});

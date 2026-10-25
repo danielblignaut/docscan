@@ -1,0 +1,167 @@
+{
+ "gold": {
+  "synthesized": {
+   "rows": 8,
+   "running_balances_close": true,
+   "closing_matches": true
+  },
+  "bsb-001": {
+   "rows": 12,
+   "publisher_transaction_count": 12,
+   "lines_checked": 47,
+   "lines_in_text_layer": 47,
+   "opening_plus_movements_equals_closing": true,
+   "debits_total_matches": true,
+   "credits_total_matches": true
+  },
+  "bsb-002": {
+   "rows": 15,
+   "publisher_transaction_count": 15,
+   "lines_checked": 35,
+   "lines_in_text_layer": 35,
+   "opening_plus_movements_equals_closing": null,
+   "debits_total_matches": null,
+   "credits_total_matches": null
+  },
+  "bsb-003": {
+   "rows": 22,
+   "publisher_transaction_count": 22,
+   "lines_checked": 22,
+   "lines_in_text_layer": 22,
+   "opening_plus_movements_equals_closing": true,
+   "debits_total_matches": true,
+   "credits_total_matches": true
+  },
+  "fatura_dev": {
+   "documents": 50,
+   "opportunities": {
+    "subtotal": 50,
+    "tax_total": 40,
+    "discount": 20,
+    "invoice_total": 40
+   },
+   "total_arithmetic": {
+    "inconsistent": 40,
+    "None": 10
+   }
+  },
+  "fatura_train": {
+   "documents": 400,
+   "opportunities": {
+    "tax_total": 190,
+    "invoice_total": 330,
+    "subtotal": 250,
+    "discount": 70
+   },
+   "total_arithmetic": {
+    "None": 180,
+    "inconsistent": 220
+   }
+  }
+ },
+ "outside_gold": {
+  "baseline-native-b8526b6ae659": {
+   "synthesized.emitted": 2,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1
+  },
+  "baseline-ocr-b8526b6ae659": {
+   "synthesized.emitted": 5,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1,
+   "fatura_dev.emitted": 14,
+   "fatura_train.emitted": 100
+  },
+  "candidate-b-native-695537dd30cf": {
+   "synthesized.emitted": 2,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1
+  },
+  "candidate-b-ocr-695537dd30cf": {
+   "synthesized.emitted": 5,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1,
+   "fatura_dev.emitted": 69,
+   "fatura_train.emitted": 322
+  },
+  "candidate-b2-native-4ec9f7ac854d": {
+   "synthesized.emitted": 2,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1
+  },
+  "candidate-b2-ocr-4ec9f7ac854d": {
+   "synthesized.emitted": 5,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1,
+   "fatura_dev.emitted": 69,
+   "fatura_train.emitted": 322
+  },
+  "candidate-b3-native-1cdc8f17c9ba": {
+   "synthesized.emitted": 2,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1
+  },
+  "candidate-b3-ocr-1cdc8f17c9ba": {
+   "synthesized.emitted": 5,
+   "bankstatemently.emitted": 1,
+   "bankstatemently.outside_gold": 1,
+   "fatura_dev.emitted": 69,
+   "fatura_train.emitted": 322
+  }
+ },
+ "fatura_train_breakdown": {
+  "baseline-ocr-b8526b6ae659": {
+   "discount:other": 70,
+   "found": 100,
+   "invoice_total:colon_space": 25,
+   "invoice_total:glued_colon": 207,
+   "subtotal:colon_space": 1,
+   "subtotal:colon_space+underscore": 122,
+   "subtotal:glued_colon": 14,
+   "subtotal:glued_colon+underscore": 104,
+   "subtotal:other+underscore": 7,
+   "tax_total:colon_space": 119,
+   "tax_total:glued_colon": 71
+  },
+  "candidate-b-ocr-695537dd30cf": {
+   "discount:other": 70,
+   "found": 315,
+   "invoice_total:colon_space": 24,
+   "invoice_total:glued_colon": 32,
+   "subtotal:colon_space": 1,
+   "subtotal:colon_space+underscore": 122,
+   "subtotal:glued_colon": 2,
+   "subtotal:glued_colon+underscore": 104,
+   "subtotal:other+underscore": 7,
+   "tax_total:colon_space": 119,
+   "tax_total:glued_colon": 44
+  },
+  "candidate-b2-ocr-4ec9f7ac854d": {
+   "discount:other": 70,
+   "found": 315,
+   "invoice_total:colon_space": 24,
+   "invoice_total:glued_colon": 32,
+   "subtotal:colon_space": 1,
+   "subtotal:colon_space+underscore": 122,
+   "subtotal:glued_colon": 2,
+   "subtotal:glued_colon+underscore": 104,
+   "subtotal:other+underscore": 7,
+   "tax_total:colon_space": 119,
+   "tax_total:glued_colon": 44
+  },
+  "candidate-b3-ocr-1cdc8f17c9ba": {
+   "discount:other": 70,
+   "found": 315,
+   "invoice_total:colon_space": 24,
+   "invoice_total:glued_colon": 32,
+   "subtotal:colon_space": 1,
+   "subtotal:colon_space+underscore": 122,
+   "subtotal:glued_colon": 2,
+   "subtotal:glued_colon+underscore": 104,
+   "subtotal:other+underscore": 7,
+   "tax_total:colon_space": 119,
+   "tax_total:glued_colon": 44
+  }
+ },
+ "verify_sha256": "ef038868112c3dc673311d5dad46e218b346ce7996382cd7cbd6ddb8d981d6cd"
+}

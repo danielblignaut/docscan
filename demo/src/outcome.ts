@@ -1,3 +1,4 @@
+import type {CaptureFingerprint} from "./capture-fingerprint";
 // What a finished scan hands to the results screen: the captured data, and
 // how it was captured (for the Metadata section).
 import type { DocumentEvidence, InputReference } from "./document-review";
@@ -72,6 +73,7 @@ export type OutcomeData =
       labels: boolean;
       imageSize?: [number, number];
       itemMode?: boolean;
+      captureFingerprint?: CaptureFingerprint;
       droppedObservations?: SeenCode[];
       itemRegions?: ItemRegion[];
       itemDividers?: Divider[];

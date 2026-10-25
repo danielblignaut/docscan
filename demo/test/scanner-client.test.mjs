@@ -108,3 +108,16 @@ test('dispose during init settles requests without reporting a state',async()=>{
  await assert.rejects(work,/disposed/);await assert.rejects(client.ready,/disposed/);
  assert.deepEqual(events,[['loading']]);assert.equal(workers[0].terminated,true);assert.equal(workers.length,1);
 });
+
+test('optional-reader model states belong only to the current worker generation',async()=>{
+ const client=new ScannerClient(1,{loadModels:false});const states=[];
+ client.onReaderState=(state,message)=>states.push({state,message});
+ const first=client.run(request());first.catch(()=>{});const old=workers[0];old.reply(ready);await tick();
+ old.reply({kind:'reader_state',reader:'paddle',state:'loading'});
+ client.cancelPending();await assert.rejects(first,{name:'AbortError'});
+ old.reply({kind:'reader_state',reader:'paddle',state:'ready'});
+ const second=client.run(request());const next=workers[1];next.reply(ready);await tick();
+ next.reply({kind:'reader_state',reader:'paddle',state:'failed',message:'model unavailable'});
+ next.reply({kind:'result',id:next.posts[1].id,result:[],ms:1,memoryBytes:4});await second;
+ assert.deepEqual(states,[{state:'loading',message:undefined},{state:'failed',message:'model unavailable'}]);client.dispose();
+});

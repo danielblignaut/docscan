@@ -1,0 +1,22 @@
+{
+ "note": "Written after freeze.json and before any OCR, native-text or extractor run on this protocol.",
+ "referee": {
+  "score.mjs": "5c97004e47e09427a741e32a4dcbeb8624edffac08fdcdaea3bac7f52a150db5",
+  "scoring.mjs": "f338649c7f2e81e0b1fdb7c17fb68f836bb5dc7c095be8d0fdc5b5e76520121c",
+  "test_scoring.mjs": "8f531a8f271d1b20f162e8565b91e1efb7dd1a1b6a66ff755d4a4af26f80b159",
+  "ocr.py": "f60ef1072f714cffe562fd17ba851978ecbf032f527be8e43c16090d8d9e9124",
+  "native_text.mjs": "b225bb6dad6b252a7e346fcb651b7eb1ad7651b9b3f8eeb6c042076898ed9c7c",
+  "prepare.py": "3a5875049bb82b30ffbabfa4280d2bb9d6e4c95b09fc4eaedaa4729a0905a440",
+  "protocol.json": "418960ace13d021dd9d56e3515643921f4d2267a5d34e0c90c75f9d39c2d634e",
+  "freeze.json": "37fedef98861ceeb0d10fa32dcab37853b81272bc1573e59fb81e255e59452d7"
+ },
+ "ocr_binary": {
+  "path": "private build-target (CARGO_TARGET_DIR) of HEAD 0526c5d, cargo --release --locked -j 2",
+  "sha256": "c35650276a1c5e9791d0038201ffe2d67c7556c46509c33b7109ddd58169d8dc"
+ },
+ "models": {
+  "ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+  "ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+ },
+ "pdfjs": "demo/node_modules pdfjs-dist 6.4.299 legacy build"
+}

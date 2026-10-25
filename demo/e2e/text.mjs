@@ -49,16 +49,18 @@ try {
     await cache.put("/models/poa-tagger.onnx", new Response("obsolete model"));
   });
   await page.reload();
-  await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
-  assert.equal(await page.evaluate(() => window.__docscan.ready.tagger), true, "a stale unversioned model must not disable the current tagger");
-  assert.ok(await page.evaluate(async () => (await (await caches.open("docscan-models-v1")).keys()).some((r) => /poa-tagger\.onnx\?v=/.test(r.url))));
+  await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: 60000 });
   assert.equal(paddleRequests.length, 0, "optional models must not load before use");
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 120000 });
+  if (engine === "ocrs") {
+  assert.equal(await page.evaluate(() => window.__docscan.ready.tagger), true, "a stale unversioned model must not disable the current tagger");
+  assert.ok(await page.evaluate(async () => (await (await caches.open("docscan-models-v1")).keys()).some((r) => /poa-tagger\.onnx\?v=/.test(r.url))));
+  }
   const text = await page.getByLabel("Extracted text", { exact: true }).inputValue();
   assert.match(text, /DOCUMENT CAPTURE DEVELOPMENT SAMPLE/);
   assert.match(text, /twelve pencils/);
-  assert.equal(paddleRequests.length, engine !== "ocrs" ? 3 : 0);
+  assert.equal(paddleRequests.length, engine !== "ocrs" ? 2 : 0);
   assert.equal(await page.evaluate(() => window.__textEvents.length), 0, "photo reading must not announce a live capture");
   mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
   await page.screenshot({ path: new URL(`./out/text-${engine}-${threads}-photo.png`, import.meta.url).pathname, fullPage: true });
@@ -86,7 +88,7 @@ try {
   await page.waitForFunction(() => document.querySelector('[data-testid="processing"] [role="status"]')?.textContent?.includes("Reading the page"), null, { timeout: 120000 });
   await page.locator('[data-testid="capture-home"]').click();
   await page.locator('[data-testid="home"]').waitFor();
-  await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
+  await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: 60000 });
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family1-size28-clean.png");
   await page.locator('[data-testid="results"][data-kind="text"]').waitFor({ timeout: 180000 });
   assert.match(await page.getByLabel("Extracted text", { exact: true }).inputValue(), /SAMPLE INVOICE/);
@@ -95,7 +97,7 @@ try {
   // Upload reads also must not take over a different scanner opened while
   // the worker is busy. New camera frames prove the old request has drained.
   await page.goto(`http://localhost:4186/?threads=${threads}&textEngine=${engine}`);
-  await page.waitForFunction(() => window.__docscan?.ready, null, { timeout: 60000 });
+  await page.waitForFunction(() => window.__docscan?.captureReady, null, { timeout: 60000 });
   await page.locator('[data-photo="text"]').setInputFiles("/tmp/docscan-text-dev/family0-size14-clean.png");
   await page.locator('[data-testid="processing-cancel"]').click();
   await page.locator('[data-testid="home"]').waitFor();

@@ -1,0 +1,53 @@
+{
+ "false": {
+  "by_kind_label": {
+   "text:SN": 6
+  },
+  "nearest_truth_edits": {
+   "1": 5,
+   "3plus": 1
+  }
+ },
+ "false_fields": 6,
+ "frames": 72,
+ "label_value_hits": 268,
+ "lines_total": 344,
+ "misses": {
+  "by_barcode": {
+   "d1": {
+    "bars_decodable": 1,
+    "no_barcode": 4
+   },
+   "d3plus_or_absent": {
+    "bars_decodable": 14
+   },
+   "exact_in_line": {
+    "bars_decodable": 8,
+    "no_barcode": 1
+   }
+  },
+  "by_class": {
+   "d1": {
+    "SN": 5
+   },
+   "d3plus_or_absent": {
+    "SN": 1,
+    "unlabelled": 13
+   },
+   "exact_in_line": {
+    "IMEI1": 2,
+    "IMEI2": 1,
+    "unlabelled": 6
+   }
+  },
+  "edit_position": {
+   "interior": 5
+  },
+  "edit_type": {
+   "ins": 1,
+   "sub": 4
+  }
+ },
+ "probe": "d0 diag.rs (unpatched HEAD)",
+ "truth_fields": 296
+}

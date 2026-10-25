@@ -105,3 +105,14 @@ The final review's totals-row follow-up is recorded in
 transactions; a moving-balance merchant named TOTAL remains a transaction.
 Indistinguishable one-sided rows remain unresolved. Earlier build receipts and
 measurements above are retained as history.
+
+## Subsequent research iteration
+
+Reader loading is now on demand, and Fast labels share PP-OCR weights with text
+and tables. [The loading study](research-runtime-loading.md) records the memory
+ablation and unchanged outputs. [External financial evaluation](research-financial-external.md)
+adds glued-label recovery and explicit unresolved invoice rows; its gains concern
+summary values on four synthetic layouts, not externally verified line items.
+[Item stress testing](research-item-stress.md) led to GTIN normalization and
+conflict fixes. Camera fingerprints prevent identical saved pixels from being
+counted as independent confirmations; per-view results remain available.

@@ -1,0 +1,17 @@
+{
+ "frozen_at": "2026-10-25T16:00:51.412Z",
+ "base_revision": "0526c5de296bd5e07350050b15f54edcf93a2f0a",
+ "files": {
+  "protocol.json": "43b4aa70434e205f7dd41f284237da28d34db4ea8a63d0ca1322838f68025c40",
+  "generate.mjs": "91effe3698eeff6fa04c242c13a01fd02b76c0f2eb0b683c8f2ce16695982d87",
+  "score.mjs": "ad0edc071e7a00845a3237aa14410da06540e75f7d78eaee2b5792f9e079768a",
+  "run.mjs": "3ba22291a654bf7fc60ee92405f40e233344670457782ef4c016bd85256f2123"
+ },
+ "gold": "949e0662afd1c563d24f8fa0977904904bad41c657a0904976f1a9ed0e6a8514",
+ "sequences": 368,
+ "frames": 6808,
+ "units": 3106,
+ "observations": 226620,
+ "note": "written before the first run of the module under test; run.mjs refuses to run on any mismatch",
+ "digest": "10eae4bef668ad62865fa5c512670ae1d5173c747c949408112317116cd5dc7b"
+}

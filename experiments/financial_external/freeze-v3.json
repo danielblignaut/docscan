@@ -1,0 +1,32 @@
+{
+ "written": "2026-10-25T16:39:59.364Z",
+ "note": "Review r2. Scorer v3, verify_v3 and candidate B3 pinned before any v3 scoring run and before any external run of B3. B3 has been run only on authored tests (its gates, B1/B2 gates) and the authored regression suite, and typechecked with the demo. v1 and v2 files are unchanged (hashes re-checked here) and their outputs are preserved.",
+ "v1_unchanged": {
+  "score.mjs": "5c97004e47e09427a741e32a4dcbeb8624edffac08fdcdaea3bac7f52a150db5",
+  "scoring.mjs": "f338649c7f2e81e0b1fdb7c17fb68f836bb5dc7c095be8d0fdc5b5e76520121c",
+  "test_scoring.mjs": "8f531a8f271d1b20f162e8565b91e1efb7dd1a1b6a66ff755d4a4af26f80b159"
+ },
+ "v2_unchanged": {
+  "score_v2.mjs": "f4edd3b9df7ac278a010579975600281a208d91552c0030c1767295d3179ab57",
+  "scoring_v2.mjs": "82fa85f4f7db384f1d09f1a2c6ea4815e6137b7fe35645a6c4d6afa2fd483002",
+  "test_scoring_v2.mjs": "f224bdb0f090ac8f8f42257b75fc894fabfd8f5d8aaa61a68d27fae50559831d",
+  "verify.py": "77d04d235ac81854e45074739560a8f6a8ac769289014d1e88a551a762edc286"
+ },
+ "scorer_v3": {
+  "score_v3.mjs": "628bb5e9fa83fbea3b8d3f3cd4e6ebc0b56da8b54ac3be8368001471e84382b8",
+  "scoring_v3.mjs": "8f3fbd657088c4fadd4fed619913be87330a26536a8a58d1deec7934cee6bfb9",
+  "test_scoring_v3.mjs": "b836890fd7a4d2d983575c390ac415e7e689ad3d0f7dd77dabd92c57dc9ad13c",
+  "verify_v3.py": "ef038868112c3dc673311d5dad46e218b346ce7996382cd7cbd6ddb8d981d6cd"
+ },
+ "engines": {
+  "baseline": "b8526b6ae6597a98f226d05f1eb24edcde51ff026ce22743e8db1e69e29b823d",
+  "b1": "695537dd30cfc08cbd0210c5fe8a0d5e26f324fd83dba68c38da119666b7a1ea",
+  "b2": "4ec9f7ac854dc8bc4cefaa4e0a17167d1aba009f4db2be3fe750f09e8c891ff2",
+  "b3": "1cdc8f17c9ba14c79e5b195a0a1a38aaf95c68d4264b8eff572f59bb79ed0b40"
+ },
+ "b3": {
+  "patch_sha256": "b22e21c2edbeb5d2d5ad016c2752469c63112e2209f4d7bb03d1eec7239be6d4",
+  "test_sha256": "5148da77d3efe0b6d2696ab6bfef300e35b10e1b8a2541886eef6a52aa1f9ca3",
+  "scope": "Cumulative against baseline: B1 glued-label split (summary.ts); B2 item-shape guard; ambiguous label-like invoice rows (amount with only one of quantity/unit price, including a description that is only an ending label) become RowKind unresolved with row issue summary_or_line_item_unresolved, keep their cells, are consumed (no summary value), mark the table partial with issue unresolved_rows_totals_not_evaluated, block total-level checks (checks.ts totalsUnresolved, index.ts), and do not end the table. Additive types.ts and docs/financial-tables.md hunks. B2 table note removed."
+ }
+}

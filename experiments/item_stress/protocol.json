@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "name": "item_stress",
+  "declared_date": "2026-10-25",
+  "base_revision": "0526c5de296bd5e07350050b15f54edcf93a2f0a",
+  "subject": "demo/src/item-grouping.ts (groupItems, updateItemTracker, trackedRows) through demo/src/item-data.ts (groupBarcodeReadings, savedItemSession), both unchanged",
+  "question": "Do frame grouping and frame-to-frame tracking ever put two physical units on one row with association, how often do they fragment, abstain or miss units, and do bounded state and runtime hold, under separated specimen and camera/geometry stress?",
+  "data": {
+    "kind": "procedural, fictional, generated in-process from a seeded PRNG; no images, no real identifiers, no TEST/reserved data is read",
+    "fictional_values": "GTIN-13 in the 200 restricted-circulation prefix; IMEIs 15 digits starting 001 (the 00 test range used by the existing tests) with a Luhn check; serials prefixed FICT",
+    "ground_truth": "per observation: physical unit, true role, true value, value as read, provenance (code = barcode decode, text = OCR of print, both = labelled code); per unit: model GTIN, IMEI1, IMEI2 (or none), serial (or none), which lines are printed; per value: owning unit (a misread that matches no unit is a phantom; one that matches another unit's value is attributed to that unit)",
+    "frozen_by": "evidence/freeze.json: sha256 of this protocol, generate.mjs, score.mjs, run.mjs and the canonical gold digest of every sequence, written before the first run; run.mjs refuses to run if any hash differs"
+  },
+  "factors": {
+    "specimen": {
+      "clean": "distinct model per unit; GTIN (EAN-13 bars + digits), IMEI1 and IMEI2 (Code 128 under printed labels), printed SN",
+      "same_model": "as clean, every unit the same model (one GTIN); read_all reports one copy of identical codes per frame",
+      "sparse": "per unit: P(no SN)=0.3, P(single IMEI)=0.3, P(GTIN-only accessory box, no IMEI, no SN)=0.15; models drawn from 3",
+      "gs1": "same model; each label also carries a GS1-128 (01)(21) code holding the GTIN as GTIN-14 and the serial",
+      "serial_adversarial": "same model; units in confusable pairs (serials one OCR-confusable character apart); each SN OCR read is P=0.15 a misread onto the partner's exact serial and P=0.10 a confusable substitution matching no unit",
+      "imei_adversarial": "same model; units in pairs whose IMEI1s differ by a 09/90 transposition (both Luhn-valid); per frame P=0.3 an IMEI's bars are not decoded while its print is OCR'd, and such a text read is P=0.5 the Luhn-valid transposition (the partner's IMEI1, or a phantom for IMEI2)"
+    },
+    "camera": {
+      "static": "8 units, 2x4 grid scaled to fit, 12 frames, +-3 px jitter, +-0.5 deg roll",
+      "pan": "10 units in one row, 60 px gaps, camera pans the whole row in 40 frames; lines not wholly in frame are unread",
+      "contact": "2x4 grid, box-to-box gaps 0-6 px horizontally and vertically, boxes 10 px larger than their labels, 12 frames, slight drift",
+      "contact_rotated": "as contact, the whole frame rolled 20-35 deg (sign drawn per sequence, +-2 deg per frame), scaled to 0.75 of the frame: touching boxes held at an angle, where axis-aligned boxes and regions overlap",
+      "occlusion": "8 units, 16 frames, a 300x300 px occluder sweeps the frame (a line >40% covered is unread) plus P=0.2 per-line dropout",
+      "rotation": "6 units, 2x3, frame roll 0,10..60,50..0 deg then 4 frames at 90 deg, 20 frames",
+      "missing_points": "8 units, 12 frames; each barcode P=0.35 reported without points, each printed field P=0.1 with a non-finite box",
+      "repeat": "6 units, 6 distinct frames each fed 3 times as new frames (live); saved views each saved twice with no file hash (camera views have none)",
+      "zoom": "8 units in a row, pan with scale 1.0 -> 0.55 -> 1.3, frame size switches 1280x960 -> 960x1280 at frame 15, 30 frames",
+      "dense": "2x6 grid, 4 px gaps, scaled to fit, light occlusion (P=0.1 dropout), 12 frames"
+    },
+    "read_model": "bars decoded P=0.97 per visible line; print OCR P=0.97 at roll <=15 deg, 0.6 <=30, 0.2 <=45, 0 beyond (bars unaffected by roll); clean specimens have no misreads",
+    "seeds": {
+      "dev": [
+        0,
+        1,
+        2
+      ],
+      "holdout": [
+        3,
+        4,
+        5
+      ]
+    },
+    "targeted_scripts": "A1-A8, hand-specified procedural sequences written from code review before any run (see generate.mjs SCRIPTS); scored with the same metrics, both splits"
+  },
+  "pipelines": {
+    "live": "every frame, bars only: groupBarcodeReadings(codes, [], size) then updateItemTracker with default options, at = seq * 100 ms (ItemsCapture's loop)",
+    "saved": "up to 6 views (ItemsCapture MAX_VIEWS) evenly spaced, with the label reader's fields, through savedItemSession (camera views carry no file hash)",
+    "saved_regions": "as saved, plus a manual region per unit whose label is wholly in view: the axis-aligned box of its label lines padded 6 px; a region holding another unit's observation centre is recorded as input-faulty, never removed"
+  },
+  "stress": {
+    "long_live": "400 units in 2 rows, 3000 live frames panning back and forth; state bytes every 100 frames",
+    "long_saved": "300 saved views of 12 units each (3600 distinct units, batch import) through savedItemSession",
+    "dense_frame": "one frame of 60 units (>200 members) for the over_limit path"
+  },
+  "metrics": {
+    "row_unit": "owner of the row's identity value; if it is a phantom, the single owner of its associated values, else none",
+    "strong": "association anchor, explicit or same_code; unverified is weak; values with check_digit_valid false are excluded",
+    "strong_false_merge_rows": "rows whose associated identity values (IMEI1, IMEI2, unindexed IMEI, SN) plus identity belong to >=2 units",
+    "weak_foreign_values": "unverified identity values on a row owned by a unit other than row_unit",
+    "displayed_foreign": "resolved (status found) IMEI1/IMEI2/SN shown on a row and owned by another unit, by association",
+    "phantom_values": "identity values owned by no unit (misreads), by association; phantom_rows: rows whose identity is a phantom, by tentative/confirmed",
+    "gtin_wrong_model": "resolved GTIN on a row that is not row_unit's model GTIN",
+    "fragmentation": "sum over units of max(0, rows with that row_unit - 1); disclosed when every extra row is linked to another of that unit's rows by possiblySameAs",
+    "missed_units": "units with a correctly read anchorable value (IMEI with Luhn, serial >=5) in the pipeline's inputs and no row",
+    "coverage": "of each found unit's identity values read correctly at least once: on its row associated / on its row unverified / not on its row",
+    "contested": "state.contested values, by owner",
+    "frame_pairwise": "per frame: pairwise precision of items (member pairs in one item from one physical unit; GTIN members by physical copy), split explicit/unverified; pairwise recall over groupable same-unit pairs; mixed items; unassigned members by reason",
+    "observation_association": "identity-role members of items matched to a track: correct when the member's unit is the track's final row_unit (IDF1-style identity precision), excluding GTIN members",
+    "runtime": "per frame groupBarcodeReadings + updateItemTracker wall ms (performance.now), p50/p95/max; savedItemSession ms per view",
+    "memory": "JSON byte length of the tracker state per frame; bytes per track"
+  },
+  "gates": {
+    "G1_no_strong_false_merge": "strong_false_merge_rows == 0 in every sequence, pipeline, split and script, whatever the cause (input-faulty regions included; their merges are attributed, not excused)",
+    "G2_no_product_identity": "no row identity is a GTIN; no row is created from a GTIN-only group",
+    "G3_repetition_not_quantity": "for camera=repeat, the sorted identity values of the rows equal those of the same sequence with each distinct frame/view fed once",
+    "G4_bounded_memory": "long_live: state <= 64*8192+65536 bytes at every checkpoint and the last checkpoint <= 1.25x the checkpoint at frame 1500; long_saved: state <= 1024*8192+262144 bytes; mean bytes per track <= 8192 everywhere",
+    "G5_determinism": "two complete runs give identical result digests (timings excluded)",
+    "G6_runtime_budget": "live p95 per frame <= 33 ms over the factorial cells (one 30 fps frame); stress paths reported only"
+  },
+  "diagnostics_not_gated": [
+    "fragmentation",
+    "missed_units",
+    "weak_foreign_values",
+    "displayed_foreign",
+    "phantom_values",
+    "phantom_rows",
+    "gtin_wrong_model",
+    "coverage",
+    "contested",
+    "frame_pairwise",
+    "observation_association",
+    "unassigned"
+  ],
+  "candidate_rule": {
+    "count": "at most one bounded research candidate, designed after reading dev results only, implemented under experiments/item_stress/candidate/ (never in demo/src)",
+    "admission": "on holdout, run once: G1-G6 hold; strong_false_merge_rows stays 0; weak_foreign_values, displayed_foreign (any association), phantom_rows and gtin_wrong_model not higher than baseline in any pipeline x factor-level aggregate; its declared target metric improves by >=20% relative on the holdout aggregate of its target condition; fragmentation and missed_units in every other factor level not worse than baseline by >5% relative",
+    "otherwise": "reported as rejected with the failing condition; no threshold or gate is changed after results"
+  },
+  "production_fix_rule": "demo/src/item-grouping.ts, demo/test/item-grouping.test.mjs and docs/item-grouping.md may change only for a defect reproduced independently of this benchmark (a minimal unit test that fails before the fix), with all 52 prior item tests and the full demo test suite passing after; the benchmark is then re-run and both results kept",
+  "out_of_scope": "no real images or identifiers, no TEST/reserved data, no commits or branches, no changes to item-data.ts or the UI (contract changes are written up for the parent), no stock quantity claim: rows are identifier observations"
+}
