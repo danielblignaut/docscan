@@ -1,0 +1,667 @@
+{
+ "id": "payslip_stacked",
+ "description": "Earnings, deductions and company contributions as three stacked tables with titles, hours × rate lines, gross, total deductions and net pay.",
+ "kind": "payslip",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "salary",
+     "x": 144.9,
+     "y": 310.4,
+     "w": 65.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "4,500.00",
+     "x": 991.9,
+     "y": 377.8,
+     "w": 88.2,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Description",
+     "x": 79.4,
+     "y": 275.6,
+     "w": 119.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Amount",
+     "x": 813.9,
+     "y": 276.5,
+     "w": 66.8,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "60,000.00",
+     "x": 977,
+     "y": 309.8,
+     "w": 103.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Overtime",
+     "x": 79.2,
+     "y": 344.5,
+     "w": 86.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "employee",
+     "x": 125.2,
+     "y": 568.6,
+     "w": 90,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "contributions",
+     "x": 167.9,
+     "y": 724.7,
+     "w": 141.9,
+     "h": 22,
+     "line": 16
+    },
+    {
+     "text": "Fictional",
+     "x": 169.8,
+     "y": 120.2,
+     "w": 100.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "earnings",
+     "x": 148.3,
+     "y": 411.4,
+     "w": 92.1,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Logistics",
+     "x": 281.9,
+     "y": 120.2,
+     "w": 100.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Amount",
+     "x": 811.1,
+     "y": 758.3,
+     "w": 69.1,
+     "h": 22,
+     "line": 17
+    },
+    {
+     "text": "UIF",
+     "x": 79,
+     "y": 792,
+     "w": 34,
+     "h": 22,
+     "line": 18
+    },
+    {
+     "text": "Total",
+     "x": 80.4,
+     "y": 669.7,
+     "w": 54.8,
+     "h": 22,
+     "line": 15
+    },
+    {
+     "text": "Description",
+     "x": 79,
+     "y": 757.9,
+     "w": 125.7,
+     "h": 22,
+     "line": 17
+    },
+    {
+     "text": "UIF",
+     "x": 80.2,
+     "y": 568.6,
+     "w": 33.8,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "Rate",
+     "x": 636.7,
+     "y": 276.1,
+     "w": 43.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "177.12",
+     "x": 812.2,
+     "y": 792.5,
+     "w": 67.2,
+     "h": 22,
+     "line": 18
+    },
+    {
+     "text": "31/03/2026",
+     "x": 768.4,
+     "y": 188.5,
+     "w": 111.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,600.00",
+     "x": 788.2,
+     "y": 601.4,
+     "w": 91.1,
+     "h": 22,
+     "line": 13
+    },
+    {
+     "text": "7,350.00",
+     "x": 989.2,
+     "y": 636.2,
+     "w": 90.8,
+     "h": 22,
+     "line": 14
+    },
+    {
+     "text": "PAYE",
+     "x": 79.6,
+     "y": 533.9,
+     "w": 46.1,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "233.75",
+     "x": 812.6,
+     "y": 826.5,
+     "w": 67.8,
+     "h": 22,
+     "line": 19
+    },
+    {
+     "text": "Payslip",
+     "x": 80.7,
+     "y": 154.1,
+     "w": 79,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "employer",
+     "x": 124.3,
+     "y": 792,
+     "w": 90.5,
+     "h": 22,
+     "line": 18
+    },
+    {
+     "text": "-",
+     "x": 746.1,
+     "y": 188.5,
+     "w": 11.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "tax",
+     "x": 137.3,
+     "y": 533.9,
+     "w": 34.6,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "Medical",
+     "x": 79.8,
+     "y": 636.4,
+     "w": 81.1,
+     "h": 22,
+     "line": 14
+    },
+    {
+     "text": "aid",
+     "x": 172.5,
+     "y": 636.4,
+     "w": 34.7,
+     "h": 22,
+     "line": 14
+    },
+    {
+     "text": "Company",
+     "x": 80.6,
+     "y": 724.7,
+     "w": 76.4,
+     "h": 22,
+     "line": 16
+    },
+    {
+     "text": "160.00",
+     "x": 449.8,
+     "y": 309.4,
+     "w": 69.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Travel",
+     "x": 79.7,
+     "y": 377.3,
+     "w": 67,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "4,126.50",
+     "x": 792.3,
+     "y": 534.4,
+     "w": 86.9,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "Earnings",
+     "x": 80.3,
+     "y": 242.3,
+     "w": 89,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Amount",
+     "x": 810.7,
+     "y": 499.9,
+     "w": 69.5,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "Pension",
+     "x": 80.3,
+     "y": 602.8,
+     "w": 79.3,
+     "h": 22,
+     "line": 13
+    },
+    {
+     "text": "12,379.50",
+     "x": 978.9,
+     "y": 533.4,
+     "w": 101.2,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "531.36",
+     "x": 1012.4,
+     "y": 567.4,
+     "w": 67.6,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "Net",
+     "x": 81,
+     "y": 879.3,
+     "w": 34.7,
+     "h": 22,
+     "line": 20
+    },
+    {
+     "text": "4,800.00",
+     "x": 990.3,
+     "y": 601.7,
+     "w": 90.7,
+     "h": 22,
+     "line": 13
+    },
+    {
+     "text": "SDL",
+     "x": 79.2,
+     "y": 826.8,
+     "w": 32.4,
+     "h": 22,
+     "line": 19
+    },
+    {
+     "text": "23,375.00",
+     "x": 778.4,
+     "y": 411.4,
+     "w": 101.9,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "5,625.00",
+     "x": 990.4,
+     "y": 343.9,
+     "w": 90.6,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "01/03/2026",
+     "x": 623.4,
+     "y": 188.5,
+     "w": 111.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "2,450.00",
+     "x": 788.4,
+     "y": 635.7,
+     "w": 90.7,
+     "h": 22,
+     "line": 14
+    },
+    {
+     "text": "fund",
+     "x": 171,
+     "y": 602.8,
+     "w": 45.3,
+     "h": 22,
+     "line": 13
+    },
+    {
+     "text": "YTD",
+     "x": 1046.9,
+     "y": 499.2,
+     "w": 33.1,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "period",
+     "x": 123.4,
+     "y": 188.2,
+     "w": 64.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Pay",
+     "x": 80.1,
+     "y": 188.2,
+     "w": 32.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Kestrel",
+     "x": 80.1,
+     "y": 120.2,
+     "w": 78.5,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Total",
+     "x": 79.3,
+     "y": 411.4,
+     "w": 57.5,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "15,021.38",
+     "x": 782.1,
+     "y": 879.8,
+     "w": 98.1,
+     "h": 22,
+     "line": 20
+    },
+    {
+     "text": "8,353.62",
+     "x": 793.4,
+     "y": 669.8,
+     "w": 86.7,
+     "h": 22,
+     "line": 15
+    },
+    {
+     "text": "pay",
+     "x": 127.3,
+     "y": 879.3,
+     "w": 34.7,
+     "h": 22,
+     "line": 20
+    },
+    {
+     "text": "Hours",
+     "x": 464.2,
+     "y": 276.1,
+     "w": 55.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "10.00",
+     "x": 464.1,
+     "y": 343.6,
+     "w": 56,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "YTD",
+     "x": 1045.3,
+     "y": 276.2,
+     "w": 34.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "deductions",
+     "x": 146.1,
+     "y": 669.7,
+     "w": 109.6,
+     "h": 22,
+     "line": 15
+    },
+    {
+     "text": "20,000.00",
+     "x": 779.3,
+     "y": 309.4,
+     "w": 101.4,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Deductions",
+     "x": 79.8,
+     "y": 466.7,
+     "w": 110.8,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "125.00",
+     "x": 611.2,
+     "y": 310.1,
+     "w": 68.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "187.50",
+     "x": 613.3,
+     "y": 343.3,
+     "w": 67.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "177.12",
+     "x": 810.5,
+     "y": 568.2,
+     "w": 69.7,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "1,875.00",
+     "x": 788.5,
+     "y": 343.9,
+     "w": 90.6,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Basic",
+     "x": 79.1,
+     "y": 310.4,
+     "w": 54.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "1,500.00",
+     "x": 788.6,
+     "y": 378.4,
+     "w": 91.3,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Ltd",
+     "x": 461.3,
+     "y": 120.2,
+     "w": 33.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "(Pty)",
+     "x": 394,
+     "y": 120.2,
+     "w": 56.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Description",
+     "x": 80.3,
+     "y": 499.9,
+     "w": 126.7,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "allowance",
+     "x": 157.9,
+     "y": 377.3,
+     "w": 100.5,
+     "h": 22,
+     "line": 7
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "payslip",
+  "tables": [
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Basic salary",
+      "quantity": "160.00",
+      "unit_price": "125.00",
+      "amount": "20000.00",
+      "ytd": "60000.00"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Overtime",
+      "quantity": "10.00",
+      "unit_price": "187.50",
+      "amount": "1875.00",
+      "ytd": "5625.00"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Travel allowance",
+      "amount": "1500.00",
+      "ytd": "4500.00"
+     }
+    ]
+   },
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "PAYE tax",
+      "amount": "4126.50",
+      "ytd": "12379.50"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "UIF employee",
+      "amount": "177.12",
+      "ytd": "531.36"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "Pension fund",
+      "amount": "1600.00",
+      "ytd": "4800.00"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "Medical aid",
+      "amount": "2450.00",
+      "ytd": "7350.00"
+     }
+    ]
+   },
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "contribution",
+      "group": "contributions",
+      "description": "UIF employer",
+      "amount": "177.12"
+     },
+     {
+      "kind": "contribution",
+      "group": "contributions",
+      "description": "SDL",
+      "amount": "233.75"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "payslip_rate_times_quantity": "consistent",
+   "payslip_gross": "consistent",
+   "payslip_deductions": "consistent",
+   "payslip_net": "consistent"
+  }
+ }
+}

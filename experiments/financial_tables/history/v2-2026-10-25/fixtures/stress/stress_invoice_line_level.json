@@ -1,0 +1,102 @@
+{
+ "id": "stress_invoice_line_level",
+ "description": "Invoice read by a line-level OCR: each line item is one box across all columns.",
+ "kind": "invoice",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "Subtotal R 1,414.97",
+     "x": 720.3,
+     "y": 285.3,
+     "w": 459.4,
+     "h": 22
+    },
+    {
+     "text": "Description Qty Unit price Amount",
+     "x": 199,
+     "y": 119.9,
+     "w": 981.9,
+     "h": 22
+    },
+    {
+     "text": "VAT 15% R 212.25",
+     "x": 719.6,
+     "y": 319.4,
+     "w": 461.3,
+     "h": 22
+    },
+    {
+     "text": "Roller set 3 R 89.99 R 269.97",
+     "x": 200.5,
+     "y": 187.2,
+     "w": 980.5,
+     "h": 22
+    },
+    {
+     "text": "Paint 5 litre 2 R 450.00 R 900.00",
+     "x": 199.7,
+     "y": 153.2,
+     "w": 979.6,
+     "h": 22
+    },
+    {
+     "text": "Total R 1,627.22",
+     "x": 719.5,
+     "y": 354.5,
+     "w": 461.2,
+     "h": 22
+    },
+    {
+     "text": "Masking tape 10 R 24.50 R 245.00",
+     "x": 199.6,
+     "y": 221.2,
+     "w": 981.4,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "invoice",
+  "tables": [
+   {
+    "kind": "invoice_line_items",
+    "rows": [
+     {
+      "kind": "line_item",
+      "description": "Paint 5 litre",
+      "quantity": "2",
+      "unit_price": "450.00",
+      "amount": "900.00"
+     },
+     {
+      "kind": "line_item",
+      "description": "Roller set",
+      "quantity": "3",
+      "unit_price": "89.99",
+      "amount": "269.97"
+     },
+     {
+      "kind": "line_item",
+      "description": "Masking tape",
+      "quantity": "10",
+      "unit_price": "24.50",
+      "amount": "245.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "line_quantity_times_unit_price": "consistent",
+   "invoice_subtotal": "consistent",
+   "invoice_tax": "consistent",
+   "invoice_total": "consistent"
+  }
+ }
+}

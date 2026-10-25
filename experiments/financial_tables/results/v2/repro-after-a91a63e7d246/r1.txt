@@ -1,0 +1,19 @@
+{
+  status: 'partial',
+  checks: [
+    'running_balance:not_evaluable/complete [some_links_magnitude_only]',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/complete'
+  ],
+  obs: [ 'recurring_credit_candidate' ],
+  amb: [ 'amount_direction_unknown' ],
+  abst: []
+}
+t1:r0 transaction credit marker
+t1:r1 transaction debit balance_delta
+t1:r2 transaction credit marker
+t1:r3 transaction debit balance_delta
+t1:r4 transaction credit marker
+t1:r5 transaction debit balance_delta
+[
+  '3 credits from "acme payroll" at a monthly cadence (2026-01-25 to 2026-03-25), 5000.00 to 5000.00.'
+]

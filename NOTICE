@@ -61,3 +61,11 @@ scripts/ppocr-v6-models.json. The dictionary derives from the pinned official
 recognizer configuration. Rust preprocessing/postprocessing follows the
 PaddleX conventions documented in experiments/ppocr_v6/README.md; the public
 model distribution includes scripts/ppocr-v6-NOTICE.txt and LICENSE-APACHE.
+
+GS1 Barcode Syntax Dictionary (scripts/gs1/, generated demo/src/gs1/dictionary.ts)
+  Copyright GS1 AISBL. https://github.com/gs1/gs1-syntax-dictionary
+  Apache License 2.0; full licence in scripts/gs1/LICENSE.
+  Pinned source revision and SHA-256 hashes in scripts/gs1/source.json.
+  Changes: transformed dictionary records into offline TypeScript parsing metadata.
+  The local parser implements bounded extraction and selected checks, not complete
+  GS1 conformance, issuer verification, or GS1 product registration verification.

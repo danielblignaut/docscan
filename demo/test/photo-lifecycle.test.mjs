@@ -13,7 +13,15 @@ async function source(name) {
 const { crossCheck } = await import(moduleUrl(await source("types.ts")));
 const common = moduleUrl(await source("document-files/common.ts"));
 const { newEvidence, DocumentFileError } = await import(common);
+const dictionary = moduleUrl(await source("gs1/dictionary.ts"));
+const gs1 = moduleUrl((await source("gs1/index.ts")).replace('"./dictionary"', JSON.stringify(dictionary)));
+const barcodeData = moduleUrl((await source("barcode-data.ts")).replace('"./gs1"', JSON.stringify(gs1)));
+const { pureModuleUrl } = await import('./load-pure-module.mjs');
+const financialData = await pureModuleUrl(new URL('../src/financial-data.ts',import.meta.url));
 const seams = {
+  "./label-engine": moduleUrl(await source("label-engine.ts")),
+  "./financial-data": financialData,
+  "./barcode-data": barcodeData,
   "./document-files": moduleUrl(`export { DocumentFileError } from ${JSON.stringify(common)};
     export const inspectFile = (...args) => globalThis.__photoLifecycle.inspect(...args);
     export const openPdf = (...args) => globalThis.__photoLifecycle.openPdf(...args);
@@ -273,7 +281,21 @@ test('plain barcode imports never run label OCR or wait for OCR model readiness'
  };
  const result = await analyse('barcodes');
  assert.equal(result.kind, 'barcodes');
- assert.deepEqual(result.barcodes, [{ format: 'qrcode', text: 'invented-fast-code', count: 1 }]);
+ assert.deepEqual(result.barcodes, [{ format: 'qrcode', text: 'invented-fast-code', count: 1, points: [] }]);
  assert.deepEqual(result.fields, []); assert.equal(result.meta.ocrFrames, 0);
  assert.deepEqual(env.calls, ['barcodes']); releasePhotoOutcome(result);
+});
+
+test('incomplete metadata keeps financial arithmetic separate from unread pages', async () => {
+  const gold=JSON.parse(readFileSync(new URL('../../experiments/financial_tables/fixtures/bank_basic_dmy.json',import.meta.url)));
+  env.run=async request=>({result:request.kind==='page'?{}:{text:'Fictional statement',page_size:[1240,1754],words:gold.pages[0].lines,lines:gold.pages[0].lines}});
+  const baseline=await analyse('tables');
+  env.inspect=async input=>{const e=newEvidence(input);e.original.detectedMime='image/png';e.status='incomplete';return e;};
+  const result=await analyse('tables');
+  assert.equal(result.kind,'batch');
+  const table=result.pages.find(p=>p.kind==='financial');
+  assert.equal(table.incompleteInputs,0);assert.deepEqual(table.options.failedPages,[]);
+  assert.deepEqual(table.report.checks.map(c=>c.status),baseline.report.checks.map(c=>c.status));
+  assert.equal(result.pages.find(p=>p.kind==='file_error').severity,'warning');
+  releasePhotoOutcome(baseline);releasePhotoOutcome(result);assert.equal(env.urls.size,0);
 });

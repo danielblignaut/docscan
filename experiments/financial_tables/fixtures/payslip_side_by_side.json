@@ -1,0 +1,299 @@
+{
+ "id": "payslip_side_by_side",
+ "description": "Earnings and deductions side by side under one header, YTD columns, totals on one row.",
+ "kind": "payslip",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "native_pdf_text",
+   "trust": "untrusted_native_text_not_ocr",
+   "lines": [
+    {
+     "text": "177.12",
+     "x": 950.7,
+     "y": 275.4,
+     "w": 69.9,
+     "h": 22
+    },
+    {
+     "text": "Earnings",
+     "x": 79.7,
+     "y": 208.1,
+     "w": 86.7,
+     "h": 22
+    },
+    {
+     "text": "Total deductions",
+     "x": 639.1,
+     "y": 354.4,
+     "w": 173.6,
+     "h": 22
+    },
+    {
+     "text": "Total earnings",
+     "x": 80.3,
+     "y": 353.5,
+     "w": 153.9,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 955.1,
+     "y": 207.9,
+     "w": 65.2,
+     "h": 22
+    },
+    {
+     "text": "YTD",
+     "x": 566.3,
+     "y": 208.1,
+     "w": 33,
+     "h": 22
+    },
+    {
+     "text": "531.36",
+     "x": 1092.6,
+     "y": 276.4,
+     "w": 66.5,
+     "h": 22
+    },
+    {
+     "text": "7,500.00",
+     "x": 1068.5,
+     "y": 310.6,
+     "w": 91.6,
+     "h": 22
+    },
+    {
+     "text": "33,125.00",
+     "x": 371,
+     "y": 353.8,
+     "w": 99.3,
+     "h": 22
+    },
+    {
+     "text": "YTD",
+     "x": 1125.7,
+     "y": 207.4,
+     "w": 34,
+     "h": 22
+    },
+    {
+     "text": "12,375.00",
+     "x": 502.4,
+     "y": 275.5,
+     "w": 98.1,
+     "h": 22
+    },
+    {
+     "text": "2,500.00",
+     "x": 929.7,
+     "y": 310.1,
+     "w": 91.2,
+     "h": 22
+    },
+    {
+     "text": "Commission",
+     "x": 79.2,
+     "y": 275.5,
+     "w": 111.2,
+     "h": 22
+    },
+    {
+     "text": "7,034.00",
+     "x": 932.3,
+     "y": 241.2,
+     "w": 88.1,
+     "h": 22
+    },
+    {
+     "text": "9,711.12",
+     "x": 934,
+     "y": 354.5,
+     "w": 86.9,
+     "h": 22
+    },
+    {
+     "text": "1,500.00",
+     "x": 511.1,
+     "y": 310.3,
+     "w": 88.7,
+     "h": 22
+    },
+    {
+     "text": "28,500.00",
+     "x": 369.8,
+     "y": 241.3,
+     "w": 99.3,
+     "h": 22
+    },
+    {
+     "text": "23,413.88",
+     "x": 921.7,
+     "y": 397.4,
+     "w": 98,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 401.1,
+     "y": 208.4,
+     "w": 69.2,
+     "h": 22
+    },
+    {
+     "text": "Net pay",
+     "x": 640.8,
+     "y": 398.6,
+     "w": 77.5,
+     "h": 22
+    },
+    {
+     "text": "Salary advice March 2026",
+     "x": 79.1,
+     "y": 153.2,
+     "w": 259.1,
+     "h": 22
+    },
+    {
+     "text": "Fictional Harbour Foods",
+     "x": 79.7,
+     "y": 119.3,
+     "w": 259,
+     "h": 22
+    },
+    {
+     "text": "21,102.00",
+     "x": 1058.1,
+     "y": 241.5,
+     "w": 101,
+     "h": 22
+    },
+    {
+     "text": "Retirement annuity",
+     "x": 640.3,
+     "y": 310.3,
+     "w": 208.1,
+     "h": 22
+    },
+    {
+     "text": "500.00",
+     "x": 402.4,
+     "y": 310.7,
+     "w": 68.3,
+     "h": 22
+    },
+    {
+     "text": "Basic salary",
+     "x": 79.8,
+     "y": 241.3,
+     "w": 137,
+     "h": 22
+    },
+    {
+     "text": "Cellphone allowance",
+     "x": 79.5,
+     "y": 309.4,
+     "w": 206.8,
+     "h": 22
+    },
+    {
+     "text": "UIF",
+     "x": 639.5,
+     "y": 276.6,
+     "w": 32.5,
+     "h": 22
+    },
+    {
+     "text": "Deductions",
+     "x": 640.2,
+     "y": 208.2,
+     "w": 110.8,
+     "h": 22
+    },
+    {
+     "text": "PAYE",
+     "x": 639.4,
+     "y": 241.8,
+     "w": 45.6,
+     "h": 22
+    },
+    {
+     "text": "85,500.00",
+     "x": 501.7,
+     "y": 241.8,
+     "w": 99.1,
+     "h": 22
+    },
+    {
+     "text": "4,125.00",
+     "x": 383,
+     "y": 275.4,
+     "w": 87.9,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "payslip",
+  "tables": [
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Basic salary",
+      "amount": "28500.00",
+      "ytd": "85500.00"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "PAYE",
+      "amount": "7034.00",
+      "ytd": "21102.00"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Commission",
+      "amount": "4125.00",
+      "ytd": "12375.00"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "UIF",
+      "amount": "177.12",
+      "ytd": "531.36"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Cellphone allowance",
+      "amount": "500.00",
+      "ytd": "1500.00"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "Retirement annuity",
+      "amount": "2500.00",
+      "ytd": "7500.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "payslip_rate_times_quantity": "not_evaluable",
+   "payslip_gross": "consistent",
+   "payslip_deductions": "consistent",
+   "payslip_net": "consistent"
+  }
+ }
+}

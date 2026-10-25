@@ -1,0 +1,20 @@
+{
+  status: 'extracted',
+  checks: [
+    'running_balance:inconsistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/complete'
+  ],
+  obs: [ 'recurring_credit_candidate', 'recurring_credit_candidate' ],
+  amb: [],
+  abst: []
+}
+t1:r0 transaction credit marker
+t1:r1 transaction credit sign
+t1:r2 transaction credit marker
+t1:r3 transaction credit sign
+t1:r4 transaction credit marker
+t1:r5 transaction credit sign
+[
+  '3 credits from "acme payroll" at a monthly cadence (2026-01-25 to 2026-03-25), 5000.00 to 5000.00.',
+  '3 credits from "debit order insurer" at a monthly cadence (2026-01-26 to 2026-03-26), 200.00 to 200.00.'
+]

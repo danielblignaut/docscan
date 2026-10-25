@@ -1,0 +1,21 @@
+{
+  value: 'DMY',
+  source: 'document_evidence',
+  conflicting: false,
+  evidence: [ 'page 1: 25/01/2026', 'page 1: 26/01/2026' ]
+}
+t1 0 25/01/2026 2026-01-25 unambiguous_token
+t1 0 26/01/2026 2026-01-26 unambiguous_token
+t2 1 02/03/2026 2026-03-02 document_evidence
+t2 1 02/10/2026 2026-10-02 document_evidence
+status extracted
+{
+  status: 'partial',
+  checks: [
+    'running_balance:consistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]'
+  ],
+  obs: [],
+  amb: [],
+  abst: [ 'input_page_failed' ]
+}

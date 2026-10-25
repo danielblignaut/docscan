@@ -1,0 +1,11 @@
+{
+  status: 'extracted',
+  checks: [
+    'running_balance:consistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+[ 'opening_balance', 'transaction', 'closing_balance' ]

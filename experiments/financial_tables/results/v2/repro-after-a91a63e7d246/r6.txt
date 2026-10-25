@@ -1,0 +1,12 @@
+{
+  status: 'partial',
+  checks: [
+    'running_balance:not_evaluable/complete [some_links_magnitude_only]',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/complete [some_directions_inferred_from_balance_changes]'
+  ],
+  obs: [],
+  amb: [ 'amount_direction_unknown' ],
+  abst: []
+}
+3 []
+{ lines: [], skippedRotated: 1, skippedInvalid: 0 }

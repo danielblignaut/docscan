@@ -1,0 +1,623 @@
+{
+ "id": "bank_statements_month_missing",
+ "description": "Two statement files, January-February and April: March is missing. A monthly salary seen in Jan, Feb and Apr implies one missing occurrence.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "fileIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "19,500.00",
+     "x": 1078.1,
+     "y": 221.4,
+     "w": 102.2,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "18,500.00",
+     "x": 899.3,
+     "y": 289.7,
+     "w": 101.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "SALARY",
+     "x": 250.2,
+     "y": 221.8,
+     "w": 65.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "to",
+     "x": 397.8,
+     "y": 119.8,
+     "w": 21.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "balance",
+     "x": 336.6,
+     "y": 324.8,
+     "w": 76.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "37,600.00",
+     "x": 1075.4,
+     "y": 323.5,
+     "w": 104.7,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Debit",
+     "x": 764.3,
+     "y": 153.7,
+     "w": 55.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "FICTIVE",
+     "x": 329.8,
+     "y": 289.6,
+     "w": 80.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "GROCER",
+     "x": 398.4,
+     "y": 256.3,
+     "w": 68.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Statement",
+     "x": 79.8,
+     "y": 119.8,
+     "w": 98.7,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "01/01/2026",
+     "x": 277.2,
+     "y": 119.8,
+     "w": 109.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "POS",
+     "x": 250.2,
+     "y": 256.3,
+     "w": 34.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Description",
+     "x": 249.6,
+     "y": 153.3,
+     "w": 127.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Date",
+     "x": 79.4,
+     "y": 154.3,
+     "w": 44.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Closing",
+     "x": 249.5,
+     "y": 324.8,
+     "w": 76.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "FICTIVE",
+     "x": 326.1,
+     "y": 221.8,
+     "w": 76,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "1,000.00",
+     "x": 1093.6,
+     "y": 187.2,
+     "w": 86.4,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "period:",
+     "x": 189.4,
+     "y": 119.8,
+     "w": 76.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "37,600.00",
+     "x": 1083.9,
+     "y": 290,
+     "w": 96.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "28/02/2026",
+     "x": 430.7,
+     "y": 119.8,
+     "w": 109.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Balance",
+     "x": 1102.2,
+     "y": 154.7,
+     "w": 77,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "19,100.00",
+     "x": 1080.7,
+     "y": 256.4,
+     "w": 98.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "18,500.00",
+     "x": 898.3,
+     "y": 221.3,
+     "w": 101.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "MINING",
+     "x": 421.3,
+     "y": 289.6,
+     "w": 68.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "MINING",
+     "x": 412.9,
+     "y": 221.8,
+     "w": 65.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "30/01/2026",
+     "x": 79.2,
+     "y": 256.6,
+     "w": 108.8,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "23/01/2026",
+     "x": 79.3,
+     "y": 222.4,
+     "w": 111.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "balance",
+     "x": 343.6,
+     "y": 187.8,
+     "w": 81.3,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "SALARY",
+     "x": 249.7,
+     "y": 289.6,
+     "w": 68.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Opening",
+     "x": 250.7,
+     "y": 187.8,
+     "w": 81.3,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "CO",
+     "x": 488.9,
+     "y": 221.8,
+     "w": 21.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.8,
+     "y": 256.3,
+     "w": 91.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "25/02/2026",
+     "x": 79.4,
+     "y": 290.5,
+     "w": 113.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "CO",
+     "x": 501.3,
+     "y": 289.6,
+     "w": 22.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Credit",
+     "x": 935.8,
+     "y": 153.6,
+     "w": 64.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "400.00",
+     "x": 749.8,
+     "y": 256.5,
+     "w": 69.2,
+     "h": 22,
+     "line": 4
+    }
+   ]
+  },
+  {
+   "pageIndex": 0,
+   "fileIndex": 1,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "Opening",
+     "x": 249.3,
+     "y": 188.3,
+     "w": 80.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "FICTIVE",
+     "x": 329.6,
+     "y": 221.2,
+     "w": 80.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Statement",
+     "x": 79.3,
+     "y": 120.4,
+     "w": 101.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "POS",
+     "x": 250.8,
+     "y": 256.5,
+     "w": 33.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "GROCER",
+     "x": 395.1,
+     "y": 256.5,
+     "w": 66.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "50,120.00",
+     "x": 1082.1,
+     "y": 256.6,
+     "w": 98.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 336.3,
+     "y": 289.6,
+     "w": 75.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "balance",
+     "x": 341.4,
+     "y": 188.3,
+     "w": 80.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Date",
+     "x": 79.7,
+     "y": 153.2,
+     "w": 44.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "27/04/2026",
+     "x": 80.3,
+     "y": 256.5,
+     "w": 112.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Balance",
+     "x": 1099.1,
+     "y": 153.9,
+     "w": 80.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "50,120.00",
+     "x": 1081,
+     "y": 289.5,
+     "w": 99.4,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "18,500.00",
+     "x": 895.5,
+     "y": 222.7,
+     "w": 103.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Credit",
+     "x": 933.9,
+     "y": 154.1,
+     "w": 66,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "CO",
+     "x": 501.6,
+     "y": 221.2,
+     "w": 22.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "50,500.00",
+     "x": 1078.7,
+     "y": 222,
+     "w": 101.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 153.5,
+     "w": 127.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "24/04/2026",
+     "x": 80,
+     "y": 222.5,
+     "w": 111.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "01/04/2026",
+     "x": 283,
+     "y": 120.4,
+     "w": 113.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "380.00",
+     "x": 751.7,
+     "y": 255.5,
+     "w": 68.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "to",
+     "x": 407.5,
+     "y": 120.4,
+     "w": 22.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "30/04/2026",
+     "x": 441.4,
+     "y": 120.4,
+     "w": 113.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.2,
+     "y": 256.5,
+     "w": 88.8,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "SALARY",
+     "x": 249.3,
+     "y": 221.2,
+     "w": 68.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Closing",
+     "x": 249.6,
+     "y": 289.6,
+     "w": 75.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "32,000.00",
+     "x": 1081,
+     "y": 188.4,
+     "w": 99.3,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Debit",
+     "x": 762,
+     "y": 153.2,
+     "w": 57.9,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "period:",
+     "x": 192.5,
+     "y": 120.4,
+     "w": 79.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "MINING",
+     "x": 421.3,
+     "y": 221.2,
+     "w": 68.8,
+     "h": 22,
+     "line": 3
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-23",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "19500.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-30",
+      "description": "POS PURCHASE GROCER",
+      "debit": "400.00",
+      "balance": "19100.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-25",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "37600.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "37600.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "32000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-24",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "50500.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-27",
+      "description": "POS PURCHASE GROCER",
+      "debit": "380.00",
+      "balance": "50120.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "50120.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "observations": {
+   "possible_missing_statement_period": 1,
+   "recurring_credit_candidate": 1,
+   "possible_missing_recurring_occurrence": 1
+  }
+ }
+}

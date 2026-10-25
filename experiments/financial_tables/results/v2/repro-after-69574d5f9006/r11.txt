@@ -1,0 +1,12 @@
+opening_balance null date=02/01/2026 | description=Opening balance | balance=1,000.00 []
+transaction unknown date=03/01/2026 | description=Coffee shop [
+  'value_column_unresolved',
+  'unassigned_text',
+  'column_assignment_ambiguous'
+]
+transaction debit date=03/01/2026 | description=Grocer | amount=-70.00 | balance=900.00 []
+closing_balance null date=31/01/2026 | description=Closing balance | balance=900.00 []
+[
+  'running_balance:not_evaluable/incomplete [printed_directions]',
+  'opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete'
+]

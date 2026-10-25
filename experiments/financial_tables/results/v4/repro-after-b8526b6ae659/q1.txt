@@ -1,0 +1,34 @@
+## realTotalsNoBal {"status":"partial","checks":["running_balance:not_evaluable/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete"],"obs":[],"amb":["date_order_unresolved","amount_direction_unknown"],"abst":[]}
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00 date_day_month_order_unresolved
+   transaction 05/01/2026 | CAFE | 50.00 | 850.00 date_day_month_order_unresolved
+   transaction Totals | 150.00 | 0.00 total_or_transaction_unresolved
+   closing_balance Closing balance | 850.00 
+  fields opening_balance=undefined
+   running_balance not_evaluable 1 balance links could not be evaluated independently (unreadable amounts, or directions taken from the balances themselves); 1 others agree.
+   opening_plus_credits_minus_debits_equals_closing not_evaluable 1 transaction amounts are unreadable or have no established direction, so the sum is unknown.
+## realTotalWithBal {"status":"partial","checks":["running_balance:consistent/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]","statement_totals:consistent/incomplete [total_debits]"],"obs":[],"amb":["date_order_unresolved"],"abst":[]}
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00 date_day_month_order_unresolved
+   transaction 05/01/2026 | CAFE | 50.00 | 850.00 date_day_month_order_unresolved
+   total Total | 150.00 | 850.00 
+   closing_balance Closing balance | 850.00 
+  fields opening_balance=undefined
+   running_balance consistent Each of 2 printed balances follows from the previous one and the amounts between them.
+   opening_plus_credits_minus_debits_equals_closing consistent 1000.00 opening + 0 credits - 150.00 debits = 850.00; printed closing 850.00. Some rows had reading issues, so agreement covers only what was read.
+   statement_totals consistent Printed total debits 150.00; the debit rows sum to 150.00.
+## totalMerchantDebitOnlyNoBal {"status":"partial","checks":["running_balance:not_evaluable/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete"],"obs":[],"amb":["date_order_unresolved","amount_direction_unknown"],"abst":[]}
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00 date_day_month_order_unresolved
+   transaction 05/01/2026 | CAFE | 50.00 | 850.00 date_day_month_order_unresolved
+   transaction TOTAL | 300.00 total_or_transaction_unresolved
+   transaction 06/01/2026 | X | 10.00 | 540.00 date_day_month_order_unresolved
+   closing_balance Closing balance | 540.00 
+  fields opening_balance=undefined
+   running_balance not_evaluable 1 balance links could not be evaluated independently (unreadable amounts, or directions taken from the balances themselves); 2 others agree.
+   opening_plus_credits_minus_debits_equals_closing not_evaluable 1 transaction amounts are unreadable or have no established direction, so the sum is unknown.
+## totalWrongBal {"status":"partial","checks":["running_balance:inconsistent/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]"],"obs":[],"amb":["date_order_unresolved"],"abst":[]}
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00 date_day_month_order_unresolved
+   transaction 05/01/2026 | CAFE | 50.00 | 850.00 date_day_month_order_unresolved
+   transaction TOTAL | 300.00 | 999.00 
+   closing_balance Closing balance | 550.00 
+  fields opening_balance=undefined
+   running_balance inconsistent 2 of 3 balance links do not follow from the previous balance and the amounts between them.
+   opening_plus_credits_minus_debits_equals_closing consistent 1000.00 opening + 0 credits - 450.00 debits = 550.00; printed closing 550.00. Some rows had reading issues, so agreement covers only what was read.

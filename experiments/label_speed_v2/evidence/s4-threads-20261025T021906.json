@@ -1,0 +1,24 @@
+{
+ "cpus": "4,5",
+ "full": {
+  "fields_same_1_vs_2": true,
+  "warm_ms_median_1thread": 9489.1,
+  "warm_ms_median_2threads": 5769.5
+ },
+ "ppocr": {
+  "fields_same_1_vs_2": true,
+  "warm_ms_median_1thread": 1567.7,
+  "warm_ms_median_2threads": 1452.5
+ },
+ "provenance": {
+  "freeze": "4e2f56b1321038a52745176b516d73fcb966b55d76abe3c949b75d11070d2353",
+  "runner": {
+   "prepare.py": "e1702c65994261a8455308feea5657d1e778f4d9e5ef65c8ea056036dd62efb2",
+   "run.py": "fe902b643efb7d3f6d75fc958b4d781f0504250daf9d85ebb068d3c4eeda6aec",
+   "run_wasm.py": "91979281a1ddad8a0a8c69908ace1010cb5923f895e9ff905debf6538fc417b0",
+   "test_run.py": "e94e0e5e9fbaf940465374ec6e537d0e22fd2df9be037e7c2ba3f0b71d5dc5da",
+   "wasm_probe.mjs": "4ed2f6641dcfd7d6b4907e0eb6577a83be6ee2914acad4d4fc7081224bcde80a"
+  }
+ },
+ "threads": 2
+}

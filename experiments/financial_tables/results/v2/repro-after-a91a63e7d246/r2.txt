@@ -1,0 +1,16 @@
+{
+  status: 'extracted',
+  checks: [
+    'running_balance:consistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+t1:r0 opening_balance null
+t1:r1 transaction debit
+t1:r2 transaction credit
+t1:r3 closing_balance null
+running_balance consistent Each of 3 printed balances follows from the previous one and the amounts between them.
+opening_plus_credits_minus_debits_equals_closing consistent 1000.00 opening + 2000.00 credits - 300.00 debits = 2700.00; printed closing 2700.00.

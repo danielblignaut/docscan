@@ -1,0 +1,208 @@
+{
+ "cpu": "4",
+ "full": {
+  "cold_total_ms": [
+   9488.2,
+   9529.1,
+   9546.1
+  ],
+  "models_ms_median": 19.5,
+  "ocr_stats": null,
+  "same_as_library": true,
+  "stable_across_cold_runs": true,
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 4
+  },
+  "warm_ocr_ms_median": 19254.6,
+  "warm_total_ms_median": 19468.6
+ },
+ "image": "user photo (private)",
+ "once-page": {
+  "cold_total_ms": [
+   3052.4,
+   2932.5,
+   3075.0
+  ],
+  "models_ms_median": 23.8,
+  "ocr_stats": {
+   "detect_ms": 1325.6,
+   "detection_passes": 4,
+   "detection_px": 1179648,
+   "layout_ms": 2.3,
+   "lines_recognised": 35,
+   "recognise_ms": 1578.6,
+   "skew_ms": 32.3,
+   "words_detected": 82
+  },
+  "same_as_library": null,
+  "stable_across_cold_runs": true,
+  "vs_full": {
+   "base": 5,
+   "both_to_other": 0,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 0,
+   "source_changed": 0
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 4
+  },
+  "warm_ocr_ms_median": 2799.6,
+  "warm_speedup_vs_full": 6.7,
+  "warm_total_ms_median": 2905.6
+ },
+ "once-tiles": {
+  "cold_total_ms": [
+   4856.4,
+   5077.2,
+   4675.4
+  ],
+  "models_ms_median": 21.5,
+  "ocr_stats": {
+   "detect_ms": 3061.8,
+   "detection_passes": 6,
+   "detection_px": 2880000,
+   "layout_ms": 1.8,
+   "lines_recognised": 37,
+   "recognise_ms": 1646.3,
+   "skew_ms": 30.1,
+   "words_detected": 79
+  },
+  "same_as_library": null,
+  "stable_across_cold_runs": true,
+  "vs_full": {
+   "base": 5,
+   "both_to_other": 2,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 0,
+   "source_changed": 2
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 4
+  },
+  "warm_ocr_ms_median": 4624.1,
+  "warm_speedup_vs_full": 4.11,
+  "warm_total_ms_median": 4737.0
+ },
+ "ppocr": {
+  "cold_total_ms": [
+   1750.8,
+   1599.5,
+   1559.0
+  ],
+  "models_ms_median": 49.2,
+  "ocr_stats": {
+   "detect_ms": 574.9,
+   "lines_recognised": 34,
+   "passes": 1,
+   "recognise_ms": 928.8
+  },
+  "same_as_library": null,
+  "stable_across_cold_runs": true,
+  "vs_full": {
+   "base": 5,
+   "both_to_other": 1,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 0,
+   "source_changed": 1
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 3
+  },
+  "warm_ocr_ms_median": 1178.1,
+  "warm_speedup_vs_full": 15.09,
+  "warm_total_ms_median": 1290.2
+ },
+ "ppocr-detail": {
+  "cold_total_ms": [
+   2048.6,
+   2015.0,
+   2014.0
+  ],
+  "models_ms_median": 31.0,
+  "ocr_stats": {
+   "detect_ms": 887.3,
+   "lines_recognised": 34,
+   "passes": 2,
+   "recognise_ms": 1050.2
+  },
+  "same_as_library": null,
+  "stable_across_cold_runs": true,
+  "vs_full": {
+   "base": 5,
+   "both_to_other": 1,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 0,
+   "source_changed": 1
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 3
+  },
+  "warm_ocr_ms_median": 1875.6,
+  "warm_speedup_vs_full": 9.84,
+  "warm_total_ms_median": 1979.1
+ },
+ "provenance": {
+  "freeze": "1826bfdc4be43daadc9beccccf0615a414ed1def1a934eb6140431b4b58585ca",
+  "runner": {
+   "prepare.py": "79f8f77ccbc0d679e131522221ba903d76cb1685f4b7db2d8a16572d8ecf62b9",
+   "run.py": "b2d2d1871bdbaf4e7ae9e8d301c3d4e090f06893a68e2dc4ce65b16c865941e9",
+   "run_wasm.py": "91979281a1ddad8a0a8c69908ace1010cb5923f895e9ff905debf6538fc417b0",
+   "test_run.py": "e94e0e5e9fbaf940465374ec6e537d0e22fd2df9be037e7c2ba3f0b71d5dc5da",
+   "wasm_probe.mjs": "4ed2f6641dcfd7d6b4907e0eb6577a83be6ee2914acad4d4fc7081224bcde80a"
+  }
+ }
+}

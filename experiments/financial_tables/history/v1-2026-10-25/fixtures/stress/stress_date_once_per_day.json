@@ -1,0 +1,329 @@
+{
+ "id": "stress_date_once_per_day",
+ "description": "The date is printed once per day; later same-day rows leave it blank.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "balance",
+     "x": 342.3,
+     "y": 324.1,
+     "w": 80.4,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "1,440.00",
+     "x": 1091.9,
+     "y": 255.4,
+     "w": 89,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "CAFE",
+     "x": 397.8,
+     "y": 188.2,
+     "w": 45.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "PURCHASE",
+     "x": 296.1,
+     "y": 289.5,
+     "w": 90.4,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "PARKING",
+     "x": 390.7,
+     "y": 222.2,
+     "w": 76,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Balance",
+     "x": 1104.4,
+     "y": 119.3,
+     "w": 76.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Description",
+     "x": 249.2,
+     "y": 120.8,
+     "w": 119,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "1,260.00",
+     "x": 1092.3,
+     "y": 289.6,
+     "w": 87.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "500.00",
+     "x": 934,
+     "y": 256.3,
+     "w": 65,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 341.6,
+     "y": 153.4,
+     "w": 80.2,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "POS",
+     "x": 250.9,
+     "y": 289.5,
+     "w": 33.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "180.00",
+     "x": 754.7,
+     "y": 289.4,
+     "w": 65.2,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "POS",
+     "x": 249.9,
+     "y": 188.2,
+     "w": 34.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "940.00",
+     "x": 1110.9,
+     "y": 222.5,
+     "w": 69.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "40.00",
+     "x": 765.3,
+     "y": 187.7,
+     "w": 54.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Closing",
+     "x": 250.4,
+     "y": 324.1,
+     "w": 80.4,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "GROCER",
+     "x": 397.8,
+     "y": 289.5,
+     "w": 67.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Credit",
+     "x": 933.8,
+     "y": 119.4,
+     "w": 65.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "1,260.00",
+     "x": 1088.7,
+     "y": 324.8,
+     "w": 92.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "20.00",
+     "x": 762.9,
+     "y": 221.7,
+     "w": 56.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "14/04/2026",
+     "x": 80.9,
+     "y": 188.6,
+     "w": 111.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,000.00",
+     "x": 1089.1,
+     "y": 153.9,
+     "w": 90.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Opening",
+     "x": 249.9,
+     "y": 153.4,
+     "w": 80.2,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "PURCHASE",
+     "x": 293,
+     "y": 222.2,
+     "w": 86.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "FROM",
+     "x": 352.6,
+     "y": 256,
+     "w": 45.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "960.00",
+     "x": 1115,
+     "y": 188.4,
+     "w": 66,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Date",
+     "x": 79.2,
+     "y": 119.7,
+     "w": 45,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "POS",
+     "x": 249.6,
+     "y": 222.2,
+     "w": 32.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "SAVINGS",
+     "x": 409.9,
+     "y": 256,
+     "w": 80.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "TRANSFER",
+     "x": 249.4,
+     "y": 256,
+     "w": 91.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.4,
+     "y": 188.2,
+     "w": 91,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "16/04/2026",
+     "x": 79.1,
+     "y": 256.2,
+     "w": 114.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 120.6,
+     "w": 54.5,
+     "h": 22,
+     "line": 0
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-14",
+      "description": "POS PURCHASE CAFE",
+      "debit": "40.00",
+      "balance": "960.00"
+     },
+     {
+      "kind": "transaction",
+      "description": "POS PURCHASE PARKING",
+      "debit": "20.00",
+      "balance": "940.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-16",
+      "description": "TRANSFER FROM SAVINGS",
+      "credit": "500.00",
+      "balance": "1440.00"
+     },
+     {
+      "kind": "transaction",
+      "description": "POS PURCHASE GROCER",
+      "debit": "180.00",
+      "balance": "1260.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "1260.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  }
+ }
+}

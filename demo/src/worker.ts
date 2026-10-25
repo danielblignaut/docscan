@@ -14,7 +14,7 @@ export type WorkerRequest =
   | { id: number; kind: "text_v6"; image: ImageData; detail?: boolean; exposureCompare?: boolean }
   | { id: number; kind: "text_page"; image: ImageData }
   | { id: number; kind: "text"; image: ImageData }
-  | { id: number; kind: "labelled"; image: ImageData }
+  | { id: number; kind: "labelled"; image: ImageData; profile?: "fast" }
   | { id: number; kind: "flatten"; image: ImageData; corners: number[]; width: number; height: number }
   | { id: number; kind: "page"; image: ImageData }
   | { id: number; kind: "address"; image: ImageData; today: string; method: "" | "rules" | "tagger"; customer?: unknown };
@@ -51,6 +51,14 @@ function paddleScanner(): Promise<PaddleTextScanner> {
     }
   })().catch((error) => { paddleReady = null; throw error; });
   return paddleReady;
+}
+let fastLabelsReady: Promise<void> | null = null;
+function loadFastLabels(): Promise<void> {
+  fastLabelsReady ??= (async () => {
+    const [det, rec] = await Promise.all([fetchModel("ppocr-v6-tiny-det.onnx"), fetchModel("ppocr-v6-tiny-rec.onnx")]);
+    scanner!.load_label_reader(det!, rec!);
+  })().catch(error => { fastLabelsReady = null; throw error; });
+  return fastLabelsReady;
 }
 /** The wasm linear memory, to report how large it has grown (it never shrinks). */
 let memory: WebAssembly.Memory | null = null;
@@ -171,7 +179,10 @@ self.onmessage = async (event: MessageEvent<WorkerRequest | WorkerInit>) => {
     let result: unknown;
     if (req.kind === "document") result = scanner.document(bytes, width, height, req.runOcr, req.expected);
     else if (req.kind === "barcodes") result = scanner.barcodes(bytes, width, height, req.formats);
-    else if (req.kind === "labelled") result = scanner.labelled(bytes, width, height);
+    else if (req.kind === "labelled") {
+      if (req.profile === "fast") { await loadFastLabels(); result = scanner.labelled_fast(bytes, width, height); }
+      else result = scanner.labelled(bytes, width, height);
+    }
     else if (req.kind === "flatten") {
       const out = scanner.flatten(bytes, width, height, new Float32Array(req.corners), req.width, req.height);
       result = new ImageData(new Uint8ClampedArray(out), req.width, req.height);

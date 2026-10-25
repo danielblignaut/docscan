@@ -1,0 +1,25 @@
+t1 { value: ',', source: 'document_evidence', conflicting: false } [ [ '2469.00' ] ]
+t2 { value: ',', source: 'document_evidence', conflicting: false } [ [ '1.500' ], [ '2.000' ], [ '3.500' ] ]
+{
+  status: 'partial',
+  checks: [
+    'line_quantity_times_unit_price:consistent/complete',
+    'invoice_total:consistent/complete [sum_of_line_amounts_no_tax_printed]',
+    'line_quantity_times_unit_price:not_evaluable/incomplete',
+    'invoice_total:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+alone: [
+  [ [ 'ambiguous', null ] ],
+  [ [ 'ambiguous', null ] ],
+  [ [ 'ambiguous', null ] ]
+] [
+  'line_quantity_times_unit_price:not_evaluable/incomplete',
+  'invoice_total:not_evaluable/incomplete'
+]
+line_item [] description=Consulting->undefined | quantity=1->1 | unit_price=1,500->1.500 | amount=1,500->1.500
+line_item [] description=Travel->undefined | quantity=1->1 | unit_price=2,000->2.000 | amount=2,000->2.000
+line_item [ 'amount_invalid_characters' ] unit_price=Total->malformed | amount=3,500->3.500

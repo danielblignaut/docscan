@@ -1,0 +1,320 @@
+{
+ "engine": "financial-tables",
+ "set": "main",
+ "manifestSha256": "5df86f066db30d3c9df3c1535c8455fdb8767ceecff7b7c180ffec7b4e064d19",
+ "summary": {
+  "fixtures": 22,
+  "tables": {
+   "gold": 26,
+   "matched": 26,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 129,
+   "parsed": 129,
+   "kindCorrect": 129,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 403,
+   "correct": 403,
+   "missing": 0,
+   "wrong": 0,
+   "accuracy": 1
+  },
+  "provenance": {
+   "cells": 435,
+   "withSource": 435,
+   "approximate": 47
+  },
+  "checks": {
+   "expected": 47,
+   "agreed": 47,
+   "falseConsistent": 0
+  },
+  "abstention": {
+   "expected": 2,
+   "correct": 2,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 9,
+   "agreed": 9
+  },
+  "ambiguities": {
+   "expected": 2,
+   "reported": 2
+  },
+  "labels": {
+   "expected": 7,
+   "agreed": 7
+  },
+  "fixturesWithFailures": []
+ },
+ "fixtures": [
+  {
+   "id": "bank_basic_dmy",
+   "ms": 27.78,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 30,
+   "correct": 30,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_multipage_wrapped",
+   "ms": 20.99,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 13,
+   "rows": 13,
+   "cells": 40,
+   "correct": 40,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_amount_column_descending",
+   "ms": 3.49,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 7,
+   "rows": 7,
+   "cells": 22,
+   "correct": 22,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_swapped_columns_textual_dates",
+   "ms": 3.1,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_ambiguous_dates",
+   "ms": 2.46,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_inconsistent_balance",
+   "ms": 2.55,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_malformed_money",
+   "ms": 2.19,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_eu_decimal_comma",
+   "ms": 3.71,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 5,
+   "rows": 5,
+   "cells": 14,
+   "correct": 14,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_missing_page",
+   "ms": 5.02,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 24,
+   "correct": 24,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_partial_ocr",
+   "ms": 2.53,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 4,
+   "rows": 4,
+   "cells": 13,
+   "correct": 13,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_line_level_ocr",
+   "ms": 3.14,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 5,
+   "rows": 5,
+   "cells": 14,
+   "correct": 14,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_multicurrency_sections",
+   "ms": 5.07,
+   "status": "extracted",
+   "tables": 2,
+   "goldRows": 8,
+   "rows": 8,
+   "cells": 20,
+   "correct": 20,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "bank_statements_month_missing",
+   "ms": 3.97,
+   "status": "extracted",
+   "tables": 2,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 24,
+   "correct": 24,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "invoice_basic",
+   "ms": 6.24,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 4,
+   "rows": 4,
+   "cells": 16,
+   "correct": 16,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "invoice_two_line_header_tax_column",
+   "ms": 4.27,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 3,
+   "rows": 3,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "invoice_errors",
+   "ms": 2.08,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 3,
+   "rows": 3,
+   "cells": 12,
+   "correct": 12,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "invoice_mixed_currency",
+   "ms": 1.45,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 2,
+   "rows": 2,
+   "cells": 8,
+   "correct": 8,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "payslip_stacked",
+   "ms": 4.99,
+   "status": "extracted",
+   "tables": 3,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 29,
+   "correct": 29,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "payslip_net_error",
+   "ms": 3.48,
+   "status": "extracted",
+   "tables": 3,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 29,
+   "correct": 29,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "payslip_side_by_side",
+   "ms": 2.79,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 18,
+   "correct": 18,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "negative_letter",
+   "ms": 1.22,
+   "status": "abstained",
+   "tables": 0,
+   "goldRows": 0,
+   "rows": 0,
+   "cells": 0,
+   "correct": 0,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "negative_unknown_table",
+   "ms": 0.54,
+   "status": "abstained",
+   "tables": 0,
+   "goldRows": 0,
+   "rows": 0,
+   "cells": 0,
+   "correct": 0,
+   "failureCount": 0,
+   "failures": []
+  }
+ ]
+}

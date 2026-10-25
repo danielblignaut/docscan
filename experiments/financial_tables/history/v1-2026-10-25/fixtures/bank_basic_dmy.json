@@ -1,0 +1,649 @@
+{
+ "id": "bank_basic_dmy",
+ "description": "One-page statement, day-first dates, separate debit/credit columns, salary, transfer, a refund of an earlier purchase, fees.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "02/03/2026",
+     "x": 80.5,
+     "y": 290.8,
+     "w": 111.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "07/03/2026",
+     "x": 80.4,
+     "y": 358.7,
+     "w": 115.8,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "SAVINGS",
+     "x": 386.4,
+     "y": 323.6,
+     "w": 79.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "period:",
+     "x": 197.2,
+     "y": 153.6,
+     "w": 81.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "18,500.00",
+     "x": 898.1,
+     "y": 459.4,
+     "w": 102.2,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "PURCHASE",
+     "x": 294.4,
+     "y": 289.4,
+     "w": 87.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "ACCOUNT",
+     "x": 342.5,
+     "y": 425.6,
+     "w": 80.3,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "899.00",
+     "x": 756,
+     "y": 357.7,
+     "w": 64.7,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "01/03/2026",
+     "x": 290.3,
+     "y": 153.6,
+     "w": 116.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Ltd",
+     "x": 248.7,
+     "y": 120,
+     "w": 33.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "ONE",
+     "x": 469.8,
+     "y": 289.4,
+     "w": 32.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "SALARY",
+     "x": 249.1,
+     "y": 459.7,
+     "w": 65.3,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "GROCER",
+     "x": 393,
+     "y": 289.4,
+     "w": 65.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "FICTIONAL",
+     "x": 390,
+     "y": 493.2,
+     "w": 104.5,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "1,000.00",
+     "x": 727.3,
+     "y": 323.8,
+     "w": 93.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "899.00",
+     "x": 934.4,
+     "y": 391.4,
+     "w": 65.4,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "TRANSFER",
+     "x": 250.7,
+     "y": 323.6,
+     "w": 90.5,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "balance",
+     "x": 170.8,
+     "y": 187.9,
+     "w": 79.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "697.90",
+     "x": 1113,
+     "y": 392.3,
+     "w": 66.7,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Closing",
+     "x": 249.5,
+     "y": 528.6,
+     "w": 75.8,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "14/03/2026",
+     "x": 79.3,
+     "y": 392.3,
+     "w": 113.8,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "31/03/2026",
+     "x": 453.1,
+     "y": 153.6,
+     "w": 116.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "697.90",
+     "x": 1114.2,
+     "y": 324.7,
+     "w": 66.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Credit",
+     "x": 933.5,
+     "y": 221.9,
+     "w": 65.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "19,132.90",
+     "x": 1079.2,
+     "y": 459.5,
+     "w": 100.9,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "FICTIVE",
+     "x": 325.3,
+     "y": 459.7,
+     "w": 76.2,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "SHOE",
+     "x": 330.5,
+     "y": 392.8,
+     "w": 46.4,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Imaginary",
+     "x": 79,
+     "y": 120,
+     "w": 101.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "TO",
+     "x": 352.5,
+     "y": 323.6,
+     "w": 22.6,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "POS",
+     "x": 250.9,
+     "y": 357.4,
+     "w": 34.5,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "PALACE",
+     "x": 388.5,
+     "y": 392.8,
+     "w": 69.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "MONTHLY",
+     "x": 250.7,
+     "y": 425.6,
+     "w": 80.3,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "28/03/2026",
+     "x": 79.5,
+     "y": 494.8,
+     "w": 114.6,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "452.10",
+     "x": 753.6,
+     "y": 289.6,
+     "w": 66.3,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "320.00",
+     "x": 753.6,
+     "y": 494.8,
+     "w": 65.5,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "632.90",
+     "x": 1113.2,
+     "y": 426.2,
+     "w": 66.1,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "REFUND",
+     "x": 249.3,
+     "y": 392.8,
+     "w": 69.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "1,697.90",
+     "x": 1093.3,
+     "y": 290.1,
+     "w": 87.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "DEBIT",
+     "x": 250.7,
+     "y": 493.2,
+     "w": 58,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "ORDER",
+     "x": 320.3,
+     "y": 493.2,
+     "w": 58,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "20/03/2026",
+     "x": 80.1,
+     "y": 425.3,
+     "w": 112.1,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "Date",
+     "x": 79.8,
+     "y": 221.6,
+     "w": 43.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "18,812.90",
+     "x": 1081,
+     "y": 494.6,
+     "w": 99.4,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "18,812.90",
+     "x": 1077.4,
+     "y": 527.6,
+     "w": 103.2,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "balance",
+     "x": 336.2,
+     "y": 528.6,
+     "w": 75.8,
+     "h": 22,
+     "line": 12
+    },
+    {
+     "text": "MINING",
+     "x": 412.3,
+     "y": 459.7,
+     "w": 65.3,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "SHOE",
+     "x": 400.4,
+     "y": 357.4,
+     "w": 46,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Bank",
+     "x": 192.1,
+     "y": 120,
+     "w": 45.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Statement",
+     "x": 80.9,
+     "y": 153.6,
+     "w": 104.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Balance",
+     "x": 1101.6,
+     "y": 221.7,
+     "w": 79,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Opening",
+     "x": 80.4,
+     "y": 187.9,
+     "w": 79.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "65.00",
+     "x": 765.1,
+     "y": 426.6,
+     "w": 54.5,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "FEE",
+     "x": 434.3,
+     "y": 425.6,
+     "w": 34.4,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 221.7,
+     "w": 55.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "2,150.00",
+     "x": 726.8,
+     "y": 188,
+     "w": 93.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Opening",
+     "x": 250.3,
+     "y": 256.1,
+     "w": 76.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "POS",
+     "x": 250.5,
+     "y": 289.4,
+     "w": 32.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 221.3,
+     "w": 119.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "-201.10",
+     "x": 1099.2,
+     "y": 358.7,
+     "w": 80.8,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "PALACE",
+     "x": 457.9,
+     "y": 357.4,
+     "w": 69,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "25/03/2026",
+     "x": 79.6,
+     "y": 459.4,
+     "w": 112.4,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "INSURE",
+     "x": 506.1,
+     "y": 493.2,
+     "w": 69.6,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "2,150.00",
+     "x": 1087.9,
+     "y": 256.4,
+     "w": 91.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "CO",
+     "x": 488.4,
+     "y": 459.7,
+     "w": 21.8,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "balance",
+     "x": 337.8,
+     "y": 256.1,
+     "w": 76.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "PURCHASE",
+     "x": 296.9,
+     "y": 357.4,
+     "w": 92,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "04/03/2026",
+     "x": 79.5,
+     "y": 323.3,
+     "w": 108.7,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "R",
+     "x": 703.5,
+     "y": 188,
+     "w": 11.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "to",
+     "x": 418.2,
+     "y": 153.6,
+     "w": 23.3,
+     "h": 22,
+     "line": 1
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "2150.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-02",
+      "description": "POS PURCHASE GROCER ONE",
+      "debit": "452.10",
+      "balance": "1697.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-04",
+      "description": "TRANSFER TO SAVINGS",
+      "debit": "1000.00",
+      "balance": "697.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-07",
+      "description": "POS PURCHASE SHOE PALACE",
+      "debit": "899.00",
+      "balance": "-201.10"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-14",
+      "description": "REFUND SHOE PALACE",
+      "credit": "899.00",
+      "balance": "697.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-20",
+      "description": "MONTHLY ACCOUNT FEE",
+      "debit": "65.00",
+      "balance": "632.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-25",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "19132.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-28",
+      "description": "DEBIT ORDER FICTIONAL INSURE",
+      "debit": "320.00",
+      "balance": "18812.90"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "18812.90"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "observations": {
+   "possible_refund_of_earlier_debit": 1
+  },
+  "labels": {
+   "1": "transfer_like",
+   "3": "refund_like",
+   "4": "fee",
+   "5": "salary_like"
+  }
+ }
+}

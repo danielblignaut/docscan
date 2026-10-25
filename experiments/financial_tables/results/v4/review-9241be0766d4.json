@@ -1,0 +1,140 @@
+{
+ "scorer": "v4",
+ "engine": "financial-tables",
+ "engineSourceSha256": "9241be0766d4fc5c0d81399426b6ecbb7af26fcc993fb891f04661e9b60ef4a4",
+ "manifestSha256": "e380491ab14db51a6f57c40a4af37cb8cd3db90b19df9472ddff001aa1211067",
+ "summary": {
+  "set": "review",
+  "fixtures": 10,
+  "tables": {
+   "gold": 12,
+   "parsed": 12,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 37,
+   "parsed": 37,
+   "kindCorrect": 37,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 130,
+   "correct": 129,
+   "missing": 1,
+   "wrong": 0,
+   "accuracy": 0.9923,
+   "emitted": 129,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 129,
+   "withSource": 129,
+   "approximate": 39
+  },
+  "checks": {
+   "expected": 22,
+   "agreed": 22,
+   "falseConsistent": 0,
+   "emitted": 25,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 4,
+   "agreed": 4,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 3,
+   "reported": 3
+  },
+  "labels": {
+   "expected": 5,
+   "agreed": 5
+  },
+  "fixturesWithFailures": [
+   "review_line_level_lone_amount"
+  ]
+ },
+ "fixtures": [
+  {
+   "id": "review_cr_marker_only",
+   "ms": 36.97,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_merchant_named_total",
+   "ms": 4.01,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_starts_brought_forward",
+   "ms": 2.78,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_payslip_unread_deductions",
+   "ms": 3.19,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_unsigned_amount_column",
+   "ms": 2.04,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_files_do_not_share_evidence",
+   "ms": 3.63,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_summary_dr_balance",
+   "ms": 1.41,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_same_statement_twice",
+   "ms": 4.41,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_line_level_lone_amount",
+   "ms": 3.1,
+   "status": "partial",
+   "failures": [
+    "row 1 amount: missing (gold -30.00)"
+   ],
+   "failureCount": 1
+  },
+  {
+   "id": "review_failed_page_without_file_context",
+   "ms": 2.19,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

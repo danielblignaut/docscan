@@ -1,0 +1,14 @@
+{
+  status: 'extracted',
+  checks: [
+    'payslip_rate_times_quantity:not_evaluable/complete',
+    'payslip_gross:consistent/complete [sum_of_earnings]',
+    'payslip_net:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+payslip_rate_times_quantity not_evaluable null No line prints both a quantity and a unit price.
+payslip_gross consistent sum_of_earnings Earnings lines sum to 20000.00; printed gross 20000.00.
+payslip_net not_evaluable null No deduction lines were read and no total deductions is printed, so net pay cannot be recomputed.

@@ -1,0 +1,254 @@
+{
+ "id": "stress_payslip_line_level",
+ "description": "Payslip read by a line-level OCR.",
+ "kind": "payslip",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "Basic salary 160.00 125.00 20,000.00 60,000.00",
+     "x": 79.8,
+     "y": 309.4,
+     "w": 999.9,
+     "h": 22
+    },
+    {
+     "text": "Description Hours Rate Amount YTD",
+     "x": 80.4,
+     "y": 275.4,
+     "w": 999.2,
+     "h": 22
+    },
+    {
+     "text": "Description Amount",
+     "x": 79.3,
+     "y": 757.9,
+     "w": 800.6,
+     "h": 22
+    },
+    {
+     "text": "Payslip",
+     "x": 79.6,
+     "y": 154.3,
+     "w": 78.3,
+     "h": 22
+    },
+    {
+     "text": "UIF employer 177.12",
+     "x": 79.7,
+     "y": 791.5,
+     "w": 801,
+     "h": 22
+    },
+    {
+     "text": "SDL 233.75",
+     "x": 80.7,
+     "y": 825.9,
+     "w": 799,
+     "h": 22
+    },
+    {
+     "text": "Total deductions 8,353.62",
+     "x": 80.4,
+     "y": 670.3,
+     "w": 798.8,
+     "h": 22
+    },
+    {
+     "text": "Description Amount YTD",
+     "x": 80.7,
+     "y": 499.7,
+     "w": 998.4,
+     "h": 22
+    },
+    {
+     "text": "Net pay 15,021.38",
+     "x": 80.1,
+     "y": 880.5,
+     "w": 799.6,
+     "h": 22
+    },
+    {
+     "text": "Medical aid 2,450.00 7,350.00",
+     "x": 79.5,
+     "y": 635.2,
+     "w": 1001.4,
+     "h": 22
+    },
+    {
+     "text": "Total earnings 23,375.00",
+     "x": 80.6,
+     "y": 411.6,
+     "w": 800,
+     "h": 22
+    },
+    {
+     "text": "Overtime 10.00 187.50 1,875.00 5,625.00",
+     "x": 79.3,
+     "y": 343.2,
+     "w": 1001.2,
+     "h": 22
+    },
+    {
+     "text": "UIF employee 177.12 531.36",
+     "x": 80.9,
+     "y": 568.5,
+     "w": 998.8,
+     "h": 22
+    },
+    {
+     "text": "PAYE tax 4,126.50 12,379.50",
+     "x": 79.7,
+     "y": 533.3,
+     "w": 1001.2,
+     "h": 22
+    },
+    {
+     "text": "Pay period 01/03/2026 - 31/03/2026",
+     "x": 80.5,
+     "y": 188.8,
+     "w": 798.7,
+     "h": 22
+    },
+    {
+     "text": "Kestrel Fictional Logistics (Pty) Ltd",
+     "x": 80.3,
+     "y": 119.7,
+     "w": 406.4,
+     "h": 22
+    },
+    {
+     "text": "Deductions",
+     "x": 79.5,
+     "y": 465.6,
+     "w": 111,
+     "h": 22
+    },
+    {
+     "text": "Company contributions",
+     "x": 79.3,
+     "y": 724.5,
+     "w": 243.6,
+     "h": 22
+    },
+    {
+     "text": "Pension fund 1,600.00 4,800.00",
+     "x": 80,
+     "y": 601.5,
+     "w": 999.5,
+     "h": 22
+    },
+    {
+     "text": "Earnings",
+     "x": 79.8,
+     "y": 241.5,
+     "w": 90.6,
+     "h": 22
+    },
+    {
+     "text": "Travel allowance 1,500.00 4,500.00",
+     "x": 80.2,
+     "y": 378.1,
+     "w": 999,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "payslip",
+  "tables": [
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Basic salary",
+      "quantity": "160.00",
+      "unit_price": "125.00",
+      "amount": "20000.00",
+      "ytd": "60000.00"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Overtime",
+      "quantity": "10.00",
+      "unit_price": "187.50",
+      "amount": "1875.00",
+      "ytd": "5625.00"
+     },
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Travel allowance",
+      "amount": "1500.00",
+      "ytd": "4500.00"
+     }
+    ]
+   },
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "PAYE tax",
+      "amount": "4126.50",
+      "ytd": "12379.50"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "UIF employee",
+      "amount": "177.12",
+      "ytd": "531.36"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "Pension fund",
+      "amount": "1600.00",
+      "ytd": "4800.00"
+     },
+     {
+      "kind": "deduction",
+      "group": "deductions",
+      "description": "Medical aid",
+      "amount": "2450.00",
+      "ytd": "7350.00"
+     }
+    ]
+   },
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "contribution",
+      "group": "contributions",
+      "description": "UIF employer",
+      "amount": "177.12"
+     },
+     {
+      "kind": "contribution",
+      "group": "contributions",
+      "description": "SDL",
+      "amount": "233.75"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "payslip_rate_times_quantity": "consistent",
+   "payslip_gross": "consistent",
+   "payslip_deductions": "consistent",
+   "payslip_net": "consistent"
+  }
+ }
+}

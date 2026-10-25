@@ -147,7 +147,7 @@ pnpm dev                                # https needed on a phone: the camera re
 
 Open the menu at `/`, or deep-link straight to a scanner's camera:
 `?doc=smart_id`, `?doc=green_book`, `?doc=passport`, `?doc=auto`,
-`?mode=multi`, `?mode=labels`, `?mode=address`, `?mode=liveness`,
+`?mode=multi`, `?mode=labels`, `?mode=items`, `?mode=tables`, `?mode=address`, `?mode=liveness`,
 `?mode=faceid` or `?mode=facedoc` (`&method=tagger|rules` picks
 the proof-of-address extractor, which the menu also offers). The camera screen's
 **Back to home** button, always shown top left, stops the camera and returns to
@@ -169,6 +169,35 @@ targets the deployed site instead.
 `-Z build-std`, [wasm-bindgen-rayon](https://github.com/RReverser/wasm-bindgen-rayon));
 the demo serves the cross-origin isolation headers it needs and uses it when
 present.
+
+### Structured barcode and document workflows
+
+- **Printed label reader:** choose Detailed (the existing default) or experimental
+  Fast on the barcode, label or item card. `&labelReader=fast` selects the same
+  PP-OCRv6 tiny reader. Raw barcode results remain available during background
+  OCR. The selected reader and its limitations accompany JSON exports; this is
+  not an automatic combination of two readers' fields.
+- **GS1:** recognised element strings and uncompressed Digital Links expose
+  application identifiers, values and checks. Parsing does not verify product
+  ownership or issuance. Unsupported and incomplete payloads remain visible.
+  See [the parser contract](docs/gs1.md).
+- **Item scan session:** pan over packages, save views and review their IMEI,
+  serial and GTIN associations. Outline individual items where proximity is
+  ambiguous. Repeated GTINs are not stock quantities, and repeated weak
+  associations never become identity evidence. See [item grouping](docs/item-grouping.md).
+- **Financial tables:** import statement, invoice or payslip images/PDFs, or
+  capture a page. The new table flow defaults to PP-OCRv6 tiny; ocrs remains
+  selectable. Results include row/cell source evidence, exact-decimal
+  arithmetic checks and guarded CSV/JSON exports. Date/currency/decimal options
+  rerun extraction without OCR. Missing pages, uncertain directions and unread
+  amounts block affected checks. Recurring credits are provisional observations,
+  never verified income or bank authenticity. See [financial tables](docs/financial-tables.md).
+
+Generate fictional browser fixtures with
+`/tmp/docscan-bench/venv/bin/python demo/e2e/generate-feature-fixtures.py`, then
+run `node demo/e2e/document-features.mjs` against a production build.
+`demo/e2e/fast-labels.mjs` accepts private photo/report paths via environment
+variables and logs only aggregate comparisons, never decoded identifiers.
 
 ### The API
 

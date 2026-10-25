@@ -1,0 +1,129 @@
+{
+ "id": "review_summary_dr_balance",
+ "description": "An overdrawn opening balance printed with Dr in the summary box.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "500.00 Dr",
+     "x": 501,
+     "y": 100,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 80,
+     "y": 134,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 168,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "500.00 Cr",
+     "x": 1081,
+     "y": 202,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "15/01/2026",
+     "x": 80,
+     "y": 202,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 80,
+     "y": 100,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 168,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 168,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "1,000.00",
+     "x": 912,
+     "y": 202,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "500.00 Cr",
+     "x": 501,
+     "y": 134,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Salary ACME",
+     "x": 250,
+     "y": 202,
+     "w": 121,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-15",
+      "description": "Salary ACME",
+      "credit": "1000.00",
+      "balance": "500.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "observations": {}
+ }
+}

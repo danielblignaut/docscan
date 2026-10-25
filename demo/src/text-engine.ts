@@ -10,3 +10,9 @@ export function textRequest(engine: TextEngine, image: ImageData) {
     ? { kind: "text_page" as const, image }
     : { kind: "text_v6" as const, image, detail: engine === "ppocr_v6_tiny_detail", ...(engine === "ppocr_v6_tiny_exposure" ? { exposureCompare: true } : {}) };
 }
+
+/** New financial-table flow defaults to the reader that preserved punctuation in its browser fixtures. */
+export function financialEngineFromUrl(search = location.search): TextEngine {
+  const value = new URLSearchParams(search).get("textEngine");
+  return value === "ocrs" || value === "ppocr_v6_tiny_detail" ? value : "ppocr_v6_tiny";
+}

@@ -1,0 +1,20 @@
+t1 { value: ',', source: 'document_evidence', conflicting: false } [ [ '2469.00' ] ]
+t2 { value: null, source: 'none', conflicting: false } [ [ null ], [ null ] ]
+{
+  status: 'partial',
+  checks: [
+    'line_quantity_times_unit_price:consistent/complete',
+    'invoice_total:consistent/complete [sum_of_line_amounts_no_tax_printed]',
+    'line_quantity_times_unit_price:not_evaluable/incomplete',
+    'invoice_total:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [ 'decimal_separator_unresolved' ],
+  abst: []
+}
+alone: [ [ [ 'ambiguous', null ] ], [ [ 'ambiguous', null ] ] ] [
+  'line_quantity_times_unit_price:not_evaluable/incomplete',
+  'invoice_total:not_evaluable/incomplete'
+]
+line_item [ 'amount_decimal_separator_unresolved' ] description=Consulting->undefined | quantity=1->1 | unit_price=1,500->ambiguous | amount=1,500->ambiguous
+line_item [ 'amount_decimal_separator_unresolved' ] description=Travel->undefined | quantity=1->1 | unit_price=2,000->ambiguous | amount=2,000->ambiguous

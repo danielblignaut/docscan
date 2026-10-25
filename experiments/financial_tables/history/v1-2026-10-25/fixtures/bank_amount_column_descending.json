@@ -1,0 +1,459 @@
+{
+ "id": "bank_amount_column_descending",
+ "description": "Single signed amount column (minus and parentheses), newest first, closing balance at the top and opening at the bottom.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "Balance",
+     "x": 1098.9,
+     "y": 188.3,
+     "w": 80.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "BRANCH",
+     "x": 399.2,
+     "y": 290.1,
+     "w": 68.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "CASH",
+     "x": 250.2,
+     "y": 290.1,
+     "w": 45.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "PURCHASE",
+     "x": 305.4,
+     "y": 392.2,
+     "w": 87.3,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Amount",
+     "x": 931.6,
+     "y": 188.5,
+     "w": 68.3,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "01/04/2026",
+     "x": 79.8,
+     "y": 392.4,
+     "w": 112.7,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "DEPOSIT",
+     "x": 307.5,
+     "y": 290.1,
+     "w": 80.2,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "CC",
+     "x": 540.8,
+     "y": 358.1,
+     "w": 21.6,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "balance",
+     "x": 341.8,
+     "y": 426.8,
+     "w": 80.1,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "PREPAID",
+     "x": 387.1,
+     "y": 256.3,
+     "w": 80.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "to",
+     "x": 394.3,
+     "y": 154,
+     "w": 21.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Date",
+     "x": 79.3,
+     "y": 187.6,
+     "w": 44.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "15/04/2026",
+     "x": 80.1,
+     "y": 324.4,
+     "w": 112,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "INVENTED",
+     "x": 324.7,
+     "y": 358.1,
+     "w": 86.4,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "(600.00)",
+     "x": 912.6,
+     "y": 256.4,
+     "w": 87.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "(149.00)",
+     "x": 909.4,
+     "y": 323.9,
+     "w": 91,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Opening",
+     "x": 250.2,
+     "y": 426.8,
+     "w": 80.1,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "SALARY",
+     "x": 249.1,
+     "y": 358.1,
+     "w": 64.8,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "28/04/2026",
+     "x": 79.6,
+     "y": 256.7,
+     "w": 115.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Closing",
+     "x": 250.3,
+     "y": 222,
+     "w": 77,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "30,750.00",
+     "x": 1080.8,
+     "y": 358.1,
+     "w": 99.1,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Statement",
+     "x": 80.5,
+     "y": 154,
+     "w": 97.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "BUNDLE",
+     "x": 388.5,
+     "y": 323.8,
+     "w": 69.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "period:",
+     "x": 188.7,
+     "y": 154,
+     "w": 75.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "ACCOUNTING",
+     "x": 422,
+     "y": 358.1,
+     "w": 108,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "31,101.00",
+     "x": 1076.3,
+     "y": 289.9,
+     "w": 103.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "30/04/2026",
+     "x": 426.7,
+     "y": 154,
+     "w": 108.2,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "09/04/2026",
+     "x": 80.9,
+     "y": 358.4,
+     "w": 113.6,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "30,501.00",
+     "x": 1082.2,
+     "y": 256,
+     "w": 96.8,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Imaginary",
+     "x": 79.1,
+     "y": 119.9,
+     "w": 102.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "(250.00)",
+     "x": 909.1,
+     "y": 391.3,
+     "w": 91.4,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "balance",
+     "x": 338.4,
+     "y": 222,
+     "w": 77,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Bank",
+     "x": 272.8,
+     "y": 119.9,
+     "w": 45.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "DATA",
+     "x": 330.9,
+     "y": 323.8,
+     "w": 46.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Mutual",
+     "x": 193.1,
+     "y": 119.9,
+     "w": 68.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "30,601.00",
+     "x": 1076.1,
+     "y": 324.3,
+     "w": 104.7,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Description",
+     "x": 249.4,
+     "y": 187.3,
+     "w": 123.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "22/04/2026",
+     "x": 80.2,
+     "y": 290.3,
+     "w": 115.3,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "10,000.00",
+     "x": 1076.2,
+     "y": 426.1,
+     "w": 104.8,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "01/04/2026",
+     "x": 275.2,
+     "y": 154,
+     "w": 108.2,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "500.00",
+     "x": 934.9,
+     "y": 290,
+     "w": 64.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "ELECTRICITY",
+     "x": 249.8,
+     "y": 256.3,
+     "w": 125.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "CARD",
+     "x": 250.9,
+     "y": 392.2,
+     "w": 43.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "MOBILE",
+     "x": 250.3,
+     "y": 323.8,
+     "w": 69.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "30,501.00",
+     "x": 1076.6,
+     "y": 221.2,
+     "w": 103.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "21,000.00",
+     "x": 895.9,
+     "y": 358.1,
+     "w": 103.7,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "9,750.00",
+     "x": 1090.3,
+     "y": 392.3,
+     "w": 89,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "BOOKSHOP",
+     "x": 403.6,
+     "y": 392.2,
+     "w": 87.3,
+     "h": 22,
+     "line": 8
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "closing_balance",
+      "balance": "30501.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-28",
+      "description": "ELECTRICITY PREPAID",
+      "amount": "-600.00",
+      "balance": "30501.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-22",
+      "description": "CASH DEPOSIT BRANCH",
+      "amount": "500.00",
+      "balance": "31101.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-15",
+      "description": "MOBILE DATA BUNDLE",
+      "amount": "-149.00",
+      "balance": "30601.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-09",
+      "description": "SALARY INVENTED ACCOUNTING CC",
+      "amount": "21000.00",
+      "balance": "30750.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-04-01",
+      "description": "CARD PURCHASE BOOKSHOP",
+      "amount": "-250.00",
+      "balance": "9750.00"
+     },
+     {
+      "kind": "opening_balance",
+      "balance": "10000.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "order": "descending"
+ }
+}

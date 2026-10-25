@@ -1,0 +1,122 @@
+{
+ "scorer": "v4",
+ "engine": "financial-tables",
+ "engineSourceSha256": "b8526b6ae6597a98f226d05f1eb24edcde51ff026ce22743e8db1e69e29b823d",
+ "manifestSha256": "425723b5ac27e4ac5b2d0442a898069ac5c969580d45bd1967efa7c2f39ca3ef",
+ "summary": {
+  "set": "stress",
+  "fixtures": 8,
+  "tables": {
+   "gold": 10,
+   "parsed": 10,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 46,
+   "parsed": 46,
+   "kindCorrect": 46,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 151,
+   "correct": 151,
+   "missing": 0,
+   "wrong": 0,
+   "accuracy": 1,
+   "emitted": 151,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 151,
+   "withSource": 151,
+   "approximate": 48
+  },
+  "checks": {
+   "expected": 20,
+   "agreed": 20,
+   "falseConsistent": 0,
+   "emitted": 20,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 0,
+   "agreed": 0,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 0,
+   "reported": 0
+  },
+  "labels": {
+   "expected": 8,
+   "agreed": 8
+  },
+  "fixturesWithFailures": []
+ },
+ "fixtures": [
+  {
+   "id": "stress_skewed_capture",
+   "ms": 48.67,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_uppercase_crdr",
+   "ms": 8.21,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_heavy_jitter",
+   "ms": 10.6,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_no_year_dates",
+   "ms": 10.23,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_two_digit_years",
+   "ms": 3.92,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_date_once_per_day",
+   "ms": 4.75,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_invoice_line_level",
+   "ms": 11.03,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "stress_payslip_line_level",
+   "ms": 15.26,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

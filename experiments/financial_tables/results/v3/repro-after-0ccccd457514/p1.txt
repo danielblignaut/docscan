@@ -1,0 +1,28 @@
+{
+  status: 'partial',
+  checks: [
+    'running_balance:not_evaluable/incomplete',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [ 'date_order_unresolved' ],
+  abst: [
+    'input_limit_exceeded',
+    'no_recognized_table_header',
+    'no_recognized_table_header'
+  ]
+} 9
+uncapped [
+  'running_balance:consistent/incomplete [printed_directions]',
+  'opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]'
+]
+perpage {
+  status: 'partial',
+  checks: [
+    'running_balance:not_evaluable/incomplete',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [ 'date_order_unresolved' ],
+  abst: [ 'input_limit_exceeded' ]
+}

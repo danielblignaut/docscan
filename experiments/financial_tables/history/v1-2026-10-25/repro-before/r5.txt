@@ -1,0 +1,14 @@
+{
+  status: 'extracted',
+  checks: [
+    'payslip_rate_times_quantity:not_evaluable/complete',
+    'payslip_gross:consistent/complete [sum_of_earnings]',
+    'payslip_net:inconsistent/complete [printed_gross-sum_of_deductions]'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+payslip_rate_times_quantity not_evaluable null No line prints both a quantity and a unit price.
+payslip_gross consistent sum_of_earnings Earnings lines sum to 20000.00; printed gross 20000.00.
+payslip_net inconsistent printed_gross-sum_of_deductions 20000.00 gross - 0 deductions = 20000.00; printed net 15000.00. Employer contributions are not deducted.

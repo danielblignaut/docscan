@@ -1,0 +1,121 @@
+{
+ "scorer": "v3",
+ "engine": "financial-tables",
+ "engineSourceSha256": "2309b91b473baa647b493c4b9dd4d6c178dd0a6522be90fabccf6fdffd66e136",
+ "manifestSha256": "1780e60d8e59cdf3fc386c6f19af5478f2a46785235c375b64dc3207b19ca174",
+ "summary": {
+  "set": "review3",
+  "fixtures": 7,
+  "tables": {
+   "gold": 11,
+   "parsed": 12,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 30,
+   "parsed": 30,
+   "kindCorrect": 30,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 105,
+   "correct": 104,
+   "missing": 1,
+   "wrong": 0,
+   "accuracy": 0.9905,
+   "emitted": 104,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 104,
+   "withSource": 104,
+   "approximate": 18
+  },
+  "checks": {
+   "expected": 15,
+   "agreed": 14,
+   "falseConsistent": 0,
+   "emitted": 28,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 3,
+   "agreed": 3,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 1,
+   "reported": 1
+  },
+  "labels": {
+   "expected": 0,
+   "agreed": 0
+  },
+  "fixturesWithFailures": [
+   "review3_line_limit_blocks_totals"
+  ]
+ },
+ "fixtures": [
+  {
+   "id": "review3_credit_card_sign_convention",
+   "ms": 27.56,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_near_duplicate_capture",
+   "ms": 16.6,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_undated_total_merchant",
+   "ms": 2.4,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_brought_forward_above_header",
+   "ms": 1.5,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_line_limit_blocks_totals",
+   "ms": 2.63,
+   "status": "partial",
+   "failures": [
+    "tables: gold 1, parsed 2",
+    "row 1 debit: missing (gold 200.00)",
+    "check running_balance: gold consistent, got not_evaluable"
+   ],
+   "failureCount": 3
+  },
+  {
+   "id": "review3_table_limit",
+   "ms": 3.86,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_invalid_page",
+   "ms": 2.38,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

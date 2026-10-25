@@ -38,6 +38,7 @@ export interface CapturedPage {
  * `docscan:complete`). A throw is a failed read: the page offers a recapture.
  */
 export interface PageWork {
+  operationId: string;
   active: () => boolean;
   done: () => void;
 }
@@ -132,7 +133,7 @@ export function PageCapture({ client, captureClient, title, scanner, onRead }: {
         session.stage("read");
         setStage(STAGES.read);
         const done = () => { handed = true; session.complete(); };
-        await onRead({ flat: flattened.flat, imageUrl, blob: flattened.blob, captureMs }, { source: "camera", captureMs, frames: pageMs.length, fastMs: median(pageMs) }, { active: () => mounted, done });
+        await onRead({ flat: flattened.flat, imageUrl, blob: flattened.blob, captureMs }, { source: "camera", captureMs, frames: pageMs.length, fastMs: median(pageMs) }, { operationId: session.id, active: () => mounted, done });
         // Read, and still on screen: the reader owns the image from here.
         if (mounted) { done(); outline.set("done"); }
       } catch (e) {

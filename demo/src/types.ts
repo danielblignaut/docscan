@@ -18,6 +18,7 @@ export interface Quality {
 }
 
 export interface Barcode {
+  symbology_identifier?: string | null;
   format: string;
   text: string;
   bytes: number[];
@@ -137,7 +138,7 @@ export interface LabelledField {
   /** Bars were found here but would not decode: the value is from print. */
   barcode_unread: boolean;
   value: string;
-  kind: "imei" | "gtin" | "text";
+  kind: "imei" | "gtin" | "iccid" | "text";
   source: "both" | "barcode" | "text";
   check_digit_valid: boolean | null;
   barcode_format: string | null;

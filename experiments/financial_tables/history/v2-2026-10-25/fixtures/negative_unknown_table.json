@@ -1,0 +1,106 @@
+{
+ "id": "negative_unknown_table",
+ "description": "A numeric table whose headers are not a bank, invoice or payslip layout: must abstain.",
+ "kind": "none",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "1,020.00",
+     "x": 807.4,
+     "y": 188.2,
+     "w": 92.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,388.00",
+     "x": 814.1,
+     "y": 154.4,
+     "w": 86.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "units",
+     "x": 846.8,
+     "y": 120.5,
+     "w": 54.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "units",
+     "x": 545.9,
+     "y": 119.8,
+     "w": 54,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Q2",
+     "x": 814.3,
+     "y": 120.5,
+     "w": 21.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "1,204.00",
+     "x": 509.7,
+     "y": 154.4,
+     "w": 90.1,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "South",
+     "x": 79.6,
+     "y": 188.6,
+     "w": 57.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "North",
+     "x": 79.6,
+     "y": 154.4,
+     "w": 56.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "998.00",
+     "x": 531.6,
+     "y": 188.5,
+     "w": 69,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Q1",
+     "x": 513.5,
+     "y": 119.8,
+     "w": 21.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Region",
+     "x": 80.7,
+     "y": 120.4,
+     "w": 68.1,
+     "h": 22,
+     "line": 0
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "abstain": true,
+  "tables": []
+ }
+}

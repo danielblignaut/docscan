@@ -1,0 +1,62 @@
+{
+ "generator": "experiments/financial_tables/generate_fixtures.mjs",
+ "note": "Fictional data only. Gold = authored data, not extractor output.",
+ "fixtures": [
+  {
+   "id": "stress_skewed_capture",
+   "file": "stress_skewed_capture.json",
+   "sha256": "b54426268fad8494ab3a09a428b607b35c2d2911ea70077e55e33d976c7348e4",
+   "pages": 1,
+   "boxes": 44
+  },
+  {
+   "id": "stress_uppercase_crdr",
+   "file": "stress_uppercase_crdr.json",
+   "sha256": "ee788379276af2d0051d0b8f8f1ded23291938e446fc69e1a649fa77c0db4c5e",
+   "pages": 1,
+   "boxes": 36
+  },
+  {
+   "id": "stress_heavy_jitter",
+   "file": "stress_heavy_jitter.json",
+   "sha256": "c16172063f0568982ce986ad0af8456744975a54d1551e9009758c45178fc631",
+   "pages": 1,
+   "boxes": 29
+  },
+  {
+   "id": "stress_no_year_dates",
+   "file": "stress_no_year_dates.json",
+   "sha256": "bebefc3634520c6ee3997901cd9fbb47a6124ce0f200bb342ac210022bf124f3",
+   "pages": 1,
+   "boxes": 38
+  },
+  {
+   "id": "stress_two_digit_years",
+   "file": "stress_two_digit_years.json",
+   "sha256": "6495c46eec400edb795e41898ca163fb60869b20bb0541bf03274c04e748370c",
+   "pages": 1,
+   "boxes": 28
+  },
+  {
+   "id": "stress_date_once_per_day",
+   "file": "stress_date_once_per_day.json",
+   "sha256": "32f9d99417d359f59fb63ba28fcc5acbd3446a5d780438ec55ba14b7c4cab9d7",
+   "pages": 1,
+   "boxes": 33
+  },
+  {
+   "id": "stress_invoice_line_level",
+   "file": "stress_invoice_line_level.json",
+   "sha256": "bc8727314f6c1a3656ed214f7e3e2cba5ae8c3911b000fe106e9ae9a87cedbc5",
+   "pages": 1,
+   "boxes": 7
+  },
+  {
+   "id": "stress_payslip_line_level",
+   "file": "stress_payslip_line_level.json",
+   "sha256": "76acb1028a3e49157ddb89cbba89d091a48475a5eec369856a9487d09e52313f",
+   "pages": 1,
+   "boxes": 21
+  }
+ ]
+}

@@ -9,7 +9,7 @@ use rxing::multi::{GenericMultipleBarcodeReader, MultipleBarcodeReader};
 use rxing::oned::MultiFormatOneDReader;
 use rxing::pdf417::PDF417Reader;
 use rxing::qrcode::cpp_port::QrReader;
-use rxing::{Binarizer, BarcodeFormat, BinaryBitmap, DecodeHintValue, DecodeHints, Luma8LuminanceSource, MultiUseMultiFormatReader, RXingResult, Reader};
+use rxing::{Binarizer, BarcodeFormat, BinaryBitmap, DecodeHintValue, DecodeHints, Luma8LuminanceSource, MultiUseMultiFormatReader, RXingResult, RXingResultMetadataType, RXingResultMetadataValue, Reader};
 use serde::Serialize;
 
 #[derive(Debug, Clone, Serialize)]
@@ -18,6 +18,8 @@ pub struct Barcode {
     pub text: String,
     /// The raw payload, for binary codes whose text decoding is lossy.
     pub bytes: Vec<u8>,
+    /// AIM identifier from the decoder, preserving GS1/FNC1 carrier semantics.
+    pub symbology_identifier: Option<String>,
     /// Corner or end points in the analysed image's pixels.
     pub points: Vec<[f32; 2]>,
 }
@@ -248,12 +250,16 @@ fn to_barcode(r: &RXingResult, map: impl Fn([f32; 2]) -> [f32; 2]) -> Barcode {
         format: format_name(r.getBarcodeFormat()),
         text: r.getText().to_string(),
         bytes: r.getRawBytes().to_vec(),
+        symbology_identifier: match r.getRXingResultMetadata().get(&RXingResultMetadataType::SYMBOLOGY_IDENTIFIER) {
+            Some(RXingResultMetadataValue::SymbologyIdentifier(value)) => Some(value.clone()),
+            _ => None,
+        },
         points: r.getPoints().iter().map(|p| map([p.x, p.y])).collect(),
     }
 }
 
 fn hints(formats: HashSet<BarcodeFormat>, try_harder: bool) -> DecodeHints {
-    DecodeHints::default().with(DecodeHintValue::TryHarder(try_harder)).with(DecodeHintValue::PossibleFormats(formats))
+    DecodeHints::default().with(DecodeHintValue::AssumeGs1(true)).with(DecodeHintValue::TryHarder(try_harder)).with(DecodeHintValue::PossibleFormats(formats))
 }
 
 fn bitmap(luma: &[u8], w: u32, h: u32) -> Option<BinaryBitmap<HybridBinarizer<Luma8LuminanceSource>>> {
@@ -361,7 +367,8 @@ fn read_data_matrices(matrix: &BitMatrix, out: &mut Vec<Barcode>) {
                 }
             }
             any = true;
-            let r = RXingResult::new(d.getText(), d.getRawBytes().clone(), points, BarcodeFormat::DATA_MATRIX);
+            let mut r = RXingResult::new(d.getText(), d.getRawBytes().clone(), points, BarcodeFormat::DATA_MATRIX);
+            r.putMetadata(RXingResultMetadataType::SYMBOLOGY_IDENTIFIER, RXingResultMetadataValue::SymbologyIdentifier(format!("]d{}", d.getSymbologyModifier())));
             push(out, to_barcode(&r, |p| p));
         }
         if !any {
@@ -1373,7 +1380,7 @@ mod tests {
     }
 
     fn linear(format: &str, text: &str, a: [f32; 2], b: [f32; 2]) -> Barcode {
-        Barcode { format: format.into(), text: text.into(), bytes: vec![], points: vec![a, b] }
+        Barcode { format: format.into(), text: text.into(), bytes: vec![], symbology_identifier: None, points: vec![a, b] }
     }
 
     /// The UPC-E read on frame 84 of the HD multi-barcode clip, along the
@@ -1455,4 +1462,26 @@ mod tests {
             assert!((r[0].cx - 180.0).abs() < 10.0 && (r[0].cy - 180.0).abs() < 10.0 && r[0].half_across > 85.0, "{deg}: {r:?}");
         }
     }
+    #[test]
+    fn gs1_fnc1_and_aim_metadata_survive_the_actual_decoder() {
+        // Procedural python-barcode gs1_128 / code128 encodings, no user data.
+        let cases = [
+            ("1101001110011110101110110011011001100100100011000101110111011110101101100110010011011100101100011101101110001011001000100101111011101000110111010001110110110111000101001101110010100011000111101011101100111001010011100110110111010001000110100011000101110110001000101010001100010001101110100110111001100100111011001110010101011110001100011101011", "]C1010950600013435210LOT-A\u{1d}21SERIAL-42", "]C1"),
+            ("1101001000011001000010100010001101011101111011001000100110010001001011110100010011001000110110011001100110110010001011000100010001101011110111011001110010100100110001100011101011", "]C10109506000134352", "]C0"),
+        ];
+        for (bits, expected, marker) in cases {
+            let w = (bits.len() + 40) * 2;
+            let h = 120;
+            let mut pixels = vec![255; w * h];
+            for (x, b) in bits.bytes().enumerate() {
+                if b == b'1' { for y in 15..105 { pixels[y*w + 40 + 2*x] = 0; pixels[y*w + 41 + 2*x] = 0; } }
+            }
+            let formats = vec!["code128".to_owned()];
+            let codes = read_all(&pixels, w as u32, h as u32, Some(&formats));
+            let code = codes.iter().find(|c| c.format == "code128" && c.text == expected).expect("complete payload including GS1 separator");
+            assert_eq!(code.symbology_identifier.as_deref(), Some(marker));
+            assert!(!code.bytes.is_empty());
+        }
+    }
+
 }

@@ -1,0 +1,350 @@
+{
+ "id": "stress_uppercase_crdr",
+ "description": "Upper-case alternative headers; balances printed with Cr/Dr suffixes, going overdrawn.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "600.00",
+     "x": 1082.5,
+     "y": 188,
+     "w": 65.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "balance",
+     "x": 340,
+     "y": 154.2,
+     "w": 78.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "APPLIANCE",
+     "x": 392,
+     "y": 187.5,
+     "w": 98.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "DATE",
+     "x": 215.3,
+     "y": 120.6,
+     "w": 45.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "22/06/2026",
+     "x": 80,
+     "y": 255.5,
+     "w": 115.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "TRANSACTION",
+     "x": 79.9,
+     "y": 120.6,
+     "w": 124.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Closing",
+     "x": 250.9,
+     "y": 289.4,
+     "w": 78,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "ELECTRONIC",
+     "x": 249.6,
+     "y": 255.3,
+     "w": 110.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Cr",
+     "x": 1157.7,
+     "y": 222.4,
+     "w": 21.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "900.00",
+     "x": 751.3,
+     "y": 187.2,
+     "w": 68.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,000.00",
+     "x": 909.2,
+     "y": 222.2,
+     "w": 90.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "600.00",
+     "x": 752.3,
+     "y": 256.3,
+     "w": 68.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Dr",
+     "x": 1157.4,
+     "y": 289.8,
+     "w": 21.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "18/06/2026",
+     "x": 79.6,
+     "y": 221.9,
+     "w": 114.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "DEPOSITS",
+     "x": 910.1,
+     "y": 120.6,
+     "w": 89.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "CASH",
+     "x": 249.1,
+     "y": 222.1,
+     "w": 43.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "PAYMENT",
+     "x": 370.7,
+     "y": 255.3,
+     "w": 77.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "13/06/2026",
+     "x": 80.2,
+     "y": 187.3,
+     "w": 108,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Opening",
+     "x": 250.4,
+     "y": 154.2,
+     "w": 78.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "POS",
+     "x": 249.1,
+     "y": 187.5,
+     "w": 33,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Cr",
+     "x": 1158.4,
+     "y": 154.5,
+     "w": 21.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "balance",
+     "x": 340,
+     "y": 289.4,
+     "w": 78,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "PURCHASE",
+     "x": 293.1,
+     "y": 187.5,
+     "w": 87.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Dr",
+     "x": 1156,
+     "y": 256.7,
+     "w": 23.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "WITHDRAWALS",
+     "x": 699.3,
+     "y": 120.6,
+     "w": 121,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "200.00",
+     "x": 1081.4,
+     "y": 289.8,
+     "w": 65.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "STORE",
+     "x": 501.9,
+     "y": 187.5,
+     "w": 55,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "BALANCE",
+     "x": 1099.7,
+     "y": 119.5,
+     "w": 79.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "DEPOSIT",
+     "x": 303,
+     "y": 222.1,
+     "w": 75.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "300.00",
+     "x": 1083.1,
+     "y": 154.5,
+     "w": 64.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "RENT",
+     "x": 458.8,
+     "y": 255.3,
+     "w": 44,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "400.00",
+     "x": 1081.1,
+     "y": 222.4,
+     "w": 65.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "PARTICULARS",
+     "x": 249.3,
+     "y": 120,
+     "w": 124.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "200.00",
+     "x": 1074.9,
+     "y": 256.7,
+     "w": 69.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "BRANCH",
+     "x": 389.3,
+     "y": 222.1,
+     "w": 64.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Dr",
+     "x": 1158.9,
+     "y": 188,
+     "w": 21.8,
+     "h": 22,
+     "line": 2
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "300.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-13",
+      "description": "POS PURCHASE APPLIANCE STORE",
+      "debit": "900.00",
+      "balance": "-600.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-18",
+      "description": "CASH DEPOSIT BRANCH",
+      "credit": "1000.00",
+      "balance": "400.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-22",
+      "description": "ELECTRONIC PAYMENT RENT",
+      "debit": "600.00",
+      "balance": "-200.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "-200.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  }
+ }
+}

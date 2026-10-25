@@ -1,3 +1,4 @@
+import { FAST_LABEL_LIMITATION, type LabelEngine } from "./label-engine";
 // The home screen: one large card per scanner, with whether it is ready and
 // the model it uses, a model choice for proof of address, and on each card a
 // small "Test with a photo" action that runs the same scanner on an image.
@@ -13,6 +14,10 @@ interface Props {
   modelsState: "loading" | "idle" | "failed" | "ready";
   failed: boolean;
   method: Extractor | "auto";
+  financialEngine: TextEngine;
+  onFinancialEngine: (engine: TextEngine) => void;
+  labelEngine: LabelEngine;
+  onLabelEngine: (engine: LabelEngine) => void;
   textEngine: TextEngine;
   onTextEngine: (engine: TextEngine) => void;
   onMethod: (m: Extractor | "auto") => void;
@@ -23,8 +28,9 @@ interface Props {
   photoError: { id: ScannerId; message: string } | null;
 }
 
-function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto", textEngine: TextEngine): string {
-  if (s.id === "text" && textEngine !== "ocrs") return "PP-OCRv6 tiny · ~6.3 MB · loaded when used";
+function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | "auto", textEngine: TextEngine, labelEngine: LabelEngine): string {
+  if (s.id === "labels" && labelEngine === "fast") return "Barcodes + PP-OCRv6 tiny · experimental";
+  if ((s.id === "text" || s.id === "tables") && textEngine !== "ocrs") return "PP-OCRv6 tiny · ~6.3 MB · loaded when used";
   const ocr = `ocrs OCR · ${catalogueEntry("ocrs").downloadMb} MB`;
   if (s.needs === "none") return "Barcode decoder · no model";
   if (s.needs === "face") return s.id === "facedoc" ? `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB + ${ocr}` : `Face models · ${FACE_DOWNLOAD_MB.toFixed(1)} MB, loaded when opened`;
@@ -34,7 +40,7 @@ function modelLine(s: ScannerInfo, ready: ReadyInfo | null, method: Extractor | 
   return used === "tagger" ? `${ocr} + tagger · ${catalogueEntry("poa-tagger").downloadMb} MB` : `${ocr} + layout rules`;
 }
 
-export function Home({ ready, status, modelsState, failed, method, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
+export function Home({ ready, status, modelsState, failed, method, financialEngine, onFinancialEngine, labelEngine, onLabelEngine, textEngine, onTextEngine, onMethod, onOpen, onPhoto, busy, photoError }: Props) {
   const state = failed ? "failed" : ready ? "ready" : "loading";
   return (
     <main className="home" data-testid="home">
@@ -61,7 +67,7 @@ export function Home({ ready, status, modelsState, failed, method, textEngine, o
                 <span className="card-desc">{s.description}</span>
                 <span className="card-meta">
                   <span className={`pill pill-${cardState}`}>{cardLabel}</span>
-                  <span className="muted">{modelLine(s, ready, method, textEngine)}</span>
+                  <span className="muted">{modelLine(s, ready, method, s.id === "tables" ? financialEngine : textEngine, labelEngine)}</span>
                 </span>
               </span>
               <span className="card-go" aria-hidden="true">
@@ -69,14 +75,22 @@ export function Home({ ready, status, modelsState, failed, method, textEngine, o
               </span>
             </button>
             <div className="card-actions">
-              {s.id === "text" && (
+              {(s.id === "labels" || s.id === "barcodes" || s.id === "items") && <label className="model-select">
+                <span>Printed label reader</span>
+                <select data-testid={`label-engine-${s.id}`} value={labelEngine} onChange={e=>onLabelEngine(e.target.value as LabelEngine)} disabled={busy !== null}>
+                  <option value="detailed">Detailed · existing reader</option>
+                  <option value="fast">Fast · PP-OCRv6 tiny (experimental)</option>
+                </select>
+                {labelEngine === "fast" && <small>{FAST_LABEL_LIMITATION}</small>}
+              </label>}
+              {(s.id === "text" || s.id === "tables") && (
                 <label className="model-select">
-                  <span>Text reader</span>
-                  <select data-testid="text-engine" value={textEngine} onChange={(e) => onTextEngine(e.target.value as TextEngine)} disabled={busy !== null}>
+                  <span>{s.id === "tables" ? "Table text reader" : "Text reader"}</span>
+                  <select data-testid={s.id === "tables" ? "financial-engine" : "text-engine"} value={s.id === "tables" ? financialEngine : textEngine} onChange={(e) => (s.id === "tables" ? onFinancialEngine : onTextEngine)(e.target.value as TextEngine)} disabled={busy !== null}>
                     <option value="ocrs">ocrs · text and word positions</option>
                     <option value="ppocr_v6_tiny">PP-OCRv6 tiny · multilingual, line positions · ~6.3 MB extra</option>
                     <option value="ppocr_v6_tiny_detail">PP-OCRv6 tiny · small print (slower, more memory)</option>
-                    <option value="ppocr_v6_tiny_exposure">PP-OCRv6 tiny · compare brighter reading (experimental, slower)</option>
+                    {s.id === "text" && <option value="ppocr_v6_tiny_exposure">PP-OCRv6 tiny · compare brighter reading (experimental, slower)</option>}
                   </select>
                 </label>
               )}
@@ -128,6 +142,7 @@ export function Home({ ready, status, modelsState, failed, method, textEngine, o
           BlazeFace and Face Mesh © Google (<a href="https://github.com/google-ai-edge/mediapipe">MediaPipe</a>, Apache-2.0);
           MiniFASNet © <a href="https://github.com/minivision-ai/Silent-Face-Anti-Spoofing">Minivision</a> (Apache-2.0);
           SFace © <a href="https://github.com/opencv/opencv_zoo">OpenCV</a> (Apache-2.0);
+          GS1 parsing metadata © GS1 AISBL (<a href="https://github.com/gs1/gs1-syntax-dictionary">syntax dictionary</a>, <a href={`${import.meta.env.BASE_URL}licenses/gs1.txt`}>Apache-2.0</a>);{" "}
           barcodes by <a href="https://github.com/rxing-core/rxing">rxing</a>, a port of ZXing (Apache-2.0);
           place names from <a href="https://www.geonames.org">GeoNames</a>{" "}
           (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>).

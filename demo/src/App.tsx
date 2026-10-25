@@ -1,3 +1,4 @@
+import { type LabelEngine, labelEngineFromUrl } from "./label-engine";
 // Three screens: home (a card per scanner), the full-screen camera, and the
 // results form. The URL names the scanner (`?doc=…`, `?mode=…`), so a deep
 // link opens its camera directly; Back to home always returns to the menu.
@@ -8,8 +9,13 @@ import { FaceClient } from "./face-client";
 import { type FaceFlowId, FaceFlow } from "./FaceFlow";
 import { Home } from "./Home";
 import { type Captured, type DocType, IdCapture } from "./IdCapture";
-import { type TextEngine, textEngineFromUrl } from "./text-engine";
+import { type TextEngine, textEngineFromUrl, financialEngineFromUrl } from "./text-engine";
 import { TextCapture } from "./TextCapture";
+import { FinancialCapture } from "./FinancialCapture";
+import { readFinancialPages } from "./financial-data";
+import type { ItemRegion } from "./item-grouping";
+import type { FinancialTablesOptions } from "./financial-tables";
+import { ItemsCapture } from "./ItemsCapture";
 import { MultiBarcode } from "./MultiBarcode";
 import type { Extractor } from "./models";
 import type { CaptureMeta, Outcome, ReadyInfo } from "./outcome";
@@ -85,6 +91,8 @@ export function App() {
       });
     };
   }, [client, fastClient]);
+  const [financialEngine, setFinancialEngine] = useState<TextEngine>(financialEngineFromUrl);
+  const [labelEngine, setLabelEngine] = useState<LabelEngine>(labelEngineFromUrl);
   const [textEngine, setTextEngine] = useState<TextEngine>(textEngineFromUrl);
   const [method, setMethod] = useState<Extractor | "auto">(methodFromUrl);
   const [busy, setBusy] = useState<ScannerId | null>(null);
@@ -153,7 +161,7 @@ export function App() {
 
   // The browser's own Back (and Android's) follows the URL.
   useEffect(() => {
-    const onPop = () => { cancelPhoto(); setTextEngine(textEngineFromUrl()); changeScreen(screenFromUrl()); };
+    const onPop = () => { cancelPhoto(); setTextEngine(textEngineFromUrl()); setFinancialEngine(financialEngineFromUrl()); setLabelEngine(labelEngineFromUrl()); changeScreen(screenFromUrl()); };
     addEventListener("popstate", onPop);
     return () => removeEventListener("popstate", onPop);
   }, [cancelPhoto, changeScreen]);
@@ -166,10 +174,10 @@ export function App() {
   const open = useCallback(
     (scanner: ScannerId) => {
       cancelPhoto();
-      history.pushState(PUSHED, "", urlFor(scanner, method, textEngine));
+      history.pushState(PUSHED, "", urlFor(scanner, method, scanner === "tables" ? financialEngine : textEngine, labelEngine));
       changeScreen({ kind: "capture", scanner });
     },
-    [method, textEngine, cancelPhoto, changeScreen],
+    [method, textEngine, financialEngine, labelEngine, cancelPhoto, changeScreen],
   );
 
   /** Unmounting the capture screen stops its camera. */
@@ -200,21 +208,21 @@ export function App() {
     }
     const request = new AbortController();
     photoRequest.current = request;
-    photoClient.current = id === "barcodes" ? fastClient : client;
+    photoClient.current = (id === "barcodes" || id === "items") ? fastClient : client;
     const processing = createProcessingSession(id, "file");
     photoProcessing.current = processing;
     processing.captured({ inputCount: files.length });
-    processing.stage(id === "barcodes" ? "decoding_barcodes" : "reading_image");
+    processing.stage((id === "barcodes" || id === "items") ? "decoding_barcodes" : "reading_image");
     changeScreen({ kind: "processing", scanner: id });
     setBusy(id);
     setPhotoError(null);
     try {
-      const outcome = await analysePhotos(id === "barcodes" ? fastClient : client, id, files, method, faceClient, textEngine, request.signal);
+      const outcome = await analysePhotos((id === "barcodes" || id === "items") ? fastClient : client, id, files, method, faceClient, id === "tables" ? financialEngine : textEngine, request.signal, labelEngine);
       if (request.signal.aborted) { releasePhotoOutcome(outcome); return; }
       if (outcome.kind === "file_error" && outcome.severity !== "warning") processing.fail(outcome.message);
       else processing.complete();
       outcome.operationId = processing.id;
-      history.pushState(PUSHED, "", urlFor(id, method, textEngine));
+      history.pushState(PUSHED, "", urlFor(id, method, id === "tables" ? financialEngine : textEngine, labelEngine));
       changeScreen({ kind: "results", outcome });
       window.dispatchEvent(new CustomEvent("docscan:file", { detail: { outcome, operationId: processing.id } }));
     } catch (e) {
@@ -238,7 +246,7 @@ export function App() {
     const session = createProcessingSession("labels", target.meta.source === "camera" ? "camera" : "file");
     photoProcessing.current = session; labelOperation.current = session.id;
     const originalTarget = target;
-    target = { ...target, labelReadStatus: "pending", labelReadError: undefined };
+    target = { ...target, labelReader: labelEngine, labelReadStatus: "pending", labelReadError: undefined };
     attemptedLabels.current.add(target);
     root = replaceOutcome(root, originalTarget, target);
     resultRef.current = root; setScreen({ kind: "results", outcome: root });
@@ -246,7 +254,7 @@ export function App() {
     const start = performance.now();
     let reading: Outcome | undefined;
     try {
-      reading = await analysePhotos(client, "labels", [blob instanceof File ? blob : new File([blob], "captured-label.jpg", { type: blob.type || "image/jpeg" })], method, faceClient, textEngine, request.signal);
+      reading = await analysePhotos(client, "labels", [blob instanceof File ? blob : new File([blob], "captured-label.jpg", { type: blob.type || "image/jpeg" })], method, faceClient, textEngine, request.signal, labelEngine);
       if (request.signal.aborted || resultRef.current !== root) return;
       const replacement = mergeLabelReading(target, reading, performance.now() - start);
       const next = replaceOutcome(root, target, replacement);
@@ -278,15 +286,30 @@ export function App() {
     if (target) void readLabels(target);
   }, [screen, readingLabels]);
 
+  function onItemRegions(target: Extract<Outcome,{kind:"barcodes"}>, regions: ItemRegion[]) {
+    const root=resultRef.current;
+    if (!root || photoRequest.current || !barcodeLeaves(root).includes(target)) return;
+    const next=replaceOutcome(root,target,{...target,itemRegions:regions});
+    resultRef.current=next;setScreen({kind:"results",outcome:next});
+    window.dispatchEvent(new CustomEvent("docscan:items-review",{detail:{operationId:next.operationId??null,outcome:next}}));
+  }
+
+  function onFinancialOptions(target: Extract<Outcome,{kind:"financial"}>, options: FinancialTablesOptions) {
+    if (!resultRef.current) return;
+    const next = replaceOutcome(resultRef.current,target,{...target,options,report:readFinancialPages(target.pages,options,target.incompleteInputs)});
+    resultRef.current=next;setScreen({kind:"results",outcome:next});
+    window.dispatchEvent(new CustomEvent("docscan:financial",{detail:{operationId:next.operationId??null,source:"review_options",outcome:next}}));
+  }
+
   if (screen.kind === "results") return <>
     {readingLabels && <aside className="processing-panel" role="status" data-testid="label-processing">
       Reading printed labels… Barcode results are ready to use.
       <button type="button" data-testid="cancel-label-reading" onClick={() => cancelPhoto()}>Stop label reading</button>
     </aside>}
-    <Results outcome={screen.outcome} ready={ready} onHome={goHome} face={faceRef.current}
+    <Results outcome={screen.outcome} onFinancialOptions={onFinancialOptions} onItemRegions={onItemRegions} itemsEditable={!readingLabels} ready={ready} onHome={goHome} face={faceRef.current}
     onReadLabels={readingLabels ? undefined : target => { void readLabels(target); }} /></>;
   if (screen.kind === "processing") return <ProcessingView title={scannerById(screen.scanner).title}
-    stage={screen.scanner === "barcodes" ? "Decoding barcodes…" : "Reading and checking the image…"} onCancel={goHome} />;
+    stage={(screen.scanner === "barcodes" || screen.scanner === "items") ? "Decoding barcodes…" : "Reading and checking the image…"} onCancel={goHome} />;
 
   if (screen.kind === "capture") {
     const s = screen.scanner;
@@ -294,8 +317,12 @@ export function App() {
       <div className="capture-screen" data-testid="capture" data-scanner={s}>
         {s === "liveness" || s === "faceid" || s === "facedoc" ? (
           <FaceFlow flow={s as FaceFlowId} face={faceClient()} scanner={client} captureClient={fastClient} onDone={onOutcome} />
+        ) : s === "tables" ? (
+          <FinancialCapture client={client} captureClient={fastClient} engine={financialEngine === "ppocr_v6_tiny_exposure" ? "ppocr_v6_tiny" : financialEngine} onDone={onOutcome} />
+        ) : s === "items" ? (
+          <ItemsCapture client={fastClient} onDone={onOutcome} />
         ) : s === "barcodes" || s === "labels" ? (
-          <MultiBarcode client={fastClient} reader={client} labels={s === "labels"} onDone={onOutcome} />
+          <MultiBarcode client={fastClient} reader={client} labelEngine={labelEngine} labels={s === "labels"} onDone={onOutcome} />
         ) : s === "text" ? (
           <TextCapture client={client} captureClient={fastClient} engine={textEngine} onDone={onOutcome} />
         ) : s === "address" ? (
@@ -306,7 +333,7 @@ export function App() {
         <button type="button" className="back" data-testid="capture-home" onClick={goHome} aria-label={`Back to home from ${scannerById(s).title}`}>
           <span aria-hidden="true">‹</span> Back to home
         </button>
-        {(s === "barcodes" || s === "labels") && <label className="photo-action capture-import">
+        {(s === "barcodes" || s === "labels" || s === "items") && <label className="photo-action capture-import">
           Import image
           <input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" multiple disabled={!ready}
             aria-label="Import barcode images or PDF" data-testid="capture-import"
@@ -327,6 +354,10 @@ export function App() {
       modelsState={modelsState}
       failed={failed}
       method={method}
+      financialEngine={financialEngine}
+      onFinancialEngine={setFinancialEngine}
+      labelEngine={labelEngine}
+      onLabelEngine={setLabelEngine}
       textEngine={textEngine}
       onTextEngine={setTextEngine}
       onMethod={setMethod}

@@ -1,0 +1,227 @@
+{
+ "scorer": "v2",
+ "engine": "financial-tables",
+ "engineSourceSha256": "a91a63e7d2460d015fc23bcc83f2e44375230eba666ec7f704d7ee6a1367850e",
+ "manifestSha256": "d490b4cc06d5cad5d5260e6e9cfb05568343d47850f5e9e2e4683763ca4929b8",
+ "summary": {
+  "set": "main",
+  "fixtures": 23,
+  "tables": {
+   "gold": 28,
+   "parsed": 28,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 138,
+   "parsed": 138,
+   "kindCorrect": 138,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 464,
+   "correct": 464,
+   "missing": 0,
+   "wrong": 0,
+   "accuracy": 1,
+   "emitted": 463,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 463,
+   "withSource": 463,
+   "approximate": 47
+  },
+  "checks": {
+   "expected": 55,
+   "agreed": 55,
+   "falseConsistent": 0,
+   "emitted": 61,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 2,
+   "correct": 2,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 12,
+   "agreed": 12,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 2,
+   "reported": 2
+  },
+  "labels": {
+   "expected": 7,
+   "agreed": 7
+  },
+  "fixturesWithFailures": []
+ },
+ "fixtures": [
+  {
+   "id": "bank_basic_dmy",
+   "ms": 29.82,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_multipage_wrapped",
+   "ms": 23.94,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_amount_column_descending",
+   "ms": 3.98,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_swapped_columns_textual_dates",
+   "ms": 3.61,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_ambiguous_dates",
+   "ms": 2.47,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_inconsistent_balance",
+   "ms": 2.81,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_malformed_money",
+   "ms": 2.68,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_eu_decimal_comma",
+   "ms": 4.06,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_missing_page",
+   "ms": 4.47,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_partial_ocr",
+   "ms": 2.08,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_line_level_ocr",
+   "ms": 2.94,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_multicurrency_sections",
+   "ms": 3.77,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_statements_month_missing",
+   "ms": 3.93,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "bank_statements_two_files_no_account_context",
+   "ms": 3.7,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "invoice_basic",
+   "ms": 7.66,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "invoice_two_line_header_tax_column",
+   "ms": 4,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "invoice_errors",
+   "ms": 1.87,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "invoice_mixed_currency",
+   "ms": 1.14,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "payslip_stacked",
+   "ms": 5.18,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "payslip_net_error",
+   "ms": 4.07,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "payslip_side_by_side",
+   "ms": 2.15,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "negative_letter",
+   "ms": 1.63,
+   "status": "abstained",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "negative_unknown_table",
+   "ms": 0.55,
+   "status": "abstained",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

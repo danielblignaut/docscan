@@ -1,0 +1,501 @@
+{
+ "id": "bank_multicurrency_sections",
+ "description": "One page, a USD section and a EUR section, each declared above its table; amounts unmarked. Each section reconciles on its own; nothing crosses currencies.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "FICTIVE",
+     "x": 400.6,
+     "y": 476,
+     "w": 81.3,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "3,700.00",
+     "x": 1091,
+     "y": 222.7,
+     "w": 88.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "balance",
+     "x": 338.1,
+     "y": 290.2,
+     "w": 77.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Closing",
+     "x": 250.8,
+     "y": 544.5,
+     "w": 79.4,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "FROM",
+     "x": 303.8,
+     "y": 222.2,
+     "w": 43.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Credit",
+     "x": 932.8,
+     "y": 408.4,
+     "w": 66.7,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Opening",
+     "x": 250.1,
+     "y": 442.2,
+     "w": 76.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Credit",
+     "x": 930.4,
+     "y": 153.5,
+     "w": 68.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "SUPPLIER",
+     "x": 493.6,
+     "y": 476,
+     "w": 92.9,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "SUPPLIER",
+     "x": 418.7,
+     "y": 509.2,
+     "w": 90.2,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "300.00",
+     "x": 1114.1,
+     "y": 476.1,
+     "w": 65.5,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "03/03/2026",
+     "x": 80.8,
+     "y": 221.6,
+     "w": 113.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "10/03/2026",
+     "x": 80.6,
+     "y": 256.4,
+     "w": 112.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 336.8,
+     "y": 187.6,
+     "w": 75.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Date",
+     "x": 79.4,
+     "y": 153.9,
+     "w": 44.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "3,685.00",
+     "x": 1093.6,
+     "y": 290,
+     "w": 86.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Description",
+     "x": 249,
+     "y": 154.7,
+     "w": 124.9,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "18/03/2026",
+     "x": 80.3,
+     "y": 509.8,
+     "w": 115.2,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "Closing",
+     "x": 249.2,
+     "y": 290.2,
+     "w": 77.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "FEE",
+     "x": 306.4,
+     "y": 256,
+     "w": 34,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "04/03/2026",
+     "x": 80,
+     "y": 476,
+     "w": 116,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "350.00",
+     "x": 1114.6,
+     "y": 544.1,
+     "w": 66.3,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "balance",
+     "x": 341.6,
+     "y": 544.5,
+     "w": 79.4,
+     "h": 22,
+     "line": 11
+    },
+    {
+     "text": "balance",
+     "x": 337.6,
+     "y": 442.2,
+     "w": 76.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "CLIENT",
+     "x": 457.1,
+     "y": 222.2,
+     "w": 65.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "350.00",
+     "x": 1110.7,
+     "y": 509.2,
+     "w": 68.5,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "Balance",
+     "x": 1102.5,
+     "y": 154.7,
+     "w": 77.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Debit",
+     "x": 762,
+     "y": 153.3,
+     "w": 57.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "EUR",
+     "x": 187.9,
+     "y": 374,
+     "w": 32.5,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Currency:",
+     "x": 79.7,
+     "y": 374,
+     "w": 97.4,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "15.00",
+     "x": 762.6,
+     "y": 255.8,
+     "w": 56.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "INVENTED",
+     "x": 358.6,
+     "y": 222.2,
+     "w": 87.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "50.00",
+     "x": 944.9,
+     "y": 510.4,
+     "w": 55,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "SEPA",
+     "x": 249.6,
+     "y": 476,
+     "w": 46.5,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "PAYMENT",
+     "x": 307.7,
+     "y": 476,
+     "w": 81.3,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "2,500.00",
+     "x": 911.6,
+     "y": 222.1,
+     "w": 87.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "LLC",
+     "x": 533.8,
+     "y": 222.2,
+     "w": 32.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Currency:",
+     "x": 79.9,
+     "y": 120,
+     "w": 100.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "CARD",
+     "x": 249.6,
+     "y": 256,
+     "w": 45.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Balance",
+     "x": 1098.6,
+     "y": 407.3,
+     "w": 81.5,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "500.00",
+     "x": 1110.5,
+     "y": 441.2,
+     "w": 69.6,
+     "h": 22,
+     "line": 8
+    },
+    {
+     "text": "Description",
+     "x": 250.1,
+     "y": 408.2,
+     "w": 122.2,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "Opening",
+     "x": 250.3,
+     "y": 187.6,
+     "w": 75.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "USD",
+     "x": 191.4,
+     "y": 120,
+     "w": 33.5,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Debit",
+     "x": 764.3,
+     "y": 407.6,
+     "w": 56.1,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "FICTIVE",
+     "x": 328.6,
+     "y": 509.2,
+     "w": 78.9,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "3,685.00",
+     "x": 1089.3,
+     "y": 255.6,
+     "w": 91.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "200.00",
+     "x": 751.4,
+     "y": 476.2,
+     "w": 69.4,
+     "h": 22,
+     "line": 9
+    },
+    {
+     "text": "WIRE",
+     "x": 249.1,
+     "y": 222.2,
+     "w": 43.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "1,200.00",
+     "x": 1088.2,
+     "y": 188.7,
+     "w": 91.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "REFUND",
+     "x": 249.7,
+     "y": 509.2,
+     "w": 67.6,
+     "h": 22,
+     "line": 10
+    },
+    {
+     "text": "Date",
+     "x": 80.6,
+     "y": 408.6,
+     "w": 44.3,
+     "h": 22,
+     "line": 7
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "currency": "USD",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "1200.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-03",
+      "description": "WIRE FROM INVENTED CLIENT LLC",
+      "credit": "2500.00",
+      "balance": "3700.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-10",
+      "description": "CARD FEE",
+      "debit": "15.00",
+      "balance": "3685.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "3685.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "currency": "EUR",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "500.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-04",
+      "description": "SEPA PAYMENT FICTIVE SUPPLIER",
+      "debit": "200.00",
+      "balance": "300.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-18",
+      "description": "REFUND FICTIVE SUPPLIER",
+      "credit": "50.00",
+      "balance": "350.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "350.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  }
+ }
+}

@@ -597,7 +597,7 @@ mod tests {
     }
 
     fn bar(format: &str, text: &str, x0: f32, x1: f32, y: f32) -> Barcode {
-        Barcode { format: format.into(), text: text.into(), bytes: vec![], points: vec![[x0, y], [x1, y]] }
+        Barcode { format: format.into(), text: text.into(), bytes: vec![], symbology_identifier: None, points: vec![[x0, y], [x1, y]] }
     }
 
     #[test]

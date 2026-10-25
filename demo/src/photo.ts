@@ -1,6 +1,10 @@
+import { labelRequest, type LabelEngine } from "./label-engine";
 // "Test with a photo": the same scanner as the camera flow, run once on an
 // uploaded image, ending on the same results screen. No window events fire:
 // they announce camera captures to a host page.
+import type { FinancialTablesOptions } from "./financial-tables";
+import { readFinancialPages } from "./financial-data";
+import { describeBarcodes } from "./barcode-data";
 import { inspectFile, openPdf, sniffDocumentKind, DocumentFileError, type FileEvidence, type PdfHandle } from "./document-files";
 import { cleanString, newEvidence } from "./document-files/common";
 import { comparePdfText, documentEvidence, type InputReference } from "./document-review";
@@ -35,7 +39,7 @@ async function pixels(file: File, maxWidth = Number.POSITIVE_INFINITY): Promise<
  * `files`: one photo per step, in order (a smart ID's front, then its back);
  * extra photos are read as the last step.
  */
-async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient, textEngine: TextEngine = "ocrs", options: { flatPage?: boolean; stepOffset?: number; signal?: AbortSignal } = {}): Promise<Outcome> {
+async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient, textEngine: TextEngine = "ocrs", options: { flatPage?: boolean; stepOffset?: number; signal?: AbortSignal; labelEngine?: LabelEngine } = {}): Promise<Outcome> {
   const run = async <T>(...args: Parameters<ScannerClient["run"]>) => {
     checkCancelled(options.signal);
     const result = await client.run<T>(...args);
@@ -98,11 +102,11 @@ async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, file
       return { kind: "face", flow: scanner, liveness: null, match, photos: [photo], meta: meta(1) };
     }
 
-    if (scanner === "barcodes") {
+    if (scanner === "barcodes" || scanner === "items") {
       const image = await pixels(files[0], 1920);
       const imageUrl = createUrl(files[0]);
       const { result } = await run<Barcode[]>({ kind: "barcodes", image, formats: [] });
-      return { kind: "barcodes", labels: false, barcodes: result.map(({format, text}) => ({format, text, count: 1})),
+      return { kind: "barcodes", labels: false, itemMode: scanner === "items", barcodes: describeBarcodes(result), observations: describeBarcodes(result), imageSize: [image.width, image.height],
         fields: [], imageUrl, blob: files[0], finishedBy: "image decoded", meta: meta(1) };
     }
     if (scanner === "labels") {
@@ -111,13 +115,13 @@ async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, file
       const image = await pixels(file, 1920);
       const imageUrl = createUrl(file);
       // Device-label mode explicitly reads printed IMEI/SN values as well as bars.
-      const { result } = await run<Labelled>({ kind: "labelled", image });
+      const { result } = await run<Labelled>(labelRequest(options.labelEngine ?? "detailed", image));
       const fields = result.fields.filter((f) => f.check_digit_valid !== false);
       const barcodes = fields.filter((f) => f.barcode_format).map((f) => ({ format: f.barcode_format!, text: f.value, count: 1 }));
-      return { kind: "barcodes", labels: scanner === "labels", barcodes, fields, imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
+      return { kind: "barcodes", labels: scanner === "labels", labelReader: options.labelEngine ?? "detailed", barcodes, fields, droppedObservations: describeBarcodes(result.dropped ?? []), imageSize: [image.width,image.height], imageUrl, finishedBy: "one photo", meta: meta(1, 1) };
     }
 
-    if (scanner === "address" || scanner === "text") {
+    if (scanner === "address" || scanner === "text" || scanner === "tables") {
       const file = files[0];
       const full = await pixels(file);
       const fullWidth = full.width;
@@ -135,12 +139,16 @@ async function analyseImageFiles(client: ScannerClient, scanner: ScannerId, file
         ownedUrls.add(imageUrl);
       } else {
         image = await pixels(file);
-        if (scanner === "text") image = downscale(image, 2480);
+        if (scanner === "text" || scanner === "tables") image = downscale(image, 2480);
         blob = await toJpeg(downscale(image, 1024));
         imageUrl = createUrl(blob);
       }
-      if (scanner === "text") {
-        const { result, memoryBytes } = await run<TextResult>(textRequest(textEngine, image));
+      if (scanner === "text" || scanner === "tables") {
+        const { result, memoryBytes } = await run<TextResult>(textRequest(scanner === "tables" && textEngine === "ppocr_v6_tiny_exposure" ? "ocrs" : textEngine, image));
+        if (scanner === "tables") {
+          const pages = [{pageIndex:0,fileIndex:0,reading:result,imageUrl}];
+          return {kind:"financial",pages,report:readFinancialPages(pages),options:{},incompleteInputs:0,meta:{...meta(2,1),memoryBytes}};
+        }
         return { kind: "text", result, imageUrl, meta: { ...meta(2, "exposure" in result ? result.exposure?.ocrPasses ?? 1 : 1), memoryBytes } };
       }
       const tRead = performance.now();
@@ -201,6 +209,7 @@ async function renderedFile(image: ImageData, name: string): Promise<File> {
   return new File([await canvas.convertToBlob({ type: "image/png" })], name, { type: "image/png" });
 }
 function outcomeText(outcome: Outcome): string | null {
+  if (outcome.kind === "financial") return outcome.pages.map(p=>p.reading.text).join("\n");
   if (outcome.kind === "text") return outcome.result.text;
   if (outcome.kind === "address") return outcome.captured.result.text;
   return null;
@@ -211,7 +220,7 @@ function outcomeText(outcome: Outcome): string | null {
  * File imports deliberately do not emit camera-completion events.
  */
 export async function analysePhotos(client: ScannerClient, scanner: ScannerId, files: File[], method: Extractor | "auto", face: () => FaceClient,
-  textEngine: TextEngine = "ocrs", signal?: AbortSignal): Promise<Outcome> {
+  textEngine: TextEngine = "ocrs", signal?: AbortSignal, labelEngine: LabelEngine = "detailed"): Promise<Outcome> {
   const started = performance.now();
   checkCancelled(signal);
   if (!files.length) throw new Error("Select a document.");
@@ -227,7 +236,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
   let anyPdf = false;
   let selfieEvidence: FileEvidence | undefined;
   let selfieError: string | undefined;
-  const meta = () => ({ source: anyPdf ? "pdf" as const : "photo" as const, captureMs: performance.now() - started, frames: processed, ocrFrames: scanner === "barcodes" ? 0 : processed });
+  const meta = () => ({ source: anyPdf ? "pdf" as const : "photo" as const, captureMs: performance.now() - started, frames: processed, ocrFrames: scanner === "barcodes" || scanner === "items" ? 0 : processed });
   const message = (error: unknown) => error instanceof Error ? error.message : "File could not be read.";
   const rethrowFatal = (error: unknown) => {
     checkCancelled(signal);
@@ -267,7 +276,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     let outcome: Outcome;
     try {
       if (selfieError) throw new Error(`Selfie could not be inspected: ${selfieError} Document/face comparison was not run.`);
-      outcome = await analyseImageFiles(client, scanner, scanner === "facedoc" ? [imageFile, files[1]] : [imageFile], method, face, textEngine, { flatPage, stepOffset, signal });
+      outcome = await analyseImageFiles(client, scanner, scanner === "facedoc" ? [imageFile, files[1]] : [imageFile], method, face, textEngine, { flatPage, stepOffset, signal, labelEngine });
     } catch (error) {
       rethrowFatal(error);
       noteEvidenceError(fileEvidence, error, "page_analysis", input.pageIndex ?? undefined);
@@ -276,10 +285,14 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
     }
     if (signal?.aborted) { releasePhotoOutcome(outcome); checkCancelled(signal); }
     outcome.meta = { ...outcome.meta, source: flatPage ? "pdf" : "photo", input };
+    if (outcome.kind === "financial") {
+      for (const page of outcome.pages) { page.pageIndex = processed-1; page.fileIndex = input.fileIndex; page.input = input; }
+      outcome.report = readFinancialPages(outcome.pages);
+    }
     if (outcome.kind === "id") for (const capture of outcome.captured) capture.input = input;
     pages.push(outcome);
     evidence.inputs.push(input);
-    if (flatPage) evidence.comparisons.push({ input, result: comparePdfText(fileEvidence.pdf?.pages.find(p => p.index === input.pageIndex), outcomeText(outcome), scanner === "text" || scanner === "address") });
+    if (flatPage) evidence.comparisons.push({ input, result: comparePdfText(fileEvidence.pdf?.pages.find(p => p.index === input.pageIndex), outcomeText(outcome), scanner === "text" || scanner === "address" || scanner === "tables") });
   };
   try {
     // Inspect the original selfie once, before any comparison, retaining its evidence.
@@ -329,7 +342,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
               if (pageEvidence) pageEvidence.status = "failed";
               recordError(error, input);
               evidence.inputs.push(input);
-              evidence.comparisons.push({ input, result: comparePdfText(fileEvidence.pdf?.pages.find(p => p.index === pageIndex), null, scanner === "text" || scanner === "address") });
+              evidence.comparisons.push({ input, result: comparePdfText(fileEvidence.pdf?.pages.find(p => p.index === pageIndex), null, scanner === "text" || scanner === "address" || scanner === "tables") });
               processed++;
               continue;
             }
@@ -359,14 +372,21 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
             noteEvidenceError(fileEvidence, error, "pdf_close");
             if (fileEvidence.status !== "failed") fileEvidence.status = "incomplete";
           }
-          recordError(error, fileEvidence ? reference(fileIndex, fileEvidence, true) : undefined);
+          recordError(error, fileEvidence ? reference(fileIndex, fileEvidence, true) : undefined, "warning");
         }
       }
     }
     if (selfieEvidence) evidence.files[1] = selfieEvidence;
     checkCancelled(signal);
     let outcome: Outcome;
-    if (ID_SCANNERS.has(scanner) && pages.some(p => p.kind === "id")) {
+    if (scanner === "tables" && pages.some(p=>p.kind === "financial")) {
+      const captured = pages.flatMap(p=>p.kind === "financial" ? p.pages : []);
+      const notices = pages.filter(p=>p.kind !== "financial");
+      const failures = notices.filter(p=>p.kind !== "file_error" || p.severity !== "warning");
+      const options: FinancialTablesOptions = {failedPages:failures.map(f=>({pageIndex:f.meta.input?.pageIndex??null,fileIndex:f.meta.input?.fileIndex??null,reason:f.kind === "file_error" ? f.message : "Input was not read as a financial page"}))};
+      const combined: Outcome = {kind:"financial",pages:captured,options,incompleteInputs:failures.length,report:readFinancialPages(captured,options,failures.length),meta:meta()};
+      outcome = notices.length ? {kind:"batch",scanner,pages:[combined,...notices],meta:meta()} : combined;
+    } else if (ID_SCANNERS.has(scanner) && pages.some(p => p.kind === "id")) {
       // Metadata/render failures must remain visible without separating the
       // readable identity sides and suppressing their front/back cross-check.
       const combined: Outcome = { kind: "id", scanner, captured: pages.flatMap(p => p.kind === "id" ? p.captured : []), meta: meta() };
@@ -385,6 +405,7 @@ export async function analysePhotos(client: ScannerClient, scanner: ScannerId, f
 function outcomeUrls(outcome: Outcome): string[] {
   if (outcome.kind === "batch") return outcome.pages.flatMap(outcomeUrls);
   if (outcome.kind === "file_error") return [];
+  if (outcome.kind === "financial") return outcome.pages.map(p=>p.imageUrl);
   const urls = outcome.kind === "id" ? outcome.captured.map((c) => c.imageUrl)
     : outcome.kind === "address" ? [outcome.captured.imageUrl]
     : outcome.kind === "face" ? [...(outcome.photos?.map((p) => p.imageUrl) ?? []), outcome.document?.imageUrl, outcome.document?.alignedUrl,

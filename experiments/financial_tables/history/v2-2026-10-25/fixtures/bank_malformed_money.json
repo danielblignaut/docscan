@@ -1,0 +1,361 @@
+{
+ "id": "bank_malformed_money",
+ "description": "OCR look-alike letters and broken grouping in amounts (1,2O0.00, 45.0O, 12,34.50): those cells must be malformed and the totals not claimed.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "12,34.50",
+     "x": 910.7,
+     "y": 255.4,
+     "w": 88.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 119.8,
+     "w": 125.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "FROM",
+     "x": 352.8,
+     "y": 255.7,
+     "w": 45.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Opening",
+     "x": 249.6,
+     "y": 154.1,
+     "w": 77.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Credit",
+     "x": 931.1,
+     "y": 119.4,
+     "w": 68.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "2,755.00",
+     "x": 1093.9,
+     "y": 221.8,
+     "w": 86.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "3,890.50",
+     "x": 1090.7,
+     "y": 324.7,
+     "w": 90.3,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "PARTNER",
+     "x": 409.7,
+     "y": 255.7,
+     "w": 79.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Debit",
+     "x": 763.6,
+     "y": 120.1,
+     "w": 55.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "2,800.00",
+     "x": 1090.3,
+     "y": 188.3,
+     "w": 90,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "OUTDOOR",
+     "x": 391.2,
+     "y": 188.1,
+     "w": 76.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "4,000.00",
+     "x": 1092.8,
+     "y": 153.6,
+     "w": 88.1,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "14/07/2026",
+     "x": 79.4,
+     "y": 187.4,
+     "w": 115.4,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "3,890.50",
+     "x": 1093.2,
+     "y": 290.2,
+     "w": 86.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "POS",
+     "x": 249.6,
+     "y": 188.1,
+     "w": 32.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,2O0.00",
+     "x": 727.7,
+     "y": 188.7,
+     "w": 91.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "STATIONER",
+     "x": 398.5,
+     "y": 290.1,
+     "w": 102.3,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "TAKEAWAY",
+     "x": 398.5,
+     "y": 221.5,
+     "w": 92,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Closing",
+     "x": 250.9,
+     "y": 324.5,
+     "w": 80.9,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Balance",
+     "x": 1100,
+     "y": 119.5,
+     "w": 80.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "balance",
+     "x": 338.2,
+     "y": 154.1,
+     "w": 77.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "STORE",
+     "x": 478.3,
+     "y": 188.1,
+     "w": 54.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "PURCHASE",
+     "x": 296.3,
+     "y": 290.1,
+     "w": 90.9,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "3,989.50",
+     "x": 1087.1,
+     "y": 255.5,
+     "w": 92.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "99.00",
+     "x": 762.8,
+     "y": 290.7,
+     "w": 57.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "balance",
+     "x": 343.3,
+     "y": 324.5,
+     "w": 80.9,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "16/07/2026",
+     "x": 80.2,
+     "y": 222.7,
+     "w": 116.2,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "22/07/2026",
+     "x": 79.7,
+     "y": 289.3,
+     "w": 113.2,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "19/07/2026",
+     "x": 79.9,
+     "y": 256.7,
+     "w": 111.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "POS",
+     "x": 249.1,
+     "y": 221.5,
+     "w": 34.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "TRANSFER",
+     "x": 250.4,
+     "y": 255.7,
+     "w": 91,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "PURCHASE",
+     "x": 293.2,
+     "y": 188.1,
+     "w": 87.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.1,
+     "y": 221.5,
+     "w": 92,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Date",
+     "x": 79.1,
+     "y": 120.8,
+     "w": 43,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "POS",
+     "x": 250.8,
+     "y": 290.1,
+     "w": 34.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "45.0O",
+     "x": 764.5,
+     "y": 221.2,
+     "w": 55.4,
+     "h": 22,
+     "line": 3
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "4000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-07-14",
+      "description": "POS PURCHASE OUTDOOR STORE",
+      "debit": null,
+      "balance": "2800.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-07-16",
+      "description": "POS PURCHASE TAKEAWAY",
+      "debit": null,
+      "balance": "2755.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-07-19",
+      "description": "TRANSFER FROM PARTNER",
+      "credit": null,
+      "balance": "3989.50"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-07-22",
+      "description": "POS PURCHASE STATIONER",
+      "debit": "99.00",
+      "balance": "3890.50"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "3890.50"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "tableStatus": [
+   "partial",
+   "unreliable"
+  ]
+ }
+}

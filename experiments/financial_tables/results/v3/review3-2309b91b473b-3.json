@@ -1,0 +1,115 @@
+{
+ "scorer": "v3",
+ "engine": "financial-tables",
+ "engineSourceSha256": "2309b91b473baa647b493c4b9dd4d6c178dd0a6522be90fabccf6fdffd66e136",
+ "manifestSha256": "9c55280348901fd4bd1d28f6be2753caced2fdb2a440e52966348212076c5f73",
+ "summary": {
+  "set": "review3",
+  "fixtures": 7,
+  "tables": {
+   "gold": 11,
+   "parsed": 11,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 29,
+   "parsed": 29,
+   "kindCorrect": 29,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 101,
+   "correct": 101,
+   "missing": 0,
+   "wrong": 0,
+   "accuracy": 1,
+   "emitted": 101,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 101,
+   "withSource": 101,
+   "approximate": 17
+  },
+  "checks": {
+   "expected": 15,
+   "agreed": 15,
+   "falseConsistent": 0,
+   "emitted": 26,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 3,
+   "agreed": 3,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 1,
+   "reported": 1
+  },
+  "labels": {
+   "expected": 0,
+   "agreed": 0
+  },
+  "fixturesWithFailures": []
+ },
+ "fixtures": [
+  {
+   "id": "review3_credit_card_sign_convention",
+   "ms": 26.19,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_near_duplicate_capture",
+   "ms": 16.91,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_undated_total_merchant",
+   "ms": 2.57,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_brought_forward_above_header",
+   "ms": 1.52,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_line_limit_blocks_totals",
+   "ms": 1.86,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_table_limit",
+   "ms": 4.01,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_invalid_page",
+   "ms": 2.52,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

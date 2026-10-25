@@ -1,0 +1,364 @@
+{
+ "id": "stress_no_year_dates",
+ "description": "Dates print day and month only; the statement period supplies the year (and spans a year end).",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "Dec",
+     "x": 113.5,
+     "y": 221.8,
+     "w": 33.2,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "05",
+     "x": 80.2,
+     "y": 290,
+     "w": 21.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "750.00",
+     "x": 1110.7,
+     "y": 221.6,
+     "w": 69.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Debit",
+     "x": 762.9,
+     "y": 153.5,
+     "w": 57.1,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "POS",
+     "x": 249.9,
+     "y": 222,
+     "w": 32.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "24",
+     "x": 80.7,
+     "y": 255.5,
+     "w": 23.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "STATIONER",
+     "x": 396.4,
+     "y": 290.5,
+     "w": 101,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Closing",
+     "x": 250,
+     "y": 323.8,
+     "w": 75.9,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "period:",
+     "x": 188.8,
+     "y": 119.9,
+     "w": 75.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Credit",
+     "x": 932.8,
+     "y": 153.5,
+     "w": 68.1,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Date",
+     "x": 79.5,
+     "y": 153.6,
+     "w": 45.9,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Description",
+     "x": 249,
+     "y": 154.4,
+     "w": 124.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Statement",
+     "x": 80.8,
+     "y": 119.9,
+     "w": 97.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "SALARY",
+     "x": 250.5,
+     "y": 256.2,
+     "w": 67.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Jan",
+     "x": 112.7,
+     "y": 290,
+     "w": 32.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "19,130.00",
+     "x": 1075.6,
+     "y": 324.1,
+     "w": 104,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "250.00",
+     "x": 751,
+     "y": 222.2,
+     "w": 68.4,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "14/01/2026",
+     "x": 426.6,
+     "y": 119.9,
+     "w": 108,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "15/12/2025",
+     "x": 275.3,
+     "y": 119.9,
+     "w": 108,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Opening",
+     "x": 249.6,
+     "y": 187.7,
+     "w": 75.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "to",
+     "x": 394.1,
+     "y": 119.9,
+     "w": 21.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.5,
+     "y": 290.5,
+     "w": 89.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "balance",
+     "x": 336.7,
+     "y": 323.8,
+     "w": 75.9,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "FICTIVE",
+     "x": 329.5,
+     "y": 256.2,
+     "w": 79,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Balance",
+     "x": 1101.2,
+     "y": 153.6,
+     "w": 79.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "PURCHASE",
+     "x": 293.4,
+     "y": 222,
+     "w": 86.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Dec",
+     "x": 115.7,
+     "y": 255.5,
+     "w": 35,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 335.9,
+     "y": 187.7,
+     "w": 75.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "19,130.00",
+     "x": 1077.6,
+     "y": 289.2,
+     "w": 102.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "POS",
+     "x": 250.6,
+     "y": 290.5,
+     "w": 33.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "120.00",
+     "x": 752.3,
+     "y": 289.5,
+     "w": 67.5,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "18,500.00",
+     "x": 899.7,
+     "y": 256.7,
+     "w": 100.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "MINING",
+     "x": 419.7,
+     "y": 256.2,
+     "w": 67.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "1,000.00",
+     "x": 1087.1,
+     "y": 187.7,
+     "w": 93.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "GIFTS",
+     "x": 391.2,
+     "y": 222,
+     "w": 54.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "19,250.00",
+     "x": 1076.6,
+     "y": 256.7,
+     "w": 103.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "20",
+     "x": 80.3,
+     "y": 221.8,
+     "w": 22.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "CO",
+     "x": 498.6,
+     "y": 256.2,
+     "w": 22.6,
+     "h": 22,
+     "line": 4
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2025-12-20",
+      "description": "POS PURCHASE GIFTS",
+      "debit": "250.00",
+      "balance": "750.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2025-12-24",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "19250.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-05",
+      "description": "POS PURCHASE STATIONER",
+      "debit": "120.00",
+      "balance": "19130.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "19130.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  }
+ }
+}

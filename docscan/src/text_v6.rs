@@ -226,7 +226,7 @@ fn select_reading(standard: PaddleTextResult, detailed: PaddleTextResult) -> Pad
     };
     if evidence(&detailed) > evidence(&standard) { detailed } else { standard }
 }
-fn validate_image(bytes: &[u8], width: usize, height: usize) -> Result<()> {
+pub(crate) fn validate_image(bytes: &[u8], width: usize, height: usize) -> Result<()> {
     ensure!(width > 0 && height > 0, "empty image");
     ensure!(width <= 8192 && height <= 8192, "image dimensions exceed 8192 pixels; resize before reading");
     let pixels = width.checked_mul(height).context("image dimensions overflow")?;
