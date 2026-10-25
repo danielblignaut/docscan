@@ -1,0 +1,2 @@
+{"status":"partial","checks":["running_balance:not_evaluable/complete [some_links_sign_convention]","opening_plus_credits_minus_debits_equals_closing:not_evaluable/complete [some_directions_from_sign_convention]"],"obs":[],"amb":["amount_direction_unknown"],"abst":[]} [ 'unmarked_amounts_read_as_credits_by_minus_convention' ]
+[]

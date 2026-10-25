@@ -1,0 +1,119 @@
+{
+ "id": "review_line_level_lone_amount",
+ "description": "Line-level OCR where a row prints an amount but no balance: the lone value must not be read as the balance.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "1,000.00",
+     "x": 1092,
+     "y": 134,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 100,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "02/01/2026 Opening balance",
+     "x": 80,
+     "y": 134,
+     "w": 286,
+     "h": 22
+    },
+    {
+     "text": "31/01/2026 Closing balance                                               900.00                     ",
+     "x": 80,
+     "y": 236,
+     "w": 1100,
+     "h": 22
+    },
+    {
+     "text": "03/01/2026 Grocer                                        -70.00          900.00                     ",
+     "x": 80,
+     "y": 202,
+     "w": 1100,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "03/01/2026 Coffee shop                                                 -30.00                       ",
+     "x": 80,
+     "y": 168,
+     "w": 1100,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "date": "2026-01-02",
+      "description": "Opening balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-03",
+      "description": "Coffee shop",
+      "amount": "-30.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-03",
+      "description": "Grocer",
+      "amount": "-70.00",
+      "balance": "900.00"
+     },
+     {
+      "kind": "closing_balance",
+      "date": "2026-01-31",
+      "description": "Closing balance",
+      "balance": "900.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "observations": {}
+ }
+}

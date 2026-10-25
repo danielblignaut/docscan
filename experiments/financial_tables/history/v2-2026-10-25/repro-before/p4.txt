@@ -1,0 +1,18 @@
+{
+  status: 'partial',
+  checks: [
+    'running_balance:inconsistent/incomplete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:inconsistent/incomplete [printed_directions]',
+    'statement_totals:inconsistent/incomplete [total_debits]'
+  ],
+  obs: [],
+  amb: [ 'date_order_unresolved' ],
+  abst: []
+}
+t1:r0 transaction 02/01/2026 | GROCER | 100.00 | 900.00
+t1:r1 total TOTAL | 300.00 | 600.00
+t1:r2 transaction 05/01/2026 | CAFE | 50.00 | 550.00
+t1:r3 closing_balance Closing balance | 550.00
+running_balance inconsistent 1 of 2 balance links do not follow from the previous balance and the amounts between them.
+opening_plus_credits_minus_debits_equals_closing inconsistent 1000.00 opening + 0 credits - 150.00 debits = 850.00; printed closing 550.00. Rows or pages may be missing, mis-read or altered. Some rows had reading issues, so agreement covers only what was read.
+statement_totals inconsistent Printed total debits 300.00; the debit rows sum to 150.00.

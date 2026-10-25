@@ -15,6 +15,7 @@ pub mod face;
 pub mod geometry;
 pub mod idback;
 pub mod idocr;
+pub mod label_speed;
 pub mod labels;
 pub mod mrz;
 pub mod mrz_decode;
@@ -198,6 +199,8 @@ pub struct Scanner {
     /// The detection model with a free input size, for pages
     /// ([`Scanner::detect_page`]): ocrs runs its own only at 800 × 600.
     det: Option<rten::Model>,
+    /// Optional PP-OCRv6 tiny reader for experimental label extraction.
+    label_reader: Option<text_v6::PaddleTextScanner>,
 }
 
 /// Owned pixels for an experimental ordinary-OCR alternative. Never an ID verdict.
@@ -339,6 +342,20 @@ impl Scanner {
     /// its check digit verified. Needs the OCR models.
     pub fn labelled(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
         let out = self.labelled_native(rgba, width, height).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&out)
+    }
+
+    /// Loads PP-OCRv6 tiny (`ppocr-v6-tiny-det.onnx`, `ppocr-v6-tiny-rec.onnx`)
+    /// for [`Scanner::labelled_fast`].
+    pub fn load_label_reader(&mut self, detector: Vec<u8>, recognizer: Vec<u8>) -> Result<(), JsError> {
+        self.load_label_reader_native(detector, recognizer).map_err(|e| JsError::new(&e.to_string()))
+    }
+
+    /// [`Scanner::labelled`] with print read by PP-OCRv6 tiny: one detection
+    /// pass of the frame (long side 960) and each line recognised once.
+    /// Barcodes, bar regions and the pairing are unchanged.
+    pub fn labelled_fast(&self, rgba: &[u8], width: u32, height: u32) -> Result<JsValue, JsError> {
+        let out = self.labelled_fast_native(rgba, width, height).map_err(|e| JsError::new(&e.to_string()))?;
         to_js(&out)
     }
 
@@ -1003,6 +1020,40 @@ impl Scanner {
         Ok(labels::associate(&barcodes, &regions, &lines))
     }
 
+    pub fn load_label_reader_native(&mut self, detector: Vec<u8>, recognizer: Vec<u8>) -> anyhow::Result<()> {
+        let mut reader = text_v6::PaddleTextScanner::new();
+        reader.load_detector_native(detector)?;
+        reader.load_recognizer_native(recognizer, text_v6::DICTIONARY_JSON)?;
+        self.label_reader = Some(reader);
+        Ok(())
+    }
+
+    pub fn labelled_fast_native(&self, rgba: &[u8], width: u32, height: u32) -> anyhow::Result<labels::Labelled> {
+        text_v6::validate_image(rgba, width as usize, height as usize)?;
+        let reader = self.label_reader.as_ref().ok_or_else(|| anyhow::anyhow!("label reader not loaded"))?;
+        self.labelled_with(rgba, width, height, |img, w, h| Ok(label_speed::rows_from_paddle(&reader.read_native(img, w, h)?.lines)))
+    }
+
+    /// [`Scanner::labelled_native`]'s steps with print read by `read` (lines
+    /// in the pixels of the image it is given, at most LABEL_OCR_WIDTH_PX wide).
+    fn labelled_with(&self, rgba: &[u8], width: u32, height: u32, read: impl Fn(&[u8], usize, usize) -> anyhow::Result<Vec<za::Line>>) -> anyhow::Result<labels::Labelled> {
+        let luma = quality::rgba_to_luma(rgba);
+        let barcodes = barcode::read_all(&luma, width, height, None);
+        let regions: Vec<[f32; 4]> = barcode::oriented_regions(&luma, width as usize, height as usize).iter().map(|r| r.bounds()).collect();
+        let k = (Self::LABEL_OCR_WIDTH_PX as f32 / width as f32).min(1.0);
+        let lines = if k < 1.0 {
+            let (small, sw, sh) = quality::scale_rgba(rgba, width as usize, height as usize, k);
+            let mut lines = read(&small, sw, sh)?;
+            for l in &mut lines {
+                (l.x, l.y, l.w, l.h) = (l.x / k, l.y / k, l.w / k, l.h / k);
+            }
+            lines
+        } else {
+            read(rgba, width as usize, height as usize)?
+        };
+        Ok(labels::associate(&barcodes, &regions, &lines))
+    }
+
     /// OCR of a whole frame in overlapping tiles about the detection model's
     /// input size (600 × 800). The model squashes a larger image to fit, which
     /// costs small print (a device label's digits) the detail it needs; tiles
@@ -1465,7 +1516,7 @@ mod tests {
     }
 
     fn code39(text: &str) -> barcode::Barcode {
-        barcode::Barcode { format: "code39".into(), text: text.into(), bytes: vec![], points: vec![] }
+        barcode::Barcode { format: "code39".into(), text: text.into(), bytes: vec![], symbology_identifier: None, points: vec![] }
     }
 
     fn line(text: &str, y: f32) -> za::Line {
@@ -1596,5 +1647,19 @@ mod tests {
         assert_eq!(first_turns(Expected::GreenBook, Some((1000, 700)), Some(3)), vec![3]);
         assert_eq!(first_turns(Expected::GreenBook, Some((700, 1000)), None), vec![0]);
         assert_eq!(first_turns(Expected::Any, Some((1000, 700)), None), vec![0]);
+    }
+}
+
+#[cfg(test)]
+mod fast_label_input_tests {
+    use super::*;
+    #[test]
+    fn fast_label_input_is_bounded_before_decode_or_model_access() {
+        let scanner = Scanner::default();
+        for (pixels, w, h) in [(vec![], 0, 1), (vec![0; 3], 1, 1), (vec![], 8193, 1), (vec![], 8000, 4000)] {
+            let error = scanner.labelled_fast_native(&pixels, w, h).unwrap_err().to_string();
+            assert!(!error.contains("not loaded"), "input should fail before model access: {error}");
+        }
+        assert!(scanner.labelled_fast_native(&[0; 4], 1, 1).unwrap_err().to_string().contains("not loaded"));
     }
 }

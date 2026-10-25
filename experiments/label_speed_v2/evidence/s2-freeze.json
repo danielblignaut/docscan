@@ -1,0 +1,13 @@
+{
+ "binary": "0fcef0dc6794c2d24d8f58e5101465a4d860b6f092d7a9adeb15e4a894a85084",
+ "receipt": "afc7d65786e534949cd49974ff30012d10e57272e3ef91c13f3784823681f765",
+ "models": {
+  "text-detection.rten": "f15cfb56bd02c4bf478a20343986504a1f01e1665c2b3a0ad66340f054b1b5ca",
+  "text-recognition.rten": "e484866d4cce403175bd8d00b128feb08ab42e208de30e42cd9889d8f1735a6e",
+  "text-detection-page.onnx": "9af24977ce4038e0c6da914a4acd0578fa07853399d4e8691e97ee4a759e7b5b",
+  "ppocr-v6-tiny-det.onnx": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8",
+  "ppocr-v6-tiny-rec.onnx": "9ef676d6ed3c88256a2d92c640c44f25b0c40947e111b14b8be8f594091563e6"
+ },
+ "head": "f1c13ea20c89a4cc98525cbd0cd95e04d9d5ff94",
+ "frozen_at": "2026-10-25T01:22:05"
+}

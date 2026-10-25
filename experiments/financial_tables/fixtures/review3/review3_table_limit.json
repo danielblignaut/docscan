@@ -1,0 +1,421 @@
+{
+ "id": "review3_table_limit",
+ "description": "More tables than maxTables: reading stops at the cap, the file's totals are not evaluated.",
+ "kind": "bank_statement",
+ "options": {
+  "limits": {
+   "maxTables": 4
+  }
+ },
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 0,
+   "lines": [
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 338,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 372,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 542,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 542,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 576,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 542,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 508,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 304,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 508,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 304,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 508,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 338,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 576,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 304,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 338,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 372,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 168,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 134,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    }
+   ]
+  },
+  {
+   "pageIndex": 1,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 0,
+   "lines": [
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 576,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 508,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 508,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 542,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 338,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 304,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 338,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 576,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 542,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 508,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 338,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 134,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 168,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 304,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Total debits",
+     "x": 250,
+     "y": 372,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 304,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "-10.00",
+     "x": 934,
+     "y": 542,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "10.00",
+     "x": 945,
+     "y": 372,
+     "w": 55,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-25",
+      "description": "Shop",
+      "amount": "-10.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-25",
+      "description": "Shop",
+      "amount": "-10.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-25",
+      "description": "Shop",
+      "amount": "-10.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-25",
+      "description": "Shop",
+      "amount": "-10.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "statement_totals": "not_evaluable",
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "observations": {}
+ }
+}

@@ -1,0 +1,245 @@
+{
+ "id": "bank_inconsistent_balance",
+ "description": "One printed running balance is wrong by 100.00 (a misread or an edit) while the closing balance is right: the running-balance check must flag the two affected links.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "native_pdf_text",
+   "trust": "untrusted_native_text_not_ocr",
+   "lines": [
+    {
+     "text": "Balance",
+     "x": 1103.7,
+     "y": 119.9,
+     "w": 75.4,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 79,
+     "y": 120.3,
+     "w": 44.9,
+     "h": 22
+    },
+    {
+     "text": "04/06/2026",
+     "x": 79.4,
+     "y": 222.5,
+     "w": 110.1,
+     "h": 22
+    },
+    {
+     "text": "230.00",
+     "x": 751.3,
+     "y": 188.7,
+     "w": 69.6,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 249.6,
+     "y": 324.7,
+     "w": 165.2,
+     "h": 22
+    },
+    {
+     "text": "4,770.00",
+     "x": 1092.5,
+     "y": 187.5,
+     "w": 87.6,
+     "h": 22
+    },
+    {
+     "text": "08/06/2026",
+     "x": 80.6,
+     "y": 255.5,
+     "w": 115.2,
+     "h": 22
+    },
+    {
+     "text": "5,000.00",
+     "x": 1090.5,
+     "y": 154.8,
+     "w": 88.9,
+     "h": 22
+    },
+    {
+     "text": "15,571.00",
+     "x": 1082.7,
+     "y": 290.3,
+     "w": 97.2,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250.3,
+     "y": 154,
+     "w": 171.8,
+     "h": 22
+    },
+    {
+     "text": "15/06/2026",
+     "x": 79.2,
+     "y": 289.8,
+     "w": 110.9,
+     "h": 22
+    },
+    {
+     "text": "DEBIT ORDER INVENTED CELLULAR",
+     "x": 249.7,
+     "y": 256.3,
+     "w": 322.7,
+     "h": 22
+    },
+    {
+     "text": "01/06/2026",
+     "x": 79.5,
+     "y": 188.7,
+     "w": 116,
+     "h": 22
+    },
+    {
+     "text": "16,770.00",
+     "x": 1077.6,
+     "y": 221.6,
+     "w": 102.5,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250.1,
+     "y": 119.3,
+     "w": 120.3,
+     "h": 22
+    },
+    {
+     "text": "16,471.00",
+     "x": 1080.8,
+     "y": 255.6,
+     "w": 98.8,
+     "h": 22
+    },
+    {
+     "text": "800.00",
+     "x": 754.8,
+     "y": 290,
+     "w": 65.1,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 767.1,
+     "y": 120.8,
+     "w": 53.8,
+     "h": 22
+    },
+    {
+     "text": "12,000.00",
+     "x": 896.2,
+     "y": 222.6,
+     "w": 103.9,
+     "h": 22
+    },
+    {
+     "text": "POS PURCHASE BUTCHERY",
+     "x": 251,
+     "y": 188.3,
+     "w": 241.8,
+     "h": 22
+    },
+    {
+     "text": "SALARY INVENTED TRANSPORT",
+     "x": 250.2,
+     "y": 222.1,
+     "w": 277.9,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 935.2,
+     "y": 119.8,
+     "w": 65.6,
+     "h": 22
+    },
+    {
+     "text": "POS PURCHASE FUEL STOP",
+     "x": 250.9,
+     "y": 290,
+     "w": 238.2,
+     "h": 22
+    },
+    {
+     "text": "15,571.00",
+     "x": 1081.6,
+     "y": 324.1,
+     "w": 97.7,
+     "h": 22
+    },
+    {
+     "text": "399.00",
+     "x": 755,
+     "y": 255.7,
+     "w": 64.6,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "5000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-01",
+      "description": "POS PURCHASE BUTCHERY",
+      "debit": "230.00",
+      "balance": "4770.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-04",
+      "description": "SALARY INVENTED TRANSPORT",
+      "credit": "12000.00",
+      "balance": "16770.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-08",
+      "description": "DEBIT ORDER INVENTED CELLULAR",
+      "debit": "399.00",
+      "balance": "16471.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-06-15",
+      "description": "POS PURCHASE FUEL STOP",
+      "debit": "800.00",
+      "balance": "15571.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "15571.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "inconsistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "inconsistentLinks": 2
+ }
+}

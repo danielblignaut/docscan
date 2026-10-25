@@ -8,6 +8,10 @@ import type { LivenessOutcome } from "./FaceLiveness";
 import type { PhotoFace } from "./face-types";
 import type { Captured } from "./IdCapture";
 import type { ScannerId } from "./scanners";
+import type { FinancialCapturedPage } from "./financial-data";
+import type { FinancialTablesReport, FinancialTablesOptions } from "./financial-tables";
+import type { ItemRegion, Divider } from "./item-grouping";
+import type { Gs1Result } from "./gs1";
 import type { LabelledField } from "./types";
 
 /** What the worker reported once the wasm and the models had loaded. */
@@ -34,6 +38,9 @@ export interface CaptureMeta {
 }
 
 export interface SeenCode {
+  symbology_identifier?: string | null;
+  points?: [number, number][];
+  gs1?: Gs1Result;
   format: string;
   text: string;
   /** Frames the code was read in. */
@@ -45,6 +52,7 @@ export type Outcome = OutcomeData & { documentEvidence?: DocumentEvidence; opera
 export type OutcomeData =
   | { kind: "batch"; scanner: ScannerId; pages: Outcome[]; meta: CaptureMeta }
   | { kind: "file_error"; message: string; severity?: "warning" | "error"; meta: CaptureMeta }
+  | { kind: "financial"; pages: FinancialCapturedPage[]; report: FinancialTablesReport; options: FinancialTablesOptions; incompleteInputs: number; meta: CaptureMeta }
   | { kind: "text"; result: TextResult; imageUrl: string; meta: CaptureMeta }
   | { kind: "id"; scanner: ScannerId; captured: Captured[]; meta: CaptureMeta }
   | {
@@ -62,6 +70,14 @@ export type OutcomeData =
   | {
       kind: "barcodes";
       labels: boolean;
+      imageSize?: [number, number];
+      itemMode?: boolean;
+      droppedObservations?: SeenCode[];
+      itemRegions?: ItemRegion[];
+      itemDividers?: Divider[];
+      /** Observations from the retained image only, not positions mixed across camera frames. */
+      observations?: SeenCode[];
+      labelReader?: "detailed" | "fast";
       labelReadError?: string;
       labelReadWarning?: string;
       labelReadMs?: number;

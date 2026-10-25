@@ -1,0 +1,21 @@
+{
+  value: null,
+  source: 'none',
+  conflicting: false,
+  evidence: [ 'differs by file; see settings.perFile' ]
+}
+t1 0 25/01/2026 2026-01-25 unambiguous_token
+t1 0 26/01/2026 2026-01-26 unambiguous_token
+t2 1 02/03/2026 null none
+t2 1 02/10/2026 null none
+status partial
+{
+  status: 'partial',
+  checks: [
+    'running_balance:consistent/incomplete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [],
+  abst: [ 'input_page_failed' ]
+}

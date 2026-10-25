@@ -1,0 +1,55 @@
+{
+ "generator": "experiments/financial_tables/generate_fixtures.mjs",
+ "note": "Fictional data only. Gold = authored data, not extractor output.",
+ "fixtures": [
+  {
+   "id": "review3_credit_card_sign_convention",
+   "file": "review3_credit_card_sign_convention.json",
+   "sha256": "0fbe42b3a6a0601b4a0b1ae180f01217927dcb317df74d535769764dd108631f",
+   "pages": 1,
+   "boxes": 28
+  },
+  {
+   "id": "review3_near_duplicate_capture",
+   "file": "review3_near_duplicate_capture.json",
+   "sha256": "5539e1fd17ca94f0e1795f786c6b9ef3a4bd4b6978015a7048ed36d4eba2998c",
+   "pages": 2,
+   "boxes": 50
+  },
+  {
+   "id": "review3_undated_total_merchant",
+   "file": "review3_undated_total_merchant.json",
+   "sha256": "c59fbfd4a3662f95fbe186ac6c5175d04436cc03789e5f3f2881e9f34eef5e2f",
+   "pages": 1,
+   "boxes": 20
+  },
+  {
+   "id": "review3_brought_forward_above_header",
+   "file": "review3_brought_forward_above_header.json",
+   "sha256": "5e1b7432918e0ca361502bafebd39f69a3c95ffc8cecc458f4178ea0796d04df",
+   "pages": 1,
+   "boxes": 13
+  },
+  {
+   "id": "review3_line_limit_blocks_totals",
+   "file": "review3_line_limit_blocks_totals.json",
+   "sha256": "7b9ea86dcb5deb5ce30014f95552278de1ab23d96bffcd896fbfdab18e1fdd13",
+   "pages": 2,
+   "boxes": 22
+  },
+  {
+   "id": "review3_table_limit",
+   "file": "review3_table_limit.json",
+   "sha256": "6184eca4c6869445ce0ae3c60b03479e7606545f3f2f532f09e655f1a079084c",
+   "pages": 2,
+   "boxes": 48
+  },
+  {
+   "id": "review3_invalid_page",
+   "file": "review3_invalid_page.json",
+   "sha256": "c6a09e398caf2ad65472069afd95205209c143acb0e5aa9394257ef9af2bfeaa",
+   "pages": 3,
+   "boxes": 22
+  }
+ ]
+}

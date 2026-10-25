@@ -1,0 +1,203 @@
+{
+ "id": "review3_undated_total_merchant",
+ "description": "The date is printed once per day and the second purchase is at a merchant printed TOTAL; it has a running balance, so it is a transaction.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "TOTAL",
+     "x": 250,
+     "y": 202,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 134,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "550.00",
+     "x": 1114,
+     "y": 236,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 134,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 134,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "1,000.00",
+     "x": 1092,
+     "y": 100,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "600.00",
+     "x": 1114,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 134,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "50.00",
+     "x": 765,
+     "y": 236,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "15/01/2026",
+     "x": 80,
+     "y": 236,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "900.00",
+     "x": 1114,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "13/01/2026",
+     "x": 80,
+     "y": 168,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "100.00",
+     "x": 754,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 100,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "300.00",
+     "x": 754,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "550.00",
+     "x": 1114,
+     "y": 270,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "GROCER",
+     "x": 250,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 250,
+     "y": 270,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "CAFE",
+     "x": 250,
+     "y": 236,
+     "w": 44,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-13",
+      "description": "GROCER",
+      "debit": "100.00",
+      "balance": "900.00"
+     },
+     {
+      "kind": "transaction",
+      "description": "TOTAL",
+      "debit": "300.00",
+      "balance": "600.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-15",
+      "description": "CAFE",
+      "debit": "50.00",
+      "balance": "550.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "550.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "observations": {},
+  "goldChanges": [
+   {
+    "version": "v3-review3-1",
+    "change": "added the closing_balance row printed inside the table",
+    "reason": "authoring error found by the first scored run"
+   }
+  ]
+ }
+}

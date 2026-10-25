@@ -1,0 +1,16 @@
+[
+  'running_balance:not_evaluable/complete',
+  'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]'
+] -500.00 opening + 1000.00 credits - 0 debits = 500.00; printed closing 500.00.
+2 {
+  status: 'extracted',
+  checks: [
+    'running_balance:consistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]',
+    'running_balance:consistent/complete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]'
+  ],
+  obs: [ 'possible_duplicate_document' ],
+  amb: [],
+  abst: []
+}

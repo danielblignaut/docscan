@@ -1,0 +1,607 @@
+{
+ "id": "bank_missing_page",
+ "description": "Pages 1 and 3 of 3: page 2 is missing. Carried and brought forward balances disagree and the totals must not reconcile.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "of",
+     "x": 156.2,
+     "y": 364.2,
+     "w": 21.7,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "carried",
+     "x": 340.3,
+     "y": 290.8,
+     "w": 78.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "PURCHASE",
+     "x": 294.4,
+     "y": 222.3,
+     "w": 89.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "1,850.00",
+     "x": 1089.6,
+     "y": 188.5,
+     "w": 89.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "TWO",
+     "x": 476.9,
+     "y": 187.3,
+     "w": 34.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "SHOP",
+     "x": 439.8,
+     "y": 222.3,
+     "w": 44.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Date",
+     "x": 80.7,
+     "y": 119.4,
+     "w": 43.7,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "150.00",
+     "x": 750.2,
+     "y": 188,
+     "w": 69.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1",
+     "x": 134.5,
+     "y": 364.2,
+     "w": 10.8,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "POS",
+     "x": 249.6,
+     "y": 222.3,
+     "w": 33.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "05/08/2026",
+     "x": 80.1,
+     "y": 256.5,
+     "w": 110.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "POS",
+     "x": 249.7,
+     "y": 187.3,
+     "w": 34.1,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Debit",
+     "x": 765.9,
+     "y": 119.4,
+     "w": 54.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "balance",
+     "x": 341.6,
+     "y": 153.8,
+     "w": 79.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Balance",
+     "x": 1103.8,
+     "y": 119.7,
+     "w": 77,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "FROM",
+     "x": 351.6,
+     "y": 256.1,
+     "w": 45.1,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Opening",
+     "x": 250.3,
+     "y": 153.8,
+     "w": 79.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "PURCHASE",
+     "x": 295.1,
+     "y": 187.3,
+     "w": 90.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "GROCER",
+     "x": 397.4,
+     "y": 187.3,
+     "w": 68.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Description",
+     "x": 250.4,
+     "y": 120.3,
+     "w": 126.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "TRANSFER",
+     "x": 250.2,
+     "y": 256.1,
+     "w": 90.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "03/08/2026",
+     "x": 79.4,
+     "y": 221.3,
+     "w": 113.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "2,770.00",
+     "x": 1086.5,
+     "y": 290.4,
+     "w": 92.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "2,770.00",
+     "x": 1087.5,
+     "y": 256.2,
+     "w": 92.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "01/08/2026",
+     "x": 80.7,
+     "y": 187.5,
+     "w": 111.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "80.00",
+     "x": 765,
+     "y": 222.7,
+     "w": 55.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "PET",
+     "x": 395.1,
+     "y": 222.3,
+     "w": 33.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Page",
+     "x": 80.3,
+     "y": 364.2,
+     "w": 43.3,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "Credit",
+     "x": 932.5,
+     "y": 120.1,
+     "w": 67.9,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Balance",
+     "x": 250.3,
+     "y": 290.8,
+     "w": 78.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "1,770.00",
+     "x": 1089.2,
+     "y": 222,
+     "w": 90.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "2,000.00",
+     "x": 1090.9,
+     "y": 154.6,
+     "w": 89.9,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "1,000.00",
+     "x": 909.3,
+     "y": 255.5,
+     "w": 90.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "forward",
+     "x": 430.3,
+     "y": 290.8,
+     "w": 78.7,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "SAVINGS",
+     "x": 408,
+     "y": 256.1,
+     "w": 78.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "3",
+     "x": 188.7,
+     "y": 364.2,
+     "w": 10.8,
+     "h": 22,
+     "line": 6
+    }
+   ]
+  },
+  {
+   "pageIndex": 2,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "2,065.00",
+     "x": 1087.8,
+     "y": 154,
+     "w": 92.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Page",
+     "x": 80,
+     "y": 329.4,
+     "w": 43.2,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "forward",
+     "x": 428.4,
+     "y": 154.1,
+     "w": 77.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Credit",
+     "x": 934.6,
+     "y": 119.4,
+     "w": 66.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "9,000.00",
+     "x": 907.4,
+     "y": 187.9,
+     "w": 92.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "LOGISTICS",
+     "x": 422.9,
+     "y": 187.8,
+     "w": 97.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "of",
+     "x": 155.5,
+     "y": 329.4,
+     "w": 21.6,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "500.00",
+     "x": 751.8,
+     "y": 222.4,
+     "w": 69,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "10,565.00",
+     "x": 1078.7,
+     "y": 256.6,
+     "w": 101.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Closing",
+     "x": 249.3,
+     "y": 255.8,
+     "w": 80.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Balance",
+     "x": 250.9,
+     "y": 154.1,
+     "w": 77.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "POS",
+     "x": 250.8,
+     "y": 222.7,
+     "w": 34.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "3",
+     "x": 187.9,
+     "y": 329.4,
+     "w": 10.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "FUEL",
+     "x": 401.6,
+     "y": 222.7,
+     "w": 46.4,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Description",
+     "x": 249.2,
+     "y": 119.5,
+     "w": 122.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Date",
+     "x": 80.3,
+     "y": 119.2,
+     "w": 46.2,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "INVENTED",
+     "x": 325.5,
+     "y": 187.8,
+     "w": 86.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "25/08/2026",
+     "x": 80.8,
+     "y": 188.7,
+     "w": 109.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Debit",
+     "x": 765.1,
+     "y": 119.5,
+     "w": 54.3,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "3",
+     "x": 134,
+     "y": 329.4,
+     "w": 10.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "balance",
+     "x": 341.1,
+     "y": 255.8,
+     "w": 80.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "11,065.00",
+     "x": 1077.1,
+     "y": 188.1,
+     "w": 103.4,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "brought",
+     "x": 339.6,
+     "y": 154.1,
+     "w": 77.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Balance",
+     "x": 1099.8,
+     "y": 120.5,
+     "w": 80.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "28/08/2026",
+     "x": 79.1,
+     "y": 221.2,
+     "w": 114.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "PURCHASE",
+     "x": 297.2,
+     "y": 222.7,
+     "w": 92.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "SALARY",
+     "x": 249.7,
+     "y": 187.8,
+     "w": 65,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "10,565.00",
+     "x": 1075.9,
+     "y": 221.9,
+     "w": 103.8,
+     "h": 22,
+     "line": 3
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "2000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-08-01",
+      "description": "POS PURCHASE GROCER TWO",
+      "debit": "150.00",
+      "balance": "1850.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-08-03",
+      "description": "POS PURCHASE PET SHOP",
+      "debit": "80.00",
+      "balance": "1770.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-08-05",
+      "description": "TRANSFER FROM SAVINGS",
+      "credit": "1000.00",
+      "balance": "2770.00"
+     },
+     {
+      "kind": "carried_forward",
+      "balance": "2770.00"
+     },
+     {
+      "kind": "brought_forward",
+      "balance": "2065.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-08-25",
+      "description": "SALARY INVENTED LOGISTICS",
+      "credit": "9000.00",
+      "balance": "11065.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-08-28",
+      "description": "POS PURCHASE FUEL",
+      "debit": "500.00",
+      "balance": "10565.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "10565.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "page_carry_forward": "inconsistent",
+   "opening_plus_credits_minus_debits_equals_closing": "inconsistent"
+  },
+  "observations": {
+   "possible_missing_page": 1
+  },
+  "completeness": "incomplete"
+ }
+}

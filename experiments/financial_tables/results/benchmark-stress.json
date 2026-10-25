@@ -1,0 +1,152 @@
+{
+ "engine": "financial-tables",
+ "set": "stress",
+ "manifestSha256": "a0485f032d94fae1687e202b478fc0581b159bdfed294f03842c5a2d9f7a8e23",
+ "summary": {
+  "fixtures": 8,
+  "tables": {
+   "gold": 10,
+   "matched": 10,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 46,
+   "parsed": 46,
+   "kindCorrect": 46,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 139,
+   "correct": 139,
+   "missing": 0,
+   "wrong": 0,
+   "accuracy": 1
+  },
+  "provenance": {
+   "cells": 151,
+   "withSource": 151,
+   "approximate": 48
+  },
+  "checks": {
+   "expected": 18,
+   "agreed": 18,
+   "falseConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 0,
+   "agreed": 0
+  },
+  "ambiguities": {
+   "expected": 0,
+   "reported": 0
+  },
+  "labels": {
+   "expected": 0,
+   "agreed": 0
+  },
+  "fixturesWithFailures": []
+ },
+ "fixtures": [
+  {
+   "id": "stress_skewed_capture",
+   "ms": 23.99,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 7,
+   "rows": 7,
+   "cells": 22,
+   "correct": 22,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_uppercase_crdr",
+   "ms": 4.48,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 5,
+   "rows": 5,
+   "cells": 14,
+   "correct": 14,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_heavy_jitter",
+   "ms": 4.41,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 7,
+   "rows": 7,
+   "cells": 22,
+   "correct": 22,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_no_year_dates",
+   "ms": 3.9,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 5,
+   "rows": 5,
+   "cells": 14,
+   "correct": 14,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_two_digit_years",
+   "ms": 2.11,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 4,
+   "rows": 4,
+   "cells": 10,
+   "correct": 10,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_date_once_per_day",
+   "ms": 3.37,
+   "status": "extracted",
+   "tables": 1,
+   "goldRows": 6,
+   "rows": 6,
+   "cells": 16,
+   "correct": 16,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_invoice_line_level",
+   "ms": 7.78,
+   "status": "partial",
+   "tables": 1,
+   "goldRows": 3,
+   "rows": 3,
+   "cells": 12,
+   "correct": 12,
+   "failureCount": 0,
+   "failures": []
+  },
+  {
+   "id": "stress_payslip_line_level",
+   "ms": 7.51,
+   "status": "partial",
+   "tables": 3,
+   "goldRows": 9,
+   "rows": 9,
+   "cells": 29,
+   "correct": 29,
+   "failureCount": 0,
+   "failures": []
+  }
+ ]
+}

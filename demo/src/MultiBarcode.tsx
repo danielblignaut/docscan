@@ -1,3 +1,5 @@
+import { labelRequest, type LabelEngine } from "./label-engine";
+import { describeBarcodes } from "./barcode-data";
 import { useEffect, useRef, useState } from "react";
 import { createProcessingSession } from "./processing";
 import { ProcessingView } from "./ProcessingView";
@@ -24,7 +26,7 @@ const docscan = () => (window as unknown as { __docscan: Docscan }).__docscan;
  * (`IMEI1`, `SN`), lists printed values with no barcode and verifies check
  * digits. A failed still or label read keeps the confirmed codes.
  */
-export function MultiBarcode({ client, reader = client, labels = false, onDone }: { client: ScannerClient; reader?: ScannerClient; labels?: boolean; onDone: (o: Outcome) => void }) {
+export function MultiBarcode({ client, reader = client, labels = false, labelEngine = "detailed", onDone }: { client: ScannerClient; reader?: ScannerClient; labels?: boolean; labelEngine?: LabelEngine; onDone: (o: Outcome) => void }) {
   const [fields, setFields] = useState<LabelledField[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
@@ -58,6 +60,8 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
     let frameNow = document.createElement("canvas");
     let best = document.createElement("canvas");
     let bestCount = -1;
+    let bestObservations: Barcode[] = [];
+    let bestSize: [number, number] = [0,0];
     const release = () => {
       for (const t of stream?.getTracks() ?? []) t.stop();
     };
@@ -78,7 +82,7 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
       operation.captured({ inputCount: labels ? labelFrames.length : 1 });
       operation.stage(labels ? "reading_labels" : "finalizing_barcodes");
       setStage(labels ? "Reading printed labels…" : "Finishing barcode reading…");
-      const barcodes = confirmed();
+      const barcodes = describeBarcodes(confirmed());
       if (labels && barcodes.length) window.dispatchEvent(new CustomEvent("docscan:partial", {
         detail: { operationId: operation.id, scanner: "labels", status: "processing", barcodes },
       }));
@@ -86,7 +90,7 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
         const done = await finishCapture({
           encodeStill,
           labelFrames,
-          readLabel: (image) => reader.run<Labelled>({ kind: "labelled", image }),
+          readLabel: (image) => reader.run<Labelled>(labelRequest(labelEngine, image)),
           onFields: (shown) => {
             setFields(shown);
             window.dispatchEvent(new CustomEvent("docscan:labels", { detail: { operationId: operation.id, fields: shown } }));
@@ -105,7 +109,7 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
         window.dispatchEvent(new CustomEvent("docscan:complete", { detail: { operationId: operation.id, barcodes, fields: shown, imageUrl, blob,
           ...(labelReadError ? { labelReadError } : {}), ...(labelReadWarning ? { labelReadWarning } : {}) } }));
         outline.set("done");
-        onDone({ kind: "barcodes", operationId: operation.id, labels, barcodes, fields: shown, imageUrl, ...(blob ? { blob } : {}), finishedBy, meta,
+        onDone({ kind: "barcodes", operationId: operation.id, labels, ...(labels ? {labelReader: labelEngine} : {}), barcodes, observations: describeBarcodes(bestObservations), imageSize: bestSize, fields: shown, imageUrl, ...(blob ? { blob } : {}), finishedBy, meta,
           ...(labelReadError ? { labelReadError } : {}), ...(labelReadWarning ? { labelReadWarning } : {}) });
       } catch (error) {
         if (disposed) return;
@@ -136,6 +140,7 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
           // Swap rather than copy: the frame just analysed becomes the best one.
           [best, frameNow] = [frameNow, best];
           bestCount = result.length;
+          bestObservations = result; bestSize = [image.width,image.height];
         }
         const now = performance.now();
         const fresh = countFrame(all, clock, result, now);
@@ -177,7 +182,7 @@ export function MultiBarcode({ client, reader = client, labels = false, onDone }
       stopped = true;
       release();
     };
-  }, [client, reader, labels, onDone]);
+  }, [client, reader, labels, labelEngine, onDone]);
 
   const confirmedCount = seen.filter((s) => s.count >= CONFIRM_FRAMES).length;
   const hint =

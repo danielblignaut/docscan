@@ -1,0 +1,213 @@
+{
+ "id": "review3_line_limit_blocks_totals",
+ "description": "The total line limit drops the last page's boxes: reported, and the file's totals not evaluated.",
+ "kind": "bank_statement",
+ "options": {
+  "limits": {
+   "maxTotalLines": 14
+  }
+ },
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 0,
+   "lines": [
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "1,000.00",
+     "x": 1092,
+     "y": 100,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 250,
+     "y": 134,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 168,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "900.00",
+     "x": 1114,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "13/01/2026",
+     "x": 80,
+     "y": 202,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 100,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 168,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 168,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "100.00",
+     "x": 754,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "700.00",
+     "x": 1114,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Shop A",
+     "x": 250,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    }
+   ]
+  },
+  {
+   "pageIndex": 1,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 0,
+   "lines": [
+    {
+     "text": "15/01/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Shop B",
+     "x": 250,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 100,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "700.00",
+     "x": 1114,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 100,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "200.00",
+     "x": 754,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-13",
+      "description": "Shop A",
+      "debit": "100.00",
+      "balance": "900.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "observations": {},
+  "goldChanges": [
+   {
+    "version": "v3-review3-1",
+    "change": "maxTotalLines 25 -> 14 (page 2 is dropped whole), gold rows and running_balance follow",
+    "reason": "authoring error: the input has 24 boxes, so a limit of 25 dropped nothing"
+   }
+  ]
+ }
+}

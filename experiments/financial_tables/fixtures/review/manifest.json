@@ -1,0 +1,76 @@
+{
+ "generator": "experiments/financial_tables/generate_fixtures.mjs",
+ "note": "Fictional data only. Gold = authored data, not extractor output.",
+ "fixtures": [
+  {
+   "id": "review_cr_marker_only",
+   "file": "review_cr_marker_only.json",
+   "sha256": "1268a6df1a7093cdba0438660ba2e550322ad603c587a9f6f59d601771824b4f",
+   "pages": 1,
+   "boxes": 30
+  },
+  {
+   "id": "review_merchant_named_total",
+   "file": "review_merchant_named_total.json",
+   "sha256": "3a6a43bd0e7dc7ebcda560de74c7c805cb4afc5f4215ce7dc255d1daa4c71172",
+   "pages": 1,
+   "boxes": 23
+  },
+  {
+   "id": "review_starts_brought_forward",
+   "file": "review_starts_brought_forward.json",
+   "sha256": "f94f657184352c9fc4966de1ead577ddd53accdaa0da47bfc14641628954ec95",
+   "pages": 1,
+   "boxes": 15
+  },
+  {
+   "id": "review_payslip_unread_deductions",
+   "file": "review_payslip_unread_deductions.json",
+   "sha256": "b8ce81dcc352a0ff59eebeaf903c15ec796929ca60197c02c1f84ac233d726db",
+   "pages": 1,
+   "boxes": 12
+  },
+  {
+   "id": "review_unsigned_amount_column",
+   "file": "review_unsigned_amount_column.json",
+   "sha256": "9f917e18161dfb683f6d9439f7088280761adf4ccf326dfb3024dde97f5c1451",
+   "pages": 1,
+   "boxes": 18
+  },
+  {
+   "id": "review_files_do_not_share_evidence",
+   "file": "review_files_do_not_share_evidence.json",
+   "sha256": "f655f441f1f0420a97e0792920dfb0ccc107d230877835054a92d0ab92c85c7e",
+   "pages": 2,
+   "boxes": 24
+  },
+  {
+   "id": "review_summary_dr_balance",
+   "file": "review_summary_dr_balance.json",
+   "sha256": "179fd09d283300f607f9e8b949c5e83caf187dcc6659c80363d2661856e9100a",
+   "pages": 1,
+   "boxes": 13
+  },
+  {
+   "id": "review_same_statement_twice",
+   "file": "review_same_statement_twice.json",
+   "sha256": "5a67da10cd7f5567b0b1d9d593cc26c6d1bca8740f8133153fd0a8e9853b3f2c",
+   "pages": 2,
+   "boxes": 38
+  },
+  {
+   "id": "review_line_level_lone_amount",
+   "file": "review_line_level_lone_amount.json",
+   "sha256": "f3efdbe8f1ff1dba5e107ae0218f247324542892a4a1550e8b59f1102052be7c",
+   "pages": 1,
+   "boxes": 9
+  },
+  {
+   "id": "review_failed_page_without_file_context",
+   "file": "review_failed_page_without_file_context.json",
+   "sha256": "5c49cc4456c9e03bc0a10cc27c9e5c0cb95d66f70ff2853964cc61046a9405f6",
+   "pages": 1,
+   "boxes": 15
+  }
+ ]
+}

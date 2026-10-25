@@ -1,0 +1,433 @@
+{
+ "id": "stress_skewed_capture",
+ "description": "Phone capture with residual skew (about 0.5 degrees) after deskew.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "balance",
+     "x": 335.2,
+     "y": 355.6,
+     "w": 75.3,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "CO",
+     "x": 496.7,
+     "y": 289.5,
+     "w": 22.4,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "25/03/2026",
+     "x": 79.7,
+     "y": 284.3,
+     "w": 108.3,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Description",
+     "x": 249.7,
+     "y": 116.9,
+     "w": 125.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "PURCHASE",
+     "x": 294.5,
+     "y": 185.4,
+     "w": 90.4,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "ORDER",
+     "x": 315,
+     "y": 321.5,
+     "w": 55,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "19,776.90",
+     "x": 1079.7,
+     "y": 327.4,
+     "w": 100.2,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "04/03/2026",
+     "x": 80.6,
+     "y": 217.3,
+     "w": 107.9,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "28/03/2026",
+     "x": 80,
+     "y": 319.6,
+     "w": 116,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "MINING",
+     "x": 418.5,
+     "y": 288.1,
+     "w": 67.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "697.90",
+     "x": 1114.2,
+     "y": 226.1,
+     "w": 66,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "02/03/2026",
+     "x": 80.3,
+     "y": 182.7,
+     "w": 113.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "FICTIONAL",
+     "x": 381.1,
+     "y": 321.7,
+     "w": 99.1,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "TO",
+     "x": 355.2,
+     "y": 219.8,
+     "w": 23.2,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "452.10",
+     "x": 756.1,
+     "y": 190.2,
+     "w": 64.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,000.00",
+     "x": 727,
+     "y": 222.7,
+     "w": 93.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Closing",
+     "x": 249.2,
+     "y": 354.5,
+     "w": 75.3,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "ONE",
+     "x": 475.3,
+     "y": 186.4,
+     "w": 33.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Debit",
+     "x": 762.7,
+     "y": 121.3,
+     "w": 56.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Date",
+     "x": 80.6,
+     "y": 113.7,
+     "w": 45.3,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "SAVINGS",
+     "x": 389.9,
+     "y": 220.5,
+     "w": 81.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "POS",
+     "x": 249.3,
+     "y": 186.1,
+     "w": 33.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Balance",
+     "x": 1102.8,
+     "y": 123.6,
+     "w": 76.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "DEBIT",
+     "x": 249,
+     "y": 320,
+     "w": 55,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "PALACE",
+     "x": 383.8,
+     "y": 252.9,
+     "w": 66.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "SHOE",
+     "x": 328.1,
+     "y": 252.6,
+     "w": 44.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "1,596.90",
+     "x": 1092.8,
+     "y": 260.4,
+     "w": 86.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 341.7,
+     "y": 152.1,
+     "w": 80.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "14/03/2026",
+     "x": 79.3,
+     "y": 252.1,
+     "w": 109.4,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Credit",
+     "x": 930.2,
+     "y": 122.3,
+     "w": 69,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "19,776.90",
+     "x": 1083.8,
+     "y": 363.8,
+     "w": 97,
+     "h": 22,
+     "line": 7
+    },
+    {
+     "text": "20,096.90",
+     "x": 1075.5,
+     "y": 294.7,
+     "w": 104.2,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "18,500.00",
+     "x": 897.8,
+     "y": 292.9,
+     "w": 102.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "1,697.90",
+     "x": 1089,
+     "y": 193.9,
+     "w": 91.2,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Opening",
+     "x": 249.8,
+     "y": 151.6,
+     "w": 80.5,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "2,150.00",
+     "x": 1087.5,
+     "y": 159.1,
+     "w": 92.9,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "TRANSFER",
+     "x": 250.9,
+     "y": 217.8,
+     "w": 92.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "FICTIVE",
+     "x": 329.1,
+     "y": 288.9,
+     "w": 78.3,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "320.00",
+     "x": 750.8,
+     "y": 325.1,
+     "w": 69.3,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "899.00",
+     "x": 932.2,
+     "y": 258.9,
+     "w": 67.2,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "REFUND",
+     "x": 250.1,
+     "y": 252.9,
+     "w": 66.9,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "INSURE",
+     "x": 491.2,
+     "y": 321.9,
+     "w": 66,
+     "h": 22,
+     "line": 6
+    },
+    {
+     "text": "GROCER",
+     "x": 396.2,
+     "y": 187.4,
+     "w": 67.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "SALARY",
+     "x": 250.8,
+     "y": 287.5,
+     "w": 67.1,
+     "h": 22,
+     "line": 5
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "2150.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-02",
+      "description": "POS PURCHASE GROCER ONE",
+      "debit": "452.10",
+      "balance": "1697.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-04",
+      "description": "TRANSFER TO SAVINGS",
+      "debit": "1000.00",
+      "balance": "697.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-14",
+      "description": "REFUND SHOE PALACE",
+      "credit": "899.00",
+      "balance": "1596.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-25",
+      "description": "SALARY FICTIVE MINING CO",
+      "credit": "18500.00",
+      "balance": "20096.90"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-28",
+      "description": "DEBIT ORDER FICTIONAL INSURE",
+      "debit": "320.00",
+      "balance": "19776.90"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "19776.90"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "labels": {
+   "1": "transfer_like",
+   "2": "refund_like",
+   "3": "salary_like"
+  }
+ }
+}

@@ -1,0 +1,230 @@
+{
+ "id": "review_merchant_named_total",
+ "description": "Merchants named TOTAL and Turnover are ordinary transactions, not totals rows.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "02/01/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "1,000.00",
+     "x": 1092,
+     "y": 134,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "03/01/2026",
+     "x": 80,
+     "y": 168,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 100,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "300.00",
+     "x": 754,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "100.00",
+     "x": 754,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "31/01/2026",
+     "x": 80,
+     "y": 270,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 100,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "15/01/2026",
+     "x": 80,
+     "y": 236,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "2,600.00",
+     "x": 1092,
+     "y": 270,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "04/01/2026",
+     "x": 80,
+     "y": 202,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Turnover Books",
+     "x": 250,
+     "y": 202,
+     "w": 154,
+     "h": 22
+    },
+    {
+     "text": "2,600.00",
+     "x": 1092,
+     "y": 236,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "700.00",
+     "x": 1114,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "600.00",
+     "x": 1114,
+     "y": 202,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "2,000.00",
+     "x": 912,
+     "y": 236,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "TOTAL GARAGE SANDTON",
+     "x": 250,
+     "y": 168,
+     "w": 220,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 250,
+     "y": 270,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 134,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Salary ACME",
+     "x": 250,
+     "y": 236,
+     "w": 121,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "date": "2026-01-02",
+      "description": "Opening balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-03",
+      "description": "TOTAL GARAGE SANDTON",
+      "debit": "300.00",
+      "balance": "700.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-04",
+      "description": "Turnover Books",
+      "debit": "100.00",
+      "balance": "600.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-15",
+      "description": "Salary ACME",
+      "credit": "2000.00",
+      "balance": "2600.00"
+     },
+     {
+      "kind": "closing_balance",
+      "date": "2026-01-31",
+      "description": "Closing balance",
+      "balance": "2600.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "observations": {},
+  "labels": {
+   "0": "unclassified",
+   "1": "unclassified",
+   "2": "salary_like"
+  }
+ }
+}

@@ -1,0 +1,8 @@
+exact copy extracted [
+  'possible_duplicate_document: Table t2 repeats table t1 row for row: the same document may have been supplied twice.',
+  'recurring_credit_candidate: 3 credits from "acme payroll salary" at a monthly cadence (2026-01-25 to 2026-03-25), 5000.00 to 5000.00.'
+]
+one OCR char differs extracted [
+  "possible_duplicate_document: 4 of table t2's 4 dated transactions match table t1 on date, amount and printed balance: it may be another copy or capture of the same statement.",
+  'recurring_credit_candidate: 3 credits from "acme payroll salary" at a monthly cadence (2026-01-25 to 2026-03-25), 5000.00 to 5000.00.'
+]

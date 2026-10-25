@@ -1,0 +1,22 @@
+{
+  status: 'extracted',
+  checks: [
+    'running_balance:consistent/complete [some_links_magnitude_only]',
+    'opening_plus_credits_minus_debits_equals_closing:consistent/complete [some_directions_inferred_from_balance_changes]'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+3 [
+  [
+    't1',
+    [ 't1:r1', 't2:r1', 't3:r1' ],
+    '3 credits from "acme payroll" at a monthly cadence (2026-01-25 to 2026-03-25), 5000.00 to 5000.00.'
+  ]
+]
+{
+  lines: [ { text: '100.00', x: 500, y: 490, w: 30, h: 10 } ],
+  skippedRotated: 0,
+  skippedInvalid: 0
+}

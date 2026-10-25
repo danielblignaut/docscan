@@ -1,3 +1,6 @@
+import { FAST_LABEL_LIMITATION } from "./label-engine";
+import { projectFinancialReport } from "./financial-tables";
+import { savedItemSession, outcomeGrouping } from "./item-data";
 import type { CountCheck, FileEvidence } from "./document-files/types";
 import type { DocumentEvidence, InputReference } from "./document-review";
 import type { CaptureMeta, Outcome } from "./outcome";
@@ -80,12 +83,27 @@ function reportEvidence(e: DocumentEvidence | undefined): ReportValue {
 function reportMeta(meta: CaptureMeta): ReportValue {
   return { ...scalars(meta, ["source", "captureMs", "frames", "ocrFrames", "fastMs", "ocrMs", "memoryBytes"]), input: reportInput(meta.input) };
 }
+function reportGs1(gs1: NonNullable<import("./outcome").SeenCode["gs1"]> | undefined): ReportValue {
+  if (!gs1) return null;
+  return { ...scalars(gs1, ["schemaVersion", "dictionaryRevision", "status", "syntax", "interpretation", "validationScope"]),
+    fields: gs1.fields.map(f => ({ ...scalars(f, ["ai", "title", "value", "start", "end"]),
+      checks: scalars(f.checks, ["format", "checksum", "calendar"]),
+      date: f.date ? scalars(f.date, ["yearTwoDigits", "month", "day", "endOfMonth"]) : null,
+      decimal: f.decimal ? scalars(f.decimal, ["value", "unit", "currencyCode"]) : null,
+      errors: strings(f.errors), uncheckedRules: strings(f.uncheckedRules) })),
+    identifiers: scalars(gs1.identifiers, ["sscc", "gtin", "containedGtin", "lot", "serial", "variant", "additionalProductId", "customerPartNumber", "gln", "assetId", "imei1", "imei2", "esimId", "simId", "variableCount", "containedCount"]),
+    errors: strings(gs1.errors), warnings: strings(gs1.warnings) };
+}
 function reportOutcome(outcome: Outcome): ReportValue {
   const base = { kind: outcome.kind, operationId: outcome.operationId ?? null, meta: reportMeta(outcome.meta), evidence: reportEvidence(outcome.documentEvidence) };
   switch (outcome.kind) {
-    case "batch": return { ...base, scanner: outcome.scanner, pages: outcome.pages.map(reportOutcome) };
+    case "batch": return { ...base, scanner: outcome.scanner, pages: outcome.pages.map(reportOutcome), ...(outcome.scanner === "items" ? {items: savedItemSession(outcome) as unknown as ReportValue} : {}) };
     case "file_error": return { ...base, status: outcome.severity === "warning" ? "incomplete" : "failed", severity: outcome.severity ?? "error", message: outcome.message };
     case "id": return { ...base, scanner: outcome.scanner, crossCheck: crossCheck(outcome.captured), captured: outcome.captured.map(c => ({ step: c.step, input: reportInput(c.input ?? outcome.meta.input), fallback: c.fallback, document: reportDocument(c.result) })) };
+    case "financial": return { ...base,
+      report: projectFinancialReport(outcome.report) as unknown as ReportValue,
+      sources: outcome.pages.map(p=>({pageIndex:p.pageIndex,fileIndex:p.fileIndex,input:reportInput(p.input)})),
+    };
     case "text": {
       const exposure = "exposure" in outcome.result ? outcome.result.exposure : undefined;
       return { ...base, text: outcome.result.text, lines: outcome.result.lines.map(l => scalars(l, ["text", "x", "y", "w", "h"])), engine: "engine" in outcome.result ? outcome.result.engine : "ocrs",
@@ -103,7 +121,7 @@ function reportOutcome(outcome: Outcome): ReportValue {
         address: scalars(f.address, ["street", "suburb", "city", "province", "postal_code"]), statement_period: f.statement_period ? scalars(f.statement_period, ["from", "to"]) : null,
       }, verification: { ...scalars(v, ["postal_code", "accepted"]), reasons: strings(v.reasons), fields: v.fields.map(c => scalars(c, ["field", "value", "found", "match_score", "confidence"])), age: v.age ? scalars(v.age, ["date", "age_days", "recent", "future"]) : null } };
     }
-    case "barcodes": return { ...base, ...scalars(outcome, ["labelReadStatus", "labelReadError", "labelReadWarning", "labelReadMs"]), labels: outcome.labels, finishedBy: outcome.finishedBy, barcodes: outcome.barcodes.map(b => scalars(b, ["format", "text", "count"])), fields: outcome.fields.map(f => scalars(f, ["label", "name", "barcode_unread", "value", "kind", "source", "check_digit_valid", "barcode_format"])) };
+    case "barcodes": return { ...base, ...(outcome.labelReader === "fast" ? {labelReaderInterpretation: FAST_LABEL_LIMITATION} : {}), ...(outcome.itemMode ? {itemGrouping: outcomeGrouping(outcome) as unknown as ReportValue, itemRegions: (outcome.itemRegions??[]).map(r=>({id:r.id,origin:r.origin,bbox:r.bbox.map(Number)}))} : {}), ...scalars(outcome, ["labelReader", "labelReadStatus", "labelReadError", "labelReadWarning", "labelReadMs"]), labels: outcome.labels, finishedBy: outcome.finishedBy, barcodes: outcome.barcodes.map(b => ({ ...scalars(b, ["format", "text", "count", "symbology_identifier"]), gs1: reportGs1(b.gs1) })), fields: outcome.fields.map(f => scalars(f, ["label", "name", "barcode_unread", "value", "kind", "source", "check_digit_valid", "barcode_format"])) };
     case "face": return {
       ...base, flow: outcome.flow,
       // Face data is deliberately summarized here; never serialize document.face or liveness.result.

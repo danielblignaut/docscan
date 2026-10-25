@@ -1,0 +1,99 @@
+{
+ "id": "bank_line_level_ocr",
+ "description": "Line-level OCR: each printed row arrives as one box spanning every column, so word positions are interpolated and debit vs credit is uncertain.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "19/10/2026 TRANSFER TO SAVINGS 2,000.00 15,345.00",
+     "x": 80.4,
+     "y": 255.8,
+     "w": 1099.1,
+     "h": 22
+    },
+    {
+     "text": "Opening balance 2,500.00",
+     "x": 250.1,
+     "y": 153.7,
+     "w": 929.4,
+     "h": 22
+    },
+    {
+     "text": "16/10/2026 SALARY INVENTED CLINIC 15,000.00 17,345.00",
+     "x": 79.6,
+     "y": 221.2,
+     "w": 1100.4,
+     "h": 22
+    },
+    {
+     "text": "Date Description Debit Credit Balance",
+     "x": 79.2,
+     "y": 119.2,
+     "w": 1100.8,
+     "h": 22
+    },
+    {
+     "text": "Closing balance 15,345.00",
+     "x": 250.5,
+     "y": 289.2,
+     "w": 929.7,
+     "h": 22
+    },
+    {
+     "text": "14/10/2026 POS PURCHASE GROCER 155.00 2,345.00",
+     "x": 79.8,
+     "y": 187.7,
+     "w": 1099.5,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "2500.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-10-14",
+      "description": "POS PURCHASE GROCER",
+      "debit": "155.00",
+      "balance": "2345.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-10-16",
+      "description": "SALARY INVENTED CLINIC",
+      "credit": "15000.00",
+      "balance": "17345.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-10-19",
+      "description": "TRANSFER TO SAVINGS",
+      "debit": "2000.00",
+      "balance": "15345.00"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "15345.00"
+     }
+    ]
+   }
+  ],
+  "checks": {}
+ }
+}

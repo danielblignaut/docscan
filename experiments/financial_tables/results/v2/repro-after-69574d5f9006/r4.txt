@@ -1,0 +1,11 @@
+{
+  status: 'partial',
+  checks: [
+    'running_balance:consistent/incomplete [printed_directions]',
+    'opening_plus_credits_minus_debits_equals_closing:not_evaluable/incomplete'
+  ],
+  obs: [],
+  amb: [],
+  abst: []
+}
+[ 'brought_forward', 'transaction', 'closing_balance' ]

@@ -1,0 +1,245 @@
+{
+ "id": "review_files_do_not_share_evidence",
+ "description": "File 0 is day-first and decimal-comma; file 1 prints only ambiguous dates and whole-unit amounts. Neither may settle the other.",
+ "kind": "mixed",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 0,
+   "lines": [
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 134,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "26/01/2026",
+     "x": 80,
+     "y": 168,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 100,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "90,00",
+     "x": 1125,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "25/01/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "100,00",
+     "x": 1114,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 100,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "10,00",
+     "x": 765,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Shop",
+     "x": 250,
+     "y": 168,
+     "w": 44,
+     "h": 22
+    }
+   ]
+  },
+  {
+   "pageIndex": 1,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "fileIndex": 1,
+   "lines": [
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 765,
+     "y": 100,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 100,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "02/03/2026",
+     "x": 80,
+     "y": 134,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "1,500",
+     "x": 1125,
+     "y": 134,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "02/10/2026",
+     "x": 80,
+     "y": 168,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "10",
+     "x": 798,
+     "y": 168,
+     "w": 22,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 934,
+     "y": 100,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "1,490",
+     "x": 1125,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 134,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 100,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "Store",
+     "x": 250,
+     "y": 168,
+     "w": 55,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "date": "2026-01-25",
+      "description": "Opening balance",
+      "balance": "100.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-26",
+      "description": "Shop",
+      "debit": "10.00",
+      "balance": "90.00"
+     }
+    ]
+   },
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "date": null,
+      "description": "Opening balance",
+      "balance": null
+     },
+     {
+      "kind": "transaction",
+      "date": null,
+      "description": "Store",
+      "debit": "10",
+      "balance": null
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance@t1": "consistent",
+   "running_balance@t2": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "observations": {},
+  "ambiguities": [
+   "date_order_unresolved",
+   "decimal_separator_unresolved"
+  ]
+ }
+}

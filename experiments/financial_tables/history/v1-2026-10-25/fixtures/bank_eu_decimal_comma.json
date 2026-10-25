@@ -1,0 +1,209 @@
+{
+ "id": "bank_eu_decimal_comma",
+ "description": "Euro amounts with a decimal comma and dot thousands (1.234,56), dotted dates, euro symbol printed in each cell.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "native_pdf_text",
+   "trust": "untrusted_native_text_not_ocr",
+   "lines": [
+    {
+     "text": "Description",
+     "x": 250.2,
+     "y": 119.9,
+     "w": 125.1,
+     "h": 22
+    },
+    {
+     "text": "13.02.2026",
+     "x": 80.8,
+     "y": 222,
+     "w": 114.1,
+     "h": 22
+    },
+    {
+     "text": "Closing balance",
+     "x": 249.2,
+     "y": 290.8,
+     "w": 162.8,
+     "h": 22
+    },
+    {
+     "text": "€ 3.450,00",
+     "x": 889.3,
+     "y": 221.4,
+     "w": 110.3,
+     "h": 22
+    },
+    {
+     "text": "€ 1.146,66",
+     "x": 1072.1,
+     "y": 187.7,
+     "w": 108.6,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250.4,
+     "y": 153.3,
+     "w": 174.1,
+     "h": 22
+    },
+    {
+     "text": "€ 4.596,66",
+     "x": 1070.7,
+     "y": 222.1,
+     "w": 110.3,
+     "h": 22
+    },
+    {
+     "text": "KARTENZAHLUNG SUPERMARKT",
+     "x": 251,
+     "y": 255.6,
+     "w": 275,
+     "h": 22
+    },
+    {
+     "text": "Debit",
+     "x": 762,
+     "y": 120,
+     "w": 57.4,
+     "h": 22
+    },
+    {
+     "text": "Credit",
+     "x": 935.2,
+     "y": 119.3,
+     "w": 64.8,
+     "h": 22
+    },
+    {
+     "text": "LASTSCHRIFT STROMANBIETER",
+     "x": 249.9,
+     "y": 187.8,
+     "w": 269.7,
+     "h": 22
+    },
+    {
+     "text": "€ 4.442,34",
+     "x": 1067,
+     "y": 255.8,
+     "w": 112.3,
+     "h": 22
+    },
+    {
+     "text": "€ 87,90",
+     "x": 741.2,
+     "y": 188,
+     "w": 78.4,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1100.6,
+     "y": 119.5,
+     "w": 78.8,
+     "h": 22
+    },
+    {
+     "text": "€ 1.234,56",
+     "x": 1070.4,
+     "y": 154.1,
+     "w": 108.7,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80.3,
+     "y": 119.7,
+     "w": 43.6,
+     "h": 22
+    },
+    {
+     "text": "€ 154,32",
+     "x": 727,
+     "y": 256.1,
+     "w": 92.2,
+     "h": 22
+    },
+    {
+     "text": "03.02.2026",
+     "x": 80.5,
+     "y": 188.4,
+     "w": 111.5,
+     "h": 22
+    },
+    {
+     "text": "20.02.2026",
+     "x": 79.1,
+     "y": 255.9,
+     "w": 111.1,
+     "h": 22
+    },
+    {
+     "text": "GEHALT FIKTIVE GMBH SALARY",
+     "x": 250.5,
+     "y": 222.2,
+     "w": 295.5,
+     "h": 22
+    },
+    {
+     "text": "€ 4.442,34",
+     "x": 1064.4,
+     "y": 289.2,
+     "w": 115,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "balance": "1234.56"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-03",
+      "description": "LASTSCHRIFT STROMANBIETER",
+      "debit": "87.90",
+      "balance": "1146.66"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-13",
+      "description": "GEHALT FIKTIVE GMBH SALARY",
+      "credit": "3450.00",
+      "balance": "4596.66"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-20",
+      "description": "KARTENZAHLUNG SUPERMARKT",
+      "debit": "154.32",
+      "balance": "4442.34"
+     },
+     {
+      "kind": "closing_balance",
+      "balance": "4442.34"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "decimalSeparator": ",",
+  "currency": "EUR"
+ }
+}

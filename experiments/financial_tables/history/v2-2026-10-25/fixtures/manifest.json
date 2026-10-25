@@ -1,0 +1,167 @@
+{
+ "generator": "experiments/financial_tables/generate_fixtures.mjs",
+ "note": "Fictional data only. Gold = authored data, not extractor output.",
+ "fixtures": [
+  {
+   "id": "bank_basic_dmy",
+   "file": "bank_basic_dmy.json",
+   "sha256": "eba68522f4aa9c49faed2289df9880bf5b29180dabe97ce01e179f41808bec83",
+   "pages": 1,
+   "boxes": 69
+  },
+  {
+   "id": "bank_multipage_wrapped",
+   "file": "bank_multipage_wrapped.json",
+   "sha256": "4efcdd989e4d9eca5c39a3b02407cdcf0370eee43355ada6beff41ccf4d8b329",
+   "pages": 2,
+   "boxes": 62
+  },
+  {
+   "id": "bank_amount_column_descending",
+   "file": "bank_amount_column_descending.json",
+   "sha256": "ea855a2354555f76f0254db1cabaf6af0c65975a6f84d2075779bb4e2ec04efc",
+   "pages": 1,
+   "boxes": 48
+  },
+  {
+   "id": "bank_swapped_columns_textual_dates",
+   "file": "bank_swapped_columns_textual_dates.json",
+   "sha256": "5f5103a6559b29e1116b2dbc4fdcb1d9880b59ee820d26a5b0441ee354323b84",
+   "pages": 1,
+   "boxes": 47
+  },
+  {
+   "id": "bank_ambiguous_dates",
+   "file": "bank_ambiguous_dates.json",
+   "sha256": "e4debb6fc812f117532274a60606385faf547c2f38cf8ca52b379fe4e6e068c4",
+   "pages": 1,
+   "boxes": 34
+  },
+  {
+   "id": "bank_inconsistent_balance",
+   "file": "bank_inconsistent_balance.json",
+   "sha256": "4f21bda7ccbede360472f94b013068c7211bb355d3bedc558b58f5ffbd2fcc68",
+   "pages": 1,
+   "boxes": 25
+  },
+  {
+   "id": "bank_malformed_money",
+   "file": "bank_malformed_money.json",
+   "sha256": "29d432ae2841ded3c7f95c9f69285b09292152f984bc4b8d127185b764713727",
+   "pages": 1,
+   "boxes": 36
+  },
+  {
+   "id": "bank_eu_decimal_comma",
+   "file": "bank_eu_decimal_comma.json",
+   "sha256": "f9f3443dd92b09bc8efe10d240118d61d0b4ef702f31f4a7c3dd75c89ade15f6",
+   "pages": 1,
+   "boxes": 21
+  },
+  {
+   "id": "bank_missing_page",
+   "file": "bank_missing_page.json",
+   "sha256": "0ce5de112d180e840184aa73381afb8ad453cc3e16ae981dcfe8cbe306963e2e",
+   "pages": 2,
+   "boxes": 64
+  },
+  {
+   "id": "bank_partial_ocr",
+   "file": "bank_partial_ocr.json",
+   "sha256": "6dcb4ed320cf9c1fe48da0a90172feeb647e9ae2a831481c791a47885f9f3df1",
+   "pages": 1,
+   "boxes": 25
+  },
+  {
+   "id": "bank_line_level_ocr",
+   "file": "bank_line_level_ocr.json",
+   "sha256": "8070546c662c1b4c0fcc57a55ff6cfff5dccbeb3e1da492bf6e74b7ae287474b",
+   "pages": 1,
+   "boxes": 6
+  },
+  {
+   "id": "bank_multicurrency_sections",
+   "file": "bank_multicurrency_sections.json",
+   "sha256": "54ca17d26bd2f70651f0e6b2dc1c2bd5f5af21cceb0e8db377b7680c2f903460",
+   "pages": 1,
+   "boxes": 52
+  },
+  {
+   "id": "bank_statements_month_missing",
+   "file": "bank_statements_month_missing.json",
+   "sha256": "4bac772cf20262459fc8829eb3d6b6f76428b80eba37408e64f7d25fcd8155dc",
+   "pages": 2,
+   "boxes": 65
+  },
+  {
+   "id": "bank_statements_two_files_no_account_context",
+   "file": "bank_statements_two_files_no_account_context.json",
+   "sha256": "39cabc19cf687f9ca8aca1fe986b6dc9db32892f1a434ea6dc392d7b8f61439a",
+   "pages": 2,
+   "boxes": 65
+  },
+  {
+   "id": "invoice_basic",
+   "file": "invoice_basic.json",
+   "sha256": "90ec9790def966900fc3144a3a386551f7536ca8ecaa5661f16b2b074fee9456",
+   "pages": 1,
+   "boxes": 59
+  },
+  {
+   "id": "invoice_two_line_header_tax_column",
+   "file": "invoice_two_line_header_tax_column.json",
+   "sha256": "9eb09da380e356d490d96659b8bea3a1c2dec2e6b1f8bd3670320562052941f0",
+   "pages": 1,
+   "boxes": 36
+  },
+  {
+   "id": "invoice_errors",
+   "file": "invoice_errors.json",
+   "sha256": "a76ab08853c1fd50d30531e5572abf969bfa44242c80f834984d5ad47a67b221",
+   "pages": 1,
+   "boxes": 36
+  },
+  {
+   "id": "invoice_mixed_currency",
+   "file": "invoice_mixed_currency.json",
+   "sha256": "fb386c75df4818d0861bc3bdf2d0fbe32637c035aa95816e43aff8080aabb709",
+   "pages": 1,
+   "boxes": 21
+  },
+  {
+   "id": "payslip_stacked",
+   "file": "payslip_stacked.json",
+   "sha256": "1bb33cdb92e9b83e57a5b409eb21bdd7f884413edd40417241decc3f6cf8381c",
+   "pages": 1,
+   "boxes": 70
+  },
+  {
+   "id": "payslip_net_error",
+   "file": "payslip_net_error.json",
+   "sha256": "e6379f9065fcc0296f0bc3af02e7b5e263b306645cc4b7100dda0ef9e346fd15",
+   "pages": 1,
+   "boxes": 70
+  },
+  {
+   "id": "payslip_side_by_side",
+   "file": "payslip_side_by_side.json",
+   "sha256": "da33df14e9af5b09035e92f024c7d5b4498335cddca25d264cbcdefa57191263",
+   "pages": 1,
+   "boxes": 32
+  },
+  {
+   "id": "negative_letter",
+   "file": "negative_letter.json",
+   "sha256": "a5b81c8b2da1eb10f3b4b8669d66af8891fb35db518a541eb5581e67bbb9c153",
+   "pages": 1,
+   "boxes": 34
+  },
+  {
+   "id": "negative_unknown_table",
+   "file": "negative_unknown_table.json",
+   "sha256": "93c86c4c4666f46266be9290158757519257fd9e2a85ca11f114f2c545db01e3",
+   "pages": 1,
+   "boxes": 11
+  }
+ ]
+}

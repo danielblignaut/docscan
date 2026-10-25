@@ -1,0 +1,4 @@
+{"status":"extracted","checks":["running_balance:consistent/complete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/complete [printed_directions]"],"obs":["recurring_credit_candidate"],"amb":[],"abst":[]} [ 'unmarked_amounts_read_as_credits_by_minus_convention' ]
+[
+  '3 credits from "streamco subscription" at a monthly cadence (2026-01-05 to 2026-03-05), 199.00 to 199.00.'
+]

@@ -58,7 +58,7 @@ export function quietClock(): QuietClock {
  * Counts one analysed frame's codes into `all` and advances the clock.
  * Returns the codes that reached CONFIRM_FRAMES in this frame.
  */
-export function countFrame(all: Map<string, SeenCode>, clock: QuietClock, codes: readonly { format: string; text: string }[], now: number): SeenCode[] {
+export function countFrame(all: Map<string, SeenCode>, clock: QuietClock, codes: readonly { format: string; text: string; symbology_identifier?: string | null }[], now: number): SeenCode[] {
   clock.frame++;
   const fresh: SeenCode[] = [];
   // A frame can report the same code twice (two copies on one sheet): one frame, one read.
@@ -69,6 +69,7 @@ export function countFrame(all: Map<string, SeenCode>, clock: QuietClock, codes:
     keys.add(key);
     const s = all.get(key) ?? { format: b.format, text: b.text, count: 0 };
     s.count++;
+    if (b.symbology_identifier !== undefined) s.symbology_identifier = b.symbology_identifier;
     all.set(key, s);
     if (s.count === 1) {
       clock.novelAt = now;

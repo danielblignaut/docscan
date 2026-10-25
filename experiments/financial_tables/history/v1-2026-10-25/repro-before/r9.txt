@@ -1,0 +1,7 @@
+{
+  emitted: 77,
+  unscored: 8,
+  unscoredCons: 5,
+  obsUnscored: 0,
+  codes: {}
+}

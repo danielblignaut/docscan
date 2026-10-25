@@ -1,0 +1,214 @@
+{
+ "id": "invoice_mixed_currency",
+ "description": "Lines priced in USD and EUR on one invoice: no total may be computed across currencies.",
+ "kind": "invoice",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "price",
+     "x": 823.4,
+     "y": 120,
+     "w": 56.7,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "1,600.00",
+     "x": 1091.7,
+     "y": 153.4,
+     "w": 87.4,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "EUR",
+     "x": 764,
+     "y": 187.4,
+     "w": 34.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "1,900.00",
+     "x": 1087.2,
+     "y": 251.8,
+     "w": 92.7,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "USD",
+     "x": 1048,
+     "y": 153.4,
+     "w": 32.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Description",
+     "x": 199.7,
+     "y": 119.9,
+     "w": 118.8,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "1",
+     "x": 688,
+     "y": 188.7,
+     "w": 11.5,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "800.00",
+     "x": 812.4,
+     "y": 153.9,
+     "w": 68.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Total",
+     "x": 719.6,
+     "y": 252.7,
+     "w": 53.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Travel",
+     "x": 199.6,
+     "y": 187.5,
+     "w": 67.8,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "EUR",
+     "x": 1071,
+     "y": 188.6,
+     "w": 33,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Unit",
+     "x": 766.7,
+     "y": 120,
+     "w": 45.4,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "300.00",
+     "x": 1115,
+     "y": 188.6,
+     "w": 65.9,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "(Lisbon)",
+     "x": 278.7,
+     "y": 187.5,
+     "w": 90.4,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "2",
+     "x": 688.4,
+     "y": 154,
+     "w": 10.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "USD",
+     "x": 766.8,
+     "y": 153.9,
+     "w": 34.2,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "day",
+     "x": 323.8,
+     "y": 154.1,
+     "w": 33.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Qty",
+     "x": 666.7,
+     "y": 119.7,
+     "w": 34.3,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "300.00",
+     "x": 810.4,
+     "y": 187.4,
+     "w": 69.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Consulting",
+     "x": 199.8,
+     "y": 154.1,
+     "w": 112.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "Amount",
+     "x": 1110.3,
+     "y": 120,
+     "w": 68.9,
+     "h": 22,
+     "line": 0
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "invoice",
+  "tables": [
+   {
+    "kind": "invoice_line_items",
+    "rows": [
+     {
+      "kind": "line_item",
+      "description": "Consulting day",
+      "quantity": "2",
+      "unit_price": "800.00",
+      "amount": "1600.00"
+     },
+     {
+      "kind": "line_item",
+      "description": "Travel (Lisbon)",
+      "quantity": "1",
+      "unit_price": "300.00",
+      "amount": "300.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "invoice_total": "not_evaluable"
+  },
+  "ambiguities": [
+   "currency_mixed"
+  ]
+ }
+}

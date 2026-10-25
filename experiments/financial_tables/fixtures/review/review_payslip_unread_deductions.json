@@ -1,0 +1,125 @@
+{
+ "id": "review_payslip_unread_deductions",
+ "description": "The deductions are on another page that was not supplied: net pay cannot be recomputed.",
+ "kind": "payslip",
+ "options": {
+  "documentType": "payslip"
+ },
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "60,000.00",
+     "x": 1081,
+     "y": 168,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 80,
+     "y": 134,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "20,000.00",
+     "x": 901,
+     "y": 202,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "15,000.00",
+     "x": 901,
+     "y": 304,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Earnings",
+     "x": 80,
+     "y": 100,
+     "w": 88,
+     "h": 22
+    },
+    {
+     "text": "20,000.00",
+     "x": 901,
+     "y": 168,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Gross pay",
+     "x": 80,
+     "y": 202,
+     "w": 99,
+     "h": 22
+    },
+    {
+     "text": "Basic salary",
+     "x": 80,
+     "y": 168,
+     "w": 132,
+     "h": 22
+    },
+    {
+     "text": "Net pay",
+     "x": 80,
+     "y": 304,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "YTD",
+     "x": 1147,
+     "y": 134,
+     "w": 33,
+     "h": 22
+    },
+    {
+     "text": "Deductions summary on reverse",
+     "x": 80,
+     "y": 270,
+     "w": 319,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "payslip",
+  "tables": [
+   {
+    "kind": "payslip_lines",
+    "rows": [
+     {
+      "kind": "earning",
+      "group": "earnings",
+      "description": "Basic salary",
+      "amount": "20000.00",
+      "ytd": "60000.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "payslip_rate_times_quantity": "not_evaluable",
+   "payslip_gross": "consistent",
+   "payslip_net": "not_evaluable"
+  },
+  "observations": {}
+ }
+}

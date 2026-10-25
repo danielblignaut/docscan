@@ -1,3 +1,4 @@
+import type { LabelEngine } from "./label-engine";
 // The scanners the demo offers, each one card on the home screen and one
 // deep link (`?doc=…` or `?mode=…`), so the e2e suite can open any of them
 // directly.
@@ -5,7 +6,7 @@ import type { TextEngine } from "./text-engine";
 import type { DocType } from "./IdCapture";
 import type { Extractor } from "./models";
 
-export type ScannerId = "text" | "barcodes" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
+export type ScannerId = "text" | "tables" | "barcodes" | "items" | "labels" | "smart_id" | "green_book" | "passport" | "auto" | "address" | "liveness" | "faceid" | "facedoc";
 
 export interface ScannerInfo {
   id: ScannerId;
@@ -13,12 +14,13 @@ export interface ScannerInfo {
   title: string;
   description: string;
   /** The query parameter that opens it. */
-  param: ["doc", DocType] | ["mode", "text" | "multi" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
+  param: ["doc", DocType] | ["mode", "text" | "tables" | "multi" | "items" | "labels" | "address" | "liveness" | "faceid" | "facedoc"];
   /** Which models it needs: none (barcodes alone), OCR, OCR plus the extractor, or the face models. */
   needs: "none" | "ocr" | "address" | "face";
 }
 
 export const SCANNERS: ScannerInfo[] = [
+  { id: "tables", icon: "🧾", title: "Financial tables", description: "Statement transactions, invoice lines and payslip amounts, with source evidence and arithmetic checks", param: ["mode", "tables"], needs: "ocr" },
   { id: "text", icon: "📄", title: "Document text", description: "Capture a printed page and copy its text, with word positions available", param: ["mode", "text"], needs: "ocr" },
   {
     id: "barcodes",
@@ -28,6 +30,7 @@ export const SCANNERS: ScannerInfo[] = [
     param: ["mode", "multi"],
     needs: "none",
   },
+  { id: "items", icon: "📦", title: "Item scan session", description: "Scan several boxes, group their identifiers, and keep ambiguous associations visible", param: ["mode", "items"], needs: "none" },
   {
     id: "labels",
     icon: "📱",
@@ -83,7 +86,9 @@ export function scannerFromUrl(search = location.search): ScannerId | null {
   const p = new URLSearchParams(search);
   const mode = p.get("mode");
   if (mode === "text") return "text";
+  if (mode === "tables") return "tables";
   if (mode === "multi") return "barcodes";
+  if (mode === "items") return "items";
   if (mode === "labels") return "labels";
   if (mode === "address") return "address";
   if (mode === "liveness" || mode === "faceid" || mode === "facedoc") return mode;
@@ -102,8 +107,9 @@ export function methodFromUrl(search = location.search): Extractor | "auto" {
  * The URL for a scanner (or home, `null`), keeping every other parameter
  * (`threads`, `today`, …) so a test's settings survive navigation.
  */
-export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto", textEngine: TextEngine = "ocrs"): string {
+export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto", textEngine: TextEngine = "ocrs", labelEngine?: LabelEngine): string {
   const p = new URLSearchParams(location.search);
+  if (labelEngine) { if (labelEngine === "fast") p.set("labelReader", "fast"); else p.delete("labelReader"); }
   p.delete("doc");
   p.delete("mode");
   p.delete("method");
@@ -112,7 +118,7 @@ export function urlFor(id: ScannerId | null, method: Extractor | "auto" = "auto"
     const [k, v] = scannerById(id).param;
     p.set(k, v);
     if (id === "address" && method !== "auto") p.set("method", method);
-    if (id === "text" && textEngine !== "ocrs") p.set("textEngine", textEngine);
+    if (id === "tables" || (id === "text" && textEngine !== "ocrs")) p.set("textEngine", textEngine);
   }
   const q = p.toString();
   return `${location.pathname}${q ? `?${q}` : ""}`;

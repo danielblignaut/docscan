@@ -1,0 +1,158 @@
+{
+ "scorer": "v3",
+ "engine": "financial-tables",
+ "engineSourceSha256": "2309b91b473baa647b493c4b9dd4d6c178dd0a6522be90fabccf6fdffd66e136",
+ "manifestSha256": "64c907b2cfe3811d105808a9ca46f8256d17996485feeb0711dc1ff712dceb70",
+ "summary": {
+  "set": "review3",
+  "fixtures": 7,
+  "tables": {
+   "gold": 11,
+   "parsed": 11,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 26,
+   "parsed": 30,
+   "kindCorrect": 25,
+   "kindAccuracy": 0.9615
+  },
+  "cells": {
+   "gold": 97,
+   "correct": 83,
+   "missing": 4,
+   "wrong": 10,
+   "accuracy": 0.8557,
+   "emitted": 105,
+   "extra": 12
+  },
+  "provenance": {
+   "cells": 105,
+   "withSource": 105,
+   "approximate": 18
+  },
+  "checks": {
+   "expected": 15,
+   "agreed": 13,
+   "falseConsistent": 2,
+   "emitted": 26,
+   "unscored": 0,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 3,
+   "agreed": 3,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 1,
+   "reported": 1
+  },
+  "labels": {
+   "expected": 0,
+   "agreed": 0
+  },
+  "fixturesWithFailures": [
+   "review3_credit_card_sign_convention",
+   "review3_near_duplicate_capture",
+   "review3_undated_total_merchant",
+   "review3_brought_forward_above_header",
+   "review3_line_limit_blocks_totals"
+  ]
+ },
+ "fixtures": [
+  {
+   "id": "review3_credit_card_sign_convention",
+   "ms": 26.72,
+   "status": "partial",
+   "failures": [
+    "rows: gold 5, parsed 6",
+    "row 5: extra description cell \"Closing balance\"",
+    "row 5: extra balance cell \"199.00\""
+   ],
+   "failureCount": 3
+  },
+  {
+   "id": "review3_near_duplicate_capture",
+   "ms": 17.06,
+   "status": "extracted",
+   "failures": [
+    "rows: gold 8, parsed 10",
+    "row 4: kind gold transaction, parsed closing_balance",
+    "row 4 date: missing (gold 2026-01-25)",
+    "row 4 description: gold ACME PAYROLL SALARY, parsed CLOSING BALANCE",
+    "row 4 credit: missing (gold 5000.00)",
+    "row 4 balance: gold 6000.00, parsed 15800.00",
+    "row 5: extra credit cell \"5,000.00\"",
+    "row 5 date: gold 2026-01-26, parsed 2026-01-25",
+    "row 5 description: gold GR0CER, parsed ACME PAYROLL SALARY",
+    "row 5 debit: missing (gold 200.00)",
+    "row 5 balance: gold 5800.00, parsed 6000.00",
+    "row 6: extra debit cell \"200.00\"",
+    "row 6 date: gold 2026-02-25, parsed 2026-01-26",
+    "row 6 description: gold ACME PAYROLL SALARY, parsed GR0CER",
+    "row 6 credit: missing (gold 5000.00)",
+    "row 6 balance: gold 10800.00, parsed 5800.00",
+    "row 7 date: gold 2026-03-25, parsed 2026-02-25",
+    "row 7 balance: gold 15800.00, parsed 10800.00",
+    "row 8: extra date cell \"25/03/2026\"",
+    "row 8: extra description cell \"ACME PAYROLL SALARY\"",
+    "row 8: extra credit cell \"5,000.00\"",
+    "row 8: extra balance cell \"15,800.00\"",
+    "row 9: extra description cell \"Closing balance\"",
+    "row 9: extra balance cell \"15,800.00\""
+   ],
+   "failureCount": 24
+  },
+  {
+   "id": "review3_undated_total_merchant",
+   "ms": 2.46,
+   "status": "extracted",
+   "failures": [
+    "rows: gold 3, parsed 4",
+    "row 3: extra description cell \"Closing balance\"",
+    "row 3: extra balance cell \"550.00\""
+   ],
+   "failureCount": 3
+  },
+  {
+   "id": "review3_brought_forward_above_header",
+   "ms": 1.43,
+   "status": "partial",
+   "failures": [
+    "check running_balance: gold not_evaluable, got consistent"
+   ],
+   "failureCount": 1
+  },
+  {
+   "id": "review3_line_limit_blocks_totals",
+   "ms": 2.61,
+   "status": "extracted",
+   "failures": [
+    "check opening_plus_credits_minus_debits_equals_closing: gold not_evaluable, got consistent"
+   ],
+   "failureCount": 1
+  },
+  {
+   "id": "review3_table_limit",
+   "ms": 3.94,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review3_invalid_page",
+   "ms": 2.41,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}

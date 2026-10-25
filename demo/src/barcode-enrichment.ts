@@ -20,7 +20,7 @@ export function mergeLabelReading(original: Barcodes, reading: Outcome, elapsedM
   const labels = pages.find((p): p is Barcodes => p.kind === "barcodes");
   const failures = pages.filter(p => p.kind === "file_error").map(p => p.message);
   if (!labels) return { ...original, labelReadStatus: "failed", labelReadMs: elapsedMs, labelReadError: failures.join("; ") || "No label reading returned" };
-  return { ...original, fields: labels.fields, labelReadStatus: "complete", labelReadMs: elapsedMs, labelReadError: undefined,
+  return { ...original, fields: labels.fields, labelReader: labels.labelReader, droppedObservations: labels.droppedObservations, labelReadStatus: "complete", labelReadMs: elapsedMs, labelReadError: undefined,
     labelReadWarning: [labels.labelReadWarning, labels.fields.some(f => f.check_digit_valid === null) ? "Values without a check digit were read from one image and are not confirmed by a second capture." : undefined, ...failures].filter(Boolean).join("; ") || undefined,
     meta: { ...original.meta, ocrFrames: (original.meta.ocrFrames ?? 0) + (labels.meta.ocrFrames ?? 0),
       ocrMs: labels.meta.ocrMs } };

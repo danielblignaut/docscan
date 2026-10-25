@@ -1,0 +1,279 @@
+{
+ "id": "review3_credit_card_sign_convention",
+ "description": "A card statement: purchases unsigned, payments with a minus, the balance is the amount owed. The subscription must not become recurring income and no check is independent.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "lines": [
+    {
+     "text": "Closing balance",
+     "x": 250,
+     "y": 338,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 1114,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "PAYMENT RECEIVED THANK YOU",
+     "x": 250,
+     "y": 202,
+     "w": 286,
+     "h": 22
+    },
+    {
+     "text": "Description",
+     "x": 250,
+     "y": 134,
+     "w": 121,
+     "h": 22
+    },
+    {
+     "text": "05/03/2026",
+     "x": 80,
+     "y": 304,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 1114,
+     "y": 304,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 1114,
+     "y": 338,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Balance",
+     "x": 1103,
+     "y": 134,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "0.00",
+     "x": 1136,
+     "y": 202,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "Date",
+     "x": 80,
+     "y": 134,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "05/01/2026",
+     "x": 80,
+     "y": 168,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "-199.00",
+     "x": 923,
+     "y": 270,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "20/01/2026",
+     "x": 80,
+     "y": 202,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 1114,
+     "y": 236,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "Opening balance",
+     "x": 250,
+     "y": 100,
+     "w": 165,
+     "h": 22
+    },
+    {
+     "text": "Amount",
+     "x": 934,
+     "y": 134,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "STREAMCO SUBSCRIPTION",
+     "x": 250,
+     "y": 236,
+     "w": 231,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 934,
+     "y": 236,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "20/02/2026",
+     "x": 80,
+     "y": 270,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 934,
+     "y": 304,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "05/02/2026",
+     "x": 80,
+     "y": 236,
+     "w": 110,
+     "h": 22
+    },
+    {
+     "text": "0.00",
+     "x": 1136,
+     "y": 100,
+     "w": 44,
+     "h": 22
+    },
+    {
+     "text": "PAYMENT RECEIVED THANK YOU",
+     "x": 250,
+     "y": 270,
+     "w": 286,
+     "h": 22
+    },
+    {
+     "text": "STREAMCO SUBSCRIPTION",
+     "x": 250,
+     "y": 304,
+     "w": 231,
+     "h": 22
+    },
+    {
+     "text": "-199.00",
+     "x": 923,
+     "y": 202,
+     "w": 77,
+     "h": 22
+    },
+    {
+     "text": "199.00",
+     "x": 934,
+     "y": 168,
+     "w": 66,
+     "h": 22
+    },
+    {
+     "text": "STREAMCO SUBSCRIPTION",
+     "x": 250,
+     "y": 168,
+     "w": 231,
+     "h": 22
+    },
+    {
+     "text": "0.00",
+     "x": 1136,
+     "y": 270,
+     "w": 44,
+     "h": 22
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "transaction",
+      "date": "2026-01-05",
+      "description": "STREAMCO SUBSCRIPTION",
+      "amount": "199.00",
+      "balance": "199.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-01-20",
+      "description": "PAYMENT RECEIVED THANK YOU",
+      "amount": "-199.00",
+      "balance": "0.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-05",
+      "description": "STREAMCO SUBSCRIPTION",
+      "amount": "199.00",
+      "balance": "199.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-02-20",
+      "description": "PAYMENT RECEIVED THANK YOU",
+      "amount": "-199.00",
+      "balance": "0.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-03-05",
+      "description": "STREAMCO SUBSCRIPTION",
+      "amount": "199.00",
+      "balance": "199.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "199.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "not_evaluable",
+   "opening_plus_credits_minus_debits_equals_closing": "not_evaluable"
+  },
+  "observations": {
+   "recurring_credit_candidate": 0
+  },
+  "ambiguities": [
+   "amount_direction_unknown"
+  ],
+  "goldChanges": [
+   {
+    "version": "v3-review3-1",
+    "change": "added the closing_balance row printed inside the table",
+    "reason": "authoring error found by the first scored run"
+   }
+  ]
+ }
+}

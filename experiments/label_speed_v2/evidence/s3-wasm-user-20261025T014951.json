@@ -1,0 +1,106 @@
+{
+ "cpu": "4",
+ "decoder": "PIL",
+ "labelled": {
+  "cold_call_ms": [
+   24244.9,
+   25676.7,
+   25095.6
+  ],
+  "instantiate_ms_median": 36.1,
+  "memory_mb": 205.5,
+  "models_ms_median": 86.0,
+  "stable": true,
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 5
+  },
+  "warm_call_ms_median": 23794.8
+ },
+ "labelled_fast": {
+  "cold_call_ms": [
+   2961.5,
+   2757.2,
+   2998.4
+  ],
+  "instantiate_ms_median": 36.1,
+  "memory_mb": 88.4,
+  "models_ms_median": 220.5,
+  "stable": true,
+  "vs_labelled": {
+   "base": 5,
+   "both_to_other": 1,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 1,
+   "source_changed": 2
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 3
+  },
+  "warm_call_ms_median": 2230.3,
+  "warm_speedup": 10.67
+ },
+ "labelled_once": {
+  "cold_call_ms": [
+   13436.5,
+   7725.6,
+   8892.0
+  ],
+  "instantiate_ms_median": 36.5,
+  "memory_mb": 122.2,
+  "models_ms_median": 146.9,
+  "stable": true,
+  "vs_labelled": {
+   "base": 5,
+   "both_to_other": 1,
+   "cand": 5,
+   "check_changed": 0,
+   "gained": 0,
+   "gained_by_kind": {},
+   "kind_changed": 0,
+   "lost": 0,
+   "lost_by_kind": {},
+   "other_to_both": 1,
+   "source_changed": 2
+  },
+  "vs_report": {
+   "check_same": true,
+   "extra": 0,
+   "kind_same": true,
+   "listed": 5,
+   "missing": 0,
+   "report_fields": 5,
+   "source_same": 3
+  },
+  "warm_call_ms_median": 7832.8,
+  "warm_speedup": 3.04
+ },
+ "node": "v24.21.0",
+ "provenance": {
+  "freeze": "2823b56af2ad7a73cc8d19e3abc53d2c077ede5a16a3d15a4b9c5ff84f102c6a",
+  "runner": {
+   "prepare.py": "79f8f77ccbc0d679e131522221ba903d76cb1685f4b7db2d8a16572d8ecf62b9",
+   "run.py": "92051630a2e4ddb8803eaa72838f5a124fa9ba0b5a8767fb5cb1aaa7d356c606",
+   "run_wasm.py": "91979281a1ddad8a0a8c69908ace1010cb5923f895e9ff905debf6538fc417b0",
+   "test_run.py": "e94e0e5e9fbaf940465374ec6e537d0e22fd2df9be037e7c2ba3f0b71d5dc5da",
+   "wasm_probe.mjs": "4ed2f6641dcfd7d6b4907e0eb6577a83be6ee2914acad4d4fc7081224bcde80a"
+  }
+ }
+}

@@ -1,0 +1,282 @@
+{
+ "id": "stress_two_digit_years",
+ "description": "dd/mm/yy dates; the four-digit statement period fixes the century.",
+ "kind": "bank_statement",
+ "options": {},
+ "pages": [
+  {
+   "pageIndex": 0,
+   "width": 1240,
+   "height": 1754,
+   "source": "ocr",
+   "trust": "ocr_unverified",
+   "lines": [
+    {
+     "text": "14/05/26",
+     "x": 79.3,
+     "y": 222.4,
+     "w": 92.3,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Statement",
+     "x": 80.1,
+     "y": 119.6,
+     "w": 103.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Date",
+     "x": 79.9,
+     "y": 154.5,
+     "w": 43.3,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "PURCHASE",
+     "x": 293,
+     "y": 221.7,
+     "w": 86.8,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "1,350.00",
+     "x": 1089.2,
+     "y": 289.2,
+     "w": 90.8,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "Description",
+     "x": 249.9,
+     "y": 154.5,
+     "w": 119.7,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "50.00",
+     "x": 763.8,
+     "y": 221.6,
+     "w": 56.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "BAKERY",
+     "x": 390.6,
+     "y": 221.7,
+     "w": 65.1,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "POS",
+     "x": 249.6,
+     "y": 221.7,
+     "w": 32.5,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "21/05/26",
+     "x": 80,
+     "y": 255.2,
+     "w": 89,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "balance",
+     "x": 337,
+     "y": 188.1,
+     "w": 76.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "TRANSFER",
+     "x": 249.3,
+     "y": 256,
+     "w": 90.6,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "950.00",
+     "x": 1114.2,
+     "y": 222.2,
+     "w": 66.6,
+     "h": 22,
+     "line": 3
+    },
+    {
+     "text": "Balance",
+     "x": 1104.8,
+     "y": 154.5,
+     "w": 75.8,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "1,350.00",
+     "x": 1090.9,
+     "y": 256.6,
+     "w": 88.5,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "Opening",
+     "x": 249.4,
+     "y": 188.1,
+     "w": 76.6,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "Credit",
+     "x": 932.5,
+     "y": 153.9,
+     "w": 67.6,
+     "h": 22,
+     "line": 1
+    },
+    {
+     "text": "1,000.00",
+     "x": 1091.5,
+     "y": 188.5,
+     "w": 87.7,
+     "h": 22,
+     "line": 2
+    },
+    {
+     "text": "balance",
+     "x": 340.4,
+     "y": 289.5,
+     "w": 79.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "400.00",
+     "x": 933,
+     "y": 256.1,
+     "w": 67.7,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "01/05/2026",
+     "x": 287.3,
+     "y": 119.6,
+     "w": 115.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "FROM",
+     "x": 351.3,
+     "y": 256,
+     "w": 45.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "to",
+     "x": 413.9,
+     "y": 119.6,
+     "w": 23,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Closing",
+     "x": 250.1,
+     "y": 289.5,
+     "w": 79.1,
+     "h": 22,
+     "line": 5
+    },
+    {
+     "text": "SAVINGS",
+     "x": 407.9,
+     "y": 256,
+     "w": 79.3,
+     "h": 22,
+     "line": 4
+    },
+    {
+     "text": "period:",
+     "x": 195.2,
+     "y": 119.6,
+     "w": 80.6,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "31/05/2026",
+     "x": 448.4,
+     "y": 119.6,
+     "w": 115.1,
+     "h": 22,
+     "line": 0
+    },
+    {
+     "text": "Debit",
+     "x": 762.4,
+     "y": 153.3,
+     "w": 57.1,
+     "h": 22,
+     "line": 1
+    }
+   ]
+  }
+ ],
+ "gold": {
+  "documentKind": "bank_statement",
+  "tables": [
+   {
+    "kind": "bank_transactions",
+    "rows": [
+     {
+      "kind": "opening_balance",
+      "description": "Opening balance",
+      "balance": "1000.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-05-14",
+      "description": "POS PURCHASE BAKERY",
+      "debit": "50.00",
+      "balance": "950.00"
+     },
+     {
+      "kind": "transaction",
+      "date": "2026-05-21",
+      "description": "TRANSFER FROM SAVINGS",
+      "credit": "400.00",
+      "balance": "1350.00"
+     },
+     {
+      "kind": "closing_balance",
+      "description": "Closing balance",
+      "balance": "1350.00"
+     }
+    ]
+   }
+  ],
+  "checks": {
+   "running_balance": "consistent",
+   "opening_plus_credits_minus_debits_equals_closing": "consistent"
+  },
+  "labels": {
+   "1": "transfer_like"
+  }
+ }
+}

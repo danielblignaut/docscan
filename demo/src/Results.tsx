@@ -1,3 +1,8 @@
+import { FAST_LABEL_LIMITATION } from "./label-engine";
+import { ItemGroups, ItemSessionResults } from "./ItemResults";
+import type { ItemRegion } from "./item-grouping";
+import { FinancialResults } from "./FinancialResults";
+import type { FinancialTablesOptions } from "./financial-tables";
 // The results screen: what was captured, as a read-only form (one labelled
 // input per value, each with a copy button), grouped per side or step, with
 // the captured images, a collapsible Metadata section and, for proof of
@@ -397,7 +402,7 @@ function fieldNote(f: LabelledField): [Status | undefined, string] {
   return [undefined, `${source}${fmt} · no check digit`];
 }
 
-function BarcodeResults({ outcome, ready, onReadLabels }: { outcome: Extract<Outcome, { kind: "barcodes" }>; ready: ReadyInfo | null; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
+function BarcodeResults({ outcome, ready, onReadLabels, onItemRegions, itemsEditable }: { outcome: Extract<Outcome, { kind: "barcodes" }>; ready: ReadyInfo | null; onItemRegions?: (outcome: Extract<Outcome,{kind:"barcodes"}>,regions: ItemRegion[])=>void; itemsEditable?: boolean; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   return (
     <section className="step" data-testid="barcode-results">
       <Verdict ok={outcome.barcodes.length + outcome.fields.length > 0}>
@@ -408,6 +413,7 @@ function BarcodeResults({ outcome, ready, onReadLabels }: { outcome: Extract<Out
       {!outcome.labels && outcome.blob && onReadLabels && <button type="button" className="copy" data-testid="read-printed-labels" onClick={() => onReadLabels(outcome)}>Read printed labels too</button>}
       {outcome.labelReadStatus === "cancelled" && <p className="muted">Printed-label reading stopped. Barcode results are retained.</p>}
       {outcome.labelReadError && <p role="alert">Printed labels could not be read: {outcome.labelReadError}. The barcode results are retained.</p>}
+      {outcome.labelReader === "fast" && <p role="status">{FAST_LABEL_LIMITATION}</p>}
       {outcome.labelReadWarning && <p className="muted">{outcome.labelReadWarning}</p>}
       {outcome.imageUrl && <img className="captured" src={outcome.imageUrl} alt="the frame the set was captured from" />}
       {(outcome.labels || outcome.fields.length > 0) && (
@@ -425,6 +431,17 @@ function BarcodeResults({ outcome, ready, onReadLabels }: { outcome: Extract<Out
           <Field key={`${b.format}|${b.text}`} name={`${b.format}|${b.text}`} label={b.format.toUpperCase()} value={b.text} />
         ))}
       </Group>
+      {outcome.itemMode && <ItemGroups outcome={outcome} editable={itemsEditable??false} onRegions={onItemRegions} />}
+      {outcome.barcodes.some(code => code.gs1) && <Group title="GS1 structured data" testid="gs1-fields">
+        <p>Fields encoded in the barcode. Parsing and check digits do not verify the product or issuer.</p>
+        {outcome.barcodes.map((code,index) => code.gs1 && <div key={`${code.format}|${code.text}`}>
+          <h3>Code {index+1} · {code.gs1.syntax?.replaceAll("_", " ")} · {code.gs1.status}</h3>
+          {code.gs1.fields.map((field,i) => <Field key={`${field.ai}-${i}`} label={`(${field.ai}) ${field.title}`} value={field.value}
+            status={field.errors.length ? "bad" : undefined} note={field.errors.join(", ") || (field.date ? "Two-digit year; century not inferred" : field.checks.checksum === true ? "Check digit agrees" : "Parsed from barcode")} />)}
+          {code.gs1.errors.length>0 && <p role="alert">{code.gs1.errors.join("; ")}</p>}
+          <details><summary>Parsing limits and related-field checks</summary><ul>{code.gs1.warnings.map(w=><li key={w}>{w}</li>)}</ul><p>Additional GS1 rules and product registration are not fully checked. URLs are not followed.</p></details>
+        </div>)}
+      </Group>}
       <details className="metadata" data-testid="metadata">
         <summary>Metadata</summary>
         <Facts
@@ -609,14 +626,15 @@ function FaceResults({ outcome, face }: { outcome: Extract<Outcome, { kind: "fac
 }
 
 /** A body can render a batch page without nesting forms or home controls. */
-function OutcomeBody({ outcome, ready, face, sourceInHeading = false, onReadLabels }: { outcome: Outcome; ready: ReadyInfo | null; face: FaceClient | null; sourceInHeading?: boolean; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
+function OutcomeBody({ outcome, ready, face, sourceInHeading = false, onReadLabels, onFinancialOptions, onItemRegions, itemsEditable }: { outcome: Outcome; ready: ReadyInfo | null; face: FaceClient | null; sourceInHeading?: boolean; onItemRegions?: (outcome: Extract<Outcome,{kind:"barcodes"}>,regions: ItemRegion[])=>void; itemsEditable?: boolean; onFinancialOptions?: (outcome: Extract<Outcome,{kind:"financial"}>, options: FinancialTablesOptions) => void; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   return <>
     <InputSource input={outcome.meta.input} hideLabel={sourceInHeading} />
+    {outcome.kind === "financial" && <FinancialResults outcome={outcome} onOptions={onFinancialOptions} />}
     {outcome.kind === "batch" && <>
       <p>{outcome.pages.length} results. Page readings and file-inspection warnings are listed separately.</p>
       {outcome.pages.map((page, i) => <section className="step" key={i} data-testid="batch-page">
         <h2>{page.meta.input ? sourceLabel(page.meta.input) : `Page result ${i + 1}`}</h2>
-        <OutcomeBody outcome={page} ready={ready} face={face} sourceInHeading onReadLabels={onReadLabels} />
+        <OutcomeBody outcome={page} ready={ready} face={face} sourceInHeading onReadLabels={onReadLabels} onFinancialOptions={onFinancialOptions} onItemRegions={onItemRegions} itemsEditable={itemsEditable} />
       </section>)}
     </>}
     {outcome.kind === "file_error" && <section role="alert" data-testid="file-error">
@@ -649,20 +667,21 @@ function OutcomeBody({ outcome, ready, face, sourceInHeading = false, onReadLabe
         </section>}
         {outcome.kind === "id" && <IdResults outcome={outcome} ready={ready} />}
         {outcome.kind === "address" && <AddressResults outcome={outcome} ready={ready} />}
-        {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} onReadLabels={onReadLabels} />}
+        {outcome.kind === "barcodes" && <BarcodeResults outcome={outcome} ready={ready} onReadLabels={onReadLabels} onItemRegions={onItemRegions} itemsEditable={itemsEditable} />}
         {outcome.kind === "face" && <FaceResults outcome={outcome} face={face} />}
 
     {outcome.documentEvidence ? <EvidenceResults evidence={outcome.documentEvidence} /> : null}
   </>;
 }
 
-export function Results({ outcome, ready, onHome, face = null, onReadLabels }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
+export function Results({ outcome, ready, onHome, face = null, onReadLabels, onFinancialOptions, onItemRegions, itemsEditable }: { outcome: Outcome; ready: ReadyInfo | null; onHome: () => void; face?: FaceClient | null; onItemRegions?: (outcome: Extract<Outcome,{kind:"barcodes"}>,regions: ItemRegion[])=>void; itemsEditable?: boolean; onFinancialOptions?: (outcome: Extract<Outcome,{kind:"financial"}>, options: FinancialTablesOptions) => void; onReadLabels?: (outcome: Extract<Outcome, { kind: "barcodes" }>) => void }) {
   const title = outcome.kind === "batch" ? `${scannerById(outcome.scanner).title} · document batch`
     : outcome.kind === "file_error" ? "Document could not be read"
     : outcome.kind === "id" ? scannerById(outcome.scanner).title
     : outcome.kind === "face" ? scannerById(outcome.flow).title
     : outcome.kind === "address" ? "Proof of address"
     : outcome.kind === "text" ? "Document text"
+    : outcome.kind === "financial" ? "Financial tables"
     : outcome.labels ? "Device label" : "Barcodes";
   return (
     <main className="results" data-testid="results" data-kind={outcome.kind}>
@@ -671,8 +690,9 @@ export function Results({ outcome, ready, onHome, face = null, onReadLabels }: {
         <span className="muted">{outcome.meta.source === "photo" ? "from uploaded images" : outcome.meta.source === "pdf" ? "from a digital document" : `captured in ${secs(outcome.meta.captureMs)}`}</span>
       </header>
       <p className="muted">Authenticity, issuer and physical originality are not verified.</p>
+      {outcome.kind === "batch" && outcome.scanner === "items" && <ItemSessionResults outcome={outcome} />}
       <form className="results-form" onSubmit={(e) => e.preventDefault()}>
-        <OutcomeBody outcome={outcome} ready={ready} face={face} onReadLabels={onReadLabels} />
+        <OutcomeBody outcome={outcome} ready={ready} face={face} onReadLabels={onReadLabels} onFinancialOptions={onFinancialOptions} onItemRegions={onItemRegions} itemsEditable={itemsEditable} />
       </form>
       <ReportExport outcome={outcome} />
       <button type="button" className="primary home-button" data-testid="results-home" onClick={onHome}>Back to home</button>

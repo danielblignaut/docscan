@@ -1,0 +1,147 @@
+{
+ "scorer": "v2",
+ "engine": "financial-tables",
+ "engineSourceSha256": "a91a63e7d2460d015fc23bcc83f2e44375230eba666ec7f704d7ee6a1367850e",
+ "manifestSha256": "bf55b8b943d5820c0c3feb581e6f501a02db37c6c68ea0bc6ca4a38f717ce2a2",
+ "summary": {
+  "set": "review",
+  "fixtures": 10,
+  "tables": {
+   "gold": 12,
+   "parsed": 12,
+   "falseTablesOnNegatives": 0
+  },
+  "rows": {
+   "gold": 37,
+   "parsed": 37,
+   "kindCorrect": 37,
+   "kindAccuracy": 1
+  },
+  "cells": {
+   "gold": 130,
+   "correct": 129,
+   "missing": 1,
+   "wrong": 0,
+   "accuracy": 0.9923,
+   "emitted": 129,
+   "extra": 0
+  },
+  "provenance": {
+   "cells": 129,
+   "withSource": 129,
+   "approximate": 39
+  },
+  "checks": {
+   "expected": 20,
+   "agreed": 20,
+   "falseConsistent": 0,
+   "emitted": 25,
+   "unscored": 3,
+   "unscoredConsistent": 0
+  },
+  "abstention": {
+   "expected": 0,
+   "correct": 0,
+   "falseAbstentions": 0
+  },
+  "observations": {
+   "expected": 4,
+   "agreed": 4,
+   "unexpected": 0,
+   "missing": 0,
+   "falseIncomeCandidates": 0
+  },
+  "ambiguities": {
+   "expected": 3,
+   "reported": 3
+  },
+  "labels": {
+   "expected": 5,
+   "agreed": 5
+  },
+  "fixturesWithFailures": [
+   "review_files_do_not_share_evidence",
+   "review_summary_dr_balance",
+   "review_line_level_lone_amount"
+  ]
+ },
+ "fixtures": [
+  {
+   "id": "review_cr_marker_only",
+   "ms": 35.65,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_merchant_named_total",
+   "ms": 4.06,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_starts_brought_forward",
+   "ms": 2.54,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_payslip_unread_deductions",
+   "ms": 3.06,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_unsigned_amount_column",
+   "ms": 2.38,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_files_do_not_share_evidence",
+   "ms": 4.6,
+   "status": "partial",
+   "failures": [
+    "unscored check opening_plus_credits_minus_debits_equals_closing@t1: not_evaluable",
+    "unscored check opening_plus_credits_minus_debits_equals_closing@t2: not_evaluable"
+   ],
+   "failureCount": 2
+  },
+  {
+   "id": "review_summary_dr_balance",
+   "ms": 1.43,
+   "status": "extracted",
+   "failures": [
+    "unscored check running_balance@t1: not_evaluable"
+   ],
+   "failureCount": 1
+  },
+  {
+   "id": "review_same_statement_twice",
+   "ms": 4.52,
+   "status": "extracted",
+   "failures": [],
+   "failureCount": 0
+  },
+  {
+   "id": "review_line_level_lone_amount",
+   "ms": 3.45,
+   "status": "partial",
+   "failures": [
+    "row 1 amount: missing (gold -30.00)"
+   ],
+   "failureCount": 1
+  },
+  {
+   "id": "review_failed_page_without_file_context",
+   "ms": 1.77,
+   "status": "partial",
+   "failures": [],
+   "failureCount": 0
+  }
+ ]
+}
