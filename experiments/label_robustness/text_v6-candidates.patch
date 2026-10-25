@@ -1,0 +1,92 @@
+--- a/docscan/src/text_v6.rs
++++ b/docscan/src/text_v6.rs
+@@ -220,6 +220,89 @@
+         })
+     }
+ }
++/// Research hooks for `experiments/label_robustness` (private snapshot only;
++/// not part of the shipped reader). `read_native` is unchanged.
++impl PaddleTextScanner {
++    /// The recogniser's CTC symbols (index 0 the blank).
++    pub fn dictionary(&self) -> &[String] {
++        &self.characters
++    }
++
++    /// [`Self::read_native`]'s detection and decoding, with two optional
++    /// changes. `crop`: the same scene at more pixels (RGBA, width, height);
++    /// each line's quad is scaled onto it and the recognition crop sampled
++    /// from it. `rescore`: called with every line's quad (detection-image
++    /// pixels), its CTC posteriors (`[T, 6906]`, row-major) and greedy text;
++    /// `Some(text)` replaces the text. Returned geometry is always in the
++    /// detection image's pixels, as `read_native`'s.
++    pub fn read_native_research(
++        &self,
++        rgba: &[u8],
++        width: usize,
++        height: usize,
++        crop: Option<(&[u8], usize, usize)>,
++        rescore: &mut dyn FnMut(&[[f32; 2]; 4], &[f32], &str) -> Option<String>,
++    ) -> Result<PaddleTextResult> {
++        validate_image(rgba, width, height)?;
++        if let Some((c, cw, ch)) = crop {
++            validate_image(c, cw, ch)?;
++        }
++        let detector = self.detector.as_ref().context("PP-OCR detector is not loaded")?;
++        let recognizer = self.recognizer.as_ref().context("PP-OCR recognizer is not loaded")?;
++        let start = crate::now();
++        let image = Image { bytes: rgba, width, height, channels: 4 };
++        let (input, dw, dh) = detection_input(&image, MAX_SIDE);
++        let value = ValueView::from_shape([1, 3, dh, dw], &input)?;
++        let mut outputs = detector.run(vec![(detector.input_ids()[0], value.into())], detector.output_ids(), None)?;
++        let map = outputs.remove(0).into_tensor::<f32>().context("non-float detector output")?;
++        ensure!(map.shape() == [1, 1, dh, dw], "unexpected detector output shape");
++        let boxes = detection_boxes(map.data().context("non-contiguous detector map")?, dw, dh, width, height)?;
++        drop(map);
++        drop(input);
++        let detect = crate::now() - start;
++        let source = match crop {
++            Some((c, cw, ch)) => Image { bytes: c, width: cw, height: ch, channels: 4 },
++            None => Image { bytes: rgba, width, height, channels: 4 },
++        };
++        let (sx, sy) = (source.width as f32 / width as f32, source.height as f32 / height as f32);
++        let mut lines = Vec::new();
++        for quad in boxes {
++            let scaled = quad.map(|p| [p[0] * sx, p[1] * sy]);
++            let (pixels, cw, ch) = line_crop(&source, &scaled)?;
++            let (input, rw) = recognition_input(&Image { bytes: &pixels, width: cw, height: ch, channels: 3 })?;
++            let value = ValueView::from_shape([1, 3, 48, rw], &input)?;
++            let mut outputs = recognizer.run(vec![(recognizer.input_ids()[0], value.into())], recognizer.output_ids(), None)?;
++            let scores = outputs.remove(0).into_tensor::<f32>().context("non-float CTC output")?;
++            ensure!(
++                scores.ndim() == 3 && scores.shape()[0] == 1 && scores.shape()[2] == CLASSES,
++                "unexpected CTC output shape"
++            );
++            let data = scores.data().context("non-contiguous CTC output")?;
++            let (mut text, confidence) = decode_ctc(data, &self.characters)?;
++            if let Some(t) = rescore(&quad, data, &text) {
++                text = t;
++            }
++            if text.is_empty() {
++                continue;
++            }
++            let x = quad.iter().map(|p| p[0]).fold(f32::INFINITY, f32::min);
++            let y = quad.iter().map(|p| p[1]).fold(f32::INFINITY, f32::min);
++            let right = quad.iter().map(|p| p[0]).fold(0.0, f32::max);
++            let bottom = quad.iter().map(|p| p[1]).fold(0.0, f32::max);
++            lines.push(PaddleTextLine { text, confidence, quad, x, y, w: right - x, h: bottom - y });
++        }
++        let total = crate::now() - start;
++        Ok(PaddleTextResult {
++            engine: "ppocr_v6_tiny",
++            text: lines.iter().map(|l| l.text.as_str()).collect::<Vec<_>>().join("\n"),
++            lines,
++            page_size: [width as u32, height as u32],
++            detection_max_side: MAX_SIDE,
++            passes: 1,
++            timings_ms: PaddleTextTimings { detect, recognize: total - detect, total },
++        })
++    }
++}
+ fn select_reading(standard: PaddleTextResult, detailed: PaddleTextResult) -> PaddleTextResult {
+     let evidence = |result: &PaddleTextResult| -> f32 {
+         result.lines.iter().map(|line| line.text.chars().filter(|c| c.is_alphanumeric()).count() as f32 * line.confidence).sum()
