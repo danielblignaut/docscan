@@ -113,9 +113,20 @@ into that page's input `lines`, and `parts[]` holds each original box and the te
    date takes the previous row's date and records `dateInheritedFromRow`.
 
    Opening, closing, brought-forward and carried-forward balance rows are typed only when the description is
-   exactly the label. A totals row must also have neither a date of its own nor a running balance. So
-   "TOTAL GARAGE SANDTON", "Turnover Books", and an undated "TOTAL" row (the date printed once per day) that
-   carries a balance are all transactions.
+   exactly the label, and a dated row is always a transaction, so "TOTAL GARAGE SANDTON" and "Turnover Books"
+   are transactions. An undated `Total(s)` / `Total for period` row is a totals row in two cases:
+   - it prints two nonzero amounts (debit and credit);
+   - its balance equals the previous printed balance although it prints a nonzero amount, since a summary
+     does not move the balance.
+
+   A zero or dash beside one amount is not a second total. A moving balance makes the row a transaction (a
+   merchant called TOTAL on a day whose date was printed once). Some rows stay transactions with unknown
+   direction (`total_or_transaction_unresolved`) and support no check:
+   - one amount and no balance;
+   - a balance or amount that cannot be read exactly while rows are being read (look-alike characters, or a
+     lone `1,000`).
+
+   Every comparison is exact decimal; nothing is parsed as a float.
 
    **Brought forward and carried forward always keep their names.** A table that starts with
    brought-forward (and has no opening row) or ends with carried-forward (and has no closing row) is
@@ -279,7 +290,17 @@ The gold for each fixture is its authored data: ISO dates, descriptions, and amo
 boxes. The scorer compares values only. It never parses the fixture text, so it cannot agree with the
 extractor by sharing its logic.
 
-### v3 (after the third review), scorer v3
+### v4 (after the r6 review), scorer v4
+
+The r6 review found one P2, introduced by v3's TOTAL-merchant guard: a real `Totals` row printing debit,
+credit and an unchanged balance became a transaction and gave a false `inconsistent`. A one-sided `Total`
+whose balance equals the previous balance did the same. The fix is the totals-row rule above, with four
+regressions: both totals labels with debit, credit and balance; a one-sided total with an unchanged balance
+versus a moving one; unreadable or ambiguous balances; and a zero counterpart beside a moving balance.
+Results are in `results/v4/` and match v3 exactly, with no fixture or gold changed. Post-fix repro output is
+in `results/v4/repro-after-b8526b6ae659/`.
+
+### v3 (historical: after the third review), scorer v3
 
 Scorer v3 has the same rules as v2 and writes append-only to `results/v3/`. The v2 results, fixtures and
 scorer are frozen (`results/v2/`, `history/v2-2026-10-25/` with `receipt.sha256`).

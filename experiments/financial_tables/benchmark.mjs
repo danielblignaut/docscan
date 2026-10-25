@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// v3 scorer (same rules as v2, writes results/v3/): run demo/src/financial-tables on a frozen fixture set and score it against the authored gold.
+// v4 scorer (same rules as v2/v3, writes results/v4/): run demo/src/financial-tables on a frozen fixture set and score it against the authored gold.
 // Values only are compared (ISO date, signed decimal, normalised text); the fixture text is never parsed here,
 // so the scorer cannot agree with the extractor by sharing its logic. Everything the extractor emits that the
 // gold does not cover is counted explicitly (extra cells, unscored checks, unexpected observations), never
 // silently ignored. The v1 scorer and its results are frozen in history/v1-2026-10-25/.
 //
 //   node experiments/financial_tables/benchmark.mjs [--set=main|stress|review] [--verbose]
-// Results are append-only: results/v3/<set>-<engine sha256 prefix>.json, never overwritten with different content.
-// results/v2/ and history/ are frozen evidence and are never written by this script.
+// Results are append-only: results/v4/<set>-<engine sha256 prefix>.json, never overwritten with different content.
+// results/v2/, results/v3/ and history/ are frozen evidence and are never written by this script.
 import { registerHooks } from "node:module";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -145,8 +145,8 @@ const summary = {
 };
 console.log(JSON.stringify(summary, null, 1));
 if (verbose) for (const x of per) if (x.failures.length) console.log(`\n${x.id} (${x.status}, ${x.ms} ms)\n  ${x.failures.join("\n  ")}`);
-const out = { scorer: "v3", engine: "financial-tables", engineSourceSha256: engineSha, manifestSha256: sha(manifestText), summary, fixtures: per.map((x) => ({ ...x, failureCount: x.failures.length })) };
-const outDir = new URL("./results/v3/", import.meta.url);
+const out = { scorer: "v4", engine: "financial-tables", engineSourceSha256: engineSha, manifestSha256: sha(manifestText), summary, fixtures: per.map((x) => ({ ...x, failureCount: x.failures.length })) };
+const outDir = new URL("./results/v4/", import.meta.url);
 mkdirSync(outDir, { recursive: true });
 const body = JSON.stringify(out, null, 1) + "\n";
 let path = new URL(`${set}-${engineSha.slice(0, 12)}.json`, outDir);

@@ -21,7 +21,7 @@ split or private document was read or written. No network.
   reproductions (v2).
 - `fixtures/review3/*.json` + `manifest.json` — 7 fixtures from the third review's reproductions (v3). Gold
   corrections are recorded per fixture in `gold.goldChanges`.
-- `benchmark.mjs` — scorer v3 (v2's rules; writes `results/v3/` only). It runs the extractor on a manifest (sha256-checked) and compares values only
+- `benchmark.mjs` — scorer v4 (v2's rules; writes `results/v4/` only). It runs the extractor on a manifest (sha256-checked) and compares values only
   (an ISO date, a signed decimal string, a whitespace-normalised description) with the gold. It counts:
   - tables, rows and cells, plus **extra** emitted cells;
   - check outcomes, false `consistent` claims, and **unscored** checks (and how many of them say
@@ -31,7 +31,8 @@ split or private document was read or written. No network.
   - ambiguities and labels.
 
   Gold check keys may name a table (`running_balance@t2`).
-- `results/v3/<set>-<engine sha256 prefix>.json` — append-only v3 runs (see `results/v3/README.md`).
+- `results/v4/<set>-<engine sha256 prefix>.json` — append-only v4 runs (see `results/v4/README.md`).
+- `results/v3/<set>-<engine sha256 prefix>.json` — frozen v3 runs.
 - `results/v2/<set>-<engine sha256 prefix>.json` — frozen v2 runs. A run never overwrites a different
   earlier file; it adds a `-n` suffix. The latest engine's files are named in `results/v2/README.md`.
   `results/v2/repro-after-<hash>/` holds the review reproductions' output after the fixes.

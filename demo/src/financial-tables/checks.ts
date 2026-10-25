@@ -94,6 +94,9 @@ function runningBalance(table: FinancialTable, reverse: boolean, apply: boolean)
       detail.observed = s(computed);
       detail.status = eq(computed, toBal) ? "consistent" : "inconsistent";
       detail.basis = "printed_directions";
+    } else if (unknown.some((x) => x.r.issues.includes("total_or_transaction_unresolved"))) {
+      // It may be a totals row (no movement) or a transaction: neither reading is evidence.
+      detail.reason = "row_may_be_a_totals_row";
     } else if (unknown.length === 1) {
       // One unsigned amount: the balance change says which way it moved. Only the magnitude is then checked.
       const u = unknown[0].r;

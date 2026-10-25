@@ -533,3 +533,51 @@ test("r3 P3: a malformed input page counts as a failed page of its file", () => 
   assert.ok(r.input.failedPages.some((f) => f.pageIndex === 1 && f.fileIndex === 0));
   assert.ok(r.checks.filter((c) => c.code === "opening_plus_credits_minus_debits_equals_closing").every((c) => c.status === "not_evaluable"));
 });
+
+// ------------------------------------------------------------- r6 regressions (v3 → v4): real totals rows with a balance
+const tot = (desc, debit, credit, bal) => [[desc, 250], ...(debit ? [[debit, 820, true]] : []), ...(credit ? [[credit, 1000, true]] : []), ...(bal ? [[bal, 1180, true]] : [])];
+const r6Base = [[["Opening balance", 250], ["1,000.00", 1180, true]], BANK_HEAD, bankRow("02/01/2026", "GROCER", "100.00", null, "900.00"), bankRow("05/01/2026", "SALARY", null, "500.00", "1,400.00")];
+
+test("r6: an undated Totals row printing debit and credit is a totals row even with a balance", () => {
+  for (const label of ["Totals", "Total for period"]) {
+    const r = extractFinancialTables([page([...r6Base, tot(label, "100.00", "500.00", "1,400.00"), [["Closing balance", 250], ["1,400.00", 1180, true]]])]);
+    assert.equal(r.tables[0].rows.find((x) => x.cells.some((c) => c.text === label)).kind, "total", label);
+    assert.ok(r.checks.every((c) => c.status !== "inconsistent"), label);
+    assert.ok(check(r, "statement_totals").every((c) => c.status === "consistent"), label);
+  }
+});
+
+test("r6: a one-sided Total whose balance equals the previous balance is a totals row; a moving balance stays a transaction", () => {
+  const base = [[["Opening balance", 250], ["1,000.00", 1180, true]], BANK_HEAD, bankRow("02/01/2026", "GROCER", "100.00", null, "900.00"), bankRow("05/01/2026", "CAFE", "50.00", null, "850.00")];
+  const r = extractFinancialTables([page([...base, tot("Total", "150.00", null, "850.00"), [["Closing balance", 250], ["850.00", 1180, true]]])]);
+  assert.equal(r.tables[0].rows[2].kind, "total");
+  assert.equal(check(r, "opening_plus_credits_minus_debits_equals_closing")[0].status, "consistent");
+  assert.ok(r.checks.every((c) => c.status !== "inconsistent"));
+  const moving = extractFinancialTables([page([...base, tot("TOTAL", "300.00", null, "550.00"), [["Closing balance", 250], ["550.00", 1180, true]]])]);
+  assert.equal(moving.tables[0].rows[2].kind, "transaction");
+  assert.equal(check(moving, "opening_plus_credits_minus_debits_equals_closing")[0].status, "consistent");
+});
+
+test("r6: an unreadable or ambiguous balance on a Total row leaves it undecided: no check is claimed from it", () => {
+  const base = [[["Opening balance", 250], ["1,000.00", 1180, true]], BANK_HEAD, bankRow("02/01/2026", "GROCER", "100.00", null, "900.00"), bankRow("05/01/2026", "CAFE", "50.00", null, "850.00")];
+  // "85O.00" is unreadable; "1,000" (after a 1,000.00 balance) has a lone separator, so it is not exact while rows are read.
+  const base2 = [[["Opening balance", 250], ["1,150.00", 1180, true]], BANK_HEAD, bankRow("02/01/2026", "GROCER", "100.00", null, "1,050.00"), bankRow("05/01/2026", "CAFE", "50.00", null, "1,000.00")];
+  for (const [rows, bal, closing] of [[base, "85O.00", "850.00"], [base2, "1,000", "1,000.00"]]) {
+    const r = extractFinancialTables([page([...rows, tot("Total", "150.00", null, bal), [["Closing balance", 250], [closing, 1180, true]]])]);
+    const row = r.tables[0].rows[2];
+    assert.equal(row.kind, "transaction", bal); assert.ok(row.issues.includes("total_or_transaction_unresolved"), bal);
+    assert.ok(r.checks.every((c) => c.status !== "inconsistent"), bal);
+    assert.equal(check(r, "opening_plus_credits_minus_debits_equals_closing")[0].status, "not_evaluable", bal);
+  }
+  const noBal = extractFinancialTables([page([...base, tot("TOTAL", "300.00", null, null), bankRow("06/01/2026", "X", "10.00", null, "540.00"), [["Closing balance", 250], ["540.00", 1180, true]]])]);
+  assert.ok(noBal.checks.every((c) => c.status !== "inconsistent"), "a one-sided undated TOTAL without a balance is undecided, not a false totals row");
+});
+
+test("r6: a zero beside one amount is not a second total: a merchant TOTAL with a moving balance stays a transaction", () => {
+  const p = page([[["Opening balance", 250], ["1,100.00", 1180, true]], BANK_HEAD, bankRow("02/01/2026", "GROCER", "100.00", null, "1,000.00"),
+    tot("TOTAL", "100.00", "0.00", "900.00"), [["Closing balance", 250], ["900.00", 1180, true]]]);
+  const r = extractFinancialTables([p]);
+  assert.equal(r.tables[0].rows[1].kind, "transaction");
+  assert.equal(check(r, "opening_plus_credits_minus_debits_equals_closing")[0].status, "consistent");
+  assert.ok(r.checks.every((c) => c.status !== "inconsistent"));
+});

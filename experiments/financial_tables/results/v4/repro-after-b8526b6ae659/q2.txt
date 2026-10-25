@@ -1,0 +1,15 @@
+## totalsAllThree ["running_balance:consistent/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]","statement_totals:consistent/incomplete [total_debits]","statement_totals:consistent/incomplete [total_credits]"]
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00
+   transaction 05/01/2026 | SALARY | 500.00 | 1,400.00
+   total Totals | 100.00 | 500.00 | 1,400.00
+   closing_balance Closing balance | 1,400.00
+## totalForPeriod ["running_balance:consistent/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]","statement_totals:consistent/incomplete [total_debits]","statement_totals:consistent/incomplete [total_credits]"]
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00
+   transaction 05/01/2026 | SALARY | 500.00 | 1,400.00
+   total Total for period | 100.00 | 500.00 | 1,400.00
+   closing_balance Closing balance | 1,400.00
+## totalsNoBal ["running_balance:consistent/incomplete [printed_directions]","opening_plus_credits_minus_debits_equals_closing:consistent/incomplete [printed_directions]","statement_totals:consistent/incomplete [total_debits]","statement_totals:consistent/incomplete [total_credits]"]
+   transaction 02/01/2026 | GROCER | 100.00 | 900.00
+   transaction 05/01/2026 | SALARY | 500.00 | 1,400.00
+   total Totals | 100.00 | 500.00
+   closing_balance Closing balance | 1,400.00

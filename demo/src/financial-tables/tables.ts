@@ -59,7 +59,7 @@ const SPECIAL: [RegExp, RawRecord["special"]][] = [
   [/^(bal(ance|\.)? )?(carried (forward|fwd\.?)|c\/f(wd)?|c\/fwd)$/i, "cf"],
   [/^(opening balance|opening bal\.?|previous balance|balance at start( of period)?)$/i, "opening"],
   [/^(closing balance|closing bal\.?|balance at end( of period)?)$/i, "closing"],
-  [/^(totals?|total debits|total credits|turnover|totals for (the )?period)$/i, "total"],
+  [/^(totals?|total debits|total credits|turnover|totals? for (the )?(period|month|statement))$/i, "total"],
 ];
 /** Table issues that describe how the table was read rather than a reading problem. */
 const INFORMATIONAL = /^(header_carried_to_page_|unmarked_amounts_read_as_credits_by_minus_convention)/;
@@ -112,6 +112,34 @@ export function buildTables(layouts: PageLayout[], kinds: FinancialDocumentKind[
         kind, special, group, pageOrder: p, pageIndex: layout.pageIndex, fileIndex: layout.fileIndex, row, cells: new Map(cells.map((c) => [c.column, [...c.tokens]])),
         continuation: [], ambiguous: asg.ambiguous.filter((a) => cells.some((c) => c.tokens.includes(a.token)) || asg.unresolved.includes(a.token)),
         unassigned: [...asg.unassigned, ...asg.unresolved], dateInherited: false, issues: asg.unresolved.length ? ["value_column_unresolved"] : [] });
+      const textOf = (cs: typeof asg.cells, role: ColumnRole) => cs.filter((c) => roleOf(c.column) === role).flatMap((c) => c.tokens.map((t) => t.text)).join(" ").trim();
+      const exact = (text: string, balance: boolean): Dec | null => {
+        if (!text) return null;
+        let m = parseMoney(text, { decimal: null, decimalSource: "none" });
+        if (balance) m = balanceSemantics(m);
+        return moneyDec(m);
+      };
+      const totalRowDecision = (cs: typeof asg.cells): "total" | "transaction" | "unresolved" => {
+        const debit = exact(textOf(cs, "debit"), false), credit = exact(textOf(cs, "credit"), false);
+        if (debit && credit && !isZero(debit) && !isZero(credit)) return "total";
+        const sides = [debit, credit, exact(textOf(cs, "amount"), false)].filter((x): x is Dec => !!x);
+        const amount = sides.find((x) => !isZero(x)) ?? sides[0] ?? null;
+        const balText = textOf(cs, "balance");
+        if (!balText) return amount || textOf(cs, "debit") || textOf(cs, "credit") || textOf(cs, "amount") ? "unresolved" : "total";
+        const bal = exact(balText, true);
+        let prior: Dec | null = null, priorSeen = false;
+        const earlier = [...table.segments.flatMap((x) => x.records), ...seg.records].reverse();
+        for (const rec of earlier) {
+          const k = [...rec.cells.keys()].find((x) => roleOf(x) === "balance");
+          if (k === undefined || rec.special === "total") continue;
+          priorSeen = true;
+          prior = exact((rec.cells.get(k) ?? []).map((t) => t.text).join(" "), true);
+          break;
+        }
+        if (!bal || !amount || !priorSeen || !prior) return "unresolved";
+        if (cmp(bal, prior) === 0) return isZero(amount) ? "transaction" : "total";
+        return "transaction";
+      };
       const appendText = (target: RawRecord, cells: typeof asg.cells) => {
         for (const c of cells) {
           const col = TEXT_ROLES.has(roleOf(c.column)) ? c.column : null;
@@ -125,8 +153,19 @@ export function buildTables(layouts: PageLayout[], kinds: FinancialDocumentKind[
         const descText = all.filter((c) => TEXT_ROLES.has(roleOf(c.column))).flatMap((c) => c.tokens.map((t) => t.text)).join(" ").trim();
         const label = descText.replace(/[:.\s]+$/, "").replace(/\s+/g, " ");
         const matched = SPECIAL.find(([re]) => re.test(label))?.[1] ?? null;
-        // A totals row has neither a date nor a running balance: a row with either is a transaction.
-        const special = matched === "total" && (hasDate(all) || all.some((c) => roleOf(c.column) === "balance")) ? null : matched;
+        // A dated row is a transaction. An undated "Total(s)" row is a totals row when it prints two nonzero
+        // amounts (debit and credit), or when its balance equals the previous printed balance although it prints
+        // a nonzero amount (a summary does not move the balance). A zero or dash beside one amount is not a
+        // second total: that row goes through the balance rule. A balance that moves makes it a transaction (a
+        // merchant called TOTAL). With no balance and one amount, or a balance or amount that cannot be read
+        // exactly, the row stays a transaction whose direction is unknown, so it supports no check.
+        let totalUnresolved = false;
+        let special = matched;
+        if (matched === "total") {
+          const decision = hasDate(all) ? "transaction" : totalRowDecision(all);
+          special = decision === "total" ? "total" : null;
+          totalUnresolved = decision === "unresolved";
+        }
         const last = seg.records[seg.records.length - 1];
         const lastHasMoney = last ? [...last.cells.keys()].some((k) => NUMERIC_ROLES.has(roleOf(k))) : false;
         if (special) {
@@ -149,6 +188,7 @@ export function buildTables(layouts: PageLayout[], kinds: FinancialDocumentKind[
             last.continuation.push(...all.flatMap((c) => c.tokens));
           } else {
             const rec = record("transaction", all, null);
+            if (totalUnresolved) rec.issues.push("total_or_transaction_unresolved");
             rec.dateInherited = !!last && !last.special;
             if (!last) rec.issues.push("no_date");
             seg.records.push(rec);
@@ -393,7 +433,7 @@ function assignDirections(rows: TableRow[], tableIssues: string[]) {
   if (minusConvention && amountCells.some((c) => !(c.value as MoneyValue).negative && (c.value as MoneyValue).signSource !== "plus")) tableIssues.push("unmarked_amounts_read_as_credits_by_minus_convention");
   for (const row of rows) {
     if (row.kind !== "transaction") continue;
-    if (row.issues.includes("debit_credit_column_ambiguous") || row.issues.includes("value_column_unresolved")) { row.direction = "unknown"; row.directionSource = "none"; continue; }
+    if (row.issues.includes("debit_credit_column_ambiguous") || row.issues.includes("value_column_unresolved") || row.issues.includes("total_or_transaction_unresolved")) { row.direction = "unknown"; row.directionSource = "none"; continue; }
     const d = cellDec(cellOf(row, "debit")), c = cellDec(cellOf(row, "credit")), a = cellOf(row, "amount");
     const dz = d && !isZero(d), cz = c && !isZero(c);
     if (dz && cz) { row.direction = "unknown"; row.directionSource = "none"; row.issues.push("both_debit_and_credit"); continue; }

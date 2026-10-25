@@ -97,3 +97,11 @@ build passed. Source/build hashes and aggregates are retained in
 An initial final-test attempt hit the preview while Vite was rebuilding and
 failed navigation before inference; the successful run began after the build
 finished. Earlier measurements remain recorded separately.
+
+The final review's totals-row follow-up is recorded in
+[`final-browser-v2.json`](../experiments/feature_integration/final-browser-v2.json):
+220 frontend tests pass, and a fresh production browser run again preserves all
+48 expected numeric cells. Genuine totals that repeat a balance no longer become
+transactions; a moving-balance merchant named TOTAL remains a transaction.
+Indistinguishable one-sided rows remain unresolved. Earlier build receipts and
+measurements above are retained as history.
