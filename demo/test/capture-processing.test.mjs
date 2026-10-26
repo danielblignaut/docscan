@@ -287,3 +287,17 @@ test('a flip breaks a futile hold permanently even at the same final position', 
   assert.equal(id.continueHold(start,corners.map(([x,y])=>[x+50,y]),size,100),null);
   assert.equal(id.continueHold(start,corners,[400,200],100),null);
 });
+
+
+test("green book does not abort its burst on shared smart-front labels or give card-turn advice", async () => {
+  const book = FLOWS.green_book[0];
+  const shared = frontRead();
+  assert.doesNotMatch(guidance(book, shared), /turn the card|show the front/i);
+  assert.equal(frameKey(book, shared, false), null, "a smart front never counts as a book");
+  const readings = [shared, frontRead(undefined, {kind: "za_green_book"}), frontRead(undefined, {kind: "za_green_book"})];
+  const result = await confirmBurst(book, kept(3), async k => readings[k.frame - 1]);
+  assert.equal(result.confirmed, true, "two subsequent accepted book frames must still confirm");
+  const wrong = await confirmBurst(book, kept(3), async () => shared);
+  assert.equal(wrong.confirmed, false, "three smart fronts never confirm a book");
+  assert.match(guidance(back, shared), /turn the card over/, "real smart-card side advice remains");
+});

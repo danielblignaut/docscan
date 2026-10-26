@@ -119,6 +119,9 @@ what the reading said. Nothing completes.
 
 A reading is **futile** (`futileReading`) when OCR names a document the step
 does not accept (the wrong side), or a smart ID back whose PDF417 did not read.
+Exception: a smart-front reading in the dedicated green-book flow is not
+futile, because shared English labels can produce that reading. It still
+never counts towards book acceptance.
 A back is read from its barcodes, and OCR cannot recover them. A futile reading
 is never accepted. It ends the burst at once, so the other frames are not read.
 Two things follow from it:
@@ -248,3 +251,24 @@ fire when navigating away; stale asynchronous OCR cannot publish after them.
 A futile hold ends as soon as a fast frame loses the outline, changes its
 position/size, or exceeds the retry interval. Returning the other side of a card
 to the same position cannot restore that hold; its old guidance is cleared.
+
+
+### Green-book English-label hotfix (2026-10-26)
+
+A green book whose Afrikaans labels were missed by OCR could be named as a
+smart-card front from the shared “Identity Number” or “Country of Birth”
+labels. In the dedicated green-book flow, `FORENAMES` together with one of
+those labels now identifies the book, unless an explicit identity-card or
+passport heading is read. This does not replace the existing identity-number,
+surname or barcode-agreement acceptance checks.
+
+A smart-front reading in a green-book burst does not count towards acceptance,
+but no longer aborts the remaining frames. Two separate accepted book readings
+must still agree. Green-book guidance asks for the whole photo page and its
+printed labels; it never asks the holder to turn a smart card over.
+
+Regression evidence: the English-label classifier and wrong-side guidance
+fixtures failed before the change. The existing synthetic green-book camera
+clip already passed at baseline, so that clip alone does not reproduce the
+reported physical-document failure. Real phone/book confirmation remains a
+follow-up to the deployment.

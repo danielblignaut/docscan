@@ -263,10 +263,14 @@ export function sameOutline(a: [number, number][], b: [number, number][], size: 
  * document this step does not accept (the wrong side), or a smart ID back
  * whose PDF417 did not read (a back is read from its barcodes, which OCR
  * cannot recover). It is never accepted; it only ends the burst early and
- * says what to tell the holder.
+ * says what to tell the holder. The book flow allows subsequent frames after
+ * a smart-front reading because their English field labels overlap.
  */
 export function futileReading(step: Pick<Step, "accepts">, result: DocumentResult): boolean {
   if (result.kind === "unknown") return false;
+  // English labels overlap: a partial book reading can look like a card
+  // front. It does not count, but let the remaining book frames be read.
+  if (step.accepts.length === 1 && step.accepts[0] === "za_green_book" && result.kind === "za_smart_id_front") return false;
   if (!step.accepts.includes(result.kind)) return true;
   return result.kind === "za_smart_id_back" && !result.smart_id_barcode;
 }
@@ -339,8 +343,9 @@ function hint(r: DocumentResult | null, step: Step): string {
   if (q.sharpness < SHARPNESS_MIN) return "Hold still — the image is blurred";
   if (q.glare > GLARE_MAX && !r.accepted) return "Tilt slightly to remove the glare";
   if (r.kind !== "unknown" && !step.accepts.includes(r.kind)) {
-    if (r.kind === "za_smart_id_back") return "That is the back — show the front";
-    if (r.kind === "za_smart_id_front") return "That is the front — turn the card over";
+    if (step.expect === "green_book") return "Show the green book’s whole photo page, with its printed labels clearly visible";
+    if (r.kind === "za_smart_id_back" && step.accepts.includes("za_smart_id_front")) return "That is the back — show the front";
+    if (r.kind === "za_smart_id_front" && step.accepts.includes("za_smart_id_back")) return "That is the front — turn the card over";
     return `That looks like a ${r.kind.replaceAll("_", " ")}`;
   }
   if (r.kind === "za_smart_id_back" && !r.smart_id_barcode) {
