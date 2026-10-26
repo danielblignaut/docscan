@@ -1461,8 +1461,17 @@ fn classify(
     }
 
     let lines = &out.lines;
-    let is_book = za::has_any(lines, za::GREEN_BOOK_ANCHORS);
     let is_passport = za::has_any(lines, za::PASSPORT_ANCHORS);
+    // The book's English labels can survive OCR when the Afrikaans ones do
+    // not. Identity Number / Country of Birth alone are shared with cards;
+    // require the book's FORENAMES label as well, only in the requested book
+    // flow, and never override an explicit card or passport heading.
+    let english_book = expected == Expected::GreenBook
+        && !is_passport
+        && !za::has_any(lines, &["IDENTITY CARD"])
+        && za::has_any(lines, &["FORENAMES"])
+        && za::has_any(lines, &["Identity Number", "Country of Birth"]);
+    let is_book = za::has_any(lines, za::GREEN_BOOK_ANCHORS) || english_book;
     let is_card_front = !is_passport && za::has_any(lines, za::SMART_ID_FRONT_ANCHORS);
     let is_card_back = za::has_any(lines, SMART_ID_BACK_ANCHORS);
 
@@ -1562,6 +1571,33 @@ mod tests {
         let book = classify(quality(), vec![code39(id)], None, book_ocr, Expected::Any, Some((1000, 1420)));
         assert_eq!(book.kind, DocumentKind::ZaGreenBook);
         assert!(book.accepted);
+    }
+
+    /// English-only OCR of a book must not be mistaken for a smart card
+    /// just because both print "Identity Number" and "Country of Birth".
+    #[test]
+    fn green_book_english_labels_and_card_exclusions() {
+        let read = |extra: &str, id: &str, surname: bool| {
+            let mut texts = vec!["Identity Number", id, "FORENAMES", "JOHANNES PIETER", "Country of Birth", "SOUTH AFRICA", extra];
+            if surname { texts.extend(["SURNAME", "VAN DER SPECIMEN"]); }
+            classify(quality(), vec![], None, OcrOutput {
+                lines: texts.iter().enumerate().map(|(i, t)| line(t, i as f32 * 30.0)).collect(),
+                ..Default::default()
+            }, Expected::GreenBook, Some((1000, 1420)))
+        };
+        let book = read("", "9003141234083", true);
+        assert_eq!(book.kind, DocumentKind::ZaGreenBook);
+        assert!(book.accepted);
+        let card = read("IDENTITY CARD", "9003141234083", true);
+        assert_ne!(card.kind, DocumentKind::ZaGreenBook);
+        let passport = read("PASSPORT", "9003141234083", true);
+        assert_ne!(passport.kind, DocumentKind::ZaGreenBook);
+        assert!(!read("", "9003141234084", true).accepted);
+        // A selection and an ID barcode alone still cannot identify a book.
+        let bare = classify(quality(), vec![code39("9003141234083")], None,
+            OcrOutput::default(), Expected::GreenBook, Some((1000,1420)));
+        assert!(!bare.accepted);
+        assert_ne!(bare.kind, DocumentKind::ZaGreenBook);
     }
 
     /// The smart ID back's PDF417 and Code 39 carry the same number.
