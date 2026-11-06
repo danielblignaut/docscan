@@ -86,14 +86,93 @@ TEST (run once, after tuning; `results/test-*.json`): see the bottom of this fil
   7/8 vs light 9/13): three never pass centring ("Find better light", a face
   luma under 45), and the passive model still doubts some turned frames. Light
   in the store matters more than any threshold here.
-- **Face match "unavailable"** (4 of 23 comparisons): the verifier
-  requires exactly one face on each image. Which image had none or two is not
-  logged. Counting a document's smaller faces away was rejected: a larger
-  face behind a held-up card would then be the one compared.
+- **Face match "unavailable"**: fixed, see "The real sequences" below.
 - **Engine load**: the face models are 18.7 MB and the wasm 7 MB. Identity
   needs SFace templates from the centring frames, so the recogniser cannot
   yet load after the session starts without changing what the phone and the
   server compute.
+
+## The real sequences
+
+The 26 face sequences Connect retained (12 prod, 14 dev, 26 October to 6
+November 2026) were replayed with the account owner's permission, on one
+machine, through a copy of Connect's verifier (`native/docscan-verifier`: its
+decoding, its policy of nine segments, a blink required and identity 0.366,
+guide `[0.5, 0.5, 0.25]`, mirrored), at the engine Connect pins (`0526c5d`), at
+`46cd6e1` (the changes above) and at this change. Ground truth for a genuine
+person is TransUnion's liveness answer on the same capture: it passed 9 prod
+and 1 dev customer; it answered with an error for one in each, and was not
+asked for the rest (dev is mostly staff tests). Only counts and scores leave
+that machine; no image was viewed or kept outside it. Replaying the old pin
+reproduces Connect's stored scores wherever the policy has not changed since
+(the earliest receipts were recorded at coverage 1.0).
+
+| Server replay passes | Prod, TransUnion passed (9) | Prod, others (3) | Dev, TransUnion passed (1) | Dev, others (13) |
+| --- | --- | --- | --- | --- |
+| As recorded then | 4 | 1 | 1 | 7 |
+| `0526c5d`, today's policy | 6 | 2 | 1 | 8 |
+| `46cd6e1` | 8 | 2 | 1 | 11 |
+| **This change** | **8** | 2 | 1 | **12** |
+
+| Failed check, `0526c5d` → `46cd6e1` → this change | Prod | Dev |
+| --- | --- | --- |
+| `blink` | 3 → 0 → 0 | 4 → 1 → 1 |
+| `antispoof` | 2 → 0 → 0 | 1 → 0 → 0 |
+| `continuity` | 1 → 1 → 1 | 1 → 1 → **0** |
+| not completed (a 2 s plain selfie, no engine on the phone) | 1 → 1 → 1 | 0 → 0 → 0 |
+
+Scores on the completed genuine replays at this change: 3-D motion
+0.064–0.111 (threshold 0.06: a thin margin, the one to watch), lower-quartile
+live probability 0.564–0.999 (0.5), identity 0.783–0.970 (0.366), one to seven
+blinks. What still fails:
+
+- **Prod, TransUnion passed, `continuity`**: the landmark model loses the face
+  for 5.7 s mid-sweep (the detector still boxes something on most frames,
+  but the landmark model finds no face in any of the boxes), with two jumps. This is no
+  evidence for 5.7 s, which is exactly what continuity refuses; not loosened.
+  Its three "several faces" frames were detector false alarms (below) and are
+  gone.
+- **Dev, `blink`**: the person blinked once, looking up 28°, and the eyes came
+  back to 0.81 of the open baseline within 300 ms (0.85 needed). Every
+  variant that counts it (open at 0.80 or 0.75, 400–500 ms, or the last open
+  frame as the baseline) also counts more blinks on flat attacks (DEV `server`
+  2/35 → 4–13/35): not changed. The phone did not ask for a blink (Connect's
+  browser config has `require_blink: false`); once it does, "Blink your eyes"
+  holds the finish until one is seen.
+- **Prod, not completed**: a 2 s plain selfie; it cannot sweep a ring.
+
+### What changed
+
+- **A face is a face the landmark model confirms.** In each continuity
+  failure above the detector boxed something the landmark model, run on that
+  box, finds no face in (presence ≤ 0.10 against 0.90–1.00 for the real face):
+  a box below the chin on a turned head, a larger box half over the face.
+  A frame's `faces` now counts only confirmed detections, a box overlapping the
+  tracked face (IoU ≥ 0.3) being that face, still only those at least half the
+  largest's width. When the face is lost, the most prominent *confirmed*
+  detection is tracked, not the most prominent box.
+- **Overlapping detector tiles give one box per face.** A still with a small
+  face (a document) is searched in overlapping tiles, each finding the same
+  face; the boxes were concatenated, so a document with one face reported two
+  or four (IoU 0.88–0.96) and the comparison was "unavailable". They are now
+  merged by the detector's own weighted suppression.
+- **A photo on its side is turned.** With no confirmed face upright, `photo`
+  tries the image turned a quarter each way, then upside down
+  (`PhotoFace.rotation`). The other two "unavailable" documents were cards
+  photographed sideways: the detector boxed something else upright, which the
+  landmark model rejected. A photo still counts *every* confirmed face, of any
+  size: a card held up in front of a larger face must not be compared as that
+  face.
+
+Face match on the same captures (document photo against the selfie,
+threshold 0.356): "unavailable" 3/10 prod and 1/12 dev → **0**; all four now
+compare at 0.52–0.61; the other 18 comparisons are unchanged to 1e-3.
+
+On the synthetic DEV clips, every condition above: APCER 0 and BPCER
+unchanged. Seven attack runs changed, each losing a one-frame "several faces"
+(one is allowed, so it never decided anything) and one print lighting 5
+segments instead of 4; all are still rejected. The face bench (`bench/run.sh
+--suite face`) reports no change.
 
 ## TEST
 

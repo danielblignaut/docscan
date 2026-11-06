@@ -10,6 +10,29 @@ pub struct Frame<'a> {
 }
 
 impl<'a> Frame<'a> {
+    /// The frame turned clockwise by `quarters` right angles: its RGBA, width
+    /// and height.
+    pub fn rotated(&self, quarters: u32) -> (Vec<u8>, usize, usize) {
+        let (w, h) = (self.width, self.height);
+        let q = quarters % 4;
+        let (ow, oh) = if q % 2 == 1 { (h, w) } else { (w, h) };
+        let mut out = vec![0u8; ow * oh * 4];
+        for y in 0..oh {
+            for x in 0..ow {
+                let (sx, sy) = match q {
+                    0 => (x, y),
+                    1 => (y, h - 1 - x),
+                    2 => (w - 1 - x, h - 1 - y),
+                    _ => (w - 1 - y, x),
+                };
+                let s = (sy * w + sx) * 4;
+                let d = (y * ow + x) * 4;
+                out[d..d + 4].copy_from_slice(&self.rgba[s..s + 4]);
+            }
+        }
+        (out, ow, oh)
+    }
+
     pub fn new(rgba: &'a [u8], width: usize, height: usize) -> anyhow::Result<Frame<'a>> {
         anyhow::ensure!(width > 0 && height > 0, "empty frame");
         anyhow::ensure!(rgba.len() >= width * height * 4, "frame is {} bytes, want {}", rgba.len(), width * height * 4);
@@ -187,5 +210,17 @@ mod tests {
         let (u, v) = inv.apply(x, y);
         assert!((u - 15.5).abs() < 1e-3 && (v - 15.5).abs() < 1e-3);
         assert!((m.scale() - 2.0).abs() < 1e-4);
+    }
+
+    #[test]
+    fn rotated_turns_clockwise() {
+        // 3 x 2, each pixel's red its index: 0 1 2 / 3 4 5.
+        let rgba: Vec<u8> = (0..6u8).flat_map(|i| [i, 0, 0, 255]).collect();
+        let f = Frame::new(&rgba, 3, 2).unwrap();
+        let red = |(v, w, h): (Vec<u8>, usize, usize)| (v.chunks(4).map(|p| p[0]).collect::<Vec<_>>(), w, h);
+        assert_eq!(red(f.rotated(0)), (vec![0, 1, 2, 3, 4, 5], 3, 2));
+        assert_eq!(red(f.rotated(1)), (vec![3, 0, 4, 1, 5, 2], 2, 3));
+        assert_eq!(red(f.rotated(2)), (vec![5, 4, 3, 2, 1, 0], 3, 2));
+        assert_eq!(red(f.rotated(3)), (vec![2, 5, 1, 4, 0, 3], 2, 3));
     }
 }
