@@ -6,8 +6,11 @@
 //!     # one template per image path in LIST (one per line) into OUT.f32 (row-major,
 //!     # zeros when no face is found) and OUT.f32.json (found flags, quality);
 //!     # --aligned: the images are already 112 x 112 ArcFace-aligned crops
-//! face --models DIR liveness CLIP.y4m [CONFIG_JSON] [--every N] [--fps F]
-//!     # an active liveness session over the clip's frames; prints the result JSON
+//! face --models DIR liveness CLIP.y4m [CONFIG_JSON] [--every N] [--fps F] [--gain G] [--jpeg Q]
+//!     # an active liveness session over the clip's frames; prints the result JSON.
+//!     # --every 3 on a 30 fps clip replays it at the 10 fps a server receives;
+//!     # --gain darkens every frame (a dim room: luma × G, plus sensor noise) and
+//!     # --jpeg round-trips each frame through JPEG at quality Q, as an upload is
 //! face --models DIR antispoof LIST OUT.json [--shard I/N]
 //!     # the MiniFASNet live probability of the most prominent face in each image
 //! ```
@@ -47,7 +50,7 @@ fn args() -> Args {
             "--aligned" | "--flip" | "--no-antispoof" | "--largest" => {
                 flags.insert(a.clone(), "1".into());
             }
-            "--shard" | "--every" | "--fps" | "--box-scale" | "--raw-threshold" | "--start" | "--align" => {
+            "--shard" | "--every" | "--fps" | "--box-scale" | "--raw-threshold" | "--start" | "--align" | "--gain" | "--jpeg" => {
                 flags.insert(a.clone(), it.next().unwrap());
             }
             _ => rest.push(a),
@@ -156,6 +159,36 @@ fn read_y4m(path: &str) -> anyhow::Result<(Vec<Vec<u8>>, usize, usize, f64)> {
         frames.push(rgba);
     }
     Ok((frames, w, h, fps))
+}
+
+/// A dim room (`gain` < 1: every channel scaled, then sensor noise from a
+/// fixed generator) and a JPEG upload (`jpeg`: the quality), applied in place.
+fn degrade(rgba: &mut Vec<u8>, w: usize, h: usize, gain: f32, jpeg: Option<u8>, seed: u64) -> anyhow::Result<()> {
+    if gain != 1.0 {
+        let mut state = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        let mut noise = || {
+            // The sum of four uniforms: roughly normal, sigma about 3 levels.
+            let mut t = 0.0f32;
+            for _ in 0..4 {
+                state = state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+                t += (state >> 40) as f32 / (1u64 << 24) as f32 - 0.5;
+            }
+            t * 6.0
+        };
+        for px in rgba.chunks_exact_mut(4) {
+            let n = noise();
+            for c in &mut px[..3] {
+                *c = (*c as f32 * gain + n).round().clamp(0.0, 255.0) as u8;
+            }
+        }
+    }
+    if let Some(q) = jpeg {
+        let rgb: Vec<u8> = rgba.chunks_exact(4).flat_map(|p| [p[0], p[1], p[2]]).collect();
+        let mut bytes = Vec::new();
+        image::codecs::jpeg::JpegEncoder::new_with_quality(&mut bytes, q).encode(&rgb, w as u32, h as u32, image::ExtendedColorType::Rgb8)?;
+        *rgba = image::load_from_memory(&bytes)?.to_rgba8().into_raw();
+    }
+    Ok(())
 }
 
 fn main() -> anyhow::Result<()> {
@@ -281,12 +314,16 @@ fn main() -> anyhow::Result<()> {
             e.reset_tracking();
             let mut trace = Vec::new();
             let mut ms = Vec::new();
+            let gain: f32 = a.flags.get("--gain").map(|f| f.parse().unwrap()).unwrap_or(1.0);
+            let jpeg: Option<u8> = a.flags.get("--jpeg").map(|f| f.parse().unwrap());
             for (i, f) in frames.iter().enumerate().skip(start).step_by(every) {
                 let ts = i as f64 * 1000.0 / fps;
+                let mut f = f.clone();
+                degrade(&mut f, w, h, gain, jpeg, i as u64)?;
                 let t = docscan_now();
-                let p = s.frame(&e, &Frame::new(f, w, h)?, ts)?;
+                let p = s.frame(&e, &Frame::new(&f, w, h)?, ts)?;
                 ms.push(docscan_now() - t);
-                trace.push(serde_json::json!({"i": i, "phase": p.phase, "hint": p.hint, "found": p.found, "bbox": p.bbox, "dir": p.direction, "yaw": p.pose.yaw, "pitch": p.pose.pitch, "cov": p.coverage}));
+                trace.push(serde_json::json!({"i": i, "phase": p.phase, "hint": p.hint, "found": p.found, "bbox": p.bbox, "dir": p.direction, "yaw": p.pose.yaw, "pitch": p.pose.pitch, "cov": p.coverage, "ear": p.ear, "faces": p.faces}));
                 if matches!(s.phase(), liveness::Phase::Done | liveness::Phase::Failed) {
                     break;
                 }

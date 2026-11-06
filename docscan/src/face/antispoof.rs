@@ -14,10 +14,10 @@
 //! 0.910), and the live probability is calibrated in log-odds so that 0.5
 //! falls at raw [`RAW_THRESHOLD`], where the DEV BPCER is the uncalibrated
 //! model's at 0.5 (10.6%): as many genuine faces rejected as before, a quarter
-//! fewer attacks accepted. The liveness session decides at its own,
-//! stricter operating point ([`SESSION_RAW_THRESHOLD`], the DEV equal-error
-//! point), over several frames. CelebA-Spoof is non-commercial research
-//! data: it chose these constants and trained nothing.
+//! fewer attacks accepted. The liveness session decides at the same point
+//! ([`SESSION_RAW_THRESHOLD`]), on the lower quartile of many frames across
+//! the sweep (`liveness.rs`). CelebA-Spoof is non-commercial research data:
+//! it chose these constants and trained nothing.
 
 use anyhow::Context;
 use rten::Model;
@@ -33,10 +33,14 @@ const SIZE: usize = 80;
 pub const BOX_SCALE: f32 = 0.55;
 /// The raw live probability (the two models' mean) that maps to 0.5.
 pub const RAW_THRESHOLD: f32 = 0.59;
-/// The raw live probability at the CelebA-Spoof DEV equal-error point: the
-/// liveness session's default threshold (as a calibrated probability, see
-/// [`session_threshold`]).
-pub const SESSION_RAW_THRESHOLD: f32 = 0.78;
+/// The liveness session's default threshold, raw (as a calibrated
+/// probability, see [`session_threshold`]): the balanced point, 0.5. It was
+/// the CelebA-Spoof DEV equal-error point (0.78, calibrated 0.711) decided on
+/// the 10th percentile, which failed genuine customers whose turned, dimly lit
+/// frames the model doubts (most on darker skin) while screen replays score
+/// under 0.06 at their lower quartile in every condition measured
+/// (`experiments/face_liveness_robust`).
+pub const SESSION_RAW_THRESHOLD: f32 = 0.59;
 
 /// The calibrated probability the liveness session requires by default.
 pub fn session_threshold() -> f32 {
@@ -142,8 +146,8 @@ mod tests {
         assert!((calibrate(RAW_THRESHOLD, RAW_THRESHOLD) - 0.5).abs() < 1e-6);
         assert!((calibrate(0.3, 0.5) - 0.3).abs() < 1e-5);
         assert!(calibrate(0.9, 0.78) > 0.5 && calibrate(0.7, 0.78) < 0.5);
-        // The session's threshold is the raw equal-error point, calibrated.
+        // The session decides at the balanced point.
         assert!((calibrate(SESSION_RAW_THRESHOLD, RAW_THRESHOLD) - session_threshold()).abs() < 1e-6);
-        assert!(session_threshold() > 0.5);
+        assert!((session_threshold() - 0.5).abs() < 1e-6);
     }
 }

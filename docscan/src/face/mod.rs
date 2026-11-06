@@ -42,11 +42,24 @@ use recognise::{InputKind, Recogniser};
 /// Below this face-presence probability the tracked face is lost.
 const MIN_PRESENCE: f32 = 0.5;
 
+/// A detected face counts towards a frame's faces when it is at least this
+/// share of the largest one's width: as near the camera as the person in
+/// front of it, give or take.
+pub const NEAR_FACE: f32 = 0.5;
+
+/// The faces at least [`NEAR_FACE`] of the largest one's width.
+fn near_faces(dets: &[Detection]) -> usize {
+    let widest = dets.iter().map(|d| d.bbox[2]).fold(0.0f32, f32::max);
+    dets.iter().filter(|d| d.bbox[2] >= NEAR_FACE * widest).count()
+}
+
 /// One frame's face, as the page sees it.
 #[derive(Debug, Clone, Serialize)]
 pub struct Observation {
     pub found: bool,
-    /// Faces the detector saw, when it ran this frame.
+    /// Faces the detector saw, when it ran this frame: those at least
+    /// [`NEAR_FACE`] of the largest one's width (a bystander in the
+    /// background, far smaller, is not counted).
     pub faces: Option<usize>,
     pub presence: f32,
     /// `[x, y, w, h]` of the landmarks, frame pixels.
@@ -188,7 +201,7 @@ impl FaceEngine {
             let dets = self.detect_all(frame, false)?;
             timings.detect = crate::now() - t;
             *self.since_detect.borrow_mut() = 0;
-            faces = Some(dets.len());
+            faces = Some(near_faces(&dets));
             if result.is_none() {
                 if let Some(d) = Self::pick(&dets, frame) {
                     let t = crate::now();
@@ -450,5 +463,18 @@ impl FaceScanner {
     }
     pub fn engine_mut(&mut self) -> &mut FaceEngine {
         &mut self.engine
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_small_face_in_the_background_is_not_a_second_face() {
+        let det = |w: f32| Detection { score: 0.9, bbox: [0.0, 0.0, w, w], keypoints: [[0.0; 2]; 6] };
+        assert_eq!(near_faces(&[det(200.0), det(40.0)]), 1);
+        assert_eq!(near_faces(&[det(200.0), det(150.0)]), 2);
+        assert_eq!(near_faces(&[]), 0);
     }
 }
