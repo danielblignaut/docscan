@@ -164,6 +164,16 @@ no-parallax branch are an ablation, not measurements of the final default;
 `docs/improvements-face.md` and `bench/results/` distinguish configurations.
 Patent research does not establish clearance or automatically disable checks.
 
+**Update 2026-11-06** (`experiments/face_liveness_robust`): replayed at a
+server's 10 fps with JPEG frames (Connect's production setting), the old
+blink count missed 11 of 18 blinking clips and the 10th-percentile passive
+decision failed 23 of 30 bona fide clips in a dim room. The session now
+counts blinks against the person's own recent open eyes at any pose, asks
+for a blink when one is required and none was seen, decides the passive
+check on the lower quartile at 0.5, fills a single segment skipped between
+two frames, and counts only faces as near the camera as the customer.
+APCER stays 0 for every species on DEV and TEST.
+
 ## 4. Document photo to live face (synthetic ID-photo renders of LFW pairs)
 
 Each LFW pair's first image printed as an ID photo (greyscale, high-contrast,

@@ -5,3 +5,4 @@
 2026-10-22T11:12:46Z 5aab03c684 suites=barcode quick=False user=dan -> 5aab03c684-20261022T111246Z.json
 2026-10-22T22:00:29Z 792e053838 suites=poa quick=False user=dan -> 792e053838-20261022T220029Z.json
 2026-10-22T23:49:20Z e764460353 suites=id quick=False user=dan -> e764460353-20261022T234920Z.json
+2026-11-06T20:36:20Z improve/face-liveness-robust experiments/face_liveness_robust server,server_dim baseline 1a2bd58 and change, run once for the final report user=dan

@@ -27,8 +27,9 @@
 //!   switched stream), timestamps that increase;
 //! - **identity**: the face at the end is the face at the start (templates
 //!   from the centre and finish phases agree);
-//! - **blink**: counted (eye aspect ratio against the session's own open-eye
-//!   baseline); required only when the config asks.
+//! - **blink**: counted at any pose up to 45° (the eye aspect ratio against the
+//!   person's own open-eye ratio of the last 1.5 s); required only when the
+//!   config asks, and then the finish waits, asking for one, until it is seen.
 //!
 //! Anti-spoofing and identity are required even when their models are absent:
 //! missing evidence fails the session instead of silently omitting a check.
@@ -106,7 +107,10 @@ impl Default for Config {
             planar_parallax: PLANAR_PARALLAX_DEFAULT,
             parallax_every: 2,
             antispoof_all_poses: true,
-            antispoof_quantile: 0.1,
+            // The lower quartile: robust to the turned, dim frames a genuine
+            // face's live probability dips on, while a screen replay's
+            // quartile stays near 0 (`experiments/face_liveness_robust`).
+            antispoof_quantile: 0.25,
         }
     }
 }
@@ -190,6 +194,8 @@ pub struct Progress {
     pub outline: Vec<[f32; 2]>,
     pub pose: Pose,
     pub quality: f32,
+    /// The eye aspect ratio of this frame (the mean of the two eyes).
+    pub ear: f32,
     pub elapsed_ms: f64,
     pub ms: f64,
 }
@@ -252,9 +258,8 @@ pub struct Session {
     spoof_dirs: Vec<[f32; 2]>,
     start_kept: Vec<Kept>,
     finish_kept: Vec<Kept>,
-    ear_open: Vec<f32>,
+    blink: Blink,
     blinks: usize,
-    blink_closed_at: Option<f64>,
     max_gap_ms: f64,
     lost_since: Option<f64>,
     jumps: usize,
@@ -272,7 +277,77 @@ pub struct Session {
     parallax_dirs: Vec<[f32; 2]>,
     outliers: Vec<f32>,
     turned: usize,
+    /// The segment the last frame lit, and when (cleared by a frame that lit none).
+    last_lit: Option<(usize, f64)>,
 }
+
+/// Blink detection against the person's own, recent open-eye aspect ratio.
+///
+/// A blink is the eye aspect ratio falling under [`Blink::CLOSED`] of the
+/// median of the open-eye frames of the last [`Blink::WINDOW_MS`], and back
+/// over [`Blink::OPEN`] of it within [`Blink::MAX_MS`], the head turning no
+/// more than [`Blink::MAX_TURN`] meanwhile. The baseline follows the person
+/// round the sweep (the ratio changes with pose, and from face to face), so
+/// blinks count at any pose up to [`Blink::MAX_ANGLE`], not only facing the
+/// camera; a slow change of pose, or a flat print tilted, is not a blink.
+/// Chosen on the synthetic DEV clips replayed at 10 fps
+/// (`experiments/face_liveness_robust`).
+#[derive(Debug, Default)]
+struct Blink {
+    /// Recent open-eye frames: time, ratio, screen direction.
+    open: std::collections::VecDeque<(f64, f32, [f32; 2])>,
+    /// The closing frame's time, the baseline then, and the direction before it.
+    closed: Option<(f64, f32, [f32; 2])>,
+}
+
+impl Blink {
+    const WINDOW_MS: f64 = 1500.0;
+    const CLOSED: f32 = 0.55;
+    const OPEN: f32 = 0.85;
+    const MAX_MS: f64 = 300.0;
+    const MAX_TURN: f32 = 20.0;
+    const MAX_ANGLE: f32 = 45.0;
+
+    fn reset(&mut self) {
+        self.open.clear();
+        self.closed = None;
+    }
+
+    /// One frame with a face; whether it completes a blink.
+    fn observe(&mut self, ts: f64, ear: f32, dir: [f32; 2]) -> bool {
+        if dir[0].hypot(dir[1]) > Self::MAX_ANGLE {
+            self.closed = None;
+            return false;
+        }
+        while self.open.front().is_some_and(|o| ts - o.0 > Self::WINDOW_MS) {
+            self.open.pop_front();
+        }
+        let mut blinked = false;
+        if let Some((at, base, before)) = self.closed {
+            if ear >= Self::OPEN * base {
+                blinked = ts - at <= Self::MAX_MS && (dir[0] - before[0]).hypot(dir[1] - before[1]) <= Self::MAX_TURN;
+                self.closed = None;
+            } else if ts - at > Self::MAX_MS {
+                self.closed = None;
+            }
+        } else if self.open.len() >= 3 {
+            let mut v: Vec<f32> = self.open.iter().map(|o| o.1).collect();
+            v.sort_by(f32::total_cmp);
+            let base = v[v.len() / 2];
+            if ear < Self::CLOSED * base {
+                let before = self.open.back().map_or(dir, |o| o.2);
+                self.closed = Some((ts, base, before));
+            }
+        }
+        if self.closed.is_none() {
+            self.open.push_back((ts, ear, dir));
+        }
+        blinked
+    }
+}
+
+/// Two consecutive lit frames at most this far apart fill the one segment between them.
+const GAP_FILL_MS: f64 = 500.0;
 
 const PORTRAIT_W: usize = 240;
 const PORTRAIT_H: usize = 300;
@@ -310,9 +385,8 @@ impl Session {
             spoof_dirs: Vec::new(),
             start_kept: Vec::new(),
             finish_kept: Vec::new(),
-            ear_open: Vec::new(),
+            blink: Blink::default(),
             blinks: 0,
-            blink_closed_at: None,
             max_gap_ms: 0.0,
             lost_since: None,
             jumps: 0,
@@ -326,6 +400,7 @@ impl Session {
             parallax_dirs: Vec::new(),
             outliers: Vec::new(),
             turned: 0,
+            last_lit: None,
         }
     }
 
@@ -335,6 +410,22 @@ impl Session {
 
     fn coverage(&self) -> f32 {
         self.segments.iter().filter(|s| **s).count() as f32 / self.segments.len() as f32
+    }
+
+    /// Lights a segment. A head turning past one segment between two frames
+    /// (a fast turn, or a slow camera) went through it: the one segment
+    /// between two lit by consecutive frames is lit too.
+    fn light(&mut self, seg: usize, ts: f64) {
+        let n = self.segments.len();
+        self.segments[seg] = true;
+        if let Some((prev, _)) = self.last_lit.filter(|l| ts - l.1 <= GAP_FILL_MS) {
+            if (seg + n - prev) % n == 2 {
+                self.segments[(prev + 1) % n] = true;
+            } else if (prev + n - seg) % n == 2 {
+                self.segments[(seg + 1) % n] = true;
+            }
+        }
+        self.last_lit = Some((seg, ts));
     }
 
     /// The screen direction of a pose relative to neutral: degrees right, up.
@@ -391,6 +482,8 @@ impl Session {
 
         if !obs.found {
             self.lost_since.get_or_insert(ts);
+            self.last_lit = None;
+            self.blink.reset();
             self.good_run = 0;
             if self.phase == Phase::Centre {
                 self.centre_samples.clear();
@@ -428,23 +521,10 @@ impl Session {
         direction = dir;
         let sample = Sample { rigid, pose: obs.pose, dir };
 
-        // Blink: the eye aspect ratio dropping well under the open-eye
-        // baseline and coming back within 600 ms, while near frontal.
-        let near_frontal = dir[0].abs() < 12.0 && dir[1].abs() < 12.0;
-        if !self.ear_open.is_empty() && near_frontal {
-            let mut sorted = self.ear_open.clone();
-            sorted.sort_by(f32::total_cmp);
-            let base = sorted[sorted.len() / 2];
-            if obs.ear < 0.6 * base {
-                self.blink_closed_at.get_or_insert(ts);
-            } else if obs.ear > 0.8 * base {
-                if let Some(closed) = self.blink_closed_at.take() {
-                    if ts - closed < 600.0 {
-                        self.blinks += 1;
-                    }
-                }
-            }
+        if self.blink.observe(ts, obs.ear, dir) {
+            self.blinks += 1;
         }
+        let near_frontal = dir[0].abs() < 12.0 && dir[1].abs() < 12.0;
 
         // Anti-spoofing on near-frontal frames, at most every `antispoof_every_ms`.
         if let Some(a) = engine.antispoof.as_ref() {
@@ -502,7 +582,6 @@ impl Session {
                     }
                     None => {
                         self.good_run += 1;
-                        self.ear_open.push(obs.ear);
                         if let Some(k) = self.keep(engine, frame, &obs.points, q)? {
                             self.start_kept.push(k);
                         }
@@ -532,8 +611,10 @@ impl Session {
                 let mag = (dir[0].powi(2) + dir[1].powi(2)).sqrt();
                 if mag >= self.config.min_angle {
                     let s = self.segment_of(dir);
-                    self.segments[s] = true;
+                    self.light(s, ts);
                     pointing = Some(s);
+                } else {
+                    self.last_lit = None;
                 }
                 self.samples.push(sample);
                 if self.coverage() >= self.config.coverage - 1e-6 {
@@ -555,9 +636,15 @@ impl Session {
                     }
                     hint = "Hold still".into();
                     if self.good_run >= self.config.finish_frames {
-                        self.phase = Phase::Done;
-                        self.done_ts = Some(ts);
-                        hint = "Done".into();
+                        if self.config.require_blink && self.blinks == 0 {
+                            // A required blink not yet seen: ask for one, rather
+                            // than finish a session that cannot pass.
+                            hint = "Blink your eyes".into();
+                        } else {
+                            self.phase = Phase::Done;
+                            self.done_ts = Some(ts);
+                            hint = "Done".into();
+                        }
                     }
                 } else {
                     self.good_run = 0;
@@ -584,6 +671,7 @@ impl Session {
             outline: obs.outline.clone(),
             pose: obs.pose,
             quality: obs.quality.score,
+            ear: obs.ear,
             elapsed_ms: ts - self.start.unwrap_or(ts),
             ms: crate::now() - t0,
         }
@@ -858,5 +946,48 @@ mod tests {
             session.spoof[9] = invalid;
             assert_eq!(session.antispoof_score(), None);
         }
+    }
+
+    /// Feeds one eye aspect ratio a frame (10 fps) at a direction; the blinks counted.
+    fn blinks(ears: &[f32], dir: impl Fn(usize) -> [f32; 2]) -> usize {
+        let mut b = Blink::default();
+        ears.iter().enumerate().filter(|(i, e)| b.observe(*i as f64 * 100.0, **e, dir(*i))).count()
+    }
+
+    #[test]
+    fn a_blink_counts_against_the_persons_own_open_eyes_at_any_pose() {
+        // Narrow eyes (0.18 open), turned 30°: one frame closed is a blink.
+        let mut ears = vec![0.18; 8];
+        ears.push(0.05);
+        ears.extend([0.18; 3]);
+        assert_eq!(blinks(&ears, |_| [30.0, 0.0]), 1);
+        // A slow drift of the ratio with pose is not.
+        let drift: Vec<f32> = (0..30).map(|i| 0.3 - 0.006 * i as f32).collect();
+        assert_eq!(blinks(&drift, |_| [0.0, 0.0]), 0);
+        // Eyes shut for long (or a frame lost with the head swinging) is not.
+        let mut long = vec![0.3; 8];
+        long.extend([0.05; 5]);
+        long.extend([0.3; 3]);
+        assert_eq!(blinks(&long, |_| [0.0, 0.0]), 0);
+        let mut swing = vec![0.3; 8];
+        swing.push(0.05);
+        swing.extend([0.3; 3]);
+        assert_eq!(blinks(&swing, |i| if i < 9 { [0.0, 0.0] } else { [25.0, 0.0] }), 0);
+    }
+
+    #[test]
+    fn one_segment_skipped_between_two_frames_is_lit() {
+        let mut session = Session::new(Config::default());
+        session.light(2, 0.0);
+        session.light(4, 100.0);
+        assert!(session.segments[3]);
+        session.light(1, 200.0);
+        session.light(11, 300.0);
+        assert!(session.segments[0]);
+        // Two segments skipped, or a second's pause, is not filled.
+        session.light(7, 400.0);
+        assert!(!session.segments[5] && !session.segments[6]);
+        session.light(9, 1500.0);
+        assert!(!session.segments[8]);
     }
 }

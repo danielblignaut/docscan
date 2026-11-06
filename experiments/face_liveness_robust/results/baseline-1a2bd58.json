@@ -1,0 +1,145 @@
+[
+ {
+  "condition": "server",
+  "clips": 80,
+  "bpcer": "23/30",
+  "bpcer_by_band": {
+   "dark": "6/8",
+   "medium": "7/9",
+   "light": "10/13"
+  },
+  "bona_fide_failures": {
+   "blink": 23,
+   "coverage": 1,
+   "3d_motion": 1,
+   "antispoof": 1,
+   "identity": 1,
+   "not_completed": 1
+  },
+  "bpcer_blinking": "11/18",
+  "blink_recall": "7/18",
+  "blink_recall_by_band": {
+   "dark": "2/4",
+   "medium": "2/5",
+   "light": "3/9"
+  },
+  "blinks_on_clips_without": "0/12",
+  "blinks_on_flat_attacks": "3/35",
+  "apcer": {
+   "curved_photo": "0/10",
+   "partial": "0/5",
+   "photo": "0/15",
+   "screen": "0/10",
+   "video_2d": "0/10"
+  },
+  "bona_fide_antispoof_min": 0.908,
+  "attack_antispoof_max": 1.0
+ },
+ {
+  "condition": "server_dim",
+  "clips": 80,
+  "bpcer": "28/30",
+  "bpcer_by_band": {
+   "dark": "8/8",
+   "medium": "7/9",
+   "light": "13/13"
+  },
+  "bona_fide_failures": {
+   "coverage": 3,
+   "3d_motion": 3,
+   "antispoof": 23,
+   "identity": 3,
+   "blink": 25,
+   "not_completed": 3
+  },
+  "bpcer_blinking": "16/18",
+  "blink_recall": "5/18",
+  "blink_recall_by_band": {
+   "dark": "0/4",
+   "medium": "2/5",
+   "light": "3/9"
+  },
+  "blinks_on_clips_without": "0/12",
+  "blinks_on_flat_attacks": "3/35",
+  "apcer": {
+   "curved_photo": "0/10",
+   "partial": "0/5",
+   "photo": "0/15",
+   "screen": "0/10",
+   "video_2d": "0/10"
+  },
+  "bona_fide_antispoof_min": 0.285,
+  "attack_antispoof_max": 0.99
+ },
+ {
+  "condition": "browser",
+  "clips": 80,
+  "bpcer": "3/30",
+  "bpcer_by_band": {
+   "dark": "0/8",
+   "medium": "1/9",
+   "light": "2/13"
+  },
+  "bona_fide_failures": {
+   "continuity": 1,
+   "coverage": 2,
+   "3d_motion": 2,
+   "antispoof": 1,
+   "identity": 2,
+   "not_completed": 2
+  },
+  "bpcer_blinking": "2/18",
+  "blink_recall": "3/18",
+  "blink_recall_by_band": {
+   "dark": "0/4",
+   "medium": "1/5",
+   "light": "2/9"
+  },
+  "blinks_on_clips_without": "0/12",
+  "blinks_on_flat_attacks": "2/35",
+  "apcer": {
+   "curved_photo": "0/10",
+   "partial": "0/5",
+   "photo": "0/15",
+   "screen": "0/10",
+   "video_2d": "0/10"
+  },
+  "bona_fide_antispoof_min": 0.901,
+  "attack_antispoof_max": 1.0
+ },
+ {
+  "condition": "native30",
+  "clips": 80,
+  "bpcer": "1/30",
+  "bpcer_by_band": {
+   "dark": "0/8",
+   "medium": "0/9",
+   "light": "1/13"
+  },
+  "bona_fide_failures": {
+   "coverage": 1,
+   "3d_motion": 1,
+   "antispoof": 1,
+   "identity": 1,
+   "not_completed": 1
+  },
+  "bpcer_blinking": "0/18",
+  "blink_recall": "7/18",
+  "blink_recall_by_band": {
+   "dark": "2/4",
+   "medium": "2/5",
+   "light": "3/9"
+  },
+  "blinks_on_clips_without": "0/12",
+  "blinks_on_flat_attacks": "6/35",
+  "apcer": {
+   "curved_photo": "0/10",
+   "partial": "0/5",
+   "photo": "0/15",
+   "screen": "0/10",
+   "video_2d": "0/10"
+  },
+  "bona_fide_antispoof_min": 0.908,
+  "attack_antispoof_max": 1.0
+ }
+]
