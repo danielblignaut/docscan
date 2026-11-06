@@ -235,8 +235,18 @@ fn names(field: &str) -> (String, String) {
     let field = alpha(field);
     let mut parts = field.splitn(2, "<<");
     let surname = parts.next().unwrap_or("").replace('<', " ").trim().to_string();
-    let given = parts.next().unwrap_or("").replace('<', " ");
-    let given = given.split_whitespace().collect::<Vec<_>>().join(" ");
+    // A second `<<` ends the given names: what follows is the filler run, and
+    // a word there made only of the filler's look-alikes (`<<CC<<<`,
+    // `<<<<S<<C<<`) is the filler misread. Anything else is kept.
+    let mut runs = parts.next().unwrap_or("").split("<<");
+    let mut given = runs.next().unwrap_or("").to_string();
+    for run in runs {
+        if !run.chars().all(|c| c == '<' || FILLER_LOOKALIKES.contains(&c)) {
+            given.push('<');
+            given.push_str(run);
+        }
+    }
+    let given = given.replace('<', " ").split_whitespace().collect::<Vec<_>>().join(" ");
     (surname, given)
 }
 
@@ -701,6 +711,18 @@ mod tests {
         let mut m = parse_td3("P<ZAFSPECIMEN<NKOSI<<THABO<SIPHOK<<<<<<<<<<<", "A098765432ZAF8807098M3201314880709932108<<26").unwrap();
         repair_names(&mut m, &vocab(&["SPECIMEN", "NKOSI", "THABO", "SIPHO"]));
         assert_eq!(m.given_names, "THABO SIPHO");
+    }
+
+    /// Fillers misread as letters inside the filler run after the given
+    /// names are not a name; a name after a single `<` is.
+    #[test]
+    fn misread_filler_run_is_not_a_name() {
+        let l2 = "L898902C36UTO7408122F1204159ZE184226B<<<<<10";
+        for l1 in ["P<UTOERIKSSON<<ANNA<MARIA<<CC<<<<<<<<<<<<<<<", "P<UTOERIKSSON<<ANNA<MARIA<<<<S<<C<<<<<<<<<<<"] {
+            assert_eq!(parse_td3(l1, l2).unwrap().given_names, "ANNA MARIA", "{l1}");
+        }
+        assert_eq!(parse_td3("P<UTOERIKSSON<<ANNA<LEE<<<<<<<<<<<<<<<<<<<<<", l2).unwrap().given_names, "ANNA LEE");
+        assert_eq!(parse_td3("P<UTOERIKSSON<<ANNA<<MARIA<<<<<<<<<<<<<<<<<<<", l2).unwrap().given_names, "ANNA MARIA");
     }
 
     /// A name with a vocabulary word as its prefix is not split.
