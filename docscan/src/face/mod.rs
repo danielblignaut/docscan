@@ -47,18 +47,32 @@ const MIN_PRESENCE: f32 = 0.5;
 /// front of it, give or take.
 pub const NEAR_FACE: f32 = 0.5;
 
-/// The faces at least [`NEAR_FACE`] of the largest one's width.
-fn near_faces(dets: &[Detection]) -> usize {
-    let widest = dets.iter().map(|d| d.bbox[2]).fold(0.0f32, f32::max);
-    dets.iter().filter(|d| d.bbox[2] >= NEAR_FACE * widest).count()
+/// The faces at least [`NEAR_FACE`] of the largest one's width (`widths`:
+/// one per face).
+fn near_faces(widths: &[f32]) -> usize {
+    let widest = widths.iter().copied().fold(0.0f32, f32::max);
+    widths.iter().filter(|w| **w >= NEAR_FACE * widest).count()
+}
+
+/// Boxes overlapping this much (intersection over union) are one face, as the
+/// detector's own suppression judges.
+const SAME_FACE_IOU: f32 = 0.3;
+
+/// A face the detector found and the landmark model confirmed.
+struct Confirmed {
+    det: Detection,
+    mesh: MeshResult,
+    bbox: [f32; 4],
 }
 
 /// One frame's face, as the page sees it.
 #[derive(Debug, Clone, Serialize)]
 pub struct Observation {
     pub found: bool,
-    /// Faces the detector saw, when it ran this frame: those at least
-    /// [`NEAR_FACE`] of the largest one's width (a bystander in the
+    /// Faces seen when the detector ran this frame: detections the landmark
+    /// model confirms as a face (the detector alone also fires on a neck, a
+    /// hand or a turned head's edge), each counted once, and only those at
+    /// least [`NEAR_FACE`] of the largest one's width (a bystander in the
     /// background, far smaller, is not counted).
     pub faces: Option<usize>,
     pub presence: f32,
@@ -114,18 +128,39 @@ impl FaceEngine {
         *self.since_detect.borrow_mut() = DETECT_EVERY;
     }
 
-    /// The most prominent detection: the largest, ties to the most central.
-    fn pick(dets: &[Detection], frame: &Frame) -> Option<Detection> {
+    /// How prominent a detection is: the largest, ties to the most central.
+    fn prominence(d: &Detection, frame: &Frame) -> f32 {
         let (cx, cy) = (frame.width as f32 / 2.0, frame.height as f32 / 2.0);
-        dets.iter()
-            .max_by(|a, b| {
-                let key = |d: &Detection| {
-                    let dc = ((d.bbox[0] + d.bbox[2] / 2.0 - cx).powi(2) + (d.bbox[1] + d.bbox[3] / 2.0 - cy).powi(2)).sqrt();
-                    d.bbox[2] * d.bbox[3] - 0.1 * dc
-                };
-                key(a).total_cmp(&key(b))
-            })
-            .cloned()
+        let dc = ((d.bbox[0] + d.bbox[2] / 2.0 - cx).powi(2) + (d.bbox[1] + d.bbox[3] / 2.0 - cy).powi(2)).sqrt();
+        d.bbox[2] * d.bbox[3] - 0.1 * dc
+    }
+
+    /// The detections the landmark model confirms as faces, most prominent
+    /// first, each face once; and the width of every face counted, `known`
+    /// included. `known` is a face already tracked this frame: a detection
+    /// overlapping it is that face, and needs no landmarks.
+    fn confirm(&self, frame: &Frame, dets: &[Detection], known: Option<&[f32; 4]>) -> anyhow::Result<(Vec<Confirmed>, Vec<f32>)> {
+        let mut order: Vec<&Detection> = dets.iter().collect();
+        order.sort_by(|a, b| Self::prominence(b, frame).total_cmp(&Self::prominence(a, frame)));
+        let mut counted: Vec<[f32; 4]> = known.into_iter().copied().collect();
+        let same = |counted: &[[f32; 4]], b: &[f32; 4]| counted.iter().any(|c| detect::iou(c, b) >= SAME_FACE_IOU);
+        let mut out = Vec::new();
+        for d in order {
+            if same(&counted, &d.bbox) {
+                continue;
+            }
+            let mesh = self.landmarks(frame, d)?;
+            if mesh.presence < MIN_PRESENCE {
+                continue;
+            }
+            let bbox = mesh::bbox(&mesh.points);
+            if same(&counted, &bbox) {
+                continue;
+            }
+            counted.push(bbox);
+            out.push(Confirmed { det: d.clone(), mesh, bbox });
+        }
+        Ok((out, counted.iter().map(|b| b[2]).collect()))
     }
 
     /// Detects (over the whole frame, then in tiles for small faces) and
@@ -150,6 +185,8 @@ impl FaceEngine {
                     y += step;
                 }
                 if !found.is_empty() {
+                    // Overlapping tiles each see the same face: one box per face.
+                    found = detect::weighted_nms(found);
                     break;
                 }
             }
@@ -201,16 +238,13 @@ impl FaceEngine {
             let dets = self.detect_all(frame, false)?;
             timings.detect = crate::now() - t;
             *self.since_detect.borrow_mut() = 0;
-            faces = Some(near_faces(&dets));
+            let known = result.as_ref().map(|r| mesh::bbox(&r.points));
+            let t = crate::now();
+            let (confirmed, widths) = self.confirm(frame, &dets, known.as_ref())?;
+            timings.mesh += crate::now() - t;
+            faces = Some(near_faces(&widths));
             if result.is_none() {
-                if let Some(d) = Self::pick(&dets, frame) {
-                    let t = crate::now();
-                    let r = self.landmarks(frame, &d)?;
-                    timings.mesh += crate::now() - t;
-                    if r.presence >= MIN_PRESENCE {
-                        result = Some(r);
-                    }
-                }
+                result = confirmed.into_iter().next().map(|c| c.mesh);
             }
         }
         let Some(r) = result else {
@@ -258,14 +292,35 @@ impl FaceEngine {
     }
 
     /// A still photo (an uploaded selfie, or an identity document's photo):
-    /// the most prominent face, its quality, aligned crop and template.
+    /// the most prominent face, its quality, aligned crop and template. A
+    /// photo with no face upright is tried turned a quarter each way, then
+    /// upside down: a card is often photographed on its side.
     pub fn photo(&self, frame: &Frame) -> anyhow::Result<PhotoFace> {
         let t0 = crate::now();
+        let mut p = self.photo_upright(frame)?;
+        if !p.found {
+            for quarters in [1, 3, 2] {
+                let (rgba, w, h) = frame.rotated(quarters);
+                let turned = self.photo_upright(&Frame::new(&rgba, w, h)?)?;
+                if turned.found {
+                    p = PhotoFace { rotation: quarters * 90, ..turned };
+                    break;
+                }
+            }
+        }
+        p.ms = crate::now() - t0;
+        Ok(p)
+    }
+
+    fn photo_upright(&self, frame: &Frame) -> anyhow::Result<PhotoFace> {
         let dets = self.detect_all(frame, true)?;
-        let Some(d) = Self::pick(&dets, frame) else {
+        // Every confirmed face counts here, however small: a document held
+        // up in front of a larger face must not be compared as that face.
+        let (confirmed, _) = self.confirm(frame, &dets, None)?;
+        let faces = confirmed.len();
+        let Some(Confirmed { det: d, mesh: r, bbox }) = confirmed.into_iter().next() else {
             return Ok(PhotoFace { found: false, faces: 0, ..Default::default() });
         };
-        let r = self.landmarks(frame, &d)?;
         let pose = pose::estimate(&r.points);
         let five = recognise::five_points(&r.points);
         let map = recognise::alignment(&five);
@@ -276,29 +331,33 @@ impl FaceEngine {
             None => Vec::new(),
         };
         let spoof = match &self.antispoof {
-            Some(a) => Some(a.score(frame, mesh::bbox(&r.points))?),
+            Some(a) => Some(a.score(frame, bbox)?),
             None => None,
         };
         Ok(PhotoFace {
-            found: r.presence >= MIN_PRESENCE,
-            faces: dets.len(),
+            found: true,
+            faces,
             detection_score: d.score,
             presence: r.presence,
-            bbox: mesh::bbox(&r.points),
+            bbox,
             pose,
             quality,
             aligned: image::warp_rgba(frame, &map, 112, 112),
             template,
             model: self.recogniser_name.clone(),
             antispoof: spoof,
-            ms: crate::now() - t0,
+            rotation: 0,
+            ms: 0.0,
         })
     }
 }
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct PhotoFace {
+    /// A face the landmark model confirms.
     pub found: bool,
+    /// The faces the landmark model confirms, of any size (a detection it
+    /// does not, or a second box on the same face, is not counted).
     pub faces: usize,
     pub detection_score: f32,
     pub presence: f32,
@@ -311,6 +370,9 @@ pub struct PhotoFace {
     pub template: Vec<f32>,
     pub model: String,
     pub antispoof: Option<antispoof::SpoofScore>,
+    /// Degrees the photo was turned clockwise to find the face (0, 90, 180
+    /// or 270); `bbox` is in the turned photo's pixels.
+    pub rotation: u32,
     pub ms: f64,
 }
 
@@ -472,9 +534,8 @@ mod tests {
 
     #[test]
     fn a_small_face_in_the_background_is_not_a_second_face() {
-        let det = |w: f32| Detection { score: 0.9, bbox: [0.0, 0.0, w, w], keypoints: [[0.0; 2]; 6] };
-        assert_eq!(near_faces(&[det(200.0), det(40.0)]), 1);
-        assert_eq!(near_faces(&[det(200.0), det(150.0)]), 2);
+        assert_eq!(near_faces(&[200.0, 40.0]), 1);
+        assert_eq!(near_faces(&[200.0, 150.0]), 2);
         assert_eq!(near_faces(&[]), 0);
     }
 }

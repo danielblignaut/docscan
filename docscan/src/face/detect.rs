@@ -47,7 +47,7 @@ fn anchors() -> Vec<[f32; 2]> {
     out
 }
 
-fn iou(a: &[f32; 4], b: &[f32; 4]) -> f32 {
+pub(crate) fn iou(a: &[f32; 4], b: &[f32; 4]) -> f32 {
     let x0 = a[0].max(b[0]);
     let y0 = a[1].max(b[1]);
     let x1 = (a[0] + a[2]).min(b[0] + b[2]);
@@ -107,7 +107,7 @@ impl Detector {
 
 /// MediaPipe's weighted non-maximum suppression: each kept face is the
 /// score-weighted mean of the boxes that overlap it.
-fn weighted_nms(mut dets: Vec<Detection>) -> Vec<Detection> {
+pub(crate) fn weighted_nms(mut dets: Vec<Detection>) -> Vec<Detection> {
     dets.sort_by(|a, b| b.score.total_cmp(&a.score));
     let mut out = Vec::new();
     let mut used = vec![false; dets.len()];
