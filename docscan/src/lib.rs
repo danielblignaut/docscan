@@ -105,6 +105,13 @@ pub struct DocumentResult {
     /// the MRZ check digits pass, the barcode parsed, or the printed ID
     /// number passes Luhn with the anchors found.
     pub accepted: bool,
+    /// An accepted reading this one frame already cross-checks, so a live
+    /// capture need not wait for a second frame to read it the same: a
+    /// smart ID front whose printed date of birth and sex agree with its
+    /// ID number, or a green book whose printed number agrees with its
+    /// barcode or its printed date of birth with the number. The names are
+    /// read once either way; nothing checks them.
+    pub confirmed: bool,
     /// Physical originality is separate from readable/self-consistent fields.
     /// Unknown is serialized as null, never treated as an original document.
     pub copy_assessment: document_evidence::CopyAssessment,
@@ -692,6 +699,73 @@ impl Scanner {
         Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew: page.skew })
     }
 
+    /// How confidently the recogniser reads the page turned by `quarters`:
+    /// the mean log-probability of its best character over the non-blank
+    /// steps of a few lines, averaged over the lines it reads most surely.
+    /// Text upside down reads far less surely than the same text upright
+    /// (on DEV about -0.4 to -1.2 against -0.02 to -0.05), so comparing a
+    /// turn with its half turn says which way up the page is for a few
+    /// lines' recognition rather than a whole pass. Only the best lines
+    /// count: a photo, a barcode or a hologram reads as noise either way.
+    /// `None` when too few lines suit (or the model is not loaded).
+    fn turn_confidence(&self, page: &LevelledPage, quarters: u8) -> anyhow::Result<Option<f32>> {
+        let (Some(ocr), Some(rec)) = (self.ocr.as_ref(), self.rec_model.as_ref()) else { return Ok(None) };
+        let (img, lw, lh) = geometry::rotate_quarters(&page.ink, page.w, page.h, quarters);
+        let input = ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?;
+        let words: Vec<_> = page.words.iter().map(|r| idocr::turn_rect(r, page.w, page.h, quarters)).collect();
+        // Lines of a few words (aspect 3-20: quick to recognise), tallest
+        // first: large print reads most surely either way up.
+        let mut lines: Vec<(f32, Vec<rten_imageproc::RotatedRect>)> = ocr
+            .find_text_lines(&input, &words)
+            .into_iter()
+            .filter_map(|line| {
+                let b = rten_imageproc::bounding_rect(line.iter())?;
+                let aspect = b.width() / b.height().max(1.0);
+                (3.0..=20.0).contains(&aspect).then_some((b.height(), line))
+            })
+            .collect();
+        lines.sort_by(|a, b| b.0.total_cmp(&a.0));
+        let mut scores = Vec::new();
+        for (_, line) in lines.iter().take(TURN_CHECK_LINES) {
+            let img = ocr.prepare_recognition_input(&input, line)?;
+            let [ih, iw] = img.shape();
+            let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
+            let lp: rten_tensor::NdTensorView<f32, 2> = out.slice((.., 0, ..));
+            let [t, c] = lp.shape();
+            let (mut sum, mut steps) = (0f32, 0usize);
+            for ti in 0..t {
+                let best = (0..c).max_by(|&a, &b| lp[[ti, a]].total_cmp(&lp[[ti, b]])).unwrap_or(0);
+                if best != 0 {
+                    sum += lp[[ti, best]];
+                    steps += 1;
+                }
+            }
+            // A line of two or three characters says little either way.
+            if steps >= 4 {
+                scores.push(sum / steps as f32);
+            }
+        }
+        if scores.len() < TURN_CHECK_BEST {
+            return Ok(None);
+        }
+        scores.sort_by(|a, b| b.total_cmp(a));
+        Ok(Some(scores[..TURN_CHECK_BEST].iter().sum::<f32>() / TURN_CHECK_BEST as f32))
+    }
+
+    /// Which of `quarters` and its half turn the page reads upright, when
+    /// [`Scanner::turn_confidence`] says so clearly; `None` when it cannot.
+    fn upright_of(&self, page: &LevelledPage, quarters: u8) -> anyhow::Result<Option<u8>> {
+        let other = (quarters + 2) % 4;
+        let (Some(a), Some(b)) = (self.turn_confidence(page, quarters)?, self.turn_confidence(page, other)?) else { return Ok(None) };
+        Ok(if a - b >= TURN_CHECK_MARGIN {
+            Some(quarters)
+        } else if b - a >= TURN_CHECK_MARGIN {
+            Some(other)
+        } else {
+            None
+        })
+    }
+
     /// Proof of address: whether to correct place names and postal codes with the gazetteer (on by default).
     pub fn set_gazetteer(&mut self, on: bool) {
         self.no_gazetteer = !on;
@@ -1241,6 +1315,19 @@ impl Scanner {
                     order.push(last.unwrap_or(if across { 0 } else { 1 }));
                 }
             }
+            // Which way up the page is, when a few lines' recognition says so
+            // clearly: then only that turn is read. Asked at once for a
+            // sideways page with no turn to go on (either quarter turn is as
+            // likely), and otherwise only once the first turn has read as no
+            // document, before a whole pass is spent on its half turn.
+            let mut upright: Option<Option<u8>> = None;
+            if across.is_some() && order.len() == 1 && order[0] % 2 == 1 && self.last_turn.get().is_none_or(|t| t % 2 == 0) {
+                let settled = self.upright_of(&page, order[0])?;
+                if let Some(t) = settled {
+                    order = vec![t];
+                }
+                upright = Some(settled);
+            }
             let mut passes = 0u8;
             let mut i = 0;
             while i < order.len() {
@@ -1293,6 +1380,18 @@ impl Scanner {
                         Some(true) => vec![(quarters + 2) % 4],
                         Some(false) => vec![if quarters == 1 { 3 } else { 1 }],
                         None => next.to_vec(),
+                    };
+                    // A half turn the page was found not to read better in is
+                    // not read.
+                    let half = (quarters + 2) % 4;
+                    let next = if across.is_some() && next == [half] {
+                        let settled = match upright {
+                            Some(settled) => settled,
+                            None => self.upright_of(&page, quarters)?,
+                        };
+                        if settled == Some(quarters) { Vec::new() } else { next }
+                    } else {
+                        next
                     };
                     order.extend(next.iter().filter(|t| !order.contains(t)).copied().collect::<Vec<_>>());
                     // Three passes at most: over three seconds in the browser.
@@ -1358,6 +1457,13 @@ fn first_turns(expected: Expected, shape: Option<(usize, usize)>, last: Option<u
 /// no better than 1 000).
 const OCR_MIN_LONG: f32 = 1000.0;
 
+/// Lines recognised at each of two opposite turns to tell which way up a
+/// page is ([`Scanner::turn_confidence`]), how many of the surest count,
+/// and the difference in mean log-probability that settles it.
+const TURN_CHECK_LINES: usize = 6;
+const TURN_CHECK_BEST: usize = 2;
+const TURN_CHECK_MARGIN: f32 = 0.10;
+
 /// The current year, from the device's clock.
 fn this_year() -> u32 {
     // Days since 1970 to a year is close enough for a century cut-off.
@@ -1374,6 +1480,8 @@ fn mrz_shaped(line: &[rten_imageproc::RotatedRect], page_width: usize) -> bool {
 
 /// Words printed on the smart ID card's back (the conditions panel).
 const SMART_ID_BACK_ANCHORS: &[&str] = &["Home Affairs", "Identification Act", "Conditions"];
+/// Of those, the ones a green book's photo page does not also print.
+const SMART_ID_BACK_ONLY_ANCHORS: &[&str] = &["Identification Act", "Conditions"];
 
 fn classify(
     quality: quality::Quality,
@@ -1406,6 +1514,7 @@ fn classify(
     let mut out = DocumentResult {
         kind: DocumentKind::Unknown,
         accepted: false,
+        confirmed: false,
         copy_assessment: document_evidence::CopyAssessment::default(),
         reasons: Vec::new(),
         quality,
@@ -1472,10 +1581,18 @@ fn classify(
         && za::has_any(lines, &["FORENAMES"])
         && za::has_any(lines, &["Identity Number", "Country of Birth"]);
     let is_book = za::has_any(lines, za::GREEN_BOOK_ANCHORS) || english_book;
-    let is_card_front = !is_passport && za::has_any(lines, za::SMART_ID_FRONT_ANCHORS);
+    // The card front's header can be lost to glare or the hologram while
+    // its own labels read: on the front's page, three of them make a front.
+    let is_card_front = !is_passport
+        && (za::has_any(lines, za::SMART_ID_FRONT_ANCHORS)
+            || (expected == Expected::SmartIdFront && za::front_labels(lines) >= 3));
     let is_card_back = za::has_any(lines, SMART_ID_BACK_ANCHORS);
+    // The book's photo page ends "issued by authority of the Director-General:
+    // Home Affairs": only the card back's own conditions text outweighs the
+    // book's labels.
+    let is_card_back_text = za::has_any(lines, SMART_ID_BACK_ONLY_ANCHORS);
 
-    if is_book && !is_card_back {
+    if is_book && !is_card_back_text {
         out.kind = DocumentKind::ZaGreenBook;
         let mut printed = za::green_book_fields(lines);
         if printed.id_number.is_none() {
@@ -1489,6 +1606,8 @@ fn classify(
         // As on the card front, the holder's name must be read too: an ID
         // number alone (the barcode) does not make a complete reading.
         out.accepted = id_ok && agree && printed.surname.is_some();
+        let barcode_agrees = za::green_book_printed_number(lines).zip(id_barcode.as_ref()).is_some_and(|(p, b)| p.value == b.value);
+        out.confirmed = out.accepted && (barcode_agrees || za::confirmed_by_id(&printed).contains(&"date_of_birth"));
         reasons.push(format!(
             "green book: barcode {}, printed ID {}, surname {}",
             id_barcode.is_some(),
@@ -1505,6 +1624,7 @@ fn classify(
         za::complete_from_id(&mut printed, this_year());
         let id_ok = printed.id_number.as_ref().is_some_and(|id| id.luhn_valid && id.date_valid);
         out.accepted = id_ok && printed.surname.is_some();
+        out.confirmed = out.accepted && printed.names.is_some() && za::confirmed_by_id(&printed).len() == 2;
         reasons.push(format!("smart ID front: printed ID {id_ok}, surname {}", printed.surname.is_some()));
         out.printed = Some(printed);
     } else if is_card_back || (id_barcode.is_some()
@@ -1598,6 +1718,59 @@ mod tests {
             OcrOutput::default(), Expected::GreenBook, Some((1000,1420)));
         assert!(!bare.accepted);
         assert_ne!(bare.kind, DocumentKind::ZaGreenBook);
+    }
+
+    /// A green book's photo page ends "issued by authority of the
+    /// Director-General: Home Affairs", which the card back prints too: the
+    /// book's own labels still make it a book, not a card front (its
+    /// "country of birth") or back.
+    #[test]
+    fn green_book_footer_is_not_a_card_back() {
+        let ocr = OcrOutput {
+            lines: vec![
+                line("I.D.No. 800101 5009 08 7", 10.0),
+                line("S.A.BURGER/S.A.CITIZEN", 40.0),
+                line("VAN/SURNAME", 70.0),
+                line("DOE", 95.0),
+                line("VOORNAME/FORENAMES", 120.0),
+                line("JOHN", 145.0),
+                line("DISTRICT OR COUNTRY OF BIRTH", 170.0),
+                line("SOUTH AFRICA", 195.0),
+                line("ISSUED BY AUTHORITY OF THE", 300.0),
+                line("DIRECTOR GENERAL", 325.0),
+                line("HOME AFFAIRS", 350.0),
+            ],
+            ..Default::default()
+        };
+        let r = classify(quality(), vec![], None, ocr, Expected::GreenBook, Some((700, 1000)));
+        assert_eq!(r.kind, DocumentKind::ZaGreenBook);
+        assert!(r.accepted);
+    }
+
+    /// A front whose header was lost: its labels make it one on the front's
+    /// page, and a date of birth and sex that agree with the number confirm
+    /// the reading on its own.
+    #[test]
+    fn front_from_its_labels() {
+        let ocr = || OcrOutput {
+            lines: vec![
+                line("Surname:", 100.0),
+                line("DOE", 125.0),
+                line("Names:", 150.0),
+                line("JOHN", 175.0),
+                line("Sex:", 200.0),
+                line("M", 225.0),
+                line("8001015009087", 300.0),
+                line("Date of Birth:", 325.0),
+                line("01 JAN 1980", 350.0),
+            ],
+            ..Default::default()
+        };
+        let r = classify(quality(), vec![], None, ocr(), Expected::SmartIdFront, Some((1270, 800)));
+        assert_eq!(r.kind, DocumentKind::ZaSmartIdFront);
+        assert!(r.accepted && r.confirmed);
+        // Any page: the header is still needed.
+        assert_eq!(classify(quality(), vec![], None, ocr(), Expected::Any, Some((1270, 800))).kind, DocumentKind::Unknown);
     }
 
     /// The smart ID back's PDF417 and Code 39 carry the same number.
