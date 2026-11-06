@@ -713,7 +713,7 @@ impl Scanner {
         let (img, lw, lh) = geometry::rotate_quarters(&page.ink, page.w, page.h, quarters);
         let input = ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?;
         let words: Vec<_> = page.words.iter().map(|r| idocr::turn_rect(r, page.w, page.h, quarters)).collect();
-        // Lines of a few words (aspect 3-20: quick to recognise), tallest
+        // Short lines (aspect 3-10: quick to recognise), tallest
         // first: large print reads most surely either way up.
         let mut lines: Vec<(f32, Vec<rten_imageproc::RotatedRect>)> = ocr
             .find_text_lines(&input, &words)
@@ -721,7 +721,7 @@ impl Scanner {
             .filter_map(|line| {
                 let b = rten_imageproc::bounding_rect(line.iter())?;
                 let aspect = b.width() / b.height().max(1.0);
-                (3.0..=20.0).contains(&aspect).then_some((b.height(), line))
+                (3.0..=10.0).contains(&aspect).then_some((b.height(), line))
             })
             .collect();
         lines.sort_by(|a, b| b.0.total_cmp(&a.0));
@@ -1460,7 +1460,7 @@ const OCR_MIN_LONG: f32 = 1000.0;
 /// Lines recognised at each of two opposite turns to tell which way up a
 /// page is ([`Scanner::turn_confidence`]), how many of the surest count,
 /// and the difference in mean log-probability that settles it.
-const TURN_CHECK_LINES: usize = 6;
+const TURN_CHECK_LINES: usize = 4;
 const TURN_CHECK_BEST: usize = 2;
 const TURN_CHECK_MARGIN: f32 = 0.10;
 
