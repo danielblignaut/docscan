@@ -215,8 +215,125 @@ opened; nothing was changed because of this run. false_accept_bad rose by
 1.7 pt (2 more of 120 bad frames accepted), within its interval; reported as
 it is.
 
+## Round three: real documents
+
+Prompted by a till's captures (FARO Connect, which pins this engine): over a
+week of production, no smart ID front and no green book captured itself; every
+one fell back to a manual photo after 15 seconds. The till's diagnostics, not
+its images, were used:
+
+- **The OCR pass is slow on a phone.** Single-threaded wasm on low-end
+  Android, an OCR pass took roughly 10-18 s, judged from frames analysed per
+  attempt: 10 of 14 front attempts finished at most one OCR pass, and a page
+  whose first turn reads as no document pays for a second, whole pass on its
+  half turn. The till needs two identical readings, so one pass is never
+  enough.
+- **Real green books were read as smart ID fronts.** The book's photo page
+  ends "issued by authority of the Director-General: Home Affairs";
+  `Home Affairs` is a card-back anchor, which vetoed the book, and the book's
+  "district or country of birth" then matched a front anchor. A page asking
+  for a book accepts only a book, so it never captured.
+- **Real card fronts lose their header and labels** to glare, the hologram
+  and the small teal print (`entity Numbe`, `lationaiity`), and print names
+  too long for one line on two.
+
+Changes (`lib.rs`, `za.rs`):
+
+1. **Book versus card back.** Only the card back's own conditions text
+   (`Identification Act`, `Conditions`) outweighs the book's labels.
+2. **A front from its labels.** On the front's page (`expected =
+   smart_id_front`), three of the card's own labels at the start of a line
+   make a front when the header is lost. A label of five letters or more is
+   matched through one error in four, anchored at the line's start (the
+   book's compound labels, `VAN/SURNAME` and so on, never match).
+3. **Front fields.** A name continued on the next line is joined; stray
+   marks (a lone letter, digits) are dropped from names; `CITIZEN` is read
+   through two misread letters; nationality and country of birth are taken
+   from above the next label when their own was not read; a citizen's
+   status and nationality are filled from the ID number (in `derived`).
+   The book's date of birth is read beside its label, where the real page
+   prints it.
+4. **Which way up, from four short lines.** The recogniser, run directly on
+   four short lines at a turn and at its half turn, reads upright text far
+   more surely (best-two mean log-probability: about -0.02 to -0.07 against
+   -0.15 to -1.2). A sideways page with no turn to go on reads only the turn
+   this settles; a turn that read as no document is not followed by its
+   half turn when the page clearly reads better as it is. Undecided, the
+   search is as before.
+5. **`confirmed`.** An accepted reading one frame already cross-checks: a
+   front's printed date of birth and sex agree with its ID number, or a
+   book's printed number with its barcode (or its date of birth with the
+   number). Names are read once either way. A host may capture on it
+   instead of waiting for a second identical reading.
+
+### Screening, DEV with the page's expected kind
+
+`id_hard_dev` (420 good, 120 bad frames), each scanned with the expected
+kind the till sends, one process per frame, the bench's own `fields_of`:
+
+| | main | change |
+|---|---|---|
+| front accept_good / accepted_wrong / fields | 98.8% / 3.6% / 99.3% | 98.8% / **2.4%** / 99.4% |
+| green book accept_good / accepted_wrong / fields | 86.9% / 1.2% / 92.9% | 86.9% / 1.2% / 92.9% |
+| passports, card back | | unchanged |
+| bad frames accepted | 7 / 120 | 7 / 120 |
+| OCR passes per frame (all) | 1.09 | **1.00** (passports 1.31 → 1.17, books 1.22 → 1.14) |
+| good frames `confirmed` / of them with a wrong field | | 139 / **0** |
+
+The 7 bad frames are main's own 7 (the book's `glare_roi`, a half-cut front);
+all 7 are `confirmed` too, as they are accepted.
+
+### Bench (referee, DEV, expected kind `Any`)
+
+`bench/run.sh --suite id --no-wasm`, main `46cd6e1` and the change run side by
+side (load 46-54); compare.py: **no change**, 14 metrics within their CI.
+`hard_dev.accepted_wrong` 1.67 → 1.43%, `hard_dev.fields_exact` 97.13 →
+97.19%, accept_good, false_accept_bad, mrz_pass, the stills and the clips
+unchanged; `speed.ocr_ms` raw +1.0%, calibrated -8.2%; `speed.fast_ms` raw
+-4.5%. Most changes act on the page's expected kind, which the bench's stills
+do not pass, so the screening above is where they show. Run files not
+committed.
+
+### Real documents (local only)
+
+Nine real South African documents a user supplied (eight smart ID fronts, one
+green book; never committed), cropped as the till's guide sees them, each in
+six conditions (as captured, 640 px, blur, JPEG, 4 degree tilt, dim; the book
+also half turned): 56 frames, with the expected kind.
+
+| | main | change |
+|---|---|---|
+| front: right kind / accepted | 39 / 39 of 48 | **42 / 42** |
+| front: accepted with every field right | 20 | **34** |
+| front: accepted with a wrong field | 19 | **8** |
+| front: fields exact (8 per frame) | 73.2% | **84.9%** |
+| book: right kind / accepted | 3 / 2 of 8 | **8 / 6** |
+| book: fields exact (4 per frame) | 75.0% | **81.2%** |
+| OCR passes, front / book | 57 / 14 | 53 / **8** |
+| `confirmed`, with ID, surname and names all right | | 40, 38 (2 book names) |
+
+Interleaved native timing, one pinned core, the page's expected kind, three
+repeats alternating which build goes first (28 frames): median per-frame
+ratio 0.96. The real book's frames 0.69-0.92 (two passes to one), the real
+front that main could not classify 0.47-0.60, upright fronts that read on the
+first turn 0.84-1.09 (noise: the machine's load was 20-80). A defocused frame
+whose turn the check cannot settle still pays for the check (two synthetic
+frames, x1.3 and x1.5).
+
+### Measured and not kept (round three)
+
+- **Six lines, best three, margin 0.15** for the turn check: one synthetic
+  book read sideways had only three usable lines at its right turn, one of
+  them noise, and the check chose the wrong turn (DEV green book accept
+  86.9 → 85.7%). Best two of four short lines, margin 0.10, decides it right
+  or not at all.
+- **Six lines of aspect up to 20**: the check cost nearly a whole pass
+  where it did not save one (an upside-down passport x1.45).
+
 ## Next
 
+- A host's capture rule: capture on `confirmed` (one frame) rather than two
+  identical readings, where the OCR pass takes seconds.
 - Skip the barcode readers entirely when the page asked for a card front or
   a passport and the frame shows no wide bars (the demo's per-frame fast
   pass; the bench times frames with no expected kind, so only the clips

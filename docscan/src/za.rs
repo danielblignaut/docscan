@@ -252,6 +252,22 @@ fn contains_label(line: &str, label: &str) -> bool {
     budget > 0 && substring_distance(&line, &label) <= budget
 }
 
+/// The fewest edits (insertions, deletions, substitutions) turning `a` into `b`.
+fn edit_distance(a: &[char], b: &str) -> usize {
+    let b: Vec<char> = b.chars().collect();
+    let mut row: Vec<usize> = (0..=b.len()).collect();
+    for (i, ca) in a.iter().enumerate() {
+        let mut diag = row[0];
+        row[0] = i + 1;
+        for j in 1..=b.len() {
+            let up = row[j];
+            row[j] = (diag + usize::from(*ca != b[j - 1])).min(up + 1).min(row[j - 1] + 1);
+            diag = up;
+        }
+    }
+    row[b.len()]
+}
+
 /// The fewest edits turning `pattern` into some substring of `text`
 /// (Sellers' approximate substring match).
 fn substring_distance(text: &str, pattern: &str) -> usize {
@@ -301,7 +317,8 @@ fn plausible(value: &str, expect: Expect) -> bool {
         Expect::Any => true,
         Expect::CountryCode => {
             let n = norm(v);
-            n.len() == 3 && n.chars().all(|c| c.is_ascii_uppercase())
+            // `Sex:` is the card's one label of three capitals.
+            n.len() == 3 && n.chars().all(|c| c.is_ascii_uppercase()) && n != "SEX"
         }
         Expect::Sex => matches!(norm(v).as_str(), "M" | "F"),
         Expect::Date => digits >= 4 && (digits >= 8 || letters == 3),
@@ -366,6 +383,26 @@ pub fn value_above(lines: &[Line], next_labels: &[&str], expect: Expect) -> Opti
         })
         .max_by(|a, b| a.y.total_cmp(&b.y))
         .map(|l| l.text.trim().to_string())
+}
+
+/// The value printed to the right of a label, on the same row: where a
+/// green book's photo page prints its date of birth, beside a label set
+/// in two lines.
+pub fn value_beside(lines: &[Line], labels: &[&str], expect: Expect) -> Option<String> {
+    labels.iter().find_map(|lab| {
+        let label = lines.iter().find(|l| contains_label(&l.text, lab))?;
+        let mid = label.y + label.h / 2.0;
+        lines
+            .iter()
+            .filter(|l| {
+                l.x >= label.x + label.w * 0.8
+                    && (l.y + l.h / 2.0 - mid).abs() < label.h.max(l.h)
+                    && !is_label_like(&l.text)
+                    && plausible(&l.text, expect)
+            })
+            .min_by(|a, b| a.x.total_cmp(&b.x))
+            .map(|l| l.text.trim().to_string())
+    })
 }
 
 const ALL_LABELS: &[&str] = &[
@@ -472,8 +509,8 @@ fn parse_dmy(s: &str) -> Option<(u32, u32, u32)> {
 }
 
 /// Fills the card front's sex and date of birth from a valid identity number
-/// when their print was not read (or the date only in part), and records it
-/// in `derived`. A printed value that was read is never replaced. The
+/// when their print was not read (or the date only in part), and a
+/// citizen's status and nationality, and records each in `derived`. A printed value that was read is never replaced. The
 /// number gives the year without its century: a year after `this_year`
 /// (two digits) is taken as the 1900s.
 pub fn complete_from_id(p: &mut PrintedFields, this_year: u32) {
@@ -481,6 +518,18 @@ pub fn complete_from_id(p: &mut PrintedFields, this_year: u32) {
     if p.sex.is_none() {
         p.sex = Some(id.sex.to_string());
         p.derived.push("sex");
+    }
+    // The number's eleventh digit says a citizen; a smart ID's citizen
+    // holder is `CITIZEN` of nationality `RSA`.
+    if id.citizenship == "citizen" {
+        if p.status.is_none() {
+            p.status = Some("CITIZEN".into());
+            p.derived.push("status");
+        }
+        if p.nationality.is_none() {
+            p.nationality = Some("RSA".into());
+            p.derived.push("nationality");
+        }
     }
     let yy: u32 = id.date_of_birth[0..2].parse().unwrap_or(0);
     let mm: u32 = id.date_of_birth[2..4].parse().unwrap_or(1);
@@ -496,28 +545,149 @@ pub fn complete_from_id(p: &mut PrintedFields, this_year: u32) {
 }
 
 pub fn smart_id_front_fields(lines: &[Line]) -> PrintedFields {
+    let names = value_as(lines, &["Names"], Expect::Name)
+        .or_else(|| value_above(lines, &["Sex", "Nationality"], Expect::Name))
+        .map(|first| match name_continued(lines, &first) {
+            Some(more) => format!("{first} {more}"),
+            None => first,
+        });
     PrintedFields {
-        surname: value_as(lines, &["Surname"], Expect::Name).or_else(|| value_above(lines, &["Names"], Expect::Name)),
-        names: value_as(lines, &["Names"], Expect::Name).or_else(|| value_above(lines, &["Sex"], Expect::Name)),
+        surname: value_as(lines, &["Surname"], Expect::Name).or_else(|| value_above(lines, &["Names"], Expect::Name)).and_then(|v| clean_name(&v)),
+        names: names.and_then(|v| clean_name(&v)),
         sex: value_as(lines, &["Sex"], Expect::Sex),
-        nationality: value_as(lines, &["Nationality"], Expect::CountryCode),
+        // A value whose own label was not read sits above the next label.
+        nationality: value_as(lines, &["Nationality"], Expect::CountryCode)
+            .or_else(|| value_above(lines, &["Identity Number"], Expect::CountryCode)),
         date_of_birth: value_as(lines, &["Date of Birth"], Expect::Date),
-        country_of_birth: value_as(lines, &["Country of Birth"], Expect::CountryCode),
-        status: value_as(lines, &["Status"], Expect::Name),
+        country_of_birth: value_as(lines, &["Country of Birth"], Expect::CountryCode)
+            .or_else(|| value_above(lines, &["Status"], Expect::CountryCode)),
+        status: value_as(lines, &["Status"], Expect::Name).map(|v| snap_status(&v)),
         id_number: lines.iter().find_map(|l| find_id_number(&l.text)),
         derived: Vec::new(),
     }
 }
 
+/// A name as printed: its words of letters, without the stray marks OCR
+/// picks up beside it (a lone letter or digits from the hologram, the
+/// security print or the photo's edge). Hyphens and apostrophes inside a
+/// word are kept. `None` when nothing is left.
+pub fn clean_name(value: &str) -> Option<String> {
+    let mut words: Vec<String> = value
+        .split_whitespace()
+        .filter(|w| !w.chars().any(|c| c.is_ascii_digit()))
+        .map(|w| w.trim_matches(|c: char| !c.is_alphabetic()).to_string())
+        .filter(|w| !w.is_empty())
+        .collect();
+    // A lone letter at either end is a stray mark, not a name: names on
+    // these documents are written in full.
+    while words.last().is_some_and(|w| w.chars().count() == 1) {
+        words.pop();
+    }
+    while words.first().is_some_and(|w| w.chars().count() == 1) {
+        words.remove(0);
+    }
+    (!words.is_empty()).then(|| words.join(" "))
+}
+
+/// The second line of a name too long for one (the card prints it on the
+/// next line, under the first): the line right below `first`, starting
+/// where it starts, in capitals and not a label.
+fn name_continued(lines: &[Line], first: &str) -> Option<String> {
+    let line = lines.iter().find(|l| l.text.trim() == first)?;
+    lines
+        .iter()
+        .filter(|l| {
+            l.y > line.y + line.h * 0.5
+                && l.y < line.y + line.h * 1.8
+                && (l.x - line.x).abs() < line.h * 1.5
+                && !is_label_like(&l.text)
+                && !contains_label(&l.text, "Sex")
+                && !l.text.chars().any(|c| c.is_lowercase())
+                && plausible(&l.text, Expect::Name)
+        })
+        .min_by(|a, b| a.y.total_cmp(&b.y))
+        .map(|l| l.text.trim().to_string())
+}
+
+/// The smart ID's status, `CITIZEN`, through a misread letter or two
+/// (`CITIZE`, `CITEZEN`); anything else is kept as read.
+fn snap_status(value: &str) -> String {
+    let n = norm(value);
+    if n.len().abs_diff(7) <= 2 && substring_distance(&n, "CITIZEN").min(substring_distance("CITIZEN", &n)) <= 2 {
+        "CITIZEN".to_string()
+    } else {
+        value.to_string()
+    }
+}
+
+/// The smart ID front's own labels, each counted once when a line begins
+/// with it. A green book's labels are compound (`VAN/SURNAME`,
+/// `VOORNAME/FORENAMES`, `DISTRICT OR COUNTRY OF BIRTH`) and do not begin
+/// with the card's. The labels are small, light print, and real photos
+/// lose letters of them (`entity Numbe`, `lationaiity`, `Date Or Birtn`):
+/// a label of five letters or more is matched through one error in four.
+pub const SMART_ID_FRONT_LABELS: &[&str] =
+    &["Surname", "Names", "Sex", "Nationality", "Identity Number", "Date of Birth", "Country of Birth", "Status"];
+
+pub fn front_labels(lines: &[Line]) -> usize {
+    SMART_ID_FRONT_LABELS
+        .iter()
+        .filter(|label| {
+            let want = norm(label);
+            let want = fold_confusions(&want);
+            let budget = if want.len() < 5 { 0 } else { want.len() / 4 };
+            lines.iter().any(|l| {
+                let line: Vec<char> = fold_confusions(&norm(&l.text)).chars().collect();
+                // The line's beginning, as long as the label give or take the budget.
+                (want.len().saturating_sub(budget)..=want.len() + budget)
+                    .any(|k| k <= line.len() && edit_distance(&line[..k], &want) <= budget)
+            })
+        })
+        .count()
+}
+
+/// The printed fields the identity number confirms: a date of birth and a
+/// sex that were read (not filled in from the number) and agree with it.
+/// Two readings of the same frame that agree are independent evidence that
+/// the number was read right; the check digit alone catches only most
+/// misreads.
+pub fn confirmed_by_id(p: &PrintedFields) -> Vec<&'static str> {
+    let Some(id) = p.id_number.as_ref().filter(|id| id.luhn_valid && id.date_valid) else { return Vec::new() };
+    let mut out = Vec::new();
+    // `14 MAR 1990` (the card) or `1990-03-14` (the book), as the number's YYMMDD.
+    let yymmdd = |d: &str| -> Option<String> {
+        if let Some((day, month, year)) = parse_dmy(d) {
+            return Some(format!("{:02}{month:02}{day:02}", year % 100));
+        }
+        let digits: String = d.chars().filter(|c| c.is_ascii_digit()).collect();
+        (digits.len() == 8).then(|| digits[2..8].to_string())
+    };
+    if !p.derived.contains(&"date_of_birth") && p.date_of_birth.as_deref().and_then(yymmdd).as_deref() == Some(id.date_of_birth.as_str()) {
+        out.push("date_of_birth");
+    }
+    if !p.derived.contains(&"sex") && p.sex.as_deref().map(norm).as_deref() == Some(id.sex) {
+        out.push("sex");
+    }
+    out
+}
+
+/// The identity number printed on a green book's page (not its barcode's).
+pub fn green_book_printed_number(lines: &[Line]) -> Option<IdNumber> {
+    lines.iter().find_map(|l| find_id_number(&l.text))
+}
+
 pub fn green_book_fields(lines: &[Line]) -> PrintedFields {
     PrintedFields {
         surname: value_as(lines, &["VAN/SURNAME", "SURNAME"], Expect::Name)
-            .or_else(|| value_above(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name)),
+            .or_else(|| value_above(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name))
+            .and_then(|v| clean_name(&v)),
         names: value_as(lines, &["VOORNAME/FORENAMES", "FORENAMES", "VOORNAME"], Expect::Name)
-            .or_else(|| value_above(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"], Expect::Name)),
-        date_of_birth: value_as(lines, &["GEBOORTEDATUM/DATE OF BIRTH", "DATE OF BIRTH"], Expect::Date),
+            .or_else(|| value_above(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"], Expect::Name))
+            .and_then(|v| clean_name(&v)),
+        date_of_birth: value_as(lines, &["GEBOORTEDATUM/DATE OF BIRTH", "DATE OF BIRTH"], Expect::Date)
+            .or_else(|| value_beside(lines, &["GEBOORTEDATUM", "DATE OF BIRTH"], Expect::Date)),
         country_of_birth: value_for(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"]),
-        id_number: lines.iter().find_map(|l| find_id_number(&l.text)),
+        id_number: green_book_printed_number(lines),
         ..Default::default()
     }
 }
@@ -532,9 +702,17 @@ mod tests {
         complete_from_id(&mut p, 2026);
         assert_eq!(p.sex.as_deref(), Some("M"));
         assert_eq!(p.date_of_birth.as_deref(), Some("01 JAN 1980"));
-        assert_eq!(p.derived, ["sex", "date_of_birth"]);
+        assert_eq!(p.derived, ["sex", "status", "nationality", "date_of_birth"]);
+        assert_eq!((p.status.as_deref(), p.nationality.as_deref()), (Some("CITIZEN"), Some("RSA")));
         // Read print stays, even where it disagrees.
-        let mut p = PrintedFields { id_number: parse_id_number("8001015009087"), sex: Some("F".into()), date_of_birth: Some("02 JAN 1980".into()), ..Default::default() };
+        let mut p = PrintedFields {
+            id_number: parse_id_number("8001015009087"),
+            sex: Some("F".into()),
+            date_of_birth: Some("02 JAN 1980".into()),
+            status: Some("CITIZEN".into()),
+            nationality: Some("RSA".into()),
+            ..Default::default()
+        };
         complete_from_id(&mut p, 2026);
         assert_eq!((p.sex.as_deref(), p.date_of_birth.as_deref()), (Some("F"), Some("02 JAN 1980")));
         assert!(p.derived.is_empty());
@@ -609,5 +787,90 @@ mod tests {
         ];
         assert_eq!(value_for(&lines, &["Surname"]).as_deref(), Some("DOE"));
         assert_eq!(value_for(&lines, &["Names"]).as_deref(), Some("JOHN JAMES"));
+    }
+
+    fn at(t: &str, x: f32, y: f32) -> Line {
+        Line { text: t.into(), x, y, w: 200.0, h: 20.0 }
+    }
+
+    /// A real card front as OCR reads it: the header lost, labels missing
+    /// letters, a name wrapped onto a second line, stray marks beside the
+    /// surname, `CITIZEN` misread and the country of birth's label garbled.
+    fn worn_front() -> Vec<Line> {
+        vec![
+            at("Surnama:", 100.0, 100.0),
+            at("DOE P", 100.0, 122.0),
+            at("Names:", 100.0, 150.0),
+            at("JOHN ALEXANDER", 100.0, 172.0),
+            at("JAMES", 100.0, 194.0),
+            at("lationaiity", 100.0, 222.0),
+            at("RSA", 100.0, 244.0),
+            at("entity Numbe", 100.0, 272.0),
+            at("8001015009087", 100.0, 294.0),
+            at("Date of Birth:", 100.0, 322.0),
+            at("01 JAN 1980", 100.0, 344.0),
+            at("Couy of Brt", 100.0, 372.0),
+            at("RSA", 100.0, 394.0),
+            at("Status:", 100.0, 422.0),
+            at("CITIZE", 100.0, 444.0),
+            at("Sex:", 400.0, 372.0),
+            at("M", 400.0, 394.0),
+        ]
+    }
+
+    #[test]
+    fn worn_front_fields() {
+        let lines = worn_front();
+        assert!(front_labels(&lines) >= 5);
+        let mut p = smart_id_front_fields(&lines);
+        complete_from_id(&mut p, 2026);
+        assert_eq!(p.surname.as_deref(), Some("DOE"));
+        assert_eq!(p.names.as_deref(), Some("JOHN ALEXANDER JAMES"));
+        assert_eq!(p.status.as_deref(), Some("CITIZEN"));
+        assert_eq!(p.country_of_birth.as_deref(), Some("RSA"));
+        assert_eq!(p.sex.as_deref(), Some("M"));
+        // Both labels around the nationality are garbled: a citizen's is RSA.
+        assert_eq!((p.nationality.as_deref(), p.derived.as_slice()), (Some("RSA"), ["nationality"].as_slice()));
+        assert_eq!(confirmed_by_id(&p), ["date_of_birth", "sex"]);
+        // A date that disagrees with the number confirms nothing.
+        p.date_of_birth = Some("02 JAN 1980".into());
+        assert_eq!(confirmed_by_id(&p), ["sex"]);
+    }
+
+    #[test]
+    fn names_without_stray_marks() {
+        assert_eq!(clean_name("DOE P").as_deref(), Some("DOE"));
+        assert_eq!(clean_name("JOHN JAMES 9").as_deref(), Some("JOHN JAMES"));
+        assert_eq!(clean_name("I VAN DER MERWE.").as_deref(), Some("VAN DER MERWE"));
+        assert_eq!(clean_name("O'NEILL-SMITH").as_deref(), Some("O'NEILL-SMITH"));
+        assert_eq!(clean_name("1 2"), None);
+    }
+
+    #[test]
+    fn green_book_date_beside_its_label() {
+        // The photo page prints the date to the right of its two-line label.
+        let lines = vec![
+            at("VAN/SURNAME", 100.0, 100.0),
+            at("DOE", 100.0, 122.0),
+            at("1980-01-01", 330.0, 196.0),
+            at("GEBOORTEDATUM", 100.0, 205.0),
+            at("DATE OF BIRTH", 100.0, 220.0),
+            at("DATUM UITGEREIK", 320.0, 245.0),
+            at("DATE ISSUED", 320.0, 262.0),
+            at("2001-06-23", 330.0, 284.0),
+        ];
+        assert_eq!(green_book_fields(&lines).date_of_birth.as_deref(), Some("1980-01-01"));
+    }
+
+    #[test]
+    fn book_labels_are_not_card_labels() {
+        let lines = vec![
+            at("VAN/SURNAME", 100.0, 100.0),
+            at("VOORNAME/FORENAMES", 100.0, 150.0),
+            at("GEBOORTEDISTRIK OF-LAND/", 100.0, 200.0),
+            at("DISTRICT OR COUNTRY OF BIRTH", 100.0, 220.0),
+            at("GEBOORTEDATUM/DATE OF BIRTH", 100.0, 260.0),
+        ];
+        assert_eq!(front_labels(&lines), 0);
     }
 }
