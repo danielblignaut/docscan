@@ -322,8 +322,18 @@ fn plausible(value: &str, expect: Expect) -> bool {
         }
         Expect::Sex => matches!(norm(v).as_str(), "M" | "F"),
         Expect::Date => digits >= 4 && (digits >= 8 || letters == 3),
-        Expect::Name => letters >= 2 && digits <= 1,
+        // Stray marks alone (`I I`, a lone letter beside a dash) are no name.
+        Expect::Name => letters >= 2 && digits <= 1 && clean_name(v).is_some(),
     }
+}
+
+/// Whether `l` starts in the column `label` starts: near its left edge. A
+/// country code (three capitals, a strict shape) may also be read as part of
+/// a box that starts further left, over the card's photo, and runs into the
+/// column: the recogniser drops the photo's marks but keeps the box.
+fn in_column(l: &Line, label: &Line, expect: Expect) -> bool {
+    (l.x - label.x).abs() < label.h * 3.0
+        || (matches!(expect, Expect::CountryCode) && l.x < label.x && l.x + l.w > label.x + label.h)
 }
 
 /// The value printed for a label: the rest of the label's line when it
@@ -346,9 +356,12 @@ pub fn value_as(lines: &[Line], labels: &[&str], expect: Expect) -> Option<Strin
         let mut below: Vec<&Line> = lines
             .iter()
             .filter(|l| {
-                l.y > line.y + line.h * 0.5
+                // Below the label: its top past the label's middle, or (a
+                // value in larger print, whose box starts level with the
+                // small label) its middle past the label's foot.
+                (l.y > line.y + line.h * 0.5 || l.y + l.h * 0.5 > line.y + line.h)
                     && l.y < line.y + line.h * 4.5
-                    && (l.x - line.x).abs() < line.h * 3.0
+                    && in_column(l, line, expect)
             })
             .collect();
         below.sort_by(|a, b| a.y.total_cmp(&b.y));
@@ -377,7 +390,7 @@ pub fn value_above(lines: &[Line], next_labels: &[&str], expect: Expect) -> Opti
         .filter(|l| {
             l.y + l.h <= label.y + label.h * 0.3
                 && l.y >= label.y - label.h * 2.5
-                && (l.x - label.x).abs() < label.h * 3.0
+                && in_column(l, label, expect)
                 && !is_label_like(&l.text)
                 && plausible(&l.text, expect)
         })
@@ -560,7 +573,9 @@ pub fn smart_id_front_fields(lines: &[Line]) -> PrintedFields {
             .or_else(|| value_above(lines, &["Identity Number"], Expect::CountryCode)),
         date_of_birth: value_as(lines, &["Date of Birth"], Expect::Date),
         country_of_birth: value_as(lines, &["Country of Birth"], Expect::CountryCode)
-            .or_else(|| value_above(lines, &["Status"], Expect::CountryCode)),
+            .or_else(|| value_above(lines, &["Status"], Expect::CountryCode))
+            // Both labels lost: the code printed above the status itself.
+            .or_else(|| value_above(lines, &["CITIZEN"], Expect::CountryCode)),
         status: value_as(lines, &["Status"], Expect::Name).map(|v| snap_status(&v)),
         id_number: lines.iter().find_map(|l| find_id_number(&l.text)),
         derived: Vec::new(),
@@ -671,6 +686,24 @@ pub fn confirmed_by_id(p: &PrintedFields) -> Vec<&'static str> {
     out
 }
 
+/// A green book's date as printed, `YYYY-MM-DD`, read through misread
+/// separators: real pages print small dashes that OCR reads as a digit or a
+/// letter (`1980101-01`). Ten characters with digits everywhere but the two
+/// separators' places are that date, when it is a real one; anything else is
+/// kept as read.
+fn book_date(value: &str) -> String {
+    let c: Vec<char> = value.trim().chars().collect();
+    let digits_at = |r: std::ops::Range<usize>| r.clone().all(|i| c[i].is_ascii_digit());
+    if c.len() == 10 && digits_at(0..4) && digits_at(5..7) && digits_at(8..10) && !(c[4].is_ascii_digit() && c[7].is_ascii_digit()) {
+        let s: String = c.iter().collect();
+        let (y, m, d): (u32, u32, u32) = (s[0..4].parse().unwrap(), s[5..7].parse().unwrap(), s[8..10].parse().unwrap());
+        if (1900..=2100).contains(&y) && (1..=12).contains(&m) && (1..=31).contains(&d) {
+            return format!("{}-{}-{}", &s[0..4], &s[5..7], &s[8..10]);
+        }
+    }
+    value.trim().to_string()
+}
+
 /// The identity number printed on a green book's page (not its barcode's).
 pub fn green_book_printed_number(lines: &[Line]) -> Option<IdNumber> {
     lines.iter().find_map(|l| find_id_number(&l.text))
@@ -685,7 +718,8 @@ pub fn green_book_fields(lines: &[Line]) -> PrintedFields {
             .or_else(|| value_above(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"], Expect::Name))
             .and_then(|v| clean_name(&v)),
         date_of_birth: value_as(lines, &["GEBOORTEDATUM/DATE OF BIRTH", "DATE OF BIRTH"], Expect::Date)
-            .or_else(|| value_beside(lines, &["GEBOORTEDATUM", "DATE OF BIRTH"], Expect::Date)),
+            .or_else(|| value_beside(lines, &["GEBOORTEDATUM", "DATE OF BIRTH"], Expect::Date))
+            .map(|d| book_date(&d)),
         country_of_birth: value_for(lines, &["GEBOORTEDISTRIK OF-LAND", "COUNTRY OF BIRTH"]),
         id_number: green_book_printed_number(lines),
         ..Default::default()
@@ -860,6 +894,52 @@ mod tests {
             at("2001-06-23", 330.0, 284.0),
         ];
         assert_eq!(green_book_fields(&lines).date_of_birth.as_deref(), Some("1980-01-01"));
+    }
+
+    #[test]
+    fn values_past_stray_marks_and_in_larger_print() {
+        // Stray marks beside the label are no surname: the name below is.
+        let lines = vec![at("Surname: I I", 100.0, 100.0), at("-", 100.0, 118.0), at("DOE", 100.0, 136.0), at("Names", 100.0, 170.0)];
+        assert_eq!(smart_id_front_fields(&lines).surname.as_deref(), Some("DOE"));
+        // A book's forenames, in print larger than the small label above
+        // them, start level with the label's middle.
+        let small = |t: &str, x: f32, y: f32, h: f32| Line { text: t.into(), x, y, w: 200.0, h };
+        let lines = vec![
+            small("SURNAME", 70.0, 184.0, 15.0),
+            small("DOE", 70.0, 199.0, 25.0),
+            small("FORENAMES", 70.0, 265.0, 15.0),
+            small("JOHN JAMES", 35.0, 272.0, 39.0),
+            small("COUNTRY OF BIRTH", 70.0, 344.0, 17.0),
+        ];
+        assert_eq!(green_book_fields(&lines).names.as_deref(), Some("JOHN JAMES"));
+    }
+
+    #[test]
+    fn country_of_birth_without_its_labels_or_beside_the_photo() {
+        let lines = vec![
+            at("Date of Birth", 250.0, 390.0),
+            at("01 JAN 1980", 250.0, 415.0),
+            at("RSA", 250.0, 466.0),
+            at("CITIZEN", 250.0, 514.0),
+        ];
+        assert_eq!(smart_id_front_fields(&lines).country_of_birth.as_deref(), Some("RSA"));
+        // A box running in from the photo, on the left, into the label's column.
+        let wide = Line { text: "RSA".into(), x: 67.0, y: 440.0, w: 373.0, h: 38.0 };
+        let lines = vec![at("Country of Birth:", 240.0, 415.0), wide, at("Status:", 240.0, 464.0)];
+        assert_eq!(smart_id_front_fields(&lines).country_of_birth.as_deref(), Some("RSA"));
+        // A name never comes from such a box.
+        let wide = Line { text: "DOE".into(), x: 67.0, y: 440.0, w: 373.0, h: 20.0 };
+        assert_eq!(value_as(&[at("Surname", 240.0, 415.0), wide], &["Surname"], Expect::Name), None);
+    }
+
+    #[test]
+    fn book_dates_through_misread_dashes() {
+        assert_eq!(book_date("1980101-01"), "1980-01-01");
+        assert_eq!(book_date("1980-01S01"), "1980-01-01");
+        assert_eq!(book_date("1980-01-01"), "1980-01-01");
+        // Both dashes read as digits, or an impossible month: kept as read.
+        assert_eq!(book_date("1980101101"), "1980101101");
+        assert_eq!(book_date("1980-13-01"), "1980-13-01");
     }
 
     #[test]
