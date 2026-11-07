@@ -414,12 +414,55 @@ Changes (`za.rs`, `mrz.rs`):
 - A manual photo is often black or blurred; a host could refuse one whose
   sharpness is far below its own OCR gate.
 
+## Round five: a passport in one frame
+
+A production passport capture on an iPhone took 5 frames in 31.5 s: about
+6.5 s an OCR pass, and three accepted readings before two were the same
+(their MRZ lines differed only in a filler read as a letter beside the
+document code). Profiled on 10 DEV passport frames (native, one core, CPU
+time), an OCR frame was 4.6 s: detection 0.93 s, the 26 ordinary lines'
+recognition 2.4 s, the two MRZ lines 0.9 s, the barcode readers 0.2 s; in
+headless Chrome the recognition is about 60% of the frame.
+
+1. **`confirmed` for an MRZ.** Accepted, and every word of its names is
+   among the page's printed words (`mrz::names_in_print`): the check digits
+   cover every field but the names, so two readers of different print
+   agreeing on them stands in for a second frame.
+2. **Names first.** A passport page (`Expected::Passport`) whose MRZ
+   already checks out recognises its other lines tallest first, six at a
+   time, and stops once they confirm the names (values are printed larger
+   than their captions). A passport they never confirm, or any other page,
+   has every line recognised, as before. `lines` then holds only the lines
+   read.
+3. **No barcode readers on a passport page.**
+
+On every DEV passport frame (`id_hard_dev` and the camera stills, 234
+frames, expected kind `passport`):
+
+| | before | after |
+|---|---|---|
+| accepted (semantically wrong) | 178 (3) | 178 (3), the same readings |
+| `confirmed` (semantically wrong) | 0 | 176 (1) |
+| lines recognised per confirmed frame | 26 | 6-18, mostly 12 |
+| OCR frame, native one core | 4.6 s | 3.0 s |
+| OCR frame, headless Chrome (min of 3, median of 6) | 8.0-9.1 s | 4.8-5.0 s |
+| frame without OCR, headless Chrome | 180-340 ms | 70 ms |
+
+The one wrong confirmed reading is a low-resolution frame whose MRZ and
+print both lost the same letter of the surname; two frames of it would
+agree too. The two wrong accepted readings not confirmed are caught by the
+names check.
+
+Building the wasm with `wasm-opt -O3` (binaryen 133, run after
+`wasm-pack build --no-opt`) gives identical ID and face results, a third
+smaller file (7.4 to 5.3 MB) and a third the OCR models' load time; the
+frames themselves are within noise. Relaxed SIMD
+(`+relaxed-simd`, Chrome only) was within noise too, and not kept.
+
 ## Next
 
-- A host's capture rule: capture on `confirmed` (one frame) rather than two
-  identical readings, where the OCR pass takes seconds.
-- Skip the barcode readers entirely when the page asked for a card front or
-  a passport and the frame shows no wide bars (the demo's per-frame fast
+- Skip the barcode readers entirely when the page asked for a card front
+  and the frame shows no wide bars (the demo's per-frame fast
   pass; the bench times frames with no expected kind, so only the clips
   would show it).
 - Outline misses that remain: overexposed white cards on white desks.

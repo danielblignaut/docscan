@@ -231,6 +231,16 @@ pub fn split_names_by_print(m: &mut Mrz, printed: &[String]) {
     }
 }
 
+/// Whether every word of the MRZ's names is printed on the page too (`vocab`, the page's
+/// words upper-cased, as [`crate::za::words`] gives them). The check digits cover every
+/// field but the names; spelled the same by two readers of different print, they need no
+/// second frame. A name the MRZ truncated, or a one-letter word, does not confirm.
+pub fn names_in_print(m: &Mrz, vocab: &std::collections::HashSet<String>) -> bool {
+    let names = format!("{} {}", m.surname, m.given_names);
+    let mut words = names.split(|c: char| !c.is_ascii_alphabetic()).filter(|w| !w.is_empty()).peekable();
+    words.peek().is_some() && words.all(|w| vocab.contains(w))
+}
+
 fn names(field: &str) -> (String, String) {
     let field = alpha(field);
     let mut parts = field.splitn(2, "<<");
@@ -645,6 +655,16 @@ mod tests {
         repair_names(&mut m, &vocab);
         assert_eq!(m.surname, "UK SPECIMEN");
         assert_eq!(m.given_names, "ANGELA ZOE");
+    }
+
+    #[test]
+    fn names_confirmed_only_when_every_word_is_printed() {
+        let m = parse_td3("P<GBRUK<SPECIMEN<<ANGELA<ZOE<<<<<<<<<<<<<<<<", "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06").unwrap();
+        let vocab = |words: &[&str]| words.iter().map(|s| s.to_string()).collect();
+        assert!(names_in_print(&m, &vocab(&["UK", "SPECIMEN", "ANGELA", "ZOE", "BRITISH"])));
+        // A given name the print does not spell the same way, or no print at all.
+        assert!(!names_in_print(&m, &vocab(&["UK", "SPECIMEN", "ANGELA", "Z0E"])));
+        assert!(!names_in_print(&m, &vocab(&[])));
     }
 
     #[test]

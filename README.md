@@ -132,7 +132,8 @@ whole outline in view, and two identical readings, before capturing.
 `confirmed` marks an accepted reading that one frame already cross-checks
 (a smart ID front's printed date of birth and sex agree with its ID number;
 a green book's printed number agrees with its barcode, or its date of birth
-with the number): a host whose OCR pass is slow (a phone, single-threaded)
+with the number; an MRZ whose check digits pass spells its names as the
+page prints them): a host whose OCR pass is slow (a phone, single-threaded)
 may capture on it without waiting for a second identical reading. See
 [round three](docs/improvements-id.md#round-three-real-documents).
 
