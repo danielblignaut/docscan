@@ -330,6 +330,90 @@ frames, x1.3 and x1.5).
 - **Six lines of aspect up to 20**: the check cost nearly a whole pass
   where it did not save one (an upside-down passport x1.45).
 
+## Round four: the till's own captures
+
+The ID captures a till (FARO Connect) stored in production and in its DEV
+environment, read locally with the owner's permission and never committed:
+production 30 smart ID fronts, 1 green book, 30 card backs and 2 passports;
+DEV 14 fronts, 9 green books, 12 backs and 15 passports. Most were the
+manual photos the till took after 15 s without a capture. Each was scanned
+the way the till scans it (the page's expected kind, at most 1280 px wide,
+backs without OCR, one process per frame), as stored and in five light
+camera conditions (640 px, blur, JPEG 35, 4 degree tilt, dim; a book also
+half turned). Truth: the ID number and date of birth the till recorded; a
+card's names, nationality, country of birth and status from the PDF417 on
+the same sale's back where one reads (8 production sales); otherwise the
+names the till recorded (weaker: often a machine reading). Only aggregates
+are reported.
+
+**What the captures are.** Many cannot be read at all: in production 11 of
+30 fronts are black, motion-blurred or tiny uploads (no reader, in any turn,
+finds the card's labels), and 4 of 30 back photos show the card's front. In
+DEV, 1 of 14 fronts, none of the 9 books and none of the 12 backs show a
+readable document (test photos); 14 of 15 passports do. The numbers below
+are on the readable production fronts (19 images, 114 frames) unless noted.
+
+| Production smart ID fronts (readable) | 0526c5d | 8bdc6f6 | this change |
+|---|---|---|---|
+| right kind | 98% | 98% | 98% |
+| accepted, with the outline the till needs | 76% | 76% | 77% |
+| accepted with every field right | 61% | 79% | **82%** |
+| accepted with a field misread | 18% | 1% | 1% |
+| accepted with a field not exact (bench rule) | 26% | 7% | **5%** |
+| `confirmed` / of them with a field misread | - | 63% / 0 | 65% / 0 |
+| country of birth exact | 79% | 82% | **88%** |
+| names exact | 82% | 90% | 90% |
+| OCR passes per frame | 1.02 | 1.01 | 1.01 |
+
+The production green book (7 frames): 0526c5d never read it as a book;
+8bdc6f6 does on 7 of 7, accepting 3. This change reads its date of birth
+through a misread dash (exact 57 → 86%), and accepted-with-a-misread falls
+2 → 1 of 7 (the remaining one is the forenames, which nothing cross-checks).
+DEV passports (84 frames): accepted with a misread field 19 → **12%**,
+given names exact 64 → 74%, from the MRZ's filler run no longer read as a
+name. Card backs are unchanged: of the real backs' sharp photos whose PDF417
+docscan does not read, an independent reader (zxing-cpp) reads none either.
+
+Timing, interleaved on one pinned core, 30 production fronts three times:
+median per-frame ratio 0.99 (quartiles 0.95-1.03) against 8bdc6f6, which is
+itself 0.94 against 0526c5d.
+
+`id_hard_dev` screened with the page's expected kind (540 frames, as in
+round three) and the bench (`--suite id --no-wasm`, 8bdc6f6 and this change
+side by side; compare.py: **no change**, all 14 metrics identical or within
+noise) are unchanged: the synthetic documents never show these misreads.
+
+Changes (`za.rs`, `mrz.rs`):
+
+1. A name is never stray marks alone (`I I` beside the label): the line
+   below the label is read instead.
+2. A value in larger print than its small label (a book's forenames) is
+   below the label when its middle is past the label's foot.
+3. A book's date of birth reads through dashes misread as a digit or a
+   letter (`1980101-01`), when the result is a real date.
+4. A card's country of birth is read above `CITIZEN` when both its labels
+   are lost, and (a three-capital code only) from a box that runs in from
+   the photo into the label's column.
+5. After the given names' `<<`, words made only of the filler's look-alikes
+   (`<<CC<<<`, `<<<<S<<C<<`) are the filler run, not names.
+
+### Measured and not kept (round four)
+
+- **Names from boxes running in from the photo** (as for the country of
+  birth): one blurred frame's surname, but a photo's marks read as letters
+  could then become a name. Only the strict three-capital code takes it.
+
+### What the till's captures say to a host
+
+- 3 of the 19 readable production fronts, as captured, have no outline: the
+  card fills the guide's crop (8% margin), so its edges are at the frame's
+  border. Padding the frame finds the outline on all three (two are then
+  accepted at once). A wider crop margin, or a "move back" hint, would let
+  them capture.
+- A back page shown the card's front cannot tell (it runs no OCR).
+- A manual photo is often black or blurred; a host could refuse one whose
+  sharpness is far below its own OCR gate.
+
 ## Next
 
 - A host's capture rule: capture on `confirmed` (one frame) rather than two
