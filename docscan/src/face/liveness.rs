@@ -9,7 +9,8 @@
 //! 2. **sweep**: the ring of `segments` around the guide. The direction the
 //!    face points, relative to neutral and as seen in the mirrored preview,
 //!    lights the segment it points at once it is at least `min_angle` off
-//!    neutral.
+//!    neutral. It ends once `coverage` is lit or, with `stall_ms`, goes on
+//!    round the rest of the ring until it is all lit or stalls.
 //! 3. **finish**: facing the camera again for a few frames.
 //!
 //! The checks, scored over the whole session:
@@ -51,8 +52,12 @@ use super::recognise;
 pub struct Config {
     /// Ring segments.
     pub segments: usize,
-    /// Share of the segments to light before finishing.
+    /// Share of the segments to light before finishing (and to pass).
     pub coverage: f32,
+    /// Once `coverage` is lit, go on round the rest of the ring until every
+    /// segment is lit, or none has been newly lit for this long (ms); 0
+    /// finishes as soon as `coverage` is lit.
+    pub stall_ms: f64,
     /// Degrees off neutral that light a segment.
     pub min_angle: f32,
     /// The preview is mirrored (a front camera): the ring follows the mirror.
@@ -93,6 +98,7 @@ impl Default for Config {
         Config {
             segments: 12,
             coverage: 1.0,
+            stall_ms: 0.0,
             min_angle: 14.0,
             mirrored: true,
             guide: [0.5, 0.5, 0.25],
@@ -279,6 +285,8 @@ pub struct Session {
     turned: usize,
     /// The segment the last frame lit, and when (cleared by a frame that lit none).
     last_lit: Option<(usize, f64)>,
+    /// When a segment was last newly lit.
+    last_new: f64,
 }
 
 /// Blink detection against the person's own, recent open-eye aspect ratio.
@@ -401,6 +409,7 @@ impl Session {
             outliers: Vec::new(),
             turned: 0,
             last_lit: None,
+            last_new: 0.0,
         }
     }
 
@@ -408,8 +417,18 @@ impl Session {
         self.phase
     }
 
+    fn lit(&self) -> usize {
+        self.segments.iter().filter(|s| **s).count()
+    }
+
     fn coverage(&self) -> f32 {
-        self.segments.iter().filter(|s| **s).count() as f32 / self.segments.len() as f32
+        self.lit() as f32 / self.segments.len() as f32
+    }
+
+    /// Whether the sweep is over: `coverage` is lit, and the whole ring is, or
+    /// no segment has been newly lit for `stall_ms`.
+    fn swept(&self, ts: f64) -> bool {
+        self.coverage() >= self.config.coverage - 1e-6 && (self.lit() == self.segments.len() || ts - self.last_new >= self.config.stall_ms)
     }
 
     /// Lights a segment. A head turning past one segment between two frames
@@ -417,6 +436,7 @@ impl Session {
     /// between two lit by consecutive frames is lit too.
     fn light(&mut self, seg: usize, ts: f64) {
         let n = self.segments.len();
+        let before = self.lit();
         self.segments[seg] = true;
         if let Some((prev, _)) = self.last_lit.filter(|l| ts - l.1 <= GAP_FILL_MS) {
             if (seg + n - prev) % n == 2 {
@@ -426,6 +446,9 @@ impl Session {
             }
         }
         self.last_lit = Some((seg, ts));
+        if self.lit() > before {
+            self.last_new = ts;
+        }
     }
 
     /// The screen direction of a pose relative to neutral: degrees right, up.
@@ -617,7 +640,7 @@ impl Session {
                     self.last_lit = None;
                 }
                 self.samples.push(sample);
-                if self.coverage() >= self.config.coverage - 1e-6 {
+                if self.swept(ts) {
                     self.phase = Phase::Finish;
                     self.good_run = 0;
                     hint = "Now look straight at the camera".into();
@@ -762,7 +785,7 @@ impl Session {
             required: true,
             score: coverage,
             threshold: c.coverage,
-            detail: format!("{} of {} segments", self.segments.iter().filter(|s| **s).count(), self.segments.len()),
+            detail: format!("{} of {} segments", self.lit(), self.segments.len()),
         });
         let par = self.parallax();
         let planar = self.planarity();
@@ -973,6 +996,34 @@ mod tests {
         swing.push(0.05);
         swing.extend([0.3; 3]);
         assert_eq!(blinks(&swing, |i| if i < 9 { [0.0, 0.0] } else { [25.0, 0.0] }), 0);
+    }
+
+    #[test]
+    fn with_stall_ms_the_sweep_goes_round_the_whole_ring_until_it_stalls() {
+        let mut session = Session::new(Config { coverage: 0.75, stall_ms: 5_000.0, ..Config::default() });
+        for seg in 0..9 {
+            session.light(seg, seg as f64 * 1_000.0);
+        }
+        // Nine of twelve lit: enough to pass, but the ring goes on.
+        assert!(!session.swept(8_000.0));
+        session.light(9, 10_000.0);
+        // A segment lit again is not progress.
+        session.light(3, 14_000.0);
+        assert!(!session.swept(14_999.0));
+        // None newly lit for `stall_ms`: over, ten of twelve lit.
+        assert!(session.swept(15_000.0));
+        // The whole ring lit ends it at once.
+        session.light(10, 15_000.0);
+        session.light(11, 15_400.0);
+        assert!(session.swept(15_400.0));
+        // Without `stall_ms` the sweep ends as `coverage` is lit.
+        let mut quick = Session::new(Config { coverage: 0.75, ..Config::default() });
+        for seg in 0..8 {
+            quick.light(seg, seg as f64 * 1_000.0);
+        }
+        assert!(!quick.swept(8_000.0));
+        quick.light(8, 8_000.0);
+        assert!(quick.swept(8_000.0));
     }
 
     #[test]
