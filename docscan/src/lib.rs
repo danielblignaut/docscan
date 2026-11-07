@@ -109,8 +109,10 @@ pub struct DocumentResult {
     /// capture need not wait for a second frame to read it the same: a
     /// smart ID front whose printed date of birth and sex agree with its
     /// ID number, or a green book whose printed number agrees with its
-    /// barcode or its printed date of birth with the number. The names are
-    /// read once either way; nothing checks them.
+    /// barcode or its printed date of birth with the number, or an MRZ
+    /// whose check digits pass and whose names the page prints the same
+    /// way ([`mrz::names_in_print`]). A card's or book's names are read once
+    /// either way; nothing checks them.
     pub confirmed: bool,
     /// Physical originality is separate from readable/self-consistent fields.
     /// Unknown is serialized as null, never treated as an original document.
@@ -566,7 +568,7 @@ impl Scanner {
     /// on white of the machine-readable zone.
     pub fn ocr_planes(&self, ink: &[u8], luma: &[u8], w: usize, h: usize) -> anyhow::Result<OcrOutput> {
         let page = self.level_page(ink, luma, w, h)?;
-        self.read_turned(&page, 0)
+        self.read_turned(&page, 0, false)
     }
 
     /// The page levelled by its estimated skew, with its words detected
@@ -594,7 +596,7 @@ impl Scanner {
 
     /// Reads a levelled page turned by `quarters` (clockwise), with the
     /// words found upright turned with it.
-    fn read_turned(&self, page: &LevelledPage, quarters: u8) -> anyhow::Result<OcrOutput> {
+    fn read_turned(&self, page: &LevelledPage, quarters: u8, names_first: bool) -> anyhow::Result<OcrOutput> {
         let ocr = self.ocr.as_ref().ok_or_else(|| anyhow::anyhow!("OCR models not loaded"))?;
         let (img, lw, lh) = geometry::rotate_quarters(&page.ink, page.w, page.h, quarters);
         let input = ocr.prepare_input(ImageSource::from_bytes(&img, (lw as u32, lh as u32))?)?;
@@ -636,66 +638,79 @@ impl Scanner {
                 _ => ordinary.push(i),
             }
         }
-        let rects: Vec<Vec<rten_imageproc::RotatedRect>> = ordinary.iter().map(|&i| line_rects[i].clone()).collect();
-        let texts = ocr.recognize_text(&input, &rects)?;
-
+        // A passport whose MRZ checks out needs the print only to confirm its
+        // names (`mrz_confirmed`): its other lines are recognised tallest first
+        // (the page prints its values larger than their captions), a few at a
+        // time, until they do. Anything else, or a passport they never confirm,
+        // has every line recognised.
+        let names_first = names_first && mrz::find_mrz(&finish_mrz(&mut decoded, &[], &[])).is_some_and(|m| m.checks.all());
+        let batches: Vec<Vec<usize>> = if names_first {
+            let height = |i: usize| rten_imageproc::bounding_rect(line_rects[i].iter()).map_or(0.0, |b| b.height());
+            let mut tallest = ordinary.clone();
+            tallest.sort_by(|&a, &b| height(b).total_cmp(&height(a)));
+            tallest.chunks(NAMES_FIRST_LINES).map(<[usize]>::to_vec).collect()
+        } else {
+            vec![ordinary]
+        };
         let mut placed = Vec::new();
         let mut stray_mrz = Vec::new();
-        for (k, text) in texts.iter().enumerate() {
-            let Some(text) = text else { continue };
-            let s = text.to_string();
-            if mrz::looks_like_mrz(&s) {
-                // An MRZ line not shaped like one (a poor outline, a tilt):
-                // decoded as the others are when the direct model can.
-                match read_mrz(&line_rects[ordinary[k]])? {
-                    Some((_, Some(d))) => decoded.push((ordinary[k], d)),
-                    _ => stray_mrz.push((ordinary[k], s)),
-                }
-                continue;
-            }
-            for word in text.words() {
-                let r = word.bounding_rect();
-                let mut word_text = word.to_string();
-                // `?` is the recogniser's "unsure": in a word of capitals (a
-                // name, often crossed by a coloured overprint) read the word
-                // again with the alphabet restricted to capitals.
-                if word_text.contains('?')
-                    && word_text.chars().filter(|c| c.is_ascii_uppercase()).count() * 2 >= word_text.chars().count()
-                    && let Some(rec) = self.rec_model.as_ref()
-                {
-                    let pad = 2.0;
-                    let rect = rten_imageproc::RotatedRect::from_rect(rten_imageproc::RectF::from_tlbr(
-                        r.top() as f32 - pad,
-                        r.left() as f32 - pad,
-                        r.bottom() as f32 + pad,
-                        r.right() as f32 + pad,
-                    ));
-                    let img = ocr.prepare_recognition_input(&input, &[rect])?;
-                    let [ih, iw] = img.shape();
-                    let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
-                    let again = mrz_decode::greedy_restricted(out.slice((.., 0, ..)), "ABCDEFGHIJKLMNOPQRSTUVWXYZ-'");
-                    if !again.is_empty() {
-                        word_text = again;
+        for batch in batches {
+            let rects: Vec<Vec<rten_imageproc::RotatedRect>> = batch.iter().map(|&i| line_rects[i].clone()).collect();
+            let texts = ocr.recognize_text(&input, &rects)?;
+            for (k, text) in texts.iter().enumerate() {
+                let Some(text) = text else { continue };
+                let s = text.to_string();
+                if mrz::looks_like_mrz(&s) {
+                    // An MRZ line not shaped like one (a poor outline, a tilt):
+                    // decoded as the others are when the direct model can.
+                    match read_mrz(&line_rects[batch[k]])? {
+                        Some((_, Some(d))) => decoded.push((batch[k], d)),
+                        _ => stray_mrz.push((batch[k], s)),
                     }
+                    continue;
                 }
-                placed.push(za::Line {
-                    text: word_text,
-                    x: r.left() as f32,
-                    y: r.top() as f32,
-                    w: r.width() as f32,
-                    h: r.height() as f32,
-                });
+                for word in text.words() {
+                    let r = word.bounding_rect();
+                    let mut word_text = word.to_string();
+                    // `?` is the recogniser's "unsure": in a word of capitals (a
+                    // name, often crossed by a coloured overprint) read the word
+                    // again with the alphabet restricted to capitals.
+                    if word_text.contains('?')
+                        && word_text.chars().filter(|c| c.is_ascii_uppercase()).count() * 2 >= word_text.chars().count()
+                        && let Some(rec) = self.rec_model.as_ref()
+                    {
+                        let pad = 2.0;
+                        let rect = rten_imageproc::RotatedRect::from_rect(rten_imageproc::RectF::from_tlbr(
+                            r.top() as f32 - pad,
+                            r.left() as f32 - pad,
+                            r.bottom() as f32 + pad,
+                            r.right() as f32 + pad,
+                        ));
+                        let img = ocr.prepare_recognition_input(&input, &[rect])?;
+                        let [ih, iw] = img.shape();
+                        let out: rten_tensor::NdTensor<f32, 3> = rec.run_one(img.into_shape([1, 1, ih, iw]).view().into(), None)?.try_into()?;
+                        let again = mrz_decode::greedy_restricted(out.slice((.., 0, ..)), "ABCDEFGHIJKLMNOPQRSTUVWXYZ-'");
+                        if !again.is_empty() {
+                            word_text = again;
+                        }
+                    }
+                    placed.push(za::Line {
+                        text: word_text,
+                        x: r.left() as f32,
+                        y: r.top() as f32,
+                        w: r.width() as f32,
+                        h: r.height() as f32,
+                    });
+                }
+            }
+            if names_first {
+                let lines = za::rows_from_words(placed.clone());
+                if mrz_with_print(&finish_mrz(&mut decoded, &stray_mrz, &placed), &lines).is_some_and(|m| mrz_confirmed(&m, &lines)) {
+                    break;
+                }
             }
         }
-        let vocab = za::words(&placed);
-        // In reading order: the MRZ's lines are paired by position.
-        decoded.sort_by_key(|(i, _)| *i);
-        let mut ds: Vec<mrz_decode::Decoded> = decoded.iter().map(|(_, d)| d.clone()).collect();
-        mrz_decode::finish_lines(&mut ds, &vocab);
-        let mut lines_in_order: Vec<(usize, String)> = decoded.iter().map(|(i, _)| *i).zip(ds.into_iter().map(|d| d.text)).collect();
-        lines_in_order.extend(stray_mrz);
-        lines_in_order.sort_by_key(|(i, _)| *i);
-        let mrz_texts: Vec<String> = lines_in_order.into_iter().map(|(_, s)| s).collect();
+        let mrz_texts = finish_mrz(&mut decoded, &stray_mrz, &placed);
         Ok(OcrOutput { lines: za::rows_from_words(placed.clone()), words: placed, mrz: mrz_texts, skew: page.skew })
     }
 
@@ -1248,24 +1263,29 @@ impl Scanner {
         };
         let t1 = now();
 
-        let formats: Vec<String> = barcode::ID_FORMATS.iter().map(|s| s.to_string()).collect();
-        let mut barcodes = barcode::read_all(work, ww as u32, wh as u32, Some(&formats));
-        if flat.is_some() && !barcodes.iter().any(|b| b.format == "pdf417") && idback::frame_has_wide_bars(&luma, w, h) {
-            // A wrong outline must not cost a barcode the raw frame would give.
-            // (Only when the frame shows a patch of bars that could be one:
-            // reading the whole frame again costs as much as the first read,
-            // on every frame of a card front or a passport.)
-            let raw = barcode::read_all(&luma, width, height, Some(&formats));
-            if raw.iter().any(|b| b.format == "pdf417") {
-                barcodes = raw;
+        // A passport carries no barcode: its page is read from the MRZ alone, so the
+        // barcode readers (a third of a frame without OCR) are not run on it.
+        let mut barcodes = Vec::new();
+        if expected != Expected::Passport {
+            let formats: Vec<String> = barcode::ID_FORMATS.iter().map(|s| s.to_string()).collect();
+            barcodes = barcode::read_all(work, ww as u32, wh as u32, Some(&formats));
+            if flat.is_some() && !barcodes.iter().any(|b| b.format == "pdf417") && idback::frame_has_wide_bars(&luma, w, h) {
+                // A wrong outline must not cost a barcode the raw frame would give.
+                // (Only when the frame shows a patch of bars that could be one:
+                // reading the whole frame again costs as much as the first read,
+                // on every frame of a card front.)
+                let raw = barcode::read_all(&luma, width, height, Some(&formats));
+                if raw.iter().any(|b| b.format == "pdf417") {
+                    barcodes = raw;
+                }
             }
-        }
-        if let (Some(quad), Some((_, ow, oh))) = (&document, &flat)
-            && !barcodes.iter().any(|b| b.format == "pdf417")
-            && idback::roughly_card_shaped(*ow, *oh)
-            && idback::has_wide_bars(work, ww, wh)
-        {
-            barcodes.extend(idback::rescue_pdf417(&luma, w, h, quad, *ow, *oh));
+            if let (Some(quad), Some((_, ow, oh))) = (&document, &flat)
+                && !barcodes.iter().any(|b| b.format == "pdf417")
+                && idback::roughly_card_shaped(*ow, *oh)
+                && idback::has_wide_bars(work, ww, wh)
+            {
+                barcodes.extend(idback::rescue_pdf417(&luma, w, h, quad, *ow, *oh));
+            }
         }
         let smart_id_barcode = barcodes
             .iter()
@@ -1333,7 +1353,7 @@ impl Scanner {
             while i < order.len() {
                 let quarters = order[i];
                 i += 1;
-                let mut ocr = self.read_turned(&page, quarters)?;
+                let mut ocr = self.read_turned(&page, quarters, expected == Expected::Passport)?;
                 if k > 1.0 {
                     // Positions in the flattened document's pixels.
                     for l in ocr.lines.iter_mut().chain(ocr.words.iter_mut()) {
@@ -1414,6 +1434,41 @@ impl Scanner {
     }
 }
 
+/// A page's MRZ lines, in reading order: those decoded by the direct model,
+/// finished together against the page's printed words, and any read as
+/// ordinary text.
+fn finish_mrz(decoded: &mut [(usize, mrz_decode::Decoded)], stray: &[(usize, String)], placed: &[za::Line]) -> Vec<String> {
+    // In reading order: the MRZ's lines are paired by position.
+    decoded.sort_by_key(|(i, _)| *i);
+    let mut ds: Vec<mrz_decode::Decoded> = decoded.iter().map(|(_, d)| d.clone()).collect();
+    mrz_decode::finish_lines(&mut ds, &za::words(placed));
+    let mut lines_in_order: Vec<(usize, String)> = decoded.iter().map(|(i, _)| *i).zip(ds.into_iter().map(|d| d.text)).collect();
+    lines_in_order.extend(stray.iter().cloned());
+    lines_in_order.sort_by_key(|(i, _)| *i);
+    lines_in_order.into_iter().map(|(_, s)| s).collect()
+}
+
+/// The page's MRZ, if its lines make one, with its names repaired from the
+/// print: check digits do not cover the names, and the recogniser often reads
+/// a lone `<` between names as a letter.
+fn mrz_with_print(mrz_lines: &[String], lines: &[za::Line]) -> Option<mrz::Mrz> {
+    mrz::find_mrz(mrz_lines).map(|mut m| {
+        mrz::repair_names(&mut m, &za::words(lines));
+        let printed: Vec<String> = lines.iter().map(|l| l.text.clone()).collect();
+        mrz::split_names_by_print(&mut m, &printed);
+        m
+    })
+}
+
+/// Whether an MRZ is accepted (its check digits pass, its state codes are
+/// real) and confirmed: its names spelled as the page prints them.
+fn mrz_confirmed(m: &mrz::Mrz, lines: &[za::Line]) -> bool {
+    m.checks.all()
+        && mrz::valid_state(&m.issuing_state)
+        && mrz::valid_state(&m.nationality)
+        && mrz::names_in_print(m, &za::words(lines))
+}
+
 /// Rank only unknown readings, retaining their orientation and geometry.
 /// Ties keep the earlier unknown attempt. A classified result (even an MRZ
 /// with no ordinary text) preserves the old last-attempt rule; readable text
@@ -1450,6 +1505,10 @@ fn first_turns(expected: Expected, shape: Option<(usize, usize)>, last: Option<u
         None => vec![last.unwrap_or(0)],
     }
 }
+
+/// Lines recognised at a time on a passport, tallest first, until its names
+/// are confirmed ([`Scanner::read_turned`]).
+const NAMES_FIRST_LINES: usize = 6;
 
 /// The long side, in pixels, a document is enlarged to (from the frame,
 /// at most 2.5x) before OCR when it is smaller. On DEV's small and 640-wide
@@ -1493,15 +1552,7 @@ fn classify(
 ) -> DocumentResult {
     let mut reasons = Vec::new();
     let lines = ocr.lines;
-    let mrz = mrz::find_mrz(&ocr.mrz).map(|mut m| {
-        // Check digits do not cover the names, and the recogniser often reads
-        // a lone `<` between names as a letter; the printed names repair it.
-        let vocab = za::words(&lines);
-        mrz::repair_names(&mut m, &vocab);
-        let printed: Vec<String> = lines.iter().map(|l| l.text.clone()).collect();
-        mrz::split_names_by_print(&mut m, &printed);
-        m
-    });
+    let mrz = mrz_with_print(&ocr.mrz, &lines);
     // An identity number in a linear barcode. Both the green book and the
     // smart ID back carry one, so on its own it does not say which.
     let id_barcode = barcodes.iter().find_map(|b| {
@@ -1560,6 +1611,7 @@ fn classify(
         // to check out).
         let states_ok = mrz::valid_state(&m.issuing_state) && mrz::valid_state(&m.nationality);
         out.accepted = m.checks.all() && states_ok;
+        out.confirmed = mrz_confirmed(&m, &out.lines);
         reasons.push(format!("{} MRZ, check digits {}", m.format, if m.checks.all() { "pass" } else { "fail" }));
         if !states_ok {
             reasons.push(format!("unknown state code ({} / {})", m.issuing_state, m.nationality));
@@ -1691,6 +1743,24 @@ mod tests {
         let book = classify(quality(), vec![code39(id)], None, book_ocr, Expected::Any, Some((1000, 1420)));
         assert_eq!(book.kind, DocumentKind::ZaGreenBook);
         assert!(book.accepted);
+    }
+
+    /// A passport whose MRZ checks out is confirmed on its own frame once the
+    /// page prints its names the same way, and not before.
+    #[test]
+    fn passport_confirmed_by_its_printed_names() {
+        let read = |printed: &[&str]| {
+            let ocr = OcrOutput {
+                lines: printed.iter().enumerate().map(|(i, t)| line(t, 20.0 * i as f32)).collect(),
+                mrz: vec!["P<GBRUK<SPECIMEN<<ANGELA<ZOE<<<<<<<<<<<<<<<<".into(), "9250764733GBR8812049F3003264<<<<<<<<<<<<<<06".into()],
+                ..Default::default()
+            };
+            classify(quality(), vec![], None, ocr, Expected::Passport, Some((1250, 880)))
+        };
+        let named = read(&["Surname/Nom", "UK SPECIMEN", "Given names/Prénoms", "ANGELA ZOE"]);
+        assert!(named.accepted && named.confirmed);
+        let unnamed = read(&["Surname/Nom", "UK SPECIMEN"]);
+        assert!(unnamed.accepted && !unnamed.confirmed);
     }
 
     /// English-only OCR of a book must not be mistaken for a smart card
