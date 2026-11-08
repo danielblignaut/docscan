@@ -223,8 +223,27 @@ fn colour_planes(rgba: &[u8], w: usize, h: usize, factor: usize) -> (Vec<Vec<u8>
 /// Finds the document's outline in an RGBA frame. `None` when no
 /// convincing quadrilateral covers a reasonable share of the frame.
 pub fn find_document(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
-    find(rgba, w, h, false)
+    find(rgba, w, h, false, None)
 }
+
+/// Finds a document whose proportions are known (`aspect`, width over
+/// height, held level in a landscape guide as every identity page is):
+/// as [`find_document`], but an outline of those proportions also counts
+/// when it covers as little as
+/// [`SHAPED_MIN_AREA`] of the frame, and wins over one that is not. On real
+/// till captures a card held a little back from the guide covers under a
+/// quarter of the frame (the guide and its margin), and was never found, so
+/// the page was never read.
+pub fn find_shaped(rgba: &[u8], w: usize, h: usize, aspect: f32) -> Option<Quad> {
+    find(rgba, w, h, false, Some(aspect))
+}
+
+/// The smallest share of the frame an outline of the expected proportions
+/// may cover ([`find_shaped`]); any other outline must cover a quarter.
+const SHAPED_MIN_AREA: f32 = 0.08;
+/// How far (long side over short) an outline's proportions may be from the
+/// expected ones and still be that document, allowing for perspective.
+const SHAPE_TOLERANCE: f32 = 0.18;
 
 /// Finds a sheet of paper (a bill, a statement): as [`find_document`], but
 /// among the candidate outlines the one that looks most like a page wins:
@@ -232,7 +251,7 @@ pub fn find_document(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
 /// and a page's proportions. A wood-grain desk or the lines of a table
 /// otherwise offer long straight edges that outscore the page's own.
 pub fn find_page(rgba: &[u8], w: usize, h: usize) -> Option<Quad> {
-    find(rgba, w, h, true)
+    find(rgba, w, h, true, None)
 }
 
 /// Bilinear point in a quad: `(u, v)` in the unit square, TL-TR-BR-BL.
@@ -313,7 +332,7 @@ fn page_likeness(planes: &[Vec<u8>], w: usize, h: usize, c: &[[f32; 2]; 4]) -> f
     0.7 * paper + 1.2 * weakest + 1.0 * a4 + 0.25 * third
 }
 
-fn find(rgba: &[u8], w: usize, h: usize, page: bool) -> Option<Quad> {
+fn find(rgba: &[u8], w: usize, h: usize, page: bool, aspect: Option<f32>) -> Option<Quad> {
     let factor = (w / WORK_WIDTH).max(1);
     let (planes, sw, sh) = colour_planes(rgba, w, h, factor);
     if sw < 32 || sh < 32 {
@@ -371,7 +390,9 @@ fn find(rgba: &[u8], w: usize, h: usize, page: bool) -> Option<Quad> {
                         continue;
                     }
                     let a = area(&pts) / frame;
-                    if !(0.25..=1.1).contains(&a) {
+                    let shaped = aspect.is_some_and(|want| landscape(&pts) && (proportions(&pts) - want).abs() <= SHAPE_TOLERANCE);
+                    let min_area = if shaped { SHAPED_MIN_AREA } else { 0.25 };
+                    if !(min_area..=1.1).contains(&a) {
                         continue;
                     }
                     let sides: Vec<f32> = (0..4).map(|k| side_support(&g, pts[k], pts[(k + 1) % 4])).collect();
@@ -389,7 +410,7 @@ fn find(rgba: &[u8], w: usize, h: usize, page: bool) -> Option<Quad> {
                         pages.push((page_likeness(&planes, sw, sh, &pts) + 0.3 * mean + 0.2 * a, a, Quad { corners, support: mean }));
                         continue;
                     }
-                    let score = 0.6 * mean + 0.2 * weakest + 0.8 * a;
+                    let score = 0.6 * mean + 0.2 * weakest + 0.8 * a + if shaped { 0.5 } else { 0.0 };
                     if best.as_ref().is_none_or(|(s, _)| score > *s) {
                         best = Some((score, Quad { corners, support: mean }));
                     }
@@ -493,6 +514,18 @@ pub fn warp(src: &[u8], w: usize, h: usize, channels: usize, quad: &[[f32; 2]; 4
     Some(out)
 }
 
+/// Whether a quadrilateral is wider than tall.
+fn landscape(c: &[[f32; 2]; 4]) -> bool {
+    dist(c[0], c[1]) + dist(c[3], c[2]) >= dist(c[0], c[3]) + dist(c[1], c[2])
+}
+
+/// A quadrilateral's proportions: its mean long side over its mean short side.
+fn proportions(c: &[[f32; 2]; 4]) -> f32 {
+    let width = (dist(c[0], c[1]) + dist(c[3], c[2])) / 2.0;
+    let height = (dist(c[0], c[3]) + dist(c[1], c[2])) / 2.0;
+    width.max(height) / width.min(height).max(1.0)
+}
+
 fn dist(a: [f32; 2], b: [f32; 2]) -> f32 {
     ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2)).sqrt()
 }
@@ -517,3 +550,50 @@ pub fn debug_lines(rgba: &[u8], w: usize, h: usize) -> (usize, Vec<[f32; 3]>) {
     (factor, hough(&g).into_iter().map(|l| [l.theta, l.rho, l.votes]).collect())
 }
 
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A frame of `w × h` grey desk with a pale card filling the box
+    /// `(x0, y0)-(x1, y1)`, RGBA.
+    fn frame(w: usize, h: usize, (x0, y0, x1, y1): (usize, usize, usize, usize)) -> Vec<u8> {
+        let mut out = Vec::with_capacity(w * h * 4);
+        for y in 0..h {
+            for x in 0..w {
+                let card = (x0..x1).contains(&x) && (y0..y1).contains(&y);
+                let v = if card { 225 } else { 70 };
+                out.extend_from_slice(&[v, v, v, 255]);
+            }
+        }
+        out
+    }
+
+    fn near(q: &Quad, (x0, y0, x1, y1): (usize, usize, usize, usize)) -> bool {
+        let want = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]].map(|p| p.map(|v| v as f32));
+        q.corners.iter().zip(want).all(|(c, w)| (c[0] - w[0]).abs() < 12.0 && (c[1] - w[1]).abs() < 12.0)
+    }
+
+    /// A card held back from the guide covers well under a quarter of the
+    /// frame: only the finder told its proportions takes it.
+    #[test]
+    fn a_small_card_is_found_when_its_shape_is_expected() {
+        let (w, h) = (1280, 807);
+        let card = (440, 270, 840, 522); // 400 × 252: an ID-1 card, 10% of the frame
+        let rgba = frame(w, h, card);
+        assert!(find_document(&rgba, w, h).is_none());
+        let found = find_shaped(&rgba, w, h, 85.6 / 54.0).expect("the card");
+        assert!(near(&found, card), "{:?}", found.corners);
+    }
+
+    /// A small outline of other proportions, or the card's on its side, is
+    /// still held to a quarter of the frame.
+    #[test]
+    fn a_small_outline_of_other_proportions_is_not_taken() {
+        let (w, h) = (1280, 807);
+        let square = frame(w, h, (490, 250, 790, 550));
+        assert!(find_shaped(&square, w, h, 85.6 / 54.0).is_none());
+        let sideways = frame(w, h, (514, 204, 766, 604));
+        assert!(find_shaped(&sideways, w, h, 85.6 / 54.0).is_none());
+    }
+}
