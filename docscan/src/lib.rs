@@ -79,6 +79,18 @@ impl Expected {
         }
     }
 
+    /// The proportions, width over height, of the document as it is held in
+    /// the till's landscape guide, if known: an ID-1 card, a passport's data
+    /// page (125 × 88 mm), or a green book open at its two pages (about the
+    /// same).
+    fn aspect(self) -> Option<f32> {
+        match self {
+            Expected::SmartIdFront | Expected::SmartIdBack => Some(CARD_ASPECT),
+            Expected::GreenBook | Expected::Passport => Some(BOOK_PAGE_ASPECT),
+            Expected::Any => None,
+        }
+    }
+
     /// Whether the document is wider than tall when upright, if known.
     fn landscape(self) -> Option<bool> {
         match self {
@@ -91,6 +103,9 @@ impl Expected {
 
 /// ID-1 cards are 85.6 × 54 mm. A green book page is about 1.42 : 1.
 const CARD_ASPECT: f32 = 85.6 / 54.0;
+/// A passport's data page (ICAO TD3, 125 × 88 mm), and about a green book's
+/// two facing pages.
+const BOOK_PAGE_ASPECT: f32 = 125.0 / 88.0;
 
 /// Whether a flattened outline has a card's proportions, either way up.
 fn card_shaped(width: usize, height: usize) -> bool {
@@ -1243,7 +1258,10 @@ impl Scanner {
         let (w, h) = (width as usize, height as usize);
         // Flatten the document when its outline is found; tilt and
         // perspective defeat both the PDF417 reader and line OCR.
-        let document = quad::find_document(rgba, w, h);
+        let document = match expected.aspect() {
+            Some(aspect) => quad::find_shaped(rgba, w, h, aspect),
+            None => quad::find_document(rgba, w, h),
+        };
         let flat = document.and_then(|q| {
             let (ow, oh) = quad::output_size(&q, 1600);
             quad::warp(&luma, w, h, 1, &q.corners, ow, oh).map(|img| (img, ow, oh))
@@ -1274,8 +1292,10 @@ impl Scanner {
                 // (Only when the frame shows a patch of bars that could be one:
                 // reading the whole frame again costs as much as the first read,
                 // on every frame of a card front.)
+                // A card held back from the guide is flattened at its own few
+                // pixels, where a Code 39 the whole frame reads can be lost.
                 let raw = barcode::read_all(&luma, width, height, Some(&formats));
-                if raw.iter().any(|b| b.format == "pdf417") {
+                if raw.iter().any(|b| b.format == "pdf417") || (barcodes.is_empty() && !raw.is_empty()) {
                     barcodes = raw;
                 }
             }
